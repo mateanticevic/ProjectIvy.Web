@@ -16,4 +16,8 @@ const TripTable = (props) => {
   );
 };
 
+TripTable.propTypes = {
+  children: React.PropTypes.array
+};
+
 export default TripTable;

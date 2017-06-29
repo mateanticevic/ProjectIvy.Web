@@ -25,3 +25,14 @@ const ExpenseModal = (props) => {
 };
 
 export default ExpenseModal;
+
+ExpenseModal.propTypes = {
+    isOpen: React.PropTypes.bool,
+    currencies: React.PropTypes.array,
+    expense: React.PropTypes.object,
+    expenseTypes: React.PropTypes.array,
+    vendors: React.PropTypes.array,
+    onChange: React.PropTypes.func,
+    onExpenseAdd: React.PropTypes.func,
+    onClose: React.PropTypes.func
+};

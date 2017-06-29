@@ -1,9 +1,23 @@
+import { browserHistory } from 'react-router';
 import * as urlHelper from '../utils/urlHelper';
+import { httpStatus } from './httpStatus';
 
 let headers = new Headers();
 headers.append("Authorization", localStorage.getItem("token"));
 
 let baseUrl = 'http://api2.anticevic.net/';
+
+function handleResponse(response){
+    if(response.ok){
+        return response.json();
+    }
+    else if(response.status == httpStatus.UNAUTHORIZED){
+        browserHistory.push("/login");
+    }
+    else{
+        throw new Error();
+    }
+}
 
 export function get(resource, parameters) {
     
@@ -15,7 +29,7 @@ export function get(resource, parameters) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(response => response.json());
+    return fetch(url, init).then(handleResponse);
 }
 
 export function post(resource, parameters, json) {
@@ -29,7 +43,7 @@ export function post(resource, parameters, json) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(response => response.json());
+    return fetch(url, init).then(handleResponse);
 }
 
 export function put(resource, json) {
@@ -44,5 +58,10 @@ export function put(resource, json) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(response => response.json());
+    return fetch(url, init).then(handleResponse);
+}
+
+export function setToken() {
+    headers.delete("Authorization");
+    headers.append("Authorization", localStorage.getItem("token"));
 }

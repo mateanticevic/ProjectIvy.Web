@@ -31,3 +31,11 @@ const ExpenseRow = (props) => {
 };
 
 export default ExpenseRow;
+
+ExpenseRow.propTypes = {
+  expenseTypes: React.PropTypes.array,
+  vendors: React.PropTypes.array,
+  currencies: React.PropTypes.array,
+  onChange: React.PropTypes.func,
+  expense: React.PropTypes.object
+};

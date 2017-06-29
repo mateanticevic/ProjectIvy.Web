@@ -28,7 +28,7 @@ class TripsIndex extends React.Component {
   render() {
 
     const trips = this.props.trips.trips.items.map(function(trip){
-      return <TripRow key={trip.id} trip={trip}/>
+      return <TripRow key={trip.id} trip={trip}/>;
     });
 
     return (
@@ -36,6 +36,7 @@ class TripsIndex extends React.Component {
         <Row>
           <Col lg={3}>
             <Panel header="Filters">
+              <div/>
             </Panel>
           </Col>
           <Col lg={9}>
@@ -68,11 +69,15 @@ class TripsIndex extends React.Component {
           </Col>
         </Row>
         <TripModal onClose={this.props.actions.closeModal}
-                   isOpen={this.props.trips.isModalOpen}>
-        </TripModal>
+                   isOpen={this.props.trips.isModalOpen}/>
       </Grid>
     );
   }
 }
 
 export default TripsIndex;
+
+TripsIndex.propTypes = {
+  actions: React.PropTypes.object,
+  trips: React.PropTypes.object
+};

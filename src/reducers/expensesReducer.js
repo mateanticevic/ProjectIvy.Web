@@ -7,7 +7,7 @@ export default function expensesReducer(state = initialState.expenses, action) {
   switch (action.type) {
 
     case types.ADD_EXPENSE_SUCCESS:
-      return objectAssign({}, state, {isModalOpen: false});
+      return objectAssign({}, state, {isModalOpen: false, expense: {}});
 
     case types.CHANGED_EXPENSE:
       return objectAssign({}, state, {expense: action.expense});

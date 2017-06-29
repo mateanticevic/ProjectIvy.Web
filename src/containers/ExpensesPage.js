@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/expensesActions';
 import ExpensesIndex from '../components/expenses/ExpensesIndex';
 
-export const ExpensesPage = (props) => {
+export const ExpensesPage = () => {
   return (
     <ExpensesIndex />
   );

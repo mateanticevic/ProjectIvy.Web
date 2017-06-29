@@ -12,3 +12,7 @@ const TripRow = (props) => {
 };
 
 export default TripRow;
+
+TripRow.propTypes = {
+  trip: React.PropTypes.object
+};

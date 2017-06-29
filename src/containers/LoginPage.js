@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/loginActions';
 import LoginIndex from '../components/login/LoginIndex';
 
-export const LoginPage = (props) => {
+export const LoginPage = () => {
   return (
     <LoginIndex />
   );

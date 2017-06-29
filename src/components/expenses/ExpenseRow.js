@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 
 const ExpenseRow = (props) => {
@@ -15,3 +16,7 @@ const ExpenseRow = (props) => {
 };
 
 export default ExpenseRow;
+
+ExpenseRow.propTypes = {
+  expense: PropTypes.object
+};

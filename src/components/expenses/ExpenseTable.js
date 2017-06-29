@@ -11,7 +11,7 @@ const ExpenseTable = (props) => {
             <th>Vendor</th>
             <th>Description</th>
             <th>Amount</th>
-            <th></th>
+            <th/>
             </tr>
             {props.children}
         </thead>
@@ -20,3 +20,7 @@ const ExpenseTable = (props) => {
 };
 
 export default ExpenseTable;
+
+ExpenseTable.propTypes = {
+  children: React.PropTypes.array
+};

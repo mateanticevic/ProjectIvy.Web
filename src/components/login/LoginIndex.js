@@ -4,7 +4,6 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
-import Pagination from 'react-bootstrap/lib/Pagination';
 import objectAssign from 'object-assign';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -23,7 +22,8 @@ class LoginIndex extends React.Component {
     this.props.actions.changedCredentials(credentials);
   }
 
-  loginTry(){
+  loginTry(event){
+      event.preventDefault();
       this.props.actions.loginTry(this.props.login.credentials);
   }
 
@@ -34,6 +34,7 @@ class LoginIndex extends React.Component {
           <Row>
               <Col lg={4} lgOffset={4}>
                 <Panel header="Login">
+                    <form onSubmit={this.loginTry}>
                         <Row>
                             <Col lg={12}>
                                 <ControlLabel>Username</ControlLabel>
@@ -45,8 +46,9 @@ class LoginIndex extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col lg={6}><Button onClick={this.loginTry}>Login</Button></Col>
+                            <Col lg={6}><Button type="submit" onClick={this.loginTry}>Login</Button></Col>
                         </Row>
+                    </form>
                 </Panel>
               </Col>
           </Row>
@@ -56,3 +58,8 @@ class LoginIndex extends React.Component {
 }
 
 export default LoginIndex;
+
+LoginIndex.propTypes = {
+    login: React.PropTypes.object,
+    actions: React.PropTypes.object
+};

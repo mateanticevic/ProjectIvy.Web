@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
 import Pagination from 'react-bootstrap/lib/Pagination';
 import objectAssign from 'object-assign';
+
 import ExpenseRow from './ExpenseRow';
 import ExpenseFilters from './ExpenseFilters';
 import ExpenseModal from './ExpenseModal';
@@ -21,7 +22,6 @@ class ExpensesIndex extends React.Component {
     this.props.actions.getExpenseTypes({ hasChildren: false });
     this.props.actions.getVendors();
 
-    this.onClickSave = this.onClickSave.bind(this);
     this.onExpenseAdd = this.onExpenseAdd.bind(this);
     this.onExpenseChanged = this.onExpenseChanged.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
@@ -41,14 +41,10 @@ class ExpensesIndex extends React.Component {
     this.props.actions.changedFilters(filters);
   }
 
-  onClickSave() {
-    this.props.getVendors();
-  }
-
   render() {
 
     const expenses = this.props.expenses.expenses.items.map(function(expense){
-      return <ExpenseRow key={expense.valueId} expense={expense}/>
+      return <ExpenseRow key={expense.valueId} expense={expense}/>;
     });
 
     return (
@@ -105,3 +101,8 @@ class ExpensesIndex extends React.Component {
 }
 
 export default ExpensesIndex;
+
+ExpensesIndex.propTypes = {
+  actions: React.PropTypes.object,
+  expenses: React.PropTypes.object,
+};

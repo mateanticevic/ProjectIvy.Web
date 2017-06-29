@@ -9,6 +9,7 @@ const TripModal = (props) => {
             <Modal.Title>New trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+            <div/>
         </Modal.Body>
         <Modal.Footer>
             <Button>Add</Button>
@@ -19,3 +20,8 @@ const TripModal = (props) => {
 };
 
 export default TripModal;
+
+TripModal.propTypes = {
+    isOpen: React.PropTypes.bool,
+    onClose: React.PropTypes.func
+};
