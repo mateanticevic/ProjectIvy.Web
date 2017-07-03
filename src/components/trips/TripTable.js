@@ -6,7 +6,8 @@ const TripTable = (props) => {
     <Table>
         <thead>
             <tr>
-            <th>Start</th>
+            <th>Year</th>
+            <th>Countries</th>
             <th>Name</th>
             <th>Duration</th>
             </tr>

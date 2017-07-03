@@ -6,7 +6,7 @@ import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
 
-const ExpenseRow = (props) => {
+const ExpenseForm = (props) => {
   return (
     <div>
         <ControlLabel>Description</ControlLabel>
@@ -30,9 +30,9 @@ const ExpenseRow = (props) => {
   );
 };
 
-export default ExpenseRow;
+export default ExpenseForm;
 
-ExpenseRow.propTypes = {
+ExpenseForm.propTypes = {
   expenseTypes: React.PropTypes.array,
   vendors: React.PropTypes.array,
   currencies: React.PropTypes.array,

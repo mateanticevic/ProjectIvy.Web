@@ -23,12 +23,17 @@ class ExpensesIndex extends React.Component {
     this.props.actions.getVendors();
 
     this.onExpenseAdd = this.onExpenseAdd.bind(this);
+    this.onExpenseAddAnother = this.onExpenseAddAnother.bind(this);
     this.onExpenseChanged = this.onExpenseChanged.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
   onExpenseAdd(){
     this.props.actions.addExpense(this.props.expenses.expense, this.props.expenses.filters);
+  }
+
+  onExpenseAddAnother(){
+    this.props.actions.addExpenseAnother(this.props.expenses.expense, this.props.expenses.filters);
   }
 
   onExpenseChanged(expenseValue){
@@ -93,6 +98,7 @@ class ExpensesIndex extends React.Component {
                       expense={this.props.expenses.expense}
                       isOpen={this.props.expenses.isModalOpen}
                       onExpenseAdd={this.onExpenseAdd}
+                      onExpenseAddAnother={this.onExpenseAddAnother}
                       onClose={this.props.actions.closeModal}
                       onChange={this.onExpenseChanged} />
       </Grid>

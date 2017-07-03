@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import TripForm from './TripForm';
 
 const TripModal = (props) => {
   return (
@@ -9,7 +10,7 @@ const TripModal = (props) => {
             <Modal.Title>New trip</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div/>
+            <TripForm />
         </Modal.Body>
         <Modal.Footer>
             <Button>Add</Button>

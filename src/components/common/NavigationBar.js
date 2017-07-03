@@ -3,8 +3,7 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
-import { Link, IndexLink } from 'react-router';
-import { browserHistory } from 'react-router';
+import { Link, IndexLink, browserHistory } from 'react-router';
 
 const NavigationBar = () => {
 

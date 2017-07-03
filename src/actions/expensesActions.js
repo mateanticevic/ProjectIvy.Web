@@ -15,8 +15,22 @@ export function addExpense(expense, filters) {
   };
 }
 
+export function addExpenseAnother(expense, filters) {
+  return function (dispatch) {
+    return expenseApi.put(expense).then(id => {
+      toastr.success('Success', 'Expense #' + id + ' added.');
+      dispatch(addExpenseAnotherSuccess());
+      dispatch(getExpenses(filters));
+    });
+  };
+}
+
 export function addExpenseSuccess() {
   return {type: types.ADD_EXPENSE_SUCCESS};
+}
+
+export function addExpenseAnotherSuccess() {
+  return {type: types.ADD_EXPENSE_ANOTHER_SUCCESS};
 }
 
 export function changedExpense(expense) {

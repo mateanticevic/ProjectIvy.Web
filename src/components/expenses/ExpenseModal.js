@@ -18,6 +18,7 @@ const ExpenseModal = (props) => {
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={props.onExpenseAdd}>Add</Button>
+            <Button onClick={props.onExpenseAddAnother}>Add another</Button>
             <Button onClick={props.onClose}>Close</Button>
         </Modal.Footer>
     </Modal>

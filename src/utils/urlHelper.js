@@ -5,3 +5,8 @@ export function jsonToQueryString(json) {
                 encodeURIComponent(json[key]);
         }).join('&');
 }
+
+export function getResourceFromUrl(url){
+    let resourceIndex = window.location.pathname.lastIndexOf("/") + 1;
+    return window.location.pathname.substring(resourceIndex);
+}
