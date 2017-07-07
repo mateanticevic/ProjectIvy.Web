@@ -59,8 +59,8 @@ class TripsIndex extends React.Component {
                       <Col lg={12}>
                         <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
                                                                                 maxButtons={5}
-                                                                                activePage={this.props.trips.filters.page + 1}
-                                                                                onSelect={page => this.onFiltersChanged({page: page - 1})} />
+                                                                                activePage={this.props.trips.filters.page}
+                                                                                onSelect={page => this.onFiltersChanged({page: page})} />
                       </Col>
                     </Row>
                 </Panel>

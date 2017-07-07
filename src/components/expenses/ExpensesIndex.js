@@ -83,8 +83,8 @@ class ExpensesIndex extends React.Component {
                       <Col lg={12}>
                         <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.props.expenses.expenses.count / this.props.expenses.filters.pageSize)}
                                                                                 maxButtons={5}
-                                                                                activePage={this.props.expenses.filters.page + 1}
-                                                                                onSelect={page => this.onFiltersChanged({page: page - 1})} />
+                                                                                activePage={this.props.expenses.filters.page}
+                                                                                onSelect={page => this.onFiltersChanged({page: page})} />
                       </Col>
                     </Row>
                 </Panel>
