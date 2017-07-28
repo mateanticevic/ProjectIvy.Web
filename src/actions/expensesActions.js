@@ -70,7 +70,6 @@ export function getExpensesSuccess(expenses) {
 }
 
 export function getVendors() {
-
   return function (dispatch) {
     return vendorApi.get().then(json => { dispatch(getVendorsSuccess(json)); } );
   };
@@ -91,6 +90,16 @@ export function getExpenseTypesSuccess(expenseTypes) {
   return {type: types.GET_EXPENSE_TYPES_SUCCESS, expenseTypes};
 }
 
+export function getVendorPoisSuccess(pois) {
+  return {type: types.GET_VENDOR_POIS_SUCCESS, pois};
+}
+
 export function openModal() {
   return {type: types.OPEN_MODAL};
+}
+
+export function onVendorChanged(vendorId) {
+  return function (dispatch) {
+    return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); } );
+  };
 }

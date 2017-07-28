@@ -14,6 +14,8 @@ const ExpenseModal = (props) => {
                          expense={props.expense}
                          expenseTypes={props.expenseTypes}
                          vendors={props.vendors}
+                         vendorPois={props.vendorPois}
+                         onVendorChanged={props.onVendorChanged}
                          onChange={props.onChange} />
         </Modal.Body>
         <Modal.Footer>
@@ -33,6 +35,7 @@ ExpenseModal.propTypes = {
     expense: React.PropTypes.object,
     expenseTypes: React.PropTypes.array,
     vendors: React.PropTypes.array,
+    vendorPois: React.PropTypes.array,
     onChange: React.PropTypes.func,
     onExpenseAdd: React.PropTypes.func,
     onClose: React.PropTypes.func

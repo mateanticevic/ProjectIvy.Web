@@ -27,6 +27,9 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.GET_VENDORS_SUCCESS:
       return objectAssign({}, state, {vendors: action.vendors});
 
+    case types.GET_VENDOR_POIS_SUCCESS:
+      return objectAssign({}, state, {vendorPois: action.pois});
+
     case types.GET_EXPENSE_TYPES_SUCCESS:
       return objectAssign({}, state, {expenseTypes: action.expenseTypes});
 

@@ -7,6 +7,7 @@ export default {
     expenseTypes: [],
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
+    vendorPois: [],
     vendors: []
   },
   login: {

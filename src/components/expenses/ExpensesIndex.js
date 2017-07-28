@@ -95,10 +95,12 @@ class ExpensesIndex extends React.Component {
         <ExpenseModal currencies={this.props.expenses.currencies}
                       expenseTypes={this.props.expenses.expenseTypes}
                       vendors={this.props.expenses.vendors}
+                      vendorPois={this.props.expenses.vendorPois}
                       expense={this.props.expenses.expense}
                       isOpen={this.props.expenses.isModalOpen}
                       onExpenseAdd={this.onExpenseAdd}
                       onExpenseAddAnother={this.onExpenseAddAnother}
+                      onVendorChanged={this.props.actions.onVendorChanged}
                       onClose={this.props.actions.closeModal}
                       onChange={this.onExpenseChanged} />
       </Grid>

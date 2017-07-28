@@ -19,18 +19,24 @@ const ExpenseForm = (props) => {
               <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({date: x.format("YYYY-MM-DD")})} />
             </FormGroup>
           </Col>
-        </Row>
-        <Row>
           <Col lg={6}>
             <FormGroup>        
               <ControlLabel>Type</ControlLabel>
               <Select options={props.expenseTypes} onChange={x => props.onChange({expenseTypeValueId: x})} />
             </FormGroup>
           </Col>
+        </Row>
+        <Row>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Vendor</ControlLabel>
-              <Select options={props.vendors} onChange={x => props.onChange({vendorValueId: x})} />
+              <Select options={props.vendors} onChange={x => { props.onChange({vendorValueId: x}); props.onVendorChanged(x); }} />
+            </FormGroup>
+          </Col>
+          <Col lg={6}>
+            <FormGroup>
+              <ControlLabel>Poi</ControlLabel>
+              <Select options={props.vendorPois} onChange={x => props.onChange({poiId: x})} />
             </FormGroup>
           </Col>
         </Row>
