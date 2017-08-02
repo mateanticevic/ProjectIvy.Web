@@ -6,7 +6,7 @@ export function jsonToQueryString(json) {
         }).join('&');
 }
 
-export function getResourceFromUrl(url){
+export function getResourceFromUrl(){
     let resourceIndex = window.location.pathname.lastIndexOf("/") + 1;
     return window.location.pathname.substring(resourceIndex);
 }

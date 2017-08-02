@@ -38,5 +38,7 @@ ExpenseModal.propTypes = {
     vendorPois: React.PropTypes.array,
     onChange: React.PropTypes.func,
     onExpenseAdd: React.PropTypes.func,
+    onExpenseAddAnother: React.PropTypes.func,
+    onVendorChanged: React.PropTypes.func,
     onClose: React.PropTypes.func
 };

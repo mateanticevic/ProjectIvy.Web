@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/tripsActions';
 import TripIndex from '../components/trips/TripIndex';
 
-export const TripPage = (props) => {
+export const TripPage = () => {
   return (
     <TripIndex />
   );

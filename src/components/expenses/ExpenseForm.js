@@ -74,6 +74,7 @@ export default ExpenseForm;
 ExpenseForm.propTypes = {
   expenseTypes: React.PropTypes.array,
   vendors: React.PropTypes.array,
+  vendorPois: React.PropTypes.array,
   currencies: React.PropTypes.array,
   onChange: React.PropTypes.func,
   expense: React.PropTypes.object

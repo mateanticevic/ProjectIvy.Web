@@ -1,10 +1,7 @@
 import React from 'react';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Datetime from 'react-datetime';
-import Select from '../common/Select';
 
 const TripForm = (props) => {
   return (
@@ -20,3 +17,7 @@ const TripForm = (props) => {
 };
 
 export default TripForm;
+
+TripForm.propTypes = {
+  onChange: React.PropTypes.func
+};

@@ -43,6 +43,11 @@ class ExpensesIndex extends React.Component {
 
   onFiltersChanged(filterValue){
     let filters = objectAssign({}, this.props.expenses.filters, filterValue);
+    
+    if(filterValue.page == undefined){
+      filters.page = 1;
+    }
+    
     this.props.actions.changedFilters(filters);
   }
 
