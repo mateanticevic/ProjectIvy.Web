@@ -4,6 +4,6 @@ export function get(filters) {
     return api.get("expense", filters);
 }
 
-export function put(expense) {
-    return api.put("expense", expense);
+export function post(expense) {
+    return api.post("expense", expense);
 }

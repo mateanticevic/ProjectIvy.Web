@@ -7,7 +7,7 @@ import {toastr} from 'react-redux-toastr';
 
 export function addExpense(expense, filters) {
   return function (dispatch) {
-    return expenseApi.put(expense).then(id => {
+    return expenseApi.post(expense).then(id => {
       toastr.success('Success', 'Expense #' + id + ' added.');
       dispatch(addExpenseSuccess());
       dispatch(getExpenses(filters));
@@ -17,7 +17,7 @@ export function addExpense(expense, filters) {
 
 export function addExpenseAnother(expense, filters) {
   return function (dispatch) {
-    return expenseApi.put(expense).then(id => {
+    return expenseApi.post(expense).then(id => {
       toastr.success('Success', 'Expense #' + id + ' added.');
       dispatch(addExpenseAnotherSuccess());
       dispatch(getExpenses(filters));

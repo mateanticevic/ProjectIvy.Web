@@ -5,7 +5,7 @@ import { httpStatus } from './httpStatus';
 let headers = new Headers();
 headers.append("Authorization", localStorage.getItem("token"));
 
-let baseUrl = 'http://api2.anticevic.net/';
+let baseUrl = 'https://api2.anticevic.net/';
 
 function handleResponse(response){
     if(response.ok){
@@ -32,10 +32,12 @@ export function get(resource, parameters) {
     return fetch(url, init).then(handleResponse);
 }
 
-export function post(resource, parameters, json) {
+export function post(resource, json, parameters) {
     
     let url = baseUrl + resource;
     if(parameters != undefined) url = url + urlHelper.jsonToQueryString(parameters);
+
+    headers.append("Content-Type", "application/json");
 
     let init = { method: 'POST',
                  body: JSON.stringify(json),
