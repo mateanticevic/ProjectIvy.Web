@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from 'react-bootstrap/lib/Grid';
 import Carousel from 'react-bootstrap/lib/Carousel';
-import * as urlHelper from '../../utils/urlHelper';
 
 class TripIndex extends React.Component {
 
