@@ -14,12 +14,15 @@ export const ExpensesPage = () => {
 
 ExpensesPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  expenses: PropTypes.object.isRequired
+  expenses: PropTypes.object.isRequired,
+  registers: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
-    expenses: state.expenses
+    expenses: state.expenses,
+    registers: state.registers
   };
 }
 
@@ -29,4 +32,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(ExpensesIndex);
+export default connect(mapStateToProps, mapDispatchToProps)(ExpensesIndex);

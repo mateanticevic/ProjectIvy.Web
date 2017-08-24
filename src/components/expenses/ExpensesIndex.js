@@ -21,6 +21,8 @@ class ExpensesIndex extends React.Component {
     this.props.actions.getExpenses(props.expenses.filters);
     this.props.actions.getExpenseTypes({ hasChildren: false });
     this.props.actions.getVendors();
+    this.props.actions.getPaymentTypes();
+    this.props.actions.getCards();
 
     this.onExpenseAdd = this.onExpenseAdd.bind(this);
     this.onExpenseAddAnother = this.onExpenseAddAnother.bind(this);
@@ -62,9 +64,9 @@ class ExpensesIndex extends React.Component {
         <Row>
           <Col lg={3}>
             <Panel header="Filters">
-              <ExpenseFilters currencies={this.props.expenses.currencies}
-                              expenseTypes={this.props.expenses.expenseTypes}
-                              vendors={this.props.expenses.vendors}
+              <ExpenseFilters currencies={this.props.registers.currencies}
+                              expenseTypes={this.props.registers.expenseTypes}
+                              vendors={this.props.registers.vendors}
                               onChange={this.onFiltersChanged} />
             </Panel>
           </Col>
@@ -97,10 +99,12 @@ class ExpensesIndex extends React.Component {
             </Row>
           </Col>
         </Row>
-        <ExpenseModal currencies={this.props.expenses.currencies}
-                      expenseTypes={this.props.expenses.expenseTypes}
-                      vendors={this.props.expenses.vendors}
+        <ExpenseModal currencies={this.props.registers.currencies}
+                      expenseTypes={this.props.registers.expenseTypes}
+                      vendors={this.props.registers.vendors}
                       vendorPois={this.props.expenses.vendorPois}
+                      cards={this.props.expenses.cards}
+                      paymentTypes={this.props.registers.paymentTypes}
                       expense={this.props.expenses.expense}
                       isOpen={this.props.expenses.isModalOpen}
                       onExpenseAdd={this.onExpenseAdd}
@@ -118,4 +122,5 @@ export default ExpensesIndex;
 ExpensesIndex.propTypes = {
   actions: React.PropTypes.object,
   expenses: React.PropTypes.object,
+  registers: React.PropTypes.object
 };

@@ -22,7 +22,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>        
               <ControlLabel>Type</ControlLabel>
-              <Select options={props.expenseTypes} onChange={x => props.onChange({expenseTypeValueId: x})} />
+              <Select options={props.expenseTypes} onChange={x => props.onChange({expenseTypeValueId: x})} hideDefaultOption={true}/>
             </FormGroup>
           </Col>
         </Row>
@@ -53,7 +53,21 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Currency</ControlLabel>
-              <Select options={props.currencies} onChange={x => props.onChange({currencyValueId: x})} />
+              <Select options={props.currencies} onChange={x => props.onChange({currencyValueId: x})} hideDefaultOption={true}/>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={6}>
+            <FormGroup>
+              <ControlLabel>Payment type</ControlLabel>
+              <Select options={props.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})} hideDefaultOption={true} />
+            </FormGroup>
+          </Col>
+          <Col lg={6}>
+            <FormGroup>
+              <ControlLabel>Card</ControlLabel>
+              <Select options={props.cards} onChange={x => props.onChange({cardId: x})} />
             </FormGroup>
           </Col>
         </Row>

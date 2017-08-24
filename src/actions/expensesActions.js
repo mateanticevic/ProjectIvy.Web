@@ -1,8 +1,10 @@
 import * as types from '../constants/expensesActionTypes';
 import * as currencyApi from '../api/main/currency';
+import * as cardApi from '../api/main/card';
 import * as vendorApi from '../api/main/vendor';
 import * as expenseApi from '../api/main/expense';
 import * as expenseTypeApi from '../api/main/expenseType';
+import * as paymentTypesApi from '../api/main/paymentType';
 import {toastr} from 'react-redux-toastr';
 
 export function addExpense(expense, filters) {
@@ -48,6 +50,17 @@ export function closeModal() {
   return {type: types.CLOSE_MODAL};
 }
 
+export function getCards() {
+
+  return function (dispatch) {
+    return cardApi.get().then(json => { dispatch(getCardsSuccess(json)); } );
+  };
+}
+
+export function getCardsSuccess(cards) {
+  return {type: types.GET_CARDS_SUCCESS, cards};
+}
+
 export function getCurrencies() {
 
   return function (dispatch) {
@@ -67,6 +80,17 @@ export function getExpenses(filters) {
 
 export function getExpensesSuccess(expenses) {
   return {type: types.GET_EXPENSES_SUCCESS, expenses};
+}
+
+export function getPaymentTypes() {
+
+  return function (dispatch) {
+    return paymentTypesApi.get().then(json => { dispatch(getPaymentTypesSuccess(json)); } );
+  };
+}
+
+export function getPaymentTypesSuccess(paymentTypes) {
+  return {type: types.GET_PAYMENT_TYPES_SUCCESS, paymentTypes};
 }
 
 export function getVendors() {

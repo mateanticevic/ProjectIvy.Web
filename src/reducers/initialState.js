@@ -1,20 +1,24 @@
 export default {
   expenses: {
+    cards: [],
     counter: 1,
-    currencies: [],
     expense: { currencyValueId: null },
     expenses: {count:0, items:[]},
-    expenseTypes: [],
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
-    vendorPois: [],
-    vendors: []
+    vendorPois: []
   },
   login: {
     credentials: {
       username: "",
       password: ""
     }
+  },
+  registers:{
+    currencies: [],
+    expenseTypes: [],
+    paymentTypes: [],
+    vendors: []
   },
   trips: {
     filters: { pageSize: 10, page: 1 },
