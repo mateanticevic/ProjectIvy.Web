@@ -27,7 +27,11 @@ class TripsIndex extends React.Component {
 
   render() {
 
-    const trips = this.props.trips.trips.items.map(function(trip){
+    const trips = this.props.trips.trips;
+
+    const tripsHeader = `Trips (${trips.count})`;
+
+    const tripRows = this.props.trips.trips.items.map(function(trip){
       return <TripRow key={trip.id} trip={trip}/>;
     });
 
@@ -42,7 +46,7 @@ class TripsIndex extends React.Component {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header="Trips">
+                <Panel header={tripsHeader}>
                     <Row>
                       <Col lg={12}>
                         <Button onClick={this.props.actions.openModal}>New</Button>                  
@@ -51,7 +55,7 @@ class TripsIndex extends React.Component {
                     <Row>
                       <Col lg={12}>
                         <TripTable>
-                          {trips}
+                          {tripRows}
                         </TripTable>
                       </Col>
                     </Row>

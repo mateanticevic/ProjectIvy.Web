@@ -24,5 +24,11 @@ export default {
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
     trips: {count:0, items:[]}
+  },
+  trip: {
+    trip: {
+      pois: []
+    },
+    trackings: []
   }
 };

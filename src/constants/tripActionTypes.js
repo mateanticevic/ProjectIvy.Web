@@ -1,0 +1,5 @@
+export const GET_TRIP = 'GET_TRIP';
+export const GET_TRIP_SUCCESS = 'GET_TRIP_SUCCESS';
+
+export const GET_TRACKINGS = 'GET_TRACKINGS';
+export const GET_TRACKINGS_SUCCESS = 'GET_TRACKINGS_SUCCESS';

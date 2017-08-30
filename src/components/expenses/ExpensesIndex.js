@@ -55,6 +55,8 @@ class ExpensesIndex extends React.Component {
 
   render() {
 
+    const expensesHeader = `Expenses (${this.props.expenses.expenses.count})`;
+
     const expenses = this.props.expenses.expenses.items.map(function(expense){
       return <ExpenseRow key={expense.valueId} expense={expense}/>;
     });
@@ -73,7 +75,7 @@ class ExpensesIndex extends React.Component {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header="Expenses">
+                <Panel header={expensesHeader}>
                     <Row>
                       <Col lg={12}>
                         <Button onClick={this.props.actions.openModal}>New</Button>                  
