@@ -11,8 +11,8 @@ import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
  */
  const Map = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={3}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}>
+    defaultZoom={2}
+    defaultCenter={{ lat: 0, lng: 0 }}>
     {props.children}
   </GoogleMap>
 ));

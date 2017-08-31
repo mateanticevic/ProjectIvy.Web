@@ -12,6 +12,9 @@ export default function tripsReducer(state = initialState.trips, action) {
     case types.CLOSE_MODAL:
       return objectAssign({}, state, {isModalOpen: false});
 
+    case types.GET_COUNTRIES_VISITED_BOUNDARIES_SUCCESS:
+      return objectAssign({}, state, {countries: action.countries});
+
     case types.GET_TRIPS_SUCCESS:
       return objectAssign({}, state, {trips: action.trips});
 

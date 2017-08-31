@@ -9,6 +9,9 @@ import objectAssign from 'object-assign';
 import TripTable from './TripTable';
 import TripRow from './TripRow';
 import TripModal from './TripModal';
+import Map from '../common/Map';
+import { Polygon } from "react-google-maps";
+import * as trackingHelper from '../../utils/trackingHelper';
 
 class TripsIndex extends React.Component {
 
@@ -16,6 +19,7 @@ class TripsIndex extends React.Component {
     super(props, context);
 
     this.props.actions.getTrips(props.trips.filters);
+    this.props.actions.getCountyVisitedBoundaries();
 
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
@@ -27,6 +31,12 @@ class TripsIndex extends React.Component {
 
   render() {
 
+    const countryPolygons = this.props.trips.countries.map(country => {
+      return country.polygons.map(path => <Polygon path={trackingHelper.toGoogleMapsLocations(path)} />);
+    });
+
+    const polygons = [].concat(...countryPolygons);
+
     const trips = this.props.trips.trips;
 
     const tripsHeader = `Trips (${trips.count})`;
@@ -37,6 +47,19 @@ class TripsIndex extends React.Component {
 
     return (
       <Grid>
+        <Row>
+          <Panel header="Map" className="map-container">
+            <Map
+              containerElement={
+                <div style={{ height: `100%` }} />
+              }
+              mapElement={
+                <div style={{ height: `100%` }} />
+              }>
+              {polygons}
+            </Map>
+          </Panel>
+        </Row>
         <Row>
           <Col lg={3}>
             <Panel header="Filters">
