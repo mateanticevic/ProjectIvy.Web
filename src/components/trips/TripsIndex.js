@@ -29,10 +29,14 @@ class TripsIndex extends React.Component {
     this.props.actions.changedFilters(filters);
   }
 
+  onMapClick(e){
+    console.log(`${e.latLng.lat()}, ${e.latLng.lng()}`);
+  }
+
   render() {
 
     const countryPolygons = this.props.trips.countries.map(country => {
-      return country.polygons.map(path => <Polygon path={trackingHelper.toGoogleMapsLocations(path)} />);
+      return country.polygons.map(path => <Polygon path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
     const polygons = [].concat(...countryPolygons);
@@ -50,6 +54,7 @@ class TripsIndex extends React.Component {
         <Row>
           <Panel header="Map" className="map-container">
             <Map
+              onClick={this.onMapClick}
               containerElement={
                 <div style={{ height: `100%` }} />
               }

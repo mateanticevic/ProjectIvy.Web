@@ -19,7 +19,6 @@ ExpensesPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     expenses: state.expenses,
     registers: state.registers

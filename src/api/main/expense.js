@@ -7,3 +7,7 @@ export function get(filters) {
 export function post(expense) {
     return api.post("expense", expense);
 }
+
+export function put(expense) {
+    return api.put(`expense/${expense.id}`, expense);
+}

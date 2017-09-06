@@ -11,6 +11,7 @@ import * as actions from '../actions/tripActions';
 import Map from '../components/common/Map';
 import { Marker, Polyline } from "react-google-maps";
 import * as trackingHelper from '../utils/trackingHelper';
+import ExpensePanel from '../components/expenses/ExpensePanel';
 
 class TripPage extends React.Component {
 
@@ -24,7 +25,7 @@ class TripPage extends React.Component {
 
     const trip = this.props.trip.trip;
 
-    const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker defaultPosition={{ lat: poi.latitude, lng: poi.longitude}} title={poi.name} />) : null;
+    const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude}} title={poi.name} />) : null;
 
     return (
       <Grid>
@@ -44,6 +45,11 @@ class TripPage extends React.Component {
               <Polyline path={this.props.trip.trackings} />
             </Map>
           </Panel>
+        </Row>
+        <Row>
+          <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
+                        page={1}
+                        pageSize={10} />
         </Row>
       </Grid>
     );

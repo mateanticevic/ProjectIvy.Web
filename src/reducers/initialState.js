@@ -2,7 +2,9 @@ export default {
   expenses: {
     cards: [],
     counter: 1,
-    expense: { currencyValueId: null },
+    expense: {
+      currencyId: "HRK"
+    },
     expenses: {count:0, items:[]},
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
@@ -28,6 +30,7 @@ export default {
   },
   trip: {
     trip: {
+      expenses: [],
       pois: []
     },
     trackings: []

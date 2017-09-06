@@ -15,6 +15,9 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.CHANGED_FILTERS:
       return objectAssign({}, state, {filters: action.filters});
 
+    case types.EDIT_EXPENSE:
+      return objectAssign({}, state, {expense: action.expense});
+
     case types.CLOSE_MODAL:
       return objectAssign({}, state, {isModalOpen: false});
 
@@ -27,8 +30,15 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.GET_VENDOR_POIS_SUCCESS:
       return objectAssign({}, state, {vendorPois: action.pois});
 
+    case types.NEW_EXPENSE:
+      let expense = objectAssign({}, initialState.expenses.expense, {date: action.expense});
+      return objectAssign({}, state, {expense: action.expense});
+
     case types.OPEN_MODAL:
       return objectAssign({}, state, {isModalOpen: true});
+
+    case types.UPDATE_EXPENSE_SUCCESS:
+      return objectAssign({}, state, {isModalOpen: false, expense: {}});
 
     default:
       return state;

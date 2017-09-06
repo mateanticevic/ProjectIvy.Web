@@ -39,6 +39,10 @@ export function changedExpense(expense) {
   return {type: types.CHANGED_EXPENSE, expense};
 }
 
+export function editExpense(expense) {
+  return {type: types.EDIT_EXPENSE, expense};
+}
+
 export function changedFilters(filters) {
   return function (dispatch) {
     dispatch(getExpenses(filters));
@@ -126,4 +130,18 @@ export function onVendorChanged(vendorId) {
   return function (dispatch) {
     return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); } );
   };
+}
+
+export function updateExpense(expense, filters) {
+  return function (dispatch) {
+    return expenseApi.put(expense).then(id => {
+      toastr.success('Success', 'Expense #' + id + ' updated.');
+      dispatch(updateExpenseSuccess());
+      dispatch(getExpenses(filters));
+    });
+  };
+}
+
+export function updateExpenseSuccess() {
+  return {type: types.UPDATE_EXPENSE_SUCCESS};
 }

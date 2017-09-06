@@ -7,6 +7,11 @@ import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 const ExpenseRow = (props) => {
 
+  function onEditClick(e, expense){
+    e.preventDefault();
+    props.onEdit(expense);
+  }
+
   const poiNameTooltip = (
     <Tooltip id="tooltip">
       {props.expense.poi && props.expense.poi.name}
@@ -14,7 +19,7 @@ const ExpenseRow = (props) => {
   );
 
   return (
-  <tr key={props.expense.valueId}>
+  <tr>
       <td><Moment format="Do MMMM YYYY">{props.expense.date}</Moment></td>
       <td>{props.expense.expenseType.name}</td>
       <td>{props.expense.vendor && props.expense.vendor.name}
@@ -27,6 +32,7 @@ const ExpenseRow = (props) => {
       <td>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>
       <td>{props.expense.currency.symbol}</td>
+      <td><a href="#" onClick={e => onEditClick(e, props.expense)}><FontAwesome title="Edit" name="pencil-square-o" /></a></td>
   </tr>
   );
 };

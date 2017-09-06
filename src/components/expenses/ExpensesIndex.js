@@ -4,13 +4,12 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
-import Pagination from 'react-bootstrap/lib/Pagination';
 import objectAssign from 'object-assign';
 
-import ExpenseRow from './ExpenseRow';
 import ExpenseFilters from './ExpenseFilters';
 import ExpenseModal from './ExpenseModal';
-import ExpenseTable from './ExpenseTable';
+import ExpensePanel from './ExpensePanel';
+import * as expenseMapper from '../../mappers/expenseMapper';
 
 class ExpensesIndex extends React.Component {
 
@@ -24,14 +23,20 @@ class ExpensesIndex extends React.Component {
     this.props.actions.getPaymentTypes();
     this.props.actions.getCards();
 
-    this.onExpenseAdd = this.onExpenseAdd.bind(this);
+    this.onExpenseSave = this.onExpenseSave.bind(this);
     this.onExpenseAddAnother = this.onExpenseAddAnother.bind(this);
     this.onExpenseChanged = this.onExpenseChanged.bind(this);
+    this.onExpenseEdit = this.onExpenseEdit.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
-  onExpenseAdd(){
-    this.props.actions.addExpense(this.props.expenses.expense, this.props.expenses.filters);
+  onExpenseSave(){
+    if(this.props.expenses.expense.id){
+      this.props.actions.updateExpense(this.props.expenses.expense, this.props.expenses.filters);
+    }
+    else{
+      this.props.actions.addExpense(this.props.expenses.expense, this.props.expenses.filters);
+    }
   }
 
   onExpenseAddAnother(){
@@ -41,6 +46,11 @@ class ExpensesIndex extends React.Component {
   onExpenseChanged(expenseValue){
     let expense = objectAssign({}, this.props.expenses.expense, expenseValue);
     this.props.actions.changedExpense(expense);
+  }
+
+  onExpenseEdit(expense){
+    this.props.actions.editExpense(expenseMapper.toBindingModel(expense));
+    this.props.actions.openModal();
   }
 
   onFiltersChanged(filterValue){
@@ -55,61 +65,42 @@ class ExpensesIndex extends React.Component {
 
   render() {
 
-    const expensesHeader = `Expenses (${this.props.expenses.expenses.count})`;
-
-    const expenses = this.props.expenses.expenses.items.map(function(expense){
-      return <ExpenseRow key={expense.valueId} expense={expense}/>;
-    });
+    const registers = this.props.registers;
 
     return (
       <Grid>
         <Row>
           <Col lg={3}>
             <Panel header="Filters">
-              <ExpenseFilters currencies={this.props.registers.currencies}
-                              expenseTypes={this.props.registers.expenseTypes}
-                              vendors={this.props.registers.vendors}
+              <ExpenseFilters currencies={registers.currencies}
+                              expenseTypes={registers.expenseTypes}
+                              vendors={registers.vendors}
                               onChange={this.onFiltersChanged} />
             </Panel>
           </Col>
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header={expensesHeader}>
-                    <Row>
-                      <Col lg={12}>
-                        <Button onClick={this.props.actions.openModal}>New</Button>                  
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg={12}>
-                        <ExpenseTable>
-                          {expenses}
-                        </ExpenseTable>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col lg={12}>
-                        <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.props.expenses.expenses.count / this.props.expenses.filters.pageSize)}
-                                                                                maxButtons={5}
-                                                                                activePage={this.props.expenses.filters.page}
-                                                                                onSelect={page => this.onFiltersChanged({page: page})} />
-                      </Col>
-                    </Row>
-                </Panel>
+                <ExpensePanel expenses={this.props.expenses.expenses}
+                              showButtons={true}
+                              onEdit={this.onExpenseEdit}
+                              onPageChange={this.onFiltersChanged}
+                              onNewClick={this.props.actions.openModal}
+                              page={this.props.expenses.filters.page}
+                              pageSize={this.props.expenses.filters.pageSize} />
               </Col>
             </Row>
           </Col>
         </Row>
-        <ExpenseModal currencies={this.props.registers.currencies}
-                      expenseTypes={this.props.registers.expenseTypes}
-                      vendors={this.props.registers.vendors}
+        <ExpenseModal currencies={registers.currencies}
+                      expenseTypes={registers.expenseTypes}
+                      vendors={registers.vendors}
                       vendorPois={this.props.expenses.vendorPois}
                       cards={this.props.expenses.cards}
                       paymentTypes={this.props.registers.paymentTypes}
                       expense={this.props.expenses.expense}
                       isOpen={this.props.expenses.isModalOpen}
-                      onExpenseAdd={this.onExpenseAdd}
+                      onExpenseAdd={this.onExpenseSave}
                       onExpenseAddAnother={this.onExpenseAddAnother}
                       onVendorChanged={this.props.actions.onVendorChanged}
                       onClose={this.props.actions.closeModal}

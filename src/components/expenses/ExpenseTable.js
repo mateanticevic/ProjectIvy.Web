@@ -1,7 +1,13 @@
 import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
+import ExpenseRow from './ExpenseRow';
 
 const ExpenseTable = (props) => {
+  
+  const rows = props.expenses.map(function(expense){
+    return <ExpenseRow key={expense.id} expense={expense} onEdit={props.onEdit} />;
+  });
+
   return (
     <Table>
         <thead>
@@ -12,8 +18,9 @@ const ExpenseTable = (props) => {
             <th>Description</th>
             <th>Amount</th>
             <th/>
+            <th>Actions</th>
             </tr>
-            {props.children}
+            {rows}
         </thead>
     </Table>
   );

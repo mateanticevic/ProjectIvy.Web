@@ -16,13 +16,17 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Date</ControlLabel>                
-              <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({date: x.format("YYYY-MM-DD")})} />
+              <Datetime value={props.expense.date}
+                        defaultValue={new Date()}
+                        dateFormat="YYYY-MM-DD"
+                        timeFormat={false}
+                        onChange={x => props.onChange({date: x.format("YYYY-MM-DD")})} />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>        
               <ControlLabel>Type</ControlLabel>
-              <Select options={props.expenseTypes} onChange={x => props.onChange({expenseTypeValueId: x})} hideDefaultOption={true}/>
+              <Select selected={props.expense.expenseTypeId} options={props.expenseTypes} onChange={x => props.onChange({expenseTypeId: x})} hideDefaultOption={true}/>
             </FormGroup>
           </Col>
         </Row>
@@ -30,13 +34,13 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Vendor</ControlLabel>
-              <Select options={props.vendors} onChange={x => { props.onChange({vendorValueId: x}); props.onVendorChanged(x); }} />
+              <Select selected={props.expense.vendorId} options={props.vendors} onChange={x => { props.onChange({vendorId: x}); props.onVendorChanged(x); }} />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Poi</ControlLabel>
-              <Select options={props.vendorPois} onChange={x => props.onChange({poiId: x})} hideDefaultOption={true} />
+              <Select selected={props.expense.poiId} options={props.vendorPois} onChange={x => props.onChange({poiId: x})} hideDefaultOption={true} />
             </FormGroup>
           </Col>
         </Row>
@@ -45,15 +49,15 @@ const ExpenseForm = (props) => {
             <FormGroup>
               <ControlLabel>Amount</ControlLabel>
               <InputGroup>
-                  <FormControl type="number" onChange={x => props.onChange({amount: x.target.value})} />
-                  <InputGroup.Addon>{props.expense.currencyValueId}</InputGroup.Addon>
+                  <FormControl value={props.expense.amount} type="number" onChange={x => props.onChange({amount: x.target.value})} />
+                  <InputGroup.Addon>{props.expense.currencyId}</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Currency</ControlLabel>
-              <Select options={props.currencies} onChange={x => props.onChange({currencyValueId: x})} hideDefaultOption={true} />
+              <Select selected={props.expense.currencyId} options={props.currencies} onChange={x => props.onChange({currencyId: x})} hideDefaultOption={true} />
             </FormGroup>
           </Col>
         </Row>
@@ -61,13 +65,13 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Payment type</ControlLabel>
-              <Select options={props.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})} hideDefaultOption={true} />
+              <Select selected={props.expense.paymentTypeId} options={props.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})} hideDefaultOption={true} />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Card</ControlLabel>
-              <Select options={props.cards} onChange={x => props.onChange({cardId: x})} />
+              <Select selected={props.expense.cardId} options={props.cards} onChange={x => props.onChange({cardId: x})} />
             </FormGroup>
           </Col>
         </Row>
@@ -75,7 +79,7 @@ const ExpenseForm = (props) => {
           <Col lg={12}>
             <FormGroup>
               <ControlLabel>Description</ControlLabel>
-              <FormControl type="text" onChange={x => props.onChange({comment: x.target.value})} />
+              <FormControl value={props.expense.comment} type="text" onChange={x => props.onChange({comment: x.target.value})} />
             </FormGroup>
           </Col>
         </Row>

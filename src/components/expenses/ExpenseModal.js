@@ -4,10 +4,13 @@ import Button from 'react-bootstrap/lib/Button';
 import ExpenseForm from './ExpenseForm';
 
 const ExpenseModal = (props) => {
+
+    const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
+
   return (
     <Modal show={props.isOpen}>
         <Modal.Header closeButton>
-            <Modal.Title>New expense</Modal.Title>
+            <Modal.Title>{header}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <ExpenseForm currencies={props.currencies}
