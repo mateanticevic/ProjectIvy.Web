@@ -29,7 +29,7 @@ const ExpenseRow = (props) => {
           <FontAwesome name="map-marker" />
         </OverlayTrigger>}
       </td>
-      <td>{props.expense.comment}</td>
+      <td className="cell-no-overflow-100" title={props.expense.comment}>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>
       <td>{props.expense.currency.symbol}</td>
       <td><a href="#" onClick={e => onEditClick(e, props.expense)}><FontAwesome title="Edit" name="pencil-square-o" /></a></td>

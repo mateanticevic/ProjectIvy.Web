@@ -25,6 +25,7 @@ const NavigationBar = () => {
               <MenuItem eventKey={3.2}>Incomes</MenuItem>
             </NavDropdown>
             <NavDropdown eventKey={3} title="Travel">
+              <MenuItem><Link to="/pois">Pois</Link></MenuItem>
               <MenuItem><Link to="/trips">Trips</Link></MenuItem>
             </NavDropdown>
           </Nav>

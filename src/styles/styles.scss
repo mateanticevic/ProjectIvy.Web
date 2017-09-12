@@ -246,3 +246,10 @@ td.rdtYear:hover {
   height: 600px;
   padding: 0px;
 }
+
+.cell-no-overflow-100 {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

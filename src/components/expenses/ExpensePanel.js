@@ -4,9 +4,6 @@ import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
 import Button from 'react-bootstrap/lib/Button';
 import Pagination from 'react-bootstrap/lib/Pagination';
-import ExpenseRow from './ExpenseRow';
-import ExpenseFilters from './ExpenseFilters';
-import ExpenseModal from './ExpenseModal';
 import ExpenseTable from './ExpenseTable';
 
 const ExpensePanel = (props) => {
@@ -19,13 +16,10 @@ const ExpensePanel = (props) => {
 
     const totalItems = serverPaging ? props.expenses.count : props.expenses.items.length;
 
-    function clientPageChange(page){
-      if (serverPaging){
-        props.onPageChange(page);
-      }
-      else{
+    const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} /> : <h2>No data</h2>;
 
-      }
+    function onPageChange(page){
+      props.onPageChange(page);
     }
 
   return (
@@ -39,7 +33,7 @@ const ExpensePanel = (props) => {
                     </Row>
                     <Row>
                       <Col lg={12}>
-                        <ExpenseTable expenses={expenses} onEdit={props.onEdit} />
+                        {expenseTable}
                       </Col>
                     </Row>
                     <Row>
@@ -47,7 +41,7 @@ const ExpensePanel = (props) => {
                         <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(totalItems / props.pageSize)}
                                                                                 maxButtons={5}
                                                                                 activePage={props.page}
-                                                                                onSelect={page => clientPageChange({page: page})} />
+                                                                                onSelect={page => onPageChange({page: page})} />
                       </Col>
                     </Row>
                 </Panel>

@@ -10,7 +10,7 @@ const TripTable = (props) => {
             <th>Countries</th>
             <th>Name</th>
             <th>Duration</th>
-            <th></th>
+            <th/>
             </tr>
             {props.children}
         </thead>

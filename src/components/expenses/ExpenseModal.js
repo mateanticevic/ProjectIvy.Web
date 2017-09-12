@@ -8,7 +8,7 @@ const ExpenseModal = (props) => {
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
 
   return (
-    <Modal show={props.isOpen}>
+    <Modal show={props.isOpen} onHide={props.onClose}>
         <Modal.Header closeButton>
             <Modal.Title>{header}</Modal.Title>
         </Modal.Header>
@@ -24,9 +24,10 @@ const ExpenseModal = (props) => {
                          onChange={props.onChange} />
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={props.onExpenseAdd}>Add</Button>
-            <Button onClick={props.onExpenseAddAnother}>Add another</Button>
-            <Button onClick={props.onClose}>Close</Button>
+            <Button onClick={props.onExpenseAdd}>Save</Button>
+            {!props.expense.id &&
+                <Button onClick={props.onExpenseAddAnother}>Add another</Button>
+            }
         </Modal.Footer>
     </Modal>
   );

@@ -1,8 +1,9 @@
 import * as types from '../constants/expensesActionTypes';
+import * as commonTypes from '../constants/commonActionTypes';
 import objectAssign from 'object-assign';
 import initialState from './initialState';
 
-export default function registerReducer(state = initialState.registers, action) {
+export default function commonReducer(state = initialState.common, action) {
 
   switch (action.type) {
 
@@ -14,6 +15,9 @@ export default function registerReducer(state = initialState.registers, action) 
 
     case types.GET_PAYMENT_TYPES_SUCCESS:
       return objectAssign({}, state, {paymentTypes: action.paymentTypes});
+
+    case commonTypes.GET_POI_CATEGORIES_SUCCESS:
+      return objectAssign({}, state, {poiCategories: action.poiCategories});
 
     case types.GET_VENDORS_SUCCESS:
       return objectAssign({}, state, {vendors: action.vendors});

@@ -16,11 +16,15 @@ export default {
       password: ""
     }
   },
-  registers:{
+  common:{
     currencies: [],
     expenseTypes: [],
     paymentTypes: [],
+    poiCategories: [],
     vendors: []
+  },
+  pois:{
+    pois: {count:0, items:[]}
   },
   trips: {
     countries: [],

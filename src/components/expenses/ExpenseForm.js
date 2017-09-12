@@ -71,7 +71,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Card</ControlLabel>
-              <Select selected={props.expense.cardId} options={props.cards} onChange={x => props.onChange({cardId: x})} />
+              <Select selected={props.expense.cardId} defaultOptionValue="N/A" options={props.cards} onChange={x => props.onChange({cardId: x})} />
             </FormGroup>
           </Col>
         </Row>

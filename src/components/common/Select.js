@@ -4,12 +4,15 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 
 const Select = (props) => {
 
+  const defaultOptionId = props.defaultOptionId ? props.defaultOptionId : null;
+  const defaultOptionValue = props.defaultOptionValue ? props.defaultOptionValue : 'Any';
+
   const options = props.options.map(option => <option key={option.id} value={option.id}>{option.name}</option>);
 
   return (
           <FormControl value={props.selected} componentClass="select" onChange={e => props.onChange(e.target.value)} placeholder="select">
             {!props.hideDefaultOption &&
-              <option value="select">Any</option>
+              <option value={defaultOptionId}>{defaultOptionValue}</option>
             }
             {options}
           </FormControl>

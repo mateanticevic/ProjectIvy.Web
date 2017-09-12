@@ -126,6 +126,10 @@ export function openModal() {
   return {type: types.OPEN_MODAL};
 }
 
+export function onNewExpense() {
+  return {type: types.NEW_EXPENSE};
+}
+
 export function onVendorChanged(vendorId) {
   return function (dispatch) {
     return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); } );
@@ -134,8 +138,8 @@ export function onVendorChanged(vendorId) {
 
 export function updateExpense(expense, filters) {
   return function (dispatch) {
-    return expenseApi.put(expense).then(id => {
-      toastr.success('Success', 'Expense #' + id + ' updated.');
+    return expenseApi.put(expense).then(() => {
+      toastr.success('Success', 'Expense #' + expense.id + ' updated.');
       dispatch(updateExpenseSuccess());
       dispatch(getExpenses(filters));
     });
