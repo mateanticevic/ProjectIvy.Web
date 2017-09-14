@@ -20,6 +20,7 @@ import Datetime from 'react-datetime';
 import Select from '../components/common/Select';
 import { Marker, Polyline } from "react-google-maps";
 import PoiPanel from '../components/pois/PoiPanel';
+import PoiModal from '../components/pois/PoiModal';
 
 class PoisPage extends React.Component {
 
@@ -27,16 +28,27 @@ class PoisPage extends React.Component {
     super(props, context);
 
     this.state = {
-        filters: {
-            page: 1,
-            pageSize: 10
-    }};
+      poi: {
+        name: "",
+        poiCategoryId: "",
+        latitude: 0,
+        longitude: 0
+      },
+      isModalOpen: false,
+      filters: {
+        page: 1,
+        pageSize: 10
+      }};
 
     props.init.getPoiCategories();
     props.actions.getPois(this.state.filters);
 
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
+    this.onModalClose = this.onModalClose.bind(this);
     this.onMapDragEnd = this.onMapDragEnd.bind(this);
+    this.onPoiChange = this.onPoiChange.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
 
   onFiltersChanged(filter){
@@ -45,12 +57,36 @@ class PoisPage extends React.Component {
       this.props.actions.getPois(filters);
   }
 
+  onMapClick(e){
+    this.setState({
+      isModalOpen: true,
+      poi:{
+        latitude: e.latLng.lat(),
+        longitude: e.latLng.lng()
+      }
+    });
+  }
+
+  onModalClose(){
+    this.setState({ isModalOpen: false });
+  }
+
   onMapDragEnd(){
       let bounds = this.map.state.map.getBounds();
 
       let filters = objectAssign({}, this.state.filters, { x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f} });
       this.setState({filters: filters});
       this.props.actions.getPois(filters);
+  }
+
+  onPoiChange(property){
+    console.log(property);
+    let poi = objectAssign({}, this.state.poi, property);
+    this.setState({poi: poi});
+  }
+
+  onSave(){
+    this.props.actions.addPoi(this.state.poi);
   }
 
   render() {
@@ -95,6 +131,12 @@ class PoisPage extends React.Component {
                       onPageChange={page => this.onFiltersChanged({page: page})} />
           </Col>
         </Row>
+        <PoiModal isOpen={this.state.isModalOpen}
+                  onClose={this.onModalClose}
+                  onSave={this.onSave}
+                  categories={this.props.common.poiCategories}
+                  onPoiChange={this.onPoiChange}
+                  poi={this.state.poi} />
       </Grid>
     );
   }
