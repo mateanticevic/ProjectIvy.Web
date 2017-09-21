@@ -46,6 +46,7 @@ export function editExpense(expense) {
 export function changedFilters(filters) {
   return function (dispatch) {
     dispatch(getExpenses(filters));
+    dispatch(getSum(filters));
     return dispatch({type: types.CHANGED_FILTERS, filters});
   };
 }
@@ -95,6 +96,16 @@ export function getPaymentTypes() {
 
 export function getPaymentTypesSuccess(paymentTypes) {
   return {type: types.GET_PAYMENT_TYPES_SUCCESS, paymentTypes};
+}
+
+export function getSum(filters) {
+  return function (dispatch) {
+    return expenseApi.getSum(filters).then(json => { dispatch(getSumSuccess(json)); } );
+  };
+}
+
+export function getSumSuccess(sum) {
+  return {type: types.GET_SUM_SUCCESS, sum};
 }
 
 export function getVendors() {

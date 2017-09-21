@@ -5,6 +5,7 @@ import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
 
@@ -15,12 +16,15 @@ const ExpenseForm = (props) => {
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Date</ControlLabel>                
-              <Datetime value={props.expense.date}
-                        defaultValue={new Date()}
-                        dateFormat="YYYY-MM-DD"
-                        timeFormat={false}
-                        onChange={x => props.onChange({date: x.format("YYYY-MM-DD")})} />
+              <ControlLabel>Date</ControlLabel>
+              <InputGroup>
+                  <Datetime value={props.expense.date}
+                            defaultValue={new Date()}
+                            dateFormat="YYYY-MM-DD"
+                            timeFormat={false}
+                            onChange={x => props.onChange({date: x.format("YYYY-MM-DD")})} />
+                  <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+              </InputGroup>      
             </FormGroup>
           </Col>
           <Col lg={6}>

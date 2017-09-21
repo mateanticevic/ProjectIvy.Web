@@ -8,6 +8,9 @@ export default {
     expenses: {count:0, items:[]},
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
+    stats: {
+      sum: null
+    },
     vendorPois: []
   },
   login: {

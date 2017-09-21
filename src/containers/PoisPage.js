@@ -29,8 +29,6 @@ class PoisPage extends React.Component {
 
     this.state = {
       poi: {
-        name: "",
-        poiCategoryId: "",
         latitude: 0,
         longitude: 0
       },
@@ -80,13 +78,14 @@ class PoisPage extends React.Component {
   }
 
   onPoiChange(property){
-    console.log(property);
     let poi = objectAssign({}, this.state.poi, property);
     this.setState({poi: poi});
   }
 
   onSave(){
     this.props.actions.addPoi(this.state.poi);
+    this.setState({ isModalOpen: false });
+    this.props.actions.getPois(this.state.filters);
   }
 
   render() {

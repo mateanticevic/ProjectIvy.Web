@@ -10,10 +10,12 @@ import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
 import objectAssign from 'object-assign';
 
+import Widget from '../components/common/Widget';
 import ExpenseFilters from '../components/expenses/ExpenseFilters';
 import ExpenseModal from '../components/expenses/ExpenseModal';
 import ExpensePanel from '../components/expenses/ExpensePanel';
 import * as expenseMapper from '../mappers/expenseMapper';
+
 
 class ExpensesPage extends React.Component {
 
@@ -21,11 +23,11 @@ class ExpensesPage extends React.Component {
     super(props, context);
 
     props.actions.getCurrencies();
-    props.actions.getExpenses(props.expenses.filters);
     props.actions.getExpenseTypes({ hasChildren: false });
     props.actions.getVendors();
     props.actions.getPaymentTypes();
     props.actions.getCards();
+    this.onFiltersChanged();
 
     this.onExpenseSave = this.onExpenseSave.bind(this);
     this.onExpenseAddAnother = this.onExpenseAddAnother.bind(this);
@@ -66,7 +68,7 @@ class ExpensesPage extends React.Component {
   onFiltersChanged(filterValue){
     let filters = objectAssign({}, this.props.expenses.filters, filterValue);
     
-    if(filterValue.page == undefined){
+    if(filterValue && filterValue.page == undefined){
       filters.page = 1;
     }
     
@@ -75,7 +77,7 @@ class ExpensesPage extends React.Component {
 
   render() {
 
-    const common = this.props.common;
+    const { actions, common, expenses } = this.props;
 
     return (
       <Grid>
@@ -91,13 +93,24 @@ class ExpensesPage extends React.Component {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <ExpensePanel expenses={this.props.expenses.expenses}
+                <Panel header="Stats">
+                  <Row>
+                    <Col lg={3}>
+                      <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
+                    </Col>
+                  </Row>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <ExpensePanel expenses={expenses.expenses}
                               showButtons={true}
                               onEdit={this.onExpenseEdit}
                               onPageChange={this.onFiltersChanged}
                               onNewClick={this.onExpenseNew}
-                              page={this.props.expenses.filters.page}
-                              pageSize={this.props.expenses.filters.pageSize} />
+                              page={expenses.filters.page}
+                              pageSize={expenses.filters.pageSize} />
               </Col>
             </Row>
           </Col>
@@ -105,15 +118,15 @@ class ExpensesPage extends React.Component {
         <ExpenseModal currencies={common.currencies}
                       expenseTypes={common.expenseTypes}
                       vendors={common.vendors}
-                      vendorPois={this.props.expenses.vendorPois}
-                      cards={this.props.expenses.cards}
+                      vendorPois={expenses.vendorPois}
+                      cards={expenses.cards}
                       paymentTypes={common.paymentTypes}
-                      expense={this.props.expenses.expense}
-                      isOpen={this.props.expenses.isModalOpen}
+                      expense={expenses.expense}
+                      isOpen={expenses.isModalOpen}
                       onExpenseAdd={this.onExpenseSave}
                       onExpenseAddAnother={this.onExpenseAddAnother}
-                      onVendorChanged={this.props.actions.onVendorChanged}
-                      onClose={this.props.actions.closeModal}
+                      onVendorChanged={actions.onVendorChanged}
+                      onClose={actions.closeModal}
                       onChange={this.onExpenseChanged} />
       </Grid>
     );

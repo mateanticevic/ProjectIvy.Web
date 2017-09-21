@@ -8,8 +8,14 @@ headers.append("Authorization", localStorage.getItem("token"));
 let baseUrl = 'https://api2.anticevic.net/';
 
 function handleResponse(response){
+
+    var contentType = response.headers.get("content-type");
+
     if(response.ok){
-        return response.json();
+        if (contentType && contentType.indexOf("application/json") !== -1)
+            return response.json();
+        else
+            return response.status;
     }
     else if(response.status == httpStatus.UNAUTHORIZED){
         browserHistory.push("/login");

@@ -13,7 +13,7 @@ export default function expensesReducer(state = initialState.expenses, action) {
       return objectAssign({}, state, {expense: action.expense});
 
     case types.CHANGED_FILTERS:
-      return objectAssign({}, state, {filters: action.filters});
+      return objectAssign({}, state, { filters: action.filters, stats: {} });
 
     case types.EDIT_EXPENSE:
       return objectAssign({}, state, {expense: action.expense});
@@ -26,6 +26,10 @@ export default function expensesReducer(state = initialState.expenses, action) {
 
     case types.GET_EXPENSES_SUCCESS:
       return objectAssign({}, state, {expenses: action.expenses});
+
+    case types.GET_SUM_SUCCESS:
+      let stats = objectAssign({}, state.stats, { sum: action.sum });
+      return objectAssign({}, state, {stats: stats});
 
     case types.GET_VENDOR_POIS_SUCCESS:
       return objectAssign({}, state, {vendorPois: action.pois});
