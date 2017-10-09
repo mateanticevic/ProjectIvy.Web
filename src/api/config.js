@@ -9,7 +9,7 @@ let baseUrl = 'https://api2.anticevic.net/';
 
 function handleResponse(response){
 
-    var contentType = response.headers.get("content-type");
+    let contentType = response.headers.get("content-type");
 
     if(response.ok){
         if (contentType && contentType.indexOf("application/json") !== -1)
