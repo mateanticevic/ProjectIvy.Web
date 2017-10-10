@@ -57,7 +57,7 @@ class TripsPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" className="map-container">
+            <Panel header={<h4>Map</h4>} className="map-container">
               <Map
                 onClick={this.onMapClick}
                 containerElement={
@@ -73,14 +73,14 @@ class TripsPage extends React.Component {
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header="Filters">
+            <Panel header={<h4>Filters</h4>}>
               <div/>
             </Panel>
           </Col>
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header={tripsHeader}>
+                <Panel header={<h4>{tripsHeader}</h4>}>
                     <Row>
                       <Col lg={12}>
                         <Button onClick={this.props.actions.openModal}>New</Button>                  

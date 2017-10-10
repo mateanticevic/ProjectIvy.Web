@@ -10,7 +10,7 @@ const PoiPanel = (props) => {
     const header = `Pois (${props.pois.count})`;
 
   return (
-                <Panel header={header}>
+                <Panel header={<h4>{header}</h4>}>
                     <Row>
                       <Col lg={12}>
                         <PoiTable pois={props.pois.items} />

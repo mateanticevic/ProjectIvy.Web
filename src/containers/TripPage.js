@@ -32,7 +32,7 @@ class TripPage extends React.Component {
           <h1>{trip.name}</h1>
         </Row>
         <Row>
-          <Panel header="Stats">
+          <Panel header={<h4>Stats</h4>}>
             <Row>
               <Col lg={2}>
                 <Widget title="Distance" value={trip.distance} unit="m" />
@@ -44,7 +44,7 @@ class TripPage extends React.Component {
           </Panel>
         </Row>
         <Row>
-          <Panel header="Map" className="map-container">
+          <Panel header={<h4>Map</h4>} className="map-container">
             <Map
               containerElement={
                 <div style={{ height: `100%` }} />

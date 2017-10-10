@@ -92,7 +92,7 @@ class PoisPage extends React.Component {
       <Grid>
         <Row>
             <Col lg={12}>
-                <Panel header="Map" className="map-container">
+                <Panel header={<h4>Map</h4>} className="map-container">
                     <Map
                         onClick={this.onMapClick}
                         ref={map => this.map = map}
@@ -110,7 +110,7 @@ class PoisPage extends React.Component {
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header="Filters">
+            <Panel header={<h4>Filters</h4>}>
                 <ControlLabel>Category</ControlLabel>
                 <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
