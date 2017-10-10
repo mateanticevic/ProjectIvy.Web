@@ -23,7 +23,7 @@ const ExpensePanel = (props) => {
     }
 
   return (
-                <Panel header={expensesHeader}>
+                <Panel header={<h4>{expensesHeader}</h4>}>
                     <Row>
                       {props.showButtons &&
                       <Col lg={12}>

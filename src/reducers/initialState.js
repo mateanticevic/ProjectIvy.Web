@@ -8,6 +8,10 @@ export default {
     expenses: {count:0, items:[]},
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
+    orderBy: [
+      { id: "date", name: "Date"},
+      { id: "amount", name: "Amount"}
+    ],
     stats: {
       sum: null
     },
@@ -24,7 +28,11 @@ export default {
     expenseTypes: [],
     paymentTypes: [],
     poiCategories: [],
-    vendors: []
+    vendors: [],
+    order: [
+      { id: "false", name: "Descending" },
+      { id: "true", name: "Ascending" }
+    ]
   },
   pois:{
     pois: {count:0, items:[]}

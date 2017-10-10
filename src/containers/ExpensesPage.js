@@ -12,6 +12,7 @@ import objectAssign from 'object-assign';
 
 import Widget from '../components/common/Widget';
 import ExpenseFilters from '../components/expenses/ExpenseFilters';
+import ExpenseFiltersMore from '../components/expenses/ExpenseFiltersMore';
 import ExpenseModal from '../components/expenses/ExpenseModal';
 import ExpensePanel from '../components/expenses/ExpensePanel';
 import * as expenseMapper from '../mappers/expenseMapper';
@@ -83,17 +84,29 @@ class ExpensesPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={3}>
-            <Panel header="Filters">
-              <ExpenseFilters currencies={common.currencies}
-                              expenseTypes={common.expenseTypes}
-                              vendors={common.vendors}
-                              onChange={this.onFiltersChanged} />
-            </Panel>
+            <Row>
+              <Panel header={<h4>Filters</h4>}>
+                <ExpenseFilters currencies={common.currencies}
+                                expenseTypes={common.expenseTypes}
+                                vendors={common.vendors}
+                                onChange={this.onFiltersChanged} />
+              </Panel>
+            </Row>
+            <Row>
+              <Panel header="More filters" collapsible>
+                <ExpenseFiltersMore currencies={common.currencies}
+                                    expenseTypes={common.expenseTypes}
+                                    orderBy={expenses.orderBy}
+                                    order={common.order}
+                                    vendors={common.vendors}
+                                    onChange={this.onFiltersChanged} />
+              </Panel>
+            </Row>
           </Col>
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header="Stats">
+                <Panel header={<h4>Stats</h4>}>
                   <Row>
                     <Col lg={3}>
                       <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
