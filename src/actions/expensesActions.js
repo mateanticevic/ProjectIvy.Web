@@ -108,16 +108,6 @@ export function getSumSuccess(sum) {
   return {type: types.GET_SUM_SUCCESS, sum};
 }
 
-export function getVendors() {
-  return function (dispatch) {
-    return vendorApi.get().then(json => { dispatch(getVendorsSuccess(json)); } );
-  };
-}
-
-export function getVendorsSuccess(vendors) {
-  return {type: types.GET_VENDORS_SUCCESS, vendors};
-}
-
 export function getExpenseTypes(filters) {
 
   return function (dispatch) {

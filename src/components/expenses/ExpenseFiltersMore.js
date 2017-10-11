@@ -13,19 +13,19 @@ const ExpenseFiltersMore = (props) => {
     <div>
         <Row>
           <Col lg={3}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={x => props.onChange({ from: "2017-10-01", to: "2017-10-31" })}>Month</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-10-01", to: "2017-10-31" })}>Month</Button>
           </Col>
           <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={x => props.onChange({ from: "2017-01-01", to: "2017-12-31" })}>2017</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-01-01", to: "2017-12-31" })}>2017</Button>
           </Col>
           <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={x => props.onChange({ from: "2016-01-01", to: "2016-12-31" })}>2016</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2016-01-01", to: "2016-12-31" })}>2016</Button>
           </Col>
           <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={x => props.onChange({ from: "2015-01-01", to: "2015-12-31" })}>2015</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2015-01-01", to: "2015-12-31" })}>2015</Button>
           </Col>
           <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={x => props.onChange({ from: "2014-01-01", to: "2014-12-31" })}>2014</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2014-01-01", to: "2014-12-31" })}>2014</Button>
           </Col>
         </Row>
         <Row>

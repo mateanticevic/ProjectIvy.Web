@@ -15,6 +15,6 @@ export function number(number) {
         return {
             exponent: 'k',
             number: Math.round(number/1000)
-        }
+        };
     }
 }

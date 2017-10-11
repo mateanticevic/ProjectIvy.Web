@@ -4,7 +4,7 @@ import {toastr} from 'react-redux-toastr';
 
 export function addPoi(poi) {
   return function (dispatch) {
-    return poiApi.post(poi).then(e => {
+    return poiApi.post(poi).then(() => {
       toastr.success('Success', 'Poi added.');
       dispatch(addPoiSuccess());
     });

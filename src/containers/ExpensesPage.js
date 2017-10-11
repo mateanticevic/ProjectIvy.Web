@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as actions from '../actions/expensesActions';
+import * as init from '../actions/commonActions';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
@@ -25,7 +26,7 @@ class ExpensesPage extends React.Component {
 
     props.actions.getCurrencies();
     props.actions.getExpenseTypes({ hasChildren: false });
-    props.actions.getVendors();
+    props.init.getVendors();
     props.actions.getPaymentTypes();
     props.actions.getCards();
     this.onFiltersChanged();
@@ -161,7 +162,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
+    actions: bindActionCreators(actions, dispatch),
+    init: bindActionCreators(init, dispatch)
   };
 }
 

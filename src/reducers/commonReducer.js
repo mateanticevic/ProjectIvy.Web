@@ -19,7 +19,7 @@ export default function commonReducer(state = initialState.common, action) {
     case commonTypes.GET_POI_CATEGORIES_SUCCESS:
       return objectAssign({}, state, {poiCategories: action.poiCategories});
 
-    case types.GET_VENDORS_SUCCESS:
+    case commonTypes.GET_VENDORS_SUCCESS:
       return objectAssign({}, state, {vendors: action.vendors});
 
     default:

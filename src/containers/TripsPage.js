@@ -33,8 +33,7 @@ class TripsPage extends React.Component {
     this.props.actions.changedFilters(filters);
   }
 
-  onMapClick(e){
-    console.log(`${e.latLng.lat()}, ${e.latLng.lng()}`);
+  onMapClick(){
   }
 
   render() {

@@ -229,7 +229,9 @@
       "import/extensions": 1,
       "import/no-named-as-default": 0,
       "react/self-closing-comp": 1,
-      "react/sort-comp": 1
+      "react/sort-comp": 1,
+      "no-case-declarations": 0,
+      "import/no-unresolved": 0
     },
     "globals": {}
   }

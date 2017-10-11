@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
 import objectAssign from 'object-assign';
 import Map from '../components/common/Map';
-import * as trackingHelper from '../utils/trackingHelper';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Select from '../components/common/Select';
@@ -35,6 +34,7 @@ class PoisPage extends React.Component {
       }};
 
     props.init.getPoiCategories();
+    props.init.getVendors();
     props.actions.getPois(this.state.filters);
 
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
@@ -114,7 +114,7 @@ class PoisPage extends React.Component {
                 <ControlLabel>Category</ControlLabel>
                 <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
-                <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({vendorId: id})} />
+                <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
                 <ControlLabel>Name</ControlLabel>
                 <FormControl type="text" onChange={x => this.onFiltersChanged({name: x.target.value})} />
             </Panel>
