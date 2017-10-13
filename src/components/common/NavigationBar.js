@@ -1,8 +1,5 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
-import MenuItem from 'react-bootstrap/lib/MenuItem';
+import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
 import { Link, IndexLink, browserHistory } from 'react-router';
 
 const NavigationBar = () => {

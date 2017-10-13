@@ -11,19 +11,19 @@ const ExpenseFilters = (props) => {
         <Row>
           <Col lg={12}>
             <ControlLabel>Currency</ControlLabel>
-            <Select options={props.currencies} onChange={x => props.onChange({currencyId: x})} />
+            <Select options={props.common.currencies} onChange={x => props.onChange({currencyId: x})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Vendor</ControlLabel>
-            <Select options={props.vendors} onChange={x => props.onChange({vendorId: x})} />
+            <Select options={props.common.vendors} onChange={x => props.onChange({vendorId: x})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Type</ControlLabel>
-            <Select options={props.expenseTypes} onChange={x => props.onChange({typeId: x})} />
+            <Select options={props.common.expenseTypes} onChange={x => props.onChange({typeId: x})} />
           </Col>
         </Row>
     </div>

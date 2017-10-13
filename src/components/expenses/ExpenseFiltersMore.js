@@ -67,7 +67,7 @@ const ExpenseFiltersMore = (props) => {
         <Row>
           <Col lg={12}>
             <ControlLabel>Order</ControlLabel>
-            <Select options={props.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
+            <Select options={props.common.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
           </Col>
         </Row>
     </div>

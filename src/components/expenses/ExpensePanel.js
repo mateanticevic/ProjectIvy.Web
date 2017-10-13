@@ -1,9 +1,7 @@
 import React from 'react';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
-import Button from 'react-bootstrap/lib/Button';
-import Pagination from 'react-bootstrap/lib/Pagination';
+import { Row, Col, Button, Pagination } from 'react-bootstrap/lib';
+
+import Panel from '../common/Panel';
 import ExpenseTable from './ExpenseTable';
 
 const ExpensePanel = (props) => {
@@ -23,14 +21,7 @@ const ExpensePanel = (props) => {
     }
 
   return (
-                <Panel header={<h4>{expensesHeader}</h4>}>
-                    <Row>
-                      {props.showButtons &&
-                      <Col lg={12}>
-                        <Button onClick={props.onNewClick}>New</Button>                  
-                      </Col>
-                      }
-                    </Row>
+                <Panel header={expensesHeader} onNewClick={props.onNewClick}>
                     <Row>
                       <Col lg={12}>
                         {expenseTable}

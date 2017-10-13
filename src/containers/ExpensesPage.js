@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import BootstrapPanel from 'react-bootstrap/lib/Panel';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
+import Panel from '../components/common/Panel';
 import objectAssign from 'object-assign';
 
 import Widget from '../components/common/Widget';
@@ -86,28 +87,23 @@ class ExpensesPage extends React.Component {
         <Row>
           <Col lg={3}>
             <Row>
-              <Panel header={<h4>Filters</h4>}>
-                <ExpenseFilters currencies={common.currencies}
-                                expenseTypes={common.expenseTypes}
-                                vendors={common.vendors}
+              <Panel header="Filters">
+                <ExpenseFilters common={common}
                                 onChange={this.onFiltersChanged} />
               </Panel>
             </Row>
             <Row>
-              <Panel header="More filters" collapsible>
-                <ExpenseFiltersMore currencies={common.currencies}
-                                    expenseTypes={common.expenseTypes}
+              <BootstrapPanel header="More filters" collapsible>
+                <ExpenseFiltersMore common={common}
                                     orderBy={expenses.orderBy}
-                                    order={common.order}
-                                    vendors={common.vendors}
                                     onChange={this.onFiltersChanged} />
-              </Panel>
+              </BootstrapPanel>
             </Row>
           </Col>
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header={<h4>Stats</h4>}>
+                <Panel header="Stats">
                   <Row>
                     <Col lg={3}>
                       <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
@@ -119,7 +115,6 @@ class ExpensesPage extends React.Component {
             <Row>
               <Col lg={12}>
                 <ExpensePanel expenses={expenses.expenses}
-                              showButtons={true}
                               onEdit={this.onExpenseEdit}
                               onPageChange={this.onFiltersChanged}
                               onNewClick={this.onExpenseNew}
@@ -129,12 +124,9 @@ class ExpensesPage extends React.Component {
             </Row>
           </Col>
         </Row>
-        <ExpenseModal currencies={common.currencies}
-                      expenseTypes={common.expenseTypes}
-                      vendors={common.vendors}
+        <ExpenseModal common={common}
                       vendorPois={expenses.vendorPois}
                       cards={expenses.cards}
-                      paymentTypes={common.paymentTypes}
                       expense={expenses.expense}
                       isOpen={expenses.isModalOpen}
                       onExpenseAdd={this.onExpenseSave}
