@@ -14,6 +14,7 @@ const PoiTable = (props) => {
             <tr>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>

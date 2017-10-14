@@ -1,6 +1,5 @@
 import React from 'react';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import { ControlLabel, FormControl } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
 const TripForm = (props) => {

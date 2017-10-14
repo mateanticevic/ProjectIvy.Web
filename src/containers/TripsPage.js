@@ -1,20 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Button, Grid, Row, Col, Pagination } from 'react-bootstrap/lib';
+import { Polygon } from "react-google-maps";
 import * as actions from '../actions/tripsActions';
-import Button from 'react-bootstrap/lib/Button';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
-import Pagination from 'react-bootstrap/lib/Pagination';
-import objectAssign from 'object-assign';
+import Panel from '../components/common/Panel';
 import TripTable from '../components/trips/TripTable';
 import TripRow from '../components/trips/TripRow';
 import TripModal from '../components/trips/TripModal';
 import Map from '../components/common/Map';
-import { Polygon } from "react-google-maps";
 import * as trackingHelper from '../utils/trackingHelper';
 
 class TripsPage extends React.Component {
@@ -29,11 +24,12 @@ class TripsPage extends React.Component {
   }
 
   onFiltersChanged(filterValue){
-    let filters = objectAssign({}, this.props.trips.filters, filterValue);
+    let filters = {...this.props.trips.filters, filterValue};
     this.props.actions.changedFilters(filters);
   }
 
   onMapClick(){
+
   }
 
   render() {
@@ -56,7 +52,7 @@ class TripsPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header={<h4>Map</h4>} className="map-container">
+            <Panel header="Map" containsMap>
               <Map
                 onClick={this.onMapClick}
                 containerElement={
@@ -72,14 +68,14 @@ class TripsPage extends React.Component {
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header={<h4>Filters</h4>}>
+            <Panel header="Filters">
               <div/>
             </Panel>
           </Col>
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header={<h4>{tripsHeader}</h4>}>
+                <Panel header={tripsHeader}>
                     <Row>
                       <Col lg={12}>
                         <Button onClick={this.props.actions.openModal}>New</Button>                  

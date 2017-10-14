@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
+import { Grid, Row, Col } from 'react-bootstrap/lib';
+import Panel from '../components/common/Panel';
 import * as actions from '../actions/tripActions';
 import Map from '../components/common/Map';
 import { Marker, Polyline } from "react-google-maps";
@@ -32,7 +30,7 @@ class TripPage extends React.Component {
           <h1>{trip.name}</h1>
         </Row>
         <Row>
-          <Panel header={<h4>Stats</h4>}>
+          <Panel header="Stats">
             <Row>
               <Col lg={2}>
                 <Widget title="Distance" value={trip.distance} unit="m" />
@@ -44,7 +42,7 @@ class TripPage extends React.Component {
           </Panel>
         </Row>
         <Row>
-          <Panel header={<h4>Map</h4>} className="map-container">
+          <Panel header="Map" containsMap>
             <Map
               containerElement={
                 <div style={{ height: `100%` }} />

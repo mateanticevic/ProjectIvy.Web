@@ -3,8 +3,15 @@ import { Row, Col, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
 const Panel = (props) => {
+
+    let rootCss = "panel panel-default";
+
+    if (props.containsMap){
+        rootCss = "map-container " + rootCss;
+    }
+
     return (
-        <div className="panel panel-default">
+        <div className={rootCss}>
             <div className="panel-heading">
                 <Row>
                     <Col lg={6}>

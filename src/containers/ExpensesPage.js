@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Grid, Row, Col } from 'react-bootstrap/lib';
 import BootstrapPanel from 'react-bootstrap/lib/Panel';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
 import Panel from '../components/common/Panel';
-import objectAssign from 'object-assign';
 
 import Widget from '../components/common/Widget';
 import ExpenseFilters from '../components/expenses/ExpenseFilters';
@@ -26,7 +23,7 @@ class ExpensesPage extends React.Component {
     super(props, context);
 
     props.actions.getCurrencies();
-    props.actions.getExpenseTypes({ hasChildren: false });
+    props.actions.getExpenseTypes();
     props.init.getVendors();
     props.actions.getPaymentTypes();
     props.actions.getCards();
@@ -54,7 +51,7 @@ class ExpensesPage extends React.Component {
   }
 
   onExpenseChanged(expenseValue){
-    let expense = objectAssign({}, this.props.expenses.expense, expenseValue);
+    let expense = { ...this.props.expenses.expense, ...expenseValue };
     this.props.actions.changedExpense(expense);
   }
 
@@ -69,7 +66,7 @@ class ExpensesPage extends React.Component {
   }
 
   onFiltersChanged(filterValue){
-    let filters = objectAssign({}, this.props.expenses.filters, filterValue);
+    let filters = { ...this.props.expenses.filters, ...filterValue };
     
     if(filterValue && filterValue.page == undefined){
       filters.page = 1;

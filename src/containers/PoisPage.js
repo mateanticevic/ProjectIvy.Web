@@ -2,16 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
 import * as init from '../actions/commonActions';
 import * as actions from '../actions/poiActions';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
+import Panel from '../components/common/Panel';
 import objectAssign from 'object-assign';
 import Map from '../components/common/Map';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import Select from '../components/common/Select';
 import { Marker } from "react-google-maps";
 import PoiPanel from '../components/pois/PoiPanel';
@@ -38,6 +34,7 @@ class PoisPage extends React.Component {
     props.actions.getPois(this.state.filters);
 
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
+    this.onNewClick = this.onNewClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
     this.onModalClose = this.onModalClose.bind(this);
     this.onMapDragEnd = this.onMapDragEnd.bind(this);
@@ -73,6 +70,10 @@ class PoisPage extends React.Component {
       this.props.actions.getPois(filters);
   }
 
+  onNewClick(){
+    this.setState({ isModalOpen: true });
+  }
+
   onPoiChange(property){
     let poi = objectAssign({}, this.state.poi, property);
     this.setState({poi: poi});
@@ -92,7 +93,7 @@ class PoisPage extends React.Component {
       <Grid>
         <Row>
             <Col lg={12}>
-                <Panel header={<h4>Map</h4>} className="map-container">
+                <Panel header="Map" containsMap>
                     <Map
                         onClick={this.onMapClick}
                         ref={map => this.map = map}
@@ -110,7 +111,7 @@ class PoisPage extends React.Component {
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header={<h4>Filters</h4>}>
+            <Panel header="Filters">
                 <ControlLabel>Category</ControlLabel>
                 <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
@@ -123,6 +124,7 @@ class PoisPage extends React.Component {
             <PoiPanel pois={this.props.pois.pois}
                       pageSize={this.state.filters.pageSize}
                       page={this.state.filters.page}
+                      onNewClick={this.onNewClick}
                       onPageChange={page => this.onFiltersChanged({page: page})} />
           </Col>
         </Row>

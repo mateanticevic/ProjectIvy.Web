@@ -7,6 +7,7 @@ const PoiRow = (props) => {
   <tr>
       <td>{props.poi.name}</td>
       <td>{props.poi.category.name}</td>
+      <td>{props.poi.address}</td>
   </tr>
   );
 };

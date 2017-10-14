@@ -1,12 +1,6 @@
 import React from 'react';
-import Modal from 'react-bootstrap/lib/Modal';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import { Modal, Row, Col, ControlLabel, FormControl, FormGroup, Button } from 'react-bootstrap/lib';
 import Select from '../common/Select';
-import Button from 'react-bootstrap/lib/Button';
 
 const PoiModal = (props) => {
 
@@ -34,13 +28,21 @@ const PoiModal = (props) => {
                 <Col lg={6}>
                     <FormGroup>
                         <ControlLabel>Latitude</ControlLabel>
-                        <FormControl value={props.poi.latitude} type="text" onChange={x => props.onPoiChange({latitude: x.target.value})} />
+                        <FormControl value={props.poi.latitude} type="number" onChange={x => props.onPoiChange({latitude: x.target.value})} />
                     </FormGroup>
                 </Col>
                 <Col lg={6}>
                     <FormGroup>
                         <ControlLabel>Longitude</ControlLabel>
-                        <FormControl value={props.poi.longitude} type="text" onChange={x => props.onPoiChange({longitude: x.target.value})} />
+                        <FormControl value={props.poi.longitude} type="number" onChange={x => props.onPoiChange({longitude: x.target.value})} />
+                    </FormGroup>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={12}>
+                    <FormGroup>
+                        <ControlLabel>Address</ControlLabel>
+                        <FormControl value={props.poi.address} type="text" onChange={x => props.onPoiChange({address: x.target.value})} />
                     </FormGroup>
                 </Col>
             </Row>

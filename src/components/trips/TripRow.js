@@ -23,7 +23,7 @@ const TripRow = (props) => {
   <tr key={props.trip.id}>
       <td>
         <OverlayTrigger placement="left" overlay={yearTooltip}>
-          <Label bsStyle="default"><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
+          <Label bsStyle="primary"><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
         </OverlayTrigger>
       </td>
       <td>{countryFlags}</td>

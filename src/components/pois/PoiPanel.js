@@ -1,16 +1,14 @@
 import React from 'react';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
-import Pagination from 'react-bootstrap/lib/Pagination';
+import { Row, Col, Pagination } from 'react-bootstrap/lib';
+import Panel from '../common/Panel';
 import PoiTable from './PoiTable';
 
 const PoiPanel = (props) => {
 
-    const header = `Pois (${props.pois.count})`;
+  const header = `Pois (${props.pois.count})`;
 
   return (
-                <Panel header={<h4>{header}</h4>}>
+                <Panel header={header} onNewClick={props.onNewClick}>
                     <Row>
                       <Col lg={12}>
                         <PoiTable pois={props.pois.items} />

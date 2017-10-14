@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Button, Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
+
+import Panel from '../components/common/Panel';
 import * as actions from '../actions/loginActions';
-import Button from 'react-bootstrap/lib/Button';
-import Grid from 'react-bootstrap/lib/Grid';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
-import Panel from 'react-bootstrap/lib/Panel';
-import objectAssign from 'object-assign';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
 
 class LoginPage extends React.Component {
 
@@ -22,7 +17,7 @@ class LoginPage extends React.Component {
   }
 
   onCredentialsChanged(credentialValue){
-    let credentials = objectAssign({}, this.props.login.credentials, credentialValue);
+    let credentials = { ...this.props.login.credentials, ...credentialValue };
     this.props.actions.changedCredentials(credentials);
   }
 

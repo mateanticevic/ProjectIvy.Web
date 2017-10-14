@@ -2,15 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import FontAwesome from 'react-fontawesome';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
+import { OverlayTrigger, Tooltip, Button, Label } from 'react-bootstrap/lib';
 
 const ExpenseRow = (props) => {
-
-  function onEditClick(e, expense){
-    e.preventDefault();
-    props.onEdit(expense);
-  }
 
   const poiNameTooltip = (
     <Tooltip id="tooltip">
@@ -21,7 +15,9 @@ const ExpenseRow = (props) => {
   return (
   <tr>
       <td><Moment format="Do MMMM YYYY">{props.expense.date}</Moment></td>
-      <td>{props.expense.expenseType.name}</td>
+      <td>
+        <Label bsStyle="primary"><FontAwesome name={props.expense.expenseType.icon} /> {props.expense.expenseType.name}</Label>
+      </td>
       <td>{props.expense.vendor && props.expense.vendor.name}
         &nbsp;
         {props.expense.poi &&
@@ -32,7 +28,7 @@ const ExpenseRow = (props) => {
       <td className="cell-no-overflow-100" title={props.expense.comment}>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>
       <td>{props.expense.currency.symbol}</td>
-      <td><a href="#" onClick={e => onEditClick(e, props.expense)}><FontAwesome title="Edit" name="pencil-square-o" /></a></td>
+      <td><Button className="pull-right" bsSize="xsmall" onClick={() => props.onEdit(props.expense)}><FontAwesome name="pencil" /> Edit</Button></td>
   </tr>
   );
 };
