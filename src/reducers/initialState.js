@@ -45,6 +45,8 @@ export default {
   },
   trip: {
     trip: {
+      cities: [],
+      countries: [],
       expenses: [],
       pois: []
     },

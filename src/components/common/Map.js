@@ -1,15 +1,18 @@
 import { default as React } from "react";
+import GoogleMaps from './GoogleMaps';
 
-import { withGoogleMap, GoogleMap } from "react-google-maps";
-
- const Map = withGoogleMap(props => (
-  <GoogleMap
-    onClick={props.onClick}
-    onDragEnd={() => { if(props.onDragEnd){ props.onDragEnd(); }}}
-    defaultZoom={2}
-    defaultCenter={{ lat: 0, lng: 0 }}>
-    {props.children}
-  </GoogleMap>
-));
+const Map = (props) => {
+    return(
+        <GoogleMaps onClick={props.onClick} ref={props.map} onDragEnd={props.onDragEnd}
+             containerElement={
+          <div style={{ height: `100%` }} />
+        }
+        mapElement={
+          <div style={{ height: `100%` }} />
+        }>
+        {props.children}
+      </GoogleMaps>
+    );
+};
 
 export default Map;

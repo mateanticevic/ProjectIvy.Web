@@ -53,14 +53,7 @@ class TripsPage extends React.Component {
         <Row>
           <Col lg={12}>
             <Panel header="Map" containsMap>
-              <Map
-                onClick={this.onMapClick}
-                containerElement={
-                  <div style={{ height: `100%` }} />
-                }
-                mapElement={
-                  <div style={{ height: `100%` }} />
-                }>
+              <Map onClick={this.onMapClick}>
                 {polygons}
               </Map>
             </Panel>

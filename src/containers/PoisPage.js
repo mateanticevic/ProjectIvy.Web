@@ -94,17 +94,8 @@ class PoisPage extends React.Component {
         <Row>
             <Col lg={12}>
                 <Panel header="Map" containsMap>
-                    <Map
-                        onClick={this.onMapClick}
-                        ref={map => this.map = map}
-                        onDragEnd={this.onMapDragEnd}
-                        containerElement={
-                            <div style={{ height: `100%` }} />
-                        }
-                        mapElement={
-                            <div style={{ height: `100%` }} />
-                        }>
-                    {poiMarkers}
+                    <Map onClick={this.onMapClick} map={map => this.map = map} onDragEnd={this.onMapDragEnd}>
+                      {poiMarkers}
                     </Map>
                 </Panel>
               </Col>

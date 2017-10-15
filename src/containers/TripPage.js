@@ -41,6 +41,12 @@ class TripPage extends React.Component {
                 <Col lg={2} xs={6}>
                   <Widget title="Spent" value={trip.totalSpent} unit="HRK" />
                 </Col>
+                <Col lg={2} xs={6}>
+                  <Widget title="Cities" value={trip.cities.length} />
+                </Col>
+                <Col lg={2} xs={6}>
+                  <Widget title="Countries" value={trip.countries.length} />
+                </Col>
               </Row>
             </Panel>
           </Col>
@@ -48,13 +54,7 @@ class TripPage extends React.Component {
         <Row>
           <Col lg={12}>
             <Panel header="Map" containsMap>
-              <Map
-                containerElement={
-                  <div style={{ height: `100%` }} />
-                }
-                mapElement={
-                  <div style={{ height: `100%` }} />
-                }>
+              <Map>
                 {poiMarkers}
                 <Polyline path={this.props.trip.trackings} />
               </Map>

@@ -7,7 +7,10 @@ import * as formatHelper from '../../utils/formatHelper';
 const WidgetCard = (props) => {
 
     const formatted = formatHelper.number(props.value);
-    const value = `${formatted.number}${formatted.exponent} ${props.unit}`;
+    let value = `${formatted.number}${formatted.exponent}`;
+
+    if (props.unit)
+        value +=  ` ${props.unit}`;
 
   return (
           <Grid>
