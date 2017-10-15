@@ -27,38 +27,46 @@ class TripPage extends React.Component {
     return (
       <Grid>
         <Row>
-          <h1>{trip.name}</h1>
+          <Col lg={12}>
+            <h1>{trip.name}</h1>
+          </Col>
         </Row>
         <Row>
-          <Panel header="Stats">
-            <Row>
-              <Col lg={2}>
-                <Widget title="Distance" value={trip.distance} unit="m" />
-              </Col>
-              <Col lg={2}>
-                <Widget title="Spent" value={trip.totalSpent} unit="HRK" />
-              </Col>
-            </Row>
-          </Panel>
+          <Col lg={12}>
+            <Panel header="Stats">
+              <Row>
+                <Col lg={2} xs={6}>
+                  <Widget title="Distance" value={trip.distance} unit="m" />
+                </Col>
+                <Col lg={2} xs={6}>
+                  <Widget title="Spent" value={trip.totalSpent} unit="HRK" />
+                </Col>
+              </Row>
+            </Panel>
+          </Col>
         </Row>
         <Row>
-          <Panel header="Map" containsMap>
-            <Map
-              containerElement={
-                <div style={{ height: `100%` }} />
-              }
-              mapElement={
-                <div style={{ height: `100%` }} />
-              }>
-              {poiMarkers}
-              <Polyline path={this.props.trip.trackings} />
-            </Map>
-          </Panel>
+          <Col lg={12}>
+            <Panel header="Map" containsMap>
+              <Map
+                containerElement={
+                  <div style={{ height: `100%` }} />
+                }
+                mapElement={
+                  <div style={{ height: `100%` }} />
+                }>
+                {poiMarkers}
+                <Polyline path={this.props.trip.trackings} />
+              </Map>
+            </Panel>
+          </Col>
         </Row>
         <Row>
-          <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
-                        page={1}
-                        pageSize={10} />
+          <Col lg={12}>
+            <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
+                          page={1}
+                          pageSize={10} />
+          </Col>
         </Row>
       </Grid>
     );
