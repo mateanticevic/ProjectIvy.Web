@@ -14,10 +14,10 @@ const Panel = (props) => {
         <div className={rootCss}>
             <div className="panel-heading">
                 <Row>
-                    <Col lg={6}>
+                    <Col xs={6}>
                         <h4 className="panel-title">{props.header}</h4>
                     </Col>
-                    <Col lg={6}>
+                    <Col xs={6}>
                         {props.onNewClick &&
                             <Button className="pull-right" bsSize="xsmall" onClick={props.onNewClick}><FontAwesome name="plus" /> New</Button>
                         }

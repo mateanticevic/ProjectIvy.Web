@@ -84,17 +84,21 @@ class ExpensesPage extends React.Component {
         <Row>
           <Col lg={3}>
             <Row>
-              <Panel header="Filters">
-                <ExpenseFilters common={common}
-                                onChange={this.onFiltersChanged} />
-              </Panel>
+              <Col lg={12}>
+                <Panel header="Filters">
+                  <ExpenseFilters common={common}
+                                  onChange={this.onFiltersChanged} />
+                </Panel>
+              </Col>
             </Row>
             <Row>
-              <BootstrapPanel header="More filters" collapsible>
-                <ExpenseFiltersMore common={common}
-                                    orderBy={expenses.orderBy}
-                                    onChange={this.onFiltersChanged} />
-              </BootstrapPanel>
+              <Col lg={12}>
+                <BootstrapPanel header="More filters" collapsible>
+                  <ExpenseFiltersMore common={common}
+                                      orderBy={expenses.orderBy}
+                                      onChange={this.onFiltersChanged} />
+                </BootstrapPanel>
+              </Col>
             </Row>
           </Col>
           <Col lg={9}>

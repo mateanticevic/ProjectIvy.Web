@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Pagination } from 'react-bootstrap/lib';
+import { Row, Col, Pagination } from 'react-bootstrap/lib';
 
 import Panel from '../common/Panel';
 import ExpenseTable from './ExpenseTable';

@@ -9,7 +9,7 @@ const ExpenseTable = (props) => {
   });
 
   return (
-    <Table>
+    <Table responsive>
         <thead>
             <tr>
             <th>Date</th>

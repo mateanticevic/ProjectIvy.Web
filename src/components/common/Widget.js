@@ -7,7 +7,7 @@ import WidgetCard from './WidgetCard';
 const Widget = (props) => {
 
   return (
-      <Well>
+      <Well style={{ margin: 0, height: 85 }}>
           {props.value &&
             <WidgetCard unit={props.unit} title={props.title} value={props.value} />
           }

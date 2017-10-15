@@ -10,27 +10,30 @@ const NavigationBar = () => {
   }
 
   return (
-         <Navbar fixedTop={true}>
+         <Navbar fixedTop collapseOnSelect>
           <Navbar.Header>
             <Navbar.Brand>
               <IndexLink to="/">Project Ivy</IndexLink>
             </Navbar.Brand>
+            <Navbar.Toggle />
           </Navbar.Header>
-          <Nav>
-            <NavDropdown eventKey={3} title="Finance">
-              <MenuItem><Link to="/expenses">Expenses</Link></MenuItem>
-              <MenuItem eventKey={3.2}>Incomes</MenuItem>
-            </NavDropdown>
-            <NavDropdown eventKey={3} title="Travel">
-              <MenuItem><Link to="/pois">Pois</Link></MenuItem>
-              <MenuItem><Link to="/trips">Trips</Link></MenuItem>
-            </NavDropdown>
-          </Nav>
-          <Nav pullRight>
-            <NavDropdown eventKey={4} title="Mate Antičević">
-              <MenuItem><Link onClick={logout}>Logout</Link></MenuItem>
-            </NavDropdown>
-          </Nav>
+          <Navbar.Collapse>
+            <Nav>
+              <NavDropdown eventKey={3} title="Finance">
+                <MenuItem><Link to="/expenses">Expenses</Link></MenuItem>
+                <MenuItem eventKey={3.2}>Incomes</MenuItem>
+              </NavDropdown>
+              <NavDropdown eventKey={3} title="Travel">
+                <MenuItem><Link to="/pois">Pois</Link></MenuItem>
+                <MenuItem><Link to="/trips">Trips</Link></MenuItem>
+              </NavDropdown>
+            </Nav>
+            <Nav pullRight>
+              <NavDropdown eventKey={4} title="Mate Antičević">
+                <MenuItem><Link onClick={logout}>Logout</Link></MenuItem>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
          </Navbar>
   );
 };
