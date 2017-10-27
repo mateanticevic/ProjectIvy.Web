@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/lib/Table';
 
 const TripTable = (props) => {
   return (
-    <Table>
+    <Table responsive >
         <thead>
             <tr>
             <th>Year</th>

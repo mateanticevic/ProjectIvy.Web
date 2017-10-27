@@ -2,7 +2,7 @@ import React from 'react';
 import Moment from 'react-moment';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Label from 'react-bootstrap/lib/Label';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import { Button, OverlayTrigger } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Link } from 'react-router';
 
@@ -29,7 +29,7 @@ const TripRow = (props) => {
       <td>{countryFlags}</td>
       <td>{props.trip.name}</td>
       <td><Moment to={props.trip.timestampEnd} ago>{props.trip.timestampStart}</Moment></td>
-      <td><Link to={`/trips/${props.trip.id}`}><FontAwesome name="eye" /></Link></td>
+      <td><Link to={`/trips/${props.trip.id}`}><Button bsStyle="primary" bsSize="xsmall"><FontAwesome name="eye" /> Details</Button></Link></td>
   </tr>
   );
 };

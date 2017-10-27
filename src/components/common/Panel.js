@@ -19,7 +19,7 @@ const Panel = (props) => {
                     </Col>
                     <Col xs={6}>
                         {props.onNewClick &&
-                            <Button className="pull-right" bsSize="xsmall" onClick={props.onNewClick}><FontAwesome name="plus" /> New</Button>
+                            <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={props.onNewClick}><FontAwesome name="plus" /> New</Button>
                         }
                     </Col>
                 </Row>

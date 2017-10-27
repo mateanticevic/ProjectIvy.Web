@@ -12,9 +12,10 @@ const PoiTable = (props) => {
     <Table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Address</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Address</th>
+              <th></th>
             </tr>
         </thead>
         <tbody>
