@@ -31,10 +31,10 @@ const ExpenseFilters = (props) => {
 };
 
 ExpenseFilters.propTypes = {
-  currencies: PropTypes.array.isRequired,
-  vendors: PropTypes.array.isRequired,
-  expenseTypes: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  currencies: PropTypes.array,
+  vendors: PropTypes.array,
+  expenseTypes: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default ExpenseFilters;

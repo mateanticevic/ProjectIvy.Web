@@ -28,7 +28,7 @@ const WidgetCard = (props) => {
 
 WidgetCard.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.any.isRequired
 };
 
 export default WidgetCard;

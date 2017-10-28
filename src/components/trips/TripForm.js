@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ControlLabel, FormControl } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
@@ -18,5 +19,5 @@ const TripForm = (props) => {
 export default TripForm;
 
 TripForm.propTypes = {
-  onChange: React.PropTypes.func
+  onChange: PropTypes.func
 };

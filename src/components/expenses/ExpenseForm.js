@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
@@ -94,10 +95,10 @@ const ExpenseForm = (props) => {
 export default ExpenseForm;
 
 ExpenseForm.propTypes = {
-  expenseTypes: React.PropTypes.array,
-  vendors: React.PropTypes.array,
-  vendorPois: React.PropTypes.array,
-  currencies: React.PropTypes.array,
-  onChange: React.PropTypes.func,
-  expense: React.PropTypes.object
+  expenseTypes: PropTypes.array,
+  vendors: PropTypes.array,
+  vendorPois: PropTypes.array,
+  currencies: PropTypes.array,
+  onChange: PropTypes.func,
+  expense: PropTypes.object
 };

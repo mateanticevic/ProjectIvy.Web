@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Label from 'react-bootstrap/lib/Label';
@@ -37,5 +38,5 @@ const TripRow = (props) => {
 export default TripRow;
 
 TripRow.propTypes = {
-  trip: React.PropTypes.object
+  trip: PropTypes.object
 };

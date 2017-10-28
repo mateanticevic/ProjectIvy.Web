@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import ExpenseForm from './ExpenseForm';
@@ -33,15 +34,15 @@ const ExpenseModal = (props) => {
 export default ExpenseModal;
 
 ExpenseModal.propTypes = {
-    isOpen: React.PropTypes.bool,
-    currencies: React.PropTypes.array,
-    expense: React.PropTypes.object,
-    expenseTypes: React.PropTypes.array,
-    vendors: React.PropTypes.array,
-    vendorPois: React.PropTypes.array,
-    onChange: React.PropTypes.func,
-    onExpenseAdd: React.PropTypes.func,
-    onExpenseAddAnother: React.PropTypes.func,
-    onVendorChanged: React.PropTypes.func,
-    onClose: React.PropTypes.func
+    isOpen: PropTypes.bool,
+    currencies: PropTypes.array,
+    expense: PropTypes.object,
+    expenseTypes: PropTypes.array,
+    vendors: PropTypes.array,
+    vendorPois: PropTypes.array,
+    onChange: PropTypes.func,
+    onExpenseAdd: PropTypes.func,
+    onExpenseAddAnother: PropTypes.func,
+    onVendorChanged: PropTypes.func,
+    onClose: PropTypes.func
 };

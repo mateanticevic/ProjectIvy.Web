@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/lib/Table';
 import PoiRow from './PoiRow';
 
@@ -28,5 +29,5 @@ const PoiTable = (props) => {
 export default PoiTable;
 
 PoiTable.propTypes = {
-  children: React.PropTypes.array
+  children: PropTypes.array
 };

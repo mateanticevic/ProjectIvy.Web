@@ -20,7 +20,7 @@ const Widget = (props) => {
 
 Widget.propTypes = {
   title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.any
 };
 
 export default Widget;

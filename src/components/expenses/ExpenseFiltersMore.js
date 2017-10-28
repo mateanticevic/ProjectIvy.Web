@@ -75,12 +75,12 @@ const ExpenseFiltersMore = (props) => {
 };
 
 ExpenseFiltersMore.propTypes = {
-  currencies: PropTypes.array.isRequired,
-  order: PropTypes.array.isRequired,
-  orderBy: PropTypes.array.isRequired,
-  vendors: PropTypes.array.isRequired,
-  expenseTypes: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+  currencies: PropTypes.array,
+  order: PropTypes.array,
+  orderBy: PropTypes.array,
+  vendors: PropTypes.array,
+  expenseTypes: PropTypes.array,
+  onChange: PropTypes.func
 };
 
 export default ExpenseFiltersMore;
