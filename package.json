@@ -38,7 +38,7 @@
     "react-datetime": "2.10.3",
     "react-dom": "16.0.0",
     "react-fontawesome": "1.6.1",
-    "react-google-maps": "7.2.0",
+    "react-google-maps": "9.2.1",
     "react-moment": "0.6.5",
     "react-redux": "5.0.5",
     "react-redux-toastr": "7.1.6",
