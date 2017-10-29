@@ -3,10 +3,17 @@ export default {
     cards: [],
     counter: 1,
     expense: {
-      currencyId: "HRK"
+      currencyId: "HRK",
+      paymentTypeId: "cash"
     },
-    expenses: {count:0, items:[]},
-    filters: { pageSize: 10, page: 1 },
+    expenses: {
+      count:0,
+      items:[]
+    },
+    filters: {
+      pageSize: 10,
+      page: 1
+    },
     isModalOpen: false,
     orderBy: [
       { id: "date", name: "Date"},

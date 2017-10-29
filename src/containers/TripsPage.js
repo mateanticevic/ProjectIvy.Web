@@ -68,12 +68,7 @@ class TripsPage extends React.Component {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <Panel header={tripsHeader}>
-                    <Row>
-                      <Col lg={12}>
-                        <Button onClick={this.props.actions.openModal}>New</Button>                  
-                      </Col>
-                    </Row>
+                <Panel header={tripsHeader} onNewClick={this.props.actions.openModal}>
                     <Row>
                       <Col lg={12}>
                         <TripTable>
@@ -83,7 +78,7 @@ class TripsPage extends React.Component {
                     </Row>
                     <Row>
                       <Col lg={12}>
-                        <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
+                        <Pagination prev next ellipsis boundaryLinks items={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
                                                                                 maxButtons={5}
                                                                                 activePage={this.props.trips.filters.page}
                                                                                 onSelect={page => this.onFiltersChanged({page: page})} />

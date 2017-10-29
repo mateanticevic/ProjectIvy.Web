@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
 import { Link, IndexLink, browserHistory } from 'react-router';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const NavigationBar = () => {
 
@@ -20,17 +21,25 @@ const NavigationBar = () => {
           <Navbar.Collapse>
             <Nav>
               <NavDropdown eventKey={3} title="Finance">
-                <MenuItem><Link to="/expenses">Expenses</Link></MenuItem>
-                <MenuItem eventKey={3.2}>Incomes</MenuItem>
+                <LinkContainer to="/expenses">
+                  <MenuItem eventKey={3.1}>Expenses</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/incomes">
+                  <MenuItem eventKey={3.2}>Incomes</MenuItem>
+                </LinkContainer>
               </NavDropdown>
-              <NavDropdown eventKey={3} title="Travel">
-                <MenuItem><Link to="/pois">Pois</Link></MenuItem>
-                <MenuItem><Link to="/trips">Trips</Link></MenuItem>
+              <NavDropdown eventKey={4} title="Travel">
+                <LinkContainer to="/pois">
+                  <MenuItem eventKey={4.1}>Pois</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/trips">
+                  <MenuItem eventKey={4.2}>Trips</MenuItem>
+                </LinkContainer>
               </NavDropdown>
             </Nav>
             <Nav pullRight>
               <NavDropdown eventKey={4} title="Mate Antičević">
-                <MenuItem><Link onClick={logout}>Logout</Link></MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

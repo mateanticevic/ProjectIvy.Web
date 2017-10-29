@@ -35,7 +35,7 @@ export default function expensesReducer(state = initialState.expenses, action) {
       return objectAssign({}, state, {vendorPois: action.pois});
 
     case types.NEW_EXPENSE:
-      let expense = objectAssign({}, initialState.expenses.expense, {date: action.expense});
+      let expense = objectAssign({}, initialState.expenses.expense, {date: new Date()});
       return objectAssign({}, state, {expense: expense});
 
     case types.OPEN_MODAL:
