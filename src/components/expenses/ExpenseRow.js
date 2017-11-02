@@ -28,7 +28,11 @@ const ExpenseRow = (props) => {
       <td className="cell-no-overflow-100" title={props.expense.comment}>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>
       <td>{props.expense.currency.symbol}</td>
-      <td><Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => props.onEdit(props.expense)}><FontAwesome name="pencil" /> Edit</Button></td>
+      <td>
+      {props.onEdit &&
+        <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => props.onEdit(props.expense)}><FontAwesome name="pencil" /> Edit</Button>      
+      }
+      </td>
   </tr>
   );
 };

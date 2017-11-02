@@ -13,16 +13,16 @@ const ExpenseTable = (props) => {
     <Table responsive>
         <thead>
             <tr>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Vendor</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th/>
-            <th>Actions</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Vendor</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th/>
+              <th>Actions</th>
             </tr>
-            {rows}
         </thead>
+        <tbody>{rows}</tbody>
     </Table>
   );
 };
