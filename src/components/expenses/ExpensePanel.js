@@ -14,7 +14,7 @@ const ExpensePanel = (props) => {
 
     const totalItems = serverPaging ? props.expenses.count : props.expenses.items.length;
 
-    const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} /> : <h2>No data</h2>;
+    const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} onUnlink={props.onUnlink} /> : <h2>No data</h2>;
 
     function onPageChange(page){
       props.onPageChange(page);

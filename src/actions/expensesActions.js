@@ -5,7 +5,7 @@ import * as vendorApi from '../api/main/vendor';
 import * as expenseApi from '../api/main/expense';
 import * as expenseTypeApi from '../api/main/expenseType';
 import * as paymentTypesApi from '../api/main/paymentType';
-import {toastr} from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 
 export function addExpense(expense, filters) {
   return function (dispatch) {

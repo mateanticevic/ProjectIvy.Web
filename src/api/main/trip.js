@@ -7,3 +7,7 @@ export function get(filters) {
 export function getById(tripId) {
     return api.get(`trip/${tripId}`);
 }
+
+export function deleteExpense(tripId, expenseId){
+    return api.del(`trip/${tripId}/expense/${expenseId}`);
+}

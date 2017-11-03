@@ -32,6 +32,9 @@ const ExpenseRow = (props) => {
       {props.onEdit &&
         <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => props.onEdit(props.expense)}><FontAwesome name="pencil" /> Edit</Button>      
       }
+      {props.onUnlink &&
+        <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => props.onUnlink(props.expense.id)}><FontAwesome name="link" /> Unlink</Button>      
+      }
       </td>
   </tr>
   );

@@ -18,6 +18,10 @@ class TripPage extends React.Component {
     props.actions.getTrip(props.params.id);
   }
 
+  onUnlink(expenseId){
+    this.props.actions.deleteExpense(this.props.trip.trip.id, expenseId);
+  }
+
   render() {
 
     const trip = this.props.trip.trip;
@@ -65,7 +69,8 @@ class TripPage extends React.Component {
           <Col lg={12}>
             <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
                           page={1}
-                          pageSize={10} />
+                          pageSize={10}
+                          onUnlink={expenseId => this.onUnlink(expenseId)} />
           </Col>
         </Row>
       </Grid>

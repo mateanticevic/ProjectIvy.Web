@@ -38,6 +38,20 @@ export function get(resource, parameters) {
     return fetch(url, init).then(handleResponse);
 }
 
+export function del(resource, parameters) {
+    
+    let url = baseUrl + resource;
+    if(parameters != undefined)
+        url = url + urlHelper.jsonToQueryString(parameters);
+
+    let init = { method: 'DELETE',
+                 headers: headers,
+                 mode: 'cors',
+                 cache: 'default'};
+
+    return fetch(url, init).then(handleResponse);
+}
+
 export function post(resource, json, parameters) {
     
     let url = baseUrl + resource;
