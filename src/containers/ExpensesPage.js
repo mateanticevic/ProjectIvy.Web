@@ -120,6 +120,7 @@ class ExpensesPage extends React.Component {
                               onPageChange={this.onFiltersChanged}
                               onNewClick={this.onExpenseNew}
                               page={expenses.filters.page}
+                              serverPaging
                               pageSize={expenses.filters.pageSize} />
               </Col>
             </Row>

@@ -24,7 +24,8 @@ class TripsPage extends React.Component {
   }
 
   onFiltersChanged(filterValue){
-    let filters = {...this.props.trips.filters, filterValue};
+    let filters = {...this.props.trips.filters, ...filterValue};
+    console.log(filters);
     this.props.actions.changedFilters(filters);
   }
 
@@ -81,7 +82,7 @@ class TripsPage extends React.Component {
                         <Pagination prev next ellipsis boundaryLinks items={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
                                                                                 maxButtons={5}
                                                                                 activePage={this.props.trips.filters.page}
-                                                                                onSelect={page => this.onFiltersChanged({page: page})} />
+                                                                                onSelect={page => this.onFiltersChanged({ page: page })} />
                       </Col>
                     </Row>
                 </Panel>

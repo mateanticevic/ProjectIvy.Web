@@ -13,7 +13,7 @@ const ExpenseFiltersMore = (props) => {
     <div>
         <Row>
           <Col lg={3}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-10-01", to: "2017-10-31" })}>Month</Button>
+            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-11-01", to: "2017-11-30" })}>Month</Button>
           </Col>
           <Col lg={2}>
             <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-01-01", to: "2017-12-31" })}>2017</Button>
