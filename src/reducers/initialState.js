@@ -1,7 +1,6 @@
 export default {
   expenses: {
     cards: [],
-    counter: 1,
     expense: {
       currencyId: "HRK",
       paymentTypeId: "cash"

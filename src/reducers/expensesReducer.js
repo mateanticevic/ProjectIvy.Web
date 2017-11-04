@@ -32,10 +32,12 @@ export default function expensesReducer(state = initialState.expenses, action) {
       return objectAssign({}, state, {stats: stats});
 
     case types.GET_VENDOR_POIS_SUCCESS:
-      return objectAssign({}, state, {vendorPois: action.pois});
+      const poiId = action.pois != undefined && action.pois.length > 0 ? action.pois[0].id : null;
+      const expenseWithPoiId = {...state.expense, poiId: poiId};
+      return objectAssign({}, state, { vendorPois: action.pois, expense: expenseWithPoiId });
 
     case types.NEW_EXPENSE:
-      let expense = objectAssign({}, initialState.expenses.expense, {date: new Date()});
+      const expense = objectAssign({}, initialState.expenses.expense, {date: new Date()});
       return objectAssign({}, state, {expense: expense});
 
     case types.OPEN_MODAL:
