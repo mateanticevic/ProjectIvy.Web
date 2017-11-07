@@ -27,6 +27,6 @@ const Panel = (props) => {
             <div className="panel-body">{props.children}</div>
         </div>
     );
-}
+};
 
 export default Panel;

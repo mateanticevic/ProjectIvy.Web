@@ -4,7 +4,7 @@ import * as tripApi from '../api/main/trip';
 import { toastr } from 'react-redux-toastr';
 
 export function deleteExpense(tripId, expenseId){
-  return function (dispatch) {
+  return function () {
     return tripApi.deleteExpense(tripId, expenseId).then(() => {
       toastr.success('Success', `Expense #${expenseId} unlinked from trip.`);
     });

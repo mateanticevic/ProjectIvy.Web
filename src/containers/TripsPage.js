@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Grid, Row, Col, Pagination } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Pagination } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
 import * as actions from '../actions/tripsActions';
 import Panel from '../components/common/Panel';

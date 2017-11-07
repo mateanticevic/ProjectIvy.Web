@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
+import { Grid, Row, Col } from 'react-bootstrap/lib';
 
 import Panel from '../components/common/Panel';
 
@@ -31,7 +30,7 @@ class DashboardPage extends React.Component {
 DashboardPage.propTypes = {
 };
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {
   };
 }

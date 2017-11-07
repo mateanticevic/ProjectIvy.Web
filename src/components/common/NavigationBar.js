@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
-import { Link, IndexLink, browserHistory } from 'react-router';
+import { IndexLink, browserHistory } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
 const NavigationBar = () => {
