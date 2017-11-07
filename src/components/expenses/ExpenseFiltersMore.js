@@ -12,32 +12,15 @@ const ExpenseFiltersMore = (props) => {
   return (
     <div>
         <Row>
-          <Col lg={3}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-11-01", to: "2017-11-30" })}>Month</Button>
-          </Col>
-          <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2017-01-01", to: "2017-12-31" })}>2017</Button>
-          </Col>
-          <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2016-01-01", to: "2016-12-31" })}>2016</Button>
-          </Col>
-          <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2015-01-01", to: "2015-12-31" })}>2015</Button>
-          </Col>
-          <Col lg={2}>
-            <Button bsStyle="primary" bsSize="xsmall" onClick={() => props.onChange({ from: "2014-01-01", to: "2014-12-31" })}>2014</Button>
+          <Col lg={12}>
+            <ControlLabel>From</ControlLabel>
+            <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({from: x.format("YYYY-MM-DD")})} value={props.filters.from} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>To</ControlLabel>
             <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({to: x.format("YYYY-MM-DD")})} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12}>
-            <ControlLabel>From</ControlLabel>
-            <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({from: x.format("YYYY-MM-DD")})} />
           </Col>
         </Row>
         <Row>

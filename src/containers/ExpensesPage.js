@@ -72,6 +72,7 @@ class ExpensesPage extends React.Component {
       filters.page = 1;
     }
     
+    console.log(filters);
     this.props.actions.changedFilters(filters);
   }
 
@@ -96,6 +97,7 @@ class ExpensesPage extends React.Component {
                 <BootstrapPanel header="More filters" collapsible>
                   <ExpenseFiltersMore common={common}
                                       orderBy={expenses.orderBy}
+                                      filters={expenses.filters}
                                       onChange={this.onFiltersChanged} />
                 </BootstrapPanel>
               </Col>

@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export default {
   expenses: {
     cards: [],
@@ -10,6 +12,7 @@ export default {
       items:[]
     },
     filters: {
+      from: moment(new Date(new Date().getFullYear(), 0, 1)).format("YYYY-MM-DD"),
       pageSize: 10,
       page: 1
     },
