@@ -5,6 +5,7 @@ export default {
     cards: [],
     expense: {
       currencyId: "HRK",
+      files: [],
       parentCurrencyId: null,
       paymentTypeId: "cash"
     },

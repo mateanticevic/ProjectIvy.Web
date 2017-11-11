@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, Tabs, Tab } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
+import ExpenseFileTable from './ExpenseFileTable'
 
 const ExpenseForm = (props) => {
 
@@ -106,7 +107,9 @@ const ExpenseForm = (props) => {
             </Col>
           </Row>
       </Tab>
-      <Tab eventKey={3} title="Assets"></Tab>
+      <Tab eventKey={3} title="Assets">
+        <ExpenseFileTable files={props.expense.files} />
+      </Tab>
       <Tab eventKey={4} title="Info">
         <Row>
           <Col lg={6}>

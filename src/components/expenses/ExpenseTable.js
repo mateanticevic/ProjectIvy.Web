@@ -19,6 +19,7 @@ const ExpenseTable = (props) => {
               <th>Description</th>
               <th>Amount</th>
               <th/>
+              <th/>
               <th>Actions</th>
             </tr>
         </thead>

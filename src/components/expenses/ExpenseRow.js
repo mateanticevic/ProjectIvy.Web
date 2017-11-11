@@ -12,6 +12,12 @@ const ExpenseRow = (props) => {
     </Tooltip>
   );
 
+  const hasFilesTooltip = (
+    <Tooltip id="tooltip">
+      Has {props.expense.files.length} files associated.
+    </Tooltip>
+  );
+
   return (
   <tr>
       <td><Moment format="Do MMMM YYYY">{props.expense.date}</Moment></td>
@@ -28,6 +34,12 @@ const ExpenseRow = (props) => {
       <td className="cell-no-overflow-100" title={props.expense.comment}>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>
       <td>{props.expense.currency.symbol}</td>
+      <td>
+      {props.expense.files && props.expense.files.length > 0 &&
+        <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
+          <FontAwesome name="file-o" />
+        </OverlayTrigger>}
+      </td>
       <td>
       {props.onEdit &&
         <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => props.onEdit(props.expense)}><FontAwesome name="pencil" /> Edit</Button>      
