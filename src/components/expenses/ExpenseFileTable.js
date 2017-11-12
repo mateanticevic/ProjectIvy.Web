@@ -2,16 +2,12 @@ import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
 import Button from 'react-bootstrap/lib/Button';
 import FontAwesome from 'react-fontawesome';
+import ExpenseFileRow from './ExpenseFileRow';
 
 const ExpenseFileTable = (props) => {
   
-  const rows = props.files.map(function(fileExpense){
-    return <tr>
-        <td>Now</td>
-        <td>{fileExpense.name}</td>
-        <td>{fileExpense.file.fileType.name}</td>
-        <td><Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => window.open(`https://api2.anticevic.net/file/${fileExpense.file.id}`)}><FontAwesome name="download" /> Download</Button></td>
-    </tr>;
+  const rows = props.files.map(function(expenseFile){
+    return <ExpenseFileRow key={expenseFile.file.id} expenseFile={expenseFile} />;
   });
 
   return (
