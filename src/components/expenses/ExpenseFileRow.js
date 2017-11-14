@@ -20,7 +20,7 @@ const ExpenseFileRow = ({expenseFile}) => {
             default:
                 return 'file-o';
         }
-    };
+    }
 
   return (
         <tr>

@@ -125,7 +125,7 @@ export function getVendorPoisSuccess(pois) {
 }
 
 export function linkExpenseFile(expenseId, expenseFile) {
-  return function (dispatch) {
+  return function () {
     return expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => {
       toastr.success('File linked.');
     });
@@ -164,7 +164,7 @@ export function uploadFileSuccess(file){
   return {type: types.UPLOAD_FILE_SUCCESS, file};
 }
 
-export function uploadFiles(files, expenseId) {
+export function uploadFiles(files) {
   return function (dispatch) {
     
     files.map(file => {

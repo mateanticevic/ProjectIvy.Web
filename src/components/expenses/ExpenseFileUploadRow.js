@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button, Tooltip, OverlayTrigger, FormControl } from 'react-bootstrap/lib';
+import { Button, FormControl } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import Moment from 'react-moment';
 import Select from '../common/Select';
 
 class ExpenseFileUploadRow extends React.Component {
@@ -60,6 +59,6 @@ class ExpenseFileUploadRow extends React.Component {
       );
     }
 
-};
+}
 
 export default ExpenseFileUploadRow;

@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, Tabs, Tab } from 'react-bootstrap/lib';
+import { Row, Col } from 'react-bootstrap/lib';
 import ExpenseFileTable from './ExpenseFileTable';
 import ExpenseFileUploadTable from './ExpenseFileUploadTable';
 import Dropzone from 'react-dropzone';

@@ -1,7 +1,5 @@
 import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
-import Button from 'react-bootstrap/lib/Button';
-import FontAwesome from 'react-fontawesome';
 import ExpenseFileUploadRow from './ExpenseFileUploadRow';
 
 const ExpenseFileUploadTable = (props) => {

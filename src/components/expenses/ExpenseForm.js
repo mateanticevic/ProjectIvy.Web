@@ -4,7 +4,6 @@ import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, 
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
-import Dropzone from 'react-dropzone';
 
 const ExpenseForm = (props) => {
 
