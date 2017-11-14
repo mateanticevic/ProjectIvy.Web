@@ -12,6 +12,9 @@ export default function commonReducer(state = initialState.common, action) {
     case types.GET_EXPENSE_TYPES_SUCCESS:
       return {...state, expenseTypes: action.expenseTypes};
 
+      case commonTypes.GET_EXPENSE_FILE_TYPES_SUCCESS:
+      return {...state, expenseFileTypes: action.expenseFileTypes};
+
     case types.GET_PAYMENT_TYPES_SUCCESS:
       return {...state, paymentTypes: action.paymentTypes};
 

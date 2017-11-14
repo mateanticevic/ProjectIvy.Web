@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, Tabs, Tab } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
-import ExpenseFileTable from './ExpenseFileTable'
+import ExpenseFormFilesTab from './ExpenseFormFilesTab';
+import Dropzone from 'react-dropzone';
 
 const ExpenseForm = (props) => {
 
@@ -107,8 +108,8 @@ const ExpenseForm = (props) => {
             </Col>
           </Row>
       </Tab>
-      <Tab eventKey={3} title="Assets">
-        <ExpenseFileTable files={props.expense.files} />
+      <Tab eventKey={3} title="Files">
+        <ExpenseFormFilesTab expense={props.expense} common={props.common} uploadFiles={props.uploadFiles} files={props.files} linkFile={props.linkFile} />
       </Tab>
       <Tab eventKey={4} title="Info">
         <Row>

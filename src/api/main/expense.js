@@ -15,3 +15,7 @@ export function post(expense) {
 export function put(expense) {
     return api.put(`expense/${expense.id}`, expense);
 }
+
+export function postFile(expenseId, fileId, payload) {
+    return api.post(`expense/${expenseId}/file/${fileId}`, payload);
+}

@@ -46,6 +46,12 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.UPDATE_EXPENSE_SUCCESS:
       return objectAssign({}, state, {isModalOpen: false, expense: {}});
 
+    case types.UPLOAD_FILE_SUCCESS:
+      let files = state.files.slice();
+      files.push(action.file);
+
+      return {...state, files};
+
     default:
       return state;
   }

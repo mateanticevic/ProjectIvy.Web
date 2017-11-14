@@ -25,6 +25,7 @@ class ExpensesPage extends React.Component {
     props.actions.getCurrencies();
     props.actions.getExpenseTypes();
     props.init.getVendors();
+    props.init.getExpenseFileTypes();
     props.actions.getPaymentTypes();
     props.actions.getCards();
     this.onFiltersChanged();
@@ -72,7 +73,6 @@ class ExpensesPage extends React.Component {
       filters.page = 1;
     }
     
-    console.log(filters);
     this.props.actions.changedFilters(filters);
   }
 
@@ -133,9 +133,12 @@ class ExpensesPage extends React.Component {
                       cards={expenses.cards}
                       expense={expenses.expense}
                       isOpen={expenses.isModalOpen}
+                      files={expenses.files}
+                      linkFile={actions.linkExpenseFile}
                       onExpenseAdd={this.onExpenseSave}
                       onExpenseAddAnother={this.onExpenseAddAnother}
                       onVendorChanged={actions.onVendorChanged}
+                      uploadFiles = {actions.uploadFiles}
                       onClose={actions.closeModal}
                       onChange={this.onExpenseChanged} />
       </Grid>

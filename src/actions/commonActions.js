@@ -2,6 +2,17 @@ import * as types from '../constants/commonActionTypes';
 import * as commonApi from '../api/main/common';
 import * as vendorApi from '../api/main/vendor';
 
+export function getExpenseFileTypes() {
+  
+    return function (dispatch) {
+      return commonApi.getExpenseFileTypes().then(json => { dispatch(getExpenseFileTypesSuccess(json)); } );
+    };
+  }
+  
+  export function getExpenseFileTypesSuccess(expenseFileTypes) {
+    return {type: types.GET_EXPENSE_FILE_TYPES_SUCCESS, expenseFileTypes};
+  }
+
 export function getPoiCategories() {
 
   return function (dispatch) {

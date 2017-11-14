@@ -36,6 +36,7 @@
     "react": "16.0.0",
     "react-bootstrap": "0.31.5",
     "react-datetime": "2.10.3",
+    "react-dropzone": "4.2.1",
     "react-dom": "16.0.0",
     "react-fontawesome": "1.6.1",
     "react-google-maps": "9.2.1",
@@ -56,6 +57,7 @@
     "babel-eslint": "7.1.1",
     "babel-jest": "18.0.0",
     "babel-loader": "6.2.10",
+    "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-react-constant-elements": "6.9.1",
     "babel-plugin-transform-react-remove-prop-types": "0.2.11",
     "babel-polyfill": "6.20.0",
@@ -136,7 +138,8 @@
         ],
         "plugins": [
           "transform-react-constant-elements",
-          "transform-react-remove-prop-types"
+          "transform-react-remove-prop-types",
+          "transform-class-properties"
         ]
       },
       "test": {

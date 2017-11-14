@@ -5,7 +5,8 @@ import { httpStatus } from './httpStatus';
 let headers = new Headers();
 headers.append("Authorization", localStorage.getItem("token"));
 
-let baseUrl = 'https://api2.anticevic.net/';
+//let baseUrl = 'http://api2.anticevic.net/';
+let baseUrl = 'http://localhost:4680/';
 
 function handleResponse(response){
 
@@ -14,6 +15,8 @@ function handleResponse(response){
     if(response.ok){
         if (contentType && contentType.indexOf("application/json") !== -1)
             return response.json();
+        else if(contentType && contentType.indexOf("text/plain") !== -1)
+            return response.text();
         else
             return response.status;
     }
@@ -61,6 +64,19 @@ export function post(resource, json, parameters) {
 
     let init = { method: 'POST',
                  body: JSON.stringify(json),
+                 headers: headers,
+                 mode: 'cors',
+                 cache: 'default'};
+
+    return fetch(url, init).then(handleResponse);
+}
+
+export function postFile(resource, file) {
+
+    let url = baseUrl + resource;
+
+    let init = { method: 'POST',
+                 body: file,
                  headers: headers,
                  mode: 'cors',
                  cache: 'default'};

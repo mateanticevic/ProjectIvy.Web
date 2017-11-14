@@ -3,6 +3,7 @@ import moment from 'moment'
 export default {
   expenses: {
     cards: [],
+    files: [],
     expense: {
       currencyId: "HRK",
       files: [],
@@ -37,6 +38,7 @@ export default {
   common:{
     currencies: [],
     expenseTypes: [],
+    expenseFileTypes: [],
     paymentTypes: [],
     poiCategories: [],
     vendors: [],

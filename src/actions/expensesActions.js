@@ -1,6 +1,7 @@
 import * as types from '../constants/expensesActionTypes';
 import * as currencyApi from '../api/main/currency';
 import * as cardApi from '../api/main/card';
+import * as fileApi from '../api/main/file';
 import * as vendorApi from '../api/main/vendor';
 import * as expenseApi from '../api/main/expense';
 import * as expenseTypeApi from '../api/main/expenseType';
@@ -123,6 +124,14 @@ export function getVendorPoisSuccess(pois) {
   return {type: types.GET_VENDOR_POIS_SUCCESS, pois};
 }
 
+export function linkExpenseFile(expenseId, expenseFile) {
+  return function (dispatch) {
+    return expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => {
+      toastr.success('File linked.');
+    });
+  };
+}
+
 export function openModal() {
   return {type: types.OPEN_MODAL};
 }
@@ -149,4 +158,28 @@ export function updateExpense(expense, filters) {
 
 export function updateExpenseSuccess() {
   return {type: types.UPDATE_EXPENSE_SUCCESS};
+}
+
+export function uploadFileSuccess(file){
+  return {type: types.UPLOAD_FILE_SUCCESS, file};
+}
+
+export function uploadFiles(files, expenseId) {
+  return function (dispatch) {
+    
+    files.map(file => {
+      console.log(file);
+      return fileApi.post(file).then((fileId) => {
+        toastr.success('Success', 'File uploaded ' + fileId);
+        dispatch(uploadFileSuccess({
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          id: fileId
+        }));
+      });
+    });
+
+    return dispatch({type: types.UPLOADED_FILES});
+  };
 }

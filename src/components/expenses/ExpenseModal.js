@@ -17,7 +17,10 @@ const ExpenseModal = (props) => {
             <ExpenseForm common={props.common}
                          expense={props.expense}
                          cards={props.cards}
+                         files={props.files}
+                         linkFile={expenseFile => props.linkFile(props.expense.id, expenseFile)}
                          vendorPois={props.vendorPois}
+                         uploadFiles={props.uploadFiles}
                          onVendorChanged={props.onVendorChanged}
                          onChange={props.onChange} />
         </Modal.Body>
