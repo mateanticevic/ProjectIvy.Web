@@ -1,6 +1,7 @@
 import * as types from '../constants/expensesActionTypes';
 import objectAssign from 'object-assign';
 import initialState from './initialState';
+import _ from 'lodash';
 
 export default function expensesReducer(state = initialState.expenses, action) {
 
@@ -14,6 +15,12 @@ export default function expensesReducer(state = initialState.expenses, action) {
 
     case types.CHANGED_FILTERS:
       return objectAssign({}, state, { filters: action.filters, stats: {} });
+
+    case types.DELETE_FILE_SUCCESS:
+    const filesWithoutDeletedFile = _.filter(state.files, file => file.id != action.fileId);
+    console.log(filesWithoutDeletedFile);
+
+      return {...state, files: filesWithoutDeletedFile};
 
     case types.EDIT_EXPENSE:
       return objectAssign({}, state, {expense: action.expense});

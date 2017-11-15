@@ -30,6 +30,7 @@
   "author": "Mate Antičević",
   "license": "MIT",
   "dependencies": {
+    "lodash": "4.17.4",
     "moment": "2.19.1",
     "moment-timezone": "0.5.13",
     "object-assign": "4.1.0",

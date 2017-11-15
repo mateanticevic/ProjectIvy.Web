@@ -60,6 +60,7 @@ export function deleteFile(fileId) {
   return function (dispatch) {
     return fileApi.deleteFile(fileId).then(() => {
       toastr.success('Success', 'File deleted');
+      return dispatch({type: types.DELETE_FILE_SUCCESS, fileId});
     });
   };
 }
