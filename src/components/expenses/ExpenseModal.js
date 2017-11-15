@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import ExpenseForm from './ExpenseForm';
@@ -9,7 +10,7 @@ const ExpenseModal = (props) => {
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
 
   return (
-    <Modal show={props.isOpen} onHide={props.onClose}>
+    <Modal show={props.isOpen} onHide={props.onClose} bsSize="lg">
         <Modal.Header closeButton>
             <Modal.Title>{header}</Modal.Title>
         </Modal.Header>
@@ -18,6 +19,7 @@ const ExpenseModal = (props) => {
                          expense={props.expense}
                          cards={props.cards}
                          files={props.files}
+                         deleteFile={props.deleteFile}
                          linkFile={expenseFile => props.linkFile(props.expense.id, expenseFile)}
                          vendorPois={props.vendorPois}
                          uploadFiles={props.uploadFiles}
@@ -25,9 +27,11 @@ const ExpenseModal = (props) => {
                          onChange={props.onChange} />
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={props.onExpenseAdd}>Save</Button>
+            <Button bsStyle="primary" onClick={props.onExpenseAdd}>
+                <FontAwesome name="save" /> Save
+            </Button>
             {!props.expense.id &&
-                <Button onClick={props.onExpenseAddAnother}>Add another</Button>
+                <Button bsStyle="primary" onClick={props.onExpenseAddAnother}>Save & continue</Button>
             }
         </Modal.Footer>
     </Modal>

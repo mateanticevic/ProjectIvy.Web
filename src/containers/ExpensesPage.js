@@ -135,6 +135,7 @@ class ExpensesPage extends React.Component {
                       isOpen={expenses.isModalOpen}
                       files={expenses.files}
                       linkFile={actions.linkExpenseFile}
+                      deleteFile={actions.deleteFile}
                       onExpenseAdd={this.onExpenseSave}
                       onExpenseAddAnother={this.onExpenseAddAnother}
                       onVendorChanged={actions.onVendorChanged}

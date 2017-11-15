@@ -56,6 +56,14 @@ export function closeModal() {
   return {type: types.CLOSE_MODAL};
 }
 
+export function deleteFile(fileId) {
+  return function (dispatch) {
+    return fileApi.deleteFile(fileId).then(() => {
+      toastr.success('Success', 'File deleted');
+    });
+  };
+}
+
 export function getCards() {
 
   return function (dispatch) {

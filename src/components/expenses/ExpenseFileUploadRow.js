@@ -53,6 +53,9 @@ class ExpenseFileUploadRow extends React.Component {
                 <td>
                     <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={this.onClickLink}>
                         <FontAwesome name="link" /> Link
+                    </Button>&nbsp;
+                    <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.props.deleteFile(this.props.file.id)}>
+                        <FontAwesome name="trash" /> Delete
                     </Button>
                 </td>
             </tr>

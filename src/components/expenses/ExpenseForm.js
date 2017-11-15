@@ -108,7 +108,12 @@ const ExpenseForm = (props) => {
           </Row>
       </Tab>
       <Tab eventKey={3} title="Files">
-        <ExpenseFormFilesTab expense={props.expense} common={props.common} uploadFiles={props.uploadFiles} files={props.files} linkFile={props.linkFile} />
+        <ExpenseFormFilesTab expense={props.expense}
+                             common={props.common}
+                             uploadFiles={props.uploadFiles}
+                             files={props.files}
+                             deleteFile={props.deleteFile}
+                             linkFile={props.linkFile} />
       </Tab>
       <Tab eventKey={4} title="Info">
         <Row>
