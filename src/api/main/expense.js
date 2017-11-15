@@ -4,6 +4,10 @@ export function get(filters) {
     return api.get("expense", filters);
 }
 
+export function getFiles(expenseId) {
+    return api.get(`expense/${expenseId}/file`);
+}
+
 export function getSum(filters) {
     return api.get("expense/sum", filters);
 }

@@ -93,6 +93,14 @@ export function getExpenses(filters) {
   };
 }
 
+export function getExpenseFiles(expenseId) {
+  return function (dispatch) {
+    return expenseApi.getFiles(expenseId).then(files => {
+      return dispatch({type: types.GET_EXPENSE_FILES_SUCCESS, files});
+    });
+  };
+}
+
 export function getExpensesSuccess(expenses) {
   return {type: types.GET_EXPENSES_SUCCESS, expenses};
 }
@@ -134,9 +142,11 @@ export function getVendorPoisSuccess(pois) {
 }
 
 export function linkExpenseFile(expenseId, expenseFile) {
-  return function () {
+  return function (dispatch) {
     return expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => {
       toastr.success('File linked.');
+      dispatch(getExpenseFiles(expenseId));
+      dispatch(removeFile(expenseFile.file.id));
     });
   };
 }
@@ -153,6 +163,10 @@ export function onVendorChanged(vendorId) {
   return function (dispatch) {
     return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); } );
   };
+}
+
+export function removeFile(fileId) {
+  return {type: types.DELETE_FILE_SUCCESS, fileId};
 }
 
 export function updateExpense(expense, filters) {

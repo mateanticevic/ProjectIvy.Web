@@ -17,10 +17,11 @@ export default function expensesReducer(state = initialState.expenses, action) {
       return objectAssign({}, state, { filters: action.filters, stats: {} });
 
     case types.DELETE_FILE_SUCCESS:
-    const filesWithoutDeletedFile = _.filter(state.files, file => file.id != action.fileId);
-    console.log(filesWithoutDeletedFile);
-
+      const filesWithoutDeletedFile = _.filter(state.files, file => file.id != action.fileId);
       return {...state, files: filesWithoutDeletedFile};
+
+    case types.GET_EXPENSE_FILES_SUCCESS:
+      return {...state, expense: {...state.expense, files: action.files}};
 
     case types.EDIT_EXPENSE:
       return objectAssign({}, state, {expense: action.expense});
