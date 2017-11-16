@@ -7,14 +7,10 @@ import BootstrapPanel from 'react-bootstrap/lib/Panel';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
-import Panel from '../components/common/Panel';
-
-import Widget from '../components/common/Widget';
-import ExpenseFilters from '../components/expenses/ExpenseFilters';
-import ExpenseFiltersMore from '../components/expenses/ExpenseFiltersMore';
-import ExpenseModal from '../components/expenses/ExpenseModal';
-import ExpensePanel from '../components/expenses/ExpensePanel';
 import * as expenseMapper from '../mappers/expenseMapper';
+
+import { Panel, Widget } from '../components/common';
+import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel } from '../components/expenses'
 
 
 class ExpensesPage extends React.Component {

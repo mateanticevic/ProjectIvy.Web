@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
 
-import Panel from '../components/common/Panel';
 import * as actions from '../actions/loginActions';
+import { Panel } from '../components/common';
 
 class LoginPage extends React.Component {
 

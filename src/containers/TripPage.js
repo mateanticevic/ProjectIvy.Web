@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Grid, Row, Col } from 'react-bootstrap/lib';
-import Panel from '../components/common/Panel';
-import * as actions from '../actions/tripActions';
-import Map from '../components/common/Map';
 import { Marker, Polyline } from "react-google-maps";
-import ExpensePanel from '../components/expenses/ExpensePanel';
-import Widget from '../components/common/Widget';
+
+import * as actions from '../actions/tripActions';
+import { Map, Panel, Widget } from '../components/common';
+import { ExpensePanel } from '../components/expenses';
 
 class TripPage extends React.Component {
 

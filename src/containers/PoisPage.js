@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
-import * as init from '../actions/commonActions';
-import * as actions from '../actions/poiActions';
-import Panel from '../components/common/Panel';
 import objectAssign from 'object-assign';
-import Map from '../components/common/Map';
-import Select from '../components/common/Select';
 import { Marker } from "react-google-maps";
-import PoiPanel from '../components/pois/PoiPanel';
-import PoiModal from '../components/pois/PoiModal';
+import * as actions from '../actions/poiActions';
+import * as init from '../actions/commonActions';
+
+import { Panel, Map, Select } from '../components/common';
+import { PoiPanel, PoiModal } from '../components/pois';
 
 class PoisPage extends React.Component {
 

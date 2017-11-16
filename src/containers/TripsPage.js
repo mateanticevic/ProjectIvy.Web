@@ -4,13 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Pagination } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
+
 import * as actions from '../actions/tripsActions';
-import Panel from '../components/common/Panel';
-import TripTable from '../components/trips/TripTable';
-import TripRow from '../components/trips/TripRow';
-import TripModal from '../components/trips/TripModal';
-import Map from '../components/common/Map';
 import * as trackingHelper from '../utils/trackingHelper';
+import { Map, Panel } from '../components/common';
+import { TripModal, TripRow, TripTable } from '../components/trips';
 
 class TripsPage extends React.Component {
 
