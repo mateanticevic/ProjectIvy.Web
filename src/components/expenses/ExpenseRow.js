@@ -14,7 +14,7 @@ const ExpenseRow = (props) => {
 
   const hasFilesTooltip = (
     <Tooltip id="tooltip">
-      Has {props.expense.files.length} files associated.
+      Has {props.expense.files.length} linked files.
     </Tooltip>
   );
 

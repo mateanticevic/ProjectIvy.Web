@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import { ControlLabel, FormControl, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup } from 'react-bootstrap/lib';
 import Select from '../common/Select';
-import Row from 'react-bootstrap/lib/Row';
-import Col from 'react-bootstrap/lib/Col';
 
 const ExpenseFiltersMore = (props) => {
   return (
@@ -37,6 +34,18 @@ const ExpenseFiltersMore = (props) => {
           <Col lg={12}>
             <ControlLabel>Order</ControlLabel>
             <Select options={props.common.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <FormGroup>
+              <ControlLabel>Has linked files</ControlLabel>
+              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
+                <ToggleButton value={null}>Show all</ToggleButton>
+                <ToggleButton value={true}>Yes</ToggleButton>
+                <ToggleButton value={false}>No</ToggleButton>
+              </ToggleButtonGroup>
+            </FormGroup>
           </Col>
         </Row>
     </div>
