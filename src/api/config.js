@@ -5,8 +5,8 @@ import { httpStatus } from './httpStatus';
 let headers = new Headers();
 headers.append("Authorization", localStorage.getItem("token"));
 
-//let baseUrl = 'http://api2.anticevic.net/';
-let baseUrl = 'http://localhost:4680/';
+let baseUrl = 'http://api2.anticevic.net/';
+//let baseUrl = 'http://localhost:4680/';
 
 function handleResponse(response){
 

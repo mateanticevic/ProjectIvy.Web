@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, FormControl } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Select from '../common/Select';
+import filesize from 'filesize';
 
 class ExpenseFileUploadRow extends React.Component {
 
@@ -43,7 +44,7 @@ class ExpenseFileUploadRow extends React.Component {
         return (
             <tr>
                 <td>{file.type}</td>
-                <td>{file.size}</td>
+                <td>{filesize(file.size)}</td>
                 <td>
                     <FormControl value={this.state.name} placeholder="Name" type="text" onChange={e => this.onNameChanged(e.target.value)} />
                 </td>

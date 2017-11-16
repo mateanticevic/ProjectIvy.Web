@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
+import filesize from 'filesize';
 
 const ExpenseFileRow = ({expenseFile}) => {
 
@@ -25,6 +26,7 @@ const ExpenseFileRow = ({expenseFile}) => {
   return (
         <tr>
             <td><Moment format="Do MMMM YYYY">{expenseFile.file.created}</Moment></td>
+            <td>{filesize(expenseFile.file.size)}</td>
             <td>{expenseFile.name}</td>
             <td>
                 <OverlayTrigger placement="right" overlay={fileTypeTooltip}>

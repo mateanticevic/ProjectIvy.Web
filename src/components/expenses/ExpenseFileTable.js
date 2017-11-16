@@ -13,6 +13,7 @@ const ExpenseFileTable = (props) => {
         <thead>
             <tr>
               <th>Created</th>
+              <th>Size</th>
               <th>Name</th>
               <th>Type</th>
               <th>Actions</th>
