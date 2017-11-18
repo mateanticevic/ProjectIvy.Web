@@ -25,7 +25,8 @@ export default {
       { id: "amount", name: "Amount"}
     ],
     stats: {
-      sum: null
+      sum: null,
+      vendors: null
     },
     vendorPois: []
   },

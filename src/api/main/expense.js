@@ -12,6 +12,10 @@ export function getSum(filters) {
     return api.get("expense/sum", filters);
 }
 
+export function getVendorsCount(filters) {
+    return api.get("expense/vendor/count", filters);
+}
+
 export function post(expense) {
     return api.post("expense", expense);
 }

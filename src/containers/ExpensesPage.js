@@ -107,6 +107,9 @@ class ExpensesPage extends React.Component {
                     <Col lg={3}>
                       <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
                     </Col>
+                    <Col lg={3}>
+                      <Widget title="Unique vendors" value={expenses.stats.vendors} />
+                    </Col>
                   </Row>
                 </Panel>
               </Col>

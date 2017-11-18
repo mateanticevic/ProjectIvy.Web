@@ -39,6 +39,9 @@ export default function expensesReducer(state = initialState.expenses, action) {
       let stats = objectAssign({}, state.stats, { sum: action.sum });
       return objectAssign({}, state, {stats: stats});
 
+    case types.GET_VENDORS_COUNT_SUCCESS:
+      return {...state, stats: {...state.stats, vendors: action.count} };
+
     case types.GET_VENDOR_POIS_SUCCESS:
       const poiId = action.pois != undefined && action.pois.length > 0 ? action.pois[0].id : null;
       const expenseWithPoiId = {...state.expense, poiId: poiId};

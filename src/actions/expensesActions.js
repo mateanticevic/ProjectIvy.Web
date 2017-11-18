@@ -48,6 +48,7 @@ export function changedFilters(filters) {
   return function (dispatch) {
     dispatch(getExpenses(filters));
     dispatch(getSum(filters));
+    dispatch(getVendorsCount(filters));
     return dispatch({type: types.CHANGED_FILTERS, filters});
   };
 }
@@ -124,6 +125,16 @@ export function getSum(filters) {
 
 export function getSumSuccess(sum) {
   return {type: types.GET_SUM_SUCCESS, sum};
+}
+
+export function getVendorsCount(filters) {
+  return function (dispatch) {
+    return expenseApi.getVendorsCount(filters).then(json => { dispatch(getVendorsCountSuccess(json)); } );
+  };
+}
+
+export function getVendorsCountSuccess(count) {
+  return {type: types.GET_VENDORS_COUNT_SUCCESS, count};
 }
 
 export function getExpenseTypes(filters) {
