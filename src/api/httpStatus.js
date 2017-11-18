@@ -1,5 +1,5 @@
 export const httpStatus = {
-    CONTINUE: 100,
+  CONTINUE: 100,
   SWITCHING_PROTOCOLS: 101,
   PROCESSING: 102,
   OK: 200,
