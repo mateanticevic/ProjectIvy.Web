@@ -4,12 +4,10 @@ import { httpStatus } from './httpStatus';
 import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';
+import { config } from '../config';
 
 let headers = new Headers();
 headers.append(httpHeader.AUTHORIZATION, localStorage.getItem("token"));
-
-let baseUrl = 'http://api2.anticevic.net/';
-//let baseUrl = 'http://localhost:4680/';
 
 function handleResponse(response){
 
@@ -31,37 +29,35 @@ function handleResponse(response){
     }
 }
 
+function apiPath(resource, parameters){
+    let url = config.api.url + resource;
+    if(parameters)
+        url = url + urlHelper.jsonToQueryString(parameters);
+
+    return url;
+}
+
 export function get(resource, parameters) {
-    
-    let url = baseUrl + resource;
-    if(parameters != undefined) url = url + urlHelper.jsonToQueryString(parameters);
 
     let init = { method: httpMethod.GET,
                  headers: headers,
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(handleResponse);
+    return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
 export function del(resource, parameters) {
-    
-    let url = baseUrl + resource;
-    if(parameters != undefined)
-        url = url + urlHelper.jsonToQueryString(parameters);
 
     let init = { method: httpMethod.DELETE,
                  headers: headers,
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(handleResponse);
+    return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
 export function post(resource, json, parameters) {
-    
-    let url = baseUrl + resource;
-    if(parameters != undefined) url = url + urlHelper.jsonToQueryString(parameters);
 
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
@@ -71,12 +67,10 @@ export function post(resource, json, parameters) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(handleResponse);
+    return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
 export function postFile(resource, file) {
-
-    let url = baseUrl + resource;
 
     let init = { method: httpMethod.POST,
                  body: file,
@@ -84,12 +78,10 @@ export function postFile(resource, file) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(handleResponse);
+    return fetch(apiPath(resource), init).then(handleResponse);
 }
 
 export function put(resource, json) {
-
-    let url = baseUrl + resource;
 
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
@@ -99,7 +91,7 @@ export function put(resource, json) {
                  mode: 'cors',
                  cache: 'default'};
 
-    return fetch(url, init).then(handleResponse);
+    return fetch(apiPath(resource), init).then(handleResponse);
 }
 
 export function setToken() {
