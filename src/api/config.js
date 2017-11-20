@@ -95,6 +95,6 @@ export function put(resource, json) {
 }
 
 export function setToken() {
-    headers.delete(httpHeaders.AUTHORIZATION);
-    headers.append(httpHeaders.AUTHORIZATION, localStorage.getItem("token"));
+    headers.delete(httpHeader.AUTHORIZATION);
+    headers.append(httpHeader.AUTHORIZATION, localStorage.getItem("token"));
 }

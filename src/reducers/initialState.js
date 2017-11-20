@@ -26,6 +26,7 @@ export default {
     ],
     stats: {
       sum: null,
+      types: null,
       vendors: null
     },
     vendorPois: []
