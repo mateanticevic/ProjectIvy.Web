@@ -93,6 +93,7 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <BootstrapPanel header="More filters" collapsible>
                   <ExpenseFiltersMore common={common}
+                                      cards={expenses.cards}
                                       orderBy={expenses.orderBy}
                                       onChange={this.onFiltersChanged} />
                 </BootstrapPanel>

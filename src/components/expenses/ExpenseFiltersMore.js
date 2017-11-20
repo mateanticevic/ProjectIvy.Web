@@ -38,9 +38,33 @@ const ExpenseFiltersMore = (props) => {
         </Row>
         <Row>
           <Col lg={12}>
+            <ControlLabel>Payment type</ControlLabel>
+            <Select options={props.common.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})}  />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <ControlLabel>Card</ControlLabel>
+            <Select options={props.cards} onChange={x => props.onChange({cardId: x})}  />
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12}>
             <FormGroup>
               <ControlLabel>Has linked files</ControlLabel>
               <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
+                <ToggleButton value={null}>Show all</ToggleButton>
+                <ToggleButton value={true}>Yes</ToggleButton>
+                <ToggleButton value={false}>No</ToggleButton>
+              </ToggleButtonGroup>
+            </FormGroup>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={12}>
+            <FormGroup>
+              <ControlLabel>Has poi</ControlLabel>
+              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>
                 <ToggleButton value={null}>Show all</ToggleButton>
                 <ToggleButton value={true}>Yes</ToggleButton>
                 <ToggleButton value={false}>No</ToggleButton>
