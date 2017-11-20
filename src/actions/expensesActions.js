@@ -1,11 +1,11 @@
 import * as types from '../constants/expensesActionTypes';
 import * as currencyApi from '../api/main/currency';
+import * as commonApi from '../api/main/common';
 import * as cardApi from '../api/main/card';
 import * as fileApi from '../api/main/file';
 import * as vendorApi from '../api/main/vendor';
 import * as expenseApi from '../api/main/expense';
 import * as expenseTypeApi from '../api/main/expenseType';
-import * as paymentTypesApi from '../api/main/paymentType';
 import { toastr } from 'react-redux-toastr';
 
 export function addExpense(expense, filters) {
@@ -110,7 +110,7 @@ export function getExpensesSuccess(expenses) {
 export function getPaymentTypes() {
 
   return function (dispatch) {
-    return paymentTypesApi.get().then(json => { dispatch(getPaymentTypesSuccess(json)); } );
+    return commonApi.getPaymentTypes().then(json => { dispatch(getPaymentTypesSuccess(json)); } );
   };
 }
 
