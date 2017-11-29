@@ -1,6 +1,9 @@
 import moment from 'moment'
 
 export default {
+  dashboard:{
+    onlineGraphData: []
+  },
   expenses: {
     cards: [],
     files: [],
