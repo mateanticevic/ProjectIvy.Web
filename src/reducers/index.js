@@ -5,10 +5,12 @@ import pois from './poisReducer';
 import trips from './tripsReducer';
 import trip from './tripReducer';
 import common from './commonReducer';
+import dashboard from './dashboardReducer';
 import {routerReducer} from 'react-router-redux';
 import {reducer as toastrReducer} from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
+  dashboard,
   expenses,
   login,
   pois,

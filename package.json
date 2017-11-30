@@ -50,6 +50,7 @@
     "react-router-bootstrap": "0.23.3",
     "react-router-redux": "4.0.8",
     "react-toastr": "2.8.2",
+    "recharts": "1.0.0-beta.5",
     "redux": "3.6.0",
     "redux-thunk": "2.1.0"
   },
