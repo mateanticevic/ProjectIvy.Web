@@ -20,6 +20,10 @@ export function getVendorsCount(filters) {
     return api.get("expense/vendor/count", filters);
 }
 
+export function getSumByMonth(filters) {
+    return api.get("expense/sum/month", filters);
+}
+
 export function post(expense) {
     return api.post("expense", expense);
 }

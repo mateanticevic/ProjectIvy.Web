@@ -6,10 +6,12 @@ import { Grid, Row, Col } from 'react-bootstrap/lib';
 import * as actions from '../actions/dashboardActions';
 import Panel from '../components/common/Panel';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
+import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 
 class DashboardPage extends React.Component {
 
   componentWillMount() {
+    this.props.actions.getExpenseSumByMonth({});
     this.props.actions.getOnineData({ from: "2017-11-01" });
   }
 
@@ -21,12 +23,12 @@ class DashboardPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <h1>Today</h1>
+            <Panel header="Expenses">
+              <SpentByMonthGraph data={dashboard.spentByMonthGraphData} />
+            </Panel>
           </Col>
-        </Row>
-        <Row>
           <Col lg={12}>
-            <Panel header="Stats">
+            <Panel header="Online">
               <OnlineGraph data={dashboard.onlineGraphData} />
             </Panel>
           </Col>
