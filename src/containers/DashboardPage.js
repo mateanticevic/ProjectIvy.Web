@@ -22,12 +22,12 @@ class DashboardPage extends React.Component {
     return (
       <Grid>
         <Row>
-          <Col lg={12}>
+          <Col lg={6}>
             <Panel header="Expenses">
               <SpentByMonthGraph data={dashboard.spentByMonthGraphData} />
             </Panel>
           </Col>
-          <Col lg={12}>
+          <Col lg={6}>
             <Panel header="Online">
               <OnlineGraph data={dashboard.onlineGraphData} />
             </Panel>

@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const SpentByMonthGraph = (props) => {
 
@@ -10,14 +10,16 @@ const SpentByMonthGraph = (props) => {
     });
 
     return (
-        <LineChart width={600} height={300} data={data}>
-            <XAxis dataKey="month" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="amount" stroke="#337ab7" unit=" kn" />
-        </LineChart>
+        <ResponsiveContainer height={300}>
+            <LineChart data={data}>
+                <XAxis dataKey="month" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="amount" stroke="#337ab7" unit=" kn" />
+            </LineChart>
+        </ResponsiveContainer>
     );
 };
 
