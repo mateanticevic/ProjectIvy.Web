@@ -7,6 +7,9 @@ export default {
   },
   expenses: {
     cards: [],
+    graphs: {
+      count: []
+    },
     files: [],
     expense: {
       currencyId: "HRK",
@@ -26,6 +29,8 @@ export default {
     isModalOpen: false,
     orderBy: [
       { id: "date", name: "Date"},
+      { id: "created", name: "Created"},
+      { id: "modified", name: "Modified"},
       { id: "amount", name: "Amount"}
     ],
     stats: {

@@ -4,6 +4,14 @@ export function get(filters) {
     return api.get("expense", filters);
 }
 
+export function getCountByDay(filters) {
+    return api.get("expense/count/byday", filters);
+}
+
+export function getCountByMonth(filters) {
+    return api.get("expense/count/bymonth", filters);
+}
+
 export function getFiles(expenseId) {
     return api.get(`expense/${expenseId}/file`);
 }

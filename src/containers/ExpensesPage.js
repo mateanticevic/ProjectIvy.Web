@@ -10,7 +10,7 @@ import * as init from '../actions/commonActions';
 import * as expenseMapper from '../mappers/expenseMapper';
 
 import { Panel, Widget } from '../components/common';
-import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel } from '../components/expenses'
+import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses'
 
 
 class ExpensesPage extends React.Component {
@@ -34,41 +34,41 @@ class ExpensesPage extends React.Component {
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
-  onExpenseSave(){
-    if(this.props.expenses.expense.id){
+  onExpenseSave() {
+    if (this.props.expenses.expense.id) {
       this.props.actions.updateExpense(this.props.expenses.expense, this.props.expenses.filters);
     }
-    else{
+    else {
       this.props.actions.addExpense(this.props.expenses.expense, this.props.expenses.filters);
     }
   }
 
-  onExpenseAddAnother(){
+  onExpenseAddAnother() {
     this.props.actions.addExpenseAnother(this.props.expenses.expense, this.props.expenses.filters);
   }
 
-  onExpenseChanged(expenseValue){
+  onExpenseChanged(expenseValue) {
     let expense = { ...this.props.expenses.expense, ...expenseValue };
     this.props.actions.changedExpense(expense);
   }
 
-  onExpenseEdit(expense){
+  onExpenseEdit(expense) {
     this.props.actions.editExpense(expenseMapper.toBindingModel(expense));
     this.props.actions.openModal();
   }
 
-  onExpenseNew(){
+  onExpenseNew() {
     this.props.actions.onNewExpense();
     this.props.actions.openModal();
   }
 
-  onFiltersChanged(filterValue){
+  onFiltersChanged(filterValue) {
     let filters = { ...this.props.expenses.filters, ...filterValue };
-    
-    if(filterValue && filterValue.page == undefined){
+
+    if (filterValue && filterValue.page == undefined) {
       filters.page = 1;
     }
-    
+
     this.props.actions.changedFilters(filters);
   }
 
@@ -84,8 +84,8 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <Panel header="Filters">
                   <ExpenseFilters common={common}
-                                  filters={expenses.filters}
-                                  onChange={this.onFiltersChanged} />
+                    filters={expenses.filters}
+                    onChange={this.onFiltersChanged} />
                 </Panel>
               </Col>
             </Row>
@@ -93,9 +93,9 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <BootstrapPanel header="More filters" collapsible>
                   <ExpenseFiltersMore common={common}
-                                      cards={expenses.cards}
-                                      orderBy={expenses.orderBy}
-                                      onChange={this.onFiltersChanged} />
+                    cards={expenses.cards}
+                    orderBy={expenses.orderBy}
+                    onChange={this.onFiltersChanged} />
                 </BootstrapPanel>
               </Col>
             </Row>
@@ -121,30 +121,37 @@ class ExpensesPage extends React.Component {
             <Row>
               <Col lg={12}>
                 <ExpensePanel expenses={expenses.expenses}
-                              onEdit={this.onExpenseEdit}
-                              onPageChange={this.onFiltersChanged}
-                              onNewClick={this.onExpenseNew}
-                              page={expenses.filters.page}
-                              serverPaging
-                              pageSize={expenses.filters.pageSize} />
+                  onEdit={this.onExpenseEdit}
+                  onPageChange={this.onFiltersChanged}
+                  onNewClick={this.onExpenseNew}
+                  page={expenses.filters.page}
+                  serverPaging
+                  pageSize={expenses.filters.pageSize} />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel header="Count">
+                  <ExpenseCountGraph data={expenses.graphs.count} />
+                </Panel>
               </Col>
             </Row>
           </Col>
         </Row>
         <ExpenseModal common={common}
-                      vendorPois={expenses.vendorPois}
-                      cards={expenses.cards}
-                      expense={expenses.expense}
-                      isOpen={expenses.isModalOpen}
-                      files={expenses.files}
-                      linkFile={actions.linkExpenseFile}
-                      deleteFile={actions.deleteFile}
-                      onExpenseAdd={this.onExpenseSave}
-                      onExpenseAddAnother={this.onExpenseAddAnother}
-                      onVendorChanged={actions.onVendorChanged}
-                      uploadFiles = {actions.uploadFiles}
-                      onClose={actions.closeModal}
-                      onChange={this.onExpenseChanged} />
+          vendorPois={expenses.vendorPois}
+          cards={expenses.cards}
+          expense={expenses.expense}
+          isOpen={expenses.isModalOpen}
+          files={expenses.files}
+          linkFile={actions.linkExpenseFile}
+          deleteFile={actions.deleteFile}
+          onExpenseAdd={this.onExpenseSave}
+          onExpenseAddAnother={this.onExpenseAddAnother}
+          onVendorChanged={actions.onVendorChanged}
+          uploadFiles={actions.uploadFiles}
+          onClose={actions.closeModal}
+          onChange={this.onExpenseChanged} />
       </Grid>
     );
   }

@@ -29,19 +29,19 @@ export function addExpenseAnother(expense, filters) {
 }
 
 export function addExpenseSuccess() {
-  return {type: types.ADD_EXPENSE_SUCCESS};
+  return { type: types.ADD_EXPENSE_SUCCESS };
 }
 
 export function addExpenseAnotherSuccess() {
-  return {type: types.ADD_EXPENSE_ANOTHER_SUCCESS};
+  return { type: types.ADD_EXPENSE_ANOTHER_SUCCESS };
 }
 
 export function changedExpense(expense) {
-  return {type: types.CHANGED_EXPENSE, expense};
+  return { type: types.CHANGED_EXPENSE, expense };
 }
 
 export function editExpense(expense) {
-  return {type: types.EDIT_EXPENSE, expense};
+  return { type: types.EDIT_EXPENSE, expense };
 }
 
 export function changedFilters(filters) {
@@ -50,19 +50,20 @@ export function changedFilters(filters) {
     dispatch(getSum(filters));
     dispatch(getVendorsCount(filters));
     dispatch(getTypesCount(filters));
-    return dispatch({type: types.CHANGED_FILTERS, filters});
+    dispatch(getCountByDay(filters));
+    return dispatch({ type: types.CHANGED_FILTERS, filters });
   };
 }
 
 export function closeModal() {
-  return {type: types.CLOSE_MODAL};
+  return { type: types.CLOSE_MODAL };
 }
 
 export function deleteFile(fileId) {
   return function (dispatch) {
     return fileApi.deleteFile(fileId).then(() => {
       toastr.success('Success', 'File deleted');
-      return dispatch({type: types.DELETE_FILE_SUCCESS, fileId});
+      return dispatch({ type: types.DELETE_FILE_SUCCESS, fileId });
     });
   };
 }
@@ -70,97 +71,108 @@ export function deleteFile(fileId) {
 export function getCards() {
 
   return function (dispatch) {
-    return cardApi.get().then(json => { dispatch(getCardsSuccess(json)); } );
+    return cardApi.get().then(json => { dispatch(getCardsSuccess(json)); });
   };
 }
 
 export function getCardsSuccess(cards) {
-  return {type: types.GET_CARDS_SUCCESS, cards};
+  return { type: types.GET_CARDS_SUCCESS, cards };
+}
+
+export function getCountByDay(filters) {
+
+  return function (dispatch) {
+    return expenseApi.getCountByMonth(filters).then(json => { dispatch(getCountByDaySuccess(json)); });
+  };
+}
+
+export function getCountByDaySuccess(data) {
+  return { type: types.GET_EXPENSE_COUNT_BYDAY_SUCCESS, data };
 }
 
 export function getCurrencies() {
 
   return function (dispatch) {
-    return currencyApi.get().then(json => { dispatch(getCurrenciesSuccess(json)); } );
+    return currencyApi.get().then(json => { dispatch(getCurrenciesSuccess(json)); });
   };
 }
 
 export function getCurrenciesSuccess(currencies) {
-  return {type: types.GET_CURRENCIES_SUCCESS, currencies};
+  return { type: types.GET_CURRENCIES_SUCCESS, currencies };
 }
 
 export function getExpenses(filters) {
   return function (dispatch) {
-    return expenseApi.get(filters).then(json => { dispatch(getExpensesSuccess(json)); } );
+    return expenseApi.get(filters).then(json => { dispatch(getExpensesSuccess(json)); });
   };
 }
 
 export function getExpenseFiles(expenseId) {
   return function (dispatch) {
     return expenseApi.getFiles(expenseId).then(files => {
-      return dispatch({type: types.GET_EXPENSE_FILES_SUCCESS, files});
+      return dispatch({ type: types.GET_EXPENSE_FILES_SUCCESS, files });
     });
   };
 }
 
 export function getExpensesSuccess(expenses) {
-  return {type: types.GET_EXPENSES_SUCCESS, expenses};
+  return { type: types.GET_EXPENSES_SUCCESS, expenses };
 }
 
 export function getPaymentTypes() {
 
   return function (dispatch) {
-    return commonApi.getPaymentTypes().then(json => { dispatch(getPaymentTypesSuccess(json)); } );
+    return commonApi.getPaymentTypes().then(json => { dispatch(getPaymentTypesSuccess(json)); });
   };
 }
 
 export function getPaymentTypesSuccess(paymentTypes) {
-  return {type: types.GET_PAYMENT_TYPES_SUCCESS, paymentTypes};
+  return { type: types.GET_PAYMENT_TYPES_SUCCESS, paymentTypes };
 }
 
 export function getSum(filters) {
   return function (dispatch) {
-    return expenseApi.getSum(filters).then(json => { dispatch(getSumSuccess(json)); } );
+    return expenseApi.getSum(filters).then(json => { dispatch(getSumSuccess(json)); });
   };
 }
 
 export function getSumSuccess(sum) {
-  return {type: types.GET_SUM_SUCCESS, sum};
+  return { type: types.GET_SUM_SUCCESS, sum };
 }
 
 export function getTypesCount(filters) {
   return function (dispatch) {
-    return expenseApi.getTypesCount(filters).then(json => { dispatch(getTypesCountSuccess(json)); } );
+    return expenseApi.getTypesCount(filters).then(json => { dispatch(getTypesCountSuccess(json)); });
   };
 }
 
 export function getTypesCountSuccess(count) {
-  return {type: types.GET_TYPES_COUNT_SUCCESS, count};
+  return { type: types.GET_TYPES_COUNT_SUCCESS, count };
 }
 
 export function getVendorsCount(filters) {
   return function (dispatch) {
-    return expenseApi.getVendorsCount(filters).then(json => { dispatch(getVendorsCountSuccess(json)); } );
+    return expenseApi.getVendorsCount(filters).then(json => { dispatch(getVendorsCountSuccess(json)); });
   };
 }
 
 export function getVendorsCountSuccess(count) {
-  return {type: types.GET_VENDORS_COUNT_SUCCESS, count};
+  return { type: types.GET_VENDORS_COUNT_SUCCESS, count };
 }
 
 export function getExpenseTypes(filters) {
 
   return function (dispatch) {
-    return expenseTypeApi.get(filters).then(json => { dispatch(getExpenseTypesSuccess(json)); } );
+    return expenseTypeApi.get(filters).then(json => { dispatch(getExpenseTypesSuccess(json)); });
   };
 }
 
 export function getExpenseTypesSuccess(expenseTypes) {
-  return {type: types.GET_EXPENSE_TYPES_SUCCESS, expenseTypes};
+  return { type: types.GET_EXPENSE_TYPES_SUCCESS, expenseTypes };
 }
 
 export function getVendorPoisSuccess(pois) {
-  return {type: types.GET_VENDOR_POIS_SUCCESS, pois};
+  return { type: types.GET_VENDOR_POIS_SUCCESS, pois };
 }
 
 export function linkExpenseFile(expenseId, expenseFile) {
@@ -174,21 +186,21 @@ export function linkExpenseFile(expenseId, expenseFile) {
 }
 
 export function openModal() {
-  return {type: types.OPEN_MODAL};
+  return { type: types.OPEN_MODAL };
 }
 
 export function onNewExpense() {
-  return {type: types.NEW_EXPENSE};
+  return { type: types.NEW_EXPENSE };
 }
 
 export function onVendorChanged(vendorId) {
   return function (dispatch) {
-    return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); } );
+    return vendorApi.getPois(vendorId).then(json => { dispatch(getVendorPoisSuccess(json)); });
   };
 }
 
 export function removeFile(fileId) {
-  return {type: types.DELETE_FILE_SUCCESS, fileId};
+  return { type: types.DELETE_FILE_SUCCESS, fileId };
 }
 
 export function updateExpense(expense, filters) {
@@ -202,16 +214,16 @@ export function updateExpense(expense, filters) {
 }
 
 export function updateExpenseSuccess() {
-  return {type: types.UPDATE_EXPENSE_SUCCESS};
+  return { type: types.UPDATE_EXPENSE_SUCCESS };
 }
 
-export function uploadFileSuccess(file){
-  return {type: types.UPLOAD_FILE_SUCCESS, file};
+export function uploadFileSuccess(file) {
+  return { type: types.UPLOAD_FILE_SUCCESS, file };
 }
 
 export function uploadFiles(files) {
   return function (dispatch) {
-    
+
     files.map(file => {
       console.log(file);
       return fileApi.post(file).then((fileId) => {
@@ -225,6 +237,6 @@ export function uploadFiles(files) {
       });
     });
 
-    return dispatch({type: types.UPLOADED_FILES});
+    return dispatch({ type: types.UPLOADED_FILES });
   };
 }

@@ -23,6 +23,9 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.GET_EXPENSE_FILES_SUCCESS:
       return {...state, expense: {...state.expense, files: action.files}};
 
+    case types.GET_EXPENSE_COUNT_BYDAY_SUCCESS:
+      return {...state, graphs: { ...state.graphs, count: action.data } };
+
     case types.EDIT_EXPENSE:
       return objectAssign({}, state, {expense: action.expense});
 
