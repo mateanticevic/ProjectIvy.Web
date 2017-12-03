@@ -29,7 +29,7 @@ export function getVendorsCount(filters) {
 }
 
 export function getSumByMonth(filters) {
-    return api.get("expense/sum/month", filters);
+    return api.get("expense/sum/bymonth", filters);
 }
 
 export function post(expense) {

@@ -38,6 +38,9 @@ export default function expensesReducer(state = initialState.expenses, action) {
     case types.GET_EXPENSES_SUCCESS:
       return objectAssign({}, state, {expenses: action.expenses});
 
+    case types.GET_EXPENSE_SUM_BY_MONTH_SUCCESS:
+    return {...state, graphs: { ...state.graphs, sum: action.data } };
+
     case types.GET_SUM_SUCCESS:
       let stats = objectAssign({}, state.stats, { sum: action.sum });
       return objectAssign({}, state, {stats: stats});

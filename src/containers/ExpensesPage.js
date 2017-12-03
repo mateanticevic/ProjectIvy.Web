@@ -11,6 +11,7 @@ import * as expenseMapper from '../mappers/expenseMapper';
 
 import { Panel, Widget } from '../components/common';
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses'
+import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 
 
 class ExpensesPage extends React.Component {
@@ -133,6 +134,13 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <Panel header="Count">
                   <ExpenseCountGraph data={expenses.graphs.count} />
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel header="Sum">
+                  <SpentByMonthGraph data={expenses.graphs.sum} />
                 </Panel>
               </Col>
             </Row>

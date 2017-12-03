@@ -8,7 +8,8 @@ export default {
   expenses: {
     cards: [],
     graphs: {
-      count: []
+      count: [],
+      sum: []
     },
     files: [],
     expense: {
