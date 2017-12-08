@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap/lib';
 import BootstrapPanel from 'react-bootstrap/lib/Panel';
 
 import * as actions from '../actions/expensesActions';
@@ -103,47 +103,58 @@ class ExpensesPage extends React.Component {
           </Col>
           <Col lg={9}>
             <Row>
-              <Col lg={12}>
-                <Panel header="Stats">
+              <Tabs id="expenseTabs" defaultActiveKey={1}>
+                <Tab eventKey={1} title="Items">
                   <Row>
-                    <Col lg={3}>
-                      <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
-                    </Col>
-                    <Col lg={3}>
-                      <Widget title="Unique types" value={expenses.stats.types} />
-                    </Col>
-                    <Col lg={3}>
-                      <Widget title="Unique vendors" value={expenses.stats.vendors} />
+                    <Col lg={12}>
+                      <ExpensePanel expenses={expenses.expenses}
+                        onEdit={this.onExpenseEdit}
+                        onPageChange={this.onFiltersChanged}
+                        onNewClick={this.onExpenseNew}
+                        page={expenses.filters.page}
+                        serverPaging
+                        pageSize={expenses.filters.pageSize} />
                     </Col>
                   </Row>
-                </Panel>
-              </Col>
+                </Tab>
+                <Tab eventKey={2} title="Charts">
+                  <Row>
+                    <Col lg={12}>
+                      <Panel header="Count">
+                        <ExpenseCountGraph data={expenses.graphs.count} />
+                      </Panel>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg={12}>
+                      <Panel header="Sum">
+                        <SpentByMonthGraph data={expenses.graphs.sum} />
+                      </Panel>
+                    </Col>
+                  </Row>
+                </Tab>
+                <Tab eventKey={3} title="Stats">
+                  <Row>
+                    <Col lg={12}>
+                      <Panel header="Stats">
+                        <Row>
+                          <Col lg={3}>
+                            <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
+                          </Col>
+                          <Col lg={3}>
+                            <Widget title="Unique types" value={expenses.stats.types} />
+                          </Col>
+                          <Col lg={3}>
+                            <Widget title="Unique vendors" value={expenses.stats.vendors} />
+                          </Col>
+                        </Row>
+                      </Panel>
+                    </Col>
+                  </Row>
+                </Tab>
+              </Tabs>
             </Row>
-            <Row>
-              <Col lg={12}>
-                <ExpensePanel expenses={expenses.expenses}
-                  onEdit={this.onExpenseEdit}
-                  onPageChange={this.onFiltersChanged}
-                  onNewClick={this.onExpenseNew}
-                  page={expenses.filters.page}
-                  serverPaging
-                  pageSize={expenses.filters.pageSize} />
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
-                <Panel header="Count">
-                  <ExpenseCountGraph data={expenses.graphs.count} />
-                </Panel>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
-                <Panel header="Sum">
-                  <SpentByMonthGraph data={expenses.graphs.sum} />
-                </Panel>
-              </Col>
-            </Row>
+
           </Col>
         </Row>
         <ExpenseModal common={common}

@@ -8,6 +8,7 @@ const SpentByMonthGraph = (props) => {
     let data = _.map(props.data, x => {
         return { amount: x.data, month: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") };
     });
+    data = _.reverse(data);
 
     return (
         <ResponsiveContainer height={300}>
