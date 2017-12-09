@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
-import objectAssign from 'object-assign';
 import { Marker } from "react-google-maps";
 import * as actions from '../actions/poiActions';
 import * as init from '../actions/commonActions';
@@ -41,7 +40,7 @@ class PoisPage extends React.Component {
   }
 
   onFiltersChanged(filter){
-      let filters = objectAssign({}, this.state.filters, filter);
+      let filters = {...this.state.filters, filter};
       this.setState({filters: filters});
       this.props.actions.getPois(filters);
   }
@@ -63,7 +62,7 @@ class PoisPage extends React.Component {
   onMapDragEnd(){
       let bounds = this.map.state.map.getBounds();
 
-      let filters = objectAssign({}, this.state.filters, { x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f} });
+      let filters = {...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f} };
       this.setState({filters: filters});
       this.props.actions.getPois(filters);
   }
@@ -73,7 +72,7 @@ class PoisPage extends React.Component {
   }
 
   onPoiChange(property){
-    let poi = objectAssign({}, this.state.poi, property);
+    let poi = {...this.state.poi, property};
     this.setState({poi: poi});
   }
 
