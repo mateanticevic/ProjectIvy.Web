@@ -236,7 +236,6 @@ export function uploadFiles(files) {
   return function (dispatch) {
 
     files.map(file => {
-      console.log(file);
       return fileApi.post(file).then((fileId) => {
         toastr.success('Success', 'File uploaded ' + fileId);
         dispatch(uploadFileSuccess({

@@ -10,7 +10,7 @@ import * as init from '../actions/commonActions';
 import * as expenseMapper from '../mappers/expenseMapper';
 
 import { Panel, Widget } from '../components/common';
-import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses'
+import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
 import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 
 

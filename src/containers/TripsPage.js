@@ -23,7 +23,6 @@ class TripsPage extends React.Component {
 
   onFiltersChanged(filterValue){
     let filters = {...this.props.trips.filters, ...filterValue};
-    console.log(filters);
     this.props.actions.changedFilters(filters);
   }
 
