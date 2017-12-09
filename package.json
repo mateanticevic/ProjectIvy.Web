@@ -51,7 +51,7 @@
     "react-router-redux": "4.0.8",
     "react-toastr": "2.8.2",
     "recharts": "1.0.0-beta.5",
-    "redux": "3.6.0",
+    "redux": "3.7.2",
     "redux-thunk": "2.1.0"
   },
   "devDependencies": {
