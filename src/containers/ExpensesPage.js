@@ -8,6 +8,7 @@ import BootstrapPanel from 'react-bootstrap/lib/Panel';
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
 import * as expenseMapper from '../mappers/expenseMapper';
+import * as urlHelper from '../utils/urlHelper';
 
 import { Panel, Widget } from '../components/common';
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
@@ -64,7 +65,8 @@ class ExpensesPage extends React.Component {
   }
 
   onFiltersChanged(filterValue) {
-    let filters = { ...this.props.expenses.filters, ...filterValue };
+
+    let filters = filterValue ? { ...this.props.expenses.filters, ...filterValue } : { ...this.props.expenses.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
 
     if (filterValue && filterValue.page == undefined) {
       filters.page = 1;
@@ -95,6 +97,7 @@ class ExpensesPage extends React.Component {
                 <BootstrapPanel header="More filters" collapsible>
                   <ExpenseFiltersMore common={common}
                     cards={expenses.cards}
+                    filters={expenses.filters}
                     orderBy={expenses.orderBy}
                     onChange={this.onFiltersChanged} />
                 </BootstrapPanel>

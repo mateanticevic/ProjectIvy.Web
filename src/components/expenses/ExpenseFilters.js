@@ -16,25 +16,25 @@ const ExpenseFilters = (props) => {
           </Col>
           <Col xs={6}>
             <ControlLabel>To</ControlLabel>
-            <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({to: x.format("YYYY-MM-DD")})} />
+            <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={x => props.onChange({to: x.format("YYYY-MM-DD")})} value={props.filters.to} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Currency</ControlLabel>
-            <Select options={props.common.currencies} onChange={x => props.onChange({currencyId: x})} />
+            <Select selected={props.filters.currencyId} options={props.common.currencies} onChange={x => props.onChange({currencyId: x})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Vendor</ControlLabel>
-            <Select options={props.common.vendors} onChange={x => props.onChange({vendorId: x})} />
+            <Select selected={props.filters.vendorId} options={props.common.vendors} onChange={x => props.onChange({vendorId: x})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Type</ControlLabel>
-            <Select options={props.common.expenseTypes} onChange={x => props.onChange({typeId: x})} />
+            <Select selected={props.filters.typeId} options={props.common.expenseTypes} onChange={x => props.onChange({typeId: x})} />
           </Col>
         </Row>
     </div>
