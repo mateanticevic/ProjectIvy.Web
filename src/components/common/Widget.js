@@ -11,7 +11,7 @@ const Widget = (props) => {
           {props.value &&
             <WidgetCard unit={props.unit} title={props.title} value={props.value} />
           }
-          {!props.value &&
+          {props.value == undefined &&
             <FontAwesome name="circle-o-notch" size="2x" spin={true} />
           }
       </Well>

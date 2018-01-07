@@ -5,5 +5,5 @@ export function get(filters) {
 }
 
 export function post(poi) {
-    return api.post(`poi/${poi.name.replace(/ /g, "-").toLowerCase()}`, poi);
+    return api.post("poi", poi);
 }

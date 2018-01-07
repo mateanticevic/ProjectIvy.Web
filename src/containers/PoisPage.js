@@ -72,7 +72,7 @@ class PoisPage extends React.Component {
   }
 
   onPoiChange(property){
-    let poi = {...this.state.poi, property};
+    let poi = {...this.state.poi, ...property};
     this.setState({poi: poi});
   }
 
