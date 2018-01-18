@@ -14,8 +14,7 @@ const ExpenseFileTable = (props) => {
         <tr>
           <th>Created</th>
           <th>Size</th>
-          <th>Name</th>
-          <th>Type</th>
+          <th>Document</th>
           <th>Actions</th>
         </tr>
       </thead>

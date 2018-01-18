@@ -2,9 +2,10 @@ import React from 'react';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
+import _ from 'lodash';
 import filesize from 'filesize';
 
-const ExpenseFileRow = ({expenseFile}) => {
+const ExpenseFileRow = ({ expenseFile }) => {
 
     const fileTypeTooltip = (
         <Tooltip>
@@ -12,8 +13,8 @@ const ExpenseFileRow = ({expenseFile}) => {
         </Tooltip>
     );
 
-    function mapFileTypeToIcon(typeId){
-        switch(typeId){
+    function mapFileTypeToIcon(typeId) {
+        switch (typeId) {
             case 'jpg':
                 return 'image';
             case 'pdf':
@@ -23,16 +24,15 @@ const ExpenseFileRow = ({expenseFile}) => {
         }
     }
 
-  return (
+    return (
         <tr>
             <td><Moment format="Do MMMM YYYY">{expenseFile.file.created}</Moment></td>
             <td>{filesize(expenseFile.file.size)}</td>
-            <td>{expenseFile.name}</td>
             <td>
                 <OverlayTrigger placement="right" overlay={fileTypeTooltip}>
                     <FontAwesome name={mapFileTypeToIcon(expenseFile.file.type.id)} />
                 </OverlayTrigger>
-                &nbsp;{expenseFile.type.name}
+                &nbsp;{expenseFile.type.name} {expenseFile.name && `(${expenseFile.name})`}
             </td>
             <td>
                 <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}>
@@ -40,7 +40,7 @@ const ExpenseFileRow = ({expenseFile}) => {
                 </Button>
             </td>
         </tr>
-  );
+    );
 };
 
 export default ExpenseFileRow;
