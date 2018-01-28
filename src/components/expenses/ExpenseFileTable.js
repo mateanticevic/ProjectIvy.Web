@@ -4,9 +4,9 @@ import ExpenseFileRow from './ExpenseFileRow';
 
 const ExpenseFileTable = (props) => {
 
-  const rows = props.files.map(function (expenseFile) {
+  const rows = props.files ? props.files.map(function (expenseFile) {
     return <ExpenseFileRow key={expenseFile.file.id} expenseFile={expenseFile} />;
-  });
+  }) : null;
 
   return (
     <Table responsive>
