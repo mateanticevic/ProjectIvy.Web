@@ -3,7 +3,9 @@ import moment from 'moment';
 export default {
   dashboard:{
     onlineGraphData: [],
-    spentByMonthGraphData: []
+    spentByMonthGraphData: [],
+    movies: [],
+    consumations: []
   },
   expenses: {
     cards: [],

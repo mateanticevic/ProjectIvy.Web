@@ -12,12 +12,17 @@ class DashboardPage extends React.Component {
 
   componentWillMount() {
     this.props.actions.getExpenseSumByMonth({});
+    this.props.actions.getMovies({});
     this.props.actions.getOnineData({ from: "2017-11-01" });
   }
 
   render() {
 
     const dashboard = this.props.dashboard;
+
+    const movies = dashboard.movies.map(function(movie){
+      return <li className="list-group-item">{movie.title} ({movie.year})</li>;
+    });
 
     return (
       <Grid>
@@ -30,6 +35,19 @@ class DashboardPage extends React.Component {
           <Col lg={6}>
             <Panel header="Online">
               <OnlineGraph data={dashboard.onlineGraphData} />
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={3}>
+            <Panel header="Beer">
+            </Panel>
+          </Col>
+          <Col lg={3}>
+            <Panel header="Movies">
+              <ul className="list-group">
+                {movies}
+              </ul>
             </Panel>
           </Col>
         </Row>

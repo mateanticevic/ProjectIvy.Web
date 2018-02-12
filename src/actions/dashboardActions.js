@@ -1,5 +1,6 @@
 import * as expenseApi from '../api/main/expense';
 import * as webApi from '../api/main/web';
+import * as movieApi from '../api/main/movie';
 import * as types from '../constants/dashboardActionTypes';
 
 
@@ -21,4 +22,14 @@ export function getOnineData(filters) {
 
 export function getOnineDataSuccess(data) {
     return { type: types.GET_ONLINE_DATA_SUCCESS, data };
+}
+
+export function getMovies(filters) {
+    return function (dispatch) {
+        return movieApi.get(filters).then(json => { dispatch(getMoviesSuccess(json)); });
+    };
+}
+
+export function getMoviesSuccess(data) {
+    return { type: types.GET_MOVIES_SUCCESS, data };
 }
