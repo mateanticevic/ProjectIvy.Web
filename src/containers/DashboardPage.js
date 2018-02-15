@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import Moment from 'react-moment';
 
 import * as actions from '../actions/dashboardActions';
 import Panel from '../components/common/Panel';
@@ -10,6 +11,12 @@ import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 
 class DashboardPage extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+
+    this.dayOfWeek = this.dayOfWeek.bind(this);
+  }
+
   componentWillMount() {
     this.props.actions.getExpenseSumByMonth({});
     this.props.actions.getConsumations({ pageSize: 5 });
@@ -17,16 +24,28 @@ class DashboardPage extends React.Component {
     this.props.actions.getOnineData({ from: "2017-11-01" });
   }
 
+  dayOfWeek(date){
+    const fullDate = (
+      <Tooltip id="tooltip">
+        <Moment format="Do MMMM YYYY">{date}</Moment>
+      </Tooltip>
+    );
+
+    return <OverlayTrigger placement="left" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
+  }
+
   render() {
+
+    let that = this;
 
     const dashboard = this.props.dashboard;
 
     const movies = dashboard.movies.map(function (movie) {
-      return <li className="list-group-item">{movie.title} ({movie.year})</li>;
+      return <li className="list-group-item">{that.dayOfWeek(movie.timestamp)} {movie.title} ({movie.year})</li>;
     });
 
     const consumations = dashboard.consumations.map(function (consumation) {
-      return <li className="list-group-item">{consumation.beer.name}</li>;
+      return <li className="list-group-item">{that.dayOfWeek(consumation.date)} {consumation.beer.name}</li>;
     });
 
     return (
