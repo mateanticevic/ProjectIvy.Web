@@ -14,6 +14,9 @@ export default function dashboardReducer(state = initialState.dashboard, action)
         case types.GET_MOVIES_SUCCESS:
             return { ...state, movies: action.data.items };
 
+        case types.GET_CONSUMATIONS_SUCCESS:
+            return { ...state, consumations: action.data.items };
+
         default:
             return state;
     }

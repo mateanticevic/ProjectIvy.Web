@@ -1,5 +1,6 @@
 import * as expenseApi from '../api/main/expense';
 import * as webApi from '../api/main/web';
+import * as consumationApi from '../api/main/consumation';
 import * as movieApi from '../api/main/movie';
 import * as types from '../constants/dashboardActionTypes';
 
@@ -32,4 +33,14 @@ export function getMovies(filters) {
 
 export function getMoviesSuccess(data) {
     return { type: types.GET_MOVIES_SUCCESS, data };
+}
+
+export function getConsumations(filters) {
+    return function (dispatch) {
+        return consumationApi.get(filters).then(json => { dispatch(getConsumationsSuccess(json)); });
+    };
+}
+
+export function getConsumationsSuccess(data) {
+    return { type: types.GET_CONSUMATIONS_SUCCESS, data };
 }

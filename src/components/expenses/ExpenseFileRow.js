@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
-import _ from 'lodash';
 import filesize from 'filesize';
 
 const ExpenseFileRow = ({ expenseFile }) => {

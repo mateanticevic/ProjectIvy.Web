@@ -12,7 +12,8 @@ class DashboardPage extends React.Component {
 
   componentWillMount() {
     this.props.actions.getExpenseSumByMonth({});
-    this.props.actions.getMovies({});
+    this.props.actions.getConsumations({ pageSize: 5 });
+    this.props.actions.getMovies({ pageSize: 5 });
     this.props.actions.getOnineData({ from: "2017-11-01" });
   }
 
@@ -20,8 +21,12 @@ class DashboardPage extends React.Component {
 
     const dashboard = this.props.dashboard;
 
-    const movies = dashboard.movies.map(function(movie){
+    const movies = dashboard.movies.map(function (movie) {
       return <li className="list-group-item">{movie.title} ({movie.year})</li>;
+    });
+
+    const consumations = dashboard.consumations.map(function (consumation) {
+      return <li className="list-group-item">{consumation.beer.name}</li>;
     });
 
     return (
@@ -41,6 +46,9 @@ class DashboardPage extends React.Component {
         <Row>
           <Col lg={3}>
             <Panel header="Beer">
+              <ul className="list-group">
+                {consumations}
+              </ul>
             </Panel>
           </Col>
           <Col lg={3}>
