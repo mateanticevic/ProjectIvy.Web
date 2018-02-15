@@ -24,12 +24,14 @@ class PoisPage extends React.Component {
       filters: {
         page: 1,
         pageSize: 10
-      }};
+      }
+    };
 
     props.init.getPoiCategories();
     props.init.getVendors();
     props.actions.getPois(this.state.filters);
 
+    this.onAddToTrip = this.onAddToTrip.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
     this.onNewClick = this.onNewClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
@@ -39,44 +41,48 @@ class PoisPage extends React.Component {
     this.onSave = this.onSave.bind(this);
   }
 
-  onFiltersChanged(filter){
-      let filters = {...this.state.filters, filter};
-      this.setState({filters: filters});
-      this.props.actions.getPois(filters);
+  onAddToTrip(poiId) {
+    this.props.actions.addPoiToTrip("trans-mongolian", poiId);
   }
 
-  onMapClick(e){
+  onFiltersChanged(filter) {
+    let filters = { ...this.state.filters, ...filter };
+    this.setState({ filters: filters });
+    this.props.actions.getPois(filters);
+  }
+
+  onMapClick(e) {
     this.setState({
       isModalOpen: true,
-      poi:{
+      poi: {
         latitude: e.latLng.lat(),
         longitude: e.latLng.lng()
       }
     });
   }
 
-  onModalClose(){
+  onModalClose() {
     this.setState({ isModalOpen: false });
   }
 
-  onMapDragEnd(){
-      let bounds = this.map.state.map.getBounds();
+  onMapDragEnd() {
+    let bounds = this.map.state.map.getBounds();
 
-      let filters = {...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f} };
-      this.setState({filters: filters});
-      this.props.actions.getPois(filters);
+    let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
+    this.setState({ filters: filters });
+    this.props.actions.getPois(filters);
   }
 
-  onNewClick(){
+  onNewClick() {
     this.setState({ isModalOpen: true });
   }
 
-  onPoiChange(property){
-    let poi = {...this.state.poi, ...property};
-    this.setState({poi: poi});
+  onPoiChange(property) {
+    let poi = { ...this.state.poi, ...property };
+    this.setState({ poi: poi });
   }
 
-  onSave(){
+  onSave() {
     this.props.actions.addPoi(this.state.poi);
     this.setState({ isModalOpen: false });
     this.props.actions.getPois(this.state.filters);
@@ -84,44 +90,45 @@ class PoisPage extends React.Component {
 
   render() {
 
-    const poiMarkers = this.props.pois.pois.items != null ? this.props.pois.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude}} title={poi.name} />) : null;
+    const poiMarkers = this.props.pois.pois.items != null ? this.props.pois.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
     return (
       <Grid>
         <Row>
-            <Col lg={12}>
-                <Panel header="Map" containsMap>
-                    <Map onClick={this.onMapClick} map={map => this.map = map} onDragEnd={this.onMapDragEnd}>
-                      {poiMarkers}
-                    </Map>
-                </Panel>
-              </Col>
+          <Col lg={12}>
+            <Panel header="Map" containsMap>
+              <Map onClick={this.onMapClick} map={map => this.map = map} onDragEnd={this.onMapDragEnd}>
+                {poiMarkers}
+              </Map>
+            </Panel>
+          </Col>
         </Row>
         <Row>
           <Col lg={3}>
             <Panel header="Filters">
-                <ControlLabel>Category</ControlLabel>
-                <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
-                <ControlLabel>Vendor</ControlLabel>
-                <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
-                <ControlLabel>Name</ControlLabel>
-                <FormControl type="text" onChange={x => this.onFiltersChanged({name: x.target.value})} />
+              <ControlLabel>Category</ControlLabel>
+              <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
+              <ControlLabel>Vendor</ControlLabel>
+              <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
+              <ControlLabel>Name</ControlLabel>
+              <FormControl type="text" onChange={x => this.onFiltersChanged({ name: x.target.value })} />
             </Panel>
           </Col>
           <Col lg={9}>
             <PoiPanel pois={this.props.pois.pois}
-                      pageSize={this.state.filters.pageSize}
-                      page={this.state.filters.page}
-                      onNewClick={this.onNewClick}
-                      onPageChange={page => this.onFiltersChanged({page: page})} />
+              pageSize={this.state.filters.pageSize}
+              page={this.state.filters.page}
+              onNewClick={this.onNewClick}
+              addToTrip={this.onAddToTrip}
+              onPageChange={page => this.onFiltersChanged({ page: page })} />
           </Col>
         </Row>
         <PoiModal isOpen={this.state.isModalOpen}
-                  onClose={this.onModalClose}
-                  onSave={this.onSave}
-                  categories={this.props.common.poiCategories}
-                  onPoiChange={this.onPoiChange}
-                  poi={this.state.poi} />
+          onClose={this.onModalClose}
+          onSave={this.onSave}
+          categories={this.props.common.poiCategories}
+          onPoiChange={this.onPoiChange}
+          poi={this.state.poi} />
       </Grid>
     );
   }

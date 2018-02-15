@@ -6,7 +6,7 @@ import PoiRow from './PoiRow';
 const PoiTable = (props) => {
   
   const rows = props.pois.map(function(poi){
-    return <PoiRow key={poi.id} poi={poi} />;
+    return <PoiRow key={poi.id} poi={poi} addToTrip={props.addToTrip} />;
   });
 
   return (
@@ -16,6 +16,7 @@ const PoiTable = (props) => {
               <th>Name</th>
               <th>Category</th>
               <th>Address</th>
+              <th/>
               <th/>
             </tr>
         </thead>

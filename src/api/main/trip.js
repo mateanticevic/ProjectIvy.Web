@@ -11,3 +11,7 @@ export function getById(tripId) {
 export function deleteExpense(tripId, expenseId){
     return api.del(`trip/${tripId}/expense/${expenseId}`);
 }
+
+export function postPoi(tripId, poiId) {
+    return api.post(`trip/${tripId}/poi/${poiId}`);
+}
