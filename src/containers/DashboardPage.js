@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
 import Moment from 'react-moment';
+import { Marker } from "react-google-maps";
 
 import * as actions from '../actions/dashboardActions';
-import Panel from '../components/common/Panel';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
-import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
+import { Map, Panel, Widget } from '../components/common';
 
 class DashboardPage extends React.Component {
 
@@ -18,6 +18,7 @@ class DashboardPage extends React.Component {
   }
 
   componentWillMount() {
+    this.props.actions.getLastLocation();
     this.props.actions.getExpenseSumByMonth({});
     this.props.actions.getConsumations({ pageSize: 5 });
     this.props.actions.getMovies({ pageSize: 5 });
@@ -52,8 +53,10 @@ class DashboardPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={6}>
-            <Panel header="Expenses">
-              <SpentByMonthGraph data={dashboard.spentByMonthGraphData} />
+            <Panel header="Location" containsMap>
+              <Map defaultZoom={15} center={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
+                <Marker position={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}} title='Current location' />
+              </Map>
             </Panel>
           </Col>
           <Col lg={6}>

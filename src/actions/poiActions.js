@@ -17,7 +17,7 @@ export function addPoiSuccess() {
 }
 
 export function addPoiToTrip(tripId, poiId) {
-  return function (dispatch) {
+  return function () {
     return tripApi.postPoi(tripId, poiId).then(() => {
       toastr.success('Success', 'Poi linked to trip.');
     });

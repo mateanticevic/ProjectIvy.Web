@@ -2,6 +2,7 @@ import * as expenseApi from '../api/main/expense';
 import * as webApi from '../api/main/web';
 import * as consumationApi from '../api/main/consumation';
 import * as movieApi from '../api/main/movie';
+import * as trackingApi from '../api/main/tracking';
 import * as types from '../constants/dashboardActionTypes';
 
 
@@ -23,6 +24,16 @@ export function getOnineData(filters) {
 
 export function getOnineDataSuccess(data) {
     return { type: types.GET_ONLINE_DATA_SUCCESS, data };
+}
+
+export function getLastLocation() {
+    return function (dispatch) {
+        return trackingApi.getLast().then(json => { dispatch(getLastLocationSuccess(json)); });
+    };
+}
+
+export function getLastLocationSuccess(data) {
+    return { type: types.GET_LAST_LOCATION_SUCCESS, data };
 }
 
 export function getMovies(filters) {

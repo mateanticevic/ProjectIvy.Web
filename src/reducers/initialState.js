@@ -5,6 +5,7 @@ export default {
     onlineGraphData: [],
     spentByMonthGraphData: [],
     movies: [],
+    lastLocation: { latitude: 0, longitude: 0 },
     consumations: []
   },
   expenses: {
