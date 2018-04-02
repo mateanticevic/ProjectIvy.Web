@@ -6,7 +6,13 @@ const Panel = (props) => {
 
     let rootCss = "panel panel-default";
 
-    if (props.containsMap){
+    if (props.small)
+        rootCss = rootCss + " panel-small";
+
+    if (props.tiny)
+        rootCss = rootCss + " panel-tiny";
+
+    if (props.containsMap) {
         rootCss = "map-container " + rootCss;
     }
 

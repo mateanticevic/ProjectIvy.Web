@@ -50,7 +50,7 @@ class TripsPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" containsMap>
+            <Panel header="Map" containsMap small>
               <Map onClick={this.onMapClick}>
                 {polygons}
               </Map>

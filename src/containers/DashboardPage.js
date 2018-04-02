@@ -7,7 +7,7 @@ import { Marker } from "react-google-maps";
 
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
-import { Map, Panel, Widget } from '../components/common';
+import { Map, Panel } from '../components/common';
 
 class DashboardPage extends React.Component {
 
@@ -53,28 +53,28 @@ class DashboardPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={6}>
-            <Panel header="Location" containsMap>
-              <Map defaultZoom={15} center={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
+            <Panel header="Location" containsMap small>
+              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
                 <Marker position={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}} title='Current location' />
               </Map>
             </Panel>
           </Col>
           <Col lg={6}>
-            <Panel header="Online">
+            <Panel header="Online" small>
               <OnlineGraph data={dashboard.onlineGraphData} />
             </Panel>
           </Col>
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header="Beer">
+            <Panel header="Beer" tiny>
               <ul className="list-group">
                 {consumations}
               </ul>
             </Panel>
           </Col>
           <Col lg={3}>
-            <Panel header="Movies">
+            <Panel header="Movies" tiny>
               <ul className="list-group">
                 {movies}
               </ul>

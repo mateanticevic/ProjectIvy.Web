@@ -17,8 +17,15 @@ body {
 }
 
 .map-container .panel-body {
-  height: 600px;
   padding: 0px;
+}
+
+.panel-small .panel-body {
+  height: 380px;
+}
+
+.panel-tiny .panel-body {
+  height: 300px;
 }
 
 .cell-no-overflow-100 {

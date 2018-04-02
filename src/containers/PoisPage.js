@@ -42,7 +42,7 @@ class PoisPage extends React.Component {
   }
 
   onAddToTrip(poiId) {
-    this.props.actions.addPoiToTrip("trans-mongolian", poiId);
+    this.props.actions.addPoiToTrip("finland-and-estonia", poiId);
   }
 
   onFiltersChanged(filter) {
@@ -96,8 +96,10 @@ class PoisPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" containsMap>
-              <Map onClick={this.onMapClick} map={map => this.map = map} onDragEnd={this.onMapDragEnd}>
+            <Panel header="Map" containsMap small>
+              <Map onClick={this.onMapClick}
+                   map={map => this.map = map}
+                   onDragEnd={this.onMapDragEnd}>
                 {poiMarkers}
               </Map>
             </Panel>
