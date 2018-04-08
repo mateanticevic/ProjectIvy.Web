@@ -42,7 +42,7 @@ class PoisPage extends React.Component {
   }
 
   onAddToTrip(poiId) {
-    this.props.actions.addPoiToTrip("finland-and-estonia", poiId);
+    this.props.actions.addPoiToTrip("portugal-and-spain", poiId);
   }
 
   onFiltersChanged(filter) {

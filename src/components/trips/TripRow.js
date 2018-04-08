@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
+import moment from 'moment';
 import Tooltip from 'react-bootstrap/lib/Tooltip';
 import Label from 'react-bootstrap/lib/Label';
 import { Button, OverlayTrigger } from 'react-bootstrap/lib';
@@ -24,7 +25,7 @@ const TripRow = (props) => {
   <tr key={props.trip.id}>
       <td>
         <OverlayTrigger placement="left" overlay={yearTooltip}>
-          <Label bsStyle="primary"><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
+          <Label bsStyle={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? "success" : "primary"}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
         </OverlayTrigger>
       </td>
       <td>{countryFlags}</td>
