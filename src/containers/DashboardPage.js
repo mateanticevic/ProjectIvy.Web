@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import moment from 'moment';
 import Moment from 'react-moment';
 import { Marker } from "react-google-maps";
 
@@ -15,6 +16,7 @@ class DashboardPage extends React.Component {
     super(props, context);
 
     this.dayOfWeek = this.dayOfWeek.bind(this);
+    this.dateTimeFormat = this.dateTimeFormat.bind(this);
   }
 
   componentWillMount() {
@@ -22,7 +24,7 @@ class DashboardPage extends React.Component {
     this.props.actions.getExpenseSumByMonth({});
     this.props.actions.getConsumations({ pageSize: 5 });
     this.props.actions.getMovies({ pageSize: 5 });
-    this.props.actions.getOnineData({ from: "2017-11-01" });
+    this.props.actions.getOnineData({ from: "2018-01-01" });
   }
 
   dayOfWeek(date){
@@ -33,6 +35,10 @@ class DashboardPage extends React.Component {
     );
 
     return <OverlayTrigger placement="left" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
+  }
+
+  dateTimeFormat(dateTime){
+    return moment(dateTime).date() == moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
   }
 
   render() {
@@ -49,11 +55,13 @@ class DashboardPage extends React.Component {
       return <li className="list-group-item">{that.dayOfWeek(consumation.date)} {consumation.beer.name}</li>;
     });
 
+    const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
+
     return (
       <Grid>
         <Row>
           <Col lg={6}>
-            <Panel header="Location" containsMap small>
+            <Panel header={locationHeader} containsMap small>
               <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
                 <Marker position={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}} title='Current location' />
               </Map>
