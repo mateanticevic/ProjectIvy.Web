@@ -13,10 +13,10 @@ body {
 }
 
 #main{
-  margin-top:80px;
+  margin-top: 80px;
 }
 
-.map-container .panel-body {
+.panel-no-padding .panel-body {
   padding: 0px;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 .panel-tiny .panel-body {
-  height: 300px;
+  height: 280px;
 }
 
 .cell-no-overflow-100 {

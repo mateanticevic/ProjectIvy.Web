@@ -12,8 +12,8 @@ const Panel = (props) => {
     if (props.tiny)
         rootCss = rootCss + " panel-tiny";
 
-    if (props.containsMap) {
-        rootCss = "map-container " + rootCss;
+    if (props.noPadding) {
+        rootCss = "panel-no-padding " + rootCss;
     }
 
     return (

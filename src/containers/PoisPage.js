@@ -96,7 +96,7 @@ class PoisPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" containsMap small>
+            <Panel header="Map" noPadding small>
               <Map onClick={this.onMapClick}
                    map={map => this.map = map}
                    onDragEnd={this.onMapDragEnd}>

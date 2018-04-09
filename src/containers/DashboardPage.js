@@ -34,7 +34,7 @@ class DashboardPage extends React.Component {
       </Tooltip>
     );
 
-    return <OverlayTrigger placement="left" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
+    return <OverlayTrigger placement="top" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
   }
 
   dateTimeFormat(dateTime){
@@ -61,7 +61,7 @@ class DashboardPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={6}>
-            <Panel header={locationHeader} containsMap small>
+            <Panel header={locationHeader} noPadding small>
               <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
                 <Marker position={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}} title='Current location' />
               </Map>
@@ -75,14 +75,14 @@ class DashboardPage extends React.Component {
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header="Beer" tiny>
+            <Panel header="Beer" noPadding tiny>
               <ul className="list-group">
                 {consumations}
               </ul>
             </Panel>
           </Col>
           <Col lg={3}>
-            <Panel header="Movies" tiny>
+            <Panel header="Movies" noPadding tiny>
               <ul className="list-group">
                 {movies}
               </ul>
