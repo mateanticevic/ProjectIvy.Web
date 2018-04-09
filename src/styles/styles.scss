@@ -28,6 +28,21 @@ body {
   height: 280px;
 }
 
+.border-no-radius {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.border-no-left {
+  border-left: 0px;
+}
+
+.border-no-right {
+  border-left: 0px;
+}
+
 .cell-no-overflow-100 {
   max-width: 100px;
   overflow: hidden;

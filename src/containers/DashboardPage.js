@@ -48,11 +48,11 @@ class DashboardPage extends React.Component {
     const dashboard = this.props.dashboard;
 
     const movies = dashboard.movies.map(function (movie) {
-      return <li className="list-group-item">{that.dayOfWeek(movie.timestamp)} {movie.title} ({movie.year})</li>;
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(movie.timestamp)} <span className="cell-no-overflow-100">{movie.title} ({movie.year})</span></li>;
     });
 
     const consumations = dashboard.consumations.map(function (consumation) {
-      return <li className="list-group-item">{that.dayOfWeek(consumation.date)} {consumation.beer.name}</li>;
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(consumation.date)} {consumation.beer.name}</li>;
     });
 
     const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
@@ -62,8 +62,8 @@ class DashboardPage extends React.Component {
         <Row>
           <Col lg={6}>
             <Panel header={locationHeader} noPadding small>
-              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}}>
-                <Marker position={{ lat: dashboard.lastLocation.latitude, lng: dashboard.lastLocation.longitude}} title='Current location' />
+              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng}}>
+                <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng}} title='Current location' />
               </Map>
             </Panel>
           </Col>
