@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import FontAwesome from 'react-fontawesome';
+import ExpenseType from './ExpenseType';
+import ExpenseVendor from './ExpenseVendor';
 import { OverlayTrigger, Tooltip, Button, Label } from 'react-bootstrap/lib';
 
 const ExpenseRow = (props) => {
@@ -22,17 +24,10 @@ const ExpenseRow = (props) => {
     <tr>
       <td><Moment format="Do MMMM YYYY">{props.expense.date}</Moment></td>
       <td>
-        <Label bsStyle="primary"><FontAwesome name={props.expense.expenseType.icon} /> {props.expense.expenseType.name}</Label>
+        <ExpenseType expense={props.expense} />
       </td>
       <td>
-        {props.expense.vendor &&
-          <Label bsStyle="primary">{props.expense.vendor.name}&nbsp;
-          {props.expense.poi &&
-            <OverlayTrigger placement="right" overlay={poiNameTooltip}>
-              <FontAwesome name="map-marker" />
-            </OverlayTrigger>}</Label>
-        }
-
+        <ExpenseVendor expense={props.expense} />
       </td>
       <td className="cell-no-overflow-100" title={props.expense.comment}>{props.expense.comment}</td>
       <td><span className="pull-right">{props.expense.amount.toFixed(2)}</span></td>

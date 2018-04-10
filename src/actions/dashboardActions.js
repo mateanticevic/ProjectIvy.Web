@@ -16,6 +16,16 @@ export function getExpenseSumByMonthSuccess(data) {
     return { type: types.GET_EXPENSE_SUM_BY_MONTH_SUCCESS, data };
 }
 
+export function getExpenses() {
+    return function (dispatch) {
+        return expenseApi.get({ pageSize: 5 }).then(json => { dispatch(getExpensesSuccess(json)); });
+    };
+}
+
+export function getExpensesSuccess(data) {
+    return { type: types.GET_RECENT_EXPENSES_SUCCESS, data };
+}
+
 export function getOnineData(filters) {
     return function (dispatch) {
         return webApi.getTimeTotalByDay(filters).then(json => { dispatch(getOnineDataSuccess(json)); });

@@ -8,6 +8,7 @@ import { Marker } from "react-google-maps";
 
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
+import ExpenseType from '../components/expenses/ExpenseType';
 import { Map, Panel } from '../components/common';
 
 class DashboardPage extends React.Component {
@@ -21,7 +22,7 @@ class DashboardPage extends React.Component {
 
   componentWillMount() {
     this.props.actions.getLastLocation();
-    this.props.actions.getExpenseSumByMonth({});
+    this.props.actions.getExpenses();
     this.props.actions.getConsumations({ pageSize: 5 });
     this.props.actions.getMovies({ pageSize: 5 });
     this.props.actions.getOnineData({ from: "2018-01-01" });
@@ -46,6 +47,10 @@ class DashboardPage extends React.Component {
     let that = this;
 
     const dashboard = this.props.dashboard;
+
+    const expenses = dashboard.expenses.map(function (expense) {
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /> <span className="pull-right">{expense.amount} {expense.currency.symbol}</span></li>;
+    });
 
     const movies = dashboard.movies.map(function (movie) {
       return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(movie.timestamp)} <span className="cell-no-overflow-100">{movie.title} ({movie.year})</span></li>;
@@ -74,6 +79,13 @@ class DashboardPage extends React.Component {
           </Col>
         </Row>
         <Row>
+        <Col lg={3}>
+            <Panel header="Expenses" noPadding tiny>
+              <ul className="list-group">
+                {expenses}
+              </ul>
+            </Panel>
+          </Col>
           <Col lg={3}>
             <Panel header="Beer" noPadding tiny>
               <ul className="list-group">
