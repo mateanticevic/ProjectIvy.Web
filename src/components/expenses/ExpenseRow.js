@@ -4,15 +4,9 @@ import Moment from 'react-moment';
 import FontAwesome from 'react-fontawesome';
 import ExpenseType from './ExpenseType';
 import ExpenseVendor from './ExpenseVendor';
-import { OverlayTrigger, Tooltip, Button, Label } from 'react-bootstrap/lib';
+import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap/lib';
 
 const ExpenseRow = (props) => {
-
-  const poiNameTooltip = (
-    <Tooltip id="tooltip">
-      {props.expense.poi && props.expense.poi.name}
-    </Tooltip>
-  );
 
   const hasFilesTooltip = (
     <Tooltip id="tooltip">

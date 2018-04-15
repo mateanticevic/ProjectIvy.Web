@@ -28,7 +28,7 @@ class DashboardPage extends React.Component {
     this.props.actions.getOnineData({ from: "2018-01-01" });
   }
 
-  dayOfWeek(date){
+  dayOfWeek(date) {
     const fullDate = (
       <Tooltip id="tooltip">
         <Moment format="Do MMMM YYYY">{date}</Moment>
@@ -38,7 +38,7 @@ class DashboardPage extends React.Component {
     return <OverlayTrigger placement="top" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
   }
 
-  dateTimeFormat(dateTime){
+  dateTimeFormat(dateTime) {
     return moment(dateTime).date() == moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
   }
 
@@ -49,15 +49,27 @@ class DashboardPage extends React.Component {
     const dashboard = this.props.dashboard;
 
     const expenses = dashboard.expenses.map(function (expense) {
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /> <span className="pull-right">{expense.amount} {expense.currency.symbol}</span></li>;
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+        {that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
+      </li>;
     });
 
     const movies = dashboard.movies.map(function (movie) {
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(movie.timestamp)} <span className="cell-no-overflow-100">{movie.title} ({movie.year})</span></li>;
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+        {that.dayOfWeek(movie.timestamp)} <span className="cell-no-overflow-100">{movie.title} ({movie.year})</span>
+      </li>;
     });
 
     const consumations = dashboard.consumations.map(function (consumation) {
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">{that.dayOfWeek(consumation.date)} {consumation.beer.name}</li>;
+
+      const tooltip = <Tooltip>{consumation.serving}</Tooltip>;
+
+      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+        {that.dayOfWeek(consumation.date)} {consumation.beer.name}
+        <OverlayTrigger placement="top" overlay={tooltip}>
+          <span className="pull-right"><Label bsStyle="primary">{consumation.volume / 1000}L</Label></span>
+        </OverlayTrigger>
+      </li>;
     });
 
     const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
@@ -67,8 +79,8 @@ class DashboardPage extends React.Component {
         <Row>
           <Col lg={6}>
             <Panel header={locationHeader} noPadding small>
-              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng}}>
-                <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng}} title='Current location' />
+              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }}>
+                <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }} title='Current location' />
               </Map>
             </Panel>
           </Col>
@@ -79,7 +91,7 @@ class DashboardPage extends React.Component {
           </Col>
         </Row>
         <Row>
-        <Col lg={3}>
+          <Col lg={3}>
             <Panel header="Expenses" noPadding tiny>
               <ul className="list-group">
                 {expenses}
