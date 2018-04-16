@@ -1,3 +1,4 @@
+import * as carApi from '../api/main/car';
 import * as expenseApi from '../api/main/expense';
 import * as webApi from '../api/main/web';
 import * as consumationApi from '../api/main/consumation';
@@ -5,6 +6,16 @@ import * as movieApi from '../api/main/movie';
 import * as trackingApi from '../api/main/tracking';
 import * as types from '../constants/dashboardActionTypes';
 
+
+export function getCarLatestLog(filters) {
+    return function (dispatch) {
+        return carApi.getLogLatest(filters).then(json => { dispatch(getCarLatestLogSuccess(json)); });
+    };
+}
+
+export function getCarLatestLogSuccess(data) {
+    return { type: types.GET_CAR_LOG_LATEST_SUCCESS, data };
+}
 
 export function getExpenseSumByMonth(filters) {
     return function (dispatch) {

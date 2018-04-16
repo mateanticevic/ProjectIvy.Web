@@ -2,6 +2,7 @@ import moment from 'moment';
 
 export default {
   dashboard:{
+    carLogLatest: { odometer: 0, timestamp: new Date() },
     expenses: [],
     onlineGraphData: [],
     spentByMonthGraphData: [],

@@ -18,9 +18,11 @@ class DashboardPage extends React.Component {
 
     this.dayOfWeek = this.dayOfWeek.bind(this);
     this.dateTimeFormat = this.dateTimeFormat.bind(this);
+    this.dateFormat = this.dateFormat.bind(this);
   }
 
   componentWillMount() {
+    this.props.actions.getCarLatestLog("punto");
     this.props.actions.getLastLocation();
     this.props.actions.getExpenses();
     this.props.actions.getConsumations({ pageSize: 5 });
@@ -40,6 +42,10 @@ class DashboardPage extends React.Component {
 
   dateTimeFormat(dateTime) {
     return moment(dateTime).date() == moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
+  }
+
+  dateFormat(dateTime) {
+    return moment(dateTime).date() == moment().date() ? "Today" : moment(dateTime).format('MMMM Do');
   }
 
   render() {
@@ -73,6 +79,8 @@ class DashboardPage extends React.Component {
     });
 
     const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
+
+    const carLogHeader = `Odometer @ ${that.dateFormat(dashboard.carLogLatest.timestamp)}`;
 
     return (
       <Grid>
@@ -110,6 +118,11 @@ class DashboardPage extends React.Component {
               <ul className="list-group">
                 {movies}
               </ul>
+            </Panel>
+          </Col>
+          <Col lg={3}>
+            <Panel header={carLogHeader} noPadding tiny>
+              <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
             </Panel>
           </Col>
         </Row>
