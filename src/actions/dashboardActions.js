@@ -1,3 +1,4 @@
+import moment from 'moment';
 import * as carApi from '../api/main/car';
 import * as expenseApi from '../api/main/expense';
 import * as webApi from '../api/main/web';
@@ -6,6 +7,50 @@ import * as movieApi from '../api/main/movie';
 import * as trackingApi from '../api/main/tracking';
 import * as types from '../constants/dashboardActionTypes';
 
+export function getExpenseSumThisMonth() {
+
+    var filters = {
+        from: `${moment().year()}-${moment().month()+1}-01`
+    };
+
+    return function (dispatch) {
+        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumThisMonthSuccess(json)); });
+    };
+}
+
+export function getExpenseSumThisMonthSuccess(data) {
+    return { type: types.GET_EXPENSE_SUM_THIS_MONTH_SUCCESS, data };
+}
+
+export function getExpenseSumToday() {
+
+    var filters = {
+        from: moment().format("YYYY-MM-DD")
+    };
+
+    return function (dispatch) {
+        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumTodaySuccess(json)); });
+    };
+}
+
+export function getExpenseSumTodaySuccess(data) {
+    return { type: types.GET_EXPENSE_SUM_TODAY_SUCCESS, data };
+}
+
+export function getExpenseSumThisWeek() {
+
+    var filters = {
+        from: moment().day(-1 * (moment().day() - 2)).format("YYYY-MM-DD")
+    };
+
+    return function (dispatch) {
+        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumThisWeekSuccess(json)); });
+    };
+}
+
+export function getExpenseSumThisWeekSuccess(data) {
+    return { type: types.GET_EXPENSE_SUM_THIS_WEEK_SUCCESS, data };
+}
 
 export function getCarLatestLog(filters) {
     return function (dispatch) {

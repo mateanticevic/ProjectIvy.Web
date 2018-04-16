@@ -4,6 +4,9 @@ export default {
   dashboard:{
     carLogLatest: { odometer: 0, timestamp: new Date() },
     expenses: [],
+    spentToday: 0,
+    spentThisWeek: 0,
+    spentThisMonth: 0,
     onlineGraphData: [],
     spentByMonthGraphData: [],
     movies: [],

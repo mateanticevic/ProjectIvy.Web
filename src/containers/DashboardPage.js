@@ -23,6 +23,9 @@ class DashboardPage extends React.Component {
 
   componentWillMount() {
     this.props.actions.getCarLatestLog("punto");
+    this.props.actions.getExpenseSumThisMonth();
+    this.props.actions.getExpenseSumToday();
+    this.props.actions.getExpenseSumThisWeek();
     this.props.actions.getLastLocation();
     this.props.actions.getExpenses();
     this.props.actions.getConsumations({ pageSize: 5 });
@@ -123,6 +126,18 @@ class DashboardPage extends React.Component {
           <Col lg={3}>
             <Panel header={carLogHeader} noPadding tiny>
               <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col lg={3}>
+            <Panel header="Spent" noPadding tiny>
+              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
+              <p className="text-align-center">Today</p>
+              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
+              <p className="text-align-center">This week</p>
+              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
+              <p className="text-align-center">April</p>
             </Panel>
           </Col>
         </Row>
