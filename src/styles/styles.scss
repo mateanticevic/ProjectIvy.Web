@@ -12,6 +12,10 @@ body {
   font-smoothing: antialiased;
 }
 
+a {
+  color: #4d4d4d;
+}
+
 #main{
   margin-top: 80px;
 }
@@ -45,6 +49,14 @@ body {
 
 .cell-no-overflow-100 {
   max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-no-overflow-160 {
+  display: inline-block;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

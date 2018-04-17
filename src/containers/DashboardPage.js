@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap/lib';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Marker } from "react-google-maps";
@@ -65,7 +65,8 @@ class DashboardPage extends React.Component {
 
     const movies = dashboard.movies.map(function (movie) {
       return <li className="list-group-item border-no-radius border-no-left border-no-right">
-        {that.dayOfWeek(movie.timestamp)} <span className="cell-no-overflow-100">{movie.title} ({movie.year})</span>
+        {that.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
+        <span className="pull-right"><Label bsStyle="primary">{movie.myRating}</Label></span>
       </li>;
     });
 
@@ -111,9 +112,9 @@ class DashboardPage extends React.Component {
             <Row>
               <Col lg={6}>
                 <Panel header="Expenses" noPadding tiny>
-                  <ul className="list-group">
+                  <ListGroup>
                     {expenses}
-                  </ul>
+                  </ListGroup>
                 </Panel>
               </Col>
               <Col lg={6}>
@@ -130,16 +131,16 @@ class DashboardPage extends React.Component {
             <Row>
               <Col lg={6}>
                 <Panel header="Beer" noPadding tiny>
-                  <ul className="list-group">
+                  <ListGroup>
                     {consumations}
-                  </ul>
+                  </ListGroup>
                 </Panel>
               </Col>
               <Col lg={6}>
                 <Panel header="Movies" noPadding tiny>
-                  <ul className="list-group">
+                  <ListGroup>
                     {movies}
-                  </ul>
+                  </ListGroup>
                 </Panel>
               </Col>
             </Row>
