@@ -89,56 +89,69 @@ class DashboardPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={6}>
-            <Panel header={locationHeader} noPadding small>
-              <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }}>
-                <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }} title='Current location' />
-              </Map>
-            </Panel>
+            <Row>
+              <Col lg={12}>
+                <Panel header={locationHeader} noPadding small>
+                  <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }}>
+                    <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }} title='Current location' />
+                  </Map>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel header="Online" small>
+                  <OnlineGraph data={dashboard.onlineGraphData} />
+                </Panel>
+              </Col>
+            </Row>
+
           </Col>
           <Col lg={6}>
-            <Panel header="Online" small>
-              <OnlineGraph data={dashboard.onlineGraphData} />
-            </Panel>
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={3}>
-            <Panel header="Expenses" noPadding tiny>
-              <ul className="list-group">
-                {expenses}
-              </ul>
-            </Panel>
-          </Col>
-          <Col lg={3}>
-            <Panel header="Beer" noPadding tiny>
-              <ul className="list-group">
-                {consumations}
-              </ul>
-            </Panel>
-          </Col>
-          <Col lg={3}>
-            <Panel header="Movies" noPadding tiny>
-              <ul className="list-group">
-                {movies}
-              </ul>
-            </Panel>
-          </Col>
-          <Col lg={3}>
-            <Panel header={carLogHeader} noPadding tiny>
-              <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
-            </Panel>
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={3}>
-            <Panel header="Spent" noPadding tiny>
-              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
-              <p className="text-align-center">Today</p>
-              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
-              <p className="text-align-center">This week</p>
-              <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
-              <p className="text-align-center">April</p>
-            </Panel>
+            <Row>
+              <Col lg={6}>
+                <Panel header="Expenses" noPadding tiny>
+                  <ul className="list-group">
+                    {expenses}
+                  </ul>
+                </Panel>
+              </Col>
+              <Col lg={6}>
+                <Panel header="Spent" noPadding tiny>
+                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
+                  <p className="text-align-center">Today</p>
+                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
+                  <p className="text-align-center">This week</p>
+                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
+                  <p className="text-align-center">April</p>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6}>
+                <Panel header="Beer" noPadding tiny>
+                  <ul className="list-group">
+                    {consumations}
+                  </ul>
+                </Panel>
+              </Col>
+              <Col lg={6}>
+                <Panel header="Movies" noPadding tiny>
+                  <ul className="list-group">
+                    {movies}
+                  </ul>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6}>
+                <Panel header={carLogHeader} noPadding tiny>
+                  <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
+                </Panel>
+              </Col>
+              <Col lg={6}>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Grid>
