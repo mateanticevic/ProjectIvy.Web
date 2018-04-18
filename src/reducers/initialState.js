@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export default {
   dashboard:{
-    carLogLatest: { odometer: 0, timestamp: new Date() },
+    carLogLatest: { odometer: 0, timestamp: moment() },
     expenses: [],
     spentToday: 0,
     spentThisWeek: 0,
@@ -10,7 +10,7 @@ export default {
     onlineGraphData: [],
     spentByMonthGraphData: [],
     movies: [],
-    lastLocation: { lat: 0, lng: 0, timestamp: new Date() },
+    lastLocation: { lat: 0, lng: 0, timestamp: moment() },
     consumations: []
   },
   expenses: {
@@ -31,7 +31,7 @@ export default {
       items:[]
     },
     filters: {
-      from: moment(new Date(new Date().getFullYear(), 0, 1)).format("YYYY-MM-DD"),
+      from: moment().month(0).date(1).format("YYYY-MM-DD"), // YYYY-01-01
       pageSize: 10,
       page: 1
     },

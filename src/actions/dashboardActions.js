@@ -10,7 +10,7 @@ import * as types from '../constants/dashboardActionTypes';
 export function getExpenseSumThisMonth() {
 
     var filters = {
-        from: `${moment().year()}-${moment().month()+1}-01`
+        from: moment().date(1).format("YYYY-MM-DD")
     };
 
     return function (dispatch) {
@@ -40,7 +40,7 @@ export function getExpenseSumTodaySuccess(data) {
 export function getExpenseSumThisWeek() {
 
     var filters = {
-        from: moment().day(-1 * (moment().day() - 2)).format("YYYY-MM-DD")
+        from: moment().isoWeekday(1).format("YYYY-MM-DD")
     };
 
     return function (dispatch) {
@@ -82,7 +82,10 @@ export function getExpensesSuccess(data) {
     return { type: types.GET_RECENT_EXPENSES_SUCCESS, data };
 }
 
-export function getOnineData(filters) {
+export function getOnineData() {
+
+    var filters = { from: moment().subtract(1, 'month').format("YYYY-MM-DD") };
+
     return function (dispatch) {
         return webApi.getTimeTotalByDay(filters).then(json => { dispatch(getOnineDataSuccess(json)); });
     };

@@ -30,7 +30,7 @@ class DashboardPage extends React.Component {
     this.props.actions.getExpenses();
     this.props.actions.getConsumations({ pageSize: 5 });
     this.props.actions.getMovies({ pageSize: 5 });
-    this.props.actions.getOnineData({ from: "2018-01-01" });
+    this.props.actions.getOnineData();
   }
 
   dayOfWeek(date) {
@@ -101,7 +101,7 @@ class DashboardPage extends React.Component {
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel header="Online" small>
+                <Panel header="Online last 30 days" small>
                   <OnlineGraph data={dashboard.onlineGraphData} />
                 </Panel>
               </Col>
