@@ -31,6 +31,8 @@ const Panel = (props) => {
                 </Row>
             </div>
             <div className="panel-body">{props.children}</div>
+            {props.footer &&
+            <div className="panel-footer">{props.footer}</div>}
         </div>
     );
 };

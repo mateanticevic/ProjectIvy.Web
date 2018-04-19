@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
+import { Grid, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 import { Marker } from "react-google-maps";
 import * as actions from '../actions/poiActions';
 import * as init from '../actions/commonActions';
 
-import { Panel, Map, Select } from '../components/common';
+import { Map, Select } from '../components/common';
 import { PoiPanel, PoiModal } from '../components/pois';
 
 class PoisPage extends React.Component {
@@ -96,24 +96,29 @@ class PoisPage extends React.Component {
       <Grid>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" noPadding small>
-              <Map onClick={this.onMapClick}
-                   map={map => this.map = map}
-                   onDragEnd={this.onMapDragEnd}>
-                {poiMarkers}
-              </Map>
+            <Panel>
+              <Panel.Heading>Map</Panel.Heading>
+              <Panel.Body className="padding-0 panel-medium">
+                <Map onClick={this.onMapClick}
+                  map={map => this.map = map}
+                  onDragEnd={this.onMapDragEnd}>
+                  {poiMarkers}
+                </Map>
+              </Panel.Body>
             </Panel>
           </Col>
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel header="Filters">
-              <ControlLabel>Category</ControlLabel>
-              <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
-              <ControlLabel>Vendor</ControlLabel>
-              <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
-              <ControlLabel>Name</ControlLabel>
-              <FormControl type="text" onChange={x => this.onFiltersChanged({ name: x.target.value })} />
+            <Panel>
+              <Panel.Heading>Filters</Panel.Heading>
+              <Panel.Body>              <ControlLabel>Category</ControlLabel>
+                <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
+                <ControlLabel>Vendor</ControlLabel>
+                <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
+                <ControlLabel>Name</ControlLabel>
+                <FormControl type="text" onChange={x => this.onFiltersChanged({ name: x.target.value })} />
+              </Panel.Body>
             </Panel>
           </Col>
           <Col lg={9}>

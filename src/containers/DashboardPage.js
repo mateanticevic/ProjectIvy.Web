@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Marker } from "react-google-maps";
@@ -9,7 +9,7 @@ import { Marker } from "react-google-maps";
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
 import ExpenseType from '../components/expenses/ExpenseType';
-import { Map, Panel } from '../components/common';
+import { Map } from '../components/common';
 
 class DashboardPage extends React.Component {
 
@@ -92,62 +92,82 @@ class DashboardPage extends React.Component {
           <Col lg={6}>
             <Row>
               <Col lg={12}>
-                <Panel header={locationHeader} noPadding small>
-                  <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }}>
-                    <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }} title='Current location' />
-                  </Map>
+                <Panel>
+                  <Panel.Heading>{locationHeader}</Panel.Heading>
+                  <Panel.Body className="panel-medium padding-0">
+                    <Map defaultZoom={15} defaultCenter={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }}>
+                      <Marker position={{ lat: dashboard.lastLocation.lat, lng: dashboard.lastLocation.lng }} title='Current location' />
+                    </Map>
+                  </Panel.Body>
                 </Panel>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel header="Online last 30 days" small>
-                  <OnlineGraph data={dashboard.onlineGraphData} />
+                <Panel>
+                  <Panel.Heading>Online last 30 days</Panel.Heading>
+                  <Panel.Body className="panel-medium">
+                    <OnlineGraph data={dashboard.onlineGraphData} />
+                  </Panel.Body>
                 </Panel>
               </Col>
             </Row>
-
           </Col>
           <Col lg={6}>
             <Row>
               <Col lg={6}>
                 <Panel header="Expenses" noPadding tiny>
-                  <ListGroup>
-                    {expenses}
-                  </ListGroup>
+                  <Panel.Heading>Online last 30 days</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                    <ListGroup>
+                      {expenses}
+                    </ListGroup>
+                  </Panel.Body>
                 </Panel>
               </Col>
               <Col lg={6}>
-                <Panel header="Spent" noPadding tiny>
-                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
-                  <p className="text-align-center">Today</p>
-                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
-                  <p className="text-align-center">This week</p>
-                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
-                  <p className="text-align-center">April</p>
-                </Panel>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                <Panel header="Beer" noPadding tiny>
-                  <ListGroup>
-                    {consumations}
-                  </ListGroup>
-                </Panel>
-              </Col>
-              <Col lg={6}>
-                <Panel header="Movies" noPadding tiny>
-                  <ListGroup>
-                    {movies}
-                  </ListGroup>
+                <Panel>
+                  <Panel.Heading>Spent</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
+                    <p className="text-align-center">Today</p>
+                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
+                    <p className="text-align-center">This week</p>
+                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
+                    <p className="text-align-center">April</p>
+                  </Panel.Body>
                 </Panel>
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
-                <Panel header={carLogHeader} noPadding tiny>
-                  <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
+                <Panel>
+                  <Panel.Heading>Beer</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                    <ListGroup>
+                      {consumations}
+                    </ListGroup>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+              <Col lg={6}>
+                <Panel>
+                  <Panel.Heading>Beer</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                    <ListGroup>
+                      {movies}
+                    </ListGroup>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6}>
+                <Panel>
+                  <Panel.Heading>{carLogHeader}</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                    <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
+                  </Panel.Body>
                 </Panel>
               </Col>
               <Col lg={6}>
