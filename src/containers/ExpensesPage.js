@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Tabs, Tab } from 'react-bootstrap/lib';
-import BootstrapPanel from 'react-bootstrap/lib/Panel';
+import { Grid, Row, Col, Tabs, Tab, Panel } from 'react-bootstrap/lib';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
 import * as expenseMapper from '../mappers/expenseMapper';
 import * as urlHelper from '../utils/urlHelper';
 
-import { Panel, Widget } from '../components/common';
+import { Widget } from '../components/common';
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
 import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 
@@ -85,22 +84,30 @@ class ExpensesPage extends React.Component {
           <Col lg={3}>
             <Row>
               <Col lg={12}>
-                <Panel header="Filters">
-                  <ExpenseFilters common={common}
-                    filters={expenses.filters}
-                    onChange={this.onFiltersChanged} />
+                <Panel>
+                  <Panel.Heading>Filters</Panel.Heading>
+                  <Panel.Body>
+                    <ExpenseFilters common={common}
+                      filters={expenses.filters}
+                      onChange={this.onFiltersChanged} />
+                  </Panel.Body>
                 </Panel>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <BootstrapPanel header="More filters" collapsible>
-                  <ExpenseFiltersMore common={common}
-                    cards={expenses.cards}
-                    filters={expenses.filters}
-                    orderBy={expenses.orderBy}
-                    onChange={this.onFiltersChanged} />
-                </BootstrapPanel>
+                <Panel>
+                  <Panel.Heading>
+                  <Panel.Toggle>More filters</Panel.Toggle>
+                  </Panel.Heading>
+                  <Panel.Body collapsible>
+                    <ExpenseFiltersMore common={common}
+                      cards={expenses.cards}
+                      filters={expenses.filters}
+                      orderBy={expenses.orderBy}
+                      onChange={this.onFiltersChanged} />
+                  </Panel.Body>
+                </Panel>
               </Col>
             </Row>
           </Col>
@@ -123,15 +130,21 @@ class ExpensesPage extends React.Component {
                 <Tab eventKey={2} title="Charts">
                   <Row>
                     <Col lg={12}>
-                      <Panel header="Count">
-                        <ExpenseCountGraph data={expenses.graphs.count} />
+                      <Panel>
+                        <Panel.Heading>Count</Panel.Heading>
+                        <Panel.Body>
+                          <ExpenseCountGraph data={expenses.graphs.count} />
+                        </Panel.Body>
                       </Panel>
                     </Col>
                   </Row>
                   <Row>
                     <Col lg={12}>
-                      <Panel header="Sum">
-                        <SpentByMonthGraph data={expenses.graphs.sum} />
+                      <Panel>
+                        <Panel.Heading>Sum</Panel.Heading>
+                        <Panel.Body>
+                          <SpentByMonthGraph data={expenses.graphs.sum} />
+                        </Panel.Body>
                       </Panel>
                     </Col>
                   </Row>
@@ -139,18 +152,21 @@ class ExpensesPage extends React.Component {
                 <Tab eventKey={3} title="Stats">
                   <Row>
                     <Col lg={12}>
-                      <Panel header="Stats">
-                        <Row>
-                          <Col lg={3}>
-                            <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
-                          </Col>
-                          <Col lg={3}>
-                            <Widget title="Unique types" value={expenses.stats.types} />
-                          </Col>
-                          <Col lg={3}>
-                            <Widget title="Unique vendors" value={expenses.stats.vendors} />
-                          </Col>
-                        </Row>
+                      <Panel>
+                        <Panel.Heading>Stats</Panel.Heading>
+                        <Panel.Body>
+                          <Row>
+                            <Col lg={3}>
+                              <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
+                            </Col>
+                            <Col lg={3}>
+                              <Widget title="Unique types" value={expenses.stats.types} />
+                            </Col>
+                            <Col lg={3}>
+                              <Widget title="Unique vendors" value={expenses.stats.vendors} />
+                            </Col>
+                          </Row>
+                        </Panel.Body>
                       </Panel>
                     </Col>
                   </Row>

@@ -152,7 +152,7 @@ class DashboardPage extends React.Component {
               </Col>
               <Col lg={6}>
                 <Panel>
-                  <Panel.Heading>Beer</Panel.Heading>
+                  <Panel.Heading>Movies</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
                     <ListGroup>
                       {movies}
