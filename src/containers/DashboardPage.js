@@ -116,8 +116,8 @@ class DashboardPage extends React.Component {
           <Col lg={6}>
             <Row>
               <Col lg={6}>
-                <Panel header="Expenses" noPadding tiny>
-                  <Panel.Heading>Online last 30 days</Panel.Heading>
+                <Panel>
+                  <Panel.Heading>Expenses</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
                     <ListGroup>
                       {expenses}

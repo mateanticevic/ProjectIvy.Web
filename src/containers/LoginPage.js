@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Grid, Row, Col, ControlLabel, FormControl } from 'react-bootstrap/lib';
+import { Button, Grid, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 
 import * as actions from '../actions/loginActions';
-import { Panel } from '../components/common';
 
 class LoginPage extends React.Component {
 
@@ -16,41 +15,44 @@ class LoginPage extends React.Component {
     this.loginTry = this.loginTry.bind(this);
   }
 
-  onCredentialsChanged(credentialValue){
+  onCredentialsChanged(credentialValue) {
     let credentials = { ...this.props.login.credentials, ...credentialValue };
     this.props.actions.changedCredentials(credentials);
   }
 
-  loginTry(event){
-      event.preventDefault();
-      this.props.actions.loginTry(this.props.login.credentials);
+  loginTry(event) {
+    event.preventDefault();
+    this.props.actions.loginTry(this.props.login.credentials);
   }
 
   render() {
 
     return (
       <Grid>
-          <Row>
-              <Col lg={4} lgOffset={4}>
-                <Panel header="Login">
-                    <form onSubmit={this.loginTry}>
-                        <Row>
-                            <Col lg={12}>
-                                <ControlLabel>Username</ControlLabel>
-                                <FormControl type="text" onChange={e => this.onCredentialsChanged({username: e.target.value})}/>
-                            </Col>
-                            <Col lg={12}>
-                                <ControlLabel>Password</ControlLabel>
-                                <FormControl type="password" onChange={e => this.onCredentialsChanged({password: e.target.value})}/>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={6}><Button type="submit" onClick={this.loginTry}>Login</Button></Col>
-                        </Row>
-                    </form>
-                </Panel>
-              </Col>
-          </Row>
+        <Row>
+          <Col lg={4} lgOffset={4}>
+            <Panel>
+              <Panel.Heading>Login</Panel.Heading>
+              <Panel.Body>
+                <form onSubmit={this.loginTry}>
+                  <Row>
+                    <Col lg={12}>
+                      <ControlLabel>Username</ControlLabel>
+                      <FormControl type="text" onChange={e => this.onCredentialsChanged({ username: e.target.value })} />
+                    </Col>
+                    <Col lg={12}>
+                      <ControlLabel>Password</ControlLabel>
+                      <FormControl type="password" onChange={e => this.onCredentialsChanged({ password: e.target.value })} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg={6}><Button type="submit" onClick={this.loginTry}>Login</Button></Col>
+                  </Row>
+                </form>
+              </Panel.Body>
+            </Panel>
+          </Col>
+        </Row>
       </Grid>
     );
   }
