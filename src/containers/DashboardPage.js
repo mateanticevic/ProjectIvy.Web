@@ -31,6 +31,7 @@ class DashboardPage extends React.Component {
     this.props.actions.getConsumations({ pageSize: 5 });
     this.props.actions.getMovies({ pageSize: 5 });
     this.props.actions.getOnineData();
+    this.props.actions.getDistances();
   }
 
   dayOfWeek(date) {
@@ -171,6 +172,17 @@ class DashboardPage extends React.Component {
                 </Panel>
               </Col>
               <Col lg={6}>
+                <Panel>
+                  <Panel.Heading>Distance</Panel.Heading>
+                  <Panel.Body className="panel-small padding-0">
+                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.today/1000)} km</h2>
+                    <p className="text-align-center">Today</p>
+                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.thisWeek/1000)} km</h2>
+                    <p className="text-align-center">This week</p>
+                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.thisMonth/1000)} km</h2>
+                    <p className="text-align-center">April</p>
+                  </Panel.Body>
+                </Panel>
               </Col>
             </Row>
           </Col>

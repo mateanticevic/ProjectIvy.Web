@@ -67,18 +67,19 @@ class TripPage extends React.Component {
                   </Col>
                 </Row>
               </Panel.Body>
-
-
             </Panel>
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
-            <Panel header="Map" noPadding small>
-              <Map>
-                {poiMarkers}
-                <Polyline path={this.props.trip.trackings} />
-              </Map>
+            <Panel>
+              <Panel.Heading>Map</Panel.Heading>
+              <Panel.Body className="padding-0 panel-medium">
+                <Map>
+                  {poiMarkers}
+                  <Polyline path={this.props.trip.trackings} />
+                </Map>
+              </Panel.Body>
             </Panel>
           </Col>
         </Row>

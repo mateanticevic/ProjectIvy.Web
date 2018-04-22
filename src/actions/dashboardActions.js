@@ -124,3 +124,35 @@ export function getConsumations(filters) {
 export function getConsumationsSuccess(data) {
     return { type: types.GET_CONSUMATIONS_SUCCESS, data };
 }
+
+export function getDistances() {
+
+    var todayFilters = {
+        from: moment().format("YYYY-MM-DD")
+    };
+
+    var thisWeekFilters = {
+        from: moment().isoWeekday(1).format("YYYY-MM-DD")
+    };
+
+    var thisMonthFilters = {
+        from: moment().date(1).format("YYYY-MM-DD")
+    };
+
+    return function (dispatch) {
+        return trackingApi.getDistance(todayFilters)
+            .then(today => {
+                trackingApi.getDistance(thisWeekFilters)
+                    .then(thisWeek => {
+                        trackingApi.getDistance(thisMonthFilters)
+                            .then(thisMonth => {
+                                dispatch(getDistancesSuccess({ today, thisWeek, thisMonth }));
+                            });
+                    });
+            });
+    };
+}
+
+export function getDistancesSuccess(data) {
+    return { type: types.GET_DISTANCE_TOTALS_SUCCESS, data };
+}

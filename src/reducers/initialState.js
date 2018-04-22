@@ -7,6 +7,11 @@ export default {
     spentToday: 0,
     spentThisWeek: 0,
     spentThisMonth: 0,
+    distance: {
+      today: 0,
+      thisWeek: 0,
+      thisMonth: 0
+    },
     onlineGraphData: [],
     spentByMonthGraphData: [],
     movies: [],

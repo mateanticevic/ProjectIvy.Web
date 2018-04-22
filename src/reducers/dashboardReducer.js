@@ -35,6 +35,9 @@ export default function dashboardReducer(state = initialState.dashboard, action)
         case types.GET_EXPENSE_SUM_TODAY_SUCCESS:
             return { ...state, spentToday: action.data };
 
+        case types.GET_DISTANCE_TOTALS_SUCCESS:
+            return { ...state, distance: action.data };
+
         default:
             return state;
     }
