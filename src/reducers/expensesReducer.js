@@ -51,9 +51,7 @@ export default function expensesReducer(state = initialState.expenses, action) {
       return {...state, stats: {...state.stats, vendors: action.count} }; 
 
     case types.GET_VENDOR_POIS_SUCCESS:
-      const poiId = action.pois != undefined && action.pois.length > 0 ? action.pois[0].id : null;
-      const expenseWithPoiId = {...state.expense, poiId: poiId};
-      return {...state, vendorPois: action.pois, expense: expenseWithPoiId };
+      return {...state, vendorPois: action.pois };
 
     case types.NEW_EXPENSE:
       const expense = {...initialState.expenses.expense, date: new Date()};

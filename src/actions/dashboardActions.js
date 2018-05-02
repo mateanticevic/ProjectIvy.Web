@@ -7,14 +7,22 @@ import * as movieApi from '../api/main/movie';
 import * as trackingApi from '../api/main/tracking';
 import * as types from '../constants/dashboardActionTypes';
 
+let todayFilters = {
+    from: moment().format("YYYY-MM-DD")
+};
+
+let thisWeekFilters = {
+    from: moment().isoWeekday(1).format("YYYY-MM-DD")
+};
+
+let thisMonthFilters = {
+    from: moment().date(1).format("YYYY-MM-DD")
+};
+
 export function getExpenseSumThisMonth() {
 
-    var filters = {
-        from: moment().date(1).format("YYYY-MM-DD")
-    };
-
     return function (dispatch) {
-        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumThisMonthSuccess(json)); });
+        return expenseApi.getSum(thisMonthFilters).then(json => { dispatch(getExpenseSumThisMonthSuccess(json)); });
     };
 }
 
@@ -24,12 +32,8 @@ export function getExpenseSumThisMonthSuccess(data) {
 
 export function getExpenseSumToday() {
 
-    var filters = {
-        from: moment().format("YYYY-MM-DD")
-    };
-
     return function (dispatch) {
-        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumTodaySuccess(json)); });
+        return expenseApi.getSum(todayFilters).then(json => { dispatch(getExpenseSumTodaySuccess(json)); });
     };
 }
 
@@ -39,12 +43,8 @@ export function getExpenseSumTodaySuccess(data) {
 
 export function getExpenseSumThisWeek() {
 
-    var filters = {
-        from: moment().isoWeekday(1).format("YYYY-MM-DD")
-    };
-
     return function (dispatch) {
-        return expenseApi.getSum(filters).then(json => { dispatch(getExpenseSumThisWeekSuccess(json)); });
+        return expenseApi.getSum(thisWeekFilters).then(json => { dispatch(getExpenseSumThisWeekSuccess(json)); });
     };
 }
 
@@ -126,18 +126,6 @@ export function getConsumationsSuccess(data) {
 }
 
 export function getDistances() {
-
-    var todayFilters = {
-        from: moment().format("YYYY-MM-DD")
-    };
-
-    var thisWeekFilters = {
-        from: moment().isoWeekday(1).format("YYYY-MM-DD")
-    };
-
-    var thisMonthFilters = {
-        from: moment().date(1).format("YYYY-MM-DD")
-    };
 
     return function (dispatch) {
         return trackingApi.getDistance(todayFilters)

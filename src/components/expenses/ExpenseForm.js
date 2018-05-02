@@ -41,11 +41,17 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Poi</ControlLabel>
-              <Select selected={props.expense.poiId} options={props.vendorPois} onChange={x => props.onChange({ poiId: x })} hideDefaultOption={true} />
+              <Select selected={props.expense.poiId} defaultOptionValue="N/A" options={props.vendorPois} onChange={x => props.onChange({ poiId: x })} />
             </FormGroup>
           </Col>
         </Row>
         <Row>
+          <Col lg={6}>
+            <FormGroup>
+              <ControlLabel>Currency</ControlLabel>
+              <Select selected={props.expense.currencyId} options={props.common.currencies} onChange={x => props.onChange({ currencyId: x })} hideDefaultOption={true} />
+            </FormGroup>
+          </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Amount</ControlLabel>
@@ -53,12 +59,6 @@ const ExpenseForm = (props) => {
                 <FormControl value={props.expense.amount} type="number" onChange={x => props.onChange({ amount: x.target.value })} />
                 <InputGroup.Addon>{props.expense.currencyId}</InputGroup.Addon>
               </InputGroup>
-            </FormGroup>
-          </Col>
-          <Col lg={6}>
-            <FormGroup>
-              <ControlLabel>Currency</ControlLabel>
-              <Select selected={props.expense.currencyId} options={props.common.currencies} onChange={x => props.onChange({ currencyId: x })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
         </Row>

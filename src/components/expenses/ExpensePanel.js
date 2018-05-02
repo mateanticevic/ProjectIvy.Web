@@ -11,7 +11,7 @@ const ExpensePanel = (props) => {
 
   const expenses = props.serverPaging ? props.expenses.items : props.expenses.items.slice((props.page - 1) * props.pageSize, props.page * props.pageSize);
 
-  const totalItems = props.serverPaging ? props.expenses.count : props.expenses.items.length;
+  //const totalItems = props.serverPaging ? props.expenses.count : props.expenses.items.length;
 
   const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} onUnlink={props.onUnlink} /> : <h2>No data</h2>;
 
