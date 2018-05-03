@@ -98,7 +98,7 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <Panel>
                   <Panel.Heading>
-                  <Panel.Toggle>More filters</Panel.Toggle>
+                    <Panel.Toggle>More filters</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
                     <ExpenseFiltersMore common={common}
