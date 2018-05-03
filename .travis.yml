@@ -6,7 +6,7 @@ install:
   - npm install
   - npm run build
 git:
-   depth: 9999999
+   depth: false
 before_deploy:
   - cd dist
 deploy:
