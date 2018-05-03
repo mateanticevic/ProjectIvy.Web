@@ -10,8 +10,8 @@ before_deploy:
 deploy:
   skip_cleanup: true
   provider: azure_web_apps
-  username: AZURE_FTP_USER
-  password: AZURE_FTP_PASSWORD
+  username: $AZURE_FTP_USER
+  password: $AZURE_FTP_PASSWORD
   site: project-ivy
   verbose: true
   on:
