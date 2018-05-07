@@ -6,7 +6,7 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Marker, Polyline } from "react-google-maps";
 
 import * as actions from '../actions/tripActions';
-import { Map, Widget } from '../components/common';
+import { Map, ValueLabel } from '../components/common';
 import { ExpensePanel } from '../components/expenses';
 
 class TripPage extends React.Component {
@@ -53,17 +53,17 @@ class TripPage extends React.Component {
               <Panel.Heading>Stats</Panel.Heading>
               <Panel.Body>
                 <Row>
-                  <Col lg={2} xs={6}>
-                    <Widget title="Distance" value={trip.distance} unit="m" />
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Distance" unit="km" value={parseInt(trip.distance / 1000)} />
                   </Col>
-                  <Col lg={2} xs={6}>
-                    <Widget title="Spent" value={trip.totalSpent} unit="HRK" />
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Spent" unit="kn" value={parseInt(trip.totalSpent)} />
                   </Col>
-                  <Col lg={2} xs={6}>
-                    <Widget title="Cities" value={trip.cities.length} />
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Cities" value={trip.cities.length} />
                   </Col>
-                  <Col lg={2} xs={6}>
-                    <Widget title="Countries" value={trip.countries.length} />
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Countries" value={trip.countries.length} />
                   </Col>
                 </Row>
               </Panel.Body>

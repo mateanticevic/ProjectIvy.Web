@@ -9,7 +9,7 @@ import { Marker } from "react-google-maps";
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
 import ExpenseType from '../components/expenses/ExpenseType';
-import { Map } from '../components/common';
+import { Map, ValueLabel } from '../components/common';
 
 class DashboardPage extends React.Component {
 
@@ -130,12 +130,9 @@ class DashboardPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Spent</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
-                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentToday)} kn</h2>
-                    <p className="text-align-center">Today</p>
-                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisWeek)} kn</h2>
-                    <p className="text-align-center">This week</p>
-                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.spentThisMonth)} kn</h2>
-                    <p className="text-align-center">April</p>
+                    <ValueLabel label="Today" unit="kn" value={parseInt(dashboard.spentToday)} />
+                    <ValueLabel label="This week" unit="kn" value={parseInt(dashboard.spentThisWeek)} />
+                    <ValueLabel label={moment().format("MMMM")} unit="kn" value={parseInt(dashboard.spentThisMonth)} />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -175,12 +172,9 @@ class DashboardPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Distance</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
-                  <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.today/1000)} km</h2>
-                    <p className="text-align-center">Today</p>
-                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.thisWeek/1000)} km</h2>
-                    <p className="text-align-center">This week</p>
-                    <h2 className="text-align-center margin-bottom-0 margin-top-10">{parseInt(dashboard.distance.thisMonth/1000)} km</h2>
-                    <p className="text-align-center">April</p>
+                    <ValueLabel label="Today" unit="km" value={parseInt(dashboard.distance.today / 1000)} />
+                    <ValueLabel label="This week" unit="km" value={parseInt(dashboard.distance.thisWeek / 1000)} />
+                    <ValueLabel label={moment().format("MMMM")} unit="km" value={parseInt(dashboard.distance.thisMonth / 1000)} />
                   </Panel.Body>
                 </Panel>
               </Col>
