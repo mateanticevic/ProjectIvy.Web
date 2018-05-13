@@ -54,6 +54,10 @@ export default {
     },
     vendorPois: []
   },
+  flights:{
+    countByAirport: [],
+    flights: { count: 0, items: []}
+  },
   login: {
     credentials: {
       username: "",

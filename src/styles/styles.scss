@@ -24,6 +24,10 @@ a {
   padding: 0px;
 }
 
+.panel-large {
+  height: 600px;
+}
+
 .panel-medium {
   height: 380px;
 }
@@ -34,6 +38,14 @@ a {
 
 .panel-no-padding .panel-body {
   padding: 0px;
+}
+
+.panel-large .panel-body {
+  height: 600px;
+}
+
+.panel-small .panel-body {
+  height: 380px;
 }
 
 .panel-small .panel-body {

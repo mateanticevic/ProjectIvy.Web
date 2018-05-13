@@ -5,45 +5,48 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const NavigationBar = () => {
 
-  function logout(){
+  function logout() {
     localStorage.removeItem("token");
     browserHistory.push("/login");
   }
 
   return (
-         <Navbar fixedTop collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <IndexLink to="/">Project Ivy</IndexLink>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavDropdown eventKey={3} title="Finance">
-                <LinkContainer to="/expenses">
-                  <MenuItem eventKey={3.1}>Expenses</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/incomes">
-                  <MenuItem eventKey={3.2}>Incomes</MenuItem>
-                </LinkContainer>
-              </NavDropdown>
-              <NavDropdown eventKey={4} title="Travel">
-                <LinkContainer to="/pois">
-                  <MenuItem eventKey={4.1}>Pois</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/trips">
-                  <MenuItem eventKey={4.2}>Trips</MenuItem>
-                </LinkContainer>
-              </NavDropdown>
-            </Nav>
-            <Nav pullRight>
-              <NavDropdown eventKey={4} title="Mate Antičević">
-                <MenuItem onClick={logout}>Logout</MenuItem>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-         </Navbar>
+    <Navbar fixedTop collapseOnSelect>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <IndexLink to="/">Project Ivy</IndexLink>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <Nav>
+          <NavDropdown eventKey={3} title="Finance">
+            <LinkContainer to="/expenses">
+              <MenuItem eventKey={3.1}>Expenses</MenuItem>
+            </LinkContainer>
+            <LinkContainer to="/incomes">
+              <MenuItem eventKey={3.2}>Incomes</MenuItem>
+            </LinkContainer>
+          </NavDropdown>
+          <NavDropdown eventKey={4} title="Travel">
+            <LinkContainer to="/flights">
+              <MenuItem eventKey={4.1}>Flights</MenuItem>
+            </LinkContainer>
+            <LinkContainer to="/pois">
+              <MenuItem eventKey={4.2}>Pois</MenuItem>
+            </LinkContainer>
+            <LinkContainer to="/trips">
+              <MenuItem eventKey={4.3}>Trips</MenuItem>
+            </LinkContainer>
+          </NavDropdown>
+        </Nav>
+        <Nav pullRight>
+          <NavDropdown eventKey={4} title="Mate Antičević">
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

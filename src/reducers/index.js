@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import expenses from './expensesReducer';
+import flights from './flightsReducer';
 import login from './loginReducer';
 import pois from './poisReducer';
 import trips from './tripsReducer';
@@ -12,6 +13,7 @@ import {reducer as toastrReducer} from 'react-redux-toastr';
 const rootReducer = combineReducers({
   dashboard,
   expenses,
+  flights,
   login,
   pois,
   trips,

@@ -4,6 +4,7 @@ import { Route, IndexRoute } from 'react-router';
 import App from './components/App';
 import DashboardPage from './containers/DashboardPage';
 import ExpensesPage from './containers/ExpensesPage';
+import FlightsPage from './containers/FlightsPage';
 import LoginPage from './containers/LoginPage';
 import TripsPage from './containers/TripsPage';
 import TripPage from './containers/TripPage';
@@ -14,6 +15,7 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={DashboardPage}/>
     <Route path="expenses" component={ExpensesPage}/>
+    <Route path="flights" component={FlightsPage}/>
     <Route path="login" component={LoginPage}/>
     <Route path="pois" component={PoisPage}/>
     <Route path="trips" component={TripsPage}/>
