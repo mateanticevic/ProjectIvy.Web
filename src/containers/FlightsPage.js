@@ -2,20 +2,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Pagination, Panel, ListGroup, ListGroupItem, Label } from 'react-bootstrap/lib';
-import { Polygon, Marker } from "react-google-maps";
+import { Grid, Row, Col, Panel, ListGroup, ListGroupItem, Label, Checkbox } from 'react-bootstrap/lib';
+import { Marker, Polyline } from "react-google-maps";
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
+import moment from 'moment';
 
 import * as actions from '../actions/flightsActions';
-import { Map } from '../components/common';
+import { Map, Select } from '../components/common';
 
 class FlightsPage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        props.actions.getFlights();
-        props.actions.getFlightCountByAirport();
+        this.state = {
+            showFlights: false
+        };
+
+        props.actions.getFlights(props.flights.filters);
+        props.actions.getFlightCountByAirport(props.flights.filters);
+
+        this.filterYearChanged = this.filterYearChanged.bind(this);
+        this.toggleShowFlights = this.toggleShowFlights.bind(this);
+    }
+
+    filterYearChanged(year) {
+        const filters = {
+            ...this.props.flights.filters,
+            from: year ? moment().year(year).month(0).date(1).format("YYYY-MM-DD") : null,
+            to: year ? moment().year(year).month(11).date(31).format("YYYY-MM-DD") : null
+        };
+        console.log(year);
+        this.props.actions.filterChanged(filters);
+    }
+
+    toggleShowFlights(){
+        this.setState({ ...this.state, showFlights: !this.state.showFlights});
     }
 
     render() {
@@ -24,9 +46,11 @@ class FlightsPage extends React.Component {
 
         const flightsHeader = `Flights (${state.flights.count})`;
 
-        const airports = state.countByAirport.map(airport => <Marker defaultPosition={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
-            title={airport.by.name}
-            icon={{ scale: 40 }} />);
+        const airports = state.countByAirport.map(airport => <Marker position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
+            title={airport.by.name} />);
+
+        const flightPolylines = state.flights.items.map(flight => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
+                                                                            path={[{lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude}, {lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude}]} />);
 
         const flights = state.flights.items.map(flight => <ListGroupItem className="border-no-radius border-no-left border-no-right">
             <Label bsStyle="primary" title={flight.origin.name}>{flight.origin.iata}</Label>&nbsp;
@@ -44,19 +68,34 @@ class FlightsPage extends React.Component {
                             <Panel.Body className="padding-0 panel-large">
                                 <Map onClick={this.onMapClick}>
                                     {airports}
+                                    {this.state.showFlights && flightPolylines}
                                 </Map>
                             </Panel.Body>
+                            <Panel.Footer>
+                                <Checkbox checked={this.state.showFlights} onChange={this.toggleShowFlights} className="margin-0">Show flights</Checkbox>
+                            </Panel.Footer>
                         </Panel>
                     </Col>
                     <Col lg={3}>
-                        <Panel>
-                            <Panel.Heading>{flightsHeader}</Panel.Heading>
-                            <Panel.Body className="padding-0">
-                                <ListGroup>
-                                    {flights}
-                                </ListGroup>
-                            </Panel.Body>
-                        </Panel>
+                        <Row>
+                            <Panel>
+                                <Panel.Heading>Filters</Panel.Heading>
+                                <Panel.Body>
+                                    <Select options={state.years} onChange={this.filterYearChanged} />
+                                </Panel.Body>
+                            </Panel>
+                        </Row>
+                        <Row>
+                            <Panel>
+                                <Panel.Heading>{flightsHeader}</Panel.Heading>
+                                <Panel.Body className="padding-0">
+                                    <ListGroup>
+                                        {flights}
+                                    </ListGroup>
+                                </Panel.Body>
+                            </Panel>
+                        </Row>
+
                     </Col>
                 </Row>
             </Grid>

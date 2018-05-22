@@ -12,6 +12,9 @@ export default function flightsReducer(state = initialState.flights, action) {
         case types.GET_FLIGHTS_SUCCESS:
             return { ...state, flights: action.data };
 
+        case types.FLIGHTS_FILTERS_CHANGED:
+            return { ...state, filters: action.data };
+
         default:
             return state;
     }

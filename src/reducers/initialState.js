@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 
 export default {
   dashboard:{
@@ -56,7 +57,10 @@ export default {
   },
   flights:{
     countByAirport: [],
-    flights: { count: 0, items: []}
+    filters: {
+    },
+    flights: { count: 0, items: []},
+    years: _.reverse(_.range(2000, moment().year() + 1))
   },
   login: {
     credentials: {

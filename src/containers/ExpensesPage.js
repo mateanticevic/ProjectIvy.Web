@@ -67,6 +67,8 @@ class ExpensesPage extends React.Component {
 
     let filters = filterValue ? { ...this.props.expenses.filters, ...filterValue } : { ...this.props.expenses.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
 
+    window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
+
     if (filterValue && filterValue.page == undefined) {
       filters.page = 1;
     }
