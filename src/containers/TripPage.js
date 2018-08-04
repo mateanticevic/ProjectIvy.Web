@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
@@ -38,6 +39,8 @@ class TripPage extends React.Component {
 
     const trip = this.props.trip.trip;
 
+    const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
+
     const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
     return (
@@ -53,6 +56,9 @@ class TripPage extends React.Component {
               <Panel.Heading>Stats</Panel.Heading>
               <Panel.Body>
                 <Row>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Days" value={days} />
+                  </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <ValueLabel label="Distance" unit="km" value={parseInt(trip.distance / 1000)} />
                   </Col>
