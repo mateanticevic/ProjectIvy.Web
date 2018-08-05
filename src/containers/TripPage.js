@@ -18,7 +18,7 @@ class TripPage extends React.Component {
     this.state = {
       expenses: {
         page: 1,
-        pageSize: 10
+        pageSize: 1000
       }
     };
 

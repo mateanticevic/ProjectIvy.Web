@@ -122,7 +122,7 @@ export function getConsumations(filters) {
 }
 
 export function getConsumationsSuccess(data) {
-    return { type: types.GET_CONSUMATIONS_SUCCESS, data };
+    return { type: types.GET_RECENT_CONSUMATIONS_SUCCESS, data };
 }
 
 export function getDistances() {

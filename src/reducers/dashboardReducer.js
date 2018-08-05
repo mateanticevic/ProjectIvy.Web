@@ -20,7 +20,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
         case types.GET_RECENT_EXPENSES_SUCCESS:
             return { ...state, expenses: action.data.items };
 
-        case types.GET_CONSUMATIONS_SUCCESS:
+        case types.GET_RECENT_CONSUMATIONS_SUCCESS:
             return { ...state, consumations: action.data.items };
 
         case types.GET_CAR_LOG_LATEST_SUCCESS:

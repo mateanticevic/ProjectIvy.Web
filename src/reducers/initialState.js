@@ -19,6 +19,10 @@ export default {
     lastLocation: { lat: 0, lng: 0, timestamp: moment() },
     consumations: []
   },
+  beer: {
+    consumations: { count: 0, items: []},
+    sum: 0
+  },
   expenses: {
     cards: [],
     graphs: {
@@ -85,7 +89,7 @@ export default {
   },
   trips: {
     countries: [],
-    filters: { pageSize: 10, page: 1 },
+    filters: { pageSize: 50, page: 1 },
     isModalOpen: false,
     trips: {count:0, items:[]}
   },
