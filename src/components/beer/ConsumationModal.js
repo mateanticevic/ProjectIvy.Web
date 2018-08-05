@@ -50,7 +50,7 @@ const ConsumationModal = (props) => {
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button bsStyle="primary" onClick={props.onSave}>
+                <Button bsStyle="primary" onClick={() => {props.onSave(); props.onClose();}}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>

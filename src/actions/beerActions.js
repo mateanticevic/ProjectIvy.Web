@@ -2,11 +2,16 @@ import * as beerApi from '../api/main/beer';
 import * as commonApi from '../api/main/common';
 import * as consumationApi from '../api/main/consumation';
 import * as types from '../constants/beerActionTypes';
+import { toastr } from 'react-redux-toastr';
 
-export function addConsumation(consumation) {
+export function addConsumation(consumation, filters) {
 
     return function (dispatch) {
-        return consumationApi.post(consumation).then(json => { dispatch(addConsumationSuccess(json)); });
+        return consumationApi.post(consumation).then(json => {
+            toastr.success("Success", "New consumation added");
+            dispatch(addConsumationSuccess(json));
+            dispatch(getConsumations(filters));
+        });
     };
 }
 

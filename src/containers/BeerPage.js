@@ -28,7 +28,6 @@ class BeerPage extends React.Component {
 
   onConsumationChange(consumationValue) {
     let consumation = { ...this.props.beer.consumation.item, ...consumationValue };
-    console.log(consumation);
     this.props.actions.consumationChange(consumation);
   }
 
