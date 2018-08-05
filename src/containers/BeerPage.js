@@ -7,14 +7,29 @@ import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
 import * as actions from '../actions/beerActions';
+import ConsumationModal from '../components/beer/ConsumationModal';
 
 class BeerPage extends React.Component {
 
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      consumationModalOpen: false
+    };
+
+    this.onConsumationChange = this.onConsumationChange.bind(this);
+
+    props.actions.getBrands();
     props.actions.getConsumations();
     props.actions.getConsumationSum();
+    props.actions.getServings();
+  }
+
+  onConsumationChange(consumationValue) {
+    let consumation = { ...this.props.beer.consumation.item, ...consumationValue };
+    console.log(consumation);
+    this.props.actions.consumationChange(consumation);
   }
 
   render() {
@@ -46,7 +61,12 @@ class BeerPage extends React.Component {
                     Consumations ({state.consumations.count})
                   </Col>
                   <Col xs={2}>
-                    <Button className="pull-right" bsStyle="primary" bsSize="xsmall"><FontAwesome name="plus" /> New</Button>
+                    <Button className="pull-right"
+                      bsStyle="primary"
+                      onClick={() => this.setState({...this.state, consumationModalOpen: true})}
+                      bsSize="xsmall">
+                      <FontAwesome name="plus" /> New
+                    </Button>
                   </Col>
                 </Row>
               </Panel.Heading>
@@ -71,6 +91,14 @@ class BeerPage extends React.Component {
             </Panel>
           </Col>
         </Row>
+        <ConsumationModal brands={state.brands}
+          servings={state.servings}
+          isOpen={this.state.consumationModalOpen}
+          onBrandChange={this.props.actions.getConsumationBeers}
+          onChange={this.onConsumationChange}
+          onClose={() => this.setState({...this.state, consumationModalOpen: false})}
+          onSave={() => this.props.actions.addConsumation(state.consumation.item)}
+          consumation={state.consumation} />
       </Grid>
     );
   }

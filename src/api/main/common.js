@@ -11,3 +11,7 @@ export function getPaymentTypes() {
 export function getPoiCategories() {
     return api.get("common/poiCategory");
 }
+
+export function getBeerServing() {
+    return api.get("common/beerServing");
+}

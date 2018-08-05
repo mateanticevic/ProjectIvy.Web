@@ -20,7 +20,13 @@ export default {
     consumations: []
   },
   beer: {
+    brands: [],
+    consumation: {
+      beers: [],
+      item: {}
+    },
     consumations: { count: 0, items: []},
+    servings: [],
     sum: 0
   },
   expenses: {

@@ -7,3 +7,7 @@ export function get(filters) {
 export function getSum(filters) {
     return api.get("consumation/sum", filters);
 }
+
+export function post(consumation) {
+    return api.post("consumation", consumation);
+}
