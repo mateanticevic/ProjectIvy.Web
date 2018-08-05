@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Panel, Table } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel, Table, Button } from 'react-bootstrap/lib';
+import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
 import * as actions from '../actions/beerActions';
@@ -17,6 +18,8 @@ class BeerPage extends React.Component {
   }
 
   render() {
+
+    const state = this.props.beer;
 
     const consumations = this.props.beer.consumations.items.map(consumation => <tr>
       <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
@@ -37,7 +40,16 @@ class BeerPage extends React.Component {
           </Col>
           <Col lg={9}>
             <Panel>
-              <Panel.Heading>Consumations</Panel.Heading>
+              <Panel.Heading>
+                <Row>
+                  <Col xs={10}>
+                    Consumations ({state.consumations.count})
+                  </Col>
+                  <Col xs={2}>
+                    <Button className="pull-right" bsStyle="primary" bsSize="xsmall"><FontAwesome name="plus" /> New</Button>
+                  </Col>
+                </Row>
+              </Panel.Heading>
               <Panel.Body>
                 <Table>
                   <thead>
@@ -54,7 +66,7 @@ class BeerPage extends React.Component {
                 </Table>
               </Panel.Body>
               <Panel.Footer>
-                Sum ~{this.props.beer.sum/1000}L
+                Sum ~{Math.ceil(this.props.beer.sum / 1000)}L
               </Panel.Footer>
             </Panel>
           </Col>
