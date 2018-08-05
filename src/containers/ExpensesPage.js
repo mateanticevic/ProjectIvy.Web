@@ -115,65 +115,36 @@ class ExpensesPage extends React.Component {
           </Col>
           <Col lg={9}>
             <Row>
-              <Tabs id="expenseTabs" defaultActiveKey={1}>
-                <Tab eventKey={1} title="Items">
-                  <Row>
-                    <Col lg={12}>
-                      <ExpensePanel expenses={expenses.expenses}
-                        onEdit={this.onExpenseEdit}
-                        onPageChange={this.onFiltersChanged}
-                        onNewClick={this.onExpenseNew}
-                        page={expenses.filters.page}
-                        serverPaging
-                        pageSize={expenses.filters.pageSize} />
-                    </Col>
-                  </Row>
-                </Tab>
-                <Tab eventKey={2} title="Charts">
-                  <Row>
-                    <Col lg={12}>
-                      <Panel>
-                        <Panel.Heading>Count</Panel.Heading>
-                        <Panel.Body>
-                          <ExpenseCountGraph data={expenses.graphs.count} />
-                        </Panel.Body>
-                      </Panel>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg={12}>
-                      <Panel>
-                        <Panel.Heading>Sum</Panel.Heading>
-                        <Panel.Body>
-                          <SpentByMonthGraph data={expenses.graphs.sum} />
-                        </Panel.Body>
-                      </Panel>
-                    </Col>
-                  </Row>
-                </Tab>
-                <Tab eventKey={3} title="Stats">
-                  <Row>
-                    <Col lg={12}>
-                      <Panel>
-                        <Panel.Heading>Stats</Panel.Heading>
-                        <Panel.Body>
-                          <Row>
-                            <Col lg={3}>
-                              <Widget title="Total" value={expenses.stats.sum} unit="HRK" />
-                            </Col>
-                            <Col lg={3}>
-                              <Widget title="Unique types" value={expenses.stats.types} />
-                            </Col>
-                            <Col lg={3}>
-                              <Widget title="Unique vendors" value={expenses.stats.vendors} />
-                            </Col>
-                          </Row>
-                        </Panel.Body>
-                      </Panel>
-                    </Col>
-                  </Row>
-                </Tab>
-              </Tabs>
+              <Col lg={12}>
+                <ExpensePanel expenses={expenses.expenses}
+                  onEdit={this.onExpenseEdit}
+                  onPageChange={this.onFiltersChanged}
+                  onNewClick={this.onExpenseNew}
+                  page={expenses.filters.page}
+                  stats={expenses.stats}
+                  serverPaging
+                  pageSize={expenses.filters.pageSize} />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel>
+                  <Panel.Heading>Count</Panel.Heading>
+                  <Panel.Body>
+                    <ExpenseCountGraph data={expenses.graphs.count} />
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel>
+                  <Panel.Heading>Sum</Panel.Heading>
+                  <Panel.Body>
+                    <SpentByMonthGraph data={expenses.graphs.sum} />
+                  </Panel.Body>
+                </Panel>
+              </Col>
             </Row>
 
           </Col>
