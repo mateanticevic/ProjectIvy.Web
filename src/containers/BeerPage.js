@@ -7,6 +7,8 @@ import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
 import * as actions from '../actions/beerActions';
+import * as urlHelper from '../utils/urlHelper';
+import ConsumationFilters from '../components/beer/ConsumationFilters';
 import ConsumationModal from '../components/beer/ConsumationModal';
 
 class BeerPage extends React.Component {
@@ -15,10 +17,12 @@ class BeerPage extends React.Component {
     super(props, context);
 
     this.state = {
-      consumationModalOpen: false
+      consumationModalOpen: false,
+      filters: {}
     };
 
     this.onConsumationChange = this.onConsumationChange.bind(this);
+    this.onFiltersChange = this.onFiltersChange.bind(this);
 
     props.actions.getBrands();
     props.actions.getConsumations();
@@ -27,8 +31,17 @@ class BeerPage extends React.Component {
   }
 
   onConsumationChange(consumationValue) {
-    let consumation = { ...this.props.beer.consumation.item, ...consumationValue };
+    const consumation = { ...this.props.beer.consumation.item, ...consumationValue };
     this.props.actions.consumationChange(consumation);
+  }
+
+  onFiltersChange(filterValue) {
+    const filters = { ...this.state.filters, ...filterValue };
+    window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
+
+    this.setState({ ...this.state, filters: filters });
+    this.props.actions.getConsumations(filters);
+    this.props.actions.getConsumationSum(filters);
   }
 
   render() {
@@ -49,6 +62,9 @@ class BeerPage extends React.Component {
             <Panel>
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
+                <ConsumationFilters filters={this.state.filters}
+                                    onChange={this.onFiltersChange}
+                                    brands={state.brands} />
               </Panel.Body>
             </Panel>
           </Col>
@@ -62,7 +78,7 @@ class BeerPage extends React.Component {
                   <Col xs={2}>
                     <Button className="pull-right"
                       bsStyle="primary"
-                      onClick={() => this.setState({...this.state, consumationModalOpen: true})}
+                      onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}
                       bsSize="xsmall">
                       <FontAwesome name="plus" /> New
                     </Button>
@@ -95,7 +111,7 @@ class BeerPage extends React.Component {
           isOpen={this.state.consumationModalOpen}
           onBrandChange={this.props.actions.getConsumationBeers}
           onChange={this.onConsumationChange}
-          onClose={() => this.setState({...this.state, consumationModalOpen: false})}
+          onClose={() => this.setState({ ...this.state, consumationModalOpen: false })}
           onSave={() => this.props.actions.addConsumation(state.consumation.item)}
           consumation={state.consumation} />
       </Grid>

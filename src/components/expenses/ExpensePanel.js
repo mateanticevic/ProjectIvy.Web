@@ -54,9 +54,10 @@ const ExpensePanel = (props) => {
           </Col>
         </Row>
       </Panel.Body>
-      <Panel.Footer>
-        Sum {props.stats.sum}kn Types {props.stats.types} Vendors {props.stats.vendors}
-      </Panel.Footer>
+      {props.stats &&
+        <Panel.Footer>
+          Sum {props.stats.sum}kn Types {props.stats.types} Vendors {props.stats.vendors}
+        </Panel.Footer>}
     </Panel>
   );
 };
