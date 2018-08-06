@@ -17,6 +17,9 @@ export default function beerReducer(state = initialState.beer, action) {
         case types.GET_CONSUMATION_BEERS_SUCCESS:
             return { ...state, consumation: { ...state.consumation, beers: action.data.items } };
 
+        case types.GET_CONSUMATION_SUM_BY_BEER_SUCCESS:
+            return { ...state, topBeers: action.data.items };
+
         case types.GET_CONSUMATION_SUM_SUCCESS:
             return { ...state, sum: action.data };
 

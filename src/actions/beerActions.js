@@ -67,6 +67,17 @@ export function getConsumationSumSuccess(data) {
     return { type: types.GET_CONSUMATION_SUM_SUCCESS, data };
 }
 
+export function getConsumationSumByBeer(filter) {
+
+    return function (dispatch) {
+        return consumationApi.getSumByBeer(filter).then(json => { dispatch(getConsumationSumByBeerSuccess(json)); });
+    };
+}
+
+export function getConsumationSumByBeerSuccess(data) {
+    return { type: types.GET_CONSUMATION_SUM_BY_BEER_SUCCESS, data };
+}
+
 export function getServings() {
 
     return function (dispatch) {

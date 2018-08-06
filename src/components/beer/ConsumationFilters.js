@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
+import { FormGroup, ControlLabel, Glyphicon, InputGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
 import Select from '../common/Select';
@@ -32,7 +32,11 @@ const ConsumationFilters = props => {
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Brand</ControlLabel>
-                <Select options={props.brands} hideDefaultOption={true} onChange={id => props.onChange({ brandId: id })} />
+                <Select options={props.brands} onChange={id => props.onChange({ brandId: id })} />
+            </FormGroup>
+            <FormGroup>
+                <ControlLabel>Serving</ControlLabel>
+                <Select options={props.servings} onChange={x => props.onChange({ serving: x })} />
             </FormGroup>
         </React.Fragment>
     );

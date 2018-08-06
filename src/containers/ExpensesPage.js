@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Tabs, Tab, Panel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
 import * as expenseMapper from '../mappers/expenseMapper';
 import * as urlHelper from '../utils/urlHelper';
 
-import { Widget } from '../components/common';
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
 import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
 

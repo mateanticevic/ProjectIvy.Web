@@ -27,7 +27,8 @@ export default {
     },
     consumations: { count: 0, items: []},
     servings: [],
-    sum: 0
+    sum: 0,
+    topBeers: []
   },
   expenses: {
     cards: [],

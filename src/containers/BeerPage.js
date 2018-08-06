@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Panel, Table, Button } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel, Table, Button, ListGroup, ListGroupItem } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
@@ -25,9 +25,8 @@ class BeerPage extends React.Component {
     this.onFiltersChange = this.onFiltersChange.bind(this);
 
     props.actions.getBrands();
-    props.actions.getConsumations();
-    props.actions.getConsumationSum();
     props.actions.getServings();
+    this.onFiltersChange();
   }
 
   onConsumationChange(consumationValue) {
@@ -36,24 +35,27 @@ class BeerPage extends React.Component {
   }
 
   onFiltersChange(filterValue) {
-    const filters = { ...this.state.filters, ...filterValue };
+    const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
     window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
 
     this.setState({ ...this.state, filters: filters });
     this.props.actions.getConsumations(filters);
     this.props.actions.getConsumationSum(filters);
+    this.props.actions.getConsumationSumByBeer({ ...filters, pageSize: 5 });
   }
 
   render() {
 
     const state = this.props.beer;
 
-    const consumations = this.props.beer.consumations.items.map(consumation => <tr>
+    const consumations = state.consumations.items.map(consumation => <tr>
       <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
       <td>{consumation.beer.name}</td>
       <td>{consumation.serving}</td>
       <td>{consumation.volume / 1000}L</td>
     </tr>);
+
+    const topBeers = state.topBeers.map(beer => <ListGroupItem className="list-group-item border-no-radius border-no-left border-no-right">{beer.by.name} {beer.sum / 1000}L</ListGroupItem>);
 
     return (
       <Grid>
@@ -63,46 +65,74 @@ class BeerPage extends React.Component {
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
                 <ConsumationFilters filters={this.state.filters}
-                                    onChange={this.onFiltersChange}
-                                    brands={state.brands} />
+                  onChange={this.onFiltersChange}
+                  servings={state.servings}
+                  brands={state.brands} />
               </Panel.Body>
             </Panel>
           </Col>
-          <Col lg={9}>
+          <Col lg={6}>
+            <Row>
+              <Col lg={12}>
+                <Panel>
+                  <Panel.Heading>
+                    <Row>
+                      <Col xs={10}>
+                        Consumations ({state.consumations.count})
+                  </Col>
+                      <Col xs={2}>
+                        <Button className="pull-right"
+                          bsStyle="primary"
+                          onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}
+                          bsSize="xsmall">
+                          <FontAwesome name="plus" /> New
+                    </Button>
+                      </Col>
+                    </Row>
+                  </Panel.Heading>
+                  <Panel.Body>
+                    <Table>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Beer</th>
+                          <th>Serving</th>
+                          <th>Volume</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {consumations}
+                      </tbody>
+                    </Table>
+                  </Panel.Body>
+                  <Panel.Footer>
+                    Sum ~{Math.ceil(this.props.beer.sum / 1000)}L
+              </Panel.Footer>
+                </Panel>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={12}>
+                <Panel>
+                  <Panel.Heading>
+                    By serving
+                </Panel.Heading>
+                  <Panel.Body>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
+          </Col>
+          <Col lg={3}>
             <Panel>
               <Panel.Heading>
-                <Row>
-                  <Col xs={10}>
-                    Consumations ({state.consumations.count})
-                  </Col>
-                  <Col xs={2}>
-                    <Button className="pull-right"
-                      bsStyle="primary"
-                      onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}
-                      bsSize="xsmall">
-                      <FontAwesome name="plus" /> New
-                    </Button>
-                  </Col>
-                </Row>
+                Top beers
               </Panel.Heading>
-              <Panel.Body>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>Beer</th>
-                      <th>Serving</th>
-                      <th>Volume</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {consumations}
-                  </tbody>
-                </Table>
+              <Panel.Body className="panel-small padding-0">
+                <ListGroup>
+                  {topBeers}
+                </ListGroup>
               </Panel.Body>
-              <Panel.Footer>
-                Sum ~{Math.ceil(this.props.beer.sum / 1000)}L
-              </Panel.Footer>
             </Panel>
           </Col>
         </Row>
