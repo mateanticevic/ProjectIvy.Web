@@ -20,6 +20,8 @@ export default {
     consumations: []
   },
   beer: {
+    beer: {},
+    brand: {},
     brands: [],
     consumation: {
       beers: [],

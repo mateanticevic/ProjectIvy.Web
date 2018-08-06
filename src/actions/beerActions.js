@@ -15,13 +15,42 @@ export function addConsumation(consumation, filters) {
     };
 }
 
+export function addBeer(beer) {
+
+    return function (dispatch) {
+        return beerApi.postBeer(beer.brandId, beer).then(json => {
+            toastr.success("Success", "New beer added");
+        });
+    };
+}
+
+export function addBrand(brand) {
+
+    console.log(brand);
+
+    return function (dispatch) {
+        return beerApi.postBrand(brand.name).then(json => {
+            toastr.success("Success", "New brand added");
+            dispatch(getBrands());
+        });
+    };
+}
+
 export function addConsumationSuccess() {
     return { type: types.ADD_CONSUMATION_SUCCESS };
 }
 
+export function beerChange(beer) {
+    return { type: types.BEER_CHANGE, beer };
+}
+
+export function brandChange(brand) {
+    return { type: types.BRAND_CHANGE, brand };
+}
+
 export function consumationChange(consumation) {
     return { type: types.CONSUMATION_CHANGE, consumation };
-  }
+}
 
 export function getBrands() {
 
@@ -37,7 +66,7 @@ export function getBrandsSuccess(data) {
 export function getConsumationBeers(brandId) {
 
     return function (dispatch) {
-        return beerApi.get({brandId: brandId}).then(json => { dispatch(getConsumationBeersSuccess(json)); });
+        return beerApi.get({ brandId: brandId }).then(json => { dispatch(getConsumationBeersSuccess(json)); });
     };
 }
 

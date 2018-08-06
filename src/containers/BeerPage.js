@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Panel, Table, Button, ListGroup, ListGroupItem } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel, Table, Button, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
@@ -10,6 +10,8 @@ import * as actions from '../actions/beerActions';
 import * as urlHelper from '../utils/urlHelper';
 import ConsumationFilters from '../components/beer/ConsumationFilters';
 import ConsumationModal from '../components/beer/ConsumationModal';
+import BeerModal from '../components/beer/BeerModal';
+import BrandModal from '../components/beer/BrandModal';
 
 class BeerPage extends React.Component {
 
@@ -17,16 +19,29 @@ class BeerPage extends React.Component {
     super(props, context);
 
     this.state = {
+      beerModalOpen: false,
+      brandModalOpen: false,
       consumationModalOpen: false,
       filters: {}
     };
 
+    this.onBeerChange = this.onBeerChange.bind(this);
+    this.onBrandChange = this.onBrandChange.bind(this);
     this.onConsumationChange = this.onConsumationChange.bind(this);
     this.onFiltersChange = this.onFiltersChange.bind(this);
 
     props.actions.getBrands();
     props.actions.getServings();
     this.onFiltersChange();
+  }
+
+  onBeerChange(beerValue) {
+    const beer = { ...this.props.beer.beer, ...beerValue };
+    this.props.actions.beerChange(beer);
+  }
+
+  onBrandChange(brandValue) {
+    this.props.actions.brandChange({ ...brandValue });
   }
 
   onConsumationChange(consumationValue) {
@@ -81,12 +96,11 @@ class BeerPage extends React.Component {
                         Consumations ({state.consumations.count})
                   </Col>
                       <Col xs={2}>
-                        <Button className="pull-right"
-                          bsStyle="primary"
-                          onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}
-                          bsSize="xsmall">
-                          <FontAwesome name="plus" /> New
-                    </Button>
+                        <DropdownButton title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
+                          <MenuItem eventKey="1" onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}>Consumation</MenuItem>
+                          <MenuItem eventKey="2" onClick={() => this.setState({ ...this.state, beerModalOpen: true })}>Beer</MenuItem>
+                          <MenuItem eventKey="2" onClick={() => this.setState({ ...this.state, brandModalOpen: true })}>Brand</MenuItem>
+                        </DropdownButton>
                       </Col>
                     </Row>
                   </Panel.Heading>
@@ -144,6 +158,15 @@ class BeerPage extends React.Component {
           onClose={() => this.setState({ ...this.state, consumationModalOpen: false })}
           onSave={() => this.props.actions.addConsumation(state.consumation.item)}
           consumation={state.consumation} />
+        <BeerModal isOpen={this.state.beerModalOpen}
+                   brands={state.brands}
+                   onChange={this.onBeerChange}
+                   onClose={() => this.setState({ ...this.state, beerModalOpen: false })}
+                   onSave={() => this.props.actions.addBeer(state.beer)} />
+        <BrandModal isOpen={this.state.brandModalOpen}
+                    onChange={this.onBrandChange}
+                    onClose={() => this.setState({ ...this.state, brandModalOpen: false })}
+                    onSave={() => this.props.actions.addBrand(state.brand)} />
       </Grid>
     );
   }
