@@ -72,7 +72,7 @@ class ExpensesPage extends React.Component {
       filters.page = 1;
     }
 
-    this.props.actions.changedFilters(filters);
+    this.props.actions.changedFilters(filters, filterValue && filterValue.page ? true : false);
   }
 
   render() {

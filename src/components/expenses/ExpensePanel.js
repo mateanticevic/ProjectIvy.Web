@@ -6,7 +6,7 @@ import _ from 'lodash';
 import ExpenseTable from './ExpenseTable';
 
 const ExpensePanel = (props) => {
-
+  
   const expensesHeader = `Expenses (${props.expenses.count})`;
 
   const expenses = props.serverPaging ? props.expenses.items : props.expenses.items.slice((props.page - 1) * props.pageSize, props.page * props.pageSize);

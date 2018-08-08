@@ -44,14 +44,18 @@ export function editExpense(expense) {
   return { type: types.EDIT_EXPENSE, expense };
 }
 
-export function changedFilters(filters) {
+export function changedFilters(filters, ignoreStats) {
   return function (dispatch) {
     dispatch(getExpenses(filters));
-    dispatch(getSum(filters));
-    dispatch(getVendorsCount(filters));
-    dispatch(getTypesCount(filters));
-    dispatch(getCountByDay(filters));
-    dispatch(getExpenseSumByMonth(filters));
+
+    if (!ignoreStats){
+      dispatch(getSum(filters));
+      dispatch(getVendorsCount(filters));
+      dispatch(getTypesCount(filters));
+      dispatch(getCountByDay(filters));
+      dispatch(getExpenseSumByMonth(filters));
+    }
+
     return dispatch({ type: types.CHANGED_FILTERS, filters });
   };
 }
