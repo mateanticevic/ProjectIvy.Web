@@ -18,7 +18,7 @@ class TripPage extends React.Component {
     this.state = {
       expenses: {
         page: 1,
-        pageSize: 1000
+        pageSize: 10
       }
     };
 
@@ -94,7 +94,7 @@ class TripPage extends React.Component {
             <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
               page={this.state.expenses.page}
               pageSize={this.state.expenses.pageSize}
-              onPageChange={page => this.onExpensePageChange(page)}
+              onPageChange={page => this.onExpensePageChange({ page: page })}
               onUnlink={expenseId => this.onUnlink(expenseId)} />
           </Col>
         </Row>
