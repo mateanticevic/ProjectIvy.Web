@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Pagination, Panel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
 
 import * as actions from '../actions/tripsActions';
 import * as trackingHelper from '../utils/trackingHelper';
-import { Map } from '../components/common';
+import { Map, Pagination } from '../components/common';
 import { TripModal, TripRow, TripTable } from '../components/trips';
 
 class TripsPage extends React.Component {
@@ -78,10 +78,9 @@ class TripsPage extends React.Component {
                     </Row>
                     <Row>
                       <Col lg={12}>
-                        <Pagination prev next ellipsis boundaryLinks items={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
-                          maxButtons={5}
-                          activePage={this.props.trips.filters.page}
-                          onSelect={page => this.onFiltersChanged({ page: page })} />
+                        <Pagination page={this.props.trips.filters.page}
+                                    pages={Math.ceil(this.props.trips.trips.count / this.props.trips.filters.pageSize)}
+                                    onPageChange={page => this.onFiltersChanged({ page: page })} />
                       </Col>
                     </Row>
                   </Panel.Body>

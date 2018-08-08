@@ -38,7 +38,9 @@ const ExpensePanel = (props) => {
         </Row>
         <Row>
           <Col lg={12}>
-            <Pagination page={props.page} pages={Math.ceil(totalItems / props.pageSize)} onPageChange={props.onPageChange} />
+            <Pagination page={props.page}
+                        pages={Math.ceil(totalItems / props.pageSize)}
+                        onPageChange={props.onPageChange} />
           </Col>
         </Row>
       </Panel.Body>

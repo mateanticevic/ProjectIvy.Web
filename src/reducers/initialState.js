@@ -98,7 +98,7 @@ export default {
   },
   trips: {
     countries: [],
-    filters: { pageSize: 50, page: 1 },
+    filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
     trips: {count:0, items:[]}
   },

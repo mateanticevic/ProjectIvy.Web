@@ -117,7 +117,7 @@ class ExpensesPage extends React.Component {
               <Col lg={12}>
                 <ExpensePanel expenses={expenses.expenses}
                   onEdit={this.onExpenseEdit}
-                  onPageChange={this.onFiltersChanged}
+                  onPageChange={page => this.onFiltersChanged({ page: page })}
                   onNewClick={this.onExpenseNew}
                   page={expenses.filters.page}
                   stats={expenses.stats}
