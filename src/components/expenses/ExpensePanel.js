@@ -15,7 +15,9 @@ const ExpensePanel = (props) => {
 
   const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} onUnlink={props.onUnlink} /> : <h2>No data</h2>;
 
-  const paginationItems = _.range(2, 5).map(item => <Pagination.Item onSelect={page => props.onPageChange({ page: page })}>{item}</Pagination.Item>);
+  const startFromPage = props.page > 2 ? props.page - 2 : 1;
+
+  const paginationItems = _.range(startFromPage, startFromPage + 5).map(item => <Pagination.Item active={item === props.page} onClick={page => props.onPageChange({ page: item })}>{item}</Pagination.Item>);
 
   return (
     <Panel>
@@ -43,13 +45,8 @@ const ExpensePanel = (props) => {
               maxButtons={5}
               activePage={props.page}
               onSelect={page => props.onPageChange({ page: page })} /> */}
-            <Pagination onSelect={page => props.onPageChange({ page: page })}>
-              <Pagination.First />
-              <Pagination.Prev />
-              <Pagination.Item active>{1}</Pagination.Item>
+            <Pagination>
               {paginationItems}
-              <Pagination.Next />
-              <Pagination.Last />
             </Pagination>
           </Col>
         </Row>
