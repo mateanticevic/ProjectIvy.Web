@@ -36,6 +36,7 @@ export default {
     cards: [],
     graphs: {
       count: [],
+      sumByYear: [],
       sum: []
     },
     files: [],

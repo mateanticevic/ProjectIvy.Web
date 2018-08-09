@@ -54,6 +54,7 @@ export function changedFilters(filters, ignoreStats) {
       dispatch(getTypesCount(filters));
       dispatch(getCountByDay(filters));
       dispatch(getExpenseSumByMonth(filters));
+      //dispatch(getExpenseSumByYear(filters));
     }
 
     return dispatch({ type: types.CHANGED_FILTERS, filters });
@@ -132,6 +133,16 @@ export function getExpenseSumByMonth(filters) {
 
 export function getExpenseSumByMonthSuccess(data) {
   return { type: types.GET_EXPENSE_SUM_BY_MONTH_SUCCESS, data };
+}
+
+export function getExpenseSumByYear(filters) {
+  return function (dispatch) {
+    return expenseApi.getSumByYear(filters).then(json => { dispatch(getExpenseSumByYearSuccess(json)); });
+  };
+}
+
+export function getExpenseSumByYearSuccess(data) {
+  return { type: types.GET_EXPENSE_SUM_BY_YEAR_SUCCESS, data };
 }
 
 export function getPaymentTypes() {

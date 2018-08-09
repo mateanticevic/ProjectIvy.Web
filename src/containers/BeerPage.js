@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Panel, Table, Button, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
-import FontAwesome from 'react-fontawesome';
+import { Grid, Row, Col, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import Moment from 'react-moment';
 
 import * as actions from '../actions/beerActions';

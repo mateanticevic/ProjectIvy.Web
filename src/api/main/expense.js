@@ -32,6 +32,10 @@ export function getSumByMonth(filters) {
     return api.get("expense/sum/bymonth", filters);
 }
 
+export function getSumByYear(filters) {
+    return api.get("expense/sum/byyear", filters);
+}
+
 export function post(expense) {
     return api.post("expense", expense);
 }

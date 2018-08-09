@@ -17,8 +17,8 @@ export function addConsumation(consumation, filters) {
 
 export function addBeer(beer) {
 
-    return function (dispatch) {
-        return beerApi.postBeer(beer.brandId, beer).then(json => {
+    return function () {
+        return beerApi.postBeer(beer.brandId, beer).then(() => {
             toastr.success("Success", "New beer added");
         });
     };
@@ -29,7 +29,7 @@ export function addBrand(brand) {
     console.log(brand);
 
     return function (dispatch) {
-        return beerApi.postBrand(brand.name).then(json => {
+        return beerApi.postBrand(brand.name).then(() => {
             toastr.success("Success", "New brand added");
             dispatch(getBrands());
         });

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
+import moment from 'moment';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
@@ -10,7 +11,7 @@ import * as expenseMapper from '../mappers/expenseMapper';
 import * as urlHelper from '../utils/urlHelper';
 
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
-import SpentByMonthGraph from '../components/dashboard/SpentByMonthGraph';
+import { ChartBar } from '../components/common';
 
 
 class ExpensesPage extends React.Component {
@@ -79,6 +80,10 @@ class ExpensesPage extends React.Component {
 
     const { actions, common, expenses } = this.props;
 
+    const chartSumData = _.reverse(_.map(expenses.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") } }));
+
+    const chartSumByYearData = _.reverse(_.map(expenses.graphs.sumByYear, x => { return { value: x.data, key: x.year } }));
+
     return (
       <Grid>
         <Row>
@@ -140,7 +145,8 @@ class ExpensesPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Sum</Panel.Heading>
                   <Panel.Body>
-                    <SpentByMonthGraph data={expenses.graphs.sum} />
+                    <ChartBar unit=" kn"
+                              data={chartSumData} />
                   </Panel.Body>
                 </Panel>
               </Col>

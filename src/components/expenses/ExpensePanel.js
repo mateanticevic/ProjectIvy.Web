@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import _ from 'lodash';
 
 import ExpenseTable from './ExpenseTable';
 import Pagination from '../common/Pagination';
