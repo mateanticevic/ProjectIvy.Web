@@ -53,7 +53,7 @@ const ExpenseFiltersMore = (props) => {
             <FormGroup>
               <ControlLabel>Has linked files</ControlLabel>
               <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
-                <ToggleButton value={null}>Show all</ToggleButton>
+                <ToggleButton value={true}>Show all</ToggleButton>
                 <ToggleButton value={true}>Yes</ToggleButton>
                 <ToggleButton value={false}>No</ToggleButton>
               </ToggleButtonGroup>
@@ -65,7 +65,7 @@ const ExpenseFiltersMore = (props) => {
             <FormGroup>
               <ControlLabel>Has poi</ControlLabel>
               <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>
-                <ToggleButton value={null}>Show all</ToggleButton>
+                <ToggleButton value={true}>Show all</ToggleButton>
                 <ToggleButton value={true}>Yes</ToggleButton>
                 <ToggleButton value={false}>No</ToggleButton>
               </ToggleButtonGroup>

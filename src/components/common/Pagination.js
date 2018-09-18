@@ -11,7 +11,7 @@ const Pagination = (props) => {
     const endPage = startPage + showPages > props.pages ? props.pages : startPage + showPages - 1;
 
     const items = _.range(startPage, endPage + 1).map(item =>
-        <BootstrapPagination.Item active={item === props.page} onClick={() => props.onPageChange(item)}>{item}</BootstrapPagination.Item>);
+        <BootstrapPagination.Item key={_.uniqueId('pagination_item_')} active={item === props.page} onClick={() => props.onPageChange(item)}>{item}</BootstrapPagination.Item>);
 
     return (
         <BootstrapPagination>
