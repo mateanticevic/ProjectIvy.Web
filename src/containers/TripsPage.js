@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
+import _ from 'lodash';
 
 import * as actions from '../actions/tripsActions';
 import * as trackingHelper from '../utils/trackingHelper';
@@ -33,7 +34,7 @@ class TripsPage extends React.Component {
   render() {
 
     const countryPolygons = this.props.trips.countries.map(country => {
-      return country.polygons.map(path => <Polygon path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
+      return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
     const polygons = [].concat(...countryPolygons);
