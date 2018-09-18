@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
+import _ from 'lodash';
 
 import * as actions from '../actions/expensesActions';
 import * as init from '../actions/commonActions';
@@ -80,9 +81,7 @@ class ExpensesPage extends React.Component {
 
     const { actions, common, expenses } = this.props;
 
-    const chartSumData = _.reverse(_.map(expenses.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") } }));
-
-    const chartSumByYearData = _.reverse(_.map(expenses.graphs.sumByYear, x => { return { value: x.data, key: x.year } }));
+    const chartSumData = _.reverse(_.map(expenses.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") }; }));
 
     return (
       <Grid>

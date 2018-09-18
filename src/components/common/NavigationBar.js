@@ -20,7 +20,7 @@ const NavigationBar = () => {
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav>
-          <NavDropdown eventKey={3} title="Finance">
+          <NavDropdown id="nav_finance" eventKey={3} title="Finance">
             <LinkContainer to="/expenses">
               <MenuItem eventKey={3.1}>Expenses</MenuItem>
             </LinkContainer>
@@ -28,7 +28,7 @@ const NavigationBar = () => {
               <MenuItem eventKey={3.2}>Incomes</MenuItem>
             </LinkContainer>
           </NavDropdown>
-          <NavDropdown eventKey={4} title="Travel">
+          <NavDropdown id="nav_travel" eventKey={4} title="Travel">
             <LinkContainer to="/flights">
               <MenuItem eventKey={4.1}>Flights</MenuItem>
             </LinkContainer>
@@ -39,14 +39,14 @@ const NavigationBar = () => {
               <MenuItem eventKey={4.3}>Trips</MenuItem>
             </LinkContainer>
           </NavDropdown>
-          <NavDropdown eventKey={5} title="Other">
+          <NavDropdown id="nav_other" eventKey={5} title="Other">
             <LinkContainer to="/beer">
               <MenuItem eventKey={5.1}>Beer</MenuItem>
             </LinkContainer>
           </NavDropdown>
         </Nav>
         <Nav pullRight>
-          <NavDropdown eventKey={4} title="Mate Antičević">
+          <NavDropdown id="nav_user" eventKey={4} title="Mate Antičević">
             <MenuItem onClick={logout}>Logout</MenuItem>
           </NavDropdown>
         </Nav>

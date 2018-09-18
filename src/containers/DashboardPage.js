@@ -5,6 +5,7 @@ import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup, Panel } from
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Marker } from "react-google-maps";
+import _ from 'lodash';
 
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
@@ -22,7 +23,7 @@ class DashboardPage extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.getCarLatestLog("punto");
+    this.props.actions.getCarLatestLog("golf-7");
     this.props.actions.getExpenseSumThisMonth();
     this.props.actions.getExpenseSumToday();
     this.props.actions.getExpenseSumThisWeek();
@@ -58,24 +59,24 @@ class DashboardPage extends React.Component {
 
     const dashboard = this.props.dashboard;
 
-    const expenses = dashboard.expenses.map(function (expense) {
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+    const expenses = dashboard.expenses.map(expense => {
+      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
         {that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
       </li>;
     });
 
-    const movies = dashboard.movies.map(function (movie) {
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+    const movies = dashboard.movies.map(movie => {
+      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
         {that.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
         <span className="pull-right"><Label bsStyle="primary">{movie.myRating}</Label></span>
       </li>;
     });
 
-    const consumations = dashboard.consumations.map(function (consumation) {
+    const consumations = dashboard.consumations.map(consumation => {
 
-      const tooltip = <Tooltip>{consumation.serving}</Tooltip>;
+      const tooltip = <Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>;
 
-      return <li className="list-group-item border-no-radius border-no-left border-no-right">
+      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
         {that.dayOfWeek(consumation.date)} {consumation.beer.name}
         <OverlayTrigger placement="top" overlay={tooltip}>
           <span className="pull-right"><Label bsStyle="primary">{consumation.volume / 1000}L</Label></span>
