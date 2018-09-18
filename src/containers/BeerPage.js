@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import Moment from 'react-moment';
+import _ from 'lodash';
 
 import * as actions from '../actions/beerActions';
 import * as urlHelper from '../utils/urlHelper';
@@ -31,6 +32,10 @@ class BeerPage extends React.Component {
 
     props.actions.getBrands();
     props.actions.getServings();
+    
+  }
+
+  componentDidMount(){
     this.onFiltersChange();
   }
 
@@ -62,14 +67,14 @@ class BeerPage extends React.Component {
 
     const state = this.props.beer;
 
-    const consumations = state.consumations.items.map(consumation => <tr>
+    const consumations = state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
       <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
       <td>{consumation.beer.name}</td>
       <td>{consumation.serving}</td>
       <td>{consumation.volume / 1000}L</td>
     </tr>);
 
-    const topBeers = state.topBeers.map(beer => <ListGroupItem className="list-group-item border-no-radius border-no-left border-no-right">{beer.by.name} {beer.sum / 1000}L</ListGroupItem>);
+    const topBeers = state.topBeers.map(beer => <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">{beer.by.name} {beer.sum / 1000}L</ListGroupItem>);
 
     return (
       <Grid>
@@ -95,7 +100,7 @@ class BeerPage extends React.Component {
                         Consumations ({state.consumations.count})
                   </Col>
                       <Col xs={2}>
-                        <DropdownButton title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
+                        <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
                           <MenuItem eventKey="1" onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}>Consumation</MenuItem>
                           <MenuItem eventKey="2" onClick={() => this.setState({ ...this.state, beerModalOpen: true })}>Beer</MenuItem>
                           <MenuItem eventKey="2" onClick={() => this.setState({ ...this.state, brandModalOpen: true })}>Brand</MenuItem>
@@ -158,14 +163,14 @@ class BeerPage extends React.Component {
           onSave={() => this.props.actions.addConsumation(state.consumation.item)}
           consumation={state.consumation} />
         <BeerModal isOpen={this.state.beerModalOpen}
-                   brands={state.brands}
-                   onChange={this.onBeerChange}
-                   onClose={() => this.setState({ ...this.state, beerModalOpen: false })}
-                   onSave={() => this.props.actions.addBeer(state.beer)} />
+          brands={state.brands}
+          onChange={this.onBeerChange}
+          onClose={() => this.setState({ ...this.state, beerModalOpen: false })}
+          onSave={() => this.props.actions.addBeer(state.beer)} />
         <BrandModal isOpen={this.state.brandModalOpen}
-                    onChange={this.onBrandChange}
-                    onClose={() => this.setState({ ...this.state, brandModalOpen: false })}
-                    onSave={() => this.props.actions.addBrand(state.brand)} />
+          onChange={this.onBrandChange}
+          onClose={() => this.setState({ ...this.state, brandModalOpen: false })}
+          onSave={() => this.props.actions.addBrand(state.brand)} />
       </Grid>
     );
   }
