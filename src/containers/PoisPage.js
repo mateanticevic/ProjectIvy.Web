@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, ControlLabel, FormControl, Panel, ToggleButtonGroup, ToggleButton } from 'react-bootstrap/lib';
 import { Marker } from "react-google-maps";
+import FontAwesome from 'react-fontawesome';
 import * as actions from '../actions/poiActions';
 import * as init from '../actions/commonActions';
 
@@ -69,8 +70,8 @@ class PoisPage extends React.Component {
     let bounds = this.map.state.map.getBounds();
 
     let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
-    this.setState({ filters: filters });
-    this.props.actions.getPois(filters);
+    //this.setState({ filters: filters });
+    //this.props.actions.getPois(filters);
   }
 
   onNewClick() {
@@ -105,6 +106,12 @@ class PoisPage extends React.Component {
                   {poiMarkers}
                 </Map>
               </Panel.Body>
+              <Panel.Footer>
+                <ToggleButtonGroup type="radio" name="options" defaultValue={'move'}>
+                  <ToggleButton value={'move'}><FontAwesome name="arrows" /> Move</ToggleButton>
+                  <ToggleButton value={'new'}><FontAwesome name="map-marker" /> New</ToggleButton>
+                </ToggleButtonGroup>
+              </Panel.Footer>
             </Panel>
           </Col>
         </Row>
