@@ -1,7 +1,8 @@
 import React from 'react';
-import { Row, Col, Pagination, Panel, Button } from 'react-bootstrap/lib';
+import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
+import Pagination from '../common/Pagination';
 import PoiTable from './PoiTable';
 
 const PoiPanel = (props) => {
@@ -30,10 +31,9 @@ const PoiPanel = (props) => {
         </Row>
         <Row>
           <Col lg={12}>
-            <Pagination prev next first last ellipsis boundaryLinks items={Math.ceil(props.pois.count / props.pageSize)}
-              maxButtons={5}
-              activePage={props.page}
-              onSelect={page => props.onPageChange(page)} />
+            <Pagination page={props.page}
+              pages={Math.ceil(props.pois.count / props.pageSize)}
+              onPageChange={props.onPageChange} />
           </Col>
         </Row>
       </Panel.Body>
