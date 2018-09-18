@@ -7,6 +7,7 @@ import { Marker, Polyline } from "react-google-maps";
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 import moment from 'moment';
+import _ from 'lodash';
 
 import * as actions from '../actions/flightsActions';
 import { Map, Select } from '../components/common';
@@ -46,13 +47,13 @@ class FlightsPage extends React.Component {
 
         const flightsHeader = `Flights (${state.flights.count})`;
 
-        const airports = state.countByAirport.map(airport => <Marker position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
+        const airports = state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
             title={airport.by.name} />);
 
         const flightPolylines = state.flights.items.map(flight => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
                                                                             path={[{lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude}, {lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude}]} />);
 
-        const flights = state.flights.items.map(flight => <ListGroupItem className="border-no-radius border-no-left border-no-right">
+        const flights = state.flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
             <Label bsStyle="primary" title={flight.origin.name}>{flight.origin.iata}</Label>&nbsp;
             <FontAwesome name="long-arrow-right" />&nbsp;
             <Label bsStyle="primary" title={flight.destination.name}>{flight.destination.iata}</Label>
