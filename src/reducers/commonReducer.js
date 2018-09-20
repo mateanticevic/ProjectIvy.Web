@@ -22,7 +22,7 @@ export default function commonReducer(state = initialState.common, action) {
       return {...state, poiCategories: action.poiCategories};
 
     case commonTypes.GET_VENDORS_SUCCESS:
-      return {...state, vendors: action.vendors};
+      return {...state, vendors: action.vendors.items};
 
     default:
       return state;
