@@ -1,47 +1,29 @@
-import React from 'react';
-import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
-import FontAwesome from 'react-fontawesome';
-
-import Pagination from '../common/Pagination';
-import PoiTable from './PoiTable';
-
-const PoiPanel = (props) => {
-
-  const header = `Pois (${props.pois.count})`;
-
-  return (
-    <Panel>
-      <Panel.Heading>
-        <Row>
-          <Col xs={10}>
-            {header}
-          </Col>
-          <Col xs={2}>
-            {props.onNewClick &&
-              <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={props.onNewClick}><FontAwesome name="plus" /> New</Button>
-            }
-          </Col>
-        </Row>
-      </Panel.Heading>
-      <Panel.Body>
-        <Row>
-          <Col lg={12}>
-            <PoiTable pois={props.pois.items} addToTrip={props.addToTrip} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12}>
-            <Pagination page={props.page}
-              pages={Math.ceil(props.pois.count / props.pageSize)}
-              onPageChange={props.onPageChange} />
-          </Col>
-        </Row>
-      </Panel.Body>
-    </Panel>
-  );
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-export default PoiPanel;
-
-PoiPanel.propTypes = {
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(require("react"));
+const lib_1 = require("react-bootstrap/lib");
+const react_fontawesome_1 = __importDefault(require("react-fontawesome"));
+const Pagination_1 = __importDefault(require("../common/Pagination"));
+const PoiTable_1 = __importDefault(require("./PoiTable"));
+const PoiPanel = ({ pois, addToTrip, onNewClick, onPageChange, page, pageSize }) => {
+    const header = `Pois (${pois.count})`;
+    return (react_1.default.createElement(lib_1.Panel, null,
+        react_1.default.createElement(lib_1.Panel.Heading, null,
+            react_1.default.createElement(lib_1.Row, null,
+                react_1.default.createElement(lib_1.Col, { xs: 10 }, header),
+                react_1.default.createElement(lib_1.Col, { xs: 2 }, onNewClick &&
+                    react_1.default.createElement(lib_1.Button, { className: "pull-right", bsStyle: "primary", bsSize: "xsmall", onClick: onNewClick },
+                        react_1.default.createElement(react_fontawesome_1.default, { name: "plus" }),
+                        " New")))),
+        react_1.default.createElement(lib_1.Panel.Body, null,
+            react_1.default.createElement(lib_1.Row, null,
+                react_1.default.createElement(lib_1.Col, { lg: 12 },
+                    react_1.default.createElement(PoiTable_1.default, { pois: pois.items, addToTrip: addToTrip }))),
+            react_1.default.createElement(lib_1.Row, null,
+                react_1.default.createElement(lib_1.Col, { lg: 12 },
+                    react_1.default.createElement(Pagination_1.default, { page: page, pages: Math.ceil(pois.count / pageSize), onPageChange: onPageChange }))))));
 };
+exports.default = PoiPanel;

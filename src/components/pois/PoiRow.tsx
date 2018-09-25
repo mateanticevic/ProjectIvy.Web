@@ -2,11 +2,12 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Button } from 'react-bootstrap/lib';
 
-type PoiCategory = { name: string };
+import { Poi } from '../../types/pois';
 
-type Poi = { name: string, category: PoiCategory, address: string, id: number };
-
-type Props = { poi: Poi, addToTrip: any };
+type Props = {
+  addToTrip: (tripId: number) => void,
+  poi: Poi
+};
 
 const PoiRow = ({ poi, addToTrip }: Props) => {
 
@@ -18,12 +19,12 @@ const PoiRow = ({ poi, addToTrip }: Props) => {
       <td>
         <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => addToTrip(poi.id)}>
           <FontAwesome name="link" /> Link to trip
-      </Button>
+        </Button>
       </td>
       <td>
         <Button className="pull-right" bsStyle="primary" bsSize="xsmall">
           <FontAwesome name="map" /> Show
-      </Button>
+        </Button>
       </td>
     </tr>
   );
