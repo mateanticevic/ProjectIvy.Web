@@ -67,9 +67,9 @@ class PoisPage extends React.Component {
   }
 
   onMapDragEnd() {
-    let bounds = this.map.state.map.getBounds();
+    //let bounds = this.map.state.map.getBounds();
 
-    let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
+    //let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
     //this.setState({ filters: filters });
     //this.props.actions.getPois(filters);
   }
