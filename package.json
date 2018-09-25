@@ -50,7 +50,7 @@
     "react-router-redux": "4.0.8",
     "react-toastr": "2.9.5",
     "recharts": "1.2.0",
-    "redux": "3.7.2",
+    "redux": "4.0.0",
     "redux-thunk": "2.2.0",
     "@types/googlemaps": "3.30.5",
     "@types/markerclustererplus": "2.1.33",
