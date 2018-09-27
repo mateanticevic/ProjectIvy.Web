@@ -2,23 +2,21 @@ import React from 'react';
 import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
-import { PagedList } from '../../types/common';
+import { PagedItems } from '../../types/common';
 import { Poi } from '../../types/pois';
 import Pagination from '../common/Pagination';
 import PoiTable from './PoiTable';
 
 type Props = {
-  addToTrip: (tripid: number) => void,
+  addToTrip: (tripId: string) => void,
   onNewClick: () => void,
   onPageChange: (page: number) => void,
-  page: number,
-  pageSize: number,
-  pois: PagedList<Poi>
+  pagedItems: PagedItems<Poi>
 };
 
-const PoiPanel = ({ pois, addToTrip, onNewClick, onPageChange, page, pageSize }: Props) => {
+const PoiPanel: React.SFC<Props> = ({ pagedItems, addToTrip, onNewClick, onPageChange }) => {
 
-  const header = `Pois (${pois.count})`;
+  const header = `Pois (${pagedItems.list.count})`;
 
   return (
     <Panel>
@@ -37,13 +35,13 @@ const PoiPanel = ({ pois, addToTrip, onNewClick, onPageChange, page, pageSize }:
       <Panel.Body>
         <Row>
           <Col lg={12}>
-            <PoiTable pois={pois.items} addToTrip={addToTrip} />
+            <PoiTable pois={pagedItems.list.items} addToTrip={addToTrip} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
-            <Pagination page={page}
-              pages={Math.ceil(pois.count / pageSize)}
+            <Pagination page={pagedItems.page}
+              pages={Math.ceil(pagedItems.list.count / pagedItems.pageSize)}
               onPageChange={onPageChange} />
           </Col>
         </Row>

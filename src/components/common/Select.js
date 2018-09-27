@@ -1,29 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FormControl from 'react-bootstrap/lib/FormControl';
-
-const Select = (props) => {
-
-  const defaultOptionId = props.defaultOptionId ? props.defaultOptionId : null;
-  const defaultOptionValue = props.defaultOptionValue ? props.defaultOptionValue : 'Any';
-
-  let t = props.options && props.options[0] && props.options[0].id ? props.options : props.options.map(item => { return { id: item, name: item} });
-
-  const options = t.map(option => <option key={option.id} value={option.id}>{option.name}</option>);
-
-  return (
-    <FormControl value={props.selected} componentClass="select" onChange={e => props.onChange(e.target.value)} placeholder="select">
-      {!props.hideDefaultOption &&
-        <option value={defaultOptionId}>{defaultOptionValue}</option>
-      }
-      {options}
-    </FormControl>
-  );
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-
-Select.propTypes = {
-  options: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(require("react"));
+const FormControl_1 = __importDefault(require("react-bootstrap/lib/FormControl"));
+const Select = ({ options, onChange, defaultOptionId, defaultOptionValue, selected, hideDefaultOption }) => {
+    defaultOptionId = defaultOptionId ? defaultOptionId : undefined;
+    defaultOptionValue = defaultOptionValue ? defaultOptionValue : 'Any';
+    let t = options && options[0] && options[0].id ? options : options.map(item => { return { id: item, name: item }; });
+    options = t.map(option => react_1.default.createElement("option", { key: option.id, value: option.id }, option.name));
+    return (react_1.default.createElement(FormControl_1.default, { value: selected, componentClass: "select", onChange: e => onChange(e.target.value), placeholder: "select" },
+        !hideDefaultOption &&
+            react_1.default.createElement("option", { value: defaultOptionId }, defaultOptionValue),
+        options));
 };
-
-export default Select;
+exports.default = Select;

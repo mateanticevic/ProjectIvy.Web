@@ -1,5 +1,6 @@
-export const ADD_POI = 'ADD_POI';
-export const ADD_POI_SUCCESS = 'ADD_POI_SUCCESS';
-
-export const GET_POIS = 'GET_POIS';
-export const GET_POIS_SUCCESS = 'GET_POIS_SUCCESS';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ADD_POI = 'ADD_POI';
+exports.ADD_POI_SUCCESS = 'ADD_POI_SUCCESS';
+exports.GET_POIS = 'GET_POIS';
+exports.GET_POIS_SUCCESS = 'GET_POIS_SUCCESS';

@@ -8,8 +8,8 @@ const lib_1 = require("react-bootstrap/lib");
 const react_fontawesome_1 = __importDefault(require("react-fontawesome"));
 const Pagination_1 = __importDefault(require("../common/Pagination"));
 const PoiTable_1 = __importDefault(require("./PoiTable"));
-const PoiPanel = ({ pois, addToTrip, onNewClick, onPageChange, page, pageSize }) => {
-    const header = `Pois (${pois.count})`;
+const PoiPanel = ({ pagedItems, addToTrip, onNewClick, onPageChange }) => {
+    const header = `Pois (${pagedItems.list.count})`;
     return (react_1.default.createElement(lib_1.Panel, null,
         react_1.default.createElement(lib_1.Panel.Heading, null,
             react_1.default.createElement(lib_1.Row, null,
@@ -21,9 +21,9 @@ const PoiPanel = ({ pois, addToTrip, onNewClick, onPageChange, page, pageSize })
         react_1.default.createElement(lib_1.Panel.Body, null,
             react_1.default.createElement(lib_1.Row, null,
                 react_1.default.createElement(lib_1.Col, { lg: 12 },
-                    react_1.default.createElement(PoiTable_1.default, { pois: pois.items, addToTrip: addToTrip }))),
+                    react_1.default.createElement(PoiTable_1.default, { pois: pagedItems.list.items, addToTrip: addToTrip }))),
             react_1.default.createElement(lib_1.Row, null,
                 react_1.default.createElement(lib_1.Col, { lg: 12 },
-                    react_1.default.createElement(Pagination_1.default, { page: page, pages: Math.ceil(pois.count / pageSize), onPageChange: onPageChange }))))));
+                    react_1.default.createElement(Pagination_1.default, { page: pagedItems.page, pages: Math.ceil(pagedItems.list.count / pagedItems.pageSize), onPageChange: onPageChange }))))));
 };
 exports.default = PoiPanel;
