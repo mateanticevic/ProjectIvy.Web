@@ -83,7 +83,7 @@ export function post(resource: string, json?: object, parameters?: string) {
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
-export function postFile(resource: string, file) {
+export function postFile(resource: string, file: any) {
 
     let init: RequestInit = {
         method: httpMethod.POST,
