@@ -201,12 +201,13 @@ export function getVendorPoisSuccess(pois) {
   return { type: types.GET_VENDOR_POIS_SUCCESS, pois };
 }
 
-export function linkExpenseFile(expenseId, expenseFile) {
+export function linkExpenseFile(expenseId, expenseFile, filters) {
   return function (dispatch) {
     return expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => {
       toastr.success('File linked.');
       dispatch(getExpenseFiles(expenseId));
       dispatch(removeFile(expenseFile.file.id));
+      dispatch(getExpenses(filters));
     });
   };
 }
