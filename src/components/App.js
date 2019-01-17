@@ -10,12 +10,17 @@ class App extends React.Component {
   }
 
   render() {
+
+    const isLoggedIn = window.localStorage.getItem("token") != undefined;
+
     return (
       <div>
-         <div id="main">
-           <NavigationBar />
-           {this.props.children}
-         </div>
+        <div id="main">
+          {isLoggedIn &&
+            <NavigationBar />
+          }
+          {this.props.children}
+        </div>
         <ReduxToastr
           timeOut={4000}
           newestOnTop={false}
@@ -23,7 +28,7 @@ class App extends React.Component {
           position="top-right"
           transitionIn="fadeIn"
           transitionOut="fadeOut"
-          progressBar/>
+          progressBar />
       </div>
     );
   }
