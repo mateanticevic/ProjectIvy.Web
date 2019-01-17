@@ -28,32 +28,26 @@ class LoginPage extends React.Component {
   render() {
 
     return (
-      <Grid>
-        <Row>
-          <Col lg={4} lgOffset={4}>
-            <Panel>
-              <Panel.Heading>Login</Panel.Heading>
-              <Panel.Body>
-                <form onSubmit={this.loginTry}>
-                  <Row>
-                    <Col sm={12}>
-                      <ControlLabel>Username</ControlLabel>
-                      <FormControl type="text" onChange={e => this.onCredentialsChanged({ username: e.target.value })} />
-                    </Col>
-                    <Col sm={12}>
-                      <ControlLabel>Password</ControlLabel>
-                      <FormControl type="password" onChange={e => this.onCredentialsChanged({ password: e.target.value })} />
-                    </Col>
-                  </Row>
-                  <Row className="margin-top-10">
-                    <Col xs={12}><Button block type="submit" bsStyle="primary" onClick={this.loginTry}>Login</Button></Col>
-                  </Row>
-                </form>
-              </Panel.Body>
-            </Panel>
-          </Col>
-        </Row>
-      </Grid>
+      <Panel className="panel-login">
+        <Panel.Heading>Login</Panel.Heading>
+        <Panel.Body>
+          <form onSubmit={this.loginTry}>
+            <Row>
+              <Col sm={12}>
+                <ControlLabel>Username</ControlLabel>
+                <FormControl type="text" onChange={e => this.onCredentialsChanged({ username: e.target.value })} />
+              </Col>
+              <Col sm={12}>
+                <ControlLabel>Password</ControlLabel>
+                <FormControl type="password" onChange={e => this.onCredentialsChanged({ password: e.target.value })} />
+              </Col>
+            </Row>
+            <Row className="margin-top-10">
+              <Col xs={12}><Button block type="submit" bsStyle="primary" onClick={this.loginTry}>Login</Button></Col>
+            </Row>
+          </form>
+        </Panel.Body>
+      </Panel>
     );
   }
 }
