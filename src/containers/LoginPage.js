@@ -36,17 +36,17 @@ class LoginPage extends React.Component {
               <Panel.Body>
                 <form onSubmit={this.loginTry}>
                   <Row>
-                    <Col lg={12}>
+                    <Col sm={12}>
                       <ControlLabel>Username</ControlLabel>
                       <FormControl type="text" onChange={e => this.onCredentialsChanged({ username: e.target.value })} />
                     </Col>
-                    <Col lg={12}>
+                    <Col sm={12}>
                       <ControlLabel>Password</ControlLabel>
                       <FormControl type="password" onChange={e => this.onCredentialsChanged({ password: e.target.value })} />
                     </Col>
                   </Row>
-                  <Row>
-                    <Col lg={6}><Button type="submit" onClick={this.loginTry}>Login</Button></Col>
+                  <Row className="margin-top-10">
+                    <Col xs={12}><Button block type="submit" bsStyle="primary" onClick={this.loginTry}>Login</Button></Col>
                   </Row>
                 </form>
               </Panel.Body>
