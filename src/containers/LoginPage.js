@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Grid, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
+import { Button, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 
 import * as actions from '../actions/loginActions';
 

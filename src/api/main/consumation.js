@@ -4,6 +4,14 @@ export function get(filters) {
     return api.get("consumation", filters);
 }
 
+export function getCountBeer(filters) {
+    return api.get("consumation/count/beer", filters);
+}
+
+export function getCountBrand(filters) {
+    return api.get("consumation/count/brand", filters);
+}
+
 export function getSum(filters) {
     return api.get("consumation/sum", filters);
 }

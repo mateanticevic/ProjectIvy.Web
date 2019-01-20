@@ -29,6 +29,10 @@ export default {
     },
     consumations: { count: 0, items: []},
     servings: [],
+    stats: {
+      beers: 0,
+      brands: 0
+    },
     sum: 0,
     topBeers: []
   },

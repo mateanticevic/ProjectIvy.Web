@@ -32,10 +32,10 @@ class BeerPage extends React.Component {
 
     props.actions.getBrands();
     props.actions.getServings();
-    
+
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.onFiltersChange();
   }
 
@@ -124,8 +124,8 @@ class BeerPage extends React.Component {
                     </Table>
                   </Panel.Body>
                   <Panel.Footer>
-                    Sum ~{Math.ceil(this.props.beer.sum / 1000)}L
-              </Panel.Footer>
+                    Beers {state.stats.beers} Brands {state.stats.brands} Sum ~{Math.ceil(state.sum / 1000)}L
+                  </Panel.Footer>
                 </Panel>
               </Col>
             </Row>

@@ -74,10 +74,20 @@ export function getConsumationBeersSuccess(data) {
     return { type: types.GET_CONSUMATION_BEERS_SUCCESS, data };
 }
 
-export function getConsumations(filter) {
+export function getConsumations(filters) {
 
     return function (dispatch) {
-        return consumationApi.get(filter).then(json => { dispatch(getConsumationsSuccess(json)); });
+        return consumationApi.get(filters).then(consumations => {
+            consumationApi.getCountBeer(filters).then(beerCount => {
+                consumationApi.getCountBrand(filters).then(brandCount => {
+                    dispatch(getConsumationsSuccess({
+                        beerCount: beerCount,
+                        brandCount: brandCount,
+                        consumations: consumations
+                    }));
+                });
+            });
+        });
     };
 }
 
