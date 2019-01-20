@@ -9,7 +9,11 @@ export default function tripsReducer(state = initialState.trip, action) {
       return {...state, trackings: action.trackings};
 
     case types.GET_TRIP_SUCCESS:
-      return {...state, trip: action.trip};
+      return {
+        ...state,
+        beer: action.data.beer,
+        trip: action.data.trip
+      };
 
     default:
       return state;

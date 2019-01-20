@@ -131,13 +131,13 @@ class BeerPage extends React.Component {
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel>
+                {/* <Panel>
                   <Panel.Heading>
                     By serving
                 </Panel.Heading>
                   <Panel.Body>
                   </Panel.Body>
-                </Panel>
+                </Panel> */}
               </Col>
             </Row>
           </Col>

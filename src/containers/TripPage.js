@@ -37,7 +37,7 @@ class TripPage extends React.Component {
 
   render() {
 
-    const trip = this.props.trip.trip;
+    const { beer, trip } = this.props.trip;
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
 
@@ -70,6 +70,9 @@ class TripPage extends React.Component {
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <ValueLabel label="Countries" value={trip.countries.length} />
+                  </Col>
+                  <Col lg={2} md={3} sm={6} xs={12}>
+                    <ValueLabel label="Beer" unit="L" value={Math.ceil(beer / 1000)} />
                   </Col>
                 </Row>
               </Panel.Body>

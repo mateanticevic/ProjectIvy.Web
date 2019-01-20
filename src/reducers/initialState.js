@@ -108,6 +108,7 @@ export default {
     trips: {count:0, items:[]}
   },
   trip: {
+    beer: 0,
     trip: {
       cities: [],
       countries: [],
