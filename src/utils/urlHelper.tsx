@@ -1,4 +1,7 @@
 export function jsonToQueryString(json: any) {
+    if (json === undefined || json === null || json == {})
+        return '';
+
     return '?' +
         Object.keys(json).map(function (key) {
 

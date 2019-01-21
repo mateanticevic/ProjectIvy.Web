@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
+import moment from 'moment';
 import Moment from 'react-moment';
 import _ from 'lodash';
 
@@ -22,7 +23,9 @@ class BeerPage extends React.Component {
       beerModalOpen: false,
       brandModalOpen: false,
       consumationModalOpen: false,
-      filters: {}
+      filters: {
+        from: moment().month(0).date(1).format("YYYY-MM-DD") // YYYY-01-01
+      }
     };
 
     this.onBeerChange = this.onBeerChange.bind(this);
@@ -57,6 +60,8 @@ class BeerPage extends React.Component {
     const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
     window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
 
+    console.log(filters);
+
     this.setState({ ...this.state, filters: filters });
     this.props.actions.getConsumations(filters);
     this.props.actions.getConsumationSum(filters);
@@ -84,9 +89,9 @@ class BeerPage extends React.Component {
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
                 <ConsumationFilters filters={this.state.filters}
-                  onChange={this.onFiltersChange}
-                  servings={state.servings}
-                  brands={state.brands} />
+                                    onChange={this.onFiltersChange}
+                                    servings={state.servings}
+                                    brands={state.brands} />
               </Panel.Body>
             </Panel>
           </Col>

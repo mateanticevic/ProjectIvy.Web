@@ -12,10 +12,10 @@ const ConsumationFilters = props => {
                 <ControlLabel>From</ControlLabel>
                 <InputGroup>
                     <Datetime
-                        defaultValue={new Date()}
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={x => props.onChange({ from: x.format("YYYY-MM-DD") })} />
+                        onChange={x => props.onChange({ from: x.format("YYYY-MM-DD") })}
+                        value={props.filters.from} />
                     <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
@@ -23,7 +23,6 @@ const ConsumationFilters = props => {
                 <ControlLabel>To</ControlLabel>
                 <InputGroup>
                     <Datetime
-                        defaultValue={new Date()}
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
                         onChange={x => props.onChange({ to: x.format("YYYY-MM-DD") })} />
