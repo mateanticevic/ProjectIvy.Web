@@ -49,6 +49,7 @@ export function brandChange(brand) {
 }
 
 export function consumationChange(consumation) {
+    console.log(consumation);
     return { type: types.CONSUMATION_CHANGE, consumation };
 }
 

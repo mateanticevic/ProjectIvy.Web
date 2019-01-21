@@ -36,6 +36,10 @@ class BeerPage extends React.Component {
     props.actions.getBrands();
     props.actions.getServings();
 
+    const newConsumation = {
+      date: moment().format("YYYY-MM-DD")
+    };
+    this.props.actions.consumationChange(newConsumation);
   }
 
   componentDidMount() {
@@ -59,8 +63,6 @@ class BeerPage extends React.Component {
   onFiltersChange(filterValue) {
     const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
     window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
-
-    console.log(filters);
 
     this.setState({ ...this.state, filters: filters });
     this.props.actions.getConsumations(filters);
@@ -89,9 +91,9 @@ class BeerPage extends React.Component {
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
                 <ConsumationFilters filters={this.state.filters}
-                                    onChange={this.onFiltersChange}
-                                    servings={state.servings}
-                                    brands={state.brands} />
+                  onChange={this.onFiltersChange}
+                  servings={state.servings}
+                  brands={state.brands} />
               </Panel.Body>
             </Panel>
           </Col>
@@ -159,20 +161,23 @@ class BeerPage extends React.Component {
             </Panel>
           </Col>
         </Row>
-        <ConsumationModal brands={state.brands}
+        <ConsumationModal
+          brands={state.brands}
+          consumation={state.consumation}
           servings={state.servings}
           isOpen={this.state.consumationModalOpen}
           onBrandChange={this.props.actions.getConsumationBeers}
           onChange={this.onConsumationChange}
           onClose={() => this.setState({ ...this.state, consumationModalOpen: false })}
-          onSave={() => this.props.actions.addConsumation(state.consumation.item)}
-          consumation={state.consumation} />
-        <BeerModal isOpen={this.state.beerModalOpen}
+          onSave={() => this.props.actions.addConsumation(state.consumation.item)} />
+        <BeerModal
+          isOpen={this.state.beerModalOpen}
           brands={state.brands}
           onChange={this.onBeerChange}
           onClose={() => this.setState({ ...this.state, beerModalOpen: false })}
           onSave={() => this.props.actions.addBeer(state.beer)} />
-        <BrandModal isOpen={this.state.brandModalOpen}
+        <BrandModal
+          isOpen={this.state.brandModalOpen}
           onChange={this.onBrandChange}
           onClose={() => this.setState({ ...this.state, brandModalOpen: false })}
           onSave={() => this.props.actions.addBrand(state.brand)} />

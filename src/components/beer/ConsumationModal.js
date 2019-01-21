@@ -7,6 +7,11 @@ import Select from '../common/Select';
 
 const ConsumationModal = (props) => {
 
+
+    const consumation = props.consumation.item;
+
+    console.log(consumation);
+
     return (
         <Modal show={props.isOpen} onHide={props.onClose} bsSize="sm">
             <Modal.Header closeButton>
@@ -17,10 +22,10 @@ const ConsumationModal = (props) => {
                     <ControlLabel>Date</ControlLabel>
                     <InputGroup>
                         <Datetime
-                            defaultValue={new Date()}
                             dateFormat="YYYY-MM-DD"
+                            onChange={x => props.onChange({ date: x.format("YYYY-MM-DD") })}
                             timeFormat={false}
-                            onChange={x => props.onChange({ date: x.format("YYYY-MM-DD") })} />
+                            value={consumation.date} />
                         <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
