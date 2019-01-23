@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import FontAwesome from 'react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFile } from '@fortawesome/free-regular-svg-icons'
 import ExpenseType from './ExpenseType';
 import ExpenseVendor from './ExpenseVendor';
 import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap/lib';
@@ -29,7 +31,7 @@ const ExpenseRow = (props) => {
       <td>
         {props.expense.files && props.expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
-            <FontAwesome name="file-o" />
+            <FontAwesomeIcon icon={faFile} />
           </OverlayTrigger>}
       </td>
       <td>
