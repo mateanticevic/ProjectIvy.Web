@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Moment from 'react-moment';
+import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile } from '@fortawesome/free-regular-svg-icons'
@@ -16,9 +16,13 @@ const ExpenseRow = (props) => {
     </Tooltip>
   );
 
+  const exactDate = moment().diff(moment(props.expense.date), 'days') > 6;
+
+  const formattedDate = exactDate ? moment(props.expense.date).format('Do MMMM YYYY') : moment(props.expense.date).format('dddd');
+
   return (
     <tr>
-      <td><Moment format="Do MMMM YYYY">{props.expense.date}</Moment></td>
+      <td>{formattedDate}</td>
       <td>
         <ExpenseType expense={props.expense} />
       </td>
