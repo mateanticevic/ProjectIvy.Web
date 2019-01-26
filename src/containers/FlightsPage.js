@@ -21,7 +21,7 @@ class FlightsPage extends React.Component {
         };
 
         props.actions.getFlights(props.flights.filters);
-        props.actions.getFlightCountByAirport(props.flights.filters);
+        //props.actions.getFlightCountByAirport(props.flights.filters);
 
         this.filterYearChanged = this.filterYearChanged.bind(this);
         this.toggleShowFlights = this.toggleShowFlights.bind(this);
