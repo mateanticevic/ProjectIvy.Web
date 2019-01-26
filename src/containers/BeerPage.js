@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Label, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
 import moment from 'moment';
 import Moment from 'react-moment';
 import _ from 'lodash';
@@ -81,7 +81,11 @@ class BeerPage extends React.Component {
       <td>{consumation.volume / 1000}L</td>
     </tr>);
 
-    const topBeers = state.topBeers.map(beer => <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">{beer.by.name} {beer.sum / 1000}L</ListGroupItem>);
+    const topBeers = state.topBeers.map(beer => (
+      <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+        {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
+      </ListGroupItem>
+    ));
 
     return (
       <Grid>
