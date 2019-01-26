@@ -1,5 +1,6 @@
 @import '../../node_modules/react-redux-toastr/src/styles/index';
 @import '../../node_modules/react-datetime/css/react-datetime';
+@import 'overrides.scss';
 
 body {
   font: 14px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,6 +27,23 @@ a {
 
 .margin-0 {
   margin: 0px;
+}
+
+.panel-default {
+  .panel-heading {
+    background-color: unset;
+    border-color: transparent;
+    font-weight: 600;
+  }
+
+  .panel-footer {
+    background-color: unset;
+    border-color: transparent;
+  }
+}
+
+label {
+  font-weight: unset;
 }
 
 .panel-large {
