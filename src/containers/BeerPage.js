@@ -121,14 +121,6 @@ class BeerPage extends React.Component {
                   </Panel.Heading>
                   <Panel.Body>
                     <Table>
-                      <thead>
-                        <tr>
-                          <th>Date</th>
-                          <th>Beer</th>
-                          <th>Serving</th>
-                          <th>Volume</th>
-                        </tr>
-                      </thead>
                       <tbody>
                         {consumations}
                       </tbody>
