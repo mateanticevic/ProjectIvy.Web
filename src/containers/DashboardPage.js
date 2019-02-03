@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup, Panel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Label, OverlayTrigger, Tooltip, ListGroup, ListGroupItem, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import Moment from 'react-moment';
 import { Marker } from "react-google-maps";
@@ -59,29 +59,37 @@ class DashboardPage extends React.Component {
 
     const dashboard = this.props.dashboard;
 
+    const carLogs = dashboard.carLogs.map(carLog => {
+      return <ListGroupItem>
+        {that.dayOfWeek(carLog.end)}
+        &nbsp;{moment(carLog.start).diff(moment(carLog.end), 'minutes')}m
+        <span className="pull-right"><Label bsStyle="primary">{Math.ceil(carLog.distance / 1000)}km</Label></span>
+      </ListGroupItem>;
+    });
+
     const expenses = dashboard.expenses.map(expense => {
-      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
+      return <ListGroupItem key={_.uniqueId('list_item_')}>
         {that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
-      </li>;
+      </ListGroupItem>;
     });
 
     const movies = dashboard.movies.map(movie => {
-      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
+      return <ListGroupItem key={_.uniqueId('list_item_')}>
         {that.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
         <span className="pull-right"><Label bsStyle="primary">{movie.myRating}</Label></span>
-      </li>;
+      </ListGroupItem>;
     });
 
     const consumations = dashboard.consumations.map(consumation => {
 
       const tooltip = <Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>;
 
-      return <li key={_.uniqueId('list_item_')} className="list-group-item border-no-radius border-no-left border-no-right">
+      return <ListGroupItem key={_.uniqueId('list_item_')}>
         {that.dayOfWeek(consumation.date)} {consumation.beer.name}
         <OverlayTrigger placement="top" overlay={tooltip}>
           <span className="pull-right"><Label bsStyle="primary">{consumation.volume / 1000}L</Label></span>
         </OverlayTrigger>
-      </li>;
+      </ListGroupItem>;
     });
 
     const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
@@ -164,6 +172,9 @@ class DashboardPage extends React.Component {
                   <Panel.Heading>Golf 7</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
                     <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
+                    <ListGroup>
+                      {carLogs}
+                    </ListGroup>
                   </Panel.Body>
                 </Panel>
               </Col>

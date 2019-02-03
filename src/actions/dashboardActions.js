@@ -52,9 +52,16 @@ export function getExpenseSumThisWeekSuccess(data) {
     return { type: types.GET_EXPENSE_SUM_THIS_WEEK_SUCCESS, data };
 }
 
-export function getCarLatestLog(filters) {
+export function getCarLatestLog(carId, filters) {
     return function (dispatch) {
-        return carApi.getLogLatest(filters).then(json => { dispatch(getCarLatestLogSuccess(json)); });
+        return carApi.getLogLatest(carId).then(latestLog => {
+            carApi.getLogBySession(carId, filters).then(logs => {
+                dispatch(getCarLatestLogSuccess({
+                    latestLog: latestLog,
+                    logs: logs
+                }));
+            });
+        });
     };
 }
 

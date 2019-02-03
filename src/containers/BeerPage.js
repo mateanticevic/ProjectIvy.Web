@@ -109,7 +109,7 @@ class BeerPage extends React.Component {
                     <Row>
                       <Col xs={10}>
                         Consumations ({state.consumations.count})
-                  </Col>
+                      </Col>
                       <Col xs={2}>
                         <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
                           <MenuItem eventKey="1" onClick={() => this.setState({ ...this.state, consumationModalOpen: true })}>Consumation</MenuItem>

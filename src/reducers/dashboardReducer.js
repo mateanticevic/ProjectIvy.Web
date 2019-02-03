@@ -24,7 +24,7 @@ export default function dashboardReducer(state = initialState.dashboard, action)
             return { ...state, consumations: action.data.items };
 
         case types.GET_CAR_LOG_LATEST_SUCCESS:
-            return { ...state, carLogLatest: action.data };
+            return { ...state, carLogLatest: action.data.latestLog, carLogs: action.data.logs.slice(0, 3) };
 
         case types.GET_EXPENSE_SUM_THIS_MONTH_SUCCESS:
             return { ...state, spentThisMonth: action.data };

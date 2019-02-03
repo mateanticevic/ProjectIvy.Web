@@ -1,5 +1,9 @@
 import * as api from '../config';
 
-export function getLogLatest(car) {
-    return api.get(`car/${car}/log/latest?hasOdometer=true`);
+export function getLogLatest(carId) {
+    return api.get(`car/${carId}/log/latest?hasOdometer=true`);
+}
+
+export function getLogBySession(carId, filters) {
+    return api.get(`car/${carId}/log/bySession`, filters);
 }

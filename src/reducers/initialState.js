@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 export default {
   dashboard:{
+    carLogs: [],
     carLogLatest: { odometer: 0, timestamp: moment() },
     expenses: [],
     spentToday: 0,
