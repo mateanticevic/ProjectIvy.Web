@@ -86,8 +86,6 @@ class DashboardPage extends React.Component {
 
     const locationHeader = `Last location @ ${that.dateTimeFormat(dashboard.lastLocation.timestamp)}`;
 
-    const carLogHeader = `Odometer @ ${that.dateFormat(dashboard.carLogLatest.timestamp)}`;
-
     return (
       <Grid>
         <Row>
@@ -163,7 +161,7 @@ class DashboardPage extends React.Component {
             <Row>
               <Col lg={6}>
                 <Panel>
-                  <Panel.Heading>{carLogHeader}</Panel.Heading>
+                  <Panel.Heading>Golf 7</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
                     <h1 className="text-align-center">{dashboard.carLogLatest.odometer} km</h1>
                   </Panel.Body>
