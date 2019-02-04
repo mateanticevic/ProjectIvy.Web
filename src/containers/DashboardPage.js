@@ -63,7 +63,7 @@ class DashboardPage extends React.Component {
       return <ListGroupItem>
         {that.dayOfWeek(carLog.end)}
         &nbsp;{moment(carLog.start).diff(moment(carLog.end), 'minutes')}m
-        <span className="pull-right"><Label bsStyle="primary">{Math.ceil(carLog.distance / 1000)}km</Label></span>
+        <span className="pull-right"><Label bsStyle="primary">{(carLog.distance / 1000).toFixed(1)}km</Label></span>
       </ListGroupItem>;
     });
 

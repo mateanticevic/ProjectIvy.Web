@@ -35,8 +35,11 @@ const NavigationBar = () => {
             <LinkContainer to="/pois">
               <MenuItem eventKey={4.2}>Pois</MenuItem>
             </LinkContainer>
+            <LinkContainer to="/tracking">
+              <MenuItem eventKey={4.3}>Tracking</MenuItem>
+            </LinkContainer>
             <LinkContainer to="/trips">
-              <MenuItem eventKey={4.3}>Trips</MenuItem>
+              <MenuItem eventKey={4.4}>Trips</MenuItem>
             </LinkContainer>
           </NavDropdown>
           <NavDropdown id="nav_other" eventKey={5} title="Other">
