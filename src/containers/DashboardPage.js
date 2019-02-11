@@ -61,8 +61,8 @@ class DashboardPage extends React.Component {
 
     const carLogs = dashboard.carLogs.map(carLog => {
       return <ListGroupItem>
-        {that.dayOfWeek(carLog.end)}
-        &nbsp;{moment(carLog.start).diff(moment(carLog.end), 'minutes')}m
+        {that.dayOfWeek(carLog.start)}
+        &nbsp;{moment(carLog.end).diff(moment(carLog.start), 'minutes')}m
         <span className="pull-right"><Label bsStyle="primary">{(carLog.distance / 1000).toFixed(1)}km</Label></span>
       </ListGroupItem>;
     });
