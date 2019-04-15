@@ -16,7 +16,7 @@ const BrandModal = (props) => {
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button bsStyle="primary" onClick={() => { props.onSave(); props.onClose(); }}>
+                <Button block bsStyle="primary" onClick={() => { props.onSave(); props.onClose(); }}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>
