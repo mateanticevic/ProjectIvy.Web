@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import TripForm from './TripForm';
@@ -22,8 +21,3 @@ const TripModal = (props) => {
 };
 
 export default TripModal;
-
-TripModal.propTypes = {
-    isOpen: PropTypes.bool,
-    onClose: PropTypes.func
-};

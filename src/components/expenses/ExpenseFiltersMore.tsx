@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { ControlLabel, FormControl, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup } from 'react-bootstrap/lib';
 import Select from '../common/Select';
 
@@ -74,15 +73,6 @@ const ExpenseFiltersMore = (props) => {
         </Row>
     </div>
   );
-};
-
-ExpenseFiltersMore.propTypes = {
-  currencies: PropTypes.array,
-  order: PropTypes.array,
-  orderBy: PropTypes.array,
-  vendors: PropTypes.array,
-  expenseTypes: PropTypes.array,
-  onChange: PropTypes.func
 };
 
 export default ExpenseFiltersMore;

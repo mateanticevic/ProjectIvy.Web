@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Label, Panel, Table, ListGroup, ListGroupItem, DropdownButton, MenuItem } from 'react-bootstrap/lib';
@@ -181,11 +180,6 @@ class BeerPage extends React.Component {
     );
   }
 }
-
-BeerPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  beer: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   return {

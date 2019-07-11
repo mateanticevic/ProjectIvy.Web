@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
@@ -171,12 +170,6 @@ class ExpensesPage extends React.Component {
     );
   }
 }
-
-ExpensesPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  expenses: PropTypes.object.isRequired,
-  common: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   return {

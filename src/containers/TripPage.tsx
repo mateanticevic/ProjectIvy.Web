@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -105,11 +104,6 @@ class TripPage extends React.Component {
     );
   }
 }
-
-TripPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  trip: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   return {

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/lib/Table';
 
 const TripTable = (props) => {
@@ -10,10 +9,6 @@ const TripTable = (props) => {
       </tbody>
     </Table>
   );
-};
-
-TripTable.propTypes = {
-  children: PropTypes.array
 };
 
 export default TripTable;

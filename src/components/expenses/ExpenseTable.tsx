@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Table from 'react-bootstrap/lib/Table';
 import ExpenseRow from './ExpenseRow';
 
@@ -17,7 +16,3 @@ const ExpenseTable = (props) => {
 };
 
 export default ExpenseTable;
-
-ExpenseTable.propTypes = {
-  children: PropTypes.array
-};

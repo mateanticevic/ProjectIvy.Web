@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-bootstrap/lib';
 
 import * as formatHelper from '../../utils/formatHelper';
@@ -24,11 +23,6 @@ const WidgetCard = (props) => {
               </Row>
           </Grid>
   );
-};
-
-WidgetCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired
 };
 
 export default WidgetCard;

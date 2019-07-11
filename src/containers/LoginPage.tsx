@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
@@ -51,11 +50,6 @@ class LoginPage extends React.Component {
     );
   }
 }
-
-LoginPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  login: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   return {

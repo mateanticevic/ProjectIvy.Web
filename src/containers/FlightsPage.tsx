@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel, ListGroup, ListGroupItem, Label, Checkbox } from 'react-bootstrap/lib';
@@ -103,11 +102,6 @@ class FlightsPage extends React.Component {
         );
     }
 }
-
-FlightsPage.propTypes = {
-    actions: PropTypes.object.isRequired,
-    flights: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
     return {

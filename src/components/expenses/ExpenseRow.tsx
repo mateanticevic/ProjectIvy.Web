@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -51,7 +50,3 @@ const ExpenseRow = (props) => {
 };
 
 export default ExpenseRow;
-
-ExpenseRow.propTypes = {
-  expense: PropTypes.object
-};

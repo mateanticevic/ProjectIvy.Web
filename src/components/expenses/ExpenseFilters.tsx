@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
@@ -39,13 +38,6 @@ const ExpenseFilters = (props) => {
         </Row>
     </div>
   );
-};
-
-ExpenseFilters.propTypes = {
-  currencies: PropTypes.array,
-  vendors: PropTypes.array,
-  expenseTypes: PropTypes.array,
-  onChange: PropTypes.func
 };
 
 export default ExpenseFilters;

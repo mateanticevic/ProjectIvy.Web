@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
@@ -96,11 +95,6 @@ class TripsPage extends React.Component {
     );
   }
 }
-
-TripsPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  trips: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   return {

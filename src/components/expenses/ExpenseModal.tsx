@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import { Button, Row, Col, Modal } from 'react-bootstrap/lib';
 import ExpenseForm from './ExpenseForm';
@@ -46,17 +45,3 @@ const ExpenseModal = (props) => {
 };
 
 export default ExpenseModal;
-
-ExpenseModal.propTypes = {
-    isOpen: PropTypes.bool,
-    currencies: PropTypes.array,
-    expense: PropTypes.object,
-    expenseTypes: PropTypes.array,
-    vendors: PropTypes.array,
-    vendorPois: PropTypes.array,
-    onChange: PropTypes.func,
-    onExpenseAdd: PropTypes.func,
-    onExpenseAddAnother: PropTypes.func,
-    onVendorChanged: PropTypes.func,
-    onClose: PropTypes.func
-};

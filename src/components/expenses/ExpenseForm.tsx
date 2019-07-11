@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, Tabs, Tab } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import Select from '../common/Select';
@@ -142,12 +141,3 @@ const ExpenseForm = (props) => {
 };
 
 export default ExpenseForm;
-
-ExpenseForm.propTypes = {
-  expenseTypes: PropTypes.array,
-  vendors: PropTypes.array,
-  vendorPois: PropTypes.array,
-  currencies: PropTypes.array,
-  onChange: PropTypes.func,
-  expense: PropTypes.object
-};

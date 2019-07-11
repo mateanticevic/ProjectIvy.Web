@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import FontAwesome from 'react-fontawesome';
 import Well from 'react-bootstrap/lib/Well';
 import WidgetCard from './WidgetCard';
@@ -16,11 +15,6 @@ const Widget = (props) => {
           }
       </Well>
   );
-};
-
-Widget.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.any
 };
 
 export default Widget;

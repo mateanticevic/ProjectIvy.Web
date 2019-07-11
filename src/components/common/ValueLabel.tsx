@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const ValueLabel = (props) => {
+const ValueLabel = props => {
 
     return (
         <div>
@@ -10,11 +9,5 @@ const ValueLabel = (props) => {
         </div>
     );
 };
-
-ValueLabel.propTypes = {
-    label: PropTypes.string.isRequired,
-    unit: PropTypes.string,
-    value: PropTypes.number
-  };
 
 export default ValueLabel;
