@@ -6,6 +6,7 @@
     "npm": ">=3"
   },
   "scripts": {
+    "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html"
   },
   "author": "Mate Antičević",

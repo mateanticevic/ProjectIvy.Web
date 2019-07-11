@@ -88,20 +88,20 @@ const ExpenseForm = (props) => {
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Exchange rate</ControlLabel>
-              <InputGroup>
-                <FormControl value={props.expense.parentCurrencyExchangeRate} type="number" readOnly={!props.expense.parentCurrencyId} onChange={x => props.onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })} />
-                <InputGroup.Addon>{props.expense.currencyId} -> {props.expense.parentCurrencyId}</InputGroup.Addon>
-              </InputGroup>
-            </FormGroup>
-          </Col>
-          <Col lg={6}>
-            <FormGroup>
               <ControlLabel>Parent currency</ControlLabel>
               <Select selected={props.expense.parentCurrencyId}
                 options={props.common.currencies}
                 defaultOptionValue="No parent currency"
                 onChange={x => props.onChange({ parentCurrencyId: x })} />
+            </FormGroup>
+          </Col>
+          <Col lg={6}>
+            <FormGroup>
+              <ControlLabel>Exchange rate</ControlLabel>
+              <InputGroup>
+                <FormControl value={props.expense.parentCurrencyExchangeRate} type="number" readOnly={!props.expense.parentCurrencyId} onChange={x => props.onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })} />
+                <InputGroup.Addon>{props.expense.currencyId} -> {props.expense.parentCurrencyId}</InputGroup.Addon>
+              </InputGroup>
             </FormGroup>
           </Col>
         </Row>

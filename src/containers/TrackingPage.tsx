@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Grid, Col, Panel, ControlLabel } from 'react-bootstrap/lib';
 import { Polyline } from "react-google-maps";
 import Datetime from 'react-datetime';
@@ -10,17 +9,16 @@ import * as trackingApi from '../api/main/tracking';
 
 class TrackingPage extends React.Component {
 
-    constructor() {
-        super();
+    state = {
+        filters: {
+        },
+        trackings: []
+    };
 
-        this.state = {
-            filters: {
-            },
-            trackings: []
-        }
+    constructor(props) {
+        super(props);
 
         this.onFiltersChanged({ day: moment().format("YYYY-MM-DD") });
-
         this.onFiltersChanged = this.onFiltersChanged.bind(this);
     }
 
@@ -62,4 +60,4 @@ class TrackingPage extends React.Component {
     }
 }
 
-export default connect(function () { }, function () { })(TrackingPage);
+export default TrackingPage;
