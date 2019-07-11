@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import NavigationBar from './common/NavigationBar';
 import ReduxToastr from 'react-redux-toastr';
 
@@ -10,7 +9,6 @@ class App extends React.Component {
   }
 
   render() {
-
     const isLoggedIn = window.localStorage.getItem("token") != undefined;
 
     return (
@@ -33,9 +31,5 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = {
-  children: PropTypes.element
-};
 
 export default App;

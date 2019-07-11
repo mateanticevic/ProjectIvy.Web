@@ -11,7 +11,6 @@ import TrackingPage from './containers/TrackingPage';
 import TripsPage from './containers/TripsPage';
 import TripPage from './containers/TripPage';
 import PoisPage from './containers/PoisPage';
-import NotFoundPage from './components/NotFoundPage';
 
 export default (
   <Route path="/" component={App}>
@@ -24,6 +23,5 @@ export default (
     <Route path="tracking" component={TrackingPage}/>
     <Route path="trips" component={TripsPage}/>
     <Route path="trips/:id" component={TripPage}/>
-    <Route path="*" component={NotFoundPage}/>
   </Route>
 );
