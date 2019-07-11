@@ -5,8 +5,8 @@ import ReduxToastr from 'react-redux-toastr';
 
 class App extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
   }
 
   render() {

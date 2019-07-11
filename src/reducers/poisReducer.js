@@ -1,14 +1,14 @@
 import * as types from '../constants/poiActionTypes';
 import initialState from './initialState';
 
-export default function poisReducer(state = initialState.pois, action) {
+export default function poisReducer(s = initialState.pois, action) {
 
   switch (action.type) {
 
     case types.GET_POIS_SUCCESS:
-      return {...state, pois: action.pois};
+      return {...s, pois: action.pois};
 
     default:
-      return state;
+      return s;
   }
 }

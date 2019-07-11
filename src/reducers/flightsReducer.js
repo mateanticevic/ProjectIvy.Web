@@ -2,20 +2,20 @@ import * as types from '../constants/flightsActionTypes';
 
 import initialState from './initialState';
 
-export default function flightsReducer(state = initialState.flights, action) {
+export default function flightsReducer(s = initialState.flights, action) {
 
     switch (action.type) {
 
         case types.GET_FLIGHT_COUNT_BY_AIRPORT_SUCCESS:
-            return { ...state, countByAirport: action.data };
+            return { ...s, countByAirport: action.data };
 
         case types.GET_FLIGHTS_SUCCESS:
-            return { ...state, flights: action.data };
+            return { ...s, flights: action.data };
 
         case types.FLIGHTS_FILTERS_CHANGED:
-            return { ...state, filters: action.data };
+            return { ...s, filters: action.data };
 
         default:
-            return state;
+            return s;
     }
 }

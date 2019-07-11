@@ -2,29 +2,29 @@ import * as types from '../constants/expensesActionTypes';
 import * as commonTypes from '../constants/commonActionTypes';
 import initialState from './initialState';
 
-export default function commonReducer(state = initialState.common, action) {
+export default function commonReducer(s = initialState.common, action) {
 
   switch (action.type) {
 
     case types.GET_CURRENCIES_SUCCESS:
-      return {...state, currencies: action.currencies};
+      return {...s, currencies: action.currencies};
 
     case types.GET_EXPENSE_TYPES_SUCCESS:
-      return {...state, expenseTypes: action.expenseTypes};
+      return {...s, expenseTypes: action.expenseTypes};
 
       case commonTypes.GET_EXPENSE_FILE_TYPES_SUCCESS:
-      return {...state, expenseFileTypes: action.expenseFileTypes};
+      return {...s, expenseFileTypes: action.expenseFileTypes};
 
     case types.GET_PAYMENT_TYPES_SUCCESS:
-      return {...state, paymentTypes: action.paymentTypes};
+      return {...s, paymentTypes: action.paymentTypes};
 
     case commonTypes.GET_POI_CATEGORIES_SUCCESS:
-      return {...state, poiCategories: action.poiCategories};
+      return {...s, poiCategories: action.poiCategories};
 
     case commonTypes.GET_VENDORS_SUCCESS:
-      return {...state, vendors: action.vendors.items};
+      return {...s, vendors: action.vendors.items};
 
     default:
-      return state;
+      return s;
   }
 }
