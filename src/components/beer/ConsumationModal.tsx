@@ -6,11 +6,7 @@ import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormCont
 import Select from '../common/Select';
 
 const ConsumationModal = (props) => {
-
-
-    const consumation = props.consumation.item;
-
-    console.log(consumation);
+    const { beers, brands, consumation, servings } = props;
 
     return (
         <Modal show={props.isOpen} onHide={props.onClose} bsSize="sm">
@@ -31,20 +27,20 @@ const ConsumationModal = (props) => {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Brand</ControlLabel>
-                    <Select options={props.brands} hideDefaultOption={true} onChange={props.onBrandChange} />
+                    <Select options={brands} hideDefaultOption={true} onChange={props.onBrandChange} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Beer</ControlLabel>
-                    <Select options={props.consumation.beers} hideDefaultOption={true} onChange={x => props.onChange({ beerId: x })} />
+                    <Select options={beers} hideDefaultOption={true} onChange={x => props.onChange({ beerId: x })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>
-                    <Select options={props.servings} hideDefaultOption={true} onChange={x => props.onChange({ servingId: x })} />
+                    <Select options={servings} hideDefaultOption={true} onChange={x => props.onChange({ servingId: x })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Volume</ControlLabel>
                     <InputGroup>
-                        <FormControl type="number"  onChange={x => props.onChange({ volume: x.target.value })} />
+                        <FormControl type="number" onChange={x => props.onChange({ volume: x.target.value })} />
                         <InputGroup.Addon>ml</InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
@@ -54,7 +50,7 @@ const ConsumationModal = (props) => {
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block bsStyle="primary" onClick={() => {props.onSave(); props.onClose();}}>
+                <Button block bsStyle="primary" onClick={props.onSave}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>

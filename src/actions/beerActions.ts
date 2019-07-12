@@ -26,8 +26,6 @@ export function addBeer(beer) {
 
 export function addBrand(brand) {
 
-    console.log(brand);
-
     return function (dispatch) {
         return beerApi.postBrand(brand.name).then(() => {
             toastr.success("Success", "New brand added");
@@ -49,7 +47,6 @@ export function brandChange(brand) {
 }
 
 export function consumationChange(consumation) {
-    console.log(consumation);
     return { type: types.CONSUMATION_CHANGE, consumation };
 }
 
