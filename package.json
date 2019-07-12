@@ -57,6 +57,7 @@
     "cssnano": "4.1.10",
     "mockdate": "2.0.1",
     "node-sass": "4.9.3",
+    "parcel-bundler": "1.12.3",
     "prompt": "1.0.0",
     "react-hot-loader": "4.12.6",
     "redux-immutable-state-invariant": "2.1.0",
