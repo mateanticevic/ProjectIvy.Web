@@ -4,8 +4,20 @@ import Datetime from 'react-datetime';
 import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
 
 import Select from '../../components/common/Select';
+import { Consumation, Beer, Brand, Serving } from '../../types/beer';
 
-const ConsumationModal = (props) => {
+type Props = {
+    beers: Beer[];
+    brands: Brand[];
+    consumation: Consumation;
+    isOpen: boolean;
+    servings: Serving[];
+    onBrandChange(brandId: string): void;
+    onChange(beerValue: Partial<Consumation>): void;
+    onClose(): void;
+}
+
+const ConsumationModal = (props: Props) => {
     const { beers, brands, consumation, servings } = props;
 
     return (
@@ -31,11 +43,11 @@ const ConsumationModal = (props) => {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Beer</ControlLabel>
-                    <Select options={beers} hideDefaultOption={true} onChange={x => props.onChange({ beerId: x })} />
+                    <Select options={beers} hideDefaultOption={true} onChange={beerId => props.onChange({ beerId })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>
-                    <Select options={servings} hideDefaultOption={true} onChange={x => props.onChange({ servingId: x })} />
+                    <Select options={servings} hideDefaultOption={true} onChange={servingId => props.onChange({ servingId })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Volume</ControlLabel>

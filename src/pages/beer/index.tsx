@@ -13,7 +13,7 @@ import BrandModal from './BeerModal';
 import * as beerApi from '../../api/main/beer';
 import * as commonApi from '../../api/main/common';
 import * as consumationApi from '../../api/main/consumation';
-import { Consumation, Beer, Brand, ConsumationFilters } from '../../types/beer';
+import { Consumation, Beer, Brand, ConsumationFilters, Serving } from '../../types/beer';
 
 type Props = {}
 
@@ -33,7 +33,7 @@ type State = {
         items: Consumation[]
     },
     filters: ConsumationFilters,
-    servings: any,
+    servings: Serving[],
     sum: number,
     topBeers: Beer[]
 }

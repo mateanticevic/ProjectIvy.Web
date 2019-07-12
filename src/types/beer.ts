@@ -23,3 +23,8 @@ export type ConsumationFilters = {
     brandId: string,
     servingId: string,
 }
+
+export type Serving = {
+    id: string,
+    name: string,
+}
