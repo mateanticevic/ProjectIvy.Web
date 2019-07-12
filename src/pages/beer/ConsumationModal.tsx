@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 import Datetime from 'react-datetime';
 import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
 
-import Select from '../common/Select';
+import Select from '../../components/common/Select';
 
 const ConsumationModal = (props) => {
     const { beers, brands, consumation, servings } = props;

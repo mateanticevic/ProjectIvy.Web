@@ -20,23 +20,6 @@ export default {
     lastLocation: { lat: 0, lng: 0, timestamp: moment() },
     consumations: []
   },
-  beer: {
-    beer: {},
-    brand: {},
-    brands: [],
-    consumation: {
-      beers: [],
-      item: {}
-    },
-    consumations: { count: 0, items: []},
-    servings: [],
-    stats: {
-      beers: 0,
-      brands: 0
-    },
-    sum: 0,
-    topBeers: []
-  },
   expenses: {
     cards: [],
     graphs: {

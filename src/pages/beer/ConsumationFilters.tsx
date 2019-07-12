@@ -2,7 +2,7 @@ import React from 'react';
 import { FormGroup, ControlLabel, Glyphicon, InputGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
-import Select from '../common/Select';
+import Select from '../../components/common/Select';
 
 const ConsumationFilters = props => {
 

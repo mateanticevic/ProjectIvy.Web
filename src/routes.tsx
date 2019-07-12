@@ -3,7 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
 import DashboardPage from './containers/DashboardPage';
-import BeerPage from './containers/BeerPage';
+import BeerPage from './pages/beer';
 import ExpensesPage from './containers/ExpensesPage';
 import FlightsPage from './containers/FlightsPage';
 import LoginPage from './containers/LoginPage';
