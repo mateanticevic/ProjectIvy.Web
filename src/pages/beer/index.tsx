@@ -13,7 +13,7 @@ import BrandModal from './BeerModal';
 import * as beerApi from '../../api/main/beer';
 import * as commonApi from '../../api/main/common';
 import * as consumationApi from '../../api/main/consumation';
-import { Consumation, Beer, Brand, ConsumationFilters, Serving } from '../../types/beer';
+import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
 
 type Props = {}
 
