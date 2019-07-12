@@ -4,7 +4,7 @@ import Datetime from 'react-datetime';
 
 import Select from '../../components/common/Select';
 
-const ConsumationFilters = props => {
+const Filters = props => {
 
     return (
         <React.Fragment>
@@ -41,4 +41,4 @@ const ConsumationFilters = props => {
     );
 };
 
-export default ConsumationFilters;
+export default Filters;
