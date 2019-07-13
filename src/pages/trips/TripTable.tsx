@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/lib/Table';
 
-const TripTable = (props) => {
+export const TripTable = (props) => {
   return (
     <Table responsive>
       <tbody>
@@ -10,5 +10,3 @@ const TripTable = (props) => {
     </Table>
   );
 };
-
-export default TripTable;

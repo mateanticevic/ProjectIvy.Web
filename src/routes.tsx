@@ -8,7 +8,7 @@ import ExpensesPage from './containers/ExpensesPage';
 import FlightsPage from './containers/FlightsPage';
 import LoginPage from './pages/login';
 import TrackingPage from './pages/tracking';
-import TripsPage from './containers/TripsPage';
+import TripsPage from './pages/trips';
 import TripPage from './containers/TripPage';
 import PoisPage from './containers/PoisPage';
 

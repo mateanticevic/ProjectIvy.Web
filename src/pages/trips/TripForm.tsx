@@ -2,7 +2,7 @@ import React from 'react';
 import { ControlLabel, FormControl } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
-const TripForm = (props) => {
+export const TripForm = (props) => {
   return (
     <div>
         <ControlLabel>Name</ControlLabel>
@@ -14,5 +14,3 @@ const TripForm = (props) => {
     </div>
   );
 };
-
-export default TripForm;

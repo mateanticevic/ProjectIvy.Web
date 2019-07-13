@@ -79,12 +79,6 @@ export default {
   pois:{
     pois: {count:0, items:[]}
   },
-  trips: {
-    countries: [],
-    filters: { pageSize: 10, page: 1 },
-    isModalOpen: false,
-    trips: {count:0, items:[]}
-  },
   trip: {
     beer: 0,
     trip: {
