@@ -9,7 +9,7 @@ import * as urlHelper from '../../utils/urlHelper';
 import Filters from './Filters';
 import ConsumationModal from './ConsumationModal';
 import BeerModal from './BeerModal';
-import BrandModal from './BeerModal';
+import BrandModal from './BrandModal';
 import * as beerApi from '../../api/main/beer';
 import * as commonApi from '../../api/main/common';
 import * as consumationApi from '../../api/main/consumation';
@@ -74,6 +74,7 @@ class BeerPage extends React.Component<Props, State> {
     @boundMethod
     addBrand() {
         beerApi.postBrand(this.state.brand.name).then(() => {
+            this.setState({ brandModalOpen: false });
         });
     }
 
@@ -200,7 +201,7 @@ class BeerPage extends React.Component<Props, State> {
                                         <Row>
                                             <Col xs={10}>
                                                 Consumations ({this.state.consumations.count})
-                      </Col>
+                                            </Col>
                                             <Col xs={2}>
                                                 <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
                                                     <MenuItem eventKey="1" onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</MenuItem>
@@ -219,7 +220,7 @@ class BeerPage extends React.Component<Props, State> {
                                     </Panel.Body>
                                     <Panel.Footer>
                                         Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{Math.ceil(this.state.sum / 1000)}L
-                  </Panel.Footer>
+                                    </Panel.Footer>
                                 </Panel>
                             </Col>
                         </Row>
@@ -238,8 +239,8 @@ class BeerPage extends React.Component<Props, State> {
                     <Col lg={3}>
                         <Panel>
                             <Panel.Heading>
-                                Top beers
-              </Panel.Heading>
+                                Top Beers
+                            </Panel.Heading>
                             <Panel.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {topBeers}

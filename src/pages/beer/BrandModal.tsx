@@ -12,11 +12,11 @@ const BrandModal = (props) => {
             <Modal.Body>
                 <FormGroup>
                     <ControlLabel>Name</ControlLabel>
-                    <FormControl value={props.brand} type="text" onChange={x => props.onChange({ name: x.target.value })} />
+                    <FormControl type="text" onChange={x => props.onChange({ name: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block bsStyle="primary" onClick={() => { props.onSave(); props.onClose(); }}>
+                <Button block bsStyle="primary" onClick={props.onSave}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>
