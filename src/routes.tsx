@@ -7,7 +7,7 @@ import BeerPage from './pages/beer';
 import ExpensesPage from './containers/ExpensesPage';
 import FlightsPage from './containers/FlightsPage';
 import LoginPage from './pages/login';
-import TrackingPage from './containers/TrackingPage';
+import TrackingPage from './pages/tracking';
 import TripsPage from './containers/TripsPage';
 import TripPage from './containers/TripPage';
 import PoisPage from './containers/PoisPage';

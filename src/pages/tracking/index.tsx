@@ -3,9 +3,10 @@ import { Grid, Col, Panel, ControlLabel } from 'react-bootstrap/lib';
 import { Polyline } from "react-google-maps";
 import Datetime from 'react-datetime';
 import moment from 'moment';
+import { boundMethod } from 'autobind-decorator';
 
-import { Map } from '../components/common';
-import * as trackingApi from '../api/main/tracking';
+import { Map } from '../../components/common';
+import * as trackingApi from '../../api/main/tracking';
 
 class TrackingPage extends React.Component {
 
@@ -15,13 +16,11 @@ class TrackingPage extends React.Component {
         trackings: []
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         this.onFiltersChanged({ day: moment().format("YYYY-MM-DD") });
-        this.onFiltersChanged = this.onFiltersChanged.bind(this);
     }
 
+    @boundMethod
     onFiltersChanged(filter) {
         const filters = {...this.state.filters, ...filter};
         this.setState({ filters: filters });
@@ -30,9 +29,7 @@ class TrackingPage extends React.Component {
     }
 
     render() {
-
         const filters = this.state;
-        console.log(filters);
 
         return (
             <Grid>
