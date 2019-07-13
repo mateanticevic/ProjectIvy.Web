@@ -64,12 +64,6 @@ export default {
     flights: { count: 0, items: []},
     years: _.reverse(_.range(2000, moment().year() + 1))
   },
-  login: {
-    credentials: {
-      username: "",
-      password: ""
-    }
-  },
   common:{
     currencies: [],
     expenseTypes: [],

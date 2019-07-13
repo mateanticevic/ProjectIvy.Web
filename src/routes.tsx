@@ -6,7 +6,7 @@ import DashboardPage from './containers/DashboardPage';
 import BeerPage from './pages/beer';
 import ExpensesPage from './containers/ExpensesPage';
 import FlightsPage from './containers/FlightsPage';
-import LoginPage from './containers/LoginPage';
+import LoginPage from './pages/login';
 import TrackingPage from './containers/TrackingPage';
 import TripsPage from './containers/TripsPage';
 import TripPage from './containers/TripPage';

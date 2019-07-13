@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import expenses from './expensesReducer';
 import flights from './flightsReducer';
-import login from './loginReducer';
 import pois from './poisReducer';
 import trips from './tripsReducer';
 import trip from './tripReducer';
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
   dashboard,
   expenses,
   flights,
-  login,
   pois,
   trips,
   trip,
