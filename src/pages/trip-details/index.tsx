@@ -1,42 +1,67 @@
 import React from 'react';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Marker, Polyline } from "react-google-maps";
 
-import * as actions from '../actions/tripActions';
-import { Map, ValueLabel } from '../components/common';
-import { ExpensePanel } from '../components/expenses';
+import { Map, ValueLabel } from '../../components/common';
+import { ExpensePanel } from '../../components/expenses';
+import * as consumationApi from '../../api/main/consumation';
+import * as trackingApi from '../../api/main/tracking';
+import * as tripApi from '../../api/main/trip';
+import { Trip } from 'types/trips';
 
-class TripPage extends React.Component {
+type State = {
+  beerSum: number,
+  expenseFilters: any,
+  trackings: any[],
+  trip: Trip
+}
 
-  constructor(props, context) {
-    super(props, context);
+class TripDetailsPage extends React.Component<{}, State> {
 
-    this.state = {
-      expenses: {
-        page: 1,
-        pageSize: 10
-      }
-    };
+  state: State = {
+    beerSum: 0,
+    expenseFilters: {
+      page: 1,
+      pageSize: 10
+    },
+    trip: {
+      cities: [],
+      countries: [],
+      expenses: [],
+      id: ''
+    },
+    trackings: []
+  };
 
-    props.actions.getTrip(props.params.id);
+  constructor(props) {
+    super(props);
+
+    tripApi.getById(props.params.id)
+      .then(trip => {
+        this.setState({ trip });
+        const filters = { from: trip.timestampStart, to: trip.timestampEnd };
+        trackingApi.get(filters).then(trackings => this.setState({ trackings }));
+        consumationApi.getSum(filters).then(beerSum => this.setState({ beerSum }));
+      });
   }
 
   onExpensePageChange(page) {
-    const expenses = { ...this.state.expenses, ...page };
-    const state = { ...this.state, expenses: expenses };
-    this.setState(state);
+    this.setState({
+      expenseFilters: {
+        ...this.state.expenseFilters,
+        page: page
+      }
+    });
   }
 
   onUnlink(expenseId) {
-    this.props.actions.deleteExpense(this.props.trip.trip.id, expenseId);
+    tripApi.deleteExpense(this.state.trip.id, expenseId).then(() => { });
   }
 
   render() {
 
-    const { beer, trip } = this.props.trip;
+    const { beerSum, trackings, trip } = this.state;
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
 
@@ -71,7 +96,7 @@ class TripPage extends React.Component {
                     <ValueLabel label="Countries" value={trip.countries.length} />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
-                    <ValueLabel label="Beer" unit="L" value={Math.ceil(beer / 1000)} />
+                    <ValueLabel label="Beer" unit="L" value={Math.ceil(beerSum / 1000)} />
                   </Col>
                 </Row>
               </Panel.Body>
@@ -85,7 +110,7 @@ class TripPage extends React.Component {
               <Panel.Body className="padding-0 panel-medium">
                 <Map>
                   {poiMarkers}
-                  <Polyline path={this.props.trip.trackings} />
+                  <Polyline path={trackings} />
                 </Map>
               </Panel.Body>
             </Panel>
@@ -93,10 +118,11 @@ class TripPage extends React.Component {
         </Row>
         <Row>
           <Col lg={12}>
-            <ExpensePanel expenses={{ items: trip.expenses, count: trip.expenses.length }}
-              page={this.state.expenses.page}
-              pageSize={this.state.expenses.pageSize}
-              onPageChange={page => this.onExpensePageChange({ page: page })}
+            <ExpensePanel
+              expenses={{ items: trip.expenses, count: trip.expenses.length }}
+              page={this.state.expenseFilters.page}
+              pageSize={this.state.expenseFilters.pageSize}
+              onPageChange={this.onExpensePageChange}
               onUnlink={expenseId => this.onUnlink(expenseId)} />
           </Col>
         </Row>
@@ -105,16 +131,4 @@ class TripPage extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    trip: state.trip
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TripPage);
+export default TripDetailsPage;

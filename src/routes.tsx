@@ -9,7 +9,7 @@ import FlightsPage from './containers/FlightsPage';
 import LoginPage from './pages/login';
 import TrackingPage from './pages/tracking';
 import TripsPage from './pages/trips';
-import TripPage from './containers/TripPage';
+import TripDetailsPage from './pages/trip-details';
 import PoisPage from './containers/PoisPage';
 
 export default (
@@ -22,6 +22,6 @@ export default (
     <Route path="pois" component={PoisPage}/>
     <Route path="tracking" component={TrackingPage}/>
     <Route path="trips" component={TripsPage}/>
-    <Route path="trips/:id" component={TripPage}/>
+    <Route path="trips/:id" component={TripDetailsPage}/>
   </Route>
 );
