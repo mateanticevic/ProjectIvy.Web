@@ -36,7 +36,10 @@ class TripsPage extends React.Component<{}, State> {
   @boundMethod
   onFiltersChanged(filterValue) {
     let filters = { ...this.state.filters, ...filterValue };
-    tripApi.get(filters).then(trips => this.setState({ trips }));
+    tripApi.get(filters).then(trips => this.setState({
+      filters,
+      trips
+    }));
   }
 
   render() {
@@ -86,7 +89,7 @@ class TripsPage extends React.Component<{}, State> {
                       <Col lg={12}>
                         <Pagination page={this.state.filters.page}
                           pages={Math.ceil(this.state.trips.count / this.state.filters.pageSize)}
-                          onPageChange={page => this.onFiltersChanged({ page: page })} />
+                          onPageChange={page => this.onFiltersChanged({ page })} />
                       </Col>
                     </Row>
                   </Panel.Body>
