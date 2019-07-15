@@ -11,7 +11,13 @@ const ExpenseRow = (props) => {
 
   const hasFilesTooltip = (
     <Tooltip id="tooltip">
-      Has {props.expense.files.length} linked files.
+      Has {props.expense.files.length} linked files
+    </Tooltip>
+  );
+
+  const needsReviewTooltop = (
+    <Tooltip id="tooltip">
+      Needs review
     </Tooltip>
   );
 
@@ -35,6 +41,10 @@ const ExpenseRow = (props) => {
         {props.expense.files && props.expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
             <FontAwesomeIcon icon={faFile} />
+          </OverlayTrigger>}
+        {props.expense.needsReview &&
+          <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
+            <FontAwesome name="exclamation" />
           </OverlayTrigger>}
       </td>
       <td>

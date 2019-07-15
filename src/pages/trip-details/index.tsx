@@ -9,6 +9,7 @@ import * as consumationApi from '../../api/main/consumation';
 import * as trackingApi from '../../api/main/tracking';
 import * as tripApi from '../../api/main/trip';
 import { Trip } from 'types/trips';
+import { boundMethod } from 'autobind-decorator';
 
 type State = {
   beerSum: number,
@@ -46,6 +47,7 @@ class TripDetailsPage extends React.Component<{}, State> {
       });
   }
 
+  @boundMethod
   onExpensePageChange(page) {
     this.setState({
       expenseFilters: {
@@ -55,6 +57,7 @@ class TripDetailsPage extends React.Component<{}, State> {
     });
   }
 
+  @boundMethod
   onUnlink(expenseId) {
     tripApi.deleteExpense(this.state.trip.id, expenseId).then(() => { });
   }
@@ -123,7 +126,7 @@ class TripDetailsPage extends React.Component<{}, State> {
               page={this.state.expenseFilters.page}
               pageSize={this.state.expenseFilters.pageSize}
               onPageChange={this.onExpensePageChange}
-              onUnlink={expenseId => this.onUnlink(expenseId)} />
+              onUnlink={this.onUnlink} />
           </Col>
         </Row>
       </Grid>
