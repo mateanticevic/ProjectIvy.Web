@@ -57,13 +57,6 @@ export default {
     },
     vendorPois: []
   },
-  flights:{
-    countByAirport: [],
-    filters: {
-    },
-    flights: { count: 0, items: []},
-    years: _.reverse(_.range(2000, moment().year() + 1))
-  },
   common:{
     currencies: [],
     expenseTypes: [],
