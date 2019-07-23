@@ -8,7 +8,10 @@ import Moment from "react-moment";
 export default class CallsPage extends React.Component {
 
     state = {
-        calls: []
+        calls: {
+            count: 0,
+            items: []
+        }
     }
 
     componentDidMount() {
@@ -17,7 +20,7 @@ export default class CallsPage extends React.Component {
 
     @boundMethod
     renderCalls() {
-        return this.state.calls.map(call => (<tr>
+        return this.state.calls.items.map(call => (<tr>
             <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
             <td>{call.number}</td>
             <td>{call.duration}s</td>
@@ -29,11 +32,14 @@ export default class CallsPage extends React.Component {
             }
         
     render() {
+
+        const { calls } = this.state;
+
         return (
             <Grid>
                     <Col lg={12}>
                         <Panel>
-                            <Panel.Heading>Calls</Panel.Heading>
+                            <Panel.Heading>Calls ({calls.count})</Panel.Heading>
                             <Panel.Body>
                                 <Table>
                                     <tbody>
