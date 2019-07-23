@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Col, Panel, Table } from "react-bootstrap";
+import { Grid, Col, Panel, Table } from "react-bootstrap/lib";
 
 import * as callApi from "../../api/main/call";
 import { boundMethod } from "autobind-decorator";
@@ -27,28 +27,28 @@ export default class CallsPage extends React.Component {
             <td>
                 <audio controls src={`https://api2.anticevic.net/file/${call.file.id}`} />
             </td>
-            </tr>
-            ));
-            }
-        
+        </tr>
+        ));
+    }
+
     render() {
 
         const { calls } = this.state;
 
         return (
             <Grid>
-                    <Col lg={12}>
-                        <Panel>
-                            <Panel.Heading>Calls ({calls.count})</Panel.Heading>
-                            <Panel.Body>
-                                <Table>
-                                    <tbody>
-                                        {this.renderCalls()}
-                                    </tbody>
-                                </Table>
-                            </Panel.Body>
-                        </Panel>
-                    </Col>
-                </Grid>);
-        }
+                <Col lg={12}>
+                    <Panel>
+                        <Panel.Heading>Calls ({calls.count})</Panel.Heading>
+                        <Panel.Body>
+                            <Table>
+                                <tbody>
+                                    {this.renderCalls()}
+                                </tbody>
+                            </Table>
+                        </Panel.Body>
+                    </Panel>
+                </Col>
+            </Grid>);
+    }
 }
