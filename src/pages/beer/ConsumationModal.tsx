@@ -2,6 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import Datetime from 'react-datetime';
 import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
+import AsyncSelect from 'react-select/async';
 
 import Select from '../../components/common/Select';
 import { Consumation, Beer, Brand, Serving } from 'types/beer';
@@ -12,6 +13,7 @@ type Props = {
     consumation: Consumation;
     isOpen: boolean;
     servings: Serving[];
+    loadBeers(value, callback): void;
     onBrandChange(brandId: string): void;
     onChange(beerValue: Partial<Consumation>): void;
     onClose(): void;
@@ -38,12 +40,12 @@ const ConsumationModal = (props: Props) => {
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Brand</ControlLabel>
-                    <Select options={brands} hideDefaultOption={true} onChange={props.onBrandChange} />
-                </FormGroup>
-                <FormGroup>
                     <ControlLabel>Beer</ControlLabel>
-                    <Select options={beers} hideDefaultOption={true} onChange={beerId => props.onChange({ beerId })} />
+                    <AsyncSelect
+                        loadOptions={props.loadBeers}
+                        onChange={x => props.onChange({ beerId: x.value })}
+                        defaultOptions
+                    />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>

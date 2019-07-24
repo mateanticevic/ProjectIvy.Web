@@ -173,6 +173,10 @@ class BeerPage extends React.Component<Props, State> {
             <td>{consumation.volume / 1000}L</td>
         </tr>);
 
+        const loadBeers = (inputValue, callback) => {
+            beerApi.get({ search: inputValue }).then(beers => callback(beers.items.map(beer => { return { value: beer.id, label: beer.name } })));
+        };
+
         const topBeers = this.state.topBeers.map(beer => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
@@ -255,6 +259,7 @@ class BeerPage extends React.Component<Props, State> {
                     consumation={this.state.consumation}
                     servings={this.state.servings}
                     isOpen={this.state.consumationModalOpen}
+                    loadBeers={loadBeers}
                     onBrandChange={this.onConsumationBrandChange}
                     onChange={this.onConsumationChange}
                     onClose={() => this.setState({ consumationModalOpen: false })}
