@@ -177,7 +177,6 @@ class ExpensesPage extends React.Component<{}, State> {
 
   @boundMethod
   onVendorSearch(value, callback){
-    console.log(value);
     vendorApi.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
   }
 
@@ -196,6 +195,7 @@ class ExpensesPage extends React.Component<{}, State> {
                     <ExpenseFilters
                       currencies={this.state.currencies}
                       vendors={this.state.vendors}
+                      onVendorSearch={this.onVendorSearch}
                       types={this.state.types}
                       filters={this.state.filters}
                       onChange={this.onFiltersChanged} />
