@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
-import ExpenseType from '../components/expenses/ExpenseType';
+import ExpenseType from '../pages/expenses/ExpenseType';
 import { Map, ValueLabel } from '../components/common';
 
 class DashboardPage extends React.Component {

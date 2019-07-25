@@ -5,13 +5,14 @@ import { Grid, Row, Col, ControlLabel, FormControl, Panel, ToggleButtonGroup, To
 import { Marker } from "react-google-maps";
 import FontAwesome from 'react-fontawesome';
 import * as actions from '../actions/poiActions';
-import * as init from '../actions/commonActions';
 
 import Select from '../components/common/Select';
 import Map from '../components/common/Map';
 import PoiModal from '../components/pois/PoiModal';
 import PoiPanel from '../components/pois/PoiPanel';
+import * as commonApi from '../api/main/common';
 import * as poiApi from '../api/main/poi';
+import * as vendorApi from '../api/main/vendor';
 import { boundMethod } from 'autobind-decorator';
 
 class PoisPage extends React.Component {
@@ -32,15 +33,18 @@ class PoisPage extends React.Component {
       filters: {
         page: 1,
         pageSize: 10
-      }
+      },
+      poiCategories: [],
+      vendors: []
     };
 
     props.init.getPoiCategories();
-    props.init.getVendors();
   }
 
   componentDidMount() {
     this.onFiltersChanged();
+    commonApi.getPoiCategories().then(poiCategories => this.setState({ poiCategories }));
+    vendorApi.get().then(vendors => this.setState({ vendors }));
   }
 
   onAddToTrip(poiId: string) {
@@ -128,9 +132,9 @@ class PoisPage extends React.Component {
             <Panel>
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>              <ControlLabel>Category</ControlLabel>
-                <Select options={this.props.common.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
+                <Select options={this.state.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
-                <Select options={this.props.common.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
+                <Select options={this.state.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
                 <ControlLabel>Name</ControlLabel>
                 <FormControl type="text" onChange={x => this.onFiltersChanged({ name: x.target.value })} />
               </Panel.Body>
@@ -147,7 +151,7 @@ class PoisPage extends React.Component {
         <PoiModal isOpen={this.state.isModalOpen}
           onClose={this.onModalClose}
           onSave={this.onSave}
-          categories={this.props.common.poiCategories}
+          categories={this.state.poiCategories}
           onPoiChange={this.onPoiChange}
           poi={this.state.poi} />
       </Grid>

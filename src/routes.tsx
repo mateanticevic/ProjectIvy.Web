@@ -5,7 +5,7 @@ import App from './components/App';
 import DashboardPage from './containers/DashboardPage';
 import BeerPage from './pages/beer';
 import CallsPage from './pages/calls';
-import ExpensesPage from './containers/ExpensesPage';
+import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
 import LoginPage from './pages/login';
 import TrackingPage from './pages/tracking';

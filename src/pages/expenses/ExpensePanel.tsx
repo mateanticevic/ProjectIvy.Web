@@ -3,7 +3,7 @@ import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
 import ExpenseTable from './ExpenseTable';
-import Pagination from '../common/Pagination';
+import Pagination from '../../components/common/Pagination';
 
 const ExpensePanel = (props) => {
   

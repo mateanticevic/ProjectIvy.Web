@@ -20,55 +20,6 @@ export default {
     lastLocation: { lat: 0, lng: 0, timestamp: moment() },
     consumations: []
   },
-  expenses: {
-    cards: [],
-    graphs: {
-      count: [],
-      sumByYear: [],
-      sum: []
-    },
-    files: [],
-    expense: {
-      currencyId: "HRK",
-      files: [],
-      parentCurrencyId: null,
-      paymentTypeId: "cash"
-    },
-    expenses: {
-      count:0,
-      items:[]
-    },
-    filters: {
-      from: moment().month(0).date(1).format("YYYY-MM-DD"), // YYYY-01-01
-      pageSize: 10,
-      page: 1
-    },
-    isModalOpen: false,
-    orderBy: [
-      { id: "date", name: "Date"},
-      { id: "created", name: "Created"},
-      { id: "modified", name: "Modified"},
-      { id: "amount", name: "Amount"}
-    ],
-    stats: {
-      sum: null,
-      types: null,
-      vendors: null
-    },
-    vendorPois: []
-  },
-  common:{
-    currencies: [],
-    expenseTypes: [],
-    expenseFileTypes: [],
-    paymentTypes: [],
-    poiCategories: [],
-    vendors: [],
-    order: [
-      { id: "false", name: "Descending" },
-      { id: "true", name: "Ascending" }
-    ]
-  },
   pois:{
     pois: {count:0, items:[]}
   }

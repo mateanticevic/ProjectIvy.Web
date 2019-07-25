@@ -4,12 +4,12 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Marker, Polyline } from "react-google-maps";
 
 import { Map, ValueLabel } from '../../components/common';
-import { ExpensePanel } from '../../components/expenses';
 import * as consumationApi from '../../api/main/consumation';
 import * as trackingApi from '../../api/main/tracking';
 import * as tripApi from '../../api/main/trip';
 import { Trip } from 'types/trips';
 import { boundMethod } from 'autobind-decorator';
+import ExpensePanel from '../expenses/ExpensePanel';
 
 type State = {
   beerSum: number,
