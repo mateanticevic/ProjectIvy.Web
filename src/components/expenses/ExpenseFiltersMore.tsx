@@ -32,13 +32,13 @@ const ExpenseFiltersMore = (props) => {
         <Row>
           <Col lg={12}>
             <ControlLabel>Order</ControlLabel>
-            <Select selected={props.filters.orderAscending} options={props.common.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
+            <Select selected={props.filters.orderAscending} options={props.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Payment type</ControlLabel>
-            <Select options={props.common.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})}  />
+            <Select options={props.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})}  />
           </Col>
         </Row>
         <Row>

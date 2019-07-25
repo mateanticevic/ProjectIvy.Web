@@ -5,7 +5,7 @@ import ExpenseFileUploadRow from './ExpenseFileUploadRow';
 const ExpenseFileUploadTable = (props) => {
   
   const rows = props.files.map(function(file){
-    return <ExpenseFileUploadRow file={file} linkFile={props.linkFile} common={props.common} deleteFile={props.deleteFile} />;
+    return <ExpenseFileUploadRow file={file} linkFile={props.linkFile} deleteFile={props.deleteFile} fileTypes={props.fileTypes} />;
   });
 
   return (

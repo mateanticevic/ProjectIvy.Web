@@ -39,7 +39,7 @@ class ExpenseFileUploadRow extends React.Component {
 
     render(){
 
-        let { file, common } = this.props;
+        const { file } = this.props;
 
         return (
             <tr>
@@ -49,7 +49,7 @@ class ExpenseFileUploadRow extends React.Component {
                     <FormControl value={this.state.name} placeholder="Name" type="text" onChange={e => this.onNameChanged(e.target.value)} />
                 </td>
                 <td>
-                    <Select options={common.expenseFileTypes} onChange={this.onTypeIdChanged} />
+                    <Select options={this.props.fileTypes} onChange={this.onTypeIdChanged} />
                 </td>
                 <td>
                     <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={this.onClickLink}>

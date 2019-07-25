@@ -4,7 +4,7 @@ import ExpenseFileTable from './ExpenseFileTable';
 import ExpenseFileUploadTable from './ExpenseFileUploadTable';
 import Dropzone from 'react-dropzone';
 
-const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, common, deleteFile}) => {
+const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, deleteFile, fileTypes}) => {
 
     return(
         <div>
@@ -15,7 +15,7 @@ const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, common, del
             </Row>
             <Row>
                 <Col lg={12}>
-                    <ExpenseFileUploadTable files={files} linkFile={linkFile} deleteFile={deleteFile} common={common} />
+                    <ExpenseFileUploadTable files={files} linkFile={linkFile} deleteFile={deleteFile} fileTypes={fileTypes} />
                 </Col>
             </Row>
             <Row>

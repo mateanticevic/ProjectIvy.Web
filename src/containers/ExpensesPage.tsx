@@ -1,86 +1,179 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import _ from 'lodash';
 
-import * as actions from '../actions/expensesActions';
-import * as init from '../actions/commonActions';
-import * as expenseMapper from '../mappers/expenseMapper';
 import * as urlHelper from '../utils/urlHelper';
+import * as cardApi from '../api/main/card';
+import * as fileApi from '../api/main/file';
+import * as commonApi from '../api/main/common';
+import * as currencyApi from '../api/main/currency';
+import * as expenseApi from '../api/main/expense';
+import * as expenseTypeApi from '../api/main/expenseType';
+import * as vendorApi from '../api/main/vendor';
 
 import { ExpenseModal, ExpenseFilters, ExpenseFiltersMore, ExpensePanel, ExpenseCountGraph } from '../components/expenses';
 import { ChartBar } from '../components/common';
+import { boundMethod } from 'autobind-decorator';
+import { Currency, Expense } from 'types/expenses';
+
+type State = {
+  cards: any[],
+  currencies: Currency[],
+  graphs: any,
+  files: any[],
+  fileTypes: any[],
+  expense: Expense,
+  expenses: Expense[],
+  filters: any,
+  isModalOpen: boolean,
+  orderBy: any,
+  paymentTypes: any[],
+  stats: any,
+  types: any,
+  vendors: any,
+  vendorPois: any
+}
 
 
-class ExpensesPage extends React.Component {
+class ExpensesPage extends React.Component<{}, State> {
 
-  constructor(props, context) {
-    super(props, context);
-
-    props.actions.getCurrencies();
-    props.actions.getExpenseTypes();
-    props.init.getVendors();
-    props.init.getExpenseFileTypes();
-    props.actions.getPaymentTypes();
-    props.actions.getCards();
-    this.onFiltersChanged();
-
-    this.onExpenseSave = this.onExpenseSave.bind(this);
-    this.onExpenseAddAnother = this.onExpenseAddAnother.bind(this);
-    this.onExpenseChanged = this.onExpenseChanged.bind(this);
-    this.onExpenseNew = this.onExpenseNew.bind(this);
-    this.onExpenseEdit = this.onExpenseEdit.bind(this);
-    this.onFiltersChanged = this.onFiltersChanged.bind(this);
+  state = {
+    cards: [],
+    currencies: [],
+    graphs: {
+      count: [],
+      sumByYear: [],
+      sum: []
+    },
+    files: [],
+    fileTypes: [],
+    expense: {
+      currencyId: "HRK",
+      files: [],
+      parentCurrencyId: null,
+      paymentTypeId: "cash"
+    },
+    expenses: {
+      count: 0,
+      items: []
+    },
+    filters: {
+      from: moment().month(0).date(1).format("YYYY-MM-DD"), // YYYY-01-01
+      pageSize: 10,
+      page: 1
+    },
+    isModalOpen: false,
+    order: [
+      { id: "false", name: "Descending" },
+      { id: "true", name: "Ascending" }
+    ],
+    orderBy: [
+      { id: "date", name: "Date" },
+      { id: "created", name: "Created" },
+      { id: "modified", name: "Modified" },
+      { id: "amount", name: "Amount" }
+    ],
+    paymentTypes: [],
+    stats: {
+      sum: null,
+      types: null,
+      vendors: null
+    },
+    types: [],
+    vendors: [],
+    vendorPois: []
   }
 
+  componentDidMount() {
+    this.onFiltersChanged();
+    cardApi.get().then(cards => this.setState({ cards }));
+    commonApi.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
+    commonApi.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
+    currencyApi.get().then(currencies => this.setState({ currencies }));
+    expenseTypeApi.get().then(types => this.setState({ types }));
+    vendorApi.get().then(vendors => this.setState({ vendors: vendors.items }));
+  }
+
+  @boundMethod
+  deleteFile(fileId) {
+    fileApi.deleteFile(fileId).then(() => { });
+  }
+
+  @boundMethod
+  linkExpenseFile() {
+    expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
+  }
+
+  @boundMethod
   onExpenseSave() {
     if (this.props.expenses.expense.id) {
-      this.props.actions.updateExpense(this.props.expenses.expense, this.props.expenses.filters);
+      expenseApi.put(this.state.expense).then(() => this.setState({ isModalOpen: false }));
     }
     else {
-      this.props.actions.addExpense(this.props.expenses.expense, this.props.expenses.filters);
+      expenseApi.post(this.state.expense).then(() => this.setState({ isModalOpen: false }));
     }
   }
 
+  @boundMethod
   onExpenseAddAnother() {
-    this.props.actions.addExpenseAnother(this.props.expenses.expense, this.props.expenses.filters);
   }
 
+  @boundMethod
   onExpenseChanged(expenseValue) {
-    let expense = { ...this.props.expenses.expense, ...expenseValue };
-    this.props.actions.changedExpense(expense);
+    this.setState({
+      expense: {
+        ...this.state.expense,
+        ...expenseValue
+      }
+    });
   }
 
+  @boundMethod
   onExpenseEdit(expense) {
-    this.props.actions.editExpense(expenseMapper.toBindingModel(expense));
-    this.props.actions.openModal();
+    this.setState({
+      expense,
+      isModalOpen: true
+    });
   }
 
+  @boundMethod
   onExpenseNew() {
-    this.props.actions.onNewExpense();
-    this.props.actions.openModal();
+    this.setState({
+      expense: {},
+      isModalOpen: true
+    });
   }
 
+  @boundMethod
   onFiltersChanged(filterValue) {
-
-    let filters = filterValue ? { ...this.props.expenses.filters, ...filterValue } : { ...this.props.expenses.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
-
-    window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
+    const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
 
     if (filterValue && filterValue.page == undefined) {
       filters.page = 1;
     }
 
-    this.props.actions.changedFilters(filters, filterValue && filterValue.page ? true : false);
+    window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
+
+    this.setState({ filters });
+
+    expenseApi.get(filters).then(expenses => this.setState({ expenses }));
+    expenseApi.getCountByMonth(filters).then(countByMonth => this.setState({
+      graphs: {
+        ...this.state.graphs,
+        count: countByMonth
+      }
+    }));
+    expenseApi.getSumByMonth(filters).then(sumByMonth => this.setState({
+      graphs: {
+        ...this.state.graphs,
+        sum: sumByMonth
+      }
+    }));
   }
 
   render() {
-
-    const { actions, common, expenses } = this.props;
-
-    const chartSumData = _.reverse(_.map(expenses.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") }; }));
+    const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") }; }));
 
     return (
       <Grid>
@@ -91,8 +184,11 @@ class ExpensesPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Filters</Panel.Heading>
                   <Panel.Body>
-                    <ExpenseFilters common={common}
-                      filters={expenses.filters}
+                    <ExpenseFilters
+                      currencies={this.state.currencies}
+                      vendors={this.state.vendors}
+                      types={this.state.types}
+                      filters={this.state.filters}
                       onChange={this.onFiltersChanged} />
                   </Panel.Body>
                 </Panel>
@@ -105,10 +201,12 @@ class ExpensesPage extends React.Component {
                     <Panel.Toggle>More filters</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
-                    <ExpenseFiltersMore common={common}
-                      cards={expenses.cards}
-                      filters={expenses.filters}
-                      orderBy={expenses.orderBy}
+                    <ExpenseFiltersMore
+                      cards={this.state.cards}
+                      paymentTypes={this.state.paymentTypes}
+                      filters={this.state.filters}
+                      order={this.state.order}
+                      orderBy={this.state.orderBy}
                       onChange={this.onFiltersChanged} />
                   </Panel.Body>
                 </Panel>
@@ -118,14 +216,14 @@ class ExpensesPage extends React.Component {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <ExpensePanel expenses={expenses.expenses}
+                <ExpensePanel expenses={this.state.expenses}
                   onEdit={this.onExpenseEdit}
                   onPageChange={page => this.onFiltersChanged({ page: page })}
                   onNewClick={this.onExpenseNew}
-                  page={expenses.filters.page}
-                  stats={expenses.stats}
+                  page={this.state.filters.page}
+                  stats={this.state.stats}
                   serverPaging
-                  pageSize={expenses.filters.pageSize} />
+                  pageSize={this.state.filters.pageSize} />
               </Col>
             </Row>
             <Row>
@@ -133,7 +231,7 @@ class ExpensesPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Count</Panel.Heading>
                   <Panel.Body>
-                    <ExpenseCountGraph data={expenses.graphs.count} />
+                    <ExpenseCountGraph data={this.state.graphs.count} />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -144,7 +242,7 @@ class ExpensesPage extends React.Component {
                   <Panel.Heading>Sum</Panel.Heading>
                   <Panel.Body>
                     <ChartBar unit=" kn"
-                              data={chartSumData} />
+                      data={chartSumData} />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -152,37 +250,28 @@ class ExpensesPage extends React.Component {
 
           </Col>
         </Row>
-        <ExpenseModal common={common}
-          vendorPois={expenses.vendorPois}
-          cards={expenses.cards}
-          expense={expenses.expense}
-          isOpen={expenses.isModalOpen}
-          files={expenses.files}
-          linkFile={(expenseId, expenseFile) => actions.linkExpenseFile(expenseId, expenseFile, expenses.filters)}
-          deleteFile={actions.deleteFile}
+        <ExpenseModal
+          currencies={this.state.currencies}
+          types={this.state.types}
+          vendorPois={this.state.vendorPois}
+          vendors={this.state.vendors}
+          fileTypes={this.state.fileTypes}
+          paymentTypes={this.state.paymentTypes}
+          cards={this.state.cards}
+          expense={this.state.expense}
+          isOpen={this.state.isModalOpen}
+          files={this.state.files}
+          linkFile={(expenseId, expenseFile) => this.linkExpenseFile(expenseId, expenseFile, this.state.filters)}
+          deleteFile={this.deleteFile}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
-          onVendorChanged={actions.onVendorChanged}
-          uploadFiles={actions.uploadFiles}
-          onClose={actions.closeModal}
+          onVendorChanged={() => {}}
+          uploadFiles={() => {}}
+          onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onExpenseChanged} />
       </Grid>
     );
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    expenses: state.expenses,
-    common: state.common
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-    init: bindActionCreators(init, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExpensesPage);
+export default ExpensesPage;

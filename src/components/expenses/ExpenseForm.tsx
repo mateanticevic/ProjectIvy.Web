@@ -26,7 +26,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Type</ControlLabel>
-              <Select selected={props.expense.expenseTypeId} options={props.common.expenseTypes} onChange={x => props.onChange({ expenseTypeId: x })} hideDefaultOption={true} />
+              <Select selected={props.expense.expenseTypeId} options={props.types} onChange={x => props.onChange({ expenseTypeId: x })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
         </Row>
@@ -34,7 +34,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Vendor</ControlLabel>
-              <Select selected={props.expense.vendorId} options={props.common.vendors} onChange={x => { props.onChange({ vendorId: x }); props.onVendorChanged(x); }} />
+              <Select selected={props.expense.vendorId} options={props.vendors} onChange={x => { props.onChange({ vendorId: x }); props.onVendorChanged(x); }} />
             </FormGroup>
           </Col>
           <Col lg={6}>
@@ -48,7 +48,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Currency</ControlLabel>
-              <Select selected={props.expense.currencyId} options={props.common.currencies} onChange={x => props.onChange({ currencyId: x })} hideDefaultOption={true} />
+              <Select selected={props.expense.currencyId} options={props.currencies} onChange={x => props.onChange({ currencyId: x })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
           <Col lg={6}>
@@ -65,7 +65,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Payment type</ControlLabel>
-              <Select selected={props.expense.paymentTypeId} options={props.common.paymentTypes} onChange={x => props.onChange({ paymentTypeId: x })} hideDefaultOption={true} />
+              <Select selected={props.expense.paymentTypeId} options={props.paymentTypes} onChange={x => props.onChange({ paymentTypeId: x })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
           <Col lg={6}>
@@ -90,7 +90,7 @@ const ExpenseForm = (props) => {
             <FormGroup>
               <ControlLabel>Parent currency</ControlLabel>
               <Select selected={props.expense.parentCurrencyId}
-                options={props.common.currencies}
+                options={props.currencies}
                 defaultOptionValue="No parent currency"
                 onChange={x => props.onChange({ parentCurrencyId: x })} />
             </FormGroup>
@@ -108,7 +108,7 @@ const ExpenseForm = (props) => {
       </Tab>
       <Tab eventKey={3} title="Files">
         <ExpenseFormFilesTab expense={props.expense}
-          common={props.common}
+          fileTypes={props.fileTypes}
           uploadFiles={props.uploadFiles}
           files={props.files}
           deleteFile={props.deleteFile}

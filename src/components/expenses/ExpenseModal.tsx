@@ -13,7 +13,12 @@ const ExpenseModal = (props) => {
                 <Modal.Title>{header}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ExpenseForm common={props.common}
+                <ExpenseForm
+                    currencies={props.currencies}
+                    types={props.types}
+                    vendors={props.vendors}
+                    fileTypes={props.fileTypes}
+                    paymentTypes={props.paymentTypes}
                     expense={props.expense}
                     cards={props.cards}
                     files={props.files}

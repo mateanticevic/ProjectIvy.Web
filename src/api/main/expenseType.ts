@@ -1,5 +1,5 @@
 import * as api from '../config';
 
-export function get(filters) {
-    return api.get("expenseType", filters);
+export function get() {
+    return api.get("expenseType");
 }
