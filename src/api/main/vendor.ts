@@ -1,7 +1,7 @@
 import * as api from '../config';
 
-export function get() {
-    return api.get("vendor?pageAll=true");
+export function get(filters) {
+    return api.get("vendor", filters);
 }
 
 export function getPois(vendorId: string) {

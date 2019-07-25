@@ -39,7 +39,6 @@ type State = {
   vendorPois: any
 }
 
-
 class ExpensesPage extends React.Component<{}, State> {
 
   state = {
@@ -176,6 +175,12 @@ class ExpensesPage extends React.Component<{}, State> {
     }));
   }
 
+  @boundMethod
+  onVendorSearch(value, callback){
+    console.log(value);
+    vendorApi.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
+  }
+
   render() {
     const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => { return { value: x.data, key: moment(`${x.year}-${x.month}-1`).format("YYYY MMM") }; }));
 
@@ -267,6 +272,7 @@ class ExpensesPage extends React.Component<{}, State> {
           files={this.state.files}
           linkFile={(expenseId, expenseFile) => this.linkExpenseFile(expenseId, expenseFile, this.state.filters)}
           deleteFile={this.deleteFile}
+          onVendorSearch={this.onVendorSearch}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
           onVendorChanged={() => {}}

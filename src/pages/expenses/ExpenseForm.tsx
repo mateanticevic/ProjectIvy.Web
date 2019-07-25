@@ -3,6 +3,7 @@ import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, 
 import Datetime from 'react-datetime';
 import Select from '../../components/common/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
+import AsyncSelect from 'react-select/async';
 
 const ExpenseForm = (props) => {
 
@@ -34,7 +35,12 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Vendor</ControlLabel>
-              <Select selected={props.expense.vendorId} options={props.vendors} onChange={x => { props.onChange({ vendorId: x }); props.onVendorChanged(x); }} />
+              <AsyncSelect
+                loadOptions={props.onVendorSearch}
+                onChange={x => props.onChange({ vendorId: x.value })}
+                defaultOptions
+              />
+              {/* <Select selected={props.expense.vendorId} options={props.vendors} onChange={x => { props.onChange({ vendorId: x }); props.onVendorChanged(x); }} /> */}
             </FormGroup>
           </Col>
           <Col lg={6}>

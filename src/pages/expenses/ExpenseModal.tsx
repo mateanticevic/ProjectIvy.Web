@@ -16,6 +16,7 @@ const ExpenseModal = (props) => {
                 <ExpenseForm
                     currencies={props.currencies}
                     types={props.types}
+                    onVendorSearch={props.onVendorSearch}
                     vendors={props.vendors}
                     fileTypes={props.fileTypes}
                     paymentTypes={props.paymentTypes}
