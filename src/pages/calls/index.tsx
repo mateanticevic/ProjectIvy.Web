@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Col, Panel, Table } from "react-bootstrap/lib";
+import { Grid, Col, Panel, Table, Row } from "react-bootstrap/lib";
 
 import * as callApi from "../../api/main/call";
 import { boundMethod } from "autobind-decorator";
@@ -37,18 +37,20 @@ export default class CallsPage extends React.Component {
 
         return (
             <Grid>
-                <Col lg={12}>
-                    <Panel>
-                        <Panel.Heading>Calls ({calls.count})</Panel.Heading>
-                        <Panel.Body>
-                            <Table>
-                                <tbody>
-                                    {this.renderCalls()}
-                                </tbody>
-                            </Table>
-                        </Panel.Body>
-                    </Panel>
-                </Col>
+                <Row>
+                    <Col lg={12}>
+                        <Panel>
+                            <Panel.Heading>Calls ({calls.count})</Panel.Heading>
+                            <Panel.Body>
+                                <Table responsive>
+                                    <tbody>
+                                        {this.renderCalls()}
+                                    </tbody>
+                                </Table>
+                            </Panel.Body>
+                        </Panel>
+                    </Col>
+                </Row>
             </Grid>);
     }
 }

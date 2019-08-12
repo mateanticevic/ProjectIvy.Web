@@ -40,7 +40,6 @@ const ExpenseForm = (props) => {
                 onChange={x => props.onChange({ vendorId: x.value })}
                 defaultOptions
               />
-              {/* <Select selected={props.expense.vendorId} options={props.vendors} onChange={x => { props.onChange({ vendorId: x }); props.onVendorChanged(x); }} /> */}
             </FormGroup>
           </Col>
           <Col lg={6}>
