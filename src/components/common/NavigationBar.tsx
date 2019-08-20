@@ -49,6 +49,9 @@ const NavigationBar = () => {
             <LinkContainer to="/calls">
               <MenuItem eventKey={5.2}>Calls</MenuItem>
             </LinkContainer>
+            <LinkContainer to="/todos">
+              <MenuItem eventKey={5.3}>To Do</MenuItem>
+            </LinkContainer>
           </NavDropdown>
         </Nav>
         <Nav pullRight>

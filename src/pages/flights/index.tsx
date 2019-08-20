@@ -12,7 +12,6 @@ import { boundMethod } from 'autobind-decorator';
 
 class FlightsPage extends React.Component {
 
-
     state = {
         countByAirport: [],
         filters: {

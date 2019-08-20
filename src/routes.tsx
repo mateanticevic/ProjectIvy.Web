@@ -12,6 +12,7 @@ import TrackingPage from './pages/tracking';
 import TripsPage from './pages/trips';
 import TripDetailsPage from './pages/trip-details';
 import PoisPage from './containers/PoisPage';
+import ToDosPage from './pages/todos';
 
 export default (
   <Route path="/" component={App}>
@@ -22,6 +23,7 @@ export default (
     <Route path="flights" component={FlightsPage}/>
     <Route path="login" component={LoginPage}/>
     <Route path="pois" component={PoisPage}/>
+    <Route path="todos" component={ToDosPage}/>
     <Route path="tracking" component={TrackingPage}/>
     <Route path="trips" component={TripsPage}/>
     <Route path="trips/:id" component={TripDetailsPage}/>
