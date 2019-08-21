@@ -1,3 +1,5 @@
+import ExpenseCountGraph from "src/pages/expenses/ExpenseCountGraph";
+
 export type Currency = {
     id: string,
     code: string,

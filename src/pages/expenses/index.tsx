@@ -41,7 +41,7 @@ type State = {
 
 class ExpensesPage extends React.Component<{}, State> {
 
-  state = {
+  state: State = {
     cards: [],
     currencies: [],
     graphs: {
@@ -108,6 +108,17 @@ class ExpensesPage extends React.Component<{}, State> {
     expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
   }
 
+  newExpense(): Expense {
+    return {
+      amount: 0,
+      comment: '',
+      currency: {
+        id: 'HRK',
+        symbol: 'HRK'
+      }
+    };
+  }
+
   @boundMethod
   onExpenseSave() {
     if (this.props.expenses.expense.id) {
@@ -143,7 +154,7 @@ class ExpensesPage extends React.Component<{}, State> {
   @boundMethod
   onExpenseNew() {
     this.setState({
-      expense: {},
+      expense: this.newExpense(),
       isModalOpen: true
     });
   }
@@ -176,7 +187,7 @@ class ExpensesPage extends React.Component<{}, State> {
   }
 
   @boundMethod
-  onVendorSearch(value, callback){
+  onVendorSearch(value, callback) {
     vendorApi.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
   }
 
@@ -275,8 +286,8 @@ class ExpensesPage extends React.Component<{}, State> {
           onVendorSearch={this.onVendorSearch}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
-          onVendorChanged={() => {}}
-          uploadFiles={() => {}}
+          onVendorChanged={() => { }}
+          uploadFiles={() => { }}
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onExpenseChanged} />
       </Grid>

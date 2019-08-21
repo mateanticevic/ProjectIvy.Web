@@ -7,6 +7,8 @@ import AsyncSelect from 'react-select/async';
 
 const ExpenseForm = (props) => {
 
+  const { expense } = props;
+
   return (
     <Tabs id="expenseFormTabs" defaultActiveKey={1}>
       <Tab eventKey={1} title="General">
@@ -27,7 +29,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Type</ControlLabel>
-              <Select selected={props.expense.expenseTypeId} options={props.types} onChange={x => props.onChange({ expenseTypeId: x })} hideDefaultOption={true} />
+              <Select selected={expense.expenseType && expense.expenseType.id || null} options={props.types} onChange={x => props.onChange({ expenseType: { id: x } })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
         </Row>
@@ -45,7 +47,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Poi</ControlLabel>
-              <Select selected={props.expense.poiId} defaultOptionValue="N/A" options={props.vendorPois} onChange={x => props.onChange({ poiId: x })} />
+              <Select selected={expense.poi && expense.poi.id || null} defaultOptionValue="N/A" options={props.vendorPois} onChange={id => props.onChange({ poi: { id } })} />
             </FormGroup>
           </Col>
         </Row>
@@ -53,15 +55,15 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Currency</ControlLabel>
-              <Select selected={props.expense.currencyId} options={props.currencies} onChange={x => props.onChange({ currencyId: x })} hideDefaultOption={true} />
+              <Select selected={expense.currency.id} options={props.currencies} onChange={id => props.onChange({ currency: { id } })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Amount</ControlLabel>
               <InputGroup>
-                <FormControl value={props.expense.amount} type="number" onChange={x => props.onChange({ amount: x.target.value })} />
-                <InputGroup.Addon>{props.expense.currencyId}</InputGroup.Addon>
+                <FormControl value={expense.amount} type="number" onChange={x => props.onChange({ amount: x.target.value })} />
+                <InputGroup.Addon>{expense.currency.symbol}</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -70,13 +72,13 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Payment type</ControlLabel>
-              <Select selected={props.expense.paymentTypeId} options={props.paymentTypes} onChange={x => props.onChange({ paymentTypeId: x })} hideDefaultOption={true} />
+              <Select selected={expense.paymentType && expense.paymentType.id || null} options={props.paymentTypes} onChange={id => props.onChange({ paymentType: { id } })} hideDefaultOption={true} />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Card</ControlLabel>
-              <Select selected={props.expense.cardId} defaultOptionValue="N/A" options={props.cards} onChange={x => props.onChange({ cardId: x })} />
+              <Select selected={expense.card && expense.card.id || null} defaultOptionValue="N/A" options={props.cards} onChange={id => props.onChange({ card: { id } })} />
             </FormGroup>
           </Col>
         </Row>
@@ -94,7 +96,7 @@ const ExpenseForm = (props) => {
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Parent currency</ControlLabel>
-              <Select selected={props.expense.parentCurrencyId}
+              <Select selected={expense.parentCurrency && expense.parentCurrency.id || null}
                 options={props.currencies}
                 defaultOptionValue="No parent currency"
                 onChange={x => props.onChange({ parentCurrencyId: x })} />
