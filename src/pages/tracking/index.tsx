@@ -7,8 +7,9 @@ import { boundMethod } from 'autobind-decorator';
 
 import { Map } from '../../components/common';
 import * as trackingApi from '../../api/main/tracking';
+import { Page } from '../Page';
 
-class TrackingPage extends React.Component {
+class TrackingPage extends Page<{}, {}> {
 
     state = {
         filters: {
@@ -17,12 +18,18 @@ class TrackingPage extends React.Component {
     };
 
     componentDidMount() {
-        this.onFiltersChanged({ day: moment().format("YYYY-MM-DD") });
+        this.onFiltersChanged();
     }
 
     @boundMethod
-    onFiltersChanged(filter) {
-        const filters = { ...this.state.filters, ...filter };
+    onFiltersChanged(filterValue?) {
+        const filters = this.resolveFilters(this.state.filters, filterValue);
+
+        if (!filters.day)
+            filters.day = moment().format("YYYY-MM-DD");
+
+        this.pushHistoryState(filters);
+
         this.setState({ filters: filters });
         const nextDay = moment(filters.day).add(1, 'days').format("YYYY-MM-DD");
         trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => this.setState({ trackings: trackings }));

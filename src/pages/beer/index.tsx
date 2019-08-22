@@ -15,6 +15,7 @@ import * as commonApi from '../../api/main/common';
 import * as consumationApi from '../../api/main/consumation';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
 import { Pagination } from '../../components/common';
+import { Page } from '../Page';
 
 type Props = {}
 
@@ -39,7 +40,7 @@ type State = {
     topBeers: Beer[]
 }
 
-class BeerPage extends React.Component<Props, State> {
+class BeerPage extends Page<Props, State> {
 
     state: State = {
         beerCount: 0,
@@ -139,8 +140,8 @@ class BeerPage extends React.Component<Props, State> {
 
     @boundMethod
     onFiltersChange(filterValue?: Partial<ConsumationFilters>) {
-        const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
-        window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
+        const filters = this.resolveFilters(this.state.filters, filterValue);
+        this.pushHistoryState(filters);
 
         this.setState({ ...this.state, filters });
 

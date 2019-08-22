@@ -20,6 +20,7 @@ import ExpenseFiltersMore from './ExpenseFiltersMore';
 import ExpensePanel from './ExpensePanel';
 import ExpenseCountGraph from './ExpenseCountGraph';
 import ExpenseModal from './ExpenseModal';
+import { Page } from '../Page';
 
 type State = {
   cards: any[],
@@ -39,7 +40,7 @@ type State = {
   vendorPois: any
 }
 
-class ExpensesPage extends React.Component<{}, State> {
+class ExpensesPage extends Page<{}, State> {
 
   state: State = {
     cards: [],
@@ -161,14 +162,8 @@ class ExpensesPage extends React.Component<{}, State> {
 
   @boundMethod
   onFiltersChanged(filterValue) {
-    const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
-
-    if (filterValue && filterValue.page == undefined) {
-      filters.page = 1;
-    }
-
-    window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
-
+    const filters = this.resolveFilters(this.state.filters, filterValue);
+    this.pushHistoryState(filters);
     this.setState({ filters });
 
     expenseApi.get(filters).then(expenses => this.setState({ expenses }));

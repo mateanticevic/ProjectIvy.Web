@@ -11,6 +11,7 @@ import { boundMethod } from 'autobind-decorator';
 import TripRow from './TripRow';
 import { TripTable } from './TripTable';
 import TripModal from './TripModal';
+import { Page } from '../Page';
 
 type State = {
   countries: [],
@@ -20,7 +21,7 @@ type State = {
   visitedCountries: any,
 }
 
-class TripsPage extends React.Component<{}, State> {
+class TripsPage extends Page<{}, State> {
 
   state: State = {
     countries: [],
@@ -38,7 +39,9 @@ class TripsPage extends React.Component<{}, State> {
 
   @boundMethod
   onFiltersChanged(filterValue?) {
-    let filters = { ...this.state.filters, ...filterValue };
+    let filters = this.resolveFilters(this.state.filters, filterValue);
+    this.pushHistoryState(filters);
+
     tripApi.get(filters).then(trips => this.setState({
       filters,
       trips
