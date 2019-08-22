@@ -14,6 +14,7 @@ import * as beerApi from '../../api/main/beer';
 import * as commonApi from '../../api/main/common';
 import * as consumationApi from '../../api/main/consumation';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
+import { Pagination } from '../../components/common';
 
 type Props = {}
 
@@ -58,7 +59,9 @@ class BeerPage extends React.Component<Props, State> {
             items: []
         },
         filters: {
-            from: moment().month(0).date(1).format("YYYY-MM-DD")
+            from: moment().month(0).date(1).format("YYYY-MM-DD"),
+            page: 1,
+            pageSize: 10
         },
         servings: [],
         sum: 0,
@@ -67,8 +70,7 @@ class BeerPage extends React.Component<Props, State> {
 
     @boundMethod
     addBeer() {
-        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => {
-        });
+        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => {});
     }
 
     @boundMethod
@@ -140,12 +142,18 @@ class BeerPage extends React.Component<Props, State> {
         const filters = filterValue ? { ...this.state.filters, ...filterValue } : { ...this.state.filters, ...(urlHelper.queryStringToJson(window.location.search)) };
         window.history.pushState(null, null, window.location.pathname + urlHelper.jsonToQueryString(filters));
 
-        this.setState({ ...this.state, filters: filters });
+        this.setState({ ...this.state, filters });
 
-        consumationApi.getSum(filters)
+        const statsFilters = {
+            ...filters,
+            page: 1,
+            pageSize: 5
+        };
+
+        consumationApi.getSum(statsFilters)
             .then(sum => this.setState({ sum }))
 
-        consumationApi.getSumByBeer({ ...filters, pageSize: 5 })
+        consumationApi.getSumByBeer(statsFilters)
             .then(beers => {
                 this.setState({
                     topBeers: beers.items
@@ -153,8 +161,8 @@ class BeerPage extends React.Component<Props, State> {
             });
 
         consumationApi.get(filters).then(consumations => {
-            consumationApi.getCountBeer(filters).then(beerCount => {
-                consumationApi.getCountBrand(filters).then(brandCount => {
+            consumationApi.getCountBeer(statsFilters).then(beerCount => {
+                consumationApi.getCountBrand(statsFilters).then(brandCount => {
                     this.setState({
                         beerCount,
                         brandCount,
@@ -166,7 +174,7 @@ class BeerPage extends React.Component<Props, State> {
     }
 
     render() {
-        const consumations = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
+        const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
             <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
             <td>{consumation.beer.name}</td>
             <td>{consumation.serving}</td>
@@ -182,6 +190,10 @@ class BeerPage extends React.Component<Props, State> {
                 {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
             </ListGroupItem>
         ));
+
+        const { consumations, filters } = this.state;
+
+        const pages = Math.ceil(consumations.count / filters.pageSize);
 
         return (
             <Grid>
@@ -204,7 +216,7 @@ class BeerPage extends React.Component<Props, State> {
                                     <Panel.Heading>
                                         <Row>
                                             <Col xs={10}>
-                                                Consumations ({this.state.consumations.count})
+                                                Consumations ({consumations.count})
                                             </Col>
                                             <Col xs={2}>
                                                 <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
@@ -218,9 +230,14 @@ class BeerPage extends React.Component<Props, State> {
                                     <Panel.Body>
                                         <Table>
                                             <tbody>
-                                                {consumations}
+                                                {consumationRows}
                                             </tbody>
                                         </Table>
+                                        <Pagination
+                                            page={filters.page}
+                                            pages={pages}
+                                            onPageChange={page => this.onFiltersChange({ page })}
+                                        />
                                     </Panel.Body>
                                     <Panel.Footer>
                                         Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{Math.ceil(this.state.sum / 1000)}L

@@ -40,7 +40,7 @@ export default class CallsPage extends React.Component {
     }
 
     @boundMethod
-    onFiltersChanged(keyValue) {
+    onFiltersChange(keyValue) {
         this.setState({
             filters: {
                 ...this.state.filters,
@@ -81,7 +81,11 @@ export default class CallsPage extends React.Component {
                                         {this.renderCalls()}
                                     </tbody>
                                 </Table>
-                                <Pagination page={filters.page} pages={pages} onPageChange={page => this.onFiltersChanged({ page })} />
+                                <Pagination
+                                    page={filters.page}
+                                    pages={pages}
+                                    onPageChange={page => this.onFiltersChange({ page })}
+                                />
                             </Panel.Body>
                         </Panel>
                     </Col>

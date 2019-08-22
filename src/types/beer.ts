@@ -1,3 +1,5 @@
+import { PagingFilters } from "./paging";
+
 export type Beer = {
     abv: number,
     brandId: string,
@@ -17,11 +19,11 @@ export type Consumation = {
     volume: number
 }
 
-export type ConsumationFilters = {
-    from: string,
-    to: string,
-    brandId: string,
-    servingId: string,
+export type ConsumationFilters = PagingFilters & {
+    from?: string,
+    to?: string,
+    brandId?: string,
+    servingId?: string
 }
 
 export type Serving = {
