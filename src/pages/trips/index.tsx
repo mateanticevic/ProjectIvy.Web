@@ -1,10 +1,10 @@
 import React from 'react';
-import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
 import _ from 'lodash';
 
 import * as trackingHelper from '../../utils/trackingHelper';
-import { Map, Pagination } from '../../components/common';
+import { Map, Pagination, Select } from '../../components/common';
 import * as tripApi from '../../api/main/trip';
 import * as countryApi from '../../api/main/country';
 import { boundMethod } from 'autobind-decorator';
@@ -13,10 +13,11 @@ import { TripTable } from './TripTable';
 import TripModal from './TripModal';
 
 type State = {
-  countries: any,
+  countries: [],
   filters: any,
   isModalOpen: boolean,
   trips: any
+  visitedCountries: any,
 }
 
 class TripsPage extends React.Component<{}, State> {
@@ -25,16 +26,18 @@ class TripsPage extends React.Component<{}, State> {
     countries: [],
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
-    trips: { count: 0, items: [] }
+    trips: { count: 0, items: [] },
+    visitedCountries: []
   }
 
   componentDidMount() {
-    countryApi.getVisitedBoundaries().then(countries => this.setState({ countries }));
+    countryApi.getAll().then(countries => this.setState({ countries: countries.items }));
+    countryApi.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
     this.onFiltersChanged();
   }
 
   @boundMethod
-  onFiltersChanged(filterValue) {
+  onFiltersChanged(filterValue?) {
     let filters = { ...this.state.filters, ...filterValue };
     tripApi.get(filters).then(trips => this.setState({
       filters,
@@ -43,7 +46,7 @@ class TripsPage extends React.Component<{}, State> {
   }
 
   render() {
-    const countryPolygons = this.state.countries.map(country => {
+    const countryPolygons = this.state.visitedCountries.map(country => {
       return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
@@ -71,6 +74,15 @@ class TripsPage extends React.Component<{}, State> {
         </Row>
         <Row>
           <Col lg={3}>
+            <Panel>
+              <Panel.Heading>Filters</Panel.Heading>
+              <Panel.Body>
+                <FormGroup>
+                  <ControlLabel>Country</ControlLabel>
+                  <Select options={this.state.countries} onChange={countryId => this.onFiltersChanged({ countryId })} />
+                </FormGroup>
+              </Panel.Body>
+            </Panel>
           </Col>
           <Col lg={9}>
             <Row>
