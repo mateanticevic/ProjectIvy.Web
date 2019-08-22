@@ -62,7 +62,7 @@ class TripsPage extends React.Component<{}, State> {
             <Panel>
               <Panel.Heading>Map</Panel.Heading>
               <Panel.Body className="padding-0 panel-medium">
-                <Map onClick={() => { }}>
+                <Map onClick={() => { }} defaultCenter={{ lat: 50.666841, lng: 49.800719 }}>
                   {polygons}
                 </Map>
               </Panel.Body>
