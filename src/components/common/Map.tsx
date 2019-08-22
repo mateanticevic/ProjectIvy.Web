@@ -1,4 +1,4 @@
-import { default as React, Children } from "react";
+import { default as React } from "react";
 import GoogleMaps from './GoogleMaps';
 
 type Props = {
