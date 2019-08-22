@@ -5,11 +5,16 @@ import * as callApi from "../../api/main/call";
 import { boundMethod } from "autobind-decorator";
 import Moment from "react-moment";
 import { Call } from "types/calls";
+import { Pagination } from '../../components/common'
 
 type State = {
-    calls : {
+    calls: {
         count: number,
         items: Call[]
+    },
+    filters: {
+        page: number,
+        pageSize: number
     }
 }
 
@@ -19,11 +24,29 @@ export default class CallsPage extends React.Component {
         calls: {
             count: 0,
             items: []
+        },
+        filters: {
+            page: 1,
+            pageSize: 10
         }
     }
 
     componentDidMount() {
-        callApi.getCalls().then(calls => this.setState({ calls }));
+        this.fetchCalls();
+    }
+
+    fetchCalls() {
+        callApi.getCalls(this.state.filters).then(calls => this.setState({ calls }));
+    }
+
+    @boundMethod
+    onFiltersChanged(keyValue) {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                ...keyValue
+            }
+        }, this.fetchCalls);
     }
 
     @boundMethod
@@ -42,7 +65,9 @@ export default class CallsPage extends React.Component {
 
     render() {
 
-        const { calls } = this.state;
+        const { calls, filters } = this.state;
+
+        const pages = Math.ceil(calls.count / filters.pageSize);
 
         return (
             <Grid>
@@ -56,6 +81,7 @@ export default class CallsPage extends React.Component {
                                         {this.renderCalls()}
                                     </tbody>
                                 </Table>
+                                <Pagination page={filters.page} pages={pages} onPageChange={page => this.onFiltersChanged({ page })} />
                             </Panel.Body>
                         </Panel>
                     </Col>

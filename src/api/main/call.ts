@@ -1,5 +1,5 @@
 import * as api from '../config';
 
-export function getCalls() {
-    return api.get('call');
+export function getCalls(filters) {
+    return api.get('call', filters);
 }
