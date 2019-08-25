@@ -4,6 +4,7 @@ import { Polyline } from "react-google-maps";
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import { boundMethod } from 'autobind-decorator';
+import * as _ from 'lodash';
 
 import { Map } from '../../components/common';
 import * as trackingApi from '../../api/main/tracking';
@@ -49,6 +50,7 @@ class TrackingPage extends Page<{}, {}> {
     renderTrackingDays(trackings) {
         return trackings.map(tracking => <tr>
             <td>{tracking.day}</td>
+            <td>{Math.round(_.max(tracking.trackings.map(x => x.speed)) * 3.6)} km/h</td>
         </tr>);
     }
 
