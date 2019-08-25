@@ -6,6 +6,7 @@ import { boundMethod } from "autobind-decorator";
 import Moment from "react-moment";
 import { Call } from "types/calls";
 import { Pagination } from '../../components/common'
+import * as formatHelper from '../../utils/formatHelper';
 
 type State = {
     calls: {
@@ -55,7 +56,7 @@ export default class CallsPage extends React.Component {
         return this.state.calls.items.map(call => (<tr>
             <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
-            <td>{call.duration}s</td>
+            <td>{formatHelper.time(call.duration)}</td>
             <td>
                 <audio controls src={`https://api2.anticevic.net/file/${call.file.id}`} />
             </td>
