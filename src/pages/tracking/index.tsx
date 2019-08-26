@@ -10,6 +10,7 @@ import FontAwesome from 'react-fontawesome';
 import { Map } from '../../components/common';
 import * as trackingApi from '../../api/main/tracking';
 import { Page } from '../Page';
+import * as formatHelper from '../../utils/formatHelper';
 
 class TrackingPage extends Page<{}, {}> {
 
@@ -44,7 +45,9 @@ class TrackingPage extends Page<{}, {}> {
 
         this.setState({ filters: filters });
         const nextDay = moment(filters.day).add(1, 'days').format("YYYY-MM-DD");
-        trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => this.setState({ trackings: [...this.state.trackings, { day: filters.day, trackings, id: _.uniqueId() }] }));
+        trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => {
+            trackingApi.getDistance({ from: filters.day, to: nextDay }).then(distance => this.setState({ trackings: [...this.state.trackings, { day: filters.day, trackings, id: _.uniqueId(), distance }] }))
+        });
     }
 
     @boundMethod
@@ -56,9 +59,12 @@ class TrackingPage extends Page<{}, {}> {
 
     @boundMethod
     renderTrackingDays(trackings) {
-        return trackings.map(tracking => <tr>
-            <td>{tracking.day}</td>
-            <td>{Math.round(_.max(tracking.trackings.map(x => x.speed)) * 3.6)} km/h</td>
+        return trackings.map((tracking, i) => <tr>
+            <td><span style={{ color: this.colors[i % this.colors.length] }}>■</span> {moment(tracking.day).format("DD.MM.YYYY.")}</td>
+            <td title="From"><FontAwesome name="hourglass-start" />&nbsp;{moment(_.min(tracking.trackings.map(x => x.timestamp))).format('HH:mm')}</td>
+            <td title="To"><FontAwesome name="hourglass-end" />&nbsp;{moment(_.max(tracking.trackings.map(x => x.timestamp))).format('HH:mm')}</td>
+            <td title="Max speed"><FontAwesome name="tachometer" />&nbsp;{Math.round(_.max(tracking.trackings.map(x => x.speed)) * 3.6)} km/h</td>
+            <td title="Distance"><FontAwesome name="road" />&nbsp;{formatHelper.number(tracking.distance).number} {formatHelper.number(tracking.distance).exponent}m</td>
             <td className="width-30"><FontAwesome name="times" className="show-on-hover" onClick={() => this.onRemoveTracking(tracking.id)} /></td>
         </tr>);
     }
@@ -77,16 +83,6 @@ class TrackingPage extends Page<{}, {}> {
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={x => this.onFiltersChanged({ day: x.format("YYYY-MM-DD") })} />
                             </Panel.Body>
                         </Panel>
-                        <Panel>
-                            <Panel.Heading>Days</Panel.Heading>
-                            <Panel.Body>
-                                <Table>
-                                    <tbody>
-                                        {this.renderTrackingDays(trackings)}
-                                    </tbody>
-                                </Table>
-                            </Panel.Body>
-                        </Panel>
                     </Col>
                     <Col lg={9}>
                         <Panel>
@@ -95,6 +91,16 @@ class TrackingPage extends Page<{}, {}> {
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
                                     {trackings.map((tracking, i) => <Polyline path={tracking.trackings} options={{ strokeColor: this.colors[i % this.colors.length] }} />)}
                                 </Map>
+                            </Panel.Body>
+                        </Panel>
+                        <Panel>
+                            <Panel.Heading>Days</Panel.Heading>
+                            <Panel.Body>
+                                <Table>
+                                    <tbody>
+                                        {this.renderTrackingDays(trackings)}
+                                    </tbody>
+                                </Table>
                             </Panel.Body>
                         </Panel>
                     </Col>
