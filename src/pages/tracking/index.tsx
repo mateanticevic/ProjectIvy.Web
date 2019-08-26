@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Col, Panel, ControlLabel, Row, Table } from 'react-bootstrap/lib';
+import { Grid, Col, Panel, ControlLabel, Row, Table, Button } from 'react-bootstrap/lib';
 import { Polyline } from "react-google-maps";
 import Datetime from 'react-datetime';
 import moment from 'moment';
@@ -31,7 +31,6 @@ class TrackingPage extends Page<{}, {}> {
     };
 
     componentDidMount() {
-        this.onFiltersChanged();
     }
 
     @boundMethod
@@ -39,15 +38,27 @@ class TrackingPage extends Page<{}, {}> {
         const filters = this.resolveFilters(this.state.filters, filterValue);
 
         if (!filters.day)
-            filters.day = moment().format("YYYY-MM-DD");
+            filters.day = moment().format('YYYY-MM-DD');
 
         this.pushHistoryState(filters);
 
-        this.setState({ filters: filters });
-        const nextDay = moment(filters.day).add(1, 'days').format("YYYY-MM-DD");
-        trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => {
-            trackingApi.getDistance({ from: filters.day, to: nextDay }).then(distance => this.setState({ trackings: [...this.state.trackings, { day: filters.day, trackings, id: _.uniqueId(), distance }] }))
+        this.setState({ filters });
+        this.loadDay(filters.day);
+    }
+
+    loadDay(day) {
+        const nextDay = moment(day).add(1, 'days').format("YYYY-MM-DD");
+        const filters = { from: day, to: nextDay };
+        trackingApi.get(filters).then(trackings => {
+            trackingApi.getDistance(filters).then(distance => this.setState({ trackings: [...this.state.trackings, { day: day, trackings, id: _.uniqueId(), distance }] }))
         });
+    }
+
+    @boundMethod
+    loadOnThisDay(){
+        for(var year = 2014; year <= moment().year(); year++){
+            this.loadDay(moment().year(year).format('YYYY-MM-DD'));
+        }
     }
 
     @boundMethod
@@ -81,6 +92,7 @@ class TrackingPage extends Page<{}, {}> {
                             <Panel.Body>
                                 <ControlLabel>Day</ControlLabel>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={x => this.onFiltersChanged({ day: x.format("YYYY-MM-DD") })} />
+                                <Button onClick={this.loadOnThisDay}>On this day</Button>
                             </Panel.Body>
                         </Panel>
                     </Col>
