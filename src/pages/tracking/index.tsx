@@ -5,6 +5,7 @@ import Datetime from 'react-datetime';
 import moment from 'moment';
 import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
+import FontAwesome from 'react-fontawesome';
 
 import { Map } from '../../components/common';
 import * as trackingApi from '../../api/main/tracking';
@@ -43,7 +44,14 @@ class TrackingPage extends Page<{}, {}> {
 
         this.setState({ filters: filters });
         const nextDay = moment(filters.day).add(1, 'days').format("YYYY-MM-DD");
-        trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => this.setState({ trackings: [...this.state.trackings, { day: filters.day, trackings }] }));
+        trackingApi.get({ from: filters.day, to: nextDay }).then(trackings => this.setState({ trackings: [...this.state.trackings, { day: filters.day, trackings, id: _.uniqueId() }] }));
+    }
+
+    @boundMethod
+    onRemoveTracking(id) {
+        this.setState({
+            trackings: _.filter(this.state.trackings, t => t.id !== id)
+        });
     }
 
     @boundMethod
@@ -51,6 +59,7 @@ class TrackingPage extends Page<{}, {}> {
         return trackings.map(tracking => <tr>
             <td>{tracking.day}</td>
             <td>{Math.round(_.max(tracking.trackings.map(x => x.speed)) * 3.6)} km/h</td>
+            <td className="width-30"><FontAwesome name="times" className="show-on-hover" onClick={() => this.onRemoveTracking(tracking.id)} /></td>
         </tr>);
     }
 
@@ -84,7 +93,7 @@ class TrackingPage extends Page<{}, {}> {
                             <Panel.Heading>Map</Panel.Heading>
                             <Panel.Body className="padding-0 panel-medium">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
-                                    {trackings.map((tracking, i) => <Polyline path={tracking.trackings} options={{strokeColor: this.colors[i % this.colors.length]}} />)}
+                                    {trackings.map((tracking, i) => <Polyline path={tracking.trackings} options={{ strokeColor: this.colors[i % this.colors.length] }} />)}
                                 </Map>
                             </Panel.Body>
                         </Panel>

@@ -111,3 +111,15 @@ a {
 .margin-top-10 {
   margin-top: 10px;
 }
+
+.show-on-hover {
+  display: none;
+}
+
+tr:hover > td > .show-on-hover{
+  display: block;
+}
+
+.width-30 {
+  width: 30px;
+}
