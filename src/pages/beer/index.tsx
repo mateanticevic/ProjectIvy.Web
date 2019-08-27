@@ -5,7 +5,6 @@ import Moment from 'react-moment';
 import _ from 'lodash';
 import { boundMethod } from 'autobind-decorator';
 
-import * as urlHelper from '../../utils/urlHelper';
 import Filters from './Filters';
 import ConsumationModal from './ConsumationModal';
 import BeerModal from './BeerModal';
@@ -35,6 +34,7 @@ type State = {
         items: Consumation[]
     },
     filters: ConsumationFilters,
+    newBeers: any,
     servings: Serving[],
     sum: number,
     topBeers: Beer[]
@@ -64,6 +64,10 @@ class BeerPage extends Page<Props, State> {
             page: 1,
             pageSize: 10
         },
+        newBeers: {
+            count: 0,
+            items: []
+        },
         servings: [],
         sum: 0,
         topBeers: []
@@ -71,7 +75,7 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     addBeer() {
-        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => {});
+        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => { });
     }
 
     @boundMethod
@@ -155,11 +159,10 @@ class BeerPage extends Page<Props, State> {
             .then(sum => this.setState({ sum }))
 
         consumationApi.getSumByBeer(statsFilters)
-            .then(beers => {
-                this.setState({
-                    topBeers: beers.items
-                });
-            });
+            .then(beers => this.setState({ topBeers: beers.items }));
+
+        consumationApi.getNewBeers(statsFilters)
+            .then(newBeers => this.setState({ newBeers }));
 
         consumationApi.get(filters).then(consumations => {
             consumationApi.getCountBeer(statsFilters).then(beerCount => {
@@ -189,6 +192,12 @@ class BeerPage extends Page<Props, State> {
         const topBeers = this.state.topBeers.map(beer => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
+            </ListGroupItem>
+        ));
+
+        const newBeers = this.state.newBeers.items.map(beer => (
+            <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                {beer.name}
             </ListGroupItem>
         ));
 
@@ -266,6 +275,16 @@ class BeerPage extends Page<Props, State> {
                             <Panel.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {topBeers}
+                                </ListGroup>
+                            </Panel.Body>
+                        </Panel>
+                        <Panel>
+                            <Panel.Heading>
+                                New Beers ({`${this.state.newBeers.count}`})
+                            </Panel.Heading>
+                            <Panel.Body className="panel-small padding-0">
+                                <ListGroup>
+                                    {newBeers}
                                 </ListGroup>
                             </Panel.Body>
                         </Panel>

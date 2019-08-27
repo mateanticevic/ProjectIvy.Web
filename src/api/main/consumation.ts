@@ -5,11 +5,15 @@ export function get(filters) {
 }
 
 export function getCountBeer(filters) {
-    return api.get("consumation/count/beer", filters);
+    return api.get("consumation/beer/count", filters);
 }
 
 export function getCountBrand(filters) {
-    return api.get("consumation/count/brand", filters);
+    return api.get("consumation/brand/count", filters);
+}
+
+export function getNewBeers(filters) {
+    return api.get("consumation/beer/new", filters);
 }
 
 export function getSum(filters) {

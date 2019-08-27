@@ -53,7 +53,7 @@ class TrackingPage extends Page<{}, State> {
         const filters = { from: day, to: nextDay };
         trackingApi.get(filters).then(trackings => {
             trackingApi.getDistance(filters).then(distance => {
-                const movement = {
+                const movement : Movement = {
                     day: day, trackings,
                     id: _.uniqueId(),
                     distance,
