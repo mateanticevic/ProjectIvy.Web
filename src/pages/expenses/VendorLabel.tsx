@@ -2,19 +2,25 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap/lib';
 
-const ExpenseVendor = (props) => {
+import { Expense } from 'types/expenses';
+
+type Props = {
+    expense: Expense
+}
+
+const VendorLabel = ({ expense }: Props) => {
 
     const poiNameTooltip = (
         <Tooltip id="tooltip">
-            {props.expense.poi && props.expense.poi.name}
+            {expense.poi && expense.poi.name}
         </Tooltip>
     );
 
     return (
         <div>
-            {props.expense.vendor &&
-                <Label bsStyle="primary">{props.expense.vendor.name}&nbsp;
-            {props.expense.poi &&
+            {expense.vendor &&
+                <Label bsStyle="primary">{expense.vendor.name}&nbsp;
+            {expense.poi &&
                         <OverlayTrigger placement="right" overlay={poiNameTooltip}>
                             <FontAwesome name="map-marker" />
                         </OverlayTrigger>}</Label>
@@ -23,4 +29,4 @@ const ExpenseVendor = (props) => {
     );
 }
 
-export default ExpenseVendor;
+export default VendorLabel;

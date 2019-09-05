@@ -4,16 +4,28 @@ import FontAwesome from 'react-fontawesome';
 
 import ExpenseTable from './ExpenseTable';
 import Pagination from '../../components/common/Pagination';
+import { Expense } from 'types/expenses';
+import { PagingFilters, PagedItems } from 'types/paging';
 
-const ExpensePanel = (props) => {
+type Props = PagingFilters & {
+  expenses: PagedItems<Expense>,
+  onEdit: () => void,
+  onNewClick: () => void,
+  onPageChange: () => void,
+  onUnlink: () => void,
+  serverPaging: boolean,
+  stats: any
+}
+
+const ExpensePanel = ({ expenses, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
   
-  const expensesHeader = `Expenses (${props.expenses.count})`;
+  const expensesHeader = `Expenses (${expenses.count})`;
 
-  const expenses = props.serverPaging ? props.expenses.items : props.expenses.items.slice((props.page - 1) * props.pageSize, props.page * props.pageSize);
+  const items = serverPaging ? expenses.items : expenses.items.slice((page - 1) * pageSize, page * pageSize);
 
-  const totalItems = props.serverPaging ? props.expenses.count : props.expenses.items.length;
+  const count = serverPaging ? expenses.count : expenses.items.length;
 
-  const expenseTable = expenses && expenses.length > 0 ? <ExpenseTable expenses={expenses} onEdit={props.onEdit} onUnlink={props.onUnlink} /> : <h2>No data</h2>;
+  const expenseTable = items && items.length > 0 ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} /> : <h2>No data</h2>;
 
   return (
     <Panel>
@@ -23,8 +35,8 @@ const ExpensePanel = (props) => {
             {expensesHeader}
           </Col>
           <Col xs={2}>
-            {props.onNewClick &&
-              <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={props.onNewClick}><FontAwesome name="plus" /> New</Button>
+            {onNewClick &&
+              <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
             }
           </Col>
         </Row>
@@ -37,21 +49,18 @@ const ExpensePanel = (props) => {
         </Row>
         <Row>
           <Col lg={12}>
-            <Pagination page={props.page}
-                        pages={Math.ceil(totalItems / props.pageSize)}
-                        onPageChange={props.onPageChange} />
+            <Pagination page={page}
+                        pages={Math.ceil(count / pageSize)}
+                        onPageChange={onPageChange} />
           </Col>
         </Row>
       </Panel.Body>
-      {props.stats &&
+      {stats &&
         <Panel.Footer>
-          Sum {props.stats.sum}kn Types {props.stats.types} Vendors {props.stats.vendors}
+          Sum {stats.sum}kn Types {stats.types} Vendors {stats.vendors}
         </Panel.Footer>}
     </Panel>
   );
 };
 
 export default ExpensePanel;
-
-ExpensePanel.propTypes = {
-};

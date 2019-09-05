@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import * as actions from '../actions/dashboardActions';
 import OnlineGraph from '../components/dashboard/OnlineGraph';
-import ExpenseType from '../pages/expenses/ExpenseType';
+import ExpenseTypeLabel from '../pages/expenses/ExpenseTypeLabel';
 import { Map, ValueLabel } from '../components/common';
 
 class DashboardPage extends React.Component {
@@ -69,7 +69,7 @@ class DashboardPage extends React.Component {
 
     const expenses = dashboard.expenses.map(expense => {
       return <ListGroupItem key={_.uniqueId('list_item_')}>
-        {that.dayOfWeek(expense.date)} <ExpenseType expense={expense} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
+        {that.dayOfWeek(expense.date)} <ExpenseTypeLabel expenseType={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
       </ListGroupItem>;
     });
 
