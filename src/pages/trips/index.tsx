@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, Panel, FormGroup, ControlLabel } from 'react-bootstrap/lib';
+import { Grid, Row, Col, Panel, FormGroup, ControlLabel, Table } from 'react-bootstrap/lib';
 import { Polygon } from "react-google-maps";
 import _ from 'lodash';
 
@@ -9,15 +9,16 @@ import * as tripApi from '../../api/main/trip';
 import * as countryApi from '../../api/main/country';
 import { boundMethod } from 'autobind-decorator';
 import TripRow from './TripRow';
-import { TripTable } from './TripTable';
 import TripModal from './TripModal';
 import { Page } from '../Page';
+import TableWithSpinner from '../../components/common/TableWithSpinner';
 
 type State = {
   countries: [],
   filters: any,
   isModalOpen: boolean,
-  trips: any
+  trips: any,
+  tripsAreLoading: boolean,
   visitedCountries: any,
 }
 
@@ -28,6 +29,7 @@ class TripsPage extends Page<{}, State> {
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
     trips: { count: 0, items: [] },
+    tripsAreLoading: true,
     visitedCountries: []
   }
 
@@ -40,11 +42,15 @@ class TripsPage extends Page<{}, State> {
   @boundMethod
   onFiltersChanged(filterValue?) {
     let filters = this.resolveFilters(this.state.filters, filterValue);
+    this.setState({
+      filters,
+      tripsAreLoading: true
+    });
     this.pushHistoryState(filters);
 
     tripApi.get(filters).then(trips => this.setState({
-      filters,
-      trips
+      trips,
+      tripsAreLoading: false
     }));
   }
 
@@ -95,9 +101,9 @@ class TripsPage extends Page<{}, State> {
                   <Panel.Body>
                     <Row>
                       <Col lg={12}>
-                        <TripTable>
+                        <TableWithSpinner isLoading={this.state.tripsAreLoading}>
                           {tripRows}
-                        </TripTable>
+                        </TableWithSpinner>
                       </Col>
                     </Row>
                     <Row>

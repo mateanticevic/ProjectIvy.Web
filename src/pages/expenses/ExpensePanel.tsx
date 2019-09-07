@@ -4,6 +4,7 @@ import FontAwesome from 'react-fontawesome';
 
 import ExpenseTable from './ExpenseTable';
 import Pagination from '../../components/common/Pagination';
+import Spinner from '../../components/common/Spinner';
 import { Expense } from 'types/expenses';
 import { PagingFilters, PagedItems } from 'types/paging';
 
@@ -45,7 +46,7 @@ const ExpensePanel = ({ expenses, isLoading, onEdit, onNewClick, onPageChange, o
       <Panel.Body>
         <Row>
           <Col lg={12}>
-            {isLoading ? <FontAwesome name="circle-o-notch" size="3x" spin={true} /> : expenseTable}
+            {isLoading ? <Spinner /> : expenseTable}
           </Col>
         </Row>
         <Row>
