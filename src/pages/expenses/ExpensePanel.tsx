@@ -9,6 +9,7 @@ import { PagingFilters, PagedItems } from 'types/paging';
 
 type Props = PagingFilters & {
   expenses: PagedItems<Expense>,
+  isLoading: boolean,
   onEdit: () => void,
   onNewClick: () => void,
   onPageChange: () => void,
@@ -17,7 +18,7 @@ type Props = PagingFilters & {
   stats: any
 }
 
-const ExpensePanel = ({ expenses, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
+const ExpensePanel = ({ expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
   
   const expensesHeader = `Expenses (${expenses.count})`;
 
@@ -44,7 +45,7 @@ const ExpensePanel = ({ expenses, onEdit, onNewClick, onPageChange, onUnlink, pa
       <Panel.Body>
         <Row>
           <Col lg={12}>
-            {expenseTable}
+            {isLoading ? <FontAwesome name="circle-o-notch" size="3x" spin={true} /> : expenseTable}
           </Col>
         </Row>
         <Row>

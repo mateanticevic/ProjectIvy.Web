@@ -30,6 +30,7 @@ type State = {
   fileTypes: any[],
   expense: Expense,
   expenses: Expense[],
+  expensesAreLoading: boolean,
   filters: any,
   isModalOpen: boolean,
   orderBy: any,
@@ -62,6 +63,7 @@ class ExpensesPage extends Page<{}, State> {
       count: 0,
       items: []
     },
+    expensesAreLoading: true,
     filters: {
       from: moment().month(0).date(1).format("YYYY-MM-DD"), // YYYY-01-01
       pageSize: 10,
@@ -164,9 +166,15 @@ class ExpensesPage extends Page<{}, State> {
   onFiltersChanged(filterValue) {
     const filters = this.resolveFilters(this.state.filters, filterValue);
     this.pushHistoryState(filters);
-    this.setState({ filters });
+    this.setState({
+      expensesAreLoading: true,
+      filters
+    });
 
-    expenseApi.get(filters).then(expenses => this.setState({ expenses }));
+    expenseApi.get(filters).then(expenses => this.setState({
+      expenses,
+      expensesAreLoading: false
+    }));
     expenseApi.getCountByMonth(filters).then(countByMonth => this.setState({
       graphs: {
         ...this.state.graphs,
@@ -231,7 +239,9 @@ class ExpensesPage extends Page<{}, State> {
           <Col lg={9}>
             <Row>
               <Col lg={12}>
-                <ExpensePanel expenses={this.state.expenses}
+                <ExpensePanel
+                  expenses={this.state.expenses}
+                  isLoading={this.state.expensesAreLoading}
                   onEdit={this.onExpenseEdit}
                   onPageChange={page => this.onFiltersChanged({ page: page })}
                   onNewClick={this.onExpenseNew}
