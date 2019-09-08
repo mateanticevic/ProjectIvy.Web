@@ -14,7 +14,7 @@ import * as vendorApi from '../../api/main/vendor';
 
 import { ChartBar } from '../../components/common';
 import { boundMethod } from 'autobind-decorator';
-import { Currency, Expense } from 'types/expenses';
+import { Currency, Expense, ExpenseBinding } from 'types/expenses';
 import ExpenseFilters from './ExpenseFilters';
 import ExpenseFiltersMore from './ExpenseFiltersMore';
 import ExpensePanel from './ExpensePanel';
@@ -32,6 +32,7 @@ type State = {
   expenses: Expense[],
   expensesAreLoading: boolean,
   filters: any,
+  isSavingExpense: boolean,
   isModalOpen: boolean,
   orderBy: any,
   paymentTypes: any[],
@@ -64,6 +65,7 @@ class ExpensesPage extends Page<{}, State> {
       items: []
     },
     expensesAreLoading: true,
+    isSavingExpense: false,
     filters: {
       from: moment().month(0).date(1).format("YYYY-MM-DD"), // YYYY-01-01
       pageSize: 10,
@@ -123,17 +125,16 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
-  onExpenseSave() {
-    if (this.props.expenses.expense.id) {
-      expenseApi.put(this.state.expense).then(() => this.setState({ isModalOpen: false }));
-    }
-    else {
-      expenseApi.post(this.state.expense).then(() => this.setState({ isModalOpen: false }));
-    }
-  }
+  onExpenseSave(closeModal: boolean) {
+    this.setState({ isSavingExpense: true });
 
-  @boundMethod
-  onExpenseAddAnother() {
+    const saveMethod = this.state.expense.id ? expenseApi.put : expenseApi.post;
+
+    saveMethod(this.getExpenseBinding()).then(() => {
+      this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
+      this.onFiltersChanged();
+    })
+      .catch(() => this.setState({ isSavingExpense: false }));
   }
 
   @boundMethod
@@ -192,6 +193,17 @@ class ExpensesPage extends Page<{}, State> {
   @boundMethod
   onVendorSearch(value, callback) {
     vendorApi.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
+  }
+
+  getExpenseBinding(): ExpenseBinding {
+    const e = this.state.expense;
+
+    return {
+      amount: e.amount,
+      currencyId: e.currency.id,
+      expenseTypeId: e.expenseType.id,
+      date: e.date
+    }
   }
 
   render() {
@@ -285,6 +297,7 @@ class ExpensesPage extends Page<{}, State> {
           cards={this.state.cards}
           expense={this.state.expense}
           isOpen={this.state.isModalOpen}
+          isSaving={this.state.isSavingExpense}
           files={this.state.files}
           linkFile={(expenseId, expenseFile) => this.linkExpenseFile(expenseId, expenseFile, this.state.filters)}
           deleteFile={this.deleteFile}

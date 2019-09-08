@@ -20,7 +20,7 @@ type Props = {
 }
 
 const ConsumationModal = (props: Props) => {
-    const { beers, brands, consumation, servings } = props;
+    const { consumation, servings } = props;
 
     return (
         <Modal show={props.isOpen} onHide={props.onClose} bsSize="sm">

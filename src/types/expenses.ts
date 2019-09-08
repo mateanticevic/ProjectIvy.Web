@@ -26,6 +26,13 @@ export type Expense = {
     vendor: Vendor
 }
 
+export type ExpenseBinding = {
+    amount: number,
+    currencyId: string,
+    expenseTypeId: string,
+    date: string
+}
+
 export type ExpenseType = {
     id: string,
     icon: string,

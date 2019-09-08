@@ -1,7 +1,9 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Button, Row, Col, Modal } from 'react-bootstrap/lib';
+
 import ExpenseForm from './ExpenseForm';
+import ButtonWithSpinner from '../../components/common/ButtonWithSpinner';
 
 const ExpenseModal = (props) => {
 
@@ -33,13 +35,13 @@ const ExpenseModal = (props) => {
             <Modal.Footer>
                 <Row>
                     <Col lg={6}>
-                        <Button block bsStyle="primary" className="margin-top-10" onClick={props.onExpenseAdd}>
+                        <ButtonWithSpinner isLoading={props.isSaving} onClick={() => props.onExpenseAdd(true)}>
                             <FontAwesome name="save" /> Save
-                        </Button>
+                        </ButtonWithSpinner>
                     </Col>
                     <Col lg={6}>
                         {!props.expense.id &&
-                            <Button block bsStyle="primary" className="margin-top-10" onClick={props.onExpenseAddAnother}>Save & continue</Button>
+                            <Button block bsStyle="primary" onClick={props.onExpenseAddAnother}>Save & continue</Button>
                         }
                     </Col>
                 </Row>
