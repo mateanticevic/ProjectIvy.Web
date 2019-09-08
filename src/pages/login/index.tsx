@@ -4,15 +4,18 @@ import { boundMethod } from 'autobind-decorator';
 
 import * as tokenApi from '../../api/main/token';
 import * as apiConfig from '../../api/config';
+import ButtonWithSpinner from '../../components/common/ButtonWithSpinner';
 
-type Status = {
+type State = {
+  isLoggingIn: boolean,
   username: string,
   password: string
 }
 
-class LoginPage extends React.Component<{}, Status> {
+class LoginPage extends React.Component<{}, State> {
 
-  state = {
+  state: State = {
+    isLoggingIn: false,
     username: '',
     password: ''
   }
@@ -20,10 +23,17 @@ class LoginPage extends React.Component<{}, Status> {
   @boundMethod
   loginTry(event) {
     event.preventDefault();
+    this.setState({
+      isLoggingIn: true
+    });
     tokenApi.post(this.state.username, this.state.password).then(token => {
       localStorage.setItem("token", token);
       apiConfig.setToken();
       location.assign('/');
+    }).catch(() => {
+      this.setState({
+        isLoggingIn: false
+      });
     });
   }
 
@@ -45,7 +55,7 @@ class LoginPage extends React.Component<{}, Status> {
               </Col>
             </Row>
             <Row className="margin-top-10">
-              <Col xs={12}><Button block type="submit" bsStyle="primary" onClick={this.loginTry}>Login</Button></Col>
+              <Col xs={12}><ButtonWithSpinner onClick={this.loginTry} isLoading={this.state.isLoggingIn}>Login</ButtonWithSpinner></Col>
             </Row>
           </form>
         </Panel.Body>

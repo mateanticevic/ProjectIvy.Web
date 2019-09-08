@@ -5,7 +5,7 @@ import Spinner from './Spinner';
 const TableWithSpinner = ({ children, isLoading }) => {
 
     if (isLoading)
-        return <Spinner />;
+        return <Spinner size="2x" />;
 
     return (
         <Table responsive>
