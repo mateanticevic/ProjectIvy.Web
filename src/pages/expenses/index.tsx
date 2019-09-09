@@ -200,9 +200,15 @@ class ExpensesPage extends Page<{}, State> {
 
     return {
       amount: e.amount,
+      cardId: e.card ? e.card.id : undefined,
+      comment: e.comment,
       currencyId: e.currency.id,
       expenseTypeId: e.expenseType.id,
-      date: e.date
+      date: e.date,
+      id: e.id,
+      paymentTypeId: e.paymentType.id,
+      poiId: e.poi ? e.poi.id : undefined,
+      vendorId: e.vendor ? e.vendor.id : undefined
     }
   }
 

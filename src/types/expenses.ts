@@ -28,9 +28,15 @@ export type Expense = {
 
 export type ExpenseBinding = {
     amount: number,
+    cardId?: string,
+    comment: string,
     currencyId: string,
+    date: string,
     expenseTypeId: string,
-    date: string
+    id: string,
+    paymentTypeId: string,
+    poiId?: string,
+    vendorId?: string
 }
 
 export type ExpenseType = {
