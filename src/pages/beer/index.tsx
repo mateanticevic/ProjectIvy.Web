@@ -203,6 +203,13 @@ class BeerPage extends Page<Props, State> {
 
         const { consumations, filters } = this.state;
 
+        const sum = Math.ceil(this.state.sum / 1000);
+
+        const from = moment(this.state.filters.from);
+        const to = this.state.filters.to ? moment(this.state.filters.to) : moment();
+
+        const perDay = (sum / (1 + to.diff(from, 'days'))).toFixed(2);
+
         const pages = Math.ceil(consumations.count / filters.pageSize);
 
         return (
@@ -250,20 +257,13 @@ class BeerPage extends Page<Props, State> {
                                         />
                                     </Panel.Body>
                                     <Panel.Footer>
-                                        Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{Math.ceil(this.state.sum / 1000)}L
+                                        Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{sum}L Per day ~{perDay}L
                                     </Panel.Footer>
                                 </Panel>
                             </Col>
                         </Row>
                         <Row>
                             <Col lg={12}>
-                                {/* <Panel>
-                  <Panel.Heading>
-                    By serving
-                </Panel.Heading>
-                  <Panel.Body>
-                  </Panel.Body>
-                </Panel> */}
                             </Col>
                         </Row>
                     </Col>
