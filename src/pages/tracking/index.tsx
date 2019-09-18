@@ -53,7 +53,7 @@ class TrackingPage extends Page<{}, State> {
         const filters = { from: day, to: nextDay };
         trackingApi.get(filters).then(trackings => {
             trackingApi.getDistance(filters).then(distance => {
-                const movement : Movement = {
+                const movement: Movement = {
                     day: day, trackings,
                     id: _.uniqueId(),
                     distance,
@@ -84,35 +84,31 @@ class TrackingPage extends Page<{}, State> {
         return (
             <Grid>
                 <Row>
-                    <Col lg={3}>
-                        <Panel>
-                            <Panel.Heading>Filters</Panel.Heading>
-                            <Panel.Body>
-                                <ControlLabel>Day</ControlLabel>
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format("YYYY-MM-DD") })} />
-                                <Button onClick={this.loadOnThisDay}>On this day</Button>
-                            </Panel.Body>
-                        </Panel>
-                    </Col>
-                    <Col lg={9}>
+                    <Col lg={12}>
                         <Panel>
                             <Panel.Heading>Map</Panel.Heading>
-                            <Panel.Body className="padding-0 panel-medium">
+                            <Panel.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
                                     {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
                                 </Map>
                             </Panel.Body>
+                            <Panel.Footer className="flex-container">
+                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format("YYYY-MM-DD") })} />
+                                <Button onClick={this.loadOnThisDay}>On this day</Button>
+                            </Panel.Footer>
                         </Panel>
-                        <Panel>
-                            <Panel.Heading>Days</Panel.Heading>
-                            <Panel.Body>
-                                <Table>
-                                    <tbody>
-                                        {movements.map(movement => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
-                                    </tbody>
-                                </Table>
-                            </Panel.Body>
-                        </Panel>
+                        {movements.length > 0 &&
+                            <Panel>
+                                <Panel.Heading>Days</Panel.Heading>
+                                <Panel.Body>
+                                    <Table>
+                                        <tbody>
+                                            {movements.map(movement => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
+                                        </tbody>
+                                    </Table>
+                                </Panel.Body>
+                            </Panel>
+                        }
                     </Col>
                 </Row>
             </Grid>
