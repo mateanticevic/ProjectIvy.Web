@@ -152,11 +152,22 @@ class BeerPage extends Page<Props, State> {
 
         this.setState({ ...this.state, filters });
 
+        consumationApi.get(filters).then(consumations => this.setState({ consumations }));
+
+        if (filterValue && filterValue.page)
+            return;
+
         const statsFilters = {
             ...filters,
             page: 1,
             pageSize: 5
         };
+
+        consumationApi.getCountBeer(statsFilters)
+            .then(beerCount => this.setState({ beerCount }));
+
+        consumationApi.getCountBeer(statsFilters)
+            .then(brandCount => this.setState({ brandCount }));
 
         consumationApi.getSum(statsFilters)
             .then(sum => this.setState({ sum }))
@@ -166,18 +177,6 @@ class BeerPage extends Page<Props, State> {
 
         consumationApi.getNewBeers(statsFilters)
             .then(newBeers => this.setState({ newBeers }));
-
-        consumationApi.get(filters).then(consumations => {
-            consumationApi.getCountBeer(statsFilters).then(beerCount => {
-                consumationApi.getCountBrand(statsFilters).then(brandCount => {
-                    this.setState({
-                        beerCount,
-                        brandCount,
-                        consumations
-                    });
-                });
-            });
-        });
 
         consumationApi.getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map(x => { return { name: x.by.name, value: x.sum } }) }));
