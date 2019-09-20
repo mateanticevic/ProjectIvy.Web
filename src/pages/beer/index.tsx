@@ -15,6 +15,7 @@ import * as consumationApi from '../../api/main/consumation';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
 import { Pagination } from '../../components/common';
 import { Page } from '../Page';
+import { SumByServingChart } from './SumByServingChart';
 
 type Props = {}
 
@@ -37,6 +38,7 @@ type State = {
     newBeers: any,
     servings: Serving[],
     sum: number,
+    sumByServing: any,
     topBeers: Beer[]
 }
 
@@ -70,6 +72,7 @@ class BeerPage extends Page<Props, State> {
         },
         servings: [],
         sum: 0,
+        sumByServing: [],
         topBeers: []
     };
 
@@ -175,6 +178,9 @@ class BeerPage extends Page<Props, State> {
                 });
             });
         });
+
+        consumationApi.getSumByServing(filters)
+            .then(data => this.setState({ sumByServing: data.items.map(x => { return { name: x.by.name, value: x.sum } }) }));
     }
 
     render() {
@@ -286,6 +292,14 @@ class BeerPage extends Page<Props, State> {
                                 <ListGroup>
                                     {newBeers}
                                 </ListGroup>
+                            </Panel.Body>
+                        </Panel>
+                        <Panel>
+                            <Panel.Heading>
+                                By Serving
+                            </Panel.Heading>
+                            <Panel.Body className="panel-small padding-0">
+                                <SumByServingChart data={this.state.sumByServing} />
                             </Panel.Body>
                         </Panel>
                     </Col>
