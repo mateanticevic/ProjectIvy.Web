@@ -39,7 +39,7 @@ const ExpenseForm = (props) => {
               <ControlLabel>Vendor</ControlLabel>
               <AsyncSelect
                 loadOptions={props.onVendorSearch}
-                onChange={x => props.onChange({ vendorId: x.value })}
+                onChange={x => props.onChange({ vendor: { id: x.value } })}
                 defaultOptions
               />
             </FormGroup>
@@ -63,7 +63,7 @@ const ExpenseForm = (props) => {
               <ControlLabel>Amount</ControlLabel>
               <InputGroup>
                 <FormControl value={expense.amount} type="number" onChange={x => props.onChange({ amount: x.target.value })} />
-                <InputGroup.Addon>{expense.currency.symbol}</InputGroup.Addon>
+                <InputGroup.Addon>{expense.currency.id}</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -127,7 +127,7 @@ const ExpenseForm = (props) => {
             <FormGroup>
               <ControlLabel>Created</ControlLabel>
               <InputGroup>
-                <Datetime value={props.expense.created} inputProps={{ readOnly: true }} />
+                <Datetime value={props.expense.timestamp} inputProps={{ readOnly: true }} />
                 <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
               </InputGroup>
             </FormGroup>

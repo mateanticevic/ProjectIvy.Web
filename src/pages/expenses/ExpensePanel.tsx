@@ -59,7 +59,7 @@ const ExpensePanel = ({ expenses, isLoading, onEdit, onNewClick, onPageChange, o
       </Panel.Body>
       {stats &&
         <Panel.Footer>
-          Sum {stats.sum}kn Types {stats.types} Vendors {stats.vendors}
+          Sum {stats.sum}kn Types {stats.typeCount} Vendors {stats.vendorCount}
         </Panel.Footer>}
     </Panel>
   );

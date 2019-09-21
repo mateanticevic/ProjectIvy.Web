@@ -84,9 +84,9 @@ class ExpensesPage extends Page<{}, State> {
     ],
     paymentTypes: [],
     stats: {
-      sum: null,
-      types: null,
-      vendors: null
+      sum: 0,
+      typeCount: 0,
+      vendorCount: 0
     },
     types: [],
     vendors: [],
@@ -139,6 +139,7 @@ class ExpensesPage extends Page<{}, State> {
 
   @boundMethod
   onExpenseChanged(expenseValue) {
+    console.log(expenseValue);
     this.setState({
       expense: {
         ...this.state.expense,
@@ -176,18 +177,24 @@ class ExpensesPage extends Page<{}, State> {
       expenses,
       expensesAreLoading: false
     }));
+
     expenseApi.getCountByMonth(filters).then(countByMonth => this.setState({
       graphs: {
         ...this.state.graphs,
         count: countByMonth
       }
     }));
+
     expenseApi.getSumByMonth(filters).then(sumByMonth => this.setState({
       graphs: {
         ...this.state.graphs,
         sum: sumByMonth
       }
     }));
+
+    expenseApi.getSum(filters).then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+    expenseApi.getTypeCount(filters).then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
+    expenseApi.getVendorCount(filters).then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
   }
 
   @boundMethod

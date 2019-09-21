@@ -20,11 +20,11 @@ export function getSum(filters) {
     return api.get("expense/sum", filters);
 }
 
-export function getTypesCount(filters) {
+export function getTypeCount(filters) {
     return api.get("expense/type/count", filters);
 }
 
-export function getVendorsCount(filters) {
+export function getVendorCount(filters) {
     return api.get("expense/vendor/count", filters);
 }
 
