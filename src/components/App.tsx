@@ -3,7 +3,7 @@ import NavigationBar from './common/NavigationBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import * as userApi from '../api/main/user';
+import { userApi } from '../api/main';
 import { User } from 'types/users';
 
 type State = {

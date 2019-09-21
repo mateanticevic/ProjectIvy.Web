@@ -11,7 +11,7 @@ import ConsumationModal from './ConsumationModal';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
 import * as beerApi from '../../api/main/beer';
-import * as commonApi from '../../api/main/common';
+import { commonApi } from '../../api/main';
 import * as consumationApi from '../../api/main/consumation';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
 import { Pagination } from '../../components/common';

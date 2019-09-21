@@ -7,9 +7,8 @@ import Select from '../../components/common/Select';
 import Map from '../../components/common/Map';
 import PoiModal from './PoiModal';
 import PoiPanel from './PoiPanel';
-import * as commonApi from '../../api/main/common';
+import { commonApi, vendorApi } from '../../api/main';
 import * as poiApi from '../../api/main/poi';
-import * as vendorApi from '../../api/main/vendor';
 import { boundMethod } from 'autobind-decorator';
 
 class PoisPage extends React.Component {

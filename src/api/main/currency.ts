@@ -1,5 +1,11 @@
 import * as api from '../config';
 
-export function get() {
+function get() {
     return api.get("currency");
 }
+
+const currencyApi = {
+    get
+}
+
+export default currencyApi;

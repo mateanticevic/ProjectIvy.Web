@@ -1,17 +1,26 @@
 import * as api from '../config';
 
-export function getExpenseFileTypes() {
+function getExpenseFileTypes() {
     return api.get("common/expenseFileType");
 }
 
-export function getPaymentTypes() {
+function getPaymentTypes() {
     return api.get("common/paymentType");
 }
 
-export function getPoiCategories() {
+function getPoiCategories() {
     return api.get("common/poiCategory");
 }
 
-export function getBeerServing() {
+function getBeerServing() {
     return api.get("common/beerServing");
 }
+
+const commonApi = {
+    getExpenseFileTypes,
+    getPaymentTypes,
+    getPoiCategories,
+    getBeerServing
+}
+
+export default commonApi;

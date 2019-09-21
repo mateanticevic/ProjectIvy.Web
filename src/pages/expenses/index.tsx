@@ -3,14 +3,7 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import _ from 'lodash';
 
-import * as cardApi from '../../api/main/card';
-import * as fileApi from '../../api/main/file';
-import * as commonApi from '../../api/main/common';
-import * as currencyApi from '../../api/main/currency';
-import * as expenseApi from '../../api/main/expense';
-import * as expenseTypeApi from '../../api/main/expenseType';
-import * as vendorApi from '../../api/main/vendor';
-import * as userApi from '../../api/main/user';
+import { cardApi, commonApi, currencyApi, expenseApi, expenseTypeApi, fileApi, userApi, vendorApi } from '../../api/main';
 
 import { ChartBar } from '../../components/common';
 import { boundMethod } from 'autobind-decorator';

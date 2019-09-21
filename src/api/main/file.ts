@@ -1,9 +1,16 @@
 import * as api from '../config';
 
-export function post(file) {
+function post(file) {
     return api.postFile("file", file);
 }
 
-export function deleteFile(file) {
+function deleteFile(file) {
     return api.del(`file/${file}`);
 }
+
+const fileApi = {
+    post,
+    deleteFile
+}
+
+export default fileApi;
