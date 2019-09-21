@@ -4,6 +4,7 @@ import moment from 'moment';
 import Moment from 'react-moment';
 import _ from 'lodash';
 import { boundMethod } from 'autobind-decorator';
+import { toast } from 'react-toastify';
 
 import Filters from './Filters';
 import ConsumationModal from './ConsumationModal';
@@ -78,21 +79,27 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     addBeer() {
-        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => { });
+        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => {
+            toast.success('Beer added');
+        });
     }
 
     @boundMethod
     addBrand() {
         beerApi.postBrand(this.state.brand.name).then(() => {
             this.setState({ brandModalOpen: false });
+            toast.success('Brand added');
         });
     }
 
     @boundMethod
     addConsumation() {
         consumationApi.post(this.state.consumation)
-            .then(() => this.onFiltersChange());
-        this.setState({ consumationModalOpen: false });
+            .then(() => {
+                this.onFiltersChange();
+                this.setState({ consumationModalOpen: false });
+                toast.success('Consumation added');
+            });
     }
 
     componentDidMount() {
