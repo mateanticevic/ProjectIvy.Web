@@ -5,11 +5,12 @@ import FontAwesome from 'react-fontawesome';
 import ExpenseTable from './ExpenseTable';
 import Pagination from '../../components/common/Pagination';
 import Spinner from '../../components/common/Spinner';
-import { Expense } from 'types/expenses';
+import { Expense, Currency } from 'types/expenses';
 import { PagingFilters, PagedItems } from 'types/paging';
 
 type Props = PagingFilters & {
   expenses: PagedItems<Expense>,
+  defaultCurrency: Currency,
   isLoading: boolean,
   onEdit: () => void,
   onNewClick: () => void,
@@ -19,7 +20,7 @@ type Props = PagingFilters & {
   stats: any
 }
 
-const ExpensePanel = ({ expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
+const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
   
   const expensesHeader = `Expenses (${expenses.count})`;
 
@@ -59,7 +60,7 @@ const ExpensePanel = ({ expenses, isLoading, onEdit, onNewClick, onPageChange, o
       </Panel.Body>
       {stats &&
         <Panel.Footer>
-          Sum {stats.sum}kn Types {stats.typeCount} Vendors {stats.vendorCount}
+          Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
         </Panel.Footer>}
     </Panel>
   );

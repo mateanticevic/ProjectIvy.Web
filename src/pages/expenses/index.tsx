@@ -3,7 +3,6 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import _ from 'lodash';
 
-import * as urlHelper from '../../utils/urlHelper';
 import * as cardApi from '../../api/main/card';
 import * as fileApi from '../../api/main/file';
 import * as commonApi from '../../api/main/common';
@@ -11,6 +10,7 @@ import * as currencyApi from '../../api/main/currency';
 import * as expenseApi from '../../api/main/expense';
 import * as expenseTypeApi from '../../api/main/expenseType';
 import * as vendorApi from '../../api/main/vendor';
+import * as userApi from '../../api/main/user';
 
 import { ChartBar } from '../../components/common';
 import { boundMethod } from 'autobind-decorator';
@@ -25,13 +25,14 @@ import { Page } from '../Page';
 type State = {
   cards: any[],
   currencies: Currency[],
-  graphs: any,
-  files: any[],
-  fileTypes: any[],
+  defaultCurrency: Currency,
   expense: Expense,
   expenses: Expense[],
   expensesAreLoading: boolean,
+  files: any[],
+  fileTypes: any[],
   filters: any,
+  graphs: any,
   isSavingExpense: boolean,
   isModalOpen: boolean,
   orderBy: any,
@@ -47,6 +48,7 @@ class ExpensesPage extends Page<{}, State> {
   state: State = {
     cards: [],
     currencies: [],
+    defaultCurrency: {},
     graphs: {
       count: [],
       sumByYear: [],
@@ -101,6 +103,7 @@ class ExpensesPage extends Page<{}, State> {
     currencyApi.get().then(currencies => this.setState({ currencies }));
     expenseTypeApi.get().then(types => this.setState({ types }));
     vendorApi.get().then(vendors => this.setState({ vendors: vendors.items }));
+    userApi.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
   }
 
   @boundMethod
@@ -117,10 +120,7 @@ class ExpensesPage extends Page<{}, State> {
     return {
       amount: 0,
       comment: '',
-      currency: {
-        id: 'HRK',
-        symbol: 'HRK'
-      }
+      currency: this.state.defaultCurrency
     };
   }
 
@@ -266,6 +266,7 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={12}>
                 <ExpensePanel
                   expenses={this.state.expenses}
+                  defaultCurrency={this.state.defaultCurrency}
                   isLoading={this.state.expensesAreLoading}
                   onEdit={this.onExpenseEdit}
                   onPageChange={page => this.onFiltersChanged({ page: page })}

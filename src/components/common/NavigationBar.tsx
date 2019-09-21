@@ -3,12 +3,20 @@ import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
 import { IndexLink, browserHistory } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const NavigationBar = () => {
+import { User } from 'types/users';
+
+type Props = {
+  user?: User
+}
+
+const NavigationBar = ({ user }: Props) => {
 
   function logout() {
     localStorage.removeItem("token");
     browserHistory.push("/login");
   }
+
+  const { firstName, lastName } = user || {};
 
   return (
     <Navbar fixedTop collapseOnSelect>
@@ -55,7 +63,7 @@ const NavigationBar = () => {
           </NavDropdown>
         </Nav>
         <Nav pullRight>
-          <NavDropdown id="nav_user" eventKey={4} title="Mate Antičević">
+          <NavDropdown id="nav_user" eventKey={4} title={`${firstName} ${lastName}`}>
             <MenuItem onClick={logout}>Logout</MenuItem>
           </NavDropdown>
         </Nav>

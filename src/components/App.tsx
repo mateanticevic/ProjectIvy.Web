@@ -3,7 +3,24 @@ import NavigationBar from './common/NavigationBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-class App extends React.Component {
+import * as userApi from '../api/main/user';
+import { User } from 'types/users';
+
+type State = {
+  user?: User
+}
+
+class App extends React.Component<{}, State> {
+
+  state: State = {
+    user: undefined
+  }
+
+  private readonly AppContext = React.createContext('default');
+
+  componentDidMount() {
+    userApi.get().then(user => this.setState({ user }));
+  }
 
   render() {
     const isLoggedIn = window.localStorage.getItem("token") != undefined;
@@ -12,7 +29,7 @@ class App extends React.Component {
       <div>
         <div id="main">
           {isLoggedIn &&
-            <NavigationBar />
+            <NavigationBar user={this.state.user} />
           }
           {this.props.children}
         </div>
