@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
+import { Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 import { boundMethod } from 'autobind-decorator';
 
 import * as tokenApi from '../../api/main/token';

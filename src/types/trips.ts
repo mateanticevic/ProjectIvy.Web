@@ -10,3 +10,9 @@ export type Trip = {
     pois?: any;
     totalSpent: number;
 }
+
+export type TripBinding = {
+    name: string;
+    timestampEnd: Date;
+    timestampStart: Date;
+}
