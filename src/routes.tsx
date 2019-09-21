@@ -11,7 +11,7 @@ import LoginPage from './pages/login';
 import TrackingPage from './pages/tracking';
 import TripsPage from './pages/trips';
 import TripDetailsPage from './pages/trip-details';
-import PoisPage from './containers/PoisPage';
+import PoisPage from './pages/pois';
 import ToDosPage from './pages/todos';
 
 export default (
