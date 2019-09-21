@@ -5,8 +5,8 @@ import FontAwesome from 'react-fontawesome';
 
 import Select from '../../components/common/Select';
 import Map from '../../components/common/Map';
-import PoiModal from '../../components/pois/PoiModal';
-import PoiPanel from '../../components/pois/PoiPanel';
+import PoiModal from './PoiModal';
+import PoiPanel from './PoiPanel';
 import * as commonApi from '../../api/main/common';
 import * as poiApi from '../../api/main/poi';
 import * as vendorApi from '../../api/main/vendor';

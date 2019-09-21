@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
-import DashboardPage from './containers/DashboardPage';
+import DashboardPage from './pages/dashboard';
 import BeerPage from './pages/beer';
 import CallsPage from './pages/calls';
 import ExpensesPage from './pages/expenses';

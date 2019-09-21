@@ -4,7 +4,7 @@ import FontAwesome from 'react-fontawesome';
 
 import { PagedItems } from '../../types/common';
 import { Poi } from '../../types/pois';
-import Pagination from '../common/Pagination';
+import Pagination from '../../components/common/Pagination';
 import PoiTable from './PoiTable';
 
 type Props = {
