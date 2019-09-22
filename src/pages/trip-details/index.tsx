@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Marker, Polyline } from "react-google-maps";
 
-import { Map, ValueLabel } from '../../components/common';
+import { Map, ValueLabel } from '../../components';
 import * as consumationApi from '../../api/main/consumation';
 import * as trackingApi from '../../api/main/tracking';
 import * as tripApi from '../../api/main/trip';

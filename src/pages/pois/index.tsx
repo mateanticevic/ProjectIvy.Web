@@ -3,8 +3,8 @@ import { Grid, Row, Col, ControlLabel, FormControl, Panel, ToggleButtonGroup, To
 import { Marker } from "react-google-maps";
 import FontAwesome from 'react-fontawesome';
 
-import Select from '../../components/common/Select';
-import Map from '../../components/common/Map';
+import Select from '../../components/Select';
+import Map from '../../components/Map';
 import PoiModal from './PoiModal';
 import PoiPanel from './PoiPanel';
 import { commonApi, vendorApi } from '../../api/main';

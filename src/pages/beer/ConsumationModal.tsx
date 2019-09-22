@@ -4,7 +4,7 @@ import Datetime from 'react-datetime';
 import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
 import AsyncSelect from 'react-select/async';
 
-import Select from '../../components/common/Select';
+import Select from '../../components/Select';
 import { Consumation, Beer, Brand, Serving } from 'types/beer';
 
 type Props = {

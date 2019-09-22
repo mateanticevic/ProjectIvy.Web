@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap/lib';
 
-import * as formatHelper from '../../utils/formatHelper';
+import * as formatHelper from '../utils/formatHelper';
 
 const WidgetCard = (props) => {
 

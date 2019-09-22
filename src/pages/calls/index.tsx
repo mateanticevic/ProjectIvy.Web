@@ -5,7 +5,7 @@ import * as callApi from "../../api/main/call";
 import { boundMethod } from "autobind-decorator";
 import Moment from "react-moment";
 import { Call } from "types/calls";
-import { Pagination } from '../../components/common'
+import { Pagination } from '../../components'
 import * as formatHelper from '../../utils/formatHelper';
 
 type State = {

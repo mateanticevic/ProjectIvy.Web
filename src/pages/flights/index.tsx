@@ -7,7 +7,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 import * as flightApi from '../../api/main/flight';
-import { Map, Select } from '../../components/common';
+import { Map, Select } from '../../components';
 import { boundMethod } from 'autobind-decorator';
 
 class FlightsPage extends React.Component {

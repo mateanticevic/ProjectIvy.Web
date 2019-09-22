@@ -5,14 +5,14 @@ import _ from 'lodash';
 import FontAwesome from 'react-fontawesome';
 
 import * as trackingHelper from '../../utils/trackingHelper';
-import { Map, Pagination, Select } from '../../components/common';
+import { Map, Pagination, Select } from '../../components';
 import * as tripApi from '../../api/main/trip';
 import * as countryApi from '../../api/main/country';
 import { boundMethod } from 'autobind-decorator';
 import TripRow from './TripRow';
 import TripModal from './TripModal';
 import { Page } from '../Page';
-import TableWithSpinner from '../../components/common/TableWithSpinner';
+import TableWithSpinner from '../../components/TableWithSpinner';
 import { TripBinding } from 'types/trips';
 
 type State = {

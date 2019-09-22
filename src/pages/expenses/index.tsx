@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { cardApi, commonApi, currencyApi, expenseApi, expenseTypeApi, fileApi, userApi, vendorApi } from '../../api/main';
 
-import { ChartBar } from '../../components/common';
+import { ChartBar } from '../../components';
 import { boundMethod } from 'autobind-decorator';
 import { Currency, Expense, ExpenseBinding } from 'types/expenses';
 import ExpenseFilters from './ExpenseFilters';

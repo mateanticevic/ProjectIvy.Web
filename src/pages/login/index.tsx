@@ -4,7 +4,7 @@ import { boundMethod } from 'autobind-decorator';
 
 import * as tokenApi from '../../api/main/token';
 import * as apiConfig from '../../api/config';
-import ButtonWithSpinner from '../../components/common/ButtonWithSpinner';
+import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 
 type State = {
   isLoggingIn: boolean,

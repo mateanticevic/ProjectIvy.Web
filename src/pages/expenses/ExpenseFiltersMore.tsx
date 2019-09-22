@@ -1,6 +1,6 @@
 import React from 'react';
 import { ControlLabel, FormControl, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup } from 'react-bootstrap/lib';
-import Select from '../../components/common/Select';
+import Select from '../../components/Select';
 
 const ExpenseFiltersMore = (props) => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, ControlLabel, FormControl, FormGroup, InputGroup, Glyphicon, Tabs, Tab } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
-import Select from '../../components/common/Select';
+import Select from '../../components/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 import AsyncSelect from 'react-select/async';
 

@@ -14,7 +14,7 @@ import * as beerApi from '../../api/main/beer';
 import { commonApi } from '../../api/main';
 import * as consumationApi from '../../api/main/consumation';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
-import { Pagination } from '../../components/common';
+import { Pagination } from '../../components';
 import { Page } from '../Page';
 import { SumByServingChart } from './SumByServingChart';
 

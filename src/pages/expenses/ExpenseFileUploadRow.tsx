@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FormControl } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import Select from '../../components/common/Select';
+import Select from '../../components/Select';
 import filesize from 'filesize';
 
 class ExpenseFileUploadRow extends React.Component {

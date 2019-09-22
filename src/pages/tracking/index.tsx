@@ -6,7 +6,7 @@ import moment from 'moment';
 import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 
-import { Map } from '../../components/common';
+import { Map } from '../../components';
 import * as trackingApi from '../../api/main/tracking';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';

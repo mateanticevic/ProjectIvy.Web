@@ -8,7 +8,7 @@ import _ from 'lodash';
 
 import OnlineGraph from './OnlineGraph';
 import ExpenseTypeLabel from '../../pages/expenses/ExpenseTypeLabel';
-import { Map, ValueLabel } from '../../components/common';
+import { Map, ValueLabel } from '../../components';
 import { carApi, expenseApi } from '../../api/main';
 import * as consumationApi from '../../api/main/consumation';
 import * as movieApi from '../../api/main/movie';

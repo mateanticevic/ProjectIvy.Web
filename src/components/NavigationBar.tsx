@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
-import { IndexLink, browserHistory } from 'react-router-dom';
+import { browserHistory } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { User } from 'types/users';

@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 import { Button, Row, Col, Modal } from 'react-bootstrap/lib';
 
 import ExpenseForm from './ExpenseForm';
-import ButtonWithSpinner from '../../components/common/ButtonWithSpinner';
+import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 
 const ExpenseModal = (props) => {
 

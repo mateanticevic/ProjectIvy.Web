@@ -3,8 +3,8 @@ import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
 import ExpenseTable from './ExpenseTable';
-import Pagination from '../../components/common/Pagination';
-import Spinner from '../../components/common/Spinner';
+import Pagination from '../../components/Pagination';
+import Spinner from '../../components/Spinner';
 import { Expense, Currency } from 'types/expenses';
 import { PagingFilters, PagedItems } from 'types/paging';
 

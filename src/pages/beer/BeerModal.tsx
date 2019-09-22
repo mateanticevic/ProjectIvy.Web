@@ -2,7 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Modal, FormGroup, Button, ControlLabel, FormControl, InputGroup } from 'react-bootstrap/lib';
 
-import Select from '../../components/common/Select';
+import Select from '../../components/Select';
 
 const BeerModal = (props) => {
 

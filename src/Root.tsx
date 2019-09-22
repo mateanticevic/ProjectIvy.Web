@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import BeerPage from './pages/beer';
-import { NavigationBar } from './components/common';
+import { NavigationBar } from './components';
 import CallsPage from './pages/calls';
 import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
