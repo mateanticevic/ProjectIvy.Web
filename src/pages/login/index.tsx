@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 import { boundMethod } from 'autobind-decorator';
 
-import * as tokenApi from '../../api/main/token';
+import api from '../../api/main';
 import * as apiConfig from '../../api/config';
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 
@@ -26,7 +26,7 @@ class LoginPage extends React.Component<{}, State> {
     this.setState({
       isLoggingIn: true
     });
-    tokenApi.post(this.state.username, this.state.password).then(token => {
+    api.token.post(this.state.username, this.state.password).then(token => {
       localStorage.setItem("token", token);
       apiConfig.setToken();
       location.assign('/');

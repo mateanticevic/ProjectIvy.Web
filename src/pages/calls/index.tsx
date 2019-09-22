@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Col, Panel, Table, Row } from "react-bootstrap/lib";
 
-import * as callApi from "../../api/main/call";
+import api from "../../api/main";
 import { boundMethod } from "autobind-decorator";
 import Moment from "react-moment";
 import { Call } from "types/calls";
@@ -37,7 +37,7 @@ export default class CallsPage extends React.Component {
     }
 
     fetchCalls() {
-        callApi.getCalls(this.state.filters).then(calls => this.setState({ calls }));
+        api.call.get(this.state.filters).then(calls => this.setState({ calls }));
     }
 
     @boundMethod

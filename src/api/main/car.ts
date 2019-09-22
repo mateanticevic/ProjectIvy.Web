@@ -8,9 +8,9 @@ function getLogBySession(carId, filters) {
     return api.get(`car/${carId}/log/bySession`, filters);
 }
 
-const carApi = {
+const car = {
     getLogLatest,
     getLogBySession
 };
 
-export default carApi;
+export default car;

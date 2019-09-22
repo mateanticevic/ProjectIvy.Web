@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Panel, ListGroup, ListGroupItem, Label, Checkbox, Table, FormControl, Form } from 'react-bootstrap/lib';
 
-import * as todoApi from "../../api/main/todo";
+import api from "../../api/main";
 import { boundMethod } from 'autobind-decorator';
 
 class ToDosPage extends React.Component {
@@ -21,7 +21,7 @@ class ToDosPage extends React.Component {
     @boundMethod
     addNew(e) {
         e.preventDefault();
-        todoApi.post(this.state.newTodo).then(() => {
+        api.todo.post(this.state.newTodo).then(() => {
             this.setState({ newTodo: '' });
             this.getToDos();
         });
@@ -29,7 +29,7 @@ class ToDosPage extends React.Component {
     }
 
     getToDos() {
-        todoApi.get({ isDone: false }).then(todos => this.setState({ todos }));
+        api.todo.get({ isDone: false }).then(todos => this.setState({ todos }));
     }
 
     @boundMethod
@@ -43,7 +43,7 @@ class ToDosPage extends React.Component {
 
     @boundMethod
     setDone(id) {
-        todoApi.postDone(id).then(() => this.getToDos());
+        api.todo.postDone(id).then(() => this.getToDos());
     }
 
     render() {

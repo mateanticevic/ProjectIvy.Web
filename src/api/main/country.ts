@@ -1,9 +1,16 @@
 import * as api from '../config';
 
-export function getAll() {
+function getAll() {
     return api.get("country?pageAll=true");
 }
 
-export function getVisitedBoundaries() {
+function getVisitedBoundaries() {
     return api.get("country/visited/boundaries");
 }
+
+const country = {
+    getAll,
+    getVisitedBoundaries
+}
+
+export default country;

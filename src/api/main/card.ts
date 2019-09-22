@@ -4,8 +4,8 @@ function get() {
     return api.get("card");
 }
 
-const cardApi = {
+const card = {
     get
 }
 
-export default cardApi;
+export default card;

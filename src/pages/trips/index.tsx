@@ -6,8 +6,7 @@ import FontAwesome from 'react-fontawesome';
 
 import * as trackingHelper from '../../utils/trackingHelper';
 import { Map, Pagination, Select } from '../../components';
-import * as tripApi from '../../api/main/trip';
-import * as countryApi from '../../api/main/country';
+import api from '../../api/main';
 import { boundMethod } from 'autobind-decorator';
 import TripRow from './TripRow';
 import TripModal from './TripModal';
@@ -38,8 +37,8 @@ class TripsPage extends Page<{}, State> {
   }
 
   componentDidMount() {
-    countryApi.getAll().then(countries => this.setState({ countries: countries.items }));
-    countryApi.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
+    api.country.getAll().then(countries => this.setState({ countries: countries.items }));
+    api.country.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
     this.onFiltersChanged();
   }
 
@@ -52,7 +51,7 @@ class TripsPage extends Page<{}, State> {
     });
     this.pushHistoryState(filters);
 
-    tripApi.get(filters).then(trips => this.setState({
+    api.trip.get(filters).then(trips => this.setState({
       trips,
       tripsAreLoading: false
     }));
@@ -67,7 +66,7 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   onTripSave() {
-    tripApi.post(this.state.trip)
+    api.trip.post(this.state.trip)
       .then(() => {
         this.onFiltersChanged();
         this.setState({ isModalOpen: false });

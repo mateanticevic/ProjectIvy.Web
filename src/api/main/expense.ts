@@ -48,7 +48,7 @@ function postFile(expenseId, fileId, payload) {
     return api.post(`expense/${expenseId}/file/${fileId}`, payload);
 }
 
-const expenseApi = {
+const expense = {
     get,
     getCountByDay,
     getCountByMonth,
@@ -63,4 +63,4 @@ const expenseApi = {
     postFile
 }
 
-export default expenseApi;
+export default expense;

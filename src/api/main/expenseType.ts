@@ -4,8 +4,8 @@ function get() {
     return api.get("expenseType");
 }
 
-const expenseTypeApi = {
+const expenseType = {
     get
 }
 
-export default expenseTypeApi;
+export default expenseType;

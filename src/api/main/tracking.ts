@@ -1,13 +1,21 @@
 import * as api from '../config';
 
-export function get(filters) {
+function get(filters) {
     return api.get("tracking", filters);
 }
 
-export function getDistance(filters) {
+function getDistance(filters) {
     return api.get("tracking/distance", filters);
 }
 
-export function getLast(filters) {
+function getLast(filters) {
     return api.get("tracking/last", filters);
 }
+
+const tracking = {
+    get,
+    getDistance,
+    getLast
+}
+
+export default tracking;

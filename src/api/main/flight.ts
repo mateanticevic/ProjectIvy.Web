@@ -1,9 +1,16 @@
 import * as api from '../config';
 
-export function getCountByAirport(filters) {
+function getCountByAirport(filters) {
     return api.get(`flight/count/byairport`, filters);
 }
 
-export function getFlights(filters) {
+function getFlights(filters) {
     return api.get(`flight`, filters);
 }
+
+const flight = {
+    getCountByAirport,
+    getFlights
+}
+
+export default flight;

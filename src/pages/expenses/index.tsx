@@ -3,7 +3,7 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import moment from 'moment';
 import _ from 'lodash';
 
-import { cardApi, commonApi, currencyApi, expenseApi, expenseTypeApi, fileApi, userApi, vendorApi } from '../../api/main';
+import api from '../../api/main';
 
 import { ChartBar } from '../../components';
 import { boundMethod } from 'autobind-decorator';
@@ -90,23 +90,23 @@ class ExpensesPage extends Page<{}, State> {
 
   componentDidMount() {
     this.onFiltersChanged();
-    cardApi.get().then(cards => this.setState({ cards }));
-    commonApi.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
-    commonApi.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
-    currencyApi.get().then(currencies => this.setState({ currencies }));
-    expenseTypeApi.get().then(types => this.setState({ types }));
-    vendorApi.get().then(vendors => this.setState({ vendors: vendors.items }));
-    userApi.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
+    api.card.get().then(cards => this.setState({ cards }));
+    api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
+    api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
+    api.currency.get().then(currencies => this.setState({ currencies }));
+    api.expenseType.get().then(types => this.setState({ types }));
+    api.vendor.get().then(vendors => this.setState({ vendors: vendors.items }));
+    api.user.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
   }
 
   @boundMethod
   deleteFile(fileId) {
-    fileApi.deleteFile(fileId).then(() => { });
+    api.file.deleteFile(fileId).then(() => { });
   }
 
   @boundMethod
   linkExpenseFile() {
-    expenseApi.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
+    api.expense.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
   }
 
   newExpense(): Expense {
@@ -132,7 +132,6 @@ class ExpensesPage extends Page<{}, State> {
 
   @boundMethod
   onExpenseChanged(expenseValue) {
-    console.log(expenseValue);
     this.setState({
       expense: {
         ...this.state.expense,
@@ -166,33 +165,33 @@ class ExpensesPage extends Page<{}, State> {
       filters
     });
 
-    expenseApi.get(filters).then(expenses => this.setState({
+    api.expense.get(filters).then(expenses => this.setState({
       expenses,
       expensesAreLoading: false
     }));
 
-    expenseApi.getCountByMonth(filters).then(countByMonth => this.setState({
+    api.expense.getCountByMonth(filters).then(countByMonth => this.setState({
       graphs: {
         ...this.state.graphs,
         count: countByMonth
       }
     }));
 
-    expenseApi.getSumByMonth(filters).then(sumByMonth => this.setState({
+    api.expense.getSumByMonth(filters).then(sumByMonth => this.setState({
       graphs: {
         ...this.state.graphs,
         sum: sumByMonth
       }
     }));
 
-    expenseApi.getSum(filters).then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
-    expenseApi.getTypeCount(filters).then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
-    expenseApi.getVendorCount(filters).then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
+    api.expense.getSum(filters).then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+    api.expense.getTypeCount(filters).then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
+    api.expense.getVendorCount(filters).then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
   }
 
   @boundMethod
   onVendorSearch(value, callback) {
-    vendorApi.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
+    api.vendor.get({ search: value, pageSize: 5 }).then(vendors => callback(vendors.items.map(vendor => { return { value: vendor.id, label: vendor.name } })));
   }
 
   getExpenseBinding(): ExpenseBinding {

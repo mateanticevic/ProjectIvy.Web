@@ -10,9 +10,7 @@ import Filters from './Filters';
 import ConsumationModal from './ConsumationModal';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
-import * as beerApi from '../../api/main/beer';
-import { commonApi } from '../../api/main';
-import * as consumationApi from '../../api/main/consumation';
+import api from '../../api/main';
 import { Consumation, Beer, Brand, ConsumationFilters, Serving } from 'types/beer';
 import { Pagination } from '../../components';
 import { Page } from '../Page';
@@ -79,14 +77,14 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     addBeer() {
-        beerApi.postBeer(this.state.beer.brandId, this.state.beer).then(() => {
+        api.beer.postBeer(this.state.beer.brandId, this.state.beer).then(() => {
             toast.success('Beer added');
         });
     }
 
     @boundMethod
     addBrand() {
-        beerApi.postBrand(this.state.brand.name).then(() => {
+        api.beer.postBrand(this.state.brand.name).then(() => {
             this.setState({ brandModalOpen: false });
             toast.success('Brand added');
         });
@@ -94,7 +92,7 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     addConsumation() {
-        consumationApi.post(this.state.consumation)
+        api.consumation.post(this.state.consumation)
             .then(() => {
                 this.onFiltersChange();
                 this.setState({ consumationModalOpen: false });
@@ -104,10 +102,10 @@ class BeerPage extends Page<Props, State> {
 
     componentDidMount() {
         this.onFiltersChange();
-        beerApi.getBrands()
+        api.beer.getBrands()
             .then(brands => this.setState({ brands }, () => this.onConsumationBrandChange(brands[0].id)));
 
-        commonApi.getBeerServing()
+        api.common.getBeerServing()
             .then(servings => this.setState({ servings }, () => this.onConsumationChange({ servingId: servings[0].id })));
     }
 
@@ -133,7 +131,7 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     onConsumationBrandChange(brandId: string) {
-        beerApi.get({ brandId }).then(data => this.setState({
+        api.beer.get({ brandId }).then(data => this.setState({
             beers: data.items,
             consumation: {
                 ...this.state.consumation,
@@ -159,7 +157,7 @@ class BeerPage extends Page<Props, State> {
 
         this.setState({ ...this.state, filters });
 
-        consumationApi.get(filters).then(consumations => this.setState({ consumations }));
+        api.consumation.get(filters).then(consumations => this.setState({ consumations }));
 
         if (filterValue && filterValue.page)
             return;
@@ -170,22 +168,22 @@ class BeerPage extends Page<Props, State> {
             pageSize: 5
         };
 
-        consumationApi.getCountBeer(statsFilters)
+        api.consumation.getCountBeer(statsFilters)
             .then(beerCount => this.setState({ beerCount }));
 
-        consumationApi.getCountBeer(statsFilters)
+        api.consumation.getCountBeer(statsFilters)
             .then(brandCount => this.setState({ brandCount }));
 
-        consumationApi.getSum(statsFilters)
+        api.consumation.getSum(statsFilters)
             .then(sum => this.setState({ sum }))
 
-        consumationApi.getSumByBeer(statsFilters)
+        api.consumation.getSumByBeer(statsFilters)
             .then(beers => this.setState({ topBeers: beers.items }));
 
-        consumationApi.getNewBeers(statsFilters)
+        api.consumation.getNewBeers(statsFilters)
             .then(newBeers => this.setState({ newBeers }));
 
-        consumationApi.getSumByServing(filters)
+        api.consumation.getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map(x => { return { name: x.by.name, value: x.sum } }) }));
     }
 
@@ -198,7 +196,7 @@ class BeerPage extends Page<Props, State> {
         </tr>);
 
         const loadBeers = (inputValue, callback) => {
-            beerApi.get({ search: inputValue }).then(beers => callback(beers.items.map(beer => { return { value: beer.id, label: beer.name } })));
+            api.beer.get({ search: inputValue }).then(beers => callback(beers.items.map(beer => { return { value: beer.id, label: beer.name } })));
         };
 
         const topBeers = this.state.topBeers.map(beer => (

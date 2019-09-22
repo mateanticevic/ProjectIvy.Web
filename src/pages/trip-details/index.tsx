@@ -4,9 +4,7 @@ import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
 import { Marker, Polyline } from "react-google-maps";
 
 import { Map, ValueLabel } from '../../components';
-import * as consumationApi from '../../api/main/consumation';
-import * as trackingApi from '../../api/main/tracking';
-import * as tripApi from '../../api/main/trip';
+import api from '../../api/main';
 import { Trip } from 'types/trips';
 import { boundMethod } from 'autobind-decorator';
 import ExpensePanel from '../expenses/ExpensePanel';
@@ -38,12 +36,12 @@ class TripDetailsPage extends React.Component<{}, State> {
   constructor(props) {
     super(props);
 
-    tripApi.getById(props.match.params.id)
+    api.trip.getById(props.match.params.id)
       .then(trip => {
         this.setState({ trip });
         const filters = { from: trip.timestampStart, to: trip.timestampEnd };
-        trackingApi.get(filters).then(trackings => this.setState({ trackings }));
-        consumationApi.getSum(filters).then(beerSum => this.setState({ beerSum }));
+        api.tracking.get(filters).then(trackings => this.setState({ trackings }));
+        api.consumation.getSum(filters).then(beerSum => this.setState({ beerSum }));
       });
   }
 
@@ -59,7 +57,7 @@ class TripDetailsPage extends React.Component<{}, State> {
 
   @boundMethod
   onUnlink(expenseId) {
-    tripApi.deleteExpense(this.state.trip.id, expenseId).then(() => { });
+    api.trip.deleteExpense(this.state.trip.id, expenseId).then(() => { });
   }
 
   render() {

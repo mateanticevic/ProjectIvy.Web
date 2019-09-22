@@ -8,9 +8,9 @@ function deleteFile(file) {
     return api.del(`file/${file}`);
 }
 
-const fileApi = {
+const file = {
     post,
     deleteFile
 }
 
-export default fileApi;
+export default file;

@@ -9,7 +9,7 @@ import _ from 'lodash';
 import OnlineGraph from './OnlineGraph';
 import ExpenseTypeLabel from '../../pages/expenses/ExpenseTypeLabel';
 import { Map, ValueLabel } from '../../components';
-import { carApi, expenseApi } from '../../api/main';
+import api from '../../api/main';
 import * as consumationApi from '../../api/main/consumation';
 import * as movieApi from '../../api/main/movie';
 import * as trackingApi from '../../api/main/tracking';
@@ -55,20 +55,20 @@ class DashboardPage extends React.Component {
       from: moment().date(1).format("YYYY-MM-DD")
     };
 
-    consumationApi.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
-    movieApi.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
-    trackingApi.getLast().then(location => this.setState({ location }));
-    carApi.getLogLatest('golf-7').then(carLogLatest => this.setState({ carLogLatest }));
-    webApi.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
+    api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
+    api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
+    api.tracking.getLast().then(location => this.setState({ location }));
+    api.car.getLogLatest('golf-7').then(carLogLatest => this.setState({ carLogLatest }));
+    api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
 
-    expenseApi.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
-    expenseApi.getSum(todayFilters).then(today => this.setState({ spent: { ...this.state.spent, today } }));
-    expenseApi.getSum(weekFilters).then(week => this.setState({ spent: { ...this.state.spent, week } }));
-    expenseApi.getSum(monthFilters).then(month => this.setState({ spent: { ...this.state.spent, month } }));
+    api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
+    api.expense.getSum(todayFilters).then(today => this.setState({ spent: { ...this.state.spent, today } }));
+    api.expense.getSum(weekFilters).then(week => this.setState({ spent: { ...this.state.spent, week } }));
+    api.expense.getSum(monthFilters).then(month => this.setState({ spent: { ...this.state.spent, month } }));
 
-    trackingApi.getDistance(todayFilters).then(today => this.setState({ distance: { ...this.state.distance, today } }));
-    trackingApi.getDistance(weekFilters).then(week => this.setState({ distance: { ...this.state.distance, week } }));
-    trackingApi.getDistance(monthFilters).then(month => this.setState({ distance: { ...this.state.distance, month } }));
+    api.tracking.getDistance(todayFilters).then(today => this.setState({ distance: { ...this.state.distance, today } }));
+    api.tracking.getDistance(weekFilters).then(week => this.setState({ distance: { ...this.state.distance, week } }));
+    api.tracking.getDistance(monthFilters).then(month => this.setState({ distance: { ...this.state.distance, month } }));
   }
 
   dayOfWeek(date) {

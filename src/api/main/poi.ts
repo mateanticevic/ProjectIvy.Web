@@ -1,9 +1,17 @@
 import * as api from '../config';
 
-export function get(filters) {
+function get(filters) {
     return api.get("poi", filters);
 }
 
-export function post(poi) {
+function post(poi) {
     return api.post("poi", poi);
 }
+
+const poi = {
+    get,
+    post
+}
+
+export default poi;
+

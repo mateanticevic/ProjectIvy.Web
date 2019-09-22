@@ -1,5 +1,11 @@
 import * as api from '../config';
 
-export function getTimeTotalByDay(filters) {
+function getTimeTotalByDay(filters) {
     return api.get("web/time/total/byday", filters);
 }
+
+const web ={
+    getTimeTotalByDay
+}
+
+export default web;

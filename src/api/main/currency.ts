@@ -4,8 +4,8 @@ function get() {
     return api.get("currency");
 }
 
-const currencyApi = {
+const currency = {
     get
 }
 
-export default currencyApi;
+export default currency;

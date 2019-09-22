@@ -16,7 +16,7 @@ import TripsPage from './pages/trips';
 import TripDetailsPage from './pages/trip-details';
 import DashboardPage from './pages/dashboard';
 import { User } from 'types/users';
-import { userApi } from './api/main';
+import api from './api/main';
 
 type State = {
   user?: User
@@ -29,7 +29,7 @@ export default class Root extends Component<{}, State> {
   }
 
   componentDidMount() {
-    userApi.get().then(user => this.setState({ user }));
+    api.user.get().then(user => this.setState({ user }));
   }
 
   render() {

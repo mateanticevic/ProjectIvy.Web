@@ -5,8 +5,8 @@ function get(): Promise<User> {
     return api.get("user");
 }
 
-const userApi = {
+const user = {
     get
 }
 
-export default userApi;
+export default user;

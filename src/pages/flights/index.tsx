@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 import moment from 'moment';
 import _ from 'lodash';
 
-import * as flightApi from '../../api/main/flight';
+import api from '../../api/main';
 import { Map, Select } from '../../components';
 import { boundMethod } from 'autobind-decorator';
 
@@ -37,7 +37,7 @@ class FlightsPage extends React.Component {
             from: year ? moment().year(year).month(0).date(1).format("YYYY-MM-DD") : undefined,
             to: year ? moment().year(year).month(11).date(31).format("YYYY-MM-DD") : undefined
         };
-        flightApi.getFlights(filters).then(flights => this.setState({ flights }));
+        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
     }
 
     @boundMethod

@@ -7,7 +7,7 @@ import Select from '../../components/Select';
 import Map from '../../components/Map';
 import PoiModal from './PoiModal';
 import PoiPanel from './PoiPanel';
-import { commonApi, vendorApi } from '../../api/main';
+import api from '../../api/main';
 import * as poiApi from '../../api/main/poi';
 import { boundMethod } from 'autobind-decorator';
 
@@ -37,8 +37,8 @@ class PoisPage extends React.Component {
 
   componentDidMount() {
     this.onFiltersChanged();
-    commonApi.getPoiCategories().then(poiCategories => this.setState({ poiCategories }));
-    vendorApi.get(this.state.filters).then(vendors => this.setState({ vendors: vendors.items }));
+    api.common.getPoiCategories().then(poiCategories => this.setState({ poiCategories }));
+    api.vendor.get(this.state.filters).then(vendors => this.setState({ vendors: vendors.items }));
   }
 
   onAddToTrip(poiId: string) {
@@ -48,7 +48,7 @@ class PoisPage extends React.Component {
   onFiltersChanged(filter) {
     let filters = { ...this.state.filters, ...filter };
     this.setState({ filters: filters });
-    poiApi.get(filters).then(pois => this.setState({ pois }));
+    api.poi.get(filters).then(pois => this.setState({ pois }));
   }
 
   @boundMethod

@@ -7,7 +7,7 @@ import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 
 import { Map } from '../../components';
-import * as trackingApi from '../../api/main/tracking';
+import api from '../../api/main';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
@@ -51,8 +51,8 @@ class TrackingPage extends Page<{}, State> {
     loadDay(day) {
         const nextDay = moment(day).add(1, 'days').format("YYYY-MM-DD");
         const filters = { from: day, to: nextDay };
-        trackingApi.get(filters).then(trackings => {
-            trackingApi.getDistance(filters).then(distance => {
+        api.tracking.get(filters).then(trackings => {
+            api.tracking.getDistance(filters).then(distance => {
                 const movement: Movement = {
                     day: day, trackings,
                     id: _.uniqueId(),

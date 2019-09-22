@@ -1,33 +1,46 @@
 import * as api from '../config';
 
-export function get(filters) {
+function get(filters) {
     return api.get("consumation", filters);
 }
 
-export function getCountBeer(filters) {
+function getCountBeer(filters) {
     return api.get("consumation/beer/count", filters);
 }
 
-export function getCountBrand(filters) {
+function getCountBrand(filters) {
     return api.get("consumation/brand/count", filters);
 }
 
-export function getNewBeers(filters) {
+function getNewBeers(filters) {
     return api.get("consumation/beer/new", filters);
 }
 
-export function getSum(filters) {
+function getSum(filters) {
     return api.get("consumation/sum", filters);
 }
 
-export function getSumByBeer(filters) {
+function getSumByBeer(filters) {
     return api.get("consumation/sum/byBeer", filters);
 }
 
-export function getSumByServing(filters) {
+function getSumByServing(filters) {
     return api.get("consumation/sum/byServing", filters);
 }
 
-export function post(consumation) {
+function post(consumation) {
     return api.post("consumation", consumation);
 }
+
+const consumation = {
+    get,
+    getCountBeer,
+    getCountBrand,
+    getNewBeers,
+    getSum,
+    getSumByBeer,
+    getSumByServing,
+    post
+}
+
+export default consumation;

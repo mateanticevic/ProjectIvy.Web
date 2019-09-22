@@ -8,9 +8,9 @@ function getPois(vendorId: string) {
     return api.get(`vendor/${vendorId}/poi`);
 }
 
-const vendorApi = {
+const vendor = {
     get,
     getPois
 }
 
-export default vendorApi;
+export default vendor;
