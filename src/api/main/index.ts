@@ -3,6 +3,7 @@ import call from './call';
 import car from './car';
 import card from './card';
 import common from './common';
+import city from './city';
 import country from './country';
 import consumation from './consumation';
 import currency from './currency';
@@ -26,6 +27,7 @@ const api = {
     car,
     card,
     common,
+    city,
     country,
     consumation,
     currency,

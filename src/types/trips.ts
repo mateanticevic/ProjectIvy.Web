@@ -13,6 +13,7 @@ export type Trip = {
 
 export type TripBinding = {
     name: string;
+    cityIds: string[],
     timestampEnd: Date;
     timestampStart: Date;
 }

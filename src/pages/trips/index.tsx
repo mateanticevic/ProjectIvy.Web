@@ -30,7 +30,9 @@ class TripsPage extends Page<{}, State> {
     countries: [],
     filters: { pageSize: 10, page: 1 },
     isModalOpen: false,
-    trip: {},
+    trip: {
+      cityIds: []
+    },
     trips: { count: 0, items: [] },
     tripsAreLoading: true,
     visitedCountries: []
@@ -38,8 +40,18 @@ class TripsPage extends Page<{}, State> {
 
   componentDidMount() {
     api.country.getAll().then(countries => this.setState({ countries: countries.items }));
-    api.country.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
+    this.loadVisitedCountries();
     this.onFiltersChanged();
+  }
+
+  @boundMethod
+  loadCities(inputValue, callback) {
+    api.city.get({ search: inputValue }).then(cities => callback(cities.items.map(city => { return { value: city.id, label: `${city.name}, ${city.country.name}` } })));
+  }
+
+  @boundMethod
+  loadVisitedCountries() {
+    api.country.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
   }
 
   @boundMethod
@@ -69,6 +81,7 @@ class TripsPage extends Page<{}, State> {
     api.trip.post(this.state.trip)
       .then(() => {
         this.onFiltersChanged();
+        this.loadVisitedCountries();
         this.setState({ isModalOpen: false });
       });
   }
@@ -153,6 +166,7 @@ class TripsPage extends Page<{}, State> {
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onTripChanged}
           onSave={this.onTripSave}
+          loadCities={this.loadCities}
           isOpen={this.state.isModalOpen} />
       </Grid>
     );
