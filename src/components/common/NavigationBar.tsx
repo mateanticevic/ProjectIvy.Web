@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
-import { IndexLink, browserHistory } from 'react-router';
+import { IndexLink, browserHistory } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { User } from 'types/users';
@@ -22,7 +22,7 @@ const NavigationBar = ({ user }: Props) => {
     <Navbar fixedTop collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
-          <IndexLink to="/">Project Ivy</IndexLink>
+          {/* <IndexLink to="/">Project Ivy</IndexLink> */}
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>

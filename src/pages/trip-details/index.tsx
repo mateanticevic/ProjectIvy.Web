@@ -38,7 +38,7 @@ class TripDetailsPage extends React.Component<{}, State> {
   constructor(props) {
     super(props);
 
-    tripApi.getById(props.params.id)
+    tripApi.getById(props.match.params.id)
       .then(trip => {
         this.setState({ trip });
         const filters = { from: trip.timestampStart, to: trip.timestampEnd };
