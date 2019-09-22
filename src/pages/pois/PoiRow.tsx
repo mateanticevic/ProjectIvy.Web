@@ -1,13 +1,13 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
 import { Button } from 'react-bootstrap/lib';
+import FontAwesome from 'react-fontawesome';
 
 import { Poi } from '../../types/pois';
 
-type Props = {
+interface Props {
   addToTrip: (tripId: string) => void,
   poi: Poi
-};
+}
 
 const PoiRow: React.SFC<Props> = ({ poi, addToTrip }) => {
 

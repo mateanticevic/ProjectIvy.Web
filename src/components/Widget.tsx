@@ -1,6 +1,6 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
 import Well from 'react-bootstrap/lib/Well';
+import FontAwesome from 'react-fontawesome';
 import WidgetCard from './WidgetCard';
 
 const Widget = (props) => {
@@ -10,7 +10,7 @@ const Widget = (props) => {
           {props.value &&
             <WidgetCard unit={props.unit} title={props.title} value={props.value} />
           }
-          {props.value == undefined &&
+          {props.value === undefined &&
             <FontAwesome name="circle-o-notch" size="2x" spin={true} />
           }
       </Well>

@@ -8,7 +8,7 @@
   "scripts": {
     "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
-    "lint": "tslint --project ."
+    "lint": "tslint --project ./tsconfig.json"
   },
   "author": "Mate Antičević",
   "license": "MIT",

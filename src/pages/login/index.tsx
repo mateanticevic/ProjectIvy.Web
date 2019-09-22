@@ -1,43 +1,43 @@
-import React from 'react';
-import { Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap/lib';
 import { boundMethod } from 'autobind-decorator';
+import React from 'react';
+import { Col, ControlLabel, FormControl, Panel, Row } from 'react-bootstrap/lib';
 
-import api from '../../api/main';
 import * as apiConfig from '../../api/config';
+import api from '../../api/main';
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 
-type State = {
-  isLoggingIn: boolean,
-  username: string,
-  password: string
+interface State {
+  isLoggingIn: boolean;
+  username: string;
+  password: string;
 }
 
 class LoginPage extends React.Component<{}, State> {
 
-  state: State = {
+  public state: State = {
     isLoggingIn: false,
     username: '',
-    password: ''
-  }
+    password: '',
+  };
 
   @boundMethod
-  loginTry(event) {
+  public loginTry(event) {
     event.preventDefault();
     this.setState({
-      isLoggingIn: true
+      isLoggingIn: true,
     });
-    api.token.post(this.state.username, this.state.password).then(token => {
-      localStorage.setItem("token", token);
+    api.token.post(this.state.username, this.state.password).then((token) => {
+      localStorage.setItem('token', token);
       apiConfig.setToken();
       location.assign('/');
     }).catch(() => {
       this.setState({
-        isLoggingIn: false
+        isLoggingIn: false,
       });
     });
   }
 
-  render() {
+  public render() {
 
     return (
       <Panel className="panel-login">
@@ -47,11 +47,11 @@ class LoginPage extends React.Component<{}, State> {
             <Row>
               <Col sm={12}>
                 <ControlLabel>Username</ControlLabel>
-                <FormControl type="text" onChange={e => this.setState({ username: e.target.value })} />
+                <FormControl type="text" onChange={(e) => this.setState({ username: e.target.value })} />
               </Col>
               <Col sm={12}>
                 <ControlLabel>Password</ControlLabel>
-                <FormControl type="password" onChange={e => this.setState({ password: e.target.value })} />
+                <FormControl type="password" onChange={(e) => this.setState({ password: e.target.value })} />
               </Col>
             </Row>
             <Row className="margin-top-10">

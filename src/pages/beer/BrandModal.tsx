@@ -1,6 +1,6 @@
 import React from 'react';
+import { Button, ControlLabel, FormControl, FormGroup, Modal } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import { Modal, FormGroup, Button, ControlLabel, FormControl } from 'react-bootstrap/lib';
 
 const BrandModal = (props) => {
 
@@ -12,7 +12,7 @@ const BrandModal = (props) => {
             <Modal.Body>
                 <FormGroup>
                     <ControlLabel>Name</ControlLabel>
-                    <FormControl type="text" onChange={x => props.onChange({ name: x.target.value })} />
+                    <FormControl type="text" onChange={(x) => props.onChange({ name: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>

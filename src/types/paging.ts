@@ -1,9 +1,9 @@
-export type PagingFilters = {
-    page: number,
-    pageSize: number
+export interface PagingFilters {
+    page: number;
+    pageSize: number;
 }
 
-export type PagedItems<T> = {
-    count: number,
-    items: T[] 
+export interface PagedItems<T> {
+    count: number;
+    items: T[];
 }

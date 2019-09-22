@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap/lib';
+import { Col, Row } from 'react-bootstrap/lib';
+import Dropzone from 'react-dropzone';
 import ExpenseFileTable from './ExpenseFileTable';
 import ExpenseFileUploadTable from './ExpenseFileUploadTable';
-import Dropzone from 'react-dropzone';
 
 const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, deleteFile, fileTypes}) => {
 
@@ -20,13 +20,13 @@ const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, deleteFile,
             </Row>
             <Row>
                 <Col lg={12}>
-                    <Dropzone onDrop={files => uploadFiles(files, expense.id)}>
+                    <Dropzone onDrop={(files) => uploadFiles(files, expense.id)}>
                         <p>Try dropping some files here, or click to select files to upload.</p>
                     </Dropzone>
                 </Col>
             </Row>
         </div>
     );
-}
+};
 
 export default ExpenseFormFilesTab;

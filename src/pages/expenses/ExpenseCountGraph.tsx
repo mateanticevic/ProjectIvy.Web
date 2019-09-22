@@ -1,12 +1,12 @@
-import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const ExpenseCountGraph = (props) => {
 
-    let data = _.map(props.data, x => {
-        return { count: x.data, day: moment(`${x.year}-${x.month}-1`).format("MMMM YYYY") };
+    let data = _.map(props.data, (x) => {
+        return { count: x.data, day: moment(`${x.year}-${x.month}-1`).format('MMMM YYYY') };
     });
     data = _.reverse(data);
 

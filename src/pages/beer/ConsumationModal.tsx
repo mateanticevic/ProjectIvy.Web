@@ -1,13 +1,13 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
+import { Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Modal } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
-import { Modal, FormGroup, Button, ControlLabel, Glyphicon, InputGroup, FormControl } from 'react-bootstrap/lib';
+import FontAwesome from 'react-fontawesome';
 import AsyncSelect from 'react-select/async';
 
+import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from '../../components/Select';
-import { Consumation, Beer, Brand, Serving } from 'types/beer';
 
-type Props = {
+interface Props {
     beers: Beer[];
     brands: Brand[];
     consumation: Consumation;
@@ -33,7 +33,7 @@ const ConsumationModal = (props: Props) => {
                     <InputGroup>
                         <Datetime
                             dateFormat="YYYY-MM-DD"
-                            onChange={x => props.onChange({ date: x.format("YYYY-MM-DD") })}
+                            onChange={(x) => props.onChange({ date: x.format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
                         <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
@@ -43,24 +43,24 @@ const ConsumationModal = (props: Props) => {
                     <ControlLabel>Beer</ControlLabel>
                     <AsyncSelect
                         loadOptions={props.loadBeers}
-                        onChange={x => props.onChange({ beerId: x.value })}
+                        onChange={(x) => props.onChange({ beerId: x.value })}
                         defaultOptions
                     />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>
-                    <Select options={servings} hideDefaultOption={true} onChange={servingId => props.onChange({ servingId })} />
+                    <Select options={servings} hideDefaultOption={true} onChange={(servingId) => props.onChange({ servingId })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Volume</ControlLabel>
                     <InputGroup>
-                        <FormControl type="number" onChange={x => props.onChange({ volume: x.target.value })} />
+                        <FormControl type="number" onChange={(x) => props.onChange({ volume: x.target.value })} />
                         <InputGroup.Addon>ml</InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Units</ControlLabel>
-                    <FormControl type="number" onChange={x => props.onChange({ units: x.target.value })} />
+                    <FormControl type="number" onChange={(x) => props.onChange({ units: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>

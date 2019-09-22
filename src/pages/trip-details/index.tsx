@@ -1,72 +1,72 @@
-import React from 'react';
 import moment from 'moment';
-import { Grid, Row, Col, Panel } from 'react-bootstrap/lib';
-import { Marker, Polyline } from "react-google-maps";
+import React from 'react';
+import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
+import { Marker, Polyline } from 'react-google-maps';
 
-import { Map, ValueLabel } from '../../components';
-import api from '../../api/main';
-import { Trip } from 'types/trips';
 import { boundMethod } from 'autobind-decorator';
+import { Trip } from 'types/trips';
+import api from '../../api/main';
+import { Map, ValueLabel } from '../../components';
 import ExpensePanel from '../expenses/ExpensePanel';
 
-type State = {
-  beerSum: number,
-  expenseFilters: any,
-  trackings: any[],
-  trip: Trip
+interface State {
+  beerSum: number;
+  expenseFilters: any;
+  trackings: any[];
+  trip: Trip;
 }
 
 class TripDetailsPage extends React.Component<{}, State> {
 
-  state: State = {
+  public state: State = {
     beerSum: 0,
     expenseFilters: {
       page: 1,
-      pageSize: 10
+      pageSize: 10,
     },
     trip: {
       cities: [],
       countries: [],
       expenses: [],
-      id: ''
+      id: '',
     },
-    trackings: []
+    trackings: [],
   };
 
   constructor(props) {
     super(props);
 
     api.trip.getById(props.match.params.id)
-      .then(trip => {
+      .then((trip) => {
         this.setState({ trip });
         const filters = { from: trip.timestampStart, to: trip.timestampEnd };
-        api.tracking.get(filters).then(trackings => this.setState({ trackings }));
-        api.consumation.getSum(filters).then(beerSum => this.setState({ beerSum }));
+        api.tracking.get(filters).then((trackings) => this.setState({ trackings }));
+        api.consumation.getSum(filters).then((beerSum) => this.setState({ beerSum }));
       });
   }
 
   @boundMethod
-  onExpensePageChange(page) {
+  public onExpensePageChange(page) {
     this.setState({
       expenseFilters: {
         ...this.state.expenseFilters,
-        page: page
-      }
+        page,
+      },
     });
   }
 
   @boundMethod
-  onUnlink(expenseId) {
+  public onUnlink(expenseId) {
     api.trip.deleteExpense(this.state.trip.id, expenseId).then(() => { });
   }
 
-  render() {
+  public render() {
 
     const { beerSum, trackings, trip } = this.state;
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
 
-    const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
+    const poiMarkers = trip.pois != null ? trip.pois.map((poi) => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
     return (
       <Grid>
@@ -85,10 +85,10 @@ class TripDetailsPage extends React.Component<{}, State> {
                     <ValueLabel label="Days" value={days} />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
-                    <ValueLabel label="Distance" unit="km" value={parseInt(trip.distance / 1000)} />
+                    <ValueLabel label="Distance" unit="km" value={Number(trip.distance / 1000)} />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
-                    <ValueLabel label="Spent" unit="kn" value={parseInt(trip.totalSpent)} />
+                    <ValueLabel label="Spent" unit="kn" value={Number(trip.totalSpent)} />
                   </Col>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <ValueLabel label="Cities" value={trip.cities.length} />

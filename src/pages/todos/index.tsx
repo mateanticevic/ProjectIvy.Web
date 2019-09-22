@@ -1,25 +1,25 @@
 import React from 'react';
-import { Grid, Row, Col, Panel, ListGroup, ListGroupItem, Label, Checkbox, Table, FormControl, Form } from 'react-bootstrap/lib';
+import { Checkbox, Col, Form, FormControl, Grid, Label, ListGroup, ListGroupItem, Panel, Row, Table } from 'react-bootstrap/lib';
 
-import api from "../../api/main";
 import { boundMethod } from 'autobind-decorator';
+import api from '../../api/main';
 
 class ToDosPage extends React.Component {
 
-    state = {
+    public state = {
         todos: {
             count: 0,
-            items: []
+            items: [],
         },
-        newTodo: ''
-    }
+        newTodo: '',
+    };
 
-    componentDidMount() {
+    public componentDidMount() {
         this.getToDos();
     }
 
     @boundMethod
-    addNew(e) {
+    public addNew(e) {
         e.preventDefault();
         api.todo.post(this.state.newTodo).then(() => {
             this.setState({ newTodo: '' });
@@ -28,13 +28,13 @@ class ToDosPage extends React.Component {
         return false;
     }
 
-    getToDos() {
-        api.todo.get({ isDone: false }).then(todos => this.setState({ todos }));
+    public getToDos() {
+        api.todo.get({ isDone: false }).then((todos) => this.setState({ todos }));
     }
 
     @boundMethod
-    renderTodos() {
-        return this.state.todos.items.map(todo => (<tr key={todo.id}>
+    public renderTodos() {
+        return this.state.todos.items.map((todo) => (<tr key={todo.id}>
             <td><Checkbox onClick={() => this.setDone(todo.id)} /></td>
             <td>{todo.name}</td>
         </tr>
@@ -42,11 +42,11 @@ class ToDosPage extends React.Component {
     }
 
     @boundMethod
-    setDone(id) {
+    public setDone(id) {
         api.todo.postDone(id).then(() => this.getToDos());
     }
 
-    render() {
+    public render() {
 
         return (
             <Grid>
@@ -56,7 +56,7 @@ class ToDosPage extends React.Component {
                             <Panel.Heading>To Do</Panel.Heading>
                             <Panel.Body className="padding-0 panel-large">
                                 <Form onSubmit={this.addNew}>
-                                    <FormControl type="text" value={this.state.newTodo} onChange={x => this.setState({ newTodo: x.target.value })} />
+                                    <FormControl type="text" value={this.state.newTodo} onChange={(x) => this.setState({ newTodo: x.target.value })} />
                                 </Form>
                                 <Table responsive>
                                     <tbody>

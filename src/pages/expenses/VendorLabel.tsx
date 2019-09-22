@@ -1,11 +1,11 @@
 import React from 'react';
+import { Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import { OverlayTrigger, Tooltip, Label } from 'react-bootstrap/lib';
 
 import { Expense } from 'types/expenses';
 
-type Props = {
-    expense: Expense
+interface Props {
+    expense: Expense;
 }
 
 const VendorLabel = ({ expense }: Props) => {
@@ -27,6 +27,6 @@ const VendorLabel = ({ expense }: Props) => {
             }
         </div>
     );
-}
+};
 
 export default VendorLabel;

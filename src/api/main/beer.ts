@@ -1,15 +1,15 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("beer", filters);
+    return api.get('beer', filters);
 }
 
 function getBrands() {
-    return api.get("beer/brand");
+    return api.get('beer/brand');
 }
 
 function postBrand(name) {
-    return api.post("beer/brand", name);
+    return api.post('beer/brand', name);
 }
 
 function postBeer(brandId, beer) {
@@ -20,7 +20,7 @@ const beer = {
     get,
     getBrands,
     postBrand,
-    postBeer
-}
+    postBeer,
+};
 
 export default beer;

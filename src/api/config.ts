@@ -1,57 +1,49 @@
 import { browserHistory } from 'react-router';
+import { config } from '../config';
 import * as urlHelper from '../utils/urlHelper';
-import { httpStatus } from './httpStatus';
 import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';
-import { config } from '../config';
+import { httpStatus } from './httpStatus';
 
-let headers = new Headers();
-headers.append(httpHeader.AUTHORIZATION, localStorage.getItem("token"));
+const headers = new Headers();
+headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
 
-type FetchInit = {
-    method: string,
-    headers: Headers,
-    mode: string,
-    cache: string,
-    body?: string
-};
+function handleResponse(response) {
 
-function handleResponse(response){
+    const contentType = response.headers.get(httpHeader.CONTENT_TYPE);
 
-    let contentType = response.headers.get(httpHeader.CONTENT_TYPE);
-
-    if(response.ok){
-        if (contentType && contentType.indexOf(httpContentType.JSON) !== -1)
+    if (response.ok) {
+        if (contentType && contentType.indexOf(httpContentType.JSON) !== -1) {
             return response.json();
-        else if(contentType && contentType.indexOf(httpContentType.TEXT) !== -1)
+        } else if (contentType && contentType.indexOf(httpContentType.TEXT) !== -1) {
             return response.text();
-        else
+ } else {
             return response.status;
-    }
-    else if(response.status == httpStatus.UNAUTHORIZED){
-        browserHistory.push("/login");
-    }
-    else{
+ }
+    } else if (response.status == httpStatus.UNAUTHORIZED) {
+        browserHistory.push('/login');
+    } else {
         throw new Error();
     }
 }
 
-function apiPath(resource: string, parameters?: string){
+function apiPath(resource: string, parameters?: string) {
     let url = config.api.url + resource;
-    if(parameters)
+    if (parameters) {
         url = url + urlHelper.jsonToQueryString(parameters);
+    }
 
     return url;
 }
 
 export function get(resource: string, parameters?: string) {
 
-    let init: RequestInit = {
+    const init: RequestInit = {
+        cache: 'default',
+        headers,
         method: httpMethod.GET,
-        headers: headers,
         mode: 'cors',
-        cache: 'default'
     };
 
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
@@ -59,10 +51,10 @@ export function get(resource: string, parameters?: string) {
 
 export function del(resource: string, parameters?: string) {
 
-    let init: RequestInit = {
+    const init: RequestInit = {
+        headers,
         method: httpMethod.DELETE,
-        headers: headers,
-        mode: 'cors'
+        mode: 'cors',
     };
 
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
@@ -72,12 +64,12 @@ export function post(resource: string, json?: object, parameters?: string) {
 
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
-    let init: RequestInit = {
-        method: httpMethod.POST,
+    const init: RequestInit = {
         body: JSON.stringify(json),
-        headers: headers,
+        cache: 'default',
+        headers,
+        method: httpMethod.POST,
         mode: 'cors',
-        cache: 'default'
     };
 
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
@@ -85,12 +77,12 @@ export function post(resource: string, json?: object, parameters?: string) {
 
 export function postFile(resource: string, file: any) {
 
-    let init: RequestInit = {
-        method: httpMethod.POST,
+    const init: RequestInit = {
         body: file,
-        headers: headers,
+        cache: 'default',
+        headers,
+        method: httpMethod.POST,
         mode: 'cors',
-        cache: 'default'
     };
 
     return fetch(apiPath(resource), init).then(handleResponse);
@@ -100,12 +92,12 @@ export function put(resource: string, json: object) {
 
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
-    let init: RequestInit = {
-        method: httpMethod.PUT,
+    const init: RequestInit = {
         body: JSON.stringify(json),
-        headers: headers,
+        cache: 'default',
+        headers,
+        method: httpMethod.PUT,
         mode: 'cors',
-        cache: 'default'
     };
 
     return fetch(apiPath(resource), init).then(handleResponse);
@@ -113,5 +105,5 @@ export function put(resource: string, json: object) {
 
 export function setToken() {
     headers.delete(httpHeader.AUTHORIZATION);
-    headers.append(httpHeader.AUTHORIZATION, localStorage.getItem("token"));
+    headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
 }

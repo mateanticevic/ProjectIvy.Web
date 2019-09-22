@@ -1,17 +1,16 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("poi", filters);
+    return api.get('poi', filters);
 }
 
 function post(poi) {
-    return api.post("poi", poi);
+    return api.post('poi', poi);
 }
 
 const poi = {
     get,
-    post
-}
+    post,
+};
 
 export default poi;
-

@@ -1,25 +1,25 @@
-import React from 'react';
-import { Grid, Col, Panel, ControlLabel, Row, Table, Button } from 'react-bootstrap/lib';
-import { Polyline } from "react-google-maps";
-import Datetime from 'react-datetime';
-import moment from 'moment';
 import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
+import moment from 'moment';
+import React from 'react';
+import { Button, Col, ControlLabel, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import Datetime from 'react-datetime';
+import { Polyline } from 'react-google-maps';
 
-import { Map } from '../../components';
 import api from '../../api/main';
+import { Map } from '../../components';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
 
-type State = {
-    filters: any,
-    movements: Movement[]
+interface State {
+    filters: any;
+    movements: Movement[];
 }
 
 class TrackingPage extends Page<{}, State> {
 
-    colors = [
+    public colors = [
         '#000000',
         '#ff0000',
         '#00a6ff',
@@ -29,18 +29,19 @@ class TrackingPage extends Page<{}, State> {
         '#ffff00',
     ];
 
-    state = {
+    public state = {
         filters: {
         },
-        movements: []
+        movements: [],
     };
 
     @boundMethod
-    onFiltersChanged(filterValue?) {
+    public onFiltersChanged(filterValue?) {
         const filters = this.resolveFilters(this.state.filters, filterValue);
 
-        if (!filters.day)
+        if (!filters.day) {
             filters.day = moment().format('YYYY-MM-DD');
+        }
 
         this.pushHistoryState(filters);
 
@@ -48,37 +49,37 @@ class TrackingPage extends Page<{}, State> {
         this.loadDay(filters.day);
     }
 
-    loadDay(day) {
-        const nextDay = moment(day).add(1, 'days').format("YYYY-MM-DD");
+    public loadDay(day) {
+        const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: day, to: nextDay };
-        api.tracking.get(filters).then(trackings => {
-            api.tracking.getDistance(filters).then(distance => {
+        api.tracking.get(filters).then((trackings) => {
+            api.tracking.getDistance(filters).then((distance) => {
                 const movement: Movement = {
-                    day: day, trackings,
+                    day, trackings,
                     id: _.uniqueId(),
                     distance,
-                    color: this.colors[this.state.movements.length % this.colors.length]
+                    color: this.colors[this.state.movements.length % this.colors.length],
                 };
                 this.setState({ movements: [...this.state.movements, movement] });
-            })
+            });
         });
     }
 
     @boundMethod
-    loadOnThisDay() {
-        for (var year = 2014; year <= moment().year(); year++) {
+    public loadOnThisDay() {
+        for (let year = 2014; year <= moment().year(); year++) {
             this.loadDay(moment().year(year).format('YYYY-MM-DD'));
         }
     }
 
     @boundMethod
-    onRemoveTracking(id) {
+    public onRemoveTracking(id) {
         this.setState({
-            movements: _.filter(this.state.movements, t => t.id !== id)
+            movements: _.filter(this.state.movements, (t) => t.id !== id),
         });
     }
 
-    render() {
+    public render() {
         const { filters, movements } = this.state;
 
         return (
@@ -89,11 +90,11 @@ class TrackingPage extends Page<{}, State> {
                             <Panel.Heading>Map</Panel.Heading>
                             <Panel.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
-                                    {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
+                                    {movements.map((movement) => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
                                 </Map>
                             </Panel.Body>
                             <Panel.Footer className="flex-container">
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format("YYYY-MM-DD") })} />
+                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={(date) => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
                             </Panel.Footer>
                         </Panel>
@@ -103,7 +104,7 @@ class TrackingPage extends Page<{}, State> {
                                 <Panel.Body>
                                     <Table>
                                         <tbody>
-                                            {movements.map(movement => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
+                                            {movements.map((movement) => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>

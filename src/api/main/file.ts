@@ -1,7 +1,7 @@
 import * as api from '../config';
 
 function post(file) {
-    return api.postFile("file", file);
+    return api.postFile('file', file);
 }
 
 function deleteFile(file) {
@@ -10,7 +10,7 @@ function deleteFile(file) {
 
 const file = {
     post,
-    deleteFile
-}
+    deleteFile,
+};
 
 export default file;

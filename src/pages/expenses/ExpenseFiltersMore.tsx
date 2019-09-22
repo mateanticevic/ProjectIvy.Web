@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlLabel, FormControl, Row, Col, ToggleButtonGroup, ToggleButton, FormGroup } from 'react-bootstrap/lib';
+import { Col, ControlLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import Select from '../../components/Select';
 
 const ExpenseFiltersMore = (props) => {
@@ -8,50 +8,50 @@ const ExpenseFiltersMore = (props) => {
         <Row>
           <Col lg={12}>
             <ControlLabel>Description</ControlLabel>
-            <FormControl type="text" onChange={x => props.onChange({description: x.target.value})} />
+            <FormControl type="text" onChange={(x) => props.onChange({description: x.target.value})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Amount from</ControlLabel>
-            <FormControl type="number" onChange={x => props.onChange({amountFrom: x.target.value})} />
+            <FormControl type="number" onChange={(x) => props.onChange({amountFrom: x.target.value})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Amount to</ControlLabel>
-            <FormControl type="number" onChange={x => props.onChange({amountTo: x.target.value})} />
+            <FormControl type="number" onChange={(x) => props.onChange({amountTo: x.target.value})} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Order by</ControlLabel>
-            <Select options={props.orderBy} onChange={x => props.onChange({orderBy: x})} hideDefaultOption={true} />
+            <Select options={props.orderBy} onChange={(x) => props.onChange({orderBy: x})} hideDefaultOption={true} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Order</ControlLabel>
-            <Select selected={props.filters.orderAscending} options={props.order} onChange={x => props.onChange({orderAscending: x})} hideDefaultOption={true} />
+            <Select selected={props.filters.orderAscending} options={props.order} onChange={(x) => props.onChange({orderAscending: x})} hideDefaultOption={true} />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Payment type</ControlLabel>
-            <Select options={props.paymentTypes} onChange={x => props.onChange({paymentTypeId: x})}  />
+            <Select options={props.paymentTypes} onChange={(x) => props.onChange({paymentTypeId: x})}  />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <ControlLabel>Card</ControlLabel>
-            <Select options={props.cards} onChange={x => props.onChange({cardId: x})}  />
+            <Select options={props.cards} onChange={(x) => props.onChange({cardId: x})}  />
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
             <FormGroup>
               <ControlLabel>Has linked files</ControlLabel>
-              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
+              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={(x) => props.onChange({ hasLinkedFiles: x })}>
                 <ToggleButton value={true}>Show all</ToggleButton>
                 <ToggleButton value={true}>Yes</ToggleButton>
                 <ToggleButton value={false}>No</ToggleButton>
@@ -63,7 +63,7 @@ const ExpenseFiltersMore = (props) => {
           <Col lg={12}>
             <FormGroup>
               <ControlLabel>Has poi</ControlLabel>
-              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>
+              <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={(x) => props.onChange({ hasPoi: x })}>
                 <ToggleButton value={true}>Show all</ToggleButton>
                 <ToggleButton value={true}>Yes</ToggleButton>
                 <ToggleButton value={false}>No</ToggleButton>

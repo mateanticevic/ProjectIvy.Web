@@ -1,16 +1,16 @@
 import React from 'react';
-import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import Modal from 'react-bootstrap/lib/Modal';
 
-import TripForm from './TripForm';
 import { TripBinding } from 'types/trips';
+import TripForm from './TripForm';
 
-type Props = {
-  isOpen: boolean,
-  loadCities: any,
-  onClose: () => void,
-  onChange: (changedValue: Partial<TripBinding>) => void,
-  onSave: () => void,
+interface Props {
+  isOpen: boolean;
+  loadCities: any;
+  onClose: () => void;
+  onChange: (changedValue: Partial<TripBinding>) => void;
+  onSave: () => void;
 }
 
 const TripModal = ({ isOpen, loadCities, onClose, onChange, onSave }: Props) => {

@@ -5,7 +5,7 @@ function post(username: string, password: string): Promise<string> {
 }
 
 const token = {
-    post
-}
+    post,
+};
 
 export default token;

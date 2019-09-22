@@ -1,5 +1,5 @@
 export function toGoogleMapsLocations(trackings) {
-    return trackings.map(t => toGoogleMapsLocation(t));
+    return trackings.map((t) => toGoogleMapsLocation(t));
 }
 
 export function toGoogleMapsLocation(tracking) {

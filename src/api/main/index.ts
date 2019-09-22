@@ -2,23 +2,23 @@ import beer from './beer';
 import call from './call';
 import car from './car';
 import card from './card';
-import common from './common';
 import city from './city';
-import country from './country';
+import common from './common';
 import consumation from './consumation';
+import country from './country';
 import currency from './currency';
-import movie from './movie';
-import flight from './flight';
 import expense from './expense';
 import expenseType from './expenseType';
-import poi from './poi';
 import file from './file';
+import flight from './flight';
+import movie from './movie';
+import poi from './poi';
 import todo from './todo';
-import user from './user';
-import vendor from './vendor';
+import token from './token';
 import tracking from './tracking';
 import trip from './trip';
-import token from './token';
+import user from './user';
+import vendor from './vendor';
 import web from './web';
 
 const api = {
@@ -26,24 +26,24 @@ const api = {
     call,
     car,
     card,
-    common,
     city,
-    country,
+    common,
     consumation,
+    country,
     currency,
-    flight,
-    movie,
     expense,
-    poi,
     expenseType,
     file,
+    flight,
+    movie,
+    poi,
     todo,
+    token,
+    tracking,
+    trip,
     user,
     vendor,
-    tracking,
-    token,
-    trip,
-    web
-}
+    web,
+};
 
 export default api;

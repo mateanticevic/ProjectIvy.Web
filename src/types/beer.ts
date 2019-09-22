@@ -1,32 +1,32 @@
-import { PagingFilters } from "./paging";
+import { PagingFilters } from './paging';
 
-export type Beer = {
-    abv: number,
-    brandId: string,
-    id: string,
+export interface Beer {
+    abv: number;
+    brandId: string;
+    id: string;
 }
 
-export type Brand = {
-    id: string,
-    name: string,
+export interface Brand {
+    id: string;
+    name: string;
 }
 
-export type Consumation = {
-    date: string,
-    beerId: string,
-    servingId: string,
-    units: number,
-    volume: number
+export interface Consumation {
+    date: string;
+    beerId: string;
+    servingId: string;
+    units: number;
+    volume: number;
 }
 
 export type ConsumationFilters = PagingFilters & {
     from?: string,
     to?: string,
     brandId?: string,
-    servingId?: string
-}
+    servingId?: string,
+};
 
-export type Serving = {
-    id: string,
-    name: string,
+export interface Serving {
+    id: string;
+    name: string;
 }

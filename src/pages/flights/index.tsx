@@ -1,60 +1,60 @@
-import React from 'react';
-import { Grid, Row, Col, Panel, ListGroup, ListGroupItem, Label, Checkbox } from 'react-bootstrap/lib';
-import { Marker, Polyline } from "react-google-maps";
-import FontAwesome from 'react-fontawesome';
-import Moment from 'react-moment';
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
+import React from 'react';
+import { Checkbox, Col, Grid, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap/lib';
+import FontAwesome from 'react-fontawesome';
+import { Marker, Polyline } from 'react-google-maps';
+import Moment from 'react-moment';
 
+import { boundMethod } from 'autobind-decorator';
 import api from '../../api/main';
 import { Map, Select } from '../../components';
-import { boundMethod } from 'autobind-decorator';
 
 class FlightsPage extends React.Component {
 
-    state = {
+    public state = {
         countByAirport: [],
         filters: {
             page: 1,
-            pageSize: 10
+            pageSize: 10,
         },
         flights: {
             count: 0,
-            items: []
+            items: [],
         },
         showFlights: false,
-        years: _.reverse(_.range(2000, moment().year() + 1))
-    }
+        years: _.reverse(_.range(2000, moment().year() + 1)),
+    };
 
-    componentDidMount() {
+    public componentDidMount() {
         this.filterYearChanged();
     }
 
     @boundMethod
-    filterYearChanged(year) {
+    public filterYearChanged(year) {
         const filters = {
             ...this.state.filters,
-            from: year ? moment().year(year).month(0).date(1).format("YYYY-MM-DD") : undefined,
-            to: year ? moment().year(year).month(11).date(31).format("YYYY-MM-DD") : undefined
+            from: year ? moment().year(year).month(0).date(1).format('YYYY-MM-DD') : undefined,
+            to: year ? moment().year(year).month(11).date(31).format('YYYY-MM-DD') : undefined,
         };
-        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
+        api.flight.getFlights(filters).then((flights) => this.setState({ flights }));
     }
 
     @boundMethod
-    toggleShowFlights() {
+    public toggleShowFlights() {
         this.setState({ showFlights: !this.state.showFlights });
     }
 
-    render() {
+    public render() {
         const flightsHeader = `Flights (${this.state.flights.count})`;
 
-        const airports = this.state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
+        const airports = this.state.countByAirport.map((airport) => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
             title={airport.by.name} />);
 
-        const flightPolylines = this.state.flights.items.map(flight => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
+        const flightPolylines = this.state.flights.items.map((flight) => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
             path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]} />);
 
-        const flights = this.state.flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
+        const flights = this.state.flights.items.map((flight) => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
             <Label bsStyle="primary" title={flight.origin.name}>{flight.origin.iata}</Label>&nbsp;
             <FontAwesome name="long-arrow-right" />&nbsp;
             <Label bsStyle="primary" title={flight.destination.name}>{flight.destination.iata}</Label>

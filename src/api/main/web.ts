@@ -1,11 +1,11 @@
 import * as api from '../config';
 
 function getTimeTotalByDay(filters) {
-    return api.get("web/time/total/byday", filters);
+    return api.get('web/time/total/byday', filters);
 }
 
-const web ={
-    getTimeTotalByDay
-}
+const web = {
+    getTimeTotalByDay,
+};
 
 export default web;

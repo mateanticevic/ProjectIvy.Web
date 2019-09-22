@@ -1,9 +1,9 @@
 import React from 'react';
+import { Button, Col, Modal, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import { Button, Row, Col, Modal } from 'react-bootstrap/lib';
 
-import ExpenseForm from './ExpenseForm';
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
+import ExpenseForm from './ExpenseForm';
 
 const ExpenseModal = (props) => {
 
@@ -26,7 +26,7 @@ const ExpenseModal = (props) => {
                     cards={props.cards}
                     files={props.files}
                     deleteFile={props.deleteFile}
-                    linkFile={expenseFile => props.linkFile(props.expense.id, expenseFile)}
+                    linkFile={(expenseFile) => props.linkFile(props.expense.id, expenseFile)}
                     vendorPois={props.vendorPois}
                     uploadFiles={props.uploadFiles}
                     onVendorChanged={props.onVendorChanged}
@@ -45,7 +45,6 @@ const ExpenseModal = (props) => {
                         }
                     </Col>
                 </Row>
-
 
             </Modal.Footer>
         </Modal>

@@ -1,19 +1,19 @@
 import React from 'react';
-import { Navbar, MenuItem, Nav, NavDropdown } from 'react-bootstrap/lib';
-import { browserHistory } from 'react-router-dom';
+import { MenuItem, Nav, Navbar, NavDropdown } from 'react-bootstrap/lib';
 import { LinkContainer } from 'react-router-bootstrap';
+import { browserHistory } from 'react-router-dom';
 
 import { User } from 'types/users';
 
-type Props = {
-  user?: User
+interface Props {
+  user?: User;
 }
 
 const NavigationBar = ({ user }: Props) => {
 
   function logout() {
-    localStorage.removeItem("token");
-    browserHistory.push("/login");
+    localStorage.removeItem('token');
+    browserHistory.push('/login');
   }
 
   const { firstName, lastName } = user || {};

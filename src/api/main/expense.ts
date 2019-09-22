@@ -1,15 +1,15 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("expense", filters);
+    return api.get('expense', filters);
 }
 
 function getCountByDay(filters) {
-    return api.get("expense/count/byday", filters);
+    return api.get('expense/count/byday', filters);
 }
 
 function getCountByMonth(filters) {
-    return api.get("expense/count/bymonth", filters);
+    return api.get('expense/count/bymonth', filters);
 }
 
 function getFiles(expenseId) {
@@ -17,27 +17,27 @@ function getFiles(expenseId) {
 }
 
 function getSum(filters) {
-    return api.get("expense/sum", filters);
+    return api.get('expense/sum', filters);
 }
 
 function getTypeCount(filters) {
-    return api.get("expense/type/count", filters);
+    return api.get('expense/type/count', filters);
 }
 
 function getVendorCount(filters) {
-    return api.get("expense/vendor/count", filters);
+    return api.get('expense/vendor/count', filters);
 }
 
 function getSumByMonth(filters) {
-    return api.get("expense/sum/bymonth", filters);
+    return api.get('expense/sum/bymonth', filters);
 }
 
 function getSumByYear(filters) {
-    return api.get("expense/sum/byyear", filters);
+    return api.get('expense/sum/byyear', filters);
 }
 
 function post(expense) {
-    return api.post("expense", expense);
+    return api.post('expense', expense);
 }
 
 function put(expense) {
@@ -60,7 +60,7 @@ const expense = {
     getSumByYear,
     post,
     put,
-    postFile
-}
+    postFile,
+};
 
 export default expense;

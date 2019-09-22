@@ -1,9 +1,9 @@
-import { Currency } from "./expenses";
+import { Currency } from './expenses';
 
-export type User = {
-    defaultCurrency: Currency,
-    firstName: string,
-    lastName: string,
-    email: string,
-    username: string
+export interface User {
+    defaultCurrency: Currency;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
 }

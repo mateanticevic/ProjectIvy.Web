@@ -10,7 +10,7 @@ function getLogBySession(carId, filters) {
 
 const car = {
     getLogLatest,
-    getLogBySession
+    getLogBySession,
 };
 
 export default car;

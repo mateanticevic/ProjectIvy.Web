@@ -1,11 +1,11 @@
 import * as api from '../config';
 
-function get(filter){
-    return api.get("city", filter);
+function get(filter) {
+    return api.get('city', filter);
 }
 
 const city = {
-    get
-}
+    get,
+};
 
 export default city;

@@ -1,11 +1,11 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("movie", filters);
+    return api.get('movie', filters);
 }
 
 const movie = {
-    get
-}
+    get,
+};
 
 export default movie;

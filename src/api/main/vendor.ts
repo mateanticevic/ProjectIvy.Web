@@ -1,7 +1,7 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("vendor", filters);
+    return api.get('vendor', filters);
 }
 
 function getPois(vendorId: string) {
@@ -10,7 +10,7 @@ function getPois(vendorId: string) {
 
 const vendor = {
     get,
-    getPois
-}
+    getPois,
+};
 
 export default vendor;

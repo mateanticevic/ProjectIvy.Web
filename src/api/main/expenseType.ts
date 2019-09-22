@@ -1,11 +1,11 @@
 import * as api from '../config';
 
 function get() {
-    return api.get("expenseType");
+    return api.get('expenseType');
 }
 
 const expenseType = {
-    get
-}
+    get,
+};
 
 export default expenseType;

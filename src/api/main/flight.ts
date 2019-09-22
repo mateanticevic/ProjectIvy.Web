@@ -10,7 +10,7 @@ function getFlights(filters) {
 
 const flight = {
     getCountByAirport,
-    getFlights
-}
+    getFlights,
+};
 
 export default flight;

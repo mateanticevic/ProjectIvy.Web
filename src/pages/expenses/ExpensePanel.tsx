@@ -1,12 +1,12 @@
 import React from 'react';
-import { Row, Col, Panel, Button } from 'react-bootstrap/lib';
+import { Button, Col, Panel, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
-import ExpenseTable from './ExpenseTable';
+import { Currency, Expense } from 'types/expenses';
+import { PagedItems, PagingFilters } from 'types/paging';
 import Pagination from '../../components/Pagination';
 import Spinner from '../../components/Spinner';
-import { Expense, Currency } from 'types/expenses';
-import { PagingFilters, PagedItems } from 'types/paging';
+import ExpenseTable from './ExpenseTable';
 
 type Props = PagingFilters & {
   expenses: PagedItems<Expense>,
@@ -17,11 +17,11 @@ type Props = PagingFilters & {
   onPageChange: () => void,
   onUnlink: () => void,
   serverPaging: boolean,
-  stats: any
-}
+  stats: any,
+};
 
 const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
-  
+
   const expensesHeader = `Expenses (${expenses.count})`;
 
   const items = serverPaging ? expenses.items : expenses.items.slice((page - 1) * pageSize, page * pageSize);

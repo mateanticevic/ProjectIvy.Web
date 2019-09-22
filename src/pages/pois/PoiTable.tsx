@@ -4,14 +4,14 @@ import Table from 'react-bootstrap/lib/Table';
 import { Poi } from '../../types/pois';
 import PoiRow from './PoiRow';
 
-type Props = {
+interface Props {
   pois: Poi[],
   addToTrip: (tripId: string) => void
-};
+}
 
 const PoiTable: React.SFC<Props> = ({ addToTrip, pois }) => {
 
-  const rows = pois.map(function (poi) {
+  const rows = pois.map(function(poi) {
     return <PoiRow key={poi.id} poi={poi} addToTrip={addToTrip} />;
   });
 

@@ -5,7 +5,7 @@ export function get(filters) {
 }
 
 const call = {
-    get
-}
+    get,
+};
 
 export default call;

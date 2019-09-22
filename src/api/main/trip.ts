@@ -1,20 +1,20 @@
-import * as api from '../config';
 import { TripBinding } from 'types/trips';
+import * as api from '../config';
 
 function get(filters) {
-    return api.get("trip", filters);
+    return api.get('trip', filters);
 }
 
 function getById(tripId: string) {
     return api.get(`trip/${tripId}`);
 }
 
-function deleteExpense(tripId: string, expenseId: string){
+function deleteExpense(tripId: string, expenseId: string) {
     return api.del(`trip/${tripId}/expense/${expenseId}`);
 }
 
 function post(trip: TripBinding) {
-    return api.post("trip", trip);
+    return api.post('trip', trip);
 }
 
 function postPoi(tripId: string, poiId: string) {
@@ -22,11 +22,11 @@ function postPoi(tripId: string, poiId: string) {
 }
 
 const trip = {
+    deleteExpense,
     get,
     getById,
-    deleteExpense,
     post,
-    postPoi
-}
+    postPoi,
+};
 
 export default trip;

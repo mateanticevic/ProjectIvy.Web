@@ -1,11 +1,11 @@
 import * as api from '../config';
 
 function get() {
-    return api.get("currency");
+    return api.get('currency');
 }
 
 const currency = {
-    get
-}
+    get,
+};
 
 export default currency;

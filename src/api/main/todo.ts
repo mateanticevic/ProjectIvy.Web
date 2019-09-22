@@ -1,21 +1,21 @@
 import * as api from '../config';
 
 function get(filters) {
-    return api.get("todo", filters);
+    return api.get('todo', filters);
 }
 
 function post(todo) {
-    return api.post("todo", todo);
+    return api.post('todo', todo);
 }
 
 function postDone(id) {
     return api.post(`todo/${id}/done`);
 }
 
-const todo= {
+const todo = {
     get,
     post,
-    postDone
-}
+    postDone,
+};
 
 export default todo;

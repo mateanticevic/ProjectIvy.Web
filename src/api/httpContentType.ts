@@ -1,4 +1,4 @@
 export const httpContentType = {
-    JSON: "application/json",
-    TEXT: "text/plain"
+    JSON: 'application/json',
+    TEXT: 'text/plain',
 };

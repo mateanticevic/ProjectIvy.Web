@@ -4,8 +4,9 @@ import Spinner from './Spinner';
 
 const TableWithSpinner = ({ children, isLoading }) => {
 
-    if (isLoading)
+    if (isLoading) {
         return <Spinner size="2x" />;
+    }
 
     return (
         <Table responsive>
@@ -14,6 +15,6 @@ const TableWithSpinner = ({ children, isLoading }) => {
             </tbody>
         </Table>
     );
-}
+};
 
 export default TableWithSpinner;

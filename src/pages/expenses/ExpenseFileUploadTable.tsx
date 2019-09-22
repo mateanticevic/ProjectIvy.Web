@@ -3,8 +3,8 @@ import Table from 'react-bootstrap/lib/Table';
 import ExpenseFileUploadRow from './ExpenseFileUploadRow';
 
 const ExpenseFileUploadTable = (props) => {
-  
-  const rows = props.files.map(function(file){
+
+  const rows = props.files.map(function(file) {
     return <ExpenseFileUploadRow file={file} linkFile={props.linkFile} deleteFile={props.deleteFile} fileTypes={props.fileTypes} />;
   });
 

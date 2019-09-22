@@ -1,4 +1,4 @@
-export type Trip = {
+export interface Trip {
     id: string;
     name: string;
     timestampEnd: Date;
@@ -11,9 +11,9 @@ export type Trip = {
     totalSpent: number;
 }
 
-export type TripBinding = {
+export interface TripBinding {
     name: string;
-    cityIds: string[],
+    cityIds: string[];
     timestampEnd: Date;
     timestampStart: Date;
 }

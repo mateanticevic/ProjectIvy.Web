@@ -1,18 +1,18 @@
-import React from 'react';
+import { faFile } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
+import React from 'react';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap/lib';
-import { faFile } from '@fortawesome/free-regular-svg-icons'
 
+import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './ExpenseTypeLabel';
 import VendorLabel from './VendorLabel';
-import { Expense } from 'types/expenses';
 
-type Props = {
-  expense: Expense,
-  onEdit?: () => void,
-  onUnlink?: () => void
+interface Props {
+  expense: Expense;
+  onEdit?: () => void;
+  onUnlink?: () => void;
 }
 
 const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {

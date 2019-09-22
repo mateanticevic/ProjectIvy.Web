@@ -1,12 +1,12 @@
-import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React from 'react';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const OnlineGraph = (props) => {
 
-    let data = _.map(props.data, x => {
-        return { hours: _.round(x.seconds / 3600, 1), day: moment(x.day).format("dddd Do") };
+    let data = _.map(props.data, (x) => {
+        return { hours: _.round(x.seconds / 3600, 1), day: moment(x.day).format('dddd Do') };
     });
     data = _.reverse(data);
 

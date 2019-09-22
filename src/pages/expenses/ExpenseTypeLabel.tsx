@@ -1,11 +1,11 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
 import { Label } from 'react-bootstrap/lib';
+import FontAwesome from 'react-fontawesome';
 
 import { ExpenseType } from 'types/expenses';
 
-type Props = {
-    expenseType: ExpenseType
+interface Props {
+    expenseType: ExpenseType;
 }
 
 const ExpenseTypeLabel = ({ expenseType }: Props) => {
@@ -15,6 +15,6 @@ const ExpenseTypeLabel = ({ expenseType }: Props) => {
             {expenseType.icon && <FontAwesome name={expenseType.icon} />} {expenseType.name}
         </Label>
     );
-}
+};
 
 export default ExpenseTypeLabel;

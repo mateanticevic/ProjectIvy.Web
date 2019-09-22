@@ -1,11 +1,11 @@
 import * as api from '../config';
 
 function get() {
-    return api.get("card");
+    return api.get('card');
 }
 
 const card = {
-    get
-}
+    get,
+};
 
 export default card;

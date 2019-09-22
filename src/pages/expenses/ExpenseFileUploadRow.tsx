@@ -1,8 +1,8 @@
+import filesize from 'filesize';
 import React from 'react';
 import { Button, FormControl } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import Select from '../../components/Select';
-import filesize from 'filesize';
 
 class ExpenseFileUploadRow extends React.Component {
 
@@ -11,7 +11,7 @@ class ExpenseFileUploadRow extends React.Component {
 
         this.state = {
             name: '',
-            typeId: ''
+            typeId: '',
         };
 
         this.onClickLink = this.onClickLink.bind(this);
@@ -19,25 +19,25 @@ class ExpenseFileUploadRow extends React.Component {
         this.onTypeIdChanged = this.onTypeIdChanged.bind(this);
     }
 
-    onClickLink(){
+    public onClickLink() {
         const expenseFile = {
             file: this.props.file,
             name: this.state.name,
-            type: this.state.typeId
+            type: this.state.typeId,
         };
 
         this.props.linkFile(expenseFile);
     }
 
-    onNameChanged(value){
+    public onNameChanged(value) {
         this.setState({...this.state, name: value});
     }
 
-    onTypeIdChanged(typeId){
-        this.setState({...this.state, typeId: typeId});
+    public onTypeIdChanged(typeId) {
+        this.setState({...this.state, typeId});
     }
 
-    render(){
+    public render() {
 
         const { file } = this.props;
 
@@ -46,7 +46,7 @@ class ExpenseFileUploadRow extends React.Component {
                 <td>{file.type}</td>
                 <td>{filesize(file.size)}</td>
                 <td>
-                    <FormControl value={this.state.name} placeholder="Name" type="text" onChange={e => this.onNameChanged(e.target.value)} />
+                    <FormControl value={this.state.name} placeholder="Name" type="text" onChange={(e) => this.onNameChanged(e.target.value)} />
                 </td>
                 <td>
                     <Select options={this.props.fileTypes} onChange={this.onTypeIdChanged} />

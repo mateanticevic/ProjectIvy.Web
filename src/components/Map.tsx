@@ -1,14 +1,14 @@
-import { default as React } from "react";
+import { default as React } from 'react';
 import GoogleMaps from './GoogleMaps';
 
-type Props = {
-  map: any,
-  onClick: any,
-  onDragEnd: any,
-  defaultZoom: number,
-  defaultCenter: any,
-  children: any[]
-};
+interface Props {
+  map: any;
+  onClick: any;
+  onDragEnd: any;
+  defaultZoom: number;
+  defaultCenter: any;
+  children: any[];
+}
 
 const Map = ({ map, onDragEnd, onClick, defaultZoom, defaultCenter, children }: Props) => {
   return (

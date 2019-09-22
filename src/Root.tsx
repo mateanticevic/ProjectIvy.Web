@@ -3,37 +3,37 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import BeerPage from './pages/beer';
+import { User } from 'types/users';
+import api from './api/main';
 import { NavigationBar } from './components';
+import BeerPage from './pages/beer';
 import CallsPage from './pages/calls';
+import DashboardPage from './pages/dashboard';
 import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
 import LoginPage from './pages/login';
 import PoisPage from './pages/pois';
 import ToDosPage from './pages/todos';
 import TrackingPage from './pages/tracking';
-import TripsPage from './pages/trips';
 import TripDetailsPage from './pages/trip-details';
-import DashboardPage from './pages/dashboard';
-import { User } from 'types/users';
-import api from './api/main';
+import TripsPage from './pages/trips';
 
-type State = {
-  user?: User
+interface State {
+  user?: User;
 }
 
 export default class Root extends Component<{}, State> {
 
-  state: State = {
-    user: undefined
+  public state: State = {
+    user: undefined,
+  };
+
+  public componentDidMount() {
+    api.user.get().then((user) => this.setState({ user }));
   }
 
-  componentDidMount() {
-    api.user.get().then(user => this.setState({ user }));
-  }
-
-  render() {
-    const isLoggedIn = window.localStorage.getItem("token") != undefined;
+  public render() {
+    const isLoggedIn = window.localStorage.getItem('token') != undefined;
 
     return (
       <BrowserRouter>

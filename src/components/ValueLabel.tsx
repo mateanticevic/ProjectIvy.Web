@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ValueLabel = props => {
+const ValueLabel = (props) => {
 
     return (
         <div>

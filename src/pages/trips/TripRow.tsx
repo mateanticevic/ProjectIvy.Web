@@ -1,9 +1,9 @@
-import React from 'react';
-import Moment from 'react-moment';
 import moment from 'moment';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
-import Label from 'react-bootstrap/lib/Label';
+import React from 'react';
 import { OverlayTrigger } from 'react-bootstrap/lib';
+import Label from 'react-bootstrap/lib/Label';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+import Moment from 'react-moment';
 
 const TripRow = (props) => {
 
@@ -13,8 +13,8 @@ const TripRow = (props) => {
     </Tooltip>
   );
 
-  const countryFlags = props.trip.countries.map(function(country){
-    let countryClassName = "flag-icon flag-icon-" + country.id.toLowerCase();
+  const countryFlags = props.trip.countries.map(function(country) {
+    const countryClassName = 'flag-icon flag-icon-' + country.id.toLowerCase();
     return <span key={country.id} title={country.name}><span className={countryClassName}/>&nbsp;</span>;
   });
 
@@ -22,7 +22,7 @@ const TripRow = (props) => {
   <tr key={props.trip.id} className="cursor-pointer" onClick={() => window.location.assign(`/trips/${props.trip.id}`)}>
       <td>
         <OverlayTrigger placement="left" overlay={yearTooltip}>
-          <Label bsStyle={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? "success" : "primary"}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
+          <Label bsStyle={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? 'success' : 'primary'}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
         </OverlayTrigger>
       </td>
       <td>{countryFlags}</td>

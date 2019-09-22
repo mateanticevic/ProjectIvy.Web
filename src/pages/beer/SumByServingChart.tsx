@@ -1,25 +1,25 @@
 import React from 'react';
-import { PieChart, Pie, ResponsiveContainer, Tooltip } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-type DataPoint = {
-    name: string,
-    value: string,
+interface DataPoint {
+    name: string;
+    value: string;
 }
 
-type Props = {
-    data: DataPoint[]
+interface Props {
+    data: DataPoint[];
 }
 
 export const SumByServingChart = ({ data }: Props) => {
 
-    const RADIAN = Math.PI / 180; 
+    const RADIAN = Math.PI / 180;
 
     const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-     const x  = cx + radius * Math.cos(-midAngle * RADIAN);
-     const y = cy  + radius * Math.sin(-midAngle * RADIAN);
-    
-     return (
+        const x  = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy  + radius * Math.sin(-midAngle * RADIAN);
+
+        return (
        <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
            {`${data[index].name} ${Math.ceil(data[index].value / 1000)}L`}
        </text>
@@ -33,4 +33,4 @@ export const SumByServingChart = ({ data }: Props) => {
             </PieChart>
         </ResponsiveContainer>
     );
-}
+};

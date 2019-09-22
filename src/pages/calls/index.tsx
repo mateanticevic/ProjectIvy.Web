@@ -1,59 +1,59 @@
-import React from "react";
-import { Grid, Col, Panel, Table, Row } from "react-bootstrap/lib";
+import React from 'react';
+import { Col, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
 
-import api from "../../api/main";
-import { boundMethod } from "autobind-decorator";
-import Moment from "react-moment";
-import { Call } from "types/calls";
-import { Pagination } from '../../components'
+import { boundMethod } from 'autobind-decorator';
+import Moment from 'react-moment';
+import { Call } from 'types/calls';
+import api from '../../api/main';
+import { Pagination } from '../../components';
 import * as formatHelper from '../../utils/formatHelper';
 
-type State = {
+interface State {
     calls: {
         count: number,
-        items: Call[]
-    },
+        items: Call[],
+    };
     filters: {
         page: number,
-        pageSize: number
-    }
+        pageSize: number,
+    };
 }
 
 export default class CallsPage extends React.Component {
 
-    state: State = {
+    public state: State = {
         calls: {
             count: 0,
-            items: []
+            items: [],
         },
         filters: {
             page: 1,
-            pageSize: 10
-        }
-    }
+            pageSize: 10,
+        },
+    };
 
-    componentDidMount() {
+    public componentDidMount() {
         this.fetchCalls();
     }
 
-    fetchCalls() {
-        api.call.get(this.state.filters).then(calls => this.setState({ calls }));
+    public fetchCalls() {
+        api.call.get(this.state.filters).then((calls) => this.setState({ calls }));
     }
 
     @boundMethod
-    onFiltersChange(keyValue) {
+    public onFiltersChange(keyValue) {
         this.setState({
             filters: {
                 ...this.state.filters,
-                ...keyValue
-            }
+                ...keyValue,
+            },
         }, this.fetchCalls);
     }
 
     @boundMethod
-    renderCalls() {
+    public renderCalls() {
 
-        return this.state.calls.items.map(call => (<tr>
+        return this.state.calls.items.map((call) => (<tr>
             <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
             <td>{formatHelper.time(call.duration)}</td>
@@ -64,7 +64,7 @@ export default class CallsPage extends React.Component {
         ));
     }
 
-    render() {
+    public render() {
 
         const { calls, filters } = this.state;
 
@@ -85,7 +85,7 @@ export default class CallsPage extends React.Component {
                                 <Pagination
                                     page={filters.page}
                                     pages={pages}
-                                    onPageChange={page => this.onFiltersChange({ page })}
+                                    onPageChange={(page) => this.onFiltersChange({ page })}
                                 />
                             </Panel.Body>
                         </Panel>

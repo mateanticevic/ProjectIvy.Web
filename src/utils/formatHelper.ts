@@ -1,33 +1,30 @@
 export function number(number) {
-    if (number < 1000){
+    if (number < 1000) {
         return {
             exponent: '',
-            number: (number * 100) % 100 == 0 ? number : number.toFixed(2)
+            number: (number * 100) % 100 == 0 ? number : number.toFixed(2),
         };
-    }
-    else if (number < 10000) {
+    } else if (number < 10000) {
         return {
             exponent: 'k',
-            number: (number/1000).toFixed(1)
+            number: (number / 1000).toFixed(1),
         };
-    }
-    else {
+    } else {
         return {
             exponent: 'k',
-            number: Math.round(number/1000)
+            number: Math.round(number / 1000),
         };
     }
 }
 
 export function time(seconds) {
-    if (seconds >= 3600){
-        const hours = Math.floor(seconds/3600);
+    if (seconds >= 3600) {
+        const hours = Math.floor(seconds / 3600);
         const secondsLeft = seconds % 3600;
 
         return secondsLeft > 0 ? `${hours}h ${time(secondsLeft)}` : `${hours}h`;
-    }
-    else if (seconds >= 60){
-        const minutes = Math.floor(seconds/60);
+    } else if (seconds >= 60) {
+        const minutes = Math.floor(seconds / 60);
         const secondsLeft = seconds % 60;
 
         return secondsLeft > 0 ? `${minutes}m ${time(secondsLeft)}` : `${minutes}m`;
