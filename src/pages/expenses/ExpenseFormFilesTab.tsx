@@ -10,7 +10,7 @@ const ExpenseFormFilesTab = ({expense, uploadFiles, files, linkFile, deleteFile,
         <div>
             <Row>
                 <Col lg={12}>
-                    <ExpenseFileTable files={expense.files} />
+                    <ExpenseFileTable files={files} />
                 </Col>
             </Row>
             <Row>

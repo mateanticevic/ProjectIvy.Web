@@ -19,7 +19,7 @@ interface State {
   cards: any[];
   currencies: Currency[];
   defaultCurrency: Currency;
-  expense: Expense;
+  expense: Partial<ExpenseBinding>;
   expenses: Expense[];
   expensesAreLoading: boolean;
   files: any[];
@@ -94,9 +94,10 @@ class ExpensesPage extends Page<{}, State> {
     api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
     api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
     api.currency.get().then(currencies => this.setState({ currencies }));
-    api.expenseType.get().then(types => this.setState({ types }));
     api.vendor.get().then(vendors => this.setState({ vendors: vendors.items }));
     api.user.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
+
+    api.expenseType.get().then(types => this.setState({ types }));
   }
 
   @boundMethod
@@ -109,41 +110,35 @@ class ExpensesPage extends Page<{}, State> {
     api.expense.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
   }
 
-  public newExpense(): Expense {
+  public newExpense(): Partial<ExpenseBinding> {
     return {
       amount: 0,
+      date: moment().format('YYYY-MM-DD'),
       comment: '',
-      currency: this.state.defaultCurrency,
+      currencyId: this.state.defaultCurrency.id,
+      expenseTypeId: this.state.types[0].id
     };
   }
 
   @boundMethod
-  public onExpenseSave(closeModal: boolean) {
-    this.setState({ isSavingExpense: true });
-
-    const saveMethod = this.state.expense.id ? expenseApi.put : expenseApi.post;
-
-    saveMethod(this.getExpenseBinding()).then(() => {
-      this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
-      this.onFiltersChanged();
-    })
-      .catch(() => this.setState({ isSavingExpense: false }));
-  }
-
-  @boundMethod
-  public onExpenseChanged(expenseValue) {
+  public onExpenseChanged(expenseValue: ExpenseBinding) {
     this.setState({
       expense: {
         ...this.state.expense,
         ...expenseValue,
       },
     });
+
+    if (expenseValue && expenseValue.vendorId){
+      this.onVendorChange(expenseValue.vendorId);
+    }
   }
 
   @boundMethod
-  public onExpenseEdit(expense) {
+  public onExpenseEdit(expense: Expense) {
     this.setState({
-      expense,
+      expense: this.toExpenseBinding(expense),
+      files: expense.files,
       isModalOpen: true,
     });
   }
@@ -154,6 +149,19 @@ class ExpensesPage extends Page<{}, State> {
       expense: this.newExpense(),
       isModalOpen: true,
     });
+  }
+
+  @boundMethod
+  public onExpenseSave(closeModal: boolean) {
+    this.setState({ isSavingExpense: true });
+
+    const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
+
+    saveMethod(this.state.expense).then(() => {
+      this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
+      this.onFiltersChanged();
+    })
+      .catch(() => this.setState({ isSavingExpense: false }));
   }
 
   @boundMethod
@@ -190,12 +198,17 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
+  public onVendorChange(vendorId: string){
+    api.vendor.getPois(vendorId)
+    .then(vendorPois => this.setState({ vendorPois }));
+  }
+
+  @boundMethod
   public onVendorSearch(value, callback) {
     api.vendor.get({ search: value, pageSize: 5 }).then((vendors) => callback(vendors.items.map((vendor) => ({ value: vendor.id, label: vendor.name }))));
   }
 
-  public getExpenseBinding(): ExpenseBinding {
-    const e = this.state.expense;
+  public toExpenseBinding(e: Expense): ExpenseBinding {
 
     return {
       amount: e.amount,
@@ -204,6 +217,10 @@ class ExpensesPage extends Page<{}, State> {
       currencyId: e.currency.id,
       expenseTypeId: e.expenseType.id,
       date: e.date,
+      timestamp: e.timestamp,
+      parentCurrencyId: e.parentCurrency ? e.parentCurrency.id : undefined,
+      parentCurrencyExchangeRate: e.parentCurrencyExchangeRate,
+      modified: e.modified,
       id: e.id,
       paymentTypeId: e.paymentType.id,
       poiId: e.poi ? e.poi.id : undefined,
@@ -310,7 +327,7 @@ class ExpensesPage extends Page<{}, State> {
           onVendorSearch={this.onVendorSearch}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
-          onVendorChanged={() => { }}
+          onVendorChanged={this.onVendorChange}
           uploadFiles={() => { }}
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onExpenseChanged} />

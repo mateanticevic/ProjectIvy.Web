@@ -34,8 +34,12 @@ export interface ExpenseBinding {
     date: string;
     expenseTypeId: string;
     id: string;
+    modified: string;
     paymentTypeId: string;
+    parentCurrencyExchangeRate?: number,
+    parentCurrencyId?: string;
     poiId?: string;
+    timestamp: string;
     vendorId?: string;
 }
 
