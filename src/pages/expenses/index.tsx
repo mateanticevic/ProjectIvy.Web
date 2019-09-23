@@ -90,13 +90,13 @@ class ExpensesPage extends Page<{}, State> {
 
   public componentDidMount() {
     this.onFiltersChanged();
-    api.card.get().then((cards) => this.setState({ cards }));
-    api.common.getExpenseFileTypes().then((fileTypes) => this.setState({ fileTypes }));
-    api.common.getPaymentTypes().then((paymentTypes) => this.setState({ paymentTypes }));
-    api.currency.get().then((currencies) => this.setState({ currencies }));
-    api.expenseType.get().then((types) => this.setState({ types }));
-    api.vendor.get().then((vendors) => this.setState({ vendors: vendors.items }));
-    api.user.get().then((user) => this.setState({ defaultCurrency: user.defaultCurrency }));
+    api.card.get().then(cards => this.setState({ cards }));
+    api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
+    api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
+    api.currency.get().then(currencies => this.setState({ currencies }));
+    api.expenseType.get().then(types => this.setState({ types }));
+    api.vendor.get().then(vendors => this.setState({ vendors: vendors.items }));
+    api.user.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
   }
 
   @boundMethod

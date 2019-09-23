@@ -6,8 +6,6 @@ import Datetime from 'react-datetime';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import Select from '../../components/Select';
-
 const ExpenseFilters = (props) => {
 
    const colourOptions = [
