@@ -23,7 +23,7 @@ export function queryStringToJson(queryString: string) {
 
 function objectToArray(parent: string, json: any) {
     return Object.keys(json).map(function(key) {
-        return parent + '.' + encodeURIComponent(key) + '=' +
+        return parent + '=' +
             encodeURIComponent(json[key]);
     }).join('&');
 }
