@@ -194,10 +194,6 @@ class BeerPage extends Page<{}, State> {
             <td>{consumation.volume / 1000}L</td>
         </tr>);
 
-        const loadBeers = (inputValue, callback) => {
-            api.beer.get({ search: inputValue }).then((beers) => callback(beers.items.map((beer) => ({ value: beer.id, label: beer.name }))));
-        };
-
         const topBeers = this.state.topBeers.map((beer) => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
@@ -313,22 +309,24 @@ class BeerPage extends Page<{}, State> {
                     consumation={this.state.consumation}
                     servings={this.state.servings}
                     isOpen={this.state.consumationModalOpen}
-                    loadBeers={loadBeers}
                     onBrandChange={this.onConsumationBrandChange}
                     onChange={this.onConsumationChange}
                     onClose={() => this.setState({ consumationModalOpen: false })}
-                    onSave={this.addConsumation} />
+                    onSave={this.addConsumation}
+                />
                 <BeerModal
                     isOpen={this.state.beerModalOpen}
                     brands={this.state.brands}
                     onChange={this.onBeerChange}
                     onClose={() => this.setState({ beerModalOpen: false })}
-                    onSave={this.addBeer} />
+                    onSave={this.addBeer}
+                />
                 <BrandModal
                     isOpen={this.state.brandModalOpen}
                     onChange={this.onBrandChange}
                     onClose={() => this.setState({ brandModalOpen: false })}
-                    onSave={this.addBrand} />
+                    onSave={this.addBrand}
+                />
             </Grid>
         );
     }

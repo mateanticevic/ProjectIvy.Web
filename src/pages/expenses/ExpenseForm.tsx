@@ -2,9 +2,11 @@ import React from 'react';
 import { Col, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Row, Tab, Tabs } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
+
 import Select from '../../components/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 import { ExpenseBinding } from 'types/expenses';
+import { vendorLoader } from '../../utils/selectLoaders';
 
 type Props = {
   cards: any,
@@ -18,12 +20,11 @@ type Props = {
   linkFile: any,
   onChange: any,
   onVendorChanged: any,
-  onVendorSearch: any,
   uploadFiles: any,
   vendorPois: any
 }
 
-const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, onVendorSearch, paymentTypes, uploadFiles, vendorPois, linkFile }: Props) => {
+const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFiles, vendorPois, linkFile }: Props) => {
 
 
   return (
@@ -55,7 +56,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <ControlLabel>Vendor</ControlLabel>
               <AsyncSelect
-                loadOptions={onVendorSearch}
+                loadOptions={vendorLoader}
                 onChange={x => onChange({ vendorId: x.value })}
                 defaultValue={{value: expense.vendorId, label: expense.vendorId}}
                 defaultOptions

@@ -203,11 +203,6 @@ class ExpensesPage extends Page<{}, State> {
     .then(vendorPois => this.setState({ vendorPois }));
   }
 
-  @boundMethod
-  public onVendorSearch(value, callback) {
-    api.vendor.get({ search: value, pageSize: 5 }).then((vendors) => callback(vendors.items.map((vendor) => ({ value: vendor.id, label: vendor.name }))));
-  }
-
   public toExpenseBinding(e: Expense): ExpenseBinding {
 
     return {
@@ -243,7 +238,6 @@ class ExpensesPage extends Page<{}, State> {
                     <ExpenseFilters
                       currencies={this.state.currencies}
                       vendors={this.state.vendors}
-                      onVendorSearch={this.onVendorSearch}
                       types={this.state.types}
                       filters={this.state.filters}
                       onChange={this.onFiltersChanged} />
@@ -324,7 +318,6 @@ class ExpensesPage extends Page<{}, State> {
           files={this.state.files}
           linkFile={(expenseId, expenseFile) => this.linkExpenseFile(expenseId, expenseFile, this.state.filters)}
           deleteFile={this.deleteFile}
-          onVendorSearch={this.onVendorSearch}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
           onVendorChanged={this.onVendorChange}

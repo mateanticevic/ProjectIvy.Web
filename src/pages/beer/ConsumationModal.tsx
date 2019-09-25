@@ -6,6 +6,7 @@ import AsyncSelect from 'react-select/async';
 
 import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from '../../components/Select';
+import { beerLoader } from '../../utils/selectLoaders';
 
 interface Props {
     beers: Beer[];
@@ -13,17 +14,16 @@ interface Props {
     consumation: Consumation;
     isOpen: boolean;
     servings: Serving[];
-    loadBeers(value, callback): void;
     onBrandChange(brandId: string): void;
     onChange(beerValue: Partial<Consumation>): void;
     onClose(): void;
+    onSave(): void;
 }
 
-const ConsumationModal = (props: Props) => {
-    const { consumation, servings } = props;
+const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, servings }: Props) => {
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} bsSize="sm">
+        <Modal show={isOpen} onHide={onClose} bsSize="sm">
             <Modal.Header closeButton>
                 <Modal.Title>New consumation</Modal.Title>
             </Modal.Header>
@@ -33,7 +33,7 @@ const ConsumationModal = (props: Props) => {
                     <InputGroup>
                         <Datetime
                             dateFormat="YYYY-MM-DD"
-                            onChange={(x) => props.onChange({ date: x.format('YYYY-MM-DD') })}
+                            onChange={(x) => onChange({ date: x.format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
                         <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
@@ -42,29 +42,29 @@ const ConsumationModal = (props: Props) => {
                 <FormGroup>
                     <ControlLabel>Beer</ControlLabel>
                     <AsyncSelect
-                        loadOptions={props.loadBeers}
-                        onChange={(x) => props.onChange({ beerId: x.value })}
+                        loadOptions={beerLoader}
+                        onChange={(x) => onChange({ beerId: x.value })}
                         defaultOptions
                     />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>
-                    <Select options={servings} hideDefaultOption={true} onChange={(servingId) => props.onChange({ servingId })} />
+                    <Select options={servings} hideDefaultOption={true} onChange={(servingId) => onChange({ servingId })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Volume</ControlLabel>
                     <InputGroup>
-                        <FormControl type="number" onChange={(x) => props.onChange({ volume: x.target.value })} />
+                        <FormControl type="number" onChange={(x) => onChange({ volume: x.target.value })} />
                         <InputGroup.Addon>ml</InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Units</ControlLabel>
-                    <FormControl type="number" onChange={(x) => props.onChange({ units: x.target.value })} />
+                    <FormControl type="number" onChange={(x) => onChange({ units: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block bsStyle="primary" onClick={props.onSave}>
+                <Button block bsStyle="primary" onClick={onSave}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>
