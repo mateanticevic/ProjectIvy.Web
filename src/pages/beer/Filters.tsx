@@ -1,10 +1,19 @@
 import React from 'react';
 import { ControlLabel, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
+import AsyncSelect from 'react-select/async';
 
 import Select from '../../components/Select';
+import { beerLoader } from '../../utils/selectLoaders';
 
-const Filters = (props) => {
+type Props = {
+    brands: any;
+    filters: any;
+    servings: any;
+    onChange: any;
+}
+
+const Filters = ({ brands, filters, onChange, servings }: Props) => {
 
     return (
         <React.Fragment>
@@ -14,8 +23,8 @@ const Filters = (props) => {
                     <Datetime
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={(x) => props.onChange({ from: x.format('YYYY-MM-DD') })}
-                        value={props.filters.from} />
+                        onChange={(x) => onChange({ from: x.format('YYYY-MM-DD') })}
+                        value={filters.from} />
                     <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
@@ -25,17 +34,25 @@ const Filters = (props) => {
                     <Datetime
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={(x) => props.onChange({ to: x.format('YYYY-MM-DD') })} />
+                        onChange={(x) => onChange({ to: x.format('YYYY-MM-DD') })} />
                     <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Brand</ControlLabel>
-                <Select options={props.brands} onChange={(id) => props.onChange({ brandId: id })} />
+                <Select options={brands} onChange={(id) => onChange({ brandId: id })} />
+            </FormGroup>
+            <FormGroup>
+                <ControlLabel>Beer</ControlLabel>
+                <AsyncSelect
+                    loadOptions={beerLoader}
+                    onChange={(x) => onChange({ beerId: x.value })}
+                    defaultOptions
+                />
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Serving</ControlLabel>
-                <Select options={props.servings} onChange={(x) => props.onChange({ serving: x })} />
+                <Select options={servings} onChange={(x) => onChange({ serving: x })} />
             </FormGroup>
         </React.Fragment>
     );
