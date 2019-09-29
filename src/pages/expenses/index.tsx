@@ -129,7 +129,7 @@ class ExpensesPage extends Page<{}, State> {
       },
     });
 
-    if (expenseValue && expenseValue.vendorId){
+    if (expenseValue && expenseValue.vendorId) {
       this.onVendorChange(expenseValue.vendorId);
     }
   }
@@ -198,9 +198,9 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
-  public onVendorChange(vendorId: string){
+  public onVendorChange(vendorId: string) {
     api.vendor.getPois(vendorId)
-    .then(vendorPois => this.setState({ vendorPois }));
+      .then(vendorPois => this.setState({ vendorPois }));
   }
 
   public toExpenseBinding(e: Expense): ExpenseBinding {
@@ -283,8 +283,10 @@ class ExpensesPage extends Page<{}, State> {
             <Row>
               <Col lg={12}>
                 <Panel>
-                  <Panel.Heading>Count</Panel.Heading>
-                  <Panel.Body>
+                  <Panel.Heading>
+                    <Panel.Toggle>Count</Panel.Toggle>
+                  </Panel.Heading>
+                  <Panel.Body collapsible>
                     <ExpenseCountGraph data={this.state.graphs.count} />
                   </Panel.Body>
                 </Panel>
@@ -293,8 +295,10 @@ class ExpensesPage extends Page<{}, State> {
             <Row>
               <Col lg={12}>
                 <Panel>
-                  <Panel.Heading>Sum</Panel.Heading>
-                  <Panel.Body>
+                  <Panel.Heading>
+                    <Panel.Toggle>Sum</Panel.Toggle>
+                  </Panel.Heading>
+                  <Panel.Body collapsible>
                     <ChartBar unit=" kn"
                       data={chartSumData} />
                   </Panel.Body>

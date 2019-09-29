@@ -6,7 +6,7 @@ import Select from '../../components/Select';
 
 const ExpenseFiltersMore = (props) => {
   return (
-    <div>
+    <React.Fragment>
       <Row>
         <Col lg={12}>
           <ControlLabel>Description</ControlLabel>
@@ -81,7 +81,7 @@ const ExpenseFiltersMore = (props) => {
           </FormGroup>
         </Col>
       </Row>
-    </div>
+    </React.Fragment>
   );
 };
 
