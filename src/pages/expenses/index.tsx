@@ -2,10 +2,9 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
+import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
-
-import { boundMethod } from 'autobind-decorator';
 import { Currency, Expense, ExpenseBinding } from 'types/expenses';
 import { ChartBar } from '../../components';
 import { Page } from '../Page';
@@ -14,6 +13,7 @@ import ExpenseFilters from './ExpenseFilters';
 import ExpenseFiltersMore from './ExpenseFiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
+import { CountByVendorChart } from './CountByVendorChart';
 
 interface State {
   cards: any[];
@@ -44,6 +44,7 @@ class ExpensesPage extends Page<{}, State> {
     defaultCurrency: {},
     graphs: {
       count: [],
+      countByVendor: [],
       sumByYear: [],
       sum: [],
     },
@@ -192,6 +193,19 @@ class ExpensesPage extends Page<{}, State> {
       },
     }));
 
+    api.expense.getCountByVendor(filters).then(data => {
+      const top = _.take(_.filter(data.items, item => item.by), 5);
+      //const other =  _.rest(items, 6).map(x => x.count)
+
+      console.log(top);
+      this.setState({
+        graphs: {
+          ...this.state.graphs,
+          countByVendor: top.map(x => { return { name: x.by.name, value: x.count } })
+        }
+      });
+    });
+
     api.expense.getSum(filters).then((sum) => this.setState({ stats: { ...this.state.stats, sum } }));
     api.expense.getTypeCount(filters).then((typeCount) => this.setState({ stats: { ...this.state.stats, typeCount } }));
     api.expense.getVendorCount(filters).then((vendorCount) => this.setState({ stats: { ...this.state.stats, vendorCount } }));
@@ -305,7 +319,27 @@ class ExpensesPage extends Page<{}, State> {
                 </Panel>
               </Col>
             </Row>
-
+            <Row>
+            <Col lg={6}>
+                <Panel>
+                  <Panel.Heading>
+                    <Panel.Toggle>By Type</Panel.Toggle>
+                  </Panel.Heading>
+                  <Panel.Body collapsible>
+                  </Panel.Body>
+                </Panel>
+              </Col>
+              <Col lg={6}>
+                <Panel>
+                  <Panel.Heading>
+                    <Panel.Toggle>By Vendor</Panel.Toggle>
+                  </Panel.Heading>
+                  <Panel.Body collapsible>
+                    <CountByVendorChart data={this.state.graphs.countByVendor} />
+                  </Panel.Body>
+                </Panel>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <ExpenseModal
