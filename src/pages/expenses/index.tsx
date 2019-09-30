@@ -44,6 +44,7 @@ class ExpensesPage extends Page<{}, State> {
     defaultCurrency: {},
     graphs: {
       count: [],
+      countByType: [],
       countByVendor: [],
       sumByYear: [],
       sum: [],
@@ -202,15 +203,33 @@ class ExpensesPage extends Page<{}, State> {
       const top = _.take(_.filter(data.items, item => item.by), 3);
       const other = _.difference(data.items, top);
 
-      console.log(_.sum(other.map(x => x.count)));
-
       const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
-      chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+
+      if (other.length > 0){
+        chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+      }
 
       this.setState({
         graphs: {
           ...this.state.graphs,
           countByVendor: chartData
+        }
+      });
+    });
+
+    api.expense.getCountByType(pageAllFilters).then(data => {
+      const top = _.take(_.filter(data.items, item => item.by), 3);
+      const other = _.difference(data.items, top);
+
+      const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+      if (other.length > 0) {
+        chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+      }
+
+      this.setState({
+        graphs: {
+          ...this.state.graphs,
+          countByType: chartData
         }
       });
     });
@@ -329,12 +348,13 @@ class ExpensesPage extends Page<{}, State> {
               </Col>
             </Row>
             <Row>
-            <Col lg={6}>
+              <Col lg={6}>
                 <Panel>
                   <Panel.Heading>
                     <Panel.Toggle>By Type</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
+                    <CountByVendorChart data={this.state.graphs.countByType} />
                   </Panel.Body>
                 </Panel>
               </Col>

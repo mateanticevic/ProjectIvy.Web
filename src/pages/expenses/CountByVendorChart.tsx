@@ -29,7 +29,7 @@ export const CountByVendorChart = ({ data }: Props) => {
     return (
         <ResponsiveContainer height={320}>
             <PieChart>
-                <Pie isAnimationActive={false} data={data} cx={180} cy={150} outerRadius={150} fill="#b5eeff" label={renderCustomizedLabel} labelLine={false} />
+                <Pie isAnimationActive={false} data={data} cx={180} cy={150} outerRadius={150} fill="#337ab7" label={renderCustomizedLabel} labelLine={false} />
             </PieChart>
         </ResponsiveContainer>
     );
