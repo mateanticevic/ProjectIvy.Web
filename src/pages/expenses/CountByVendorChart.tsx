@@ -21,15 +21,15 @@ export const CountByVendorChart = ({ data }: Props) => {
 
         return (
        <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} 	dominantBaseline="central">
-           {`${data[index].name}`}
+           {`${data[index].name} ${Math.round(percent * 100)}%`}
        </text>
      );
    };
 
     return (
-        <ResponsiveContainer height={300}>
+        <ResponsiveContainer height={320}>
             <PieChart>
-                <Pie isAnimationActive={false} data={data} cx={120} cy={90} outerRadius={70} fill="#b5eeff" label={renderCustomizedLabel} labelLine={false} />
+                <Pie isAnimationActive={false} data={data} cx={180} cy={150} outerRadius={150} fill="#b5eeff" label={renderCustomizedLabel} labelLine={false} />
             </PieChart>
         </ResponsiveContainer>
     );

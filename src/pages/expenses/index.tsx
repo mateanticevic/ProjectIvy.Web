@@ -193,15 +193,24 @@ class ExpensesPage extends Page<{}, State> {
       },
     }));
 
-    api.expense.getCountByVendor(filters).then(data => {
-      const top = _.take(_.filter(data.items, item => item.by), 5);
-      //const other =  _.rest(items, 6).map(x => x.count)
+    const pageAllFilters = {
+      ...filters,
+      pageAll: true
+    };
 
-      console.log(top);
+    api.expense.getCountByVendor(pageAllFilters).then(data => {
+      const top = _.take(_.filter(data.items, item => item.by), 3);
+      const other = _.difference(data.items, top);
+
+      console.log(_.sum(other.map(x => x.count)));
+
+      const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+      chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+
       this.setState({
         graphs: {
           ...this.state.graphs,
-          countByVendor: top.map(x => { return { name: x.by.name, value: x.count } })
+          countByVendor: chartData
         }
       });
     });
