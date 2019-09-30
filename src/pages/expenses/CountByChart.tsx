@@ -10,7 +10,7 @@ interface Props {
     data: DataPoint[];
 }
 
-export const CountByVendorChart = ({ data }: Props) => {
+export const CountByChart = ({ data }: Props) => {
 
     const RADIAN = Math.PI / 180;
 

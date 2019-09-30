@@ -13,7 +13,7 @@ import ExpenseFilters from './ExpenseFilters';
 import ExpenseFiltersMore from './ExpenseFiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
-import { CountByVendorChart } from './CountByVendorChart';
+import { CountByChart } from './CountByChart';
 
 interface State {
   cards: any[];
@@ -354,7 +354,7 @@ class ExpensesPage extends Page<{}, State> {
                     <Panel.Toggle>By Type</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
-                    <CountByVendorChart data={this.state.graphs.countByType} />
+                    <CountByChart data={this.state.graphs.countByType} />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -364,7 +364,7 @@ class ExpensesPage extends Page<{}, State> {
                     <Panel.Toggle>By Vendor</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
-                    <CountByVendorChart data={this.state.graphs.countByVendor} />
+                    <CountByChart data={this.state.graphs.countByVendor} />
                   </Panel.Body>
                 </Panel>
               </Col>
