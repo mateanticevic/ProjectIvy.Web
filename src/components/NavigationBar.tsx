@@ -1,7 +1,6 @@
 import React from 'react';
 import { MenuItem, Nav, Navbar, NavDropdown } from 'react-bootstrap/lib';
 import { LinkContainer } from 'react-router-bootstrap';
-import { browserHistory } from 'react-router-dom';
 
 import { User } from 'types/users';
 
@@ -10,11 +9,6 @@ interface Props {
 }
 
 const NavigationBar = ({ user }: Props) => {
-
-  function logout() {
-    localStorage.removeItem('token');
-    browserHistory.push('/login');
-  }
 
   const { firstName, lastName } = user || {};
 
@@ -64,7 +58,9 @@ const NavigationBar = ({ user }: Props) => {
         </Nav>
         <Nav pullRight>
           <NavDropdown id="nav_user" eventKey={4} title={`${firstName} ${lastName}`}>
-            <MenuItem onClick={logout}>Logout</MenuItem>
+            <LinkContainer to="/login">
+              <MenuItem>Logout</MenuItem>
+            </LinkContainer>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>

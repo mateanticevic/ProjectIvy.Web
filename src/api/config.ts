@@ -1,4 +1,3 @@
-import { browserHistory } from 'react-router';
 import { config } from '../config';
 import * as urlHelper from '../utils/urlHelper';
 import { httpContentType } from './httpContentType';
@@ -22,7 +21,7 @@ function handleResponse(response) {
             return response.status;
  }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        browserHistory.push('/login');
+        window.location = '/login';
     } else {
         throw new Error();
     }

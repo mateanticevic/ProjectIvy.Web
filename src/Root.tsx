@@ -19,26 +19,33 @@ import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 
 interface State {
+  isLoggedIn: boolean,
   user?: User;
 }
 
 export default class Root extends Component<{}, State> {
 
   public state: State = {
+    isLoggedIn: false,
     user: undefined,
   };
 
   public componentDidMount() {
-    api.user.get().then((user) => this.setState({ user }));
+    const isLoggedIn = window.localStorage.getItem('token') != undefined;
+
+    if (isLoggedIn) {
+      api.user.get().then((user) => this.setState({ user }));
+      this.setState({ isLoggedIn });
+    }
   }
 
   public render() {
-    const isLoggedIn = window.localStorage.getItem('token') != undefined;
+
 
     return (
       <BrowserRouter>
         <div id="main">
-          {isLoggedIn &&
+          {this.state.isLoggedIn &&
             <NavigationBar user={this.state.user} />
           }
           <div>
