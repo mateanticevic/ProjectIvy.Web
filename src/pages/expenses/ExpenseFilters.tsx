@@ -36,7 +36,7 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
           <ReactSelect
             isMulti
             options={currencies.map(x => { return { value: x.id, label: x.name } })}
-            onChange={currencies => onChange({ currencyId: currencies.map(x => x.value) })}
+            onChange={currencies => onChange({ currencyId: currencies ? currencies.map(x => x.value) : [] })}
           />
         </Col>
       </Row>
@@ -46,7 +46,7 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
           <AsyncSelect
             loadOptions={vendorLoader}
             isMulti
-            onChange={vendors => onChange({ vendorId: vendors.map(x => x.value) })}
+            onChange={vendors => onChange({ vendorId: vendors ? vendors.map(x => x.value) : [] })}
             defaultOptions
           />
         </Col>
@@ -57,7 +57,7 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
           <ReactSelect
             isMulti
             options={types.map(x => { return { value: x.id, label: x.name } })}
-            onChange={types => onChange({ typeId: types.map(x => x.value) })}
+            onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
           />
         </Col>
       </Row>
