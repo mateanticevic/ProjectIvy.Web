@@ -246,7 +246,6 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   public toExpenseBinding(e: Expense): ExpenseBinding {
-
     return {
       amount: e.amount,
       cardId: e.card ? e.card.id : undefined,

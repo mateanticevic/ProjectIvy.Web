@@ -1,11 +1,17 @@
 import React from 'react';
 
-const ValueLabel = (props) => {
+type Props = {
+    label: string,
+    unit: string,
+    value: number
+}
+
+const ValueLabel = ({ label, unit, value }: Props) => {
 
     return (
         <div>
-            <h2 className="text-align-center margin-bottom-0 margin-top-10">{props.value} {props.unit}</h2>
-            <p className="text-align-center">{props.label}</p>
+            <h2 className="text-align-center margin-bottom-0 margin-top-10">{Math.ceil(value)} {unit}</h2>
+            <p className="text-align-center">{label}</p>
         </div>
     );
 };

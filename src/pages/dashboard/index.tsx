@@ -162,9 +162,9 @@ class DashboardPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Spent</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
-                    <ValueLabel label="Today" unit="kn" value={Number(spent.today)} />
-                    <ValueLabel label="This week" unit="kn" value={Number(spent.week)} />
-                    <ValueLabel label={moment().format('MMMM')} unit="kn" value={Number(spent.month)} />
+                    <ValueLabel label="Today" unit="kn" value={spent.today} />
+                    <ValueLabel label="This week" unit="kn" value={spent.week} />
+                    <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -204,9 +204,9 @@ class DashboardPage extends React.Component {
                 <Panel>
                   <Panel.Heading>Distance</Panel.Heading>
                   <Panel.Body className="panel-small padding-0">
-                    <ValueLabel label="Today" unit="km" value={Number(distance.today / 1000)} />
-                    <ValueLabel label="This week" unit="km" value={Number(distance.week / 1000)} />
-                    <ValueLabel label={moment().format('MMMM')} unit="km" value={Number(distance.month / 1000)} />
+                    <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
+                    <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
+                    <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
                   </Panel.Body>
                 </Panel>
               </Col>
