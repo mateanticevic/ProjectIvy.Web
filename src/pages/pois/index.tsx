@@ -5,7 +5,6 @@ import { Marker } from 'react-google-maps';
 
 import { boundMethod } from 'autobind-decorator';
 import api from '../../api/main';
-import * as poiApi from '../../api/main/poi';
 import Map from '../../components/Map';
 import Select from '../../components/Select';
 import PoiModal from './PoiModal';
