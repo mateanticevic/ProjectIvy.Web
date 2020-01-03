@@ -17,9 +17,17 @@ type Props = {
   onChange: () => void;
 }
 
+const dateFormat = 'YYYY-M-D';
+
+const isValidDate = (value: string | moment.Moment) => {
+  return value == '' || value.format;
+}
+
+const parseDate = (value: string | moment.Moment) => {
+  return value.format ? value.format(dateFormat) : undefined;
+}
+
 const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
-
-
 
   return (
     <div>
@@ -27,18 +35,18 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
         <Col xs={6}>
           <ControlLabel>From</ControlLabel>
           <Datetime
-            dateFormat="YYYY-M-D"
+            dateFormat={dateFormat}
             timeFormat={false}
-            onChange={x => x.format && onChange({ from: x.format('YYYY-M-D') })}
+            onChange={x => isValidDate(x) && onChange({ from: parseDate(x) })}
             value={filters.from}
           />
         </Col>
         <Col xs={6}>
           <ControlLabel>To</ControlLabel>
           <Datetime
-            dateFormat="YYYY-M-D"
+            dateFormat={dateFormat}
             timeFormat={false}
-            onChange={x => x.format && onChange({ to: x.format('YYYY-M-D') })}
+            onChange={x => isValidDate(x) && onChange({ to: parseDate(x) })}
             value={filters.to}
           />
         </Col>
@@ -48,7 +56,7 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
           <ControlLabel>Currency</ControlLabel>
           <ReactSelect
             isMulti
-            options={currencies.map(x => { return { value: x.id, label: x.name } })}
+            options={currencies.map(x => ({ value: x.id, label: x.name }))}
             onChange={currencies => onChange({ currencyId: currencies ? currencies.map(x => x.value) : [] })}
           />
         </Col>
