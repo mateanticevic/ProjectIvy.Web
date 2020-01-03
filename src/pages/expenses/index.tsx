@@ -10,11 +10,10 @@ import { ChartBar } from '../../components';
 import { Page } from '../Page';
 import ExpenseCountGraph from './ExpenseCountGraph';
 import Filters from './Filters';
-import ExpenseFiltersMore from './ExpenseFiltersMore';
+import FiltersMore from './FiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import { CountByChart } from './CountByChart';
-import { ExpenseFilters } from 'types/expenses';
 
 interface State {
   cards: any[];
@@ -295,7 +294,7 @@ class ExpensesPage extends Page<{}, State> {
                     <Panel.Toggle>More filters</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
-                    <ExpenseFiltersMore
+                    <FiltersMore
                       cards={this.state.cards}
                       paymentTypes={this.state.paymentTypes}
                       filters={this.state.filters}
