@@ -8,6 +8,7 @@ import AsyncSelect from 'react-select/async';
 
 import { Currency } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
+import moment from 'moment';
 
 type Props = {
   currencies: Currency[];
@@ -18,16 +19,28 @@ type Props = {
 
 const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
 
+
+
   return (
     <div>
       <Row>
         <Col xs={6}>
           <ControlLabel>From</ControlLabel>
-          <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={(x) => onChange({ from: x.format('YYYY-MM-DD') })} value={filters.from} />
+          <Datetime
+            dateFormat="YYYY-M-D"
+            timeFormat={false}
+            onChange={x => x.format && onChange({ from: x.format('YYYY-M-D') })}
+            value={filters.from}
+          />
         </Col>
         <Col xs={6}>
           <ControlLabel>To</ControlLabel>
-          <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} onChange={(x) => onChange({ to: x.format('YYYY-MM-DD') })} value={filters.to} />
+          <Datetime
+            dateFormat="YYYY-M-D"
+            timeFormat={false}
+            onChange={x => x.format && onChange({ to: x.format('YYYY-M-D') })}
+            value={filters.to}
+          />
         </Col>
       </Row>
       <Row>

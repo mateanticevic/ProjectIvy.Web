@@ -23,7 +23,7 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                     <Datetime
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={(x) => onChange({ from: x.format('YYYY-MM-DD') })}
+                        onChange={x => onChange({ from: x.format('YYYY-MM-DD') })}
                         value={filters.from} />
                     <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                 </InputGroup>
@@ -34,7 +34,7 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                     <Datetime
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={(x) => onChange({ to: x.format('YYYY-MM-DD') })} />
+                        onChange={x => onChange({ to: x.format('YYYY-MM-DD') })} />
                     <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
