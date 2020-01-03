@@ -10,3 +10,8 @@ export type ExpenseFile = {
     name: string,
     file: File
 }
+
+export type ExpenseFilters = {
+    from: string,
+    to: string,
+}

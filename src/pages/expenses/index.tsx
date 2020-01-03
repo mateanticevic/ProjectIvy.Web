@@ -5,15 +5,16 @@ import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
 import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
-import { Currency, Expense, ExpenseBinding } from 'types/expenses';
+import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
 import { ChartBar } from '../../components';
 import { Page } from '../Page';
 import ExpenseCountGraph from './ExpenseCountGraph';
-import ExpenseFilters from './ExpenseFilters';
+import Filters from './Filters';
 import ExpenseFiltersMore from './ExpenseFiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import { CountByChart } from './CountByChart';
+import { ExpenseFilters } from 'types/expenses';
 
 interface State {
   cards: any[];
@@ -24,7 +25,7 @@ interface State {
   expensesAreLoading: boolean;
   files: any[];
   fileTypes: any[];
-  filters: any;
+  filters: ExpenseFilters;
   graphs: any;
   isSavingExpense: boolean;
   isModalOpen: boolean;
@@ -167,8 +168,8 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
-  public onFiltersChanged(filterValue) {
-    const filters = this.resolveFilters(this.state.filters, filterValue);
+  public onFiltersChanged(changedFilters?: Partial<ExpenseFilters>) {
+    const filters = this.resolveFilters(this.state.filters, changedFilters);
     this.pushHistoryState(filters);
     this.setState({
       expensesAreLoading: true,
@@ -205,7 +206,7 @@ class ExpensesPage extends Page<{}, State> {
 
       const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
 
-      if (other.length > 0){
+      if (other.length > 0) {
         chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
       }
 
@@ -276,12 +277,13 @@ class ExpensesPage extends Page<{}, State> {
                 <Panel>
                   <Panel.Heading>Filters</Panel.Heading>
                   <Panel.Body>
-                    <ExpenseFilters
+                    <Filters
                       currencies={this.state.currencies}
                       vendors={this.state.vendors}
                       types={this.state.types}
                       filters={this.state.filters}
-                      onChange={this.onFiltersChanged} />
+                      onChange={this.onFiltersChanged}
+                    />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -299,7 +301,8 @@ class ExpensesPage extends Page<{}, State> {
                       filters={this.state.filters}
                       order={this.state.order}
                       orderBy={this.state.orderBy}
-                      onChange={this.onFiltersChanged} />
+                      onChange={this.onFiltersChanged}
+                    />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -318,7 +321,8 @@ class ExpensesPage extends Page<{}, State> {
                   page={this.state.filters.page}
                   stats={this.state.stats}
                   serverPaging
-                  pageSize={this.state.filters.pageSize} />
+                  pageSize={this.state.filters.pageSize}
+                />
               </Col>
             </Row>
             <Row>
@@ -340,8 +344,10 @@ class ExpensesPage extends Page<{}, State> {
                     <Panel.Toggle>Sum</Panel.Toggle>
                   </Panel.Heading>
                   <Panel.Body collapsible>
-                    <ChartBar unit=" kn"
-                      data={chartSumData} />
+                    <ChartBar
+                      unit=" kn"
+                      data={chartSumData}
+                    />
                   </Panel.Body>
                 </Panel>
               </Col>
@@ -389,7 +395,8 @@ class ExpensesPage extends Page<{}, State> {
           onVendorChanged={this.onVendorChange}
           uploadFiles={() => { }}
           onClose={() => this.setState({ isModalOpen: false })}
-          onChange={this.onExpenseChanged} />
+          onChange={this.onExpenseChanged}
+        />
       </Grid>
     );
   }

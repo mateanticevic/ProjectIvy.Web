@@ -5,16 +5,17 @@ import Row from 'react-bootstrap/lib/Row';
 import Datetime from 'react-datetime';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
+import moment from 'moment';
 
 import { Currency } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
-import moment from 'moment';
+import { ExpenseFilters } from 'types/expenses';
 
 type Props = {
   currencies: Currency[];
   filters: any;
   types: any,
-  onChange: () => void;
+  onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }
 
 const dateFormat = 'YYYY-M-D';
@@ -24,10 +25,10 @@ const isValidDate = (value: string | moment.Moment) => {
 }
 
 const parseDate = (value: string | moment.Moment) => {
-  return value.format ? value.format(dateFormat) : undefined;
+  return value.format ? value.format(dateFormat) : '';
 }
 
-const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
+const Filters = ({ currencies, filters, onChange, types }: Props) => {
 
   return (
     <div>
@@ -86,4 +87,4 @@ const ExpenseFilters = ({ currencies, filters, onChange, types }: Props) => {
   );
 };
 
-export default ExpenseFilters;
+export default Filters;
