@@ -194,9 +194,9 @@ class BeerPage extends Page<{}, State> {
             <td>{consumation.volume / 1000}L</td>
         </tr>);
 
-        const topBeers = this.state.topBeers.map((beer) => (
+        const topBeers = this.state.topBeers.map(beer => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                {beer.by.name} <span className="pull-right"><Label bsStyle="primary">{beer.sum / 1000}L</Label></span>
+                {beer.by.name} <span className="pull-right"><Label bsStyle="primary" title={`${beer.sum / 1000}L`}>{Math.ceil(beer.sum / 1000)}L</Label></span>
             </ListGroupItem>
         ));
 
