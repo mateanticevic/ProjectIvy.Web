@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row, Table, InputGroup, Glyphicon } from 'react-bootstrap/lib';
+import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 
@@ -39,19 +40,19 @@ class TripsPage extends Page<{}, State> {
   };
 
   public componentDidMount() {
-    api.country.getAll().then((countries) => this.setState({ countries: countries.items }));
+    api.country.getAll().then(countries => this.setState({ countries: countries.items }));
     this.loadVisitedCountries();
     this.onFiltersChanged();
   }
 
   @boundMethod
   public loadCities(inputValue, callback) {
-    api.city.get({ search: inputValue }).then((cities) => callback(cities.items.map((city) => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
+    api.city.get({ search: inputValue }).then(cities => callback(cities.items.map((city) => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
   }
 
   @boundMethod
   public loadVisitedCountries() {
-    api.country.getVisitedBoundaries().then((countries) => this.setState({ visitedCountries: countries }));
+    api.country.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
   }
 
   @boundMethod
@@ -115,8 +116,35 @@ class TripsPage extends Page<{}, State> {
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
                 <FormGroup>
+                  <ControlLabel>From</ControlLabel>
+                  <InputGroup>
+                    <Datetime
+                      dateFormat="YYYY-M-D"
+                      timeFormat={false}
+                      onChange={x => this.onFiltersChanged({ from: x.format('YYYY-M-D') })}
+                      value={this.state.filters.from}
+                    />
+                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                  </InputGroup>
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>To</ControlLabel>
+                  <InputGroup>
+                    <Datetime
+                      dateFormat="YYYY-M-D"
+                      timeFormat={false}
+                      onChange={x => this.onFiltersChanged({ to: x.format('YYYY-M-D') })}
+                      value={this.state.filters.to}
+                    />
+                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                  </InputGroup>
+                </FormGroup>
+                <FormGroup>
                   <ControlLabel>Country</ControlLabel>
-                  <Select options={this.state.countries} onChange={(countryId) => this.onFiltersChanged({ countryId })} />
+                  <Select
+                    options={this.state.countries}
+                    onChange={countryId => this.onFiltersChanged({ countryId })}
+                  />
                 </FormGroup>
               </Panel.Body>
             </Panel>
@@ -145,7 +173,7 @@ class TripsPage extends Page<{}, State> {
                     <Row>
                       <Col lg={12}>
                         <TableWithSpinner isLoading={this.state.tripsAreLoading}>
-                          {trips.items.map((trip) => <TripRow key={trip.id} trip={trip} />)}
+                          {trips.items.map(trip => <TripRow key={trip.id} trip={trip} />)}
                         </TableWithSpinner>
                       </Col>
                     </Row>
@@ -153,7 +181,8 @@ class TripsPage extends Page<{}, State> {
                       <Col lg={12}>
                         <Pagination page={this.state.filters.page}
                           pages={Math.ceil(this.state.trips.count / this.state.filters.pageSize)}
-                          onPageChange={(page) => this.onFiltersChanged({ page })} />
+                          onPageChange={page => this.onFiltersChanged({ page })}
+                        />
                       </Col>
                     </Row>
                   </Panel.Body>
@@ -167,7 +196,8 @@ class TripsPage extends Page<{}, State> {
           onChange={this.onTripChanged}
           onSave={this.onTripSave}
           loadCities={this.loadCities}
-          isOpen={this.state.isModalOpen} />
+          isOpen={this.state.isModalOpen}
+        />
       </Grid>
     );
   }
