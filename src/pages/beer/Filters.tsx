@@ -25,7 +25,9 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                         timeFormat={false}
                         onChange={x => onChange({ from: x.format('YYYY-MM-DD') })}
                         value={filters.from} />
-                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                    <InputGroup.Addon>
+                        <Glyphicon glyph="calendar" />
+                    </InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
             <FormGroup>
@@ -34,25 +36,28 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                     <Datetime
                         dateFormat="YYYY-MM-DD"
                         timeFormat={false}
-                        onChange={x => onChange({ to: x.format('YYYY-MM-DD') })} />
-                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                        onChange={x => onChange({ to: x.format('YYYY-MM-DD') })}
+                    />
+                    <InputGroup.Addon>
+                        <Glyphicon glyph="calendar" />
+                    </InputGroup.Addon>
                 </InputGroup>
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Brand</ControlLabel>
-                <Select options={brands} onChange={(id) => onChange({ brandId: id })} />
+                <Select options={brands} onChange={id => onChange({ brandId: id })} />
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Beer</ControlLabel>
                 <AsyncSelect
                     loadOptions={beerLoader}
-                    onChange={(x) => onChange({ beerId: x.value })}
+                    onChange={x => onChange({ beerId: x.value })}
                     defaultOptions
                 />
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Serving</ControlLabel>
-                <Select options={servings} onChange={(x) => onChange({ serving: x })} />
+                <Select options={servings} onChange={x => onChange({ serving: x })} />
             </FormGroup>
         </React.Fragment>
     );

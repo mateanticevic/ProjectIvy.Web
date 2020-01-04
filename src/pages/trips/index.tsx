@@ -4,6 +4,8 @@ import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row, Table, InputGro
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
+import AsyncSelect from 'react-select/async';
+import ReactSelect from 'react-select';
 
 import { boundMethod } from 'autobind-decorator';
 import { TripBinding } from 'types/trips';
@@ -29,7 +31,11 @@ class TripsPage extends Page<{}, State> {
 
   public state: State = {
     countries: [],
-    filters: { pageSize: 10, page: 1 },
+    filters: {
+      pageSize: 10,
+      page: 1,
+      cityId: []
+    },
     isModalOpen: false,
     trip: {
       cityIds: [],
@@ -57,6 +63,7 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public onFiltersChanged(filterValue?) {
+    console.log(filterValue);
     const filters = this.resolveFilters(this.state.filters, filterValue);
     this.setState({
       filters,
@@ -94,7 +101,7 @@ class TripsPage extends Page<{}, State> {
 
     const polygons = [].concat(...countryPolygons);
 
-    const { trips } = this.state;
+    const { countries, trips } = this.state;
 
     return (
       <Grid>
@@ -136,14 +143,26 @@ class TripsPage extends Page<{}, State> {
                       onChange={x => this.onFiltersChanged({ to: x.format('YYYY-M-D') })}
                       value={this.state.filters.to}
                     />
-                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                    <InputGroup.Addon>
+                      <Glyphicon glyph="calendar" />
+                    </InputGroup.Addon>
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
                   <ControlLabel>Country</ControlLabel>
-                  <Select
-                    options={this.state.countries}
-                    onChange={countryId => this.onFiltersChanged({ countryId })}
+                  <ReactSelect
+                    isMulti
+                    options={countries.map(x => ({ value: x.id, label: x.name }))}
+                    onChange={countries => this.onFiltersChanged({ countryId: countries ? countries.map(x => x.value) : [] })}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <ControlLabel>City</ControlLabel>
+                  <AsyncSelect
+                    defaultOptions
+                    isMulti
+                    loadOptions={this.loadCities}
+                    onChange={cities => this.onFiltersChanged({ cityId: cities ? cities.map(x => x.value) : [] })}
                   />
                 </FormGroup>
               </Panel.Body>
