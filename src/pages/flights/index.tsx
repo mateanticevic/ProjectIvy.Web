@@ -1,17 +1,20 @@
 import _ from 'lodash';
-import moment from 'moment';
 import React from 'react';
-import { Checkbox, Col, Grid, Label, ListGroup, ListGroupItem, Panel, Row, InputGroup, Glyphicon, ControlLabel, FormGroup } from 'react-bootstrap/lib';
+import { Checkbox, Col, Grid, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
 import Moment from 'react-moment';
 import { boundMethod } from 'autobind-decorator';
-import Datetime from 'react-datetime';
 
 import api from '../../api/main';
-import { Map, Select } from '../../components';
+import { Map, DateFormElement } from '../../components';
+import { Page } from '../Page';
 
-class FlightsPage extends React.Component {
+type State = {
+    
+}
+
+class FlightsPage extends Page<{}, State> {
 
     public state = {
         countByAirport: [],
@@ -32,11 +35,12 @@ class FlightsPage extends React.Component {
 
     @boundMethod
     public onFiltersChange(changedFilters) {
-        const filters = {
-            ...this.state.filters,
-            ...changedFilters,
-        };
-        api.flight.getFlights(filters).then((flights) => this.setState({ flights }));
+        const filters = this.resolveFilters(this.state.filters, changedFilters);
+        this.pushHistoryState(filters);
+
+        this.setState({filters});
+
+        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
     }
 
     @boundMethod
@@ -45,7 +49,7 @@ class FlightsPage extends React.Component {
     }
 
     public render() {
-        const { flights } = this.state;
+        const { filters, flights } = this.state;
 
         const flightsHeader = `Flights (${flights.count})`;
 
@@ -90,33 +94,16 @@ class FlightsPage extends React.Component {
                             <Panel>
                                 <Panel.Heading>Filters</Panel.Heading>
                                 <Panel.Body>
-                                    <FormGroup>
-                                        <ControlLabel>From</ControlLabel>
-                                        <InputGroup>
-                                            <Datetime
-                                                dateFormat="YYYY-MM-DD"
-                                                timeFormat={false}
-                                                onChange={x => this.onFiltersChange({ from: x.format('YYYY-MM-DD') })}
-                                            />
-                                            <InputGroup.Addon>
-                                                <Glyphicon glyph="calendar" />
-                                            </InputGroup.Addon>
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <ControlLabel>To</ControlLabel>
-                                        <InputGroup>
-                                            <Datetime
-                                                dateFormat="YYYY-MM-DD"
-                                                timeFormat={false}
-                                                onChange={x => this.onFiltersChange({ to: x.format('YYYY-MM-DD') })}
-                                            />
-                                            <InputGroup.Addon>
-                                                <Glyphicon glyph="calendar" />
-                                            </InputGroup.Addon>
-                                        </InputGroup>
-                                    </FormGroup>
-
+                                    <DateFormElement
+                                        label="From"
+                                        onChange={date => this.onFiltersChange({ from: date })}
+                                        value={filters.from}
+                                    />
+                                    <DateFormElement
+                                        label="To"
+                                        onChange={date => this.onFiltersChange({ to: date })}
+                                        value={filters.to}
+                                    />
                                 </Panel.Body>
                             </Panel>
                         </Row>

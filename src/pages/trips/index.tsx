@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row, Table, InputGroup, Glyphicon } from 'react-bootstrap/lib';
-import Datetime from 'react-datetime';
+import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 import AsyncSelect from 'react-select/async';
@@ -10,12 +9,13 @@ import ReactSelect from 'react-select';
 import { boundMethod } from 'autobind-decorator';
 import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
-import { Map, Pagination, Select } from '../../components';
+import { Map, Pagination } from '../../components';
 import TableWithSpinner from '../../components/TableWithSpinner';
 import * as trackingHelper from '../../utils/trackingHelper';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';
+import { DateFormElement } from '../../components';
 
 interface State {
   countries: [];
@@ -102,7 +102,7 @@ class TripsPage extends Page<{}, State> {
 
     const polygons = [].concat(...countryPolygons);
 
-    const { countries, trips } = this.state;
+    const { countries, filters, trips } = this.state;
 
     return (
       <Grid>
@@ -123,32 +123,16 @@ class TripsPage extends Page<{}, State> {
             <Panel>
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
-                <FormGroup>
-                  <ControlLabel>From</ControlLabel>
-                  <InputGroup>
-                    <Datetime
-                      dateFormat="YYYY-M-D"
-                      timeFormat={false}
-                      onChange={x => this.onFiltersChanged({ from: x.format('YYYY-M-D') })}
-                      value={this.state.filters.from}
-                    />
-                    <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
-                  </InputGroup>
-                </FormGroup>
-                <FormGroup>
-                  <ControlLabel>To</ControlLabel>
-                  <InputGroup>
-                    <Datetime
-                      dateFormat="YYYY-M-D"
-                      timeFormat={false}
-                      onChange={x => this.onFiltersChanged({ to: x.format('YYYY-M-D') })}
-                      value={this.state.filters.to}
-                    />
-                    <InputGroup.Addon>
-                      <Glyphicon glyph="calendar" />
-                    </InputGroup.Addon>
-                  </InputGroup>
-                </FormGroup>
+                <DateFormElement
+                  label="From"
+                  onChange={date => this.onFiltersChanged({ from: date })}
+                  value={filters.from}
+                />
+                <DateFormElement
+                  label="To"
+                  onChange={date => this.onFiltersChanged({ to: date })}
+                  value={filters.to}
+                />
                 <FormGroup>
                   <ControlLabel>Country</ControlLabel>
                   <ReactSelect

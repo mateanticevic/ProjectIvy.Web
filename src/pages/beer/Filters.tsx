@@ -1,10 +1,10 @@
 import React from 'react';
-import { ControlLabel, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap/lib';
-import Datetime from 'react-datetime';
+import { ControlLabel, FormGroup } from 'react-bootstrap/lib';
 import AsyncSelect from 'react-select/async';
 
 import Select from '../../components/Select';
 import { beerLoader } from '../../utils/selectLoaders';
+import { DateFormElement } from '../../components';
 
 type Props = {
     brands: any;
@@ -17,32 +17,16 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
 
     return (
         <React.Fragment>
-            <FormGroup>
-                <ControlLabel>From</ControlLabel>
-                <InputGroup>
-                    <Datetime
-                        dateFormat="YYYY-MM-DD"
-                        timeFormat={false}
-                        onChange={x => onChange({ from: x.format('YYYY-MM-DD') })}
-                        value={filters.from} />
-                    <InputGroup.Addon>
-                        <Glyphicon glyph="calendar" />
-                    </InputGroup.Addon>
-                </InputGroup>
-            </FormGroup>
-            <FormGroup>
-                <ControlLabel>To</ControlLabel>
-                <InputGroup>
-                    <Datetime
-                        dateFormat="YYYY-MM-DD"
-                        timeFormat={false}
-                        onChange={x => onChange({ to: x.format('YYYY-MM-DD') })}
-                    />
-                    <InputGroup.Addon>
-                        <Glyphicon glyph="calendar" />
-                    </InputGroup.Addon>
-                </InputGroup>
-            </FormGroup>
+            <DateFormElement
+                label="From"
+                onChange={date => onChange({ from: date })}
+                value={filters.from}
+            />
+            <DateFormElement
+                label="To"
+                onChange={date => onChange({ to: date })}
+                value={filters.to}
+            />
             <FormGroup>
                 <ControlLabel>Brand</ControlLabel>
                 <Select options={brands} onChange={id => onChange({ brandId: id })} />

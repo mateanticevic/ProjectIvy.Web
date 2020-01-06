@@ -153,9 +153,11 @@ class BeerPage extends Page<{}, State> {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.pushHistoryState(filters);
 
-        this.setState({ ...this.state, filters });
+        this.setState({ filters });
 
-        api.consumation.get(filters).then((consumations) => this.setState({ consumations }));
+        api.consumation
+            .get(filters)
+            .then((consumations) => this.setState({ consumations }));
 
         if (filterValue && filterValue.page) {
             return;
@@ -167,23 +169,29 @@ class BeerPage extends Page<{}, State> {
             pageSize: 5,
         };
 
-        api.consumation.getCountBeer(statsFilters)
-            .then((beerCount) => this.setState({ beerCount }));
+        api.consumation
+            .getCountBeer(statsFilters)
+            .then(beerCount => this.setState({ beerCount }));
 
-        api.consumation.getCountBeer(statsFilters)
-            .then((brandCount) => this.setState({ brandCount }));
+        api.consumation
+            .getCountBeer(statsFilters)
+            .then(brandCount => this.setState({ brandCount }));
 
-        api.consumation.getSum(statsFilters)
-            .then((sum) => this.setState({ sum }));
+        api.consumation
+            .getSum(statsFilters)
+            .then(sum => this.setState({ sum }));
 
-        api.consumation.getSumByBeer(statsFilters)
-            .then((beers) => this.setState({ topBeers: beers.items }));
+        api.consumation
+            .getSumByBeer(statsFilters)
+            .then(beers => this.setState({ topBeers: beers.items }));
 
-        api.consumation.getNewBeers(statsFilters)
-            .then((newBeers) => this.setState({ newBeers }));
+        api.consumation
+            .getNewBeers(statsFilters)
+            .then(newBeers => this.setState({ newBeers }));
 
-        api.consumation.getSumByServing(filters)
-            .then((data) => this.setState({ sumByServing: data.items.map((x) => ({ name: x.by.name, value: x.sum })) }));
+        api.consumation
+            .getSumByServing(filters)
+            .then(data => this.setState({ sumByServing: data.items.map((x) => ({ name: x.by.name, value: x.sum })) }));
     }
 
     public render() {
@@ -224,10 +232,12 @@ class BeerPage extends Page<{}, State> {
                         <Panel>
                             <Panel.Heading>Filters</Panel.Heading>
                             <Panel.Body>
-                                <Filters filters={this.state.filters}
+                                <Filters
+                                    filters={this.state.filters}
                                     onChange={this.onFiltersChange}
                                     servings={this.state.servings}
-                                    brands={this.state.brands} />
+                                    brands={this.state.brands}
+                                />
                             </Panel.Body>
                         </Panel>
                     </Col>
