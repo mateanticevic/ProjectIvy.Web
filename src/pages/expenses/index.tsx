@@ -109,7 +109,9 @@ class ExpensesPage extends Page<{}, State> {
 
   @boundMethod
   public linkExpenseFile() {
-    api.expense.postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type }).then(() => { });
+    api.expense
+      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type })
+      .then(() => { });
   }
 
   public newExpense(): Partial<ExpenseBinding> {
@@ -175,68 +177,78 @@ class ExpensesPage extends Page<{}, State> {
       filters,
     });
 
-    api.expense.get(filters).then((expenses) => this.setState({
-      expenses,
-      expensesAreLoading: false,
-    }));
+    api.expense
+      .get(filters)
+      .then(expenses => this.setState({
+        expenses,
+        expensesAreLoading: false,
+      }));
 
-    api.expense.getCountByMonth(filters).then((countByMonth) => this.setState({
-      graphs: {
-        ...this.state.graphs,
-        count: countByMonth,
-      },
-    }));
+    api.expense
+      .getCountByMonth(filters)
+      .then(countByMonth => this.setState({
+        graphs: {
+          ...this.state.graphs,
+          count: countByMonth,
+        },
+      }));
 
-    api.expense.getSumByMonth(filters).then((sumByMonth) => this.setState({
-      graphs: {
-        ...this.state.graphs,
-        sum: sumByMonth,
-      },
-    }));
+    api.expense
+      .getSumByMonth(filters)
+      .then(sumByMonth => this.setState({
+        graphs: {
+          ...this.state.graphs,
+          sum: sumByMonth,
+        },
+      }));
 
     const pageAllFilters = {
       ...filters,
       pageAll: true
     };
 
-    api.expense.getCountByVendor(pageAllFilters).then(data => {
-      const top = _.take(_.filter(data.items, item => item.by), 3);
-      const other = _.difference(data.items, top);
+    api.expense
+      .getCountByVendor(pageAllFilters)
+      .then(data => {
+        const top = _.take(_.filter(data.items, item => item.by), 3);
+        const other = _.difference(data.items, top);
 
-      const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+        const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
 
-      if (other.length > 0) {
-        chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-      }
-
-      this.setState({
-        graphs: {
-          ...this.state.graphs,
-          countByVendor: chartData
+        if (other.length > 0) {
+          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
         }
+
+        this.setState({
+          graphs: {
+            ...this.state.graphs,
+            countByVendor: chartData
+          }
+        });
       });
-    });
 
-    api.expense.getCountByType(pageAllFilters).then(data => {
-      const top = _.take(_.filter(data.items, item => item.by), 3);
-      const other = _.difference(data.items, top);
+    api.expense
+      .getCountByType(pageAllFilters)
+      .then(data => {
+        const top = _.take(_.filter(data.items, item => item.by), 3);
+        const other = _.difference(data.items, top);
 
-      const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
-      if (other.length > 0) {
-        chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-      }
-
-      this.setState({
-        graphs: {
-          ...this.state.graphs,
-          countByType: chartData
+        const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+        if (other.length > 0) {
+          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
         }
-      });
-    });
 
-    api.expense.getSum(filters).then((sum) => this.setState({ stats: { ...this.state.stats, sum } }));
-    api.expense.getTypeCount(filters).then((typeCount) => this.setState({ stats: { ...this.state.stats, typeCount } }));
-    api.expense.getVendorCount(filters).then((vendorCount) => this.setState({ stats: { ...this.state.stats, vendorCount } }));
+        this.setState({
+          graphs: {
+            ...this.state.graphs,
+            countByType: chartData
+          }
+        });
+      });
+
+    api.expense.getSum(filters).then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+    api.expense.getTypeCount(filters).then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
+    api.expense.getVendorCount(filters).then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
   }
 
   @boundMethod
@@ -265,7 +277,7 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   public render() {
-    const chartSumData = _.reverse(_.map(this.state.graphs.sum, (x) => ({ value: x.data, key: moment(`${x.year}-${x.month}-1`).format('YYYY MMM') })));
+    const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => ({ value: x.data, key: moment(`${x.year}-${x.month}-1`).format('YYYY MMM') })));
 
     return (
       <Grid>
@@ -315,12 +327,12 @@ class ExpensesPage extends Page<{}, State> {
                   defaultCurrency={this.state.defaultCurrency}
                   isLoading={this.state.expensesAreLoading}
                   onEdit={this.onExpenseEdit}
-                  onPageChange={(page) => this.onFiltersChanged({ page })}
+                  onPageChange={page => this.onFiltersChanged({ page })}
                   onNewClick={this.onExpenseNew}
                   page={this.state.filters.page}
-                  stats={this.state.stats}
-                  serverPaging
                   pageSize={this.state.filters.pageSize}
+                  serverPaging
+                  stats={this.state.stats}
                 />
               </Col>
             </Row>

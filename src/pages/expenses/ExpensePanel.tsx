@@ -16,6 +16,8 @@ type Props = PagingFilters & {
   onNewClick: () => void,
   onPageChange: () => void,
   onUnlink: () => void,
+  page: number,
+  pageSize: number,
   serverPaging: boolean,
   stats: any,
 };
@@ -52,9 +54,11 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
         </Row>
         <Row>
           <Col lg={12}>
-            <Pagination page={page}
-                        pages={Math.ceil(count / pageSize)}
-                        onPageChange={onPageChange} />
+            <Pagination
+              page={page}
+              pages={Math.ceil(count / pageSize)}
+              onPageChange={onPageChange}
+            />
           </Col>
         </Row>
       </Panel.Body>

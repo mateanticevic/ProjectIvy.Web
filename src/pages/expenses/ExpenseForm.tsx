@@ -39,15 +39,21 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                   defaultValue={new Date()}
                   dateFormat="YYYY-MM-DD"
                   timeFormat={false}
-                  onChange={(x) => onChange({ date: x.format('YYYY-MM-DD') })} />
-                <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                  onChange={x => onChange({ date: x.format('YYYY-MM-DD') })} />
+                <InputGroup.Addon>
+                  <Glyphicon glyph="calendar" />
+                </InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Type</ControlLabel>
-              <Select selected={expense.expenseTypeId} options={types} onChange={expenseTypeId => onChange({ expenseTypeId })} hideDefaultOption={true} />
+              <Select
+                selected={expense.expenseTypeId}
+                options={types}
+                onChange={expenseTypeId => onChange({ expenseTypeId })} hideDefaultOption={true}
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -58,7 +64,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <AsyncSelect
                 loadOptions={vendorLoader}
                 onChange={x => onChange({ vendorId: x.value })}
-                defaultValue={{value: expense.vendorId, label: expense.vendorId}}
+                defaultValue={{ value: expense.vendorId, label: expense.vendorId }}
                 defaultOptions
               />
             </FormGroup>
@@ -118,7 +124,8 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <Select selected={expense.parentCurrencyId}
                 options={currencies}
                 defaultOptionValue="No parent currency"
-                onChange={(x) => onChange({ parentCurrencyId: x })} />
+                onChange={x => onChange({ parentCurrencyId: x })}
+              />
             </FormGroup>
           </Col>
           <Col lg={6}>
@@ -138,7 +145,8 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           uploadFiles={[]}
           files={files}
           deleteFile={deleteFile}
-          linkFile={linkFile} />
+          linkFile={linkFile}
+        />
       </Tab>
       <Tab eventKey={4} title="Info">
         <Row>
@@ -147,7 +155,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <ControlLabel>Created</ControlLabel>
               <InputGroup>
                 <Datetime value={expense.timestamp} inputProps={{ readOnly: true }} />
-                <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                <InputGroup.Addon>
+                  <Glyphicon glyph="calendar" />
+                </InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -156,7 +166,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <ControlLabel>Modified</ControlLabel>
               <InputGroup>
                 <Datetime value={expense.modified} inputProps={{ readOnly: true }} />
-                <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                <InputGroup.Addon>
+                  <Glyphicon glyph="calendar" />
+                </InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>

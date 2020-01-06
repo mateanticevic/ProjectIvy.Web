@@ -3,10 +3,10 @@ import React from 'react';
 import BootstrapPagination from 'react-bootstrap/lib/Pagination';
 
 interface Props {
-    showPages?: number;
-    onPageChange: (page: number) => void;
     page: number;
     pages: number;
+    showPages?: number;
+    onPageChange: (page: number) => void;
 }
 
 const Pagination = ({ showPages, page, pages, onPageChange }: Props) => {
@@ -17,8 +17,14 @@ const Pagination = ({ showPages, page, pages, onPageChange }: Props) => {
 
     const endPage = startPage + showPages > pages ? pages : startPage + showPages - 1;
 
-    const items = _.range(startPage, endPage + 1).map((item) =>
-        <BootstrapPagination.Item key={_.uniqueId('pagination_item_')} active={item === page} onClick={() => onPageChange(item)}>{item}</BootstrapPagination.Item>);
+    const items = _.range(startPage, endPage + 1).map(item =>
+        <BootstrapPagination.Item
+            key={_.uniqueId('pagination_item_')}
+            active={item == page}
+            onClick={() => onPageChange(item)}>
+            {item}
+        </BootstrapPagination.Item>
+    );
 
     return (
         <BootstrapPagination>

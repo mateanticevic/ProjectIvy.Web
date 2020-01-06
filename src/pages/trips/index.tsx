@@ -8,7 +8,7 @@ import AsyncSelect from 'react-select/async';
 import ReactSelect from 'react-select';
 
 import { boundMethod } from 'autobind-decorator';
-import { TripBinding } from 'types/trips';
+import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
 import { Map, Pagination, Select } from '../../components';
 import TableWithSpinner from '../../components/TableWithSpinner';
@@ -19,7 +19,7 @@ import TripRow from './TripRow';
 
 interface State {
   countries: [];
-  filters: any;
+  filters: TripFilters;
   isModalOpen: boolean;
   trip: TripBinding;
   trips: any;
@@ -34,7 +34,8 @@ class TripsPage extends Page<{}, State> {
     filters: {
       pageSize: 10,
       page: 1,
-      cityId: []
+      cityId: [],
+      countryId: [],
     },
     isModalOpen: false,
     trip: {
@@ -154,6 +155,7 @@ class TripsPage extends Page<{}, State> {
                     isMulti
                     options={countries.map(x => ({ value: x.id, label: x.name }))}
                     onChange={countries => this.onFiltersChanged({ countryId: countries ? countries.map(x => x.value) : [] })}
+                    value={countries.filter(c => this.state.filters.countryId.filter(y => y === c.id).length > 0).map(x => ({ value: x.id, label: x.name }))}
                   />
                 </FormGroup>
                 <FormGroup>

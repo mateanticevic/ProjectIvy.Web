@@ -3,8 +3,6 @@ export function jsonToQueryString(json: any) {
         return '';
     }
 
-    console.log(json);
-
     return '?' +
         Object.keys(json).map(function(key) {
 
@@ -20,7 +18,13 @@ export function jsonToQueryString(json: any) {
 export function queryStringToJson(queryString: string) {
     const search = queryString.substring(1);
     return search ? JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-        function(key, value) { return key === '' ? value : decodeURIComponent(value); }) : {};
+        function(key, value) { return key === '' ? value : parseValue(value); }) : {};
+}
+
+function parseValue(value){
+    const decoded = decodeURIComponent(value);
+
+    return isNaN(decoded) ? decoded : parseInt(value);
 }
 
 function objectToArray(parent: string, json: any) {

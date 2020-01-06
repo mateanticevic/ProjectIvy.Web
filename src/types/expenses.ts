@@ -43,6 +43,24 @@ export interface ExpenseBinding {
     vendorId?: string;
 }
 
+export interface ExpenseFileType {
+    id: string,
+    name: string
+}
+
+export interface ExpenseFile {
+    type: ExpenseFileType,
+    name: string,
+    file: File
+}
+
+export interface ExpenseFilters {
+    from?: string,
+    to?: string,
+    page: number,
+    pageSize: number,
+}
+
 export interface ExpenseType {
     id: string;
     icon: string;
