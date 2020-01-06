@@ -25,8 +25,8 @@ const TripRow = (props) => {
           <Label bsStyle={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? 'success' : 'primary'}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
         </OverlayTrigger>
       </td>
-      <td>{countryFlags}</td>
       <td>{props.trip.name}</td>
+      <td>{countryFlags}</td>
       <td><Moment to={props.trip.timestampEnd} ago>{props.trip.timestampStart}</Moment></td>
   </tr>
   );

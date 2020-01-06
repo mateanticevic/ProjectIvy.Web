@@ -3,6 +3,8 @@ export function jsonToQueryString(json: any) {
         return '';
     }
 
+    console.log(json);
+
     return '?' +
         Object.keys(json).map(function(key) {
 
@@ -12,7 +14,7 @@ export function jsonToQueryString(json: any) {
 
             return encodeURIComponent(key) + '=' +
                 encodeURIComponent(json[key]);
-        }).join('&');
+        }).filter(x => x).join('&');
 }
 
 export function queryStringToJson(queryString: string) {
