@@ -29,66 +29,53 @@ const FiltersMore = (props: Props) => {
     <React.Fragment>
       <Row>
         <Col lg={12}>
-          <ControlLabel>Description</ControlLabel>
-          <FormControl type="text" onChange={x => props.onChange({ description: x.target.value })} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Amount from</ControlLabel>
-          <FormControl type="number" onChange={x => props.onChange({ amountFrom: x.target.value })} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Amount to</ControlLabel>
-          <FormControl type="number" onChange={x => props.onChange({ amountTo: x.target.value })} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Order by</ControlLabel>
-          <Select options={props.orderBy} onChange={x => props.onChange({ orderBy: x })} hideDefaultOption={true} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Order</ControlLabel>
-          <Select selected={props.filters.orderAscending} options={props.order} onChange={x => props.onChange({ orderAscending: x })} hideDefaultOption={true} />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Day of week</ControlLabel>
-          <ReactSelect
-            isMulti
-            options={daysofWeek}
-            onChange={days => props.onChange({ day: days ? days.map(x => x.value) : [] })}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Payment type</ControlLabel>
-          <ReactSelect
-            isMulti
-            options={props.paymentTypes.map(x => ({ value: x.id, label: x.name }))}
-            onChange={paymentTypes => props.onChange({ paymentTypeId: paymentTypes ? paymentTypes.map(x => x.value) : [] })}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Card</ControlLabel>
-          <ReactSelect
-            isMulti
-            options={props.cards.map(x => ({ value: x.id, label: x.name }))}
-            onChange={cards => props.onChange({ cardId: cards ? cards.map(x => x.value) : [] })}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
+          <FormGroup>
+            <ControlLabel>Description</ControlLabel>
+            <FormControl type="text" onChange={x => props.onChange({ description: x.target.value })} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Amount from</ControlLabel>
+            <FormControl type="number" onChange={x => props.onChange({ amountFrom: x.target.value })} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Amount to</ControlLabel>
+            <FormControl type="number" onChange={x => props.onChange({ amountTo: x.target.value })} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Order</ControlLabel>
+            <Select options={props.orderBy} onChange={x => props.onChange({ orderBy: x })} hideDefaultOption={true} />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>By&nbsp;</ControlLabel>
+            <ToggleButtonGroup type="radio" name="options" value={props.filters.orderAscending} onChange={x => props.onChange({ orderAscending: x })}>
+              <ToggleButton value="false">Descending</ToggleButton>
+              <ToggleButton value="true">Ascending</ToggleButton>
+            </ToggleButtonGroup>
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Day of week</ControlLabel>
+            <ReactSelect
+              isMulti
+              options={daysofWeek}
+              onChange={days => props.onChange({ day: days ? days.map(x => x.value) : [] })}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Payment type</ControlLabel>
+            <ReactSelect
+              isMulti
+              options={props.paymentTypes.map(x => ({ value: x.id, label: x.name }))}
+              onChange={paymentTypes => props.onChange({ paymentTypeId: paymentTypes ? paymentTypes.map(x => x.value) : [] })}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Card</ControlLabel>
+            <ReactSelect
+              isMulti
+              options={props.cards.map(x => ({ value: x.id, label: x.name }))}
+              onChange={cards => props.onChange({ cardId: cards ? cards.map(x => x.value) : [] })}
+            />
+          </FormGroup>
           <FormGroup>
             <ControlLabel>Has linked files</ControlLabel>
             <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
@@ -97,10 +84,6 @@ const FiltersMore = (props: Props) => {
               <ToggleButton value="false">No</ToggleButton>
             </ToggleButtonGroup>
           </FormGroup>
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
           <FormGroup>
             <ControlLabel>Has poi</ControlLabel>
             <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>

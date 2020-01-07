@@ -65,6 +65,7 @@ class ExpensesPage extends Page<{}, State> {
     isSavingExpense: false,
     filters: {
       from: moment().month(0).date(1).format('YYYY-MM-DD'), // YYYY-01-01
+      orderAscending: 'false',
       pageSize: 10,
       page: 1,
     },

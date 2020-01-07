@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Currency } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
 import { ExpenseFilters } from 'types/expenses';
+import { FormGroup } from 'react-bootstrap';
 
 type Props = {
   currencies: Currency[];
@@ -34,53 +35,55 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
     <div>
       <Row>
         <Col xs={6}>
-          <ControlLabel>From</ControlLabel>
-          <Datetime
-            dateFormat={dateFormat}
-            timeFormat={false}
-            onChange={x => isValidDate(x) && onChange({ from: parseDate(x) })}
-            value={filters.from}
-          />
+          <FormGroup>
+            <ControlLabel>From</ControlLabel>
+            <Datetime
+              dateFormat={dateFormat}
+              timeFormat={false}
+              onChange={x => isValidDate(x) && onChange({ from: parseDate(x) })}
+              value={filters.from}
+            />
+          </FormGroup>
         </Col>
         <Col xs={6}>
-          <ControlLabel>To</ControlLabel>
-          <Datetime
-            dateFormat={dateFormat}
-            timeFormat={false}
-            onChange={x => isValidDate(x) && onChange({ to: parseDate(x) })}
-            value={filters.to}
-          />
+          <FormGroup>
+            <ControlLabel>To</ControlLabel>
+            <Datetime
+              dateFormat={dateFormat}
+              timeFormat={false}
+              onChange={x => isValidDate(x) && onChange({ to: parseDate(x) })}
+              value={filters.to}
+            />
+          </FormGroup>
         </Col>
       </Row>
       <Row>
         <Col lg={12}>
-          <ControlLabel>Currency</ControlLabel>
-          <ReactSelect
-            isMulti
-            options={currencies.map(x => ({ value: x.id, label: x.name }))}
-            onChange={currencies => onChange({ currencyId: currencies ? currencies.map(x => x.value) : [] })}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Vendor</ControlLabel>
-          <AsyncSelect
-            loadOptions={vendorLoader}
-            isMulti
-            onChange={vendors => onChange({ vendorId: vendors ? vendors.map(x => x.value) : [] })}
-            defaultOptions
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col lg={12}>
-          <ControlLabel>Type</ControlLabel>
-          <ReactSelect
-            isMulti
-            options={types.map(x => { return { value: x.id, label: x.name } })}
-            onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
-          />
+          <FormGroup>
+            <ControlLabel>Currency</ControlLabel>
+            <ReactSelect
+              isMulti
+              options={currencies.map(x => ({ value: x.id, label: x.name }))}
+              onChange={currencies => onChange({ currencyId: currencies ? currencies.map(x => x.value) : [] })}
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Vendor</ControlLabel>
+            <AsyncSelect
+              loadOptions={vendorLoader}
+              isMulti
+              onChange={vendors => onChange({ vendorId: vendors ? vendors.map(x => x.value) : [] })}
+              defaultOptions
+            />
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Type</ControlLabel>
+            <ReactSelect
+              isMulti
+              options={types.map(x => { return { value: x.id, label: x.name } })}
+              onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
+            />
+          </FormGroup>
         </Col>
       </Row>
     </div>
