@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import { Col, Grid, Panel, Row, Table, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/lib';
 
 import { boundMethod } from 'autobind-decorator';
 import Moment from 'react-moment';
@@ -35,7 +35,7 @@ export default class CallsPage extends Page<{}, State> {
     };
 
     public componentDidMount() {
-        this.fetchCalls();
+        this.onFiltersChange();
     }
 
     public fetchCalls() {
@@ -43,7 +43,7 @@ export default class CallsPage extends Page<{}, State> {
     }
 
     @boundMethod
-    public onFiltersChange(changedFilters) {
+    public onFiltersChange(changedFilters?) {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
 
@@ -87,6 +87,14 @@ export default class CallsPage extends Page<{}, State> {
                                     onChange={date => this.onFiltersChange({ to: date })}
                                     value={filters.to}
                                 />
+                                <FormGroup>
+                                    <ControlLabel>Number</ControlLabel>
+                                    <FormControl
+                                        value={filters.number}
+                                        type="text"
+                                        onChange={x => this.onFiltersChange({ number: x.target.value })}
+                                    />
+                                </FormGroup>
                             </Panel.Body>
                         </Panel>
                     </Col>
@@ -102,7 +110,7 @@ export default class CallsPage extends Page<{}, State> {
                                 <Pagination
                                     page={filters.page}
                                     pages={pages}
-                                    onPageChange={(page) => this.onFiltersChange({ page })}
+                                    onPageChange={page => this.onFiltersChange({ page })}
                                 />
                             </Panel.Body>
                         </Panel>
