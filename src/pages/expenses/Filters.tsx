@@ -13,7 +13,7 @@ import { ExpenseFilters } from 'types/expenses';
 
 type Props = {
   currencies: Currency[];
-  filters: any;
+  filters: ExpenseFilters;
   types: any,
   onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }

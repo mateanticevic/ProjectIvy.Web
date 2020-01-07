@@ -15,13 +15,13 @@ type Props = {
 }
 
 const daysofWeek = [
-  {value: 'Monday', label: 'Monday'},
-  {value: 'Tuesday', label: 'Tuesday'},
-  {value: 'Wednesday', label: 'Wednesday'},
-  {value: 'Thursday', label: 'Thursday'},
-  {value: 'Friday', label: 'Friday'},
-  {value: 'Saturday', label: 'Saturday'},
-  {value: 'Sunday', label: 'Sunday'},
+  { value: 'Monday', label: 'Monday' },
+  { value: 'Tuesday', label: 'Tuesday' },
+  { value: 'Wednesday', label: 'Wednesday' },
+  { value: 'Thursday', label: 'Thursday' },
+  { value: 'Friday', label: 'Friday' },
+  { value: 'Saturday', label: 'Saturday' },
+  { value: 'Sunday', label: 'Sunday' },
 ];
 
 const FiltersMore = (props: Props) => {
@@ -63,7 +63,7 @@ const FiltersMore = (props: Props) => {
           <ReactSelect
             isMulti
             options={daysofWeek}
-            onChange={days => props.onChange({ day: days.map(x => x.value) })}
+            onChange={days => props.onChange({ day: days ? days.map(x => x.value) : [] })}
           />
         </Col>
       </Row>
@@ -73,7 +73,7 @@ const FiltersMore = (props: Props) => {
           <ReactSelect
             isMulti
             options={props.paymentTypes.map(x => ({ value: x.id, label: x.name }))}
-            onChange={paymentTypes => props.onChange({ paymentTypeId: paymentTypes.map(x => x.value) })}
+            onChange={paymentTypes => props.onChange({ paymentTypeId: paymentTypes ? paymentTypes.map(x => x.value) : [] })}
           />
         </Col>
       </Row>
@@ -83,7 +83,7 @@ const FiltersMore = (props: Props) => {
           <ReactSelect
             isMulti
             options={props.cards.map(x => ({ value: x.id, label: x.name }))}
-            onChange={cards => props.onChange({ cardId: cards.map(x => x.value) })}
+            onChange={cards => props.onChange({ cardId: cards ? cards.map(x => x.value) : [] })}
           />
         </Col>
       </Row>
