@@ -7,6 +7,8 @@ import { Call } from 'types/calls';
 import api from '../../api/main';
 import { Pagination } from '../../components';
 import * as formatHelper from '../../utils/formatHelper';
+import { DateFormElement } from '../../components';
+import { Page } from '../Page';
 
 interface State {
     calls: {
@@ -19,7 +21,7 @@ interface State {
     };
 }
 
-export default class CallsPage extends React.Component {
+export default class CallsPage extends Page<{}, State> {
 
     public state: State = {
         calls: {
@@ -41,13 +43,11 @@ export default class CallsPage extends React.Component {
     }
 
     @boundMethod
-    public onFiltersChange(keyValue) {
-        this.setState({
-            filters: {
-                ...this.state.filters,
-                ...keyValue,
-            },
-        }, this.fetchCalls);
+    public onFiltersChange(changedFilters) {
+        const filters = this.resolveFilters(this.state.filters, changedFilters);
+        this.pushHistoryState(filters);
+
+        this.setState({ filters }, this.fetchCalls);
     }
 
     @boundMethod
@@ -73,7 +73,24 @@ export default class CallsPage extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col lg={12}>
+                    <Col lg={3}>
+                        <Panel>
+                            <Panel.Heading>Filters</Panel.Heading>
+                            <Panel.Body>
+                                <DateFormElement
+                                    label="From"
+                                    onChange={date => this.onFiltersChange({ from: date })}
+                                    value={filters.from}
+                                />
+                                <DateFormElement
+                                    label="To"
+                                    onChange={date => this.onFiltersChange({ to: date })}
+                                    value={filters.to}
+                                />
+                            </Panel.Body>
+                        </Panel>
+                    </Col>
+                    <Col lg={9}>
                         <Panel>
                             <Panel.Heading>Calls ({calls.count})</Panel.Heading>
                             <Panel.Body>
