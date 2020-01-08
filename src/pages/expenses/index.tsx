@@ -19,7 +19,7 @@ interface State {
   cards: any[];
   currencies: Currency[];
   defaultCurrency: Currency;
-  expense: Partial<ExpenseBinding>;
+  expense: Expense;
   expenses: Expense[];
   expensesAreLoading: boolean;
   files: any[];
@@ -115,13 +115,14 @@ class ExpensesPage extends Page<{}, State> {
       .then(() => { });
   }
 
-  public newExpense(): Partial<ExpenseBinding> {
+  public newExpense(): Partial<Expense> {
     return {
       amount: 0,
-      date: moment().format('YYYY-MM-DD'),
+      date: moment().format('YYYY-M-D'),
       comment: '',
-      currencyId: this.state.defaultCurrency.id,
-      expenseTypeId: this.state.types[0].id
+      currency: this.state.defaultCurrency,
+      expenseType: this.state.types[0],
+      paymentType: this.state.paymentTypes[0],
     };
   }
 
@@ -142,7 +143,10 @@ class ExpensesPage extends Page<{}, State> {
   @boundMethod
   public onExpenseEdit(expense: Expense) {
     this.setState({
-      expense: this.toExpenseBinding(expense),
+      expense: {
+        ...expense,
+        date: moment(expense.date).format('YYYY-M-D'),
+      },
       files: expense.files,
       isModalOpen: true,
     });
@@ -162,10 +166,11 @@ class ExpensesPage extends Page<{}, State> {
 
     const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
 
-    saveMethod(this.state.expense).then(() => {
-      this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
-      this.onFiltersChanged();
-    })
+    saveMethod(this.toExpenseBinding(this.state.expense))
+      .then(() => {
+        this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
+        this.onFiltersChanged();
+      })
       .catch(() => this.setState({ isSavingExpense: false }));
   }
 

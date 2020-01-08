@@ -5,13 +5,13 @@ import AsyncSelect from 'react-select/async';
 
 import Select from '../../components/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
-import { ExpenseBinding } from 'types/expenses';
+import { Expense } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
 
 type Props = {
   cards: any,
   currencies: any,
-  expense: ExpenseBinding,
+  expense: Expense,
   deleteFile: any,
   fileTypes: any,
   files: any,
@@ -37,9 +37,10 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <InputGroup>
                 <Datetime value={expense.date}
                   defaultValue={new Date()}
-                  dateFormat="YYYY-MM-DD"
+                  dateFormat="YYYY-M-D"
                   timeFormat={false}
-                  onChange={x => onChange({ date: x.format('YYYY-MM-DD') })} />
+                  onChange={x => onChange({ date: x.format('YYYY-M-D') })}
+                />
                 <InputGroup.Addon>
                   <Glyphicon glyph="calendar" />
                 </InputGroup.Addon>
@@ -50,9 +51,10 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <ControlLabel>Type</ControlLabel>
               <Select
-                selected={expense.expenseTypeId}
+                selected={expense.expenseType.id}
                 options={types}
-                onChange={expenseTypeId => onChange({ expenseTypeId })} hideDefaultOption={true}
+                onChange={expenseTypeId => onChange({ expenseType: { id: expenseTypeId } })}
+                hideDefaultOption={true}
               />
             </FormGroup>
           </Col>
@@ -63,8 +65,8 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
               <ControlLabel>Vendor</ControlLabel>
               <AsyncSelect
                 loadOptions={vendorLoader}
-                onChange={x => onChange({ vendorId: x.value })}
-                defaultValue={{ value: expense.vendorId, label: expense.vendorId }}
+                onChange={vendor => onChange({ vendor: { id: vendor.value } })}
+                defaultValue={{ value: expense.vendor?.id, label: expense.vendor?.name }}
                 defaultOptions
               />
             </FormGroup>
@@ -72,7 +74,12 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Poi</ControlLabel>
-              <Select selected={expense.poiId} defaultOptionValue="N/A" options={vendorPois} onChange={poiId => onChange({ poiId })} />
+              <Select
+                selected={expense.poi?.id}
+                defaultOptionValue="N/A"
+                options={vendorPois}
+                onChange={poiId => onChange({ poi: { id: poiId } })}
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -80,15 +87,24 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Currency</ControlLabel>
-              <Select selected={expense.currencyId} options={currencies} onChange={currencyId => onChange({ currencyId })} hideDefaultOption={true} />
+              <Select
+                hideDefaultOption={true}
+                onChange={currencyId => onChange({ currency: { id: currencyId } })}
+                options={currencies}
+                selected={expense.currency.id}
+              />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Amount</ControlLabel>
               <InputGroup>
-                <FormControl value={expense.amount} type="number" onChange={(x) => onChange({ amount: x.target.value })} />
-                <InputGroup.Addon>{expense.currencyId}</InputGroup.Addon>
+                <FormControl
+                  onChange={(x) => onChange({ amount: x.target.value })}
+                  type="number"
+                  value={expense.amount}
+                />
+                <InputGroup.Addon>{expense.currency?.id}</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -97,13 +113,23 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Payment type</ControlLabel>
-              <Select selected={expense.paymentTypeId} options={paymentTypes} onChange={paymentTypeId => onChange({ paymentTypeId })} hideDefaultOption={true} />
+              <Select
+                hideDefaultOption={true}
+                onChange={paymentTypeId => onChange({ paymentType: { id: paymentTypeId } })}
+                options={paymentTypes}
+                selected={expense.paymentType?.id}
+              />
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Card</ControlLabel>
-              <Select selected={expense.cardId} defaultOptionValue="N/A" options={cards} onChange={cardId => onChange({ cardId })} />
+              <Select
+                defaultOptionValue="N/A"
+                onChange={cardId => onChange({ card: { id: cardId } })}
+                options={cards}
+                selected={expense.card?.id}
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -111,7 +137,11 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           <Col lg={12}>
             <FormGroup>
               <ControlLabel>Description</ControlLabel>
-              <FormControl value={expense.comment} type="text" onChange={x => onChange({ comment: x.target.value })} />
+              <FormControl
+                value={expense.comment}
+                type="text"
+                onChange={x => onChange({ comment: x.target.value })}
+              />
             </FormGroup>
           </Col>
         </Row>
@@ -121,10 +151,11 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Parent currency</ControlLabel>
-              <Select selected={expense.parentCurrencyId}
+              <Select
+                selected={expense.parentCurrency?.id}
                 options={currencies}
                 defaultOptionValue="No parent currency"
-                onChange={x => onChange({ parentCurrencyId: x })}
+                onChange={parentCurrencyId => onChange({ parentCurrency: { id: parentCurrencyId } })}
               />
             </FormGroup>
           </Col>
@@ -132,15 +163,21 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <ControlLabel>Exchange rate</ControlLabel>
               <InputGroup>
-                <FormControl value={expense.parentCurrencyExchangeRate} type="number" readOnly={!expense.parentCurrencyId} onChange={(x) => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })} />
-                <InputGroup.Addon>{expense.currencyId} -> {expense.parentCurrencyId}</InputGroup.Addon>
+                <FormControl
+                  value={expense.parentCurrencyExchangeRate}
+                  type="number"
+                  readOnly={!expense.parentCurrency?.id}
+                  onChange={(x) => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
+                />
+                <InputGroup.Addon>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Addon>
               </InputGroup>
             </FormGroup>
           </Col>
         </Row>
       </Tab>
       <Tab eventKey={3} title="Files">
-        <ExpenseFormFilesTab expense={expense}
+        <ExpenseFormFilesTab
+          expense={expense}
           fileTypes={fileTypes}
           uploadFiles={[]}
           files={files}

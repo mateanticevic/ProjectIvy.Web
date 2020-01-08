@@ -53,7 +53,7 @@
     "react-hot-loader": "4.12.14",
     "rimraf": "2.5.4",
     "tslint": "5.18.0",
-    "typescript": "3.6.3"
+    "typescript": "^3.7.4"
   },
   "keywords": [],
   "repository": {
