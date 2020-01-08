@@ -7,6 +7,7 @@ import Select from '../../components/Select';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 import { Expense } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
+import { DateFormElement } from '../../components';
 
 type Props = {
   cards: any,
@@ -32,29 +33,20 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
       <Tab eventKey={1} title="General">
         <Row>
           <Col lg={6}>
-            <FormGroup>
-              <ControlLabel>Date</ControlLabel>
-              <InputGroup>
-                <Datetime value={expense.date}
-                  defaultValue={new Date()}
-                  dateFormat="YYYY-M-D"
-                  timeFormat={false}
-                  onChange={x => onChange({ date: x.format('YYYY-M-D') })}
-                />
-                <InputGroup.Addon>
-                  <Glyphicon glyph="calendar" />
-                </InputGroup.Addon>
-              </InputGroup>
-            </FormGroup>
+            <DateFormElement
+              label="Date"
+              onChange={date => onChange({ date })}
+              value={expense.date}
+            />
           </Col>
           <Col lg={6}>
             <FormGroup>
               <ControlLabel>Type</ControlLabel>
               <Select
-                selected={expense.expenseType.id}
-                options={types}
-                onChange={expenseTypeId => onChange({ expenseType: { id: expenseTypeId } })}
                 hideDefaultOption={true}
+                onChange={expenseTypeId => onChange({ expenseType: { id: expenseTypeId } })}
+                options={types}
+                selected={expense.expenseType.id}
               />
             </FormGroup>
           </Col>

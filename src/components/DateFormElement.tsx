@@ -4,7 +4,7 @@ import { FormGroup, ControlLabel, InputGroup, Glyphicon } from 'react-bootstrap/
 
 type Props = {
     label: string,
-    onChange: () => void;
+    onChange: (date: string) => void;
     value?: any,
 }
 
