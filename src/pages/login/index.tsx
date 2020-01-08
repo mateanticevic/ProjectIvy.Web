@@ -20,6 +20,12 @@ class LoginPage extends React.Component<{}, State> {
     password: '',
   };
 
+  componentDidMount() {
+    if(window.location.search === '?logout'){
+      localStorage.removeItem('token');
+    }
+  }
+
   @boundMethod
   public loginTry(event) {
     event.preventDefault();

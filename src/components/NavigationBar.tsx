@@ -58,7 +58,7 @@ const NavigationBar = ({ user }: Props) => {
         </Nav>
         <Nav pullRight>
           <NavDropdown id="nav_user" eventKey={4} title={`${firstName} ${lastName}`}>
-            <LinkContainer to="/login">
+            <LinkContainer to="/login?logout">
               <MenuItem>Logout</MenuItem>
             </LinkContainer>
           </NavDropdown>
