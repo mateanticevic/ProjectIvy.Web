@@ -1,4 +1,4 @@
-import { default as React } from 'react';
+import React from 'react';
 import { GoogleMap, withGoogleMap } from 'react-google-maps';
 
 const GoogleMaps = withGoogleMap((props) => (

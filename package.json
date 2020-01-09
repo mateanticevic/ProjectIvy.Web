@@ -46,13 +46,13 @@
     "src": "1.1.2"
   },
   "devDependencies": {
-    "@babel/preset-react": "7.0.0",
+    "@babel/preset-react": "^7.7.4",
     "browser-sync": "2.26.7",
     "node-sass": "4.9.3",
     "parcel-bundler": "^1.12.4",
     "react-hot-loader": "4.12.14",
     "rimraf": "2.5.4",
-    "tslint": "5.18.0",
+    "tslint": "^5.20.1",
     "typescript": "^3.7.4"
   },
   "keywords": [],

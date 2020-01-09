@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Datetime from 'react-datetime';
 import { FormGroup, ControlLabel, InputGroup, Glyphicon } from 'react-bootstrap/lib';
 

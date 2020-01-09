@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +23,7 @@ interface State {
   user?: User;
 }
 
-export default class Root extends Component<{}, State> {
+export default class Root extends React.Component<{}, State> {
 
   public state: State = {
     isLoggedIn: false,
