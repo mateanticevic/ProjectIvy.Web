@@ -1,6 +1,5 @@
 import React from 'react';
-import Col from 'react-bootstrap/lib/Col';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import { ControlLabel, Col, FormGroup } from 'react-bootstrap/lib';
 import Row from 'react-bootstrap/lib/Row';
 import Datetime from 'react-datetime';
 import ReactSelect from 'react-select';
@@ -10,7 +9,6 @@ import moment from 'moment';
 import { Currency } from 'types/expenses';
 import { vendorLoader } from '../../utils/selectLoaders';
 import { ExpenseFilters } from 'types/expenses';
-import { FormGroup } from 'react-bootstrap';
 
 type Props = {
   currencies: Currency[];
