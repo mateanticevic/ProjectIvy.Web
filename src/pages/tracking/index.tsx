@@ -2,8 +2,9 @@ import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Button, Col, ControlLabel, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import { Button, Col, Grid, Panel, Row, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
+import FontAwesome from 'react-fontawesome';
 import { Polyline } from 'react-google-maps';
 
 import api from '../../api/main';
@@ -11,10 +12,17 @@ import { Map } from '../../components';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
+import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 interface State {
     filters: any;
     movements: Movement[];
+    mapMode: MapMode;
+}
+
+enum MapMode {
+    Move = "Move",
+    Select = "Select",
 }
 
 class TrackingPage extends Page<{}, State> {
@@ -33,6 +41,7 @@ class TrackingPage extends Page<{}, State> {
         filters: {
         },
         movements: [],
+        mapMode: MapMode.Move,
     };
 
     @boundMethod
@@ -66,17 +75,22 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
-    public loadOnThisDay() {
+    private loadOnThisDay() {
         for (let year = 2014; year <= moment().year(); year++) {
             this.loadDay(moment().year(year).format('YYYY-MM-DD'));
         }
     }
 
     @boundMethod
-    public onRemoveTracking(id) {
+    private onRemoveTracking(id) {
         this.setState({
             movements: _.filter(this.state.movements, (t) => t.id !== id),
         });
+    }
+
+    @boundMethod
+    private onSelectComplete(rectangle: google.maps.Rectangle){
+        console.log(rectangle);
     }
 
     public render() {
@@ -91,9 +105,19 @@ class TrackingPage extends Page<{}, State> {
                             <Panel.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
                                     {movements.map((movement) => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
+                                    {this.state.mapMode === MapMode.Select &&
+                                        <DrawingManager
+                                            defaultDrawingMode={google.maps.drawing.OverlayType.RECTANGLE}
+                                            onRectangleComplete={this.onSelectComplete}
+                                        />
+                                    }
                                 </Map>
                             </Panel.Body>
                             <Panel.Footer className="flex-container">
+                                <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={mapMode => this.setState({ mapMode })}>
+                                    <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
+                                    <ToggleButton value={MapMode.Select}><FontAwesome name="square-o" /> Select</ToggleButton>
+                                </ToggleButtonGroup>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={(date) => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
                             </Panel.Footer>

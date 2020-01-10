@@ -121,12 +121,16 @@ class PoisPage extends React.Component {
           <Col lg={3}>
             <Panel>
               <Panel.Heading>Filters</Panel.Heading>
-              <Panel.Body>              <ControlLabel>Category</ControlLabel>
+              <Panel.Body>
+                <ControlLabel>Category</ControlLabel>
                 <Select options={this.state.poiCategories} onChange={(id) => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
                 <Select options={this.state.vendors} onChange={(id) => this.onFiltersChanged({ vendorId: id })} />
                 <ControlLabel>Name</ControlLabel>
-                <FormControl type="text" onChange={(x) => this.onFiltersChanged({ name: x.target.value })} />
+                <FormControl
+                  type="text"
+                  onChange={(x) => this.onFiltersChanged({ name: x.target.value })}
+                />
               </Panel.Body>
             </Panel>
           </Col>
@@ -135,7 +139,8 @@ class PoisPage extends React.Component {
               pagedItems={{ page: this.state.filters.page, pageSize: this.state.filters.pageSize, list: this.state.pois }}
               onNewClick={this.onNewClick}
               addToTrip={this.onAddToTrip}
-              onPageChange={(page) => this.onFiltersChanged({ page })} />
+              onPageChange={(page) => this.onFiltersChanged({ page })}
+            />
           </Col>
         </Row>
         <PoiModal isOpen={this.state.isModalOpen}
@@ -143,7 +148,8 @@ class PoisPage extends React.Component {
           onSave={this.onSave}
           categories={this.state.poiCategories}
           onPoiChange={this.onPoiChange}
-          poi={this.state.poi} />
+          poi={this.state.poi}
+        />
       </Grid>
     );
   }
