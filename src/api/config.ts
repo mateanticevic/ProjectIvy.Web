@@ -4,6 +4,7 @@ import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';
 import { httpStatus } from './httpStatus';
+import query from 'query-string';
 
 const headers = new Headers();
 headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
@@ -27,16 +28,17 @@ function handleResponse(response) {
     }
 }
 
-function apiPath(resource: string, parameters?: string) {
+function apiPath(resource: string, parameters?: any) {
     let url = config.api.url + resource;
     if (parameters) {
-        url = url + urlHelper.jsonToQueryString(parameters);
+        //url = url + urlHelper.jsonToQueryString(parameters);
+        url = url + '?' + urlHelper.jsonToQueryString(parameters);
     }
 
     return url;
 }
 
-export function get(resource: string, parameters?: string) {
+export function get(resource: string, parameters?: any) {
 
     const init: RequestInit = {
         cache: 'default',

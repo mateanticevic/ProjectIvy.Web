@@ -1,19 +1,20 @@
-export function jsonToQueryString(json: any) {
-    if (json === undefined || json === null || json == {}) {
-        return '';
-    }
-
-    return '?' +
-        Object.keys(json).map(function(key) {
-
-            if (typeof (json[key]) == 'object') {
-                return objectToArray(key, json[key]);
-            }
-
-            return encodeURIComponent(key) + '=' +
-                encodeURIComponent(json[key]);
-        }).filter(x => x).join('&');
-}
+export function jsonToQueryString(queryObj, nesting = "") {
+    let queryString = "";
+  
+    const pairs = Object.entries(queryObj).map(([key, val]) => {
+      // Handle a second base case where the value to encode is an array
+      if (Array.isArray(val)) {
+        return val
+          .map(subVal => [nesting + key, subVal].map(escape).join("="))
+          .join("&");
+      } else if (typeof val === "object") {
+        return jsonToQueryString(val, nesting + `${key}.`);
+      } else {
+        return [nesting + key, val].map(escape).join("=");
+      }
+    });
+    return pairs.join("&");
+  }
 
 export function queryStringToJson(queryString: string) {
     const search = queryString.substring(1);

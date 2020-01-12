@@ -15,6 +15,7 @@ import { Movement } from './types';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 interface State {
+    datesInsideRectangle: string[];
     filters: any;
     movements: Movement[];
     mapMode: MapMode;
@@ -38,6 +39,7 @@ class TrackingPage extends Page<{}, State> {
     ];
 
     public state = {
+        datesInsideRectangle: [],
         filters: {
         },
         movements: [],
@@ -89,12 +91,26 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private onSelectComplete(rectangle: google.maps.Rectangle){
+    private onSelectComplete(rectangle: google.maps.Rectangle) {
         console.log(rectangle);
+        const filters = {
+            topLeft: {
+                lat: rectangle.getBounds().getNorthEast().lat(),
+                lng: rectangle.getBounds().getSouthWest().lng(),
+            },
+            bottomRight: {
+                lat: rectangle.getBounds().getSouthWest().lat(),
+                lng: rectangle.getBounds().getNorthEast().lng(),
+            },
+        };
+
+        api.tracking
+           .getDays(filters)
+           .then(datesInsideRectangle => this.setState({ datesInsideRectangle }));
     }
 
     public render() {
-        const { filters, movements } = this.state;
+        const { datesInsideRectangle, filters, movements } = this.state;
 
         return (
             <Grid>
@@ -124,11 +140,27 @@ class TrackingPage extends Page<{}, State> {
                         </Panel>
                         {movements.length > 0 &&
                             <Panel>
-                                <Panel.Heading>Days</Panel.Heading>
+                                <Panel.Heading>Movements</Panel.Heading>
                                 <Panel.Body>
                                     <Table>
                                         <tbody>
-                                            {movements.map((movement) => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
+                                            {movements.map(movement => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
+                                        </tbody>
+                                    </Table>
+                                </Panel.Body>
+                            </Panel>
+                        }
+                        {datesInsideRectangle.length > 0 &&
+                            <Panel>
+                                <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
+                                <Panel.Body>
+                                    <Table>
+                                        <tbody>
+                                            {datesInsideRectangle.map(date =>
+                                                <tr>
+                                                    <td>{date}</td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>
