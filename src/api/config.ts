@@ -4,7 +4,6 @@ import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';
 import { httpStatus } from './httpStatus';
-import query from 'query-string';
 
 const headers = new Headers();
 headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));

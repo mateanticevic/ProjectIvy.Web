@@ -6,7 +6,6 @@ const GoogleMaps = withGoogleMap((props) => (
     onClick={props.onClick}
     onDragEnd={() => { if (props.onDragEnd) { props.onDragEnd(); }}}
     defaultZoom={props.defaultZoom}
-    center={props.defaultCenter}
     defaultCenter={props.defaultCenter}>
     {props.children}
   </GoogleMap>

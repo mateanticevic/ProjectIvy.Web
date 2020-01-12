@@ -42,8 +42,8 @@ class TrackingPage extends Page<{}, State> {
         datesInsideRectangle: [],
         filters: {
         },
-        movements: [],
         mapMode: MapMode.Move,
+        movements: [],
     };
 
     @boundMethod
@@ -105,12 +105,12 @@ class TrackingPage extends Page<{}, State> {
         };
 
         api.tracking
-           .getDays(filters)
-           .then(datesInsideRectangle => this.setState({ datesInsideRectangle }));
+            .getDays(filters)
+            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }));
     }
 
     public render() {
-        const { datesInsideRectangle, filters, movements } = this.state;
+        const { datesInsideRectangle, filters, mapCenter, movements } = this.state;
 
         return (
             <Grid>
@@ -119,7 +119,7 @@ class TrackingPage extends Page<{}, State> {
                         <Panel>
                             <Panel.Heading>Map</Panel.Heading>
                             <Panel.Body className="padding-0 panel-large">
-                                <Map defaultZoom={12} defaultCenter={{ lat: 45.794441, lng: 15.928380 }}>
+                                <Map defaultZoom={12} defaultCenter={{ lat: 45.798894, lng: 15.908531 }}>
                                     {movements.map((movement) => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
                                     {this.state.mapMode === MapMode.Select &&
                                         <DrawingManager
