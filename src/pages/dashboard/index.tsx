@@ -51,23 +51,23 @@ class DashboardPage extends React.Component {
       from: moment().date(1).format('YYYY-MM-DD'),
     };
 
-    api.consumation.get(lastFiveFilters).then((consumations) => this.setState({ consumations: consumations.items }));
-    api.movie.get(lastFiveFilters).then((movies) => this.setState({ movies: movies.items }));
-    api.tracking.getLast().then((location) => this.setState({ location }));
-    api.car.getLogLatest('golf-7').then((carLogLatest) => this.setState({ carLogLatest }));
-    api.web.getTimeTotalByDay(monthFilters).then((onlineGraphData) => this.setState({ onlineGraphData }));
+    api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
+    api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
+    api.tracking.getLast().then(location => this.setState({ location }));
+    api.car.getLogLatest('golf-7').then(carLogLatest => this.setState({ carLogLatest }));
+    api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
 
-    api.expense.get(lastFiveFilters).then((expenses) => this.setState({ expenses: expenses.items }));
-    api.expense.getSum(todayFilters).then((today) => this.setState({ spent: { ...this.state.spent, today } }));
-    api.expense.getSum(weekFilters).then((week) => this.setState({ spent: { ...this.state.spent, week } }));
-    api.expense.getSum(monthFilters).then((month) => this.setState({ spent: { ...this.state.spent, month } }));
+    api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
+    api.expense.getSum(todayFilters).then(today => this.setState({ spent: { ...this.state.spent, today } }));
+    api.expense.getSum(weekFilters).then(week => this.setState({ spent: { ...this.state.spent, week } }));
+    api.expense.getSum(monthFilters).then(month => this.setState({ spent: { ...this.state.spent, month } }));
 
-    api.tracking.getDistance(todayFilters).then((today) => this.setState({ distance: { ...this.state.distance, today } }));
-    api.tracking.getDistance(weekFilters).then((week) => this.setState({ distance: { ...this.state.distance, week } }));
-    api.tracking.getDistance(monthFilters).then((month) => this.setState({ distance: { ...this.state.distance, month } }));
+    api.tracking.getDistance(todayFilters).then(today => this.setState({ distance: { ...this.state.distance, today } }));
+    api.tracking.getDistance(weekFilters).then(week => this.setState({ distance: { ...this.state.distance, week } }));
+    api.tracking.getDistance(monthFilters).then(month => this.setState({ distance: { ...this.state.distance, month } }));
   }
 
-  public dayOfWeek(date) {
+  private dayOfWeek(date) {
     const fullDate = (
       <Tooltip id="tooltip">
         <Moment format="Do MMMM YYYY">{date}</Moment>
@@ -78,46 +78,36 @@ class DashboardPage extends React.Component {
   }
 
   @boundMethod
-  public dateTimeFormat(dateTime) {
+  private dateTimeFormat(dateTime) {
     return moment(dateTime).date() === moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
   }
 
-  @boundMethod
-  public dateFormat(dateTime) {
-    return moment(dateTime).date() === moment().date() ? 'Today' : moment(dateTime).format('MMMM Do');
-  }
-
-  public render() {
-
-    const that = this;
-
+  render() {
     const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
-    const expenseItems = expenses.map((expense) => {
+    const expenseItems = expenses.map(expense => {
       return <ListGroupItem key={_.uniqueId('list_item_')}>
-        {that.dayOfWeek(expense.date)} <ExpenseTypeLabel expenseType={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
+        {this.dayOfWeek(expense.date)} <ExpenseTypeLabel expenseType={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
       </ListGroupItem>;
     });
 
-    const movieItems = movies.map((movie) => {
+    const movieItems = movies.map(movie => {
       return <ListGroupItem key={_.uniqueId('list_item_')}>
-        {that.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
+        {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
         <span className="pull-right"><Label bsStyle="primary">{movie.myRating}</Label></span>
       </ListGroupItem>;
     });
 
-    const consumationItems = consumations.map((consumation) => {
+    const consumationItems = consumations.map(consumation => {
       const tooltip = <Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>;
 
       return <ListGroupItem key={_.uniqueId('list_item_')}>
-        {that.dayOfWeek(consumation.date)} {consumation.beer.name}
+        {this.dayOfWeek(consumation.date)} {consumation.beer.name}
         <OverlayTrigger placement="top" overlay={tooltip}>
           <span className="pull-right"><Label bsStyle="primary">{consumation.volume / 1000}L</Label></span>
         </OverlayTrigger>
       </ListGroupItem>;
     });
-
-    const locationHeader = `Last location @ ${that.dateTimeFormat(location.timestamp)}`;
 
     return (
       <Grid>
@@ -126,7 +116,7 @@ class DashboardPage extends React.Component {
             <Row>
               <Col lg={12}>
                 <Panel>
-                  <Panel.Heading>{locationHeader}</Panel.Heading>
+                  <Panel.Heading>Last location @ {this.dateTimeFormat(location.timestamp)}</Panel.Heading>
                   <Panel.Body className="panel-medium padding-0">
                     <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
                       <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />

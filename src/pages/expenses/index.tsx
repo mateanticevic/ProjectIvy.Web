@@ -252,9 +252,17 @@ class ExpensesPage extends Page<{}, State> {
         });
       });
 
-    api.expense.getSum(filters).then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
-    api.expense.getTypeCount(filters).then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
-    api.expense.getVendorCount(filters).then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
+    api.expense
+      .getSum(filters)
+      .then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+      
+    api.expense
+      .getTypeCount(filters)
+      .then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
+
+    api.expense
+      .getVendorCount(filters)
+      .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
   }
 
   @boundMethod

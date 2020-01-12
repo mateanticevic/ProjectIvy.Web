@@ -2,8 +2,8 @@ import React from 'react';
 import { Col, ControlLabel, FormControl, Grid, Panel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
-
 import { boundMethod } from 'autobind-decorator';
+
 import api from '../../api/main';
 import Map from '../../components/Map';
 import Select from '../../components/Select';
@@ -44,7 +44,7 @@ class PoisPage extends React.Component {
   }
 
   @boundMethod
-  public onFiltersChanged(filter) {
+  public onFiltersChanged(filter?) {
     const filters = { ...this.state.filters, ...filter };
     this.setState({ filters });
     api.poi.get(filters).then((pois) => this.setState({ pois }));
@@ -93,7 +93,7 @@ class PoisPage extends React.Component {
 
   public render() {
 
-    const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map((poi) => <Marker key={poi.id} defaultPosition={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
+    const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
 
     return (
       <Grid>
@@ -103,7 +103,7 @@ class PoisPage extends React.Component {
               <Panel.Heading>Map</Panel.Heading>
               <Panel.Body className="padding-0 panel-large">
                 <Map onClick={this.onMapClick}
-                  map={(map) => this.map = map}
+                  map={map => this.map = map}
                   onDragEnd={this.onMapDragEnd}>
                   {poiMarkers}
                 </Map>
@@ -123,13 +123,13 @@ class PoisPage extends React.Component {
               <Panel.Heading>Filters</Panel.Heading>
               <Panel.Body>
                 <ControlLabel>Category</ControlLabel>
-                <Select options={this.state.poiCategories} onChange={(id) => this.onFiltersChanged({ categoryId: id })} />
+                <Select options={this.state.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
                 <ControlLabel>Vendor</ControlLabel>
-                <Select options={this.state.vendors} onChange={(id) => this.onFiltersChanged({ vendorId: id })} />
+                <Select options={this.state.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
                 <ControlLabel>Name</ControlLabel>
                 <FormControl
                   type="text"
-                  onChange={(x) => this.onFiltersChanged({ name: x.target.value })}
+                  onChange={x => this.onFiltersChanged({ name: x.target.value })}
                 />
               </Panel.Body>
             </Panel>

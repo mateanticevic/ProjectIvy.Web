@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Grid, Panel, Row, Table, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/lib';
-
-import { boundMethod } from 'autobind-decorator';
 import Moment from 'react-moment';
+import { boundMethod } from 'autobind-decorator';
+
 import { Call } from 'types/calls';
 import api from '../../api/main';
 import { Pagination } from '../../components';
@@ -65,7 +65,6 @@ export default class CallsPage extends Page<{}, State> {
     }
 
     public render() {
-
         const { calls, filters } = this.state;
 
         const pages = Math.ceil(calls.count / filters.pageSize);

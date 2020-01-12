@@ -56,7 +56,7 @@ class ToDosPage extends React.Component {
                             <Panel.Heading>To Do</Panel.Heading>
                             <Panel.Body className="padding-0 panel-large">
                                 <Form onSubmit={this.addNew}>
-                                    <FormControl type="text" value={this.state.newTodo} onChange={(x) => this.setState({ newTodo: x.target.value })} />
+                                    <FormControl type="text" value={this.state.newTodo} onChange={x => this.setState({ newTodo: x.target.value })} />
                                 </Form>
                                 <Table responsive>
                                     <tbody>

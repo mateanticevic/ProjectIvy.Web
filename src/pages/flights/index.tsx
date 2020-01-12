@@ -51,15 +51,13 @@ class FlightsPage extends Page<{}, State> {
     public render() {
         const { filters, flights } = this.state;
 
-        const flightsHeader = `Flights (${flights.count})`;
-
-        const airports = this.state.countByAirport.map((airport) => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
+        const airports = this.state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
             title={airport.by.name} />);
 
-        const flightPolylines = flights.items.map((flight) => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
+        const flightPolylines = flights.items.map(flight => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
             path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]} />);
 
-        const flightItems = flights.items.map((flight) => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
+        const flightItems = flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
             <Label bsStyle="primary" title={flight.origin.name}>{flight.origin.iata}</Label>&nbsp;
             <FontAwesome name="long-arrow-right" />&nbsp;
             <Label bsStyle="primary" title={flight.destination.name}>{flight.destination.iata}</Label>
@@ -109,7 +107,7 @@ class FlightsPage extends Page<{}, State> {
                         </Row>
                         <Row>
                             <Panel>
-                                <Panel.Heading>{flightsHeader}</Panel.Heading>
+                                <Panel.Heading>Flights ({flights.count})</Panel.Heading>
                                 <Panel.Body className="padding-0">
                                     <ListGroup>
                                         {flightItems}

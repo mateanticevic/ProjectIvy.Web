@@ -2,8 +2,8 @@ import moment from 'moment';
 import React from 'react';
 import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
 import { Marker, Polyline } from 'react-google-maps';
-
 import { boundMethod } from 'autobind-decorator';
+
 import { Trip } from 'types/trips';
 import api from '../../api/main';
 import { Map, ValueLabel } from '../../components';
@@ -57,16 +57,17 @@ class TripDetailsPage extends React.Component<{}, State> {
 
   @boundMethod
   public onUnlink(expenseId) {
-    api.trip.deleteExpense(this.state.trip.id, expenseId).then(() => { });
+    api.trip
+      .deleteExpense(this.state.trip.id, expenseId)
+      .then(() => { });
   }
 
   public render() {
-
     const { beerSum, trackings, trip } = this.state;
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
 
-    const poiMarkers = trip.pois != null ? trip.pois.map((poi) => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
+    const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
     return (
       <Grid>

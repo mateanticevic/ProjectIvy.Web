@@ -5,8 +5,8 @@ import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 import AsyncSelect from 'react-select/async';
 import ReactSelect from 'react-select';
-
 import { boundMethod } from 'autobind-decorator';
+
 import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
 import { Map, Pagination } from '../../components';
@@ -54,7 +54,7 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public loadCities(inputValue, callback) {
-    api.city.get({ search: inputValue }).then(cities => callback(cities.items.map((city) => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
+    api.city.get({ search: inputValue }).then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
   }
 
   @boundMethod
@@ -64,7 +64,6 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public onFiltersChanged(filterValue?) {
-    console.log(filterValue);
     const filters = this.resolveFilters(this.state.filters, filterValue);
     this.setState({
       filters,
@@ -96,7 +95,7 @@ class TripsPage extends Page<{}, State> {
   }
 
   public render() {
-    const countryPolygons = this.state.visitedCountries.map((country) => {
+    const countryPolygons = this.state.visitedCountries.map(country => {
       return country.polygons.map((path) => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
@@ -111,7 +110,7 @@ class TripsPage extends Page<{}, State> {
             <Panel>
               <Panel.Heading>Map</Panel.Heading>
               <Panel.Body className="padding-0 panel-large">
-                <Map onClick={() => { }} defaultCenter={{ lat: 50.666841, lng: 49.800719 }}>
+                <Map defaultCenter={{ lat: 50.666841, lng: 49.800719 }}>
                   {polygons}
                 </Map>
               </Panel.Body>
@@ -160,9 +159,7 @@ class TripsPage extends Page<{}, State> {
                 <Panel>
                   <Panel.Heading>
                     <Row>
-                      <Col xs={10}>
-                        {`Trips (${this.state.trips.count})`}
-                      </Col>
+                      <Col xs={10}>Trips ({trips.count})</Col>
                       <Col xs={2}>
                         <Button
                           className="pull-right"
@@ -184,8 +181,8 @@ class TripsPage extends Page<{}, State> {
                     </Row>
                     <Row>
                       <Col lg={12}>
-                        <Pagination page={this.state.filters.page}
-                          pages={Math.ceil(this.state.trips.count / this.state.filters.pageSize)}
+                        <Pagination page={filters.page}
+                          pages={Math.ceil(trips.count / filters.pageSize)}
                           onPageChange={page => this.onFiltersChanged({ page })}
                         />
                       </Col>

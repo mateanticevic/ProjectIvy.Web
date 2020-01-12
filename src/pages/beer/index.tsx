@@ -101,10 +101,10 @@ class BeerPage extends Page<{}, State> {
     public componentDidMount() {
         this.onFiltersChange();
         api.beer.getBrands()
-            .then((brands) => this.setState({ brands }, () => this.onConsumationBrandChange(brands[0].id)));
+            .then(brands => this.setState({ brands }, () => this.onConsumationBrandChange(brands[0].id)));
 
         api.common.getBeerServing()
-            .then((servings) => this.setState({ servings }, () => this.onConsumationChange({ servingId: servings[0].id })));
+            .then((servings => this.setState({ servings }, () => this.onConsumationChange({ servingId: servings[0].id })));
     }
 
     @boundMethod
@@ -157,7 +157,7 @@ class BeerPage extends Page<{}, State> {
 
         api.consumation
             .get(filters)
-            .then((consumations) => this.setState({ consumations }));
+            .then(consumations => this.setState({ consumations }));
 
         if (filterValue && filterValue.page) {
             return;
@@ -191,11 +191,11 @@ class BeerPage extends Page<{}, State> {
 
         api.consumation
             .getSumByServing(filters)
-            .then(data => this.setState({ sumByServing: data.items.map((x) => ({ name: x.by.name, value: x.sum })) }));
+            .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
     }
 
     public render() {
-        const consumationRows = this.state.consumations.items.map((consumation) => <tr key={_.uniqueId('consumation_row_')}>
+        const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
             <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
             <td>{consumation.beer.name}</td>
             <td>{consumation.serving}</td>
@@ -214,12 +214,12 @@ class BeerPage extends Page<{}, State> {
             </ListGroupItem>
         ));
 
-        const { consumations, filters } = this.state;
+        const { brands, consumations, filters, servings } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
 
-        const from = moment(this.state.filters.from);
-        const to = this.state.filters.to ? moment(this.state.filters.to) : moment();
+        const from = moment(filters.from);
+        const to = filters.to ? moment(filters.to) : moment();
 
         const perDay = (sum / (1 + to.diff(from, 'days'))).toFixed(2);
 
@@ -233,10 +233,10 @@ class BeerPage extends Page<{}, State> {
                             <Panel.Heading>Filters</Panel.Heading>
                             <Panel.Body>
                                 <Filters
-                                    filters={this.state.filters}
+                                    filters={filters}
                                     onChange={this.onFiltersChange}
-                                    servings={this.state.servings}
-                                    brands={this.state.brands}
+                                    servings={servings}
+                                    brands={brands}
                                 />
                             </Panel.Body>
                         </Panel>
@@ -284,9 +284,7 @@ class BeerPage extends Page<{}, State> {
                     </Col>
                     <Col lg={3}>
                         <Panel>
-                            <Panel.Heading>
-                                Top Beers
-                            </Panel.Heading>
+                            <Panel.Heading>Top Beers</Panel.Heading>
                             <Panel.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {topBeers}
@@ -294,9 +292,7 @@ class BeerPage extends Page<{}, State> {
                             </Panel.Body>
                         </Panel>
                         <Panel>
-                            <Panel.Heading>
-                                New Beers ({`${this.state.newBeers.count}`})
-                            </Panel.Heading>
+                            <Panel.Heading>New Beers ({this.state.newBeers.count})</Panel.Heading>
                             <Panel.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {newBeers}
@@ -304,9 +300,7 @@ class BeerPage extends Page<{}, State> {
                             </Panel.Body>
                         </Panel>
                         <Panel>
-                            <Panel.Heading>
-                                By Serving
-                            </Panel.Heading>
+                            <Panel.Heading>By Serving</Panel.Heading>
                             <Panel.Body className="panel-small padding-0">
                                 <SumByServingChart data={this.state.sumByServing} />
                             </Panel.Body>
@@ -326,7 +320,7 @@ class BeerPage extends Page<{}, State> {
                 />
                 <BeerModal
                     isOpen={this.state.beerModalOpen}
-                    brands={this.state.brands}
+                    brands={brands}
                     onChange={this.onBeerChange}
                     onClose={() => this.setState({ beerModalOpen: false })}
                     onSave={this.addBeer}

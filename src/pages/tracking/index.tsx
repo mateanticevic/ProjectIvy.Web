@@ -6,13 +6,13 @@ import { Button, Col, Grid, Panel, Row, Table, ToggleButtonGroup, ToggleButton }
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline } from 'react-google-maps';
+import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 import api from '../../api/main';
 import { Map } from '../../components';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
-import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 interface State {
     datesInsideRectangle: string[];
@@ -55,7 +55,6 @@ class TrackingPage extends Page<{}, State> {
         }
 
         this.pushHistoryState(filters);
-
         this.setState({ filters });
         this.loadDay(filters.day);
     }
@@ -92,7 +91,6 @@ class TrackingPage extends Page<{}, State> {
 
     @boundMethod
     private onSelectComplete(rectangle: google.maps.Rectangle) {
-        console.log(rectangle);
         const filters = {
             topLeft: {
                 lat: rectangle.getBounds().getNorthEast().lat(),
@@ -103,6 +101,8 @@ class TrackingPage extends Page<{}, State> {
                 lng: rectangle.getBounds().getNorthEast().lng(),
             },
         };
+
+        rectangle.setMap(null);
 
         api.tracking
             .getDays(filters)
@@ -120,7 +120,7 @@ class TrackingPage extends Page<{}, State> {
                             <Panel.Heading>Map</Panel.Heading>
                             <Panel.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.798894, lng: 15.908531 }}>
-                                    {movements.map((movement) => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
+                                    {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
                                     {this.state.mapMode === MapMode.Select &&
                                         <DrawingManager
                                             defaultDrawingMode={google.maps.drawing.OverlayType.RECTANGLE}
