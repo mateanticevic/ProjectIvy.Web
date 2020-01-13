@@ -62,8 +62,8 @@ class TrackingPage extends Page<{}, State> {
     public loadDay(day) {
         const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: day, to: nextDay };
-        api.tracking.get(filters).then((trackings) => {
-            api.tracking.getDistance(filters).then((distance) => {
+        api.tracking.get(filters).then(trackings => {
+            api.tracking.getDistance(filters).then(distance => {
                 const movement: Movement = {
                     day, trackings,
                     id: _.uniqueId(),
@@ -110,7 +110,7 @@ class TrackingPage extends Page<{}, State> {
     }
 
     public render() {
-        const { datesInsideRectangle, filters, mapCenter, movements } = this.state;
+        const { datesInsideRectangle, filters, movements } = this.state;
 
         return (
             <Grid>
@@ -158,7 +158,7 @@ class TrackingPage extends Page<{}, State> {
                                         <tbody>
                                             {datesInsideRectangle.map(date =>
                                                 <tr>
-                                                    <td>{date}</td>
+                                                    <td onClick={() => this.loadDay(date)}>{date}</td>
                                                 </tr>
                                             )}
                                         </tbody>
