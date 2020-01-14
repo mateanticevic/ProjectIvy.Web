@@ -47,19 +47,25 @@ class TripsPage extends Page<{}, State> {
   };
 
   public componentDidMount() {
-    api.country.getAll().then(countries => this.setState({ countries: countries.items }));
+    api.country
+      .getAll()
+      .then(countries => this.setState({ countries: countries.items }));
     this.loadVisitedCountries();
     this.onFiltersChanged();
   }
 
   @boundMethod
   public loadCities(inputValue, callback) {
-    api.city.get({ search: inputValue }).then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
+    api.city
+      .get({ search: inputValue })
+      .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
   }
 
   @boundMethod
   public loadVisitedCountries() {
-    api.country.getVisitedBoundaries().then(countries => this.setState({ visitedCountries: countries }));
+    api.country
+      .getVisitedBoundaries()
+      .then(countries => this.setState({ visitedCountries: countries }));
   }
 
   @boundMethod
@@ -71,16 +77,21 @@ class TripsPage extends Page<{}, State> {
     });
     this.pushHistoryState(filters);
 
-    api.trip.get(filters).then((trips) => this.setState({
-      trips,
-      tripsAreLoading: false,
-    }));
+    api.trip
+      .get(filters)
+      .then(trips => this.setState({
+        trips,
+        tripsAreLoading: false,
+      }));
   }
 
   @boundMethod
   public onTripChanged(changedValue: Partial<TripBinding>) {
     this.setState({
-      trip: { ...this.state.trip, ...changedValue },
+      trip: {
+        ...this.state.trip,
+        ...changedValue
+      },
     });
   }
 
@@ -96,7 +107,7 @@ class TripsPage extends Page<{}, State> {
 
   public render() {
     const countryPolygons = this.state.visitedCountries.map(country => {
-      return country.polygons.map((path) => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
+      return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
     const polygons = [].concat(...countryPolygons);

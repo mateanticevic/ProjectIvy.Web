@@ -16,14 +16,14 @@ const TripForm = ({ loadCities, onChange }: Props) => {
       <ControlLabel>Name</ControlLabel>
       <FormControl type="text" onChange={(x) => onChange({ name: x.target.value })} />
       <ControlLabel>Start</ControlLabel>
-      <Datetime dateFormat="YYYY-MM-DD" timeFormat="hh:mm" onChange={(x) => onChange({ timestampStart: x.format('YYYY-MM-DD hh:mm') })} />
+      <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ timestampStart: x.format('YYYY-MM-DD HH:mm') })} />
       <ControlLabel>End</ControlLabel>
-      <Datetime dateFormat="YYYY-MM-DD" timeFormat="hh:mm" onChange={(x) => onChange({ timestampEnd: x.format('YYYY-MM-DD hh:mm') })} />
+      <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ timestampEnd: x.format('YYYY-MM-DD HH:mm') })} />
       <ControlLabel>Cities</ControlLabel>
       <AsyncSelect
         loadOptions={loadCities}
         isMulti
-        onChange={(cities) => onChange({ cityIds: cities.map((x) => x.value) })}
+        onChange={cities => onChange({ cityIds: cities.map((x) => x.value) })}
         defaultOptions
       />
     </div>

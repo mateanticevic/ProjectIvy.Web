@@ -25,7 +25,12 @@ const TripModal = ({ isOpen, loadCities, onClose, onChange, onSave }: Props) => 
           loadCities={loadCities} />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onSave}>Add</Button>
+        <Button
+          bsStyle="primary"
+          onClick={onSave}
+        >
+          Add
+        </Button>
       </Modal.Footer>
     </Modal>
   );
