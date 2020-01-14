@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
-import Modal from 'react-bootstrap/lib/Modal';
+import { Modal } from 'react-bootstrap/lib';
 
+import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 import { TripBinding } from 'types/trips';
 import TripForm from './TripForm';
 
@@ -25,12 +25,12 @@ const TripModal = ({ isOpen, loadCities, onClose, onChange, onSave }: Props) => 
           loadCities={loadCities} />
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          bsStyle="primary"
+        <ButtonWithSpinner
+          isLoading={false}
           onClick={onSave}
         >
           Add
-        </Button>
+        </ButtonWithSpinner>
       </Modal.Footer>
     </Modal>
   );

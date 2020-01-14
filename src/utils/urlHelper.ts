@@ -13,7 +13,7 @@ export function jsonToQueryString(queryObj, nesting = "") {
         return [nesting + key, val].map(escape).join("=");
       }
     });
-    return pairs.join("&");
+    return pairs.filter(x => x).join("&");
   }
 
 export function queryStringToJson(queryString: string) {

@@ -97,11 +97,12 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public onTripSave() {
-    api.trip.post(this.state.trip)
+    api.trip
+      .post(this.state.trip)
       .then(() => {
+        this.setState({ isModalOpen: false });
         this.onFiltersChanged();
         this.loadVisitedCountries();
-        this.setState({ isModalOpen: false });
       });
   }
 
@@ -192,7 +193,8 @@ class TripsPage extends Page<{}, State> {
                     </Row>
                     <Row>
                       <Col lg={12}>
-                        <Pagination page={filters.page}
+                        <Pagination
+                          page={filters.page}
                           pages={Math.ceil(trips.count / filters.pageSize)}
                           onPageChange={page => this.onFiltersChanged({ page })}
                         />
