@@ -6,6 +6,7 @@ import { TripBinding } from 'types/trips';
 import TripForm from './TripForm';
 
 interface Props {
+  buttonIsLoading: boolean;
   isOpen: boolean;
   loadCities: any;
   onClose: () => void;
@@ -13,7 +14,7 @@ interface Props {
   onSave: () => void;
 }
 
-const TripModal = ({ isOpen, loadCities, onClose, onChange, onSave }: Props) => {
+const TripModal = ({ buttonIsLoading, isOpen, loadCities, onClose, onChange, onSave }: Props) => {
   return (
     <Modal show={isOpen} onHide={onClose}>
       <Modal.Header closeButton>
@@ -26,7 +27,7 @@ const TripModal = ({ isOpen, loadCities, onClose, onChange, onSave }: Props) => 
       </Modal.Body>
       <Modal.Footer>
         <ButtonWithSpinner
-          isLoading={false}
+          isLoading={buttonIsLoading}
           onClick={onSave}
         >
           Add

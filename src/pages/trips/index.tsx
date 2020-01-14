@@ -23,6 +23,7 @@ interface State {
   isModalOpen: boolean;
   trip: TripBinding;
   trips: any;
+  tripIsBeingAdded: boolean;
   tripsAreLoading: boolean;
   visitedCountries: any;
 }
@@ -42,6 +43,7 @@ class TripsPage extends Page<{}, State> {
       cityIds: [],
     },
     trips: { count: 0, items: [] },
+    tripIsBeingAdded: false,
     tripsAreLoading: true,
     visitedCountries: [],
   };
@@ -97,10 +99,14 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public onTripSave() {
+    this.setState({tripIsBeingAdded: true})
     api.trip
       .post(this.state.trip)
       .then(() => {
-        this.setState({ isModalOpen: false });
+        this.setState({
+          isModalOpen: false,
+          tripIsBeingAdded: false,
+        });
         this.onFiltersChanged();
         this.loadVisitedCountries();
       });
@@ -113,7 +119,7 @@ class TripsPage extends Page<{}, State> {
 
     const polygons = [].concat(...countryPolygons);
 
-    const { countries, filters, trips } = this.state;
+    const { countries, filters, trips, tripIsBeingAdded } = this.state;
 
     return (
       <Grid>
@@ -207,6 +213,7 @@ class TripsPage extends Page<{}, State> {
           </Col>
         </Row>
         <TripModal
+          buttonIsLoading={tripIsBeingAdded}
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onTripChanged}
           onSave={this.onTripSave}
