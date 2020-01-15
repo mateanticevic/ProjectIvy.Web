@@ -13,12 +13,15 @@ import { Map } from '../../components';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
+import SimpleLineChart from '../../components/SimpleLineChart';
+import tracking from 'api/main/tracking';
 
 interface State {
     datesInsideRectangle: string[];
     filters: any;
-    movements: Movement[];
     mapMode: MapMode;
+    movements: Movement[];
+    speedChartData?: any;
 }
 
 enum MapMode {
@@ -65,12 +68,16 @@ class TrackingPage extends Page<{}, State> {
         api.tracking.get(filters).then(trackings => {
             api.tracking.getDistance(filters).then(distance => {
                 const movement: Movement = {
-                    day, trackings,
+                    day,
+                    trackings,
                     id: _.uniqueId(),
                     distance,
                     color: this.colors[this.state.movements.length % this.colors.length],
                 };
-                this.setState({ movements: [...this.state.movements, movement] });
+                this.setState({
+                    movements: [...this.state.movements, movement],
+                    speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format("HH:mm") }))
+                });
             });
         });
     }
@@ -162,6 +169,16 @@ class TrackingPage extends Page<{}, State> {
                                                 </tr>
                                             )}
                                         </tbody>
+                                    </Table>
+                                </Panel.Body>
+                            </Panel>
+                        }
+                        {this.state.speedChartData &&
+                            <Panel>
+                                <Panel.Heading>Speed chart</Panel.Heading>
+                                <Panel.Body>
+                                    <Table>
+                                        <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
                                     </Table>
                                 </Panel.Body>
                             </Panel>

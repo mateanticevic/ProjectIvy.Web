@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
+import SimpleLineChart from '../../components/SimpleLineChart';
 
 const OnlineGraph = (props) => {
 
@@ -11,16 +12,10 @@ const OnlineGraph = (props) => {
     data = _.reverse(data);
 
     return (
-        <ResponsiveContainer height={300}>
-            <LineChart data={data}>
-                <XAxis dataKey="day" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="hours" stroke="#337ab7" unit=" h" />
-            </LineChart>
-        </ResponsiveContainer>
+        <SimpleLineChart
+            data={data}
+            unit=" h"
+        />
     );
 };
 
