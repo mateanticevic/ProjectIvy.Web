@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Modal, Row } from 'react-bootstrap/lib';
+import { Button, Col, Modal, Row, Checkbox } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
@@ -25,23 +25,25 @@ const ExpenseModal = (props) => {
                     cards={props.cards}
                     files={props.files}
                     deleteFile={props.deleteFile}
-                    linkFile={(expenseFile) => props.linkFile(props.expense.id, expenseFile)}
+                    linkFile={expenseFile => props.linkFile(props.expense.id, expenseFile)}
                     vendorPois={props.vendorPois}
                     uploadFiles={props.uploadFiles}
                     onVendorChanged={props.onVendorChanged}
-                    onChange={props.onChange} />
+                    onChange={props.onChange}
+                />
             </Modal.Body>
             <Modal.Footer>
                 <Row>
                     <Col lg={6}>
-                        <ButtonWithSpinner isLoading={props.isSaving} onClick={() => props.onExpenseAdd(true)}>
+                        <ButtonWithSpinner
+                            isLoading={props.isSaving}
+                            onClick={() => props.onExpenseAdd(true)}
+                        >
                             <FontAwesome name="save" /> Save
                         </ButtonWithSpinner>
                     </Col>
                     <Col lg={6}>
-                        {!props.expense.id &&
-                            <Button block bsStyle="primary" onClick={props.onExpenseAddAnother}>Save & continue</Button>
-                        }
+                        <Checkbox bsClass="pull-left"> Add another?</Checkbox>
                     </Col>
                 </Row>
 
