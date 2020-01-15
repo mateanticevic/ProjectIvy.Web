@@ -17,6 +17,7 @@ import SimpleLineChart from '../../components/SimpleLineChart';
 import tracking from 'api/main/tracking';
 
 interface State {
+    altitudeChartData?: any;
     datesInsideRectangle: string[];
     filters: any;
     mapMode: MapMode;
@@ -75,6 +76,7 @@ class TrackingPage extends Page<{}, State> {
                     color: this.colors[this.state.movements.length % this.colors.length],
                 };
                 this.setState({
+                    altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format("HH:mm") })),
                     movements: [...this.state.movements, movement],
                     speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format("HH:mm") }))
                 });
@@ -173,13 +175,19 @@ class TrackingPage extends Page<{}, State> {
                                 </Panel.Body>
                             </Panel>
                         }
+                        {this.state.altitudeChartData &&
+                            <Panel>
+                                <Panel.Heading>Altitude chart</Panel.Heading>
+                                <Panel.Body>
+                                    <SimpleLineChart data={this.state.altitudeChartData} unit=" m" />
+                                </Panel.Body>
+                            </Panel>
+                        }
                         {this.state.speedChartData &&
                             <Panel>
                                 <Panel.Heading>Speed chart</Panel.Heading>
                                 <Panel.Body>
-                                    <Table>
-                                        <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
-                                    </Table>
+                                    <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
                                 </Panel.Body>
                             </Panel>
                         }
