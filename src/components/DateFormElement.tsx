@@ -1,6 +1,8 @@
 import React from 'react';
 import Datetime from 'react-datetime';
+import enGb from 'moment/locale/en-gb';
 import { FormGroup, ControlLabel, InputGroup, Glyphicon } from 'react-bootstrap/lib';
+import moment from 'moment';
 
 type Props = {
     label: string,
@@ -17,6 +19,7 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
             <Datetime
                 dateFormat="YYYY-MM-DD"
                 timeFormat={false}
+                locale={moment.locale('us')}
                 onChange={x => onChange(x.format('YYYY-MM-DD'))}
                 value={value}
             />

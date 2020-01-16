@@ -208,7 +208,7 @@ class BeerPage extends Page<{}, State> {
             </ListGroupItem>
         ));
 
-        const newBeers = this.state.newBeers.items.map((beer) => (
+        const newBeers = this.state.newBeers.items.map(beer => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.name}
             </ListGroupItem>

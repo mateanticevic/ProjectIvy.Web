@@ -177,7 +177,7 @@ class TrackingPage extends Page<{}, State> {
                         }
                         {this.state.altitudeChartData &&
                             <Panel>
-                                <Panel.Heading>Altitude chart</Panel.Heading>
+                                <Panel.Heading>Altitude</Panel.Heading>
                                 <Panel.Body>
                                     <SimpleLineChart data={this.state.altitudeChartData} unit=" m" />
                                 </Panel.Body>
@@ -185,7 +185,7 @@ class TrackingPage extends Page<{}, State> {
                         }
                         {this.state.speedChartData &&
                             <Panel>
-                                <Panel.Heading>Speed chart</Panel.Heading>
+                                <Panel.Heading>Speed</Panel.Heading>
                                 <Panel.Body>
                                     <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
                                 </Panel.Body>
