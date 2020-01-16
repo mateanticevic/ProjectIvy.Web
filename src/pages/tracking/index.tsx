@@ -14,7 +14,7 @@ import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
 import SimpleLineChart from '../../components/SimpleLineChart';
-import tracking from 'api/main/tracking';
+import SimpleBarChart from '../../components/SimpleBarChart';
 
 interface State {
     altitudeChartData?: any;
@@ -23,6 +23,7 @@ interface State {
     mapMode: MapMode;
     movements: Movement[];
     speedChartData?: any;
+    yearsInsideRectangleChartData?: any;
 }
 
 enum MapMode {
@@ -115,7 +116,13 @@ class TrackingPage extends Page<{}, State> {
 
         api.tracking
             .getDays(filters)
-            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }));
+            .then(datesInsideRectangle => {
+                const countByYear = _.countBy(datesInsideRectangle.map(date => moment(date).year()));
+                this.setState({
+                    datesInsideRectangle,
+                    yearsInsideRectangleChartData: Object.keys(countByYear).map(key => ({ value: countByYear[key], name: key })),
+                });
+            });
     }
 
     public render() {
@@ -159,22 +166,36 @@ class TrackingPage extends Page<{}, State> {
                                 </Panel.Body>
                             </Panel>
                         }
-                        {datesInsideRectangle.length > 0 &&
-                            <Panel>
-                                <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
-                                <Panel.Body>
-                                    <Table>
-                                        <tbody>
-                                            {datesInsideRectangle.map(date =>
-                                                <tr>
-                                                    <td onClick={() => this.loadDay(date)}>{date}</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
-                                </Panel.Body>
-                            </Panel>
-                        }
+                        <Row>
+                            <Col lg={3}>
+                                {datesInsideRectangle.length > 0 &&
+                                    <Panel>
+                                        <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
+                                        <Panel.Body>
+                                            <Table>
+                                                <tbody>
+                                                    {datesInsideRectangle.map(date =>
+                                                        <tr>
+                                                            <td onClick={() => this.loadDay(date)}>{date}</td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </Table>
+                                        </Panel.Body>
+                                    </Panel>
+                                }
+                            </Col>
+                            <Col lg={9}>
+                                {this.state.yearsInsideRectangleChartData &&
+                                    <Panel>
+                                        <Panel.Heading>By year</Panel.Heading>
+                                        <Panel.Body>
+                                            <SimpleBarChart data={this.state.yearsInsideRectangleChartData} />
+                                        </Panel.Body>
+                                    </Panel>
+                                }
+                            </Col>
+                        </Row>
                         {this.state.altitudeChartData &&
                             <Panel>
                                 <Panel.Heading>Altitude</Panel.Heading>
@@ -193,7 +214,7 @@ class TrackingPage extends Page<{}, State> {
                         }
                     </Col>
                 </Row>
-            </Grid>
+            </Grid >
         );
     }
 }
