@@ -120,7 +120,7 @@ class TrackingPage extends Page<{}, State> {
                 const countByYear = _.countBy(datesInsideRectangle.map(date => moment(date).year()));
                 this.setState({
                     datesInsideRectangle,
-                    yearsInsideRectangleChartData: Object.keys(countByYear).map(key => ({ value: countByYear[key], name: key })),
+                    yearsInsideRectangleChartData: Object.keys(countByYear).map(key => ({ count: countByYear[key], year: key })),
                 });
             });
     }
@@ -190,7 +190,11 @@ class TrackingPage extends Page<{}, State> {
                                     <Panel>
                                         <Panel.Heading>By year</Panel.Heading>
                                         <Panel.Body>
-                                            <SimpleBarChart data={this.state.yearsInsideRectangleChartData} />
+                                            <SimpleBarChart
+                                                data={this.state.yearsInsideRectangleChartData}
+                                                name="year"
+                                                value="count"
+                                            />
                                         </Panel.Body>
                                     </Panel>
                                 }
