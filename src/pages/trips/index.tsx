@@ -9,7 +9,7 @@ import { boundMethod } from 'autobind-decorator';
 
 import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
-import { Map, Pagination } from '../../components';
+import { FlagIcon, Map, Pagination } from '../../components';
 import TableWithSpinner from '../../components/TableWithSpinner';
 import * as trackingHelper from '../../utils/trackingHelper';
 import { Page } from '../Page';
@@ -19,19 +19,21 @@ import { DateFormElement } from '../../components';
 
 interface State {
   countries: [];
+  countryBoundaries: any;
+  countriesVisited: [];
   filters: TripFilters;
   isModalOpen: boolean;
   trip: TripBinding;
   trips: any;
   tripIsBeingAdded: boolean;
   tripsAreLoading: boolean;
-  visitedCountries: any;
 }
 
 class TripsPage extends Page<{}, State> {
 
   public state: State = {
     countries: [],
+    countriesVisited: [],
     filters: {
       pageSize: 10,
       page: 1,
@@ -45,7 +47,7 @@ class TripsPage extends Page<{}, State> {
     trips: { count: 0, items: [] },
     tripIsBeingAdded: false,
     tripsAreLoading: true,
-    visitedCountries: [],
+    countryBoundaries: [],
   };
 
   public componentDidMount() {
@@ -67,7 +69,7 @@ class TripsPage extends Page<{}, State> {
   public loadVisitedCountries() {
     api.country
       .getVisitedBoundaries()
-      .then(countries => this.setState({ visitedCountries: countries }));
+      .then(countries => this.setState({ countryBoundaries: countries }));
   }
 
   @boundMethod
@@ -85,6 +87,10 @@ class TripsPage extends Page<{}, State> {
         trips,
         tripsAreLoading: false,
       }));
+
+    api.country
+      .getVisited(filters)
+      .then(countriesVisited => this.setState({ countriesVisited }));
   }
 
   @boundMethod
@@ -99,7 +105,7 @@ class TripsPage extends Page<{}, State> {
 
   @boundMethod
   public onTripSave() {
-    this.setState({tripIsBeingAdded: true})
+    this.setState({ tripIsBeingAdded: true })
     api.trip
       .post(this.state.trip)
       .then(() => {
@@ -113,13 +119,13 @@ class TripsPage extends Page<{}, State> {
   }
 
   public render() {
-    const countryPolygons = this.state.visitedCountries.map(country => {
+    const countryPolygons = this.state.countryBoundaries.map(country => {
       return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
 
     const polygons = [].concat(...countryPolygons);
 
-    const { countries, filters, trips, tripIsBeingAdded } = this.state;
+    const { countries, countriesVisited, filters, trips, tripIsBeingAdded } = this.state;
 
     return (
       <Grid>
@@ -171,7 +177,7 @@ class TripsPage extends Page<{}, State> {
               </Panel.Body>
             </Panel>
           </Col>
-          <Col lg={9}>
+          <Col lg={6}>
             <Row>
               <Col lg={12}>
                 <Panel>
@@ -210,6 +216,14 @@ class TripsPage extends Page<{}, State> {
                 </Panel>
               </Col>
             </Row>
+          </Col>
+          <Col lg={3}>
+            <Panel>
+              <Panel.Heading>Countries ({countriesVisited.length})</Panel.Heading>
+              <Panel.Body>
+                {countriesVisited.map(country => <FlagIcon code={country.id} country={country.name} />)}
+              </Panel.Body>
+            </Panel>
           </Col>
         </Row>
         <TripModal

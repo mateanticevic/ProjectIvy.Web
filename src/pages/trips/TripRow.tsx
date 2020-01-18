@@ -27,7 +27,6 @@ const TripRow = (props) => {
       </td>
       <td>{props.trip.name}</td>
       <td>{countryFlags}</td>
-      <td><Moment to={props.trip.timestampEnd} ago>{props.trip.timestampStart}</Moment></td>
   </tr>
   );
 };
