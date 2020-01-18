@@ -16,8 +16,8 @@ const Map = ({ map, onDragEnd, onClick, defaultZoom, defaultCenter, children }: 
       onClick={onClick}
       ref={map}
       onDragEnd={onDragEnd}
-      defaultZoom={defaultZoom ? defaultZoom : 2}
       defaultCenter={defaultCenter ? defaultCenter : { lat: 0, lng: 0 }}
+      defaultZoom={defaultZoom ? defaultZoom : 2}
       containerElement={<div style={{ height: `100%` }} />}
       mapElement={<div style={{ height: `100%` }} />}
     >

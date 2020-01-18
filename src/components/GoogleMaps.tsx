@@ -1,13 +1,29 @@
 import React from 'react';
 import { GoogleMap, withGoogleMap } from 'react-google-maps';
 
-const GoogleMaps = withGoogleMap((props) => (
+interface Props {
+  defaultCenter?: google.maps.LatLng,
+  defaultZoom: number,
+  children: any,
+  onClick?(event: google.maps.MouseEvent): void,
+  onDragEnd?(): void,
+}
+
+const defaultOptions: google.maps.MapOptions = {
+  mapTypeControl: false,
+  streetViewControl: false,
+  zoomControl: false
+};
+
+const GoogleMaps = withGoogleMap(({ defaultCenter, defaultZoom, children, onClick, onDragEnd }: Props) => (
   <GoogleMap
-    onClick={props.onClick}
-    onDragEnd={() => { if (props.onDragEnd) { props.onDragEnd(); }}}
-    defaultZoom={props.defaultZoom}
-    defaultCenter={props.defaultCenter}>
-    {props.children}
+    onClick={e => { if (onClick) { onClick(e); } }}
+    onDragEnd={() => { if (onDragEnd) { onDragEnd(); } }}
+    defaultOptions={defaultOptions}
+    defaultCenter={defaultCenter}
+    defaultZoom={defaultZoom}
+  >
+    {children}
   </GoogleMap>
 ));
 
