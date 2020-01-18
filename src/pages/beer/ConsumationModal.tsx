@@ -33,7 +33,7 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                     <InputGroup>
                         <Datetime
                             dateFormat="YYYY-MM-DD"
-                            onChange={(x) => onChange({ date: x.format('YYYY-MM-DD') })}
+                            onChange={x => onChange({ date: x.format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
                         <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
@@ -43,24 +43,24 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                     <ControlLabel>Beer</ControlLabel>
                     <AsyncSelect
                         loadOptions={beerLoader}
-                        onChange={(x) => onChange({ beerId: x.value })}
+                        onChange={x => onChange({ beerId: x.value })}
                         defaultOptions
                     />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Serving</ControlLabel>
-                    <Select options={servings} hideDefaultOption={true} onChange={(servingId) => onChange({ servingId })} />
+                    <Select options={servings} hideDefaultOption={true} onChange={servingId => onChange({ servingId })} />
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Volume</ControlLabel>
                     <InputGroup>
-                        <FormControl type="number" onChange={(x) => onChange({ volume: x.target.value })} />
+                        <FormControl type="number" onChange={x => onChange({ volume: x.target.value })} />
                         <InputGroup.Addon>ml</InputGroup.Addon>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>Units</ControlLabel>
-                    <FormControl type="number" onChange={(x) => onChange({ units: x.target.value })} />
+                    <FormControl type="number" onChange={x => onChange({ units: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>

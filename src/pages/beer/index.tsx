@@ -107,10 +107,14 @@ class BeerPage extends Page<{}, State> {
     public componentDidMount() {
         this.onFiltersChange();
         this.loadBrands();
-
+        console.log('OK');
         api.common
             .getBeerServing()
-            .then(servings => this.setState({ servings }));
+            .then(servings => {
+                console.log('set');
+                this.setState({ servings });
+                this.onConsumationChange({ servingId: servings[0].id });
+            });
     }
 
     @boundMethod
@@ -270,7 +274,7 @@ class BeerPage extends Page<{}, State> {
                                         <Pagination
                                             page={filters.page}
                                             pages={pages}
-                                            onPageChange={(page) => this.onFiltersChange({ page })}
+                                            onPageChange={page => this.onFiltersChange({ page })}
                                         />
                                     </Panel.Body>
                                     <Panel.Footer>
