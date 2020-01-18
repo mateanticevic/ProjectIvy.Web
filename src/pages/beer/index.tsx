@@ -75,22 +75,28 @@ class BeerPage extends Page<{}, State> {
 
     @boundMethod
     public addBeer() {
-        api.beer.postBeer(this.state.beer.brandId, this.state.beer).then(() => {
-            toast.success('Beer added');
-        });
+        api.beer
+            .postBeer(this.state.beer.brandId, this.state.beer)
+            .then(() => {
+                toast.success('Beer added');
+            });
     }
 
     @boundMethod
     public addBrand() {
-        api.beer.postBrand(this.state.brand.name).then(() => {
-            this.setState({ brandModalOpen: false });
-            toast.success('Brand added');
-        });
+        api.beer
+            .postBrand(this.state.brand.name)
+            .then(() => {
+                this.loadBrands();
+                this.setState({ brandModalOpen: false });
+                toast.success('Brand added');
+            });
     }
 
     @boundMethod
     public addConsumation() {
-        api.consumation.post(this.state.consumation)
+        api.consumation
+            .post(this.state.consumation)
             .then(() => {
                 this.onFiltersChange();
                 this.setState({ consumationModalOpen: false });
@@ -100,11 +106,18 @@ class BeerPage extends Page<{}, State> {
 
     public componentDidMount() {
         this.onFiltersChange();
-        api.beer.getBrands()
-            .then(brands => this.setState({ brands }, () => this.onConsumationBrandChange(brands[0].id)));
+        this.loadBrands();
 
-        api.common.getBeerServing()
-            .then((servings => this.setState({ servings }, () => this.onConsumationChange({ servingId: servings[0].id })));
+        api.common
+            .getBeerServing()
+            .then(servings => this.setState({ servings }));
+    }
+
+    @boundMethod
+    private loadBrands() {
+        api.beer
+            .getBrands()
+            .then(brands => this.setState({ brands }));
     }
 
     @boundMethod
@@ -125,17 +138,6 @@ class BeerPage extends Page<{}, State> {
                 ...brandValue,
             },
         });
-    }
-
-    @boundMethod
-    public onConsumationBrandChange(brandId: string) {
-        api.beer.get({ brandId }).then((data) => this.setState({
-            beers: data.items,
-            consumation: {
-                ...this.state.consumation,
-                beerId: data.items[0].id,
-            },
-        }));
     }
 
     @boundMethod
