@@ -8,12 +8,20 @@ function getCountByDay(filters) {
     return api.get('expense/count/byday', filters);
 }
 
+function getCountByDayOfWeek(filters) {
+    return api.get('expense/count/bydayofweek', filters);
+}
+
 function getCountByMonth(filters) {
     return api.get('expense/count/bymonth', filters);
 }
 
 function getCountByType(filters) {
     return api.get('expense/count/bytype', filters);
+}
+
+function getCountByYear(filters) {
+    return api.get('expense/count/byyear', filters);
 }
 
 function getCountByVendor(filters) {
@@ -59,9 +67,11 @@ function postFile(expenseId, fileId, payload) {
 const expense = {
     get,
     getCountByDay,
+    getCountByDayOfWeek,
     getCountByMonth,
     getCountByType,
     getCountByVendor,
+    getCountByYear,
     getFiles,
     getSum,
     getTypeCount,
