@@ -19,11 +19,17 @@ import SimpleBarChart from '../../components/SimpleBarChart';
 interface State {
     altitudeChartData?: any;
     datesInsideRectangle: string[];
+    datesInsideRectangleChartData?: any;
     filters: any;
+    groupDatesInsideRectangle: GroupDatesInsideRectangle;
     mapMode: MapMode;
     movements: Movement[];
     speedChartData?: any;
-    yearsInsideRectangleChartData?: any;
+}
+
+enum GroupDatesInsideRectangle {
+    ByMonth,
+    ByYear
 }
 
 enum MapMode {
@@ -47,6 +53,7 @@ class TrackingPage extends Page<{}, State> {
         datesInsideRectangle: [],
         filters: {
         },
+        groupDatesInsideRectangle: GroupDatesInsideRectangle.ByYear,
         mapMode: MapMode.Move,
         movements: [],
     };
@@ -93,9 +100,14 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
+    private onGClick(groupDatesInsideRectangle: GroupDatesInsideRectangle) {
+        this.setState({ groupDatesInsideRectangle }, this.onG);
+    }
+
+    @boundMethod
     private onRemoveTracking(id) {
         this.setState({
-            movements: _.filter(this.state.movements, (t) => t.id !== id),
+            movements: _.filter(this.state.movements, t => t.id !== id),
         });
     }
 
@@ -116,13 +128,16 @@ class TrackingPage extends Page<{}, State> {
 
         api.tracking
             .getDays(filters)
-            .then(datesInsideRectangle => {
-                const countByYear = _.countBy(datesInsideRectangle.map(date => moment(date).year()));
-                this.setState({
-                    datesInsideRectangle,
-                    yearsInsideRectangleChartData: Object.keys(countByYear).map(key => ({ count: countByYear[key], year: key })),
-                });
-            });
+            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }, this.onG));
+    }
+
+    @boundMethod
+    private onG() {
+        const countBy = this.state.groupDatesInsideRectangle === GroupDatesInsideRectangle.ByYear
+            ? _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()))
+            : _.countBy(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM')));
+
+        this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
 
     public render() {
@@ -186,16 +201,19 @@ class TrackingPage extends Page<{}, State> {
                                 }
                             </Col>
                             <Col lg={9}>
-                                {this.state.yearsInsideRectangleChartData &&
+                                {this.state.datesInsideRectangleChartData &&
                                     <Panel>
                                         <Panel.Heading>By year</Panel.Heading>
                                         <Panel.Body>
                                             <SimpleBarChart
-                                                data={this.state.yearsInsideRectangleChartData}
+                                                data={this.state.datesInsideRectangleChartData}
                                                 name="year"
                                                 value="count"
                                             />
                                         </Panel.Body>
+                                        <Panel.Footer>
+                                            <span onClick={() => this.onGClick(GroupDatesInsideRectangle.ByYear)}>Year</span> <span onClick={() => this.onGClick(GroupDatesInsideRectangle.ByMonth)}>Month</span>
+                                        </Panel.Footer>
                                     </Panel>
                                 }
                             </Col>
