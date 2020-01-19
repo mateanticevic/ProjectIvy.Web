@@ -135,7 +135,7 @@ class TrackingPage extends Page<{}, State> {
     private onG() {
         const countBy = this.state.groupDatesInsideRectangle === GroupDatesInsideRectangle.ByYear
             ? _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()))
-            : _.countBy(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM')));
+            : _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
 
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
@@ -191,7 +191,7 @@ class TrackingPage extends Page<{}, State> {
                                                 <tbody>
                                                     {datesInsideRectangle.map(date =>
                                                         <tr>
-                                                            <td onClick={() => this.loadDay(date)}>{date}</td>
+                                                            <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
                                                         </tr>
                                                     )}
                                                 </tbody>
@@ -203,7 +203,7 @@ class TrackingPage extends Page<{}, State> {
                             <Col lg={9}>
                                 {this.state.datesInsideRectangleChartData &&
                                     <Panel>
-                                        <Panel.Heading>By year</Panel.Heading>
+                                        <Panel.Heading>Dates inside rectangle grouped</Panel.Heading>
                                         <Panel.Body>
                                             <SimpleBarChart
                                                 data={this.state.datesInsideRectangleChartData}
