@@ -29,7 +29,9 @@ interface State {
 
 enum GroupDatesInsideRectangle {
     ByMonth,
-    ByYear
+    ByMonthOfYear,
+    ByYear,
+    ByDayOfWeek
 }
 
 enum MapMode {
@@ -133,15 +135,35 @@ class TrackingPage extends Page<{}, State> {
 
     @boundMethod
     private onG() {
-        const countBy = this.state.groupDatesInsideRectangle === GroupDatesInsideRectangle.ByYear
-            ? _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()))
-            : _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+        let countBy;
+
+        switch (this.state.groupDatesInsideRectangle) {
+            case GroupDatesInsideRectangle.ByYear:
+                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
+                break;
+            case GroupDatesInsideRectangle.ByMonthOfYear:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+                break;
+            case GroupDatesInsideRectangle.ByMonth:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
+                break;
+            case GroupDatesInsideRectangle.ByDayOfWeek:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
+                break;
+        }
 
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
 
     public render() {
         const { datesInsideRectangle, filters, movements } = this.state;
+
+        const countGroupByOptions = [
+            { value: GroupDatesInsideRectangle.ByYear, name: 'By Year' },
+            { value: GroupDatesInsideRectangle.ByMonthOfYear, name: 'By Month Of Year' },
+            { value: GroupDatesInsideRectangle.ByMonth, name: 'By Month' },
+            { value: GroupDatesInsideRectangle.ByDayOfWeek, name: 'By Day Of Week' },
+        ];
 
         return (
             <Grid>
@@ -212,7 +234,7 @@ class TrackingPage extends Page<{}, State> {
                                             />
                                         </Panel.Body>
                                         <Panel.Footer>
-                                            <RadioLabel options={[{value: GroupDatesInsideRectangle.ByYear, name: 'By Year'}, {value: GroupDatesInsideRectangle.ByMonth, name: 'By Month'}]} onSelect={this.onGClick} />
+                                            <RadioLabel options={countGroupByOptions} onSelect={this.onGClick} />
                                         </Panel.Footer>
                                     </Panel>
                                 }
