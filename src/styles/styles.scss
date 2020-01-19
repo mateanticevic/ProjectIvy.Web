@@ -126,3 +126,14 @@ tr:hover > td > .show-on-hover{
 .flex-container {
   display: flex;
 }
+
+.panel-countries {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.country-flag {
+  flex: 1 1 30px;
+  line-height: 20px;
+  margin-bottom: 20px;
+}

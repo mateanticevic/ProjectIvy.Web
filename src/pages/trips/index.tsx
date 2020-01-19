@@ -220,8 +220,8 @@ class TripsPage extends Page<{}, State> {
           <Col lg={3}>
             <Panel>
               <Panel.Heading>Countries ({countriesVisited.length})</Panel.Heading>
-              <Panel.Body>
-                {countriesVisited.map(country => <FlagIcon code={country.id} country={country.name} />)}
+              <Panel.Body className="panel-countries">
+                {countriesVisited.map(country => <FlagIcon code={country.id} country={country.name} className="country-flag" />)}
               </Panel.Body>
             </Panel>
           </Col>

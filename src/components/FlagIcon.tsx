@@ -1,10 +1,12 @@
 import React from 'react';
 
 interface Props {
+    className?: string;
     code: string;
     country: string;
 }
 
-export const FlagIcon = ({ code, country }: Props) => {
-    return (<span className={`flag-icon flag-icon-${code.toLowerCase()}`} title={country}></span>);
+export const FlagIcon = ({ className, code, country }: Props) => {
+
+    return (<span className={`flag-icon flag-icon-${code.toLowerCase()} ${className}`} title={country}></span>);
 }
