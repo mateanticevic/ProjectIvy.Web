@@ -16,6 +16,10 @@ function getCountByMonth(filters) {
     return api.get('expense/count/bymonth', filters);
 }
 
+function getCountByMonthOfYear(filters) {
+    return api.get('expense/count/bymonthofyear', filters);
+}
+
 function getCountByType(filters) {
     return api.get('expense/count/bytype', filters);
 }
@@ -69,6 +73,7 @@ const expense = {
     getCountByDay,
     getCountByDayOfWeek,
     getCountByMonth,
+    getCountByMonthOfYear,
     getCountByType,
     getCountByVendor,
     getCountByYear,

@@ -276,6 +276,9 @@ class ExpensesPage extends Page<{}, State> {
       case GroupByTime.ByMonth:
         apiMethod = api.expense.getCountByMonth;
         break;
+      case GroupByTime.ByMonthOfYear:
+        apiMethod = api.expense.getCountByMonthOfYear;
+        break;
       case GroupByTime.ByDayOfWeek:
         apiMethod = api.expense.getCountByDayOfWeek;
         break;
@@ -324,6 +327,7 @@ class ExpensesPage extends Page<{}, State> {
     const countByOptions = [
       { value: GroupByTime.ByYear, name: 'Year' },
       { value: GroupByTime.ByMonth, name: 'Month' },
+      { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
       { value: GroupByTime.ByDayOfWeek, name: 'Week of Week' },
       { value: GroupByTime.ByDay, name: 'Day' },
     ];
