@@ -6,15 +6,13 @@ import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
-import { ChartBar, RadioLabel } from '../../components';
+import { ChartBar, RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
-import ExpenseCountGraph from './ExpenseCountGraph';
 import Filters from './Filters';
 import FiltersMore from './FiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import { CountByChart } from './CountByChart';
-import country from 'api/main/country';
 
 interface State {
   cards: any[];
@@ -399,8 +397,12 @@ class ExpensesPage extends Page<{}, State> {
                   <Panel.Heading>
                     <Panel.Toggle>Count</Panel.Toggle>
                   </Panel.Heading>
-                  <Panel.Body collapsible>
-                    <ExpenseCountGraph data={this.state.graphs.count} />
+                  <Panel.Body>
+                    <SimpleBarChart
+                      data={this.state.graphs.count}
+                      name="key"
+                      value="value"
+                    />
                   </Panel.Body>
                   <Panel.Footer>
                     <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
@@ -414,10 +416,12 @@ class ExpensesPage extends Page<{}, State> {
                   <Panel.Heading>
                     <Panel.Toggle>Sum</Panel.Toggle>
                   </Panel.Heading>
-                  <Panel.Body collapsible>
-                    <ChartBar
-                      unit=" kn"
+                  <Panel.Body>
+                    <SimpleBarChart
                       data={chartSumData}
+                      name="key"
+                      value="value"
+                      unit=" kn"
                     />
                   </Panel.Body>
                 </Panel>
