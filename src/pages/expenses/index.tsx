@@ -6,13 +6,14 @@ import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
-import { ChartBar, RadioLabel, SimpleBarChart } from '../../components';
+import { RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
 import Filters from './Filters';
 import FiltersMore from './FiltersMore';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import { CountByChart } from './CountByChart';
+import { GroupByTime } from '../../consts/groupings';
 
 interface State {
   cards: any[];
@@ -33,13 +34,6 @@ interface State {
   types: any;
   vendors: any;
   vendorPois: any;
-}
-
-enum GroupBy {
-  ByYear,
-  ByMonth,
-  ByDayOfWeek,
-  ByDay
 }
 
 class ExpensesPage extends Page<{}, State> {
@@ -272,20 +266,20 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
-  private onCountByClick(groupBy: GroupBy) {
+  private onCountByClick(groupBy: GroupByTime) {
     let apiMethod;
 
     switch (groupBy) {
-      case GroupBy.ByYear:
+      case GroupByTime.ByYear:
         apiMethod = api.expense.getCountByYear;
         break;
-      case GroupBy.ByMonth:
+      case GroupByTime.ByMonth:
         apiMethod = api.expense.getCountByMonth;
         break;
-      case GroupBy.ByDayOfWeek:
+      case GroupByTime.ByDayOfWeek:
         apiMethod = api.expense.getCountByDayOfWeek;
         break;
-      case GroupBy.ByDay:
+      case GroupByTime.ByDay:
         apiMethod = api.expense.getCountByDay;
         break;
     }
@@ -328,10 +322,10 @@ class ExpensesPage extends Page<{}, State> {
     const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => ({ value: x.data, key: moment(`${x.year}-${x.month}-1`).format('YYYY MMM') })));
 
     const countByOptions = [
-      { value: GroupBy.ByYear, name: 'By Year' },
-      { value: GroupBy.ByMonth, name: 'By Month' },
-      { value: GroupBy.ByDayOfWeek, name: 'By Week of Week' },
-      { value: GroupBy.ByDay, name: 'By Day' },
+      { value: GroupByTime.ByYear, name: 'Year' },
+      { value: GroupByTime.ByMonth, name: 'Month' },
+      { value: GroupByTime.ByDayOfWeek, name: 'Week of Week' },
+      { value: GroupByTime.ByDay, name: 'Day' },
     ];
 
     return (

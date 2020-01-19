@@ -15,23 +15,17 @@ import MovementRow from './MovementRow';
 import { Movement } from './types';
 import SimpleLineChart from '../../components/SimpleLineChart';
 import SimpleBarChart from '../../components/SimpleBarChart';
+import { GroupByTime } from '../../consts/groupings';
 
 interface State {
     altitudeChartData?: any;
     datesInsideRectangle: string[];
     datesInsideRectangleChartData?: any;
     filters: any;
-    groupDatesInsideRectangle: GroupDatesInsideRectangle;
+    groupDatesInsideRectangle: GroupByTime;
     mapMode: MapMode;
     movements: Movement[];
     speedChartData?: any;
-}
-
-enum GroupDatesInsideRectangle {
-    ByMonth,
-    ByMonthOfYear,
-    ByYear,
-    ByDayOfWeek
 }
 
 enum MapMode {
@@ -55,7 +49,7 @@ class TrackingPage extends Page<{}, State> {
         datesInsideRectangle: [],
         filters: {
         },
-        groupDatesInsideRectangle: GroupDatesInsideRectangle.ByYear,
+        groupDatesInsideRectangle: GroupByTime.ByYear,
         mapMode: MapMode.Move,
         movements: [],
     };
@@ -102,7 +96,7 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private onGClick(groupDatesInsideRectangle: GroupDatesInsideRectangle) {
+    private onGClick(groupDatesInsideRectangle: GroupByTime) {
         this.setState({ groupDatesInsideRectangle }, this.onG);
     }
 
@@ -138,16 +132,16 @@ class TrackingPage extends Page<{}, State> {
         let countBy;
 
         switch (this.state.groupDatesInsideRectangle) {
-            case GroupDatesInsideRectangle.ByYear:
+            case GroupByTime.ByYear:
                 countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
                 break;
-            case GroupDatesInsideRectangle.ByMonthOfYear:
+            case GroupByTime.ByMonthOfYear:
                 countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
                 break;
-            case GroupDatesInsideRectangle.ByMonth:
+            case GroupByTime.ByMonth:
                 countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
                 break;
-            case GroupDatesInsideRectangle.ByDayOfWeek:
+            case GroupByTime.ByDayOfWeek:
                 countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
                 break;
         }
@@ -159,10 +153,10 @@ class TrackingPage extends Page<{}, State> {
         const { datesInsideRectangle, filters, movements } = this.state;
 
         const countGroupByOptions = [
-            { value: GroupDatesInsideRectangle.ByYear, name: 'By Year' },
-            { value: GroupDatesInsideRectangle.ByMonthOfYear, name: 'By Month Of Year' },
-            { value: GroupDatesInsideRectangle.ByMonth, name: 'By Month' },
-            { value: GroupDatesInsideRectangle.ByDayOfWeek, name: 'By Day Of Week' },
+            { value: GroupByTime.ByYear, name: 'Year' },
+            { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+            { value: GroupByTime.ByMonth, name: 'Month' },
+            { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
         ];
 
         return (
