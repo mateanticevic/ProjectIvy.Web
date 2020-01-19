@@ -9,7 +9,7 @@ import { Polyline } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 import api from '../../api/main';
-import { Map } from '../../components';
+import { Map, RadioLabel } from '../../components';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
@@ -212,7 +212,7 @@ class TrackingPage extends Page<{}, State> {
                                             />
                                         </Panel.Body>
                                         <Panel.Footer>
-                                            <span onClick={() => this.onGClick(GroupDatesInsideRectangle.ByYear)}>Year</span> <span onClick={() => this.onGClick(GroupDatesInsideRectangle.ByMonth)}>Month</span>
+                                            <RadioLabel options={[{value: GroupDatesInsideRectangle.ByYear, name: 'By Year'}, {value: GroupDatesInsideRectangle.ByMonth, name: 'By Month'}]} onSelect={this.onGClick} />
                                         </Panel.Footer>
                                     </Panel>
                                 }
