@@ -5,8 +5,8 @@ import { Poi } from '../../types/pois';
 import PoiRow from './PoiRow';
 
 interface Props {
-  pois: Poi[],
-  addToTrip: (tripId: string) => void
+  pois: Poi[];
+  addToTrip: (tripId: string) => void;
 }
 
 const PoiTable: React.SFC<Props> = ({ addToTrip, pois }) => {

@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Button, Col, Grid, Panel, Row, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstrap/lib';
+import { Button, Col, Grid, Panel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline } from 'react-google-maps';
@@ -10,12 +10,12 @@ import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingMana
 
 import api from '../../api/main';
 import { Map, RadioLabel } from '../../components';
+import SimpleBarChart from '../../components/SimpleBarChart';
+import SimpleLineChart from '../../components/SimpleLineChart';
+import { GroupByTime } from '../../consts/groupings';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
-import SimpleLineChart from '../../components/SimpleLineChart';
-import SimpleBarChart from '../../components/SimpleBarChart';
-import { GroupByTime } from '../../consts/groupings';
 
 interface State {
     altitudeChartData?: any;
@@ -29,8 +29,8 @@ interface State {
 }
 
 enum MapMode {
-    Move = "Move",
-    Select = "Select",
+    Move = 'Move',
+    Select = 'Select',
 }
 
 class TrackingPage extends Page<{}, State> {
@@ -80,73 +80,12 @@ class TrackingPage extends Page<{}, State> {
                     color: this.colors[this.state.movements.length % this.colors.length],
                 };
                 this.setState({
-                    altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format("HH:mm") })),
+                    altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format('HH:mm') })),
                     movements: [...this.state.movements, movement],
-                    speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format("HH:mm") }))
+                    speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format('HH:mm') })),
                 });
             });
         });
-    }
-
-    @boundMethod
-    private loadOnThisDay() {
-        for (let year = 2014; year <= moment().year(); year++) {
-            this.loadDay(moment().year(year).format('YYYY-MM-DD'));
-        }
-    }
-
-    @boundMethod
-    private onGClick(groupDatesInsideRectangle: GroupByTime) {
-        this.setState({ groupDatesInsideRectangle }, this.onG);
-    }
-
-    @boundMethod
-    private onRemoveTracking(id) {
-        this.setState({
-            movements: _.filter(this.state.movements, t => t.id !== id),
-        });
-    }
-
-    @boundMethod
-    private onSelectComplete(rectangle: google.maps.Rectangle) {
-        const filters = {
-            topLeft: {
-                lat: rectangle.getBounds().getNorthEast().lat(),
-                lng: rectangle.getBounds().getSouthWest().lng(),
-            },
-            bottomRight: {
-                lat: rectangle.getBounds().getSouthWest().lat(),
-                lng: rectangle.getBounds().getNorthEast().lng(),
-            },
-        };
-
-        rectangle.setMap(null);
-
-        api.tracking
-            .getDays(filters)
-            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }, this.onG));
-    }
-
-    @boundMethod
-    private onG() {
-        let countBy;
-
-        switch (this.state.groupDatesInsideRectangle) {
-            case GroupByTime.ByYear:
-                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
-                break;
-            case GroupByTime.ByMonthOfYear:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
-                break;
-            case GroupByTime.ByMonth:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
-                break;
-            case GroupByTime.ByDayOfWeek:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
-                break;
-        }
-
-        this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
 
     public render() {
@@ -208,7 +147,7 @@ class TrackingPage extends Page<{}, State> {
                                                     {datesInsideRectangle.map(date =>
                                                         <tr>
                                                             <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
-                                                        </tr>
+                                                        </tr>,
                                                     )}
                                                 </tbody>
                                             </Table>
@@ -254,6 +193,67 @@ class TrackingPage extends Page<{}, State> {
                 </Row>
             </Grid >
         );
+    }
+
+    @boundMethod
+    private loadOnThisDay() {
+        for (let year = 2014; year <= moment().year(); year++) {
+            this.loadDay(moment().year(year).format('YYYY-MM-DD'));
+        }
+    }
+
+    @boundMethod
+    private onGClick(groupDatesInsideRectangle: GroupByTime) {
+        this.setState({ groupDatesInsideRectangle }, this.onG);
+    }
+
+    @boundMethod
+    private onRemoveTracking(id) {
+        this.setState({
+            movements: _.filter(this.state.movements, t => t.id !== id),
+        });
+    }
+
+    @boundMethod
+    private onSelectComplete(rectangle: google.maps.Rectangle) {
+        const filters = {
+            topLeft: {
+                lat: rectangle.getBounds().getNorthEast().lat(),
+                lng: rectangle.getBounds().getSouthWest().lng(),
+            },
+            bottomRight: {
+                lat: rectangle.getBounds().getSouthWest().lat(),
+                lng: rectangle.getBounds().getNorthEast().lng(),
+            },
+        };
+
+        rectangle.setMap(null);
+
+        api.tracking
+            .getDays(filters)
+            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }, this.onG));
+    }
+
+    @boundMethod
+    private onG() {
+        let countBy;
+
+        switch (this.state.groupDatesInsideRectangle) {
+            case GroupByTime.ByYear:
+                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
+                break;
+            case GroupByTime.ByMonthOfYear:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+                break;
+            case GroupByTime.ByMonth:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
+                break;
+            case GroupByTime.ByDayOfWeek:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
+                break;
+        }
+
+        this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
 }
 

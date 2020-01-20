@@ -20,8 +20,8 @@ class LoginPage extends React.Component<{}, State> {
     password: '',
   };
 
-  componentDidMount() {
-    if(window.location.search === '?logout'){
+  public componentDidMount() {
+    if (window.location.search === '?logout') {
       localStorage.removeItem('token');
     }
   }

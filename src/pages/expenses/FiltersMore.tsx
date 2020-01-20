@@ -2,16 +2,16 @@ import React from 'react';
 import { Col, ControlLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import ReactSelect from 'react-select';
 
-import Select from '../../components/Select';
 import { ExpenseFilters } from 'types/expenses';
+import Select from '../../components/Select';
 
-type Props = {
-  cards: any,
-  filters: ExpenseFilters,
-  order: any,
-  orderBy: any,
-  paymentTypes: any,
-  onChange: (filters: Partial<ExpenseFilters>) => void,
+interface Props {
+  cards: any;
+  filters: ExpenseFilters;
+  order: any;
+  orderBy: any;
+  paymentTypes: any;
+  onChange: (filters: Partial<ExpenseFilters>) => void;
 }
 
 const daysofWeek = [

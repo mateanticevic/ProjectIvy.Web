@@ -3,30 +3,29 @@ import { Col, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Row, 
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
-import Select from '../../components/Select';
-import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 import { Expense } from 'types/expenses';
-import { vendorLoader } from '../../utils/selectLoaders';
 import { DateFormElement } from '../../components';
+import Select from '../../components/Select';
+import { vendorLoader } from '../../utils/selectLoaders';
+import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 
-type Props = {
-  cards: any,
-  currencies: any,
-  expense: Expense,
-  deleteFile: any,
-  fileTypes: any,
-  files: any,
-  paymentTypes: any,
-  types: any,
-  linkFile: any,
-  onChange: any,
-  onVendorChanged: any,
-  uploadFiles: any,
-  vendorPois: any
+interface Props {
+  cards: any;
+  currencies: any;
+  expense: Expense;
+  deleteFile: any;
+  fileTypes: any;
+  files: any;
+  paymentTypes: any;
+  types: any;
+  linkFile: any;
+  onChange: any;
+  onVendorChanged: any;
+  uploadFiles: any;
+  vendorPois: any;
 }
 
 const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFiles, vendorPois, linkFile }: Props) => {
-
 
   return (
     <Tabs id="expenseFormTabs" defaultActiveKey={1}>
@@ -144,7 +143,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <ControlLabel>Parent currency</ControlLabel>
               <Select
-                selected={expense.parentCurrency?.id}
+                selected={expense.parentCurrency?.id }
                 options={currencies}
                 defaultOptionValue="No parent currency"
                 onChange={parentCurrencyId => onChange({ parentCurrency: { id: parentCurrencyId } })}
@@ -159,7 +158,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                   value={expense.parentCurrencyExchangeRate}
                   type="number"
                   readOnly={!expense.parentCurrency?.id}
-                  onChange={(x) => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
+                  onChange={x => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
                 />
                 <InputGroup.Addon>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Addon>
               </InputGroup>

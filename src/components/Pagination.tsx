@@ -23,7 +23,7 @@ const Pagination = ({ showPages, page, pages, onPageChange }: Props) => {
             active={item == page}
             onClick={() => onPageChange(item)}>
             {item}
-        </BootstrapPagination.Item>
+        </BootstrapPagination.Item>,
     );
 
     return (

@@ -5,8 +5,8 @@ import FontAwesome from 'react-fontawesome';
 import { Poi } from '../../types/pois';
 
 interface Props {
-  addToTrip: (tripId: string) => void,
-  poi: Poi
+  addToTrip: (tripId: string) => void;
+  poi: Poi;
 }
 
 const PoiRow: React.SFC<Props> = ({ poi, addToTrip }) => {

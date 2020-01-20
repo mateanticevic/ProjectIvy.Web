@@ -36,7 +36,7 @@ export interface ExpenseBinding {
     id: string;
     modified: string;
     paymentTypeId: string;
-    parentCurrencyExchangeRate?: number,
+    parentCurrencyExchangeRate?: number;
     parentCurrencyId?: string;
     poiId?: string;
     timestamp: string;
@@ -44,21 +44,21 @@ export interface ExpenseBinding {
 }
 
 export interface ExpenseFileType {
-    id: string,
-    name: string
+    id: string;
+    name: string;
 }
 
 export interface ExpenseFile {
-    type: ExpenseFileType,
-    name: string,
-    file: File
+    type: ExpenseFileType;
+    name: string;
+    file: File;
 }
 
 export interface ExpenseFilters {
-    from?: string,
-    to?: string,
-    page: number,
-    pageSize: number,
+    from?: string;
+    to?: string;
+    page: number;
+    pageSize: number;
 }
 
 export interface ExpenseType {

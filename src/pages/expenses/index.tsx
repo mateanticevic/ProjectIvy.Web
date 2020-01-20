@@ -1,19 +1,19 @@
+import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
-import { boundMethod } from 'autobind-decorator';
 
-import api from '../../api/main';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
+import api from '../../api/main';
 import { RadioLabel, SimpleBarChart } from '../../components';
+import { GroupByTime } from '../../consts/groupings';
 import { Page } from '../Page';
-import Filters from './Filters';
-import FiltersMore from './FiltersMore';
+import { CountByChart } from './CountByChart';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
-import { CountByChart } from './CountByChart';
-import { GroupByTime } from '../../consts/groupings';
+import Filters from './Filters';
+import FiltersMore from './FiltersMore';
 
 interface State {
   cards: any[];
@@ -42,15 +42,6 @@ class ExpensesPage extends Page<{}, State> {
     cards: [],
     currencies: [],
     defaultCurrency: {},
-    graphs: {
-      count: [],
-      countByType: [],
-      countByVendor: [],
-      sumByYear: [],
-      sum: [],
-    },
-    files: [],
-    fileTypes: [],
     expense: {
       currencyId: 'HRK',
       files: [],
@@ -62,13 +53,22 @@ class ExpensesPage extends Page<{}, State> {
       items: [],
     },
     expensesAreLoading: true,
-    isSavingExpense: false,
+    files: [],
+    fileTypes: [],
     filters: {
       from: moment().month(0).date(1).format('YYYY-MM-DD'), // YYYY-01-01
       orderAscending: 'false',
       pageSize: 10,
       page: 1,
     },
+    graphs: {
+      count: [],
+      countByType: [],
+      countByVendor: [],
+      sum: [],
+      sumByYear: [],
+    },
+    isSavingExpense: false,
     isModalOpen: false,
     order: [
       { id: 'false', name: 'Descending' },
@@ -105,22 +105,21 @@ class ExpensesPage extends Page<{}, State> {
 
   @boundMethod
   public deleteFile(fileId) {
-    api.file.deleteFile(fileId).then(() => { });
+    api.file.deleteFile(fileId);
   }
 
   @boundMethod
   public linkExpenseFile() {
     api.expense
-      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type })
-      .then(() => { });
+      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type });
   }
 
   public newExpense(): Partial<Expense> {
     return {
       amount: 0,
-      date: moment().format('YYYY-M-D'),
       comment: '',
       currency: this.state.defaultCurrency,
+      date: moment().format('YYYY-M-D'),
       expenseType: this.state.types[0],
       paymentType: this.state.paymentTypes[0],
     };
@@ -210,7 +209,7 @@ class ExpensesPage extends Page<{}, State> {
 
     const pageAllFilters = {
       ...filters,
-      pageAll: true
+      pageAll: true,
     };
 
     api.expense
@@ -219,7 +218,7 @@ class ExpensesPage extends Page<{}, State> {
         const top = _.take(_.filter(data.items, item => item.by), 3);
         const other = _.difference(data.items, top);
 
-        const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
 
         if (other.length > 0) {
           chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
@@ -228,8 +227,8 @@ class ExpensesPage extends Page<{}, State> {
         this.setState({
           graphs: {
             ...this.state.graphs,
-            countByVendor: chartData
-          }
+            countByVendor: chartData,
+          },
         });
       });
 
@@ -239,7 +238,7 @@ class ExpensesPage extends Page<{}, State> {
         const top = _.take(_.filter(data.items, item => item.by), 3);
         const other = _.difference(data.items, top);
 
-        const chartData = top.map(x => { return { name: x.by.name, value: x.count } });
+        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
         if (other.length > 0) {
           chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
         }
@@ -247,8 +246,8 @@ class ExpensesPage extends Page<{}, State> {
         this.setState({
           graphs: {
             ...this.state.graphs,
-            countByType: chartData
-          }
+            countByType: chartData,
+          },
         });
       });
 
@@ -263,37 +262,6 @@ class ExpensesPage extends Page<{}, State> {
     api.expense
       .getVendorCount(filters)
       .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
-  }
-
-  @boundMethod
-  private onCountByClick(groupBy: GroupByTime) {
-    let apiMethod;
-
-    switch (groupBy) {
-      case GroupByTime.ByYear:
-        apiMethod = api.expense.getCountByYear;
-        break;
-      case GroupByTime.ByMonth:
-        apiMethod = api.expense.getCountByMonth;
-        break;
-      case GroupByTime.ByMonthOfYear:
-        apiMethod = api.expense.getCountByMonthOfYear;
-        break;
-      case GroupByTime.ByDayOfWeek:
-        apiMethod = api.expense.getCountByDayOfWeek;
-        break;
-      case GroupByTime.ByDay:
-        apiMethod = api.expense.getCountByDay;
-        break;
-    }
-
-    apiMethod(this.state.filters)
-      .then(countBy => this.setState({
-        graphs: {
-          ...this.state.graphs,
-          count: countBy,
-        },
-      }));
   }
 
   @boundMethod
@@ -328,7 +296,7 @@ class ExpensesPage extends Page<{}, State> {
       { value: GroupByTime.ByYear, name: 'Year' },
       { value: GroupByTime.ByMonth, name: 'Month' },
       { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
-      { value: GroupByTime.ByDayOfWeek, name: 'Week of Week' },
+      { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
       { value: GroupByTime.ByDay, name: 'Day' },
     ];
 
@@ -466,12 +434,42 @@ class ExpensesPage extends Page<{}, State> {
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
           onVendorChanged={this.onVendorChange}
-          uploadFiles={() => { }}
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onExpenseChanged}
         />
       </Grid>
     );
+  }
+
+  @boundMethod
+  private onCountByClick(groupBy: GroupByTime) {
+    let apiMethod;
+
+    switch (groupBy) {
+      case GroupByTime.ByYear:
+        apiMethod = api.expense.getCountByYear;
+        break;
+      case GroupByTime.ByMonth:
+        apiMethod = api.expense.getCountByMonth;
+        break;
+      case GroupByTime.ByMonthOfYear:
+        apiMethod = api.expense.getCountByMonthOfYear;
+        break;
+      case GroupByTime.ByDayOfWeek:
+        apiMethod = api.expense.getCountByDayOfWeek;
+        break;
+      case GroupByTime.ByDay:
+        apiMethod = api.expense.getCountByDay;
+        break;
+    }
+
+    apiMethod(this.state.filters)
+      .then(countBy => this.setState({
+        graphs: {
+          ...this.state.graphs,
+          count: countBy,
+        },
+      }));
   }
 }
 

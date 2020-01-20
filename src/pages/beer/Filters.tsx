@@ -2,11 +2,11 @@ import React from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap/lib';
 import AsyncSelect from 'react-select/async';
 
+import { DateFormElement } from '../../components';
 import Select from '../../components/Select';
 import { beerLoader } from '../../utils/selectLoaders';
-import { DateFormElement } from '../../components';
 
-type Props = {
+interface Props {
     brands: any;
     filters: any;
     servings: any;

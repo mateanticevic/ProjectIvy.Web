@@ -8,10 +8,10 @@ import { Poi } from '../../types/pois';
 import PoiTable from './PoiTable';
 
 interface Props {
-  addToTrip: (tripId: string) => void,
-  onNewClick: () => void,
-  onPageChange: (page: number) => void,
-  pagedItems: PagedItems<Poi>
+  addToTrip: (tripId: string) => void;
+  onNewClick: () => void;
+  onPageChange: (page: number) => void;
+  pagedItems: PagedItems<Poi>;
 }
 
 const PoiPanel: React.SFC<Props> = ({ pagedItems, addToTrip, onNewClick, onPageChange }) => {

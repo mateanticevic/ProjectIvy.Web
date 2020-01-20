@@ -1,8 +1,8 @@
+import { boundMethod } from 'autobind-decorator';
 import moment from 'moment';
 import React from 'react';
 import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
 import { Marker, Polyline } from 'react-google-maps';
-import { boundMethod } from 'autobind-decorator';
 
 import { Trip } from 'types/trips';
 import api from '../../api/main';

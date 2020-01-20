@@ -17,7 +17,7 @@ const SimpleLineChart = ({ data, unit }: Props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey="hours" stroke="#337ab7" unit={unit ?? ''} />
+                <Line type="monotone" dot={false} dataKey="hours" stroke="#337ab7" unit={unit ?? '' } />
             </LineChart>
         </ResponsiveContainer>
     );

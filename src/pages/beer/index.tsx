@@ -118,13 +118,6 @@ class BeerPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private loadBrands() {
-        api.beer
-            .getBrands()
-            .then(brands => this.setState({ brands }));
-    }
-
-    @boundMethod
     public onBeerChange(beerValue: Partial<Beer>) {
         this.setState({
             beer: {
@@ -339,6 +332,13 @@ class BeerPage extends Page<{}, State> {
                 />
             </Grid>
         );
+    }
+
+    @boundMethod
+    private loadBrands() {
+        api.beer
+            .getBrands()
+            .then(brands => this.setState({ brands }));
     }
 }
 

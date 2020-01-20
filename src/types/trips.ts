@@ -19,10 +19,10 @@ export interface TripBinding {
 }
 
 export interface TripFilters {
-    from: string,
-    to: string,
-    cityId: string[],
-    countryId: string[],
-    page: number,
-    pageSize: number,
+    from: string;
+    to: string;
+    cityId: string[];
+    countryId: string[];
+    page: number;
+    pageSize: number;
 }

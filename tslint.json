@@ -5,9 +5,22 @@
     ],
     "jsRules": {},
     "rules": {
-        "interface-name": [true, "never-prefix"],
-        "max-line-length": [true, 250],
-        "quotemark": [true, "single", "jsx-double"]
+        "arrow-parens": [
+            "as-needed"
+        ],
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "max-line-length": [
+            true,
+            250
+        ],
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double"
+        ]
     },
     "rulesDirectory": []
 }

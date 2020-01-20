@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Modal, Row, Checkbox } from 'react-bootstrap/lib';
+import { Button, Checkbox, Col, Modal, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';

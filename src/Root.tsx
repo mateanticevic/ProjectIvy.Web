@@ -19,7 +19,7 @@ import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 
 interface State {
-  isLoggedIn: boolean,
+  isLoggedIn: boolean;
   user?: User;
 }
 
@@ -40,7 +40,6 @@ export default class Root extends React.Component<{}, State> {
   }
 
   public render() {
-
 
     return (
       <BrowserRouter>

@@ -1,17 +1,17 @@
+import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
 import { Checkbox, Col, Grid, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
 import Moment from 'react-moment';
-import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
-import { Map, DateFormElement } from '../../components';
+import { DateFormElement, Map } from '../../components';
 import { Page } from '../Page';
 
-type State = {
-    
+interface State {
+
 }
 
 class FlightsPage extends Page<{}, State> {

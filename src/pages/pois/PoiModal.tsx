@@ -5,12 +5,12 @@ import Select from '../../components/Select';
 import { Poi } from '../../types/pois';
 
 interface Props {
-    isOpen: boolean,
-    categories: any[],
-    onClose: () => void,
-    onPoiChange: (poi: any) => void,
-    onSave: () => void,
-    poi: Poi
+    isOpen: boolean;
+    categories: any[];
+    onClose: () => void;
+    onPoiChange: (poi: any) => void;
+    onSave: () => void;
+    poi: Poi;
 }
 
 const PoiModal: React.SFC<Props> = ({ categories, isOpen, onClose, onPoiChange, onSave, poi }) => {

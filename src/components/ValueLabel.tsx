@@ -1,9 +1,9 @@
 import React from 'react';
 
-type Props = {
-    label: string,
-    unit?: string,
-    value: number
+interface Props {
+    label: string;
+    unit?: string;
+    value: number;
 }
 
 const ValueLabel = ({ label, unit, value }: Props) => {

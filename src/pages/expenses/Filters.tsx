@@ -1,19 +1,19 @@
+import moment from 'moment';
 import React from 'react';
-import { ControlLabel, Col, FormGroup } from 'react-bootstrap/lib';
+import { Col, ControlLabel, FormGroup } from 'react-bootstrap/lib';
 import Row from 'react-bootstrap/lib/Row';
 import Datetime from 'react-datetime';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
-import moment from 'moment';
 
 import { Currency } from 'types/expenses';
-import { vendorLoader } from '../../utils/selectLoaders';
 import { ExpenseFilters } from 'types/expenses';
+import { vendorLoader } from '../../utils/selectLoaders';
 
-type Props = {
+interface Props {
   currencies: Currency[];
   filters: ExpenseFilters;
-  types: any,
+  types: any;
   onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }
 
@@ -21,11 +21,11 @@ const dateFormat = 'YYYY-M-D';
 
 const isValidDate = (value: string | moment.Moment) => {
   return value == '' || value.format;
-}
+};
 
 const parseDate = (value: string | moment.Moment) => {
   return value.format ? value.format(dateFormat) : '';
-}
+};
 
 const Filters = ({ currencies, filters, onChange, types }: Props) => {
 
@@ -78,7 +78,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
             <ControlLabel>Type</ControlLabel>
             <ReactSelect
               isMulti
-              options={types.map(x => { return { value: x.id, label: x.name } })}
+              options={types.map(x => ({ value: x.id, label: x.name }))}
               onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
             />
           </FormGroup>

@@ -1,21 +1,21 @@
+import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
 import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
-import AsyncSelect from 'react-select/async';
 import ReactSelect from 'react-select';
-import { boundMethod } from 'autobind-decorator';
+import AsyncSelect from 'react-select/async';
 
 import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
 import { FlagIcon, Map, Pagination } from '../../components';
+import { DateFormElement } from '../../components';
 import TableWithSpinner from '../../components/TableWithSpinner';
 import * as trackingHelper from '../../utils/trackingHelper';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';
-import { DateFormElement } from '../../components';
 
 interface State {
   countries: [];
@@ -98,14 +98,14 @@ class TripsPage extends Page<{}, State> {
     this.setState({
       trip: {
         ...this.state.trip,
-        ...changedValue
+        ...changedValue,
       },
     });
   }
 
   @boundMethod
   public onTripSave() {
-    this.setState({ tripIsBeingAdded: true })
+    this.setState({ tripIsBeingAdded: true });
     api.trip
       .post(this.state.trip)
       .then(() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface Props {
-    options: { name: string, value: any }[];
+    options: Array<{ name: string, value: any }>;
     onSelect(value: any): void;
 }
 
@@ -15,4 +15,4 @@ export const RadioLabel = ({ onSelect, options }: Props) => {
     };
 
     return options.map(option => option.value == selected ? <strong className="cursor-pointer" onClick={() => onClick(option.value)}>{option.name} </strong> : <span className="cursor-pointer" onClick={() => onClick(option.value)}>{option.name} </span>);
-}
+};

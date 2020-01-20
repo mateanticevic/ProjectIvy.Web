@@ -1,13 +1,13 @@
-import React from 'react';
-import Datetime from 'react-datetime';
-import enGb from 'moment/locale/en-gb';
-import { FormGroup, ControlLabel, InputGroup, Glyphicon } from 'react-bootstrap/lib';
 import moment from 'moment';
+import enGb from 'moment/locale/en-gb';
+import React from 'react';
+import { ControlLabel, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap/lib';
+import Datetime from 'react-datetime';
 
-type Props = {
-    label: string,
+interface Props {
+    label: string;
     onChange: (date: string) => void;
-    value?: any,
+    value?: any;
 }
 
 const DateFormElement = ({ label, onChange, value }: Props) => {
@@ -28,6 +28,6 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
             </InputGroup.Addon>
         </InputGroup>
     </FormGroup>);
-}
+};
 
 export default DateFormElement;

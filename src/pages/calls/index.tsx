@@ -1,13 +1,13 @@
-import React from 'react';
-import { Col, Grid, Panel, Row, Table, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/lib';
-import Moment from 'react-moment';
 import { boundMethod } from 'autobind-decorator';
+import React from 'react';
+import { Col, ControlLabel, FormControl, FormGroup, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import Moment from 'react-moment';
 
 import { Call } from 'types/calls';
 import api from '../../api/main';
 import { Pagination } from '../../components';
-import * as formatHelper from '../../utils/formatHelper';
 import { DateFormElement } from '../../components';
+import * as formatHelper from '../../utils/formatHelper';
 import { Page } from '../Page';
 
 interface State {
@@ -39,7 +39,9 @@ export default class CallsPage extends Page<{}, State> {
     }
 
     public fetchCalls() {
-        api.call.get(this.state.filters).then((calls) => this.setState({ calls }));
+        api.call
+            .get(this.state.filters)
+            .then(calls => this.setState({ calls }));
     }
 
     @boundMethod
@@ -53,7 +55,7 @@ export default class CallsPage extends Page<{}, State> {
     @boundMethod
     public renderCalls() {
 
-        return this.state.calls.items.map((call) => (<tr>
+        return this.state.calls.items.map(call => (<tr>
             <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
             <td>{formatHelper.time(call.duration)}</td>

@@ -9,4 +9,4 @@ interface Props {
 export const FlagIcon = ({ className, code, country }: Props) => {
 
     return (<span className={`flag-icon flag-icon-${code.toLowerCase()} ${className}`} title={country}></span>);
-}
+};

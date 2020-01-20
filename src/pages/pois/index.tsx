@@ -1,8 +1,8 @@
+import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, ControlLabel, FormControl, Grid, Panel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
-import { boundMethod } from 'autobind-decorator';
 
 import api from '../../api/main';
 import Map from '../../components/Map';

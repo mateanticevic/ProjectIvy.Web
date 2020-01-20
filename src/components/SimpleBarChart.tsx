@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { XAxis, BarChart, CartesianGrid, Tooltip, Legend, YAxis, Bar, ResponsiveContainer } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface Props {
     data: any;

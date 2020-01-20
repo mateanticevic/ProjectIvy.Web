@@ -30,7 +30,7 @@ function handleResponse(response) {
 function apiPath(resource: string, parameters?: any) {
     let url = config.api.url + resource;
     if (parameters) {
-        //url = url + urlHelper.jsonToQueryString(parameters);
+        // url = url + urlHelper.jsonToQueryString(parameters);
         url = url + '?' + urlHelper.jsonToQueryString(parameters);
     }
 
