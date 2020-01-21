@@ -12,7 +12,11 @@ function getDistance(filters) {
     return api.get('tracking/distance', filters);
 }
 
-function getLast(filters) {
+interface LastParameters {
+    at?: string;
+}
+
+function getLast(filters?: LastParameters) {
     return api.get('tracking/last', filters);
 }
 

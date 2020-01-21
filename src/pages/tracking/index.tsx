@@ -5,7 +5,7 @@ import React from 'react';
 import { Button, Col, Grid, Panel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
-import { Polyline } from 'react-google-maps';
+import { Polyline, Marker } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
 import api from '../../api/main';
@@ -23,6 +23,7 @@ interface State {
     datesInsideRectangleChartData?: any;
     filters: any;
     groupDatesInsideRectangle: GroupByTime;
+    lastTracking?: any;
     mapMode: MapMode;
     movements: Movement[];
     speedChartData?: any;
@@ -65,6 +66,13 @@ class TrackingPage extends Page<{}, State> {
         this.pushHistoryState(filters);
         this.setState({ filters });
         this.loadDay(filters.day);
+    }
+
+    @boundMethod
+    private onLastTrackingAtDate(dateTime: string) {
+        api.tracking
+            .getLast({ at: dateTime })
+            .then(lastTracking => this.setState({ lastTracking }));
     }
 
     public loadDay(day) {
@@ -113,6 +121,9 @@ class TrackingPage extends Page<{}, State> {
                                             onRectangleComplete={this.onSelectComplete}
                                         />
                                     }
+                                    {this.state.lastTracking &&
+                                        <Marker position={{ lat: this.state.lastTracking.lat, lng: this.state.lastTracking.lng }} title={`Location at ${this.state.lastTracking.timestamp}`} />
+                                    }
                                 </Map>
                             </Panel.Body>
                             <Panel.Footer className="flex-container">
@@ -120,8 +131,9 @@ class TrackingPage extends Page<{}, State> {
                                     <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
                                     <ToggleButton value={MapMode.Select}><FontAwesome name="square-o" /> Select</ToggleButton>
                                 </ToggleButtonGroup>
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={(date) => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
+                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
+                                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD hh:mm'))} />
                             </Panel.Footer>
                         </Panel>
                         {movements.length > 0 &&
