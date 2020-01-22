@@ -152,46 +152,36 @@ class TrackingPage extends Page<{}, State> {
                                 </Panel.Body>
                             </Panel>
                         }
-                        <Row>
-                            <Col lg={3}>
-                                {datesInsideRectangle.length > 0 &&
-                                    <Panel>
-                                        <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
-                                        <Panel.Body>
-                                            <Table>
-                                                <tbody>
-                                                    {datesInsideRectangle.map(date =>
-                                                        <tr>
-                                                            <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
-                                                        </tr>,
-                                                    )}
-                                                </tbody>
-                                            </Table>
-                                        </Panel.Body>
-                                    </Panel>
-                                }
-                            </Col>
-                            <Col lg={9}>
-                                {this.state.datesInsideRectangleChartData &&
-                                    <Panel>
-                                        <Panel.Heading>Dates inside rectangle grouped</Panel.Heading>
-                                        <Panel.Body>
-                                            <SimpleBarChart
-                                                data={this.state.datesInsideRectangleChartData}
-                                                name="year"
-                                                value="count"
-                                            />
-                                        </Panel.Body>
-                                        <Panel.Footer>
-                                            <RadioLabel options={countGroupByOptions} onSelect={this.onGClick} />
-                                        </Panel.Footer>
-                                    </Panel>
-                                }
-                            </Col>
-                        </Row>
+                        {datesInsideRectangle.length > 0 &&
+                            <Panel>
+                                <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
+                                <Panel.Body>
+                                    <Table>
+                                        <tbody>
+                                            {datesInsideRectangle.map(date =>
+                                                <tr>
+                                                    <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
+                                                </tr>,
+                                            )}
+                                        </tbody>
+                                    </Table>
+                                    <SimpleBarChart
+                                        data={this.state.datesInsideRectangleChartData}
+                                        name="year"
+                                        value="count"
+                                    />
+                                </Panel.Body>
+                                <Panel.Footer>
+                                    <RadioLabel options={countGroupByOptions} onSelect={this.onGClick} />
+                                </Panel.Footer>
+                            </Panel>
+                        }
                         {this.state.altitudeChartData &&
                             <Panel>
-                                <Panel.Heading>Altitude</Panel.Heading>
+                                <Panel.Heading>
+                                    Altitude
+                                    <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ altitudeChartData: null })} />
+                                </Panel.Heading>
                                 <Panel.Body>
                                     <SimpleLineChart data={this.state.altitudeChartData} unit=" m" />
                                 </Panel.Body>
@@ -199,7 +189,10 @@ class TrackingPage extends Page<{}, State> {
                         }
                         {this.state.speedChartData &&
                             <Panel>
-                                <Panel.Heading>Speed</Panel.Heading>
+                                <Panel.Heading>
+                                    Speed
+                                    <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ speedChartData: null })} />
+                                </Panel.Heading>
                                 <Panel.Body>
                                     <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
                                 </Panel.Body>
