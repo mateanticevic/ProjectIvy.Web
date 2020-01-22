@@ -75,7 +75,7 @@ class TrackingPage extends Page<{}, State> {
             .then(lastTracking => this.setState({ lastTracking }));
     }
 
-    public loadDay(day) {
+    private loadDay(day) {
         const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: day, to: nextDay };
         api.tracking.get(filters).then(trackings => {
@@ -87,16 +87,20 @@ class TrackingPage extends Page<{}, State> {
                     distance,
                     color: this.colors[this.state.movements.length % this.colors.length],
                 };
-                this.setState({
-                    altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format('HH:mm') })),
-                    movements: [...this.state.movements, movement],
-                    speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format('HH:mm') })),
-                });
+                this.setState({ movements: [...this.state.movements, movement] });
             });
         });
     }
 
-    public render() {
+    private loadCharts(movementId: string) {
+        const trackings = this.state.movements.find(x => x.id === movementId)!.trackings;
+        this.setState({
+            altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format('HH:mm') })),
+            speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format('HH:mm') })),
+        });
+    }
+
+    render() {
         const { datesInsideRectangle, filters, movements } = this.state;
 
         const countGroupByOptions = [
@@ -142,7 +146,7 @@ class TrackingPage extends Page<{}, State> {
                                 <Panel.Body>
                                     <Table>
                                         <tbody>
-                                            {movements.map(movement => <MovementRow {...movement} onRemoveTracking={this.onRemoveTracking} />)}
+                                            {movements.map(movement => <MovementRow {...movement} onRemoveClick={this.removeTracking} onChartsClick={() => this.loadCharts(movement.id)} />)}
                                         </tbody>
                                     </Table>
                                 </Panel.Body>
@@ -220,7 +224,7 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private onRemoveTracking(id) {
+    private removeTracking(id) {
         this.setState({
             movements: _.filter(this.state.movements, t => t.id !== id),
         });
