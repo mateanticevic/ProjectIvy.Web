@@ -1,5 +1,5 @@
 export enum GroupByTime {
-    ByYear,
+    ByYear = 1,
     ByMonthOfYear,
     ByMonth,
     ByDayOfWeek,

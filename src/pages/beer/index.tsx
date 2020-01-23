@@ -33,6 +33,7 @@ interface State {
         count: number,
         items: Consumation[],
     };
+    countBy: GroupByTime;
     filters: ConsumationFilters;
     newBeers: any;
     servings: Serving[];
@@ -61,6 +62,7 @@ class BeerPage extends Page<{}, State> {
             count: 0,
             items: [],
         },
+        countBy: GroupByTime.ByMonthOfYear,
         filters: {
             from: moment().month(0).date(1).format('YYYY-MM-DD'),
             page: 1,
@@ -114,7 +116,6 @@ class BeerPage extends Page<{}, State> {
         api.common
             .getBeerServing()
             .then(servings => {
-                console.log('set');
                 this.setState({ servings });
                 this.onConsumationChange({ servingId: servings[0].id });
             });
@@ -151,8 +152,15 @@ class BeerPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private onCountByClick(groupBy: GroupByTime) {
+    private onCountByClick(groupBy?: GroupByTime) {
         let apiMethod;
+        
+        if (groupBy) {
+            this.setState({ countBy: groupBy });
+        }
+        else {
+            groupBy = this.state.countBy;
+        }
 
         switch (groupBy) {
             case GroupByTime.ByYear:
@@ -175,7 +183,7 @@ class BeerPage extends Page<{}, State> {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.pushHistoryState(filters);
 
-        this.setState({ filters });
+        this.setState({ filters }, this.onCountByClick);
 
         api.consumation
             .get(filters)
@@ -214,15 +222,13 @@ class BeerPage extends Page<{}, State> {
         api.consumation
             .getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
-
-        this.onCountByClick(GroupByTime.ByMonthOfYear);
     }
 
     public render() {
         const countByOptions = [
             { value: GroupByTime.ByYear, name: 'Year' },
-            { value: GroupByTime.ByMonth, name: 'Month' },
             { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+            { value: GroupByTime.ByMonth, name: 'Month' },
         ];
 
         const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
