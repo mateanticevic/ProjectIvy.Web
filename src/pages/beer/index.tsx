@@ -15,6 +15,7 @@ import BrandModal from './BrandModal';
 import ConsumationModal from './ConsumationModal';
 import Filters from './Filters';
 import { SumByServingChart } from './SumByServingChart';
+import { GroupByTime } from '../../consts/groupings';
 
 interface State {
     beerCount: number;
@@ -150,6 +151,26 @@ class BeerPage extends Page<{}, State> {
     }
 
     @boundMethod
+    private onCountByClick(groupBy: GroupByTime) {
+        let apiMethod;
+
+        switch (groupBy) {
+            case GroupByTime.ByYear:
+                apiMethod = api.consumation.getCountByYear;
+                break;
+            case GroupByTime.ByMonth:
+                apiMethod = api.consumation.getCountByMonth;
+                break;
+            case GroupByTime.ByMonthOfYear:
+                apiMethod = api.consumation.getCountByMonthOfYear;
+                break;
+        }
+
+        apiMethod(this.state.filters)
+            .then(chartCountData => this.setState({ chartCountData }));
+    }
+
+    @boundMethod
     public onFiltersChange(filterValue?: Partial<ConsumationFilters>) {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.pushHistoryState(filters);
@@ -194,12 +215,16 @@ class BeerPage extends Page<{}, State> {
             .getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
 
-        api.consumation
-            .getCountByMonth(filters)
-            .then(chartCountData => this.setState({ chartCountData }));
+        this.onCountByClick(GroupByTime.ByMonthOfYear);
     }
 
     public render() {
+        const countByOptions = [
+            { value: GroupByTime.ByYear, name: 'Year' },
+            { value: GroupByTime.ByMonth, name: 'Month' },
+            { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+        ];
+
         const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
             <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
             <td>{consumation.beer.name}</td>
@@ -296,7 +321,7 @@ class BeerPage extends Page<{}, State> {
                                         />
                                     </Panel.Body>
                                     <Panel.Footer>
-
+                                        <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
                                     </Panel.Footer>
                                 </Panel>
                             </Col>
