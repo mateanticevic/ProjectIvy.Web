@@ -8,6 +8,18 @@ function getCountBeer(filters) {
     return api.get('consumation/beer/count', filters);
 }
 
+function getCountByMonth(filters) {
+    return api.get('consumation/count/bymonth', filters);
+}
+
+function getCountByMonthOfYear(filters) {
+    return api.get('consumation/count/bymonthofyear', filters);
+}
+
+function getCountByYear(filters) {
+    return api.get('consumation/count/byyear', filters);
+}
+
 function getCountBrand(filters) {
     return api.get('consumation/brand/count', filters);
 }
@@ -35,6 +47,9 @@ function post(consumation) {
 const consumation = {
     get,
     getCountBeer,
+    getCountByMonth,
+    getCountByMonthOfYear,
+    getCountByYear,
     getCountBrand,
     getNewBeers,
     getSum,

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 
 import { Beer, Brand, Consumation, ConsumationFilters, Serving } from 'types/beer';
 import api from '../../api/main';
-import { Pagination } from '../../components';
+import { Pagination, RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
@@ -25,6 +25,7 @@ interface State {
     brands: Brand[];
     beerModalOpen: boolean;
     brandModalOpen: boolean;
+    chartCountData: any;
     consumationModalOpen: boolean;
     consumation: Consumation;
     consumations: {
@@ -50,6 +51,7 @@ class BeerPage extends Page<{}, State> {
         brands: [],
         beerModalOpen: false,
         brandModalOpen: false,
+        chartCountData: [],
         consumationModalOpen: false,
         consumation: {
             date: moment().format('YYYY-MM-DD'),
@@ -107,7 +109,7 @@ class BeerPage extends Page<{}, State> {
     public componentDidMount() {
         this.onFiltersChange();
         this.loadBrands();
-        console.log('OK');
+
         api.common
             .getBeerServing()
             .then(servings => {
@@ -191,6 +193,10 @@ class BeerPage extends Page<{}, State> {
         api.consumation
             .getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
+
+        api.consumation
+            .getCountByMonth(filters)
+            .then(chartCountData => this.setState({ chartCountData }));
     }
 
     public render() {
@@ -278,6 +284,21 @@ class BeerPage extends Page<{}, State> {
                         </Row>
                         <Row>
                             <Col lg={12}>
+                                <Panel>
+                                    <Panel.Heading>
+                                        <Panel.Toggle>Count</Panel.Toggle>
+                                    </Panel.Heading>
+                                    <Panel.Body>
+                                        <SimpleBarChart
+                                            data={this.state.chartCountData}
+                                            name="key"
+                                            value="value"
+                                        />
+                                    </Panel.Body>
+                                    <Panel.Footer>
+
+                                    </Panel.Footer>
+                                </Panel>
                             </Col>
                         </Row>
                     </Col>
