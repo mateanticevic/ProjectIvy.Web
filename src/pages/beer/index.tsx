@@ -175,7 +175,7 @@ class BeerPage extends Page<{}, State> {
         }
 
         apiMethod(this.state.filters)
-            .then(chartCountData => this.setState({ chartCountData }));
+            .then(chartCountData => this.setState({ chartCountData: _.reverse(chartCountData) }));
     }
 
     @boundMethod

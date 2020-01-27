@@ -14,7 +14,9 @@ const OnlineGraph = (props) => {
     return (
         <SimpleLineChart
             data={data}
+            name="day"
             unit=" h"
+            value="hours"
         />
     );
 };
