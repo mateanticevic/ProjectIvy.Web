@@ -95,8 +95,8 @@ class TrackingPage extends Page<{}, State> {
     private loadCharts(movementId: string) {
         const trackings = this.state.movements.find(x => x.id === movementId)!.trackings;
         this.setState({
-            altitudeChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.altitude), day: moment(tracking.timestamp).format('HH:mm') })),
-            speedChartData: trackings.map(tracking => ({ hours: Math.ceil(tracking.speed * 3.6), day: moment(tracking.timestamp).format('HH:mm') })),
+            altitudeChartData: trackings.map(tracking => ({ altitude: Math.ceil(tracking.altitude), time: moment(tracking.timestamp).format('HH:mm') })),
+            speedChartData: trackings.map(tracking => ({ speed: Math.ceil(tracking.speed * 3.6), time: moment(tracking.timestamp).format('HH:mm') })),
         });
     }
 
@@ -183,7 +183,12 @@ class TrackingPage extends Page<{}, State> {
                                     <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ altitudeChartData: null })} />
                                 </Panel.Heading>
                                 <Panel.Body>
-                                    <SimpleLineChart data={this.state.altitudeChartData} unit=" m" />
+                                    <SimpleLineChart
+                                        data={this.state.altitudeChartData}
+                                        name="time"
+                                        unit=" m"
+                                        value="altitude"
+                                    />
                                 </Panel.Body>
                             </Panel>
                         }
@@ -194,7 +199,12 @@ class TrackingPage extends Page<{}, State> {
                                     <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ speedChartData: null })} />
                                 </Panel.Heading>
                                 <Panel.Body>
-                                    <SimpleLineChart data={this.state.speedChartData} unit=" km/h" />
+                                    <SimpleLineChart
+                                        data={this.state.speedChartData}
+                                        name="time"
+                                        unit=" km/h"
+                                        value="speed"
+                                    />
                                 </Panel.Body>
                             </Panel>
                         }
