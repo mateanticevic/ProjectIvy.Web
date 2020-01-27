@@ -44,7 +44,7 @@ interface State {
 
 class BeerPage extends Page<{}, State> {
 
-    public state: State = {
+    state: State = {
         beerCount: 0,
         brandCount: 0,
         beers: [],
@@ -78,38 +78,7 @@ class BeerPage extends Page<{}, State> {
         topBeers: [],
     };
 
-    @boundMethod
-    public addBeer() {
-        api.beer
-            .postBeer(this.state.beer.brandId, this.state.beer)
-            .then(() => {
-                toast.success('Beer added');
-            });
-    }
-
-    @boundMethod
-    public addBrand() {
-        api.beer
-            .postBrand(this.state.brand.name)
-            .then(() => {
-                this.loadBrands();
-                this.setState({ brandModalOpen: false });
-                toast.success('Brand added');
-            });
-    }
-
-    @boundMethod
-    public addConsumation() {
-        api.consumation
-            .post(this.state.consumation)
-            .then(() => {
-                this.onFiltersChange();
-                this.setState({ consumationModalOpen: false });
-                toast.success('Consumation added');
-            });
-    }
-
-    public componentDidMount() {
+    componentDidMount() {
         this.onFiltersChange();
         this.loadBrands();
 
@@ -121,110 +90,7 @@ class BeerPage extends Page<{}, State> {
             });
     }
 
-    @boundMethod
-    public onBeerChange(beerValue: Partial<Beer>) {
-        this.setState({
-            beer: {
-                ...this.state.beer,
-                ...beerValue,
-            },
-        });
-    }
-
-    @boundMethod
-    public onBrandChange(brandValue: Partial<Brand>) {
-        this.setState({
-            brand: {
-                ...this.state.brand,
-                ...brandValue,
-            },
-        });
-    }
-
-    @boundMethod
-    public onConsumationChange(consumationValue: Partial<Consumation>) {
-        this.setState({
-            consumation: {
-                ...this.state.consumation,
-                ...consumationValue,
-            },
-        });
-    }
-
-    @boundMethod
-    private onCountByClick(groupBy?: GroupByTime) {
-        let apiMethod;
-        
-        if (groupBy) {
-            this.setState({ countBy: groupBy });
-        }
-        else {
-            groupBy = this.state.countBy;
-        }
-
-        switch (groupBy) {
-            case GroupByTime.ByYear:
-                apiMethod = api.consumation.getCountByYear;
-                break;
-            case GroupByTime.ByMonth:
-                apiMethod = api.consumation.getCountByMonth;
-                break;
-            case GroupByTime.ByMonthOfYear:
-                apiMethod = api.consumation.getCountByMonthOfYear;
-                break;
-        }
-
-        apiMethod(this.state.filters)
-            .then(chartCountData => this.setState({ chartCountData: _.reverse(chartCountData) }));
-    }
-
-    @boundMethod
-    public onFiltersChange(filterValue?: Partial<ConsumationFilters>) {
-        const filters = this.resolveFilters(this.state.filters, filterValue);
-        this.pushHistoryState(filters);
-
-        this.setState({ filters }, this.onCountByClick);
-
-        api.consumation
-            .get(filters)
-            .then(consumations => this.setState({ consumations }));
-
-        if (filterValue && filterValue.page) {
-            return;
-        }
-
-        const statsFilters = {
-            ...filters,
-            page: 1,
-            pageSize: 5,
-        };
-
-        api.consumation
-            .getCountBeer(statsFilters)
-            .then(beerCount => this.setState({ beerCount }));
-
-        api.consumation
-            .getCountBeer(statsFilters)
-            .then(brandCount => this.setState({ brandCount }));
-
-        api.consumation
-            .getSum(statsFilters)
-            .then(sum => this.setState({ sum }));
-
-        api.consumation
-            .getSumByBeer(statsFilters)
-            .then(beers => this.setState({ topBeers: beers.items }));
-
-        api.consumation
-            .getNewBeers(statsFilters)
-            .then(newBeers => this.setState({ newBeers }));
-
-        api.consumation
-            .getSumByServing(filters)
-            .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
-    }
-
-    public render() {
+    render() {
         const countByOptions = [
             { value: GroupByTime.ByYear, name: 'Year' },
             { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
@@ -387,10 +253,144 @@ class BeerPage extends Page<{}, State> {
     }
 
     @boundMethod
+    private addBeer() {
+        api.beer
+            .postBeer(this.state.beer.brandId, this.state.beer)
+            .then(() => {
+                toast.success('Beer added');
+            });
+    }
+
+    @boundMethod
+    private addBrand() {
+        api.beer
+            .postBrand(this.state.brand.name)
+            .then(() => {
+                this.loadBrands();
+                this.setState({ brandModalOpen: false });
+                toast.success('Brand added');
+            });
+    }
+
+    @boundMethod
+    private addConsumation() {
+        api.consumation
+            .post(this.state.consumation)
+            .then(() => {
+                this.onFiltersChange();
+                this.setState({ consumationModalOpen: false });
+                toast.success('Consumation added');
+            });
+    }
+
+    @boundMethod
     private loadBrands() {
         api.beer
             .getBrands()
             .then(brands => this.setState({ brands }));
+    }
+
+    @boundMethod
+    private onBeerChange(beerValue: Partial<Beer>) {
+        this.setState({
+            beer: {
+                ...this.state.beer,
+                ...beerValue,
+            },
+        });
+    }
+
+    @boundMethod
+    private onBrandChange(brandValue: Partial<Brand>) {
+        this.setState({
+            brand: {
+                ...this.state.brand,
+                ...brandValue,
+            },
+        });
+    }
+
+    @boundMethod
+    private onConsumationChange(consumationValue: Partial<Consumation>) {
+        this.setState({
+            consumation: {
+                ...this.state.consumation,
+                ...consumationValue,
+            },
+        });
+    }
+
+    @boundMethod
+    private onCountByClick(groupBy?: GroupByTime) {
+        let apiMethod;
+        
+        if (groupBy) {
+            this.setState({ countBy: groupBy });
+        }
+        else {
+            groupBy = this.state.countBy;
+        }
+
+        switch (groupBy) {
+            case GroupByTime.ByYear:
+                apiMethod = api.consumation.getCountByYear;
+                break;
+            case GroupByTime.ByMonth:
+                apiMethod = api.consumation.getCountByMonth;
+                break;
+            case GroupByTime.ByMonthOfYear:
+                apiMethod = api.consumation.getCountByMonthOfYear;
+                break;
+        }
+
+        apiMethod(this.state.filters)
+            .then(chartCountData => this.setState({ chartCountData: _.reverse(chartCountData) }));
+    }
+
+    @boundMethod
+    private onFiltersChange(filterValue?: Partial<ConsumationFilters>) {
+        const filters = this.resolveFilters(this.state.filters, filterValue);
+        this.pushHistoryState(filters);
+
+        this.setState({ filters }, this.onCountByClick);
+
+        api.consumation
+            .get(filters)
+            .then(consumations => this.setState({ consumations }));
+
+        if (filterValue && filterValue.page) {
+            return;
+        }
+
+        const statsFilters = {
+            ...filters,
+            page: 1,
+            pageSize: 5,
+        };
+
+        api.consumation
+            .getCountBeer(statsFilters)
+            .then(beerCount => this.setState({ beerCount }));
+
+        api.consumation
+            .getCountBeer(statsFilters)
+            .then(brandCount => this.setState({ brandCount }));
+
+        api.consumation
+            .getSum(statsFilters)
+            .then(sum => this.setState({ sum }));
+
+        api.consumation
+            .getSumByBeer(statsFilters)
+            .then(beers => this.setState({ topBeers: beers.items }));
+
+        api.consumation
+            .getNewBeers(statsFilters)
+            .then(newBeers => this.setState({ newBeers }));
+
+        api.consumation
+            .getSumByServing(filters)
+            .then(data => this.setState({ sumByServing: data.items.map((x => ({ name: x.by.name, value: x.sum })) }));
     }
 }
 

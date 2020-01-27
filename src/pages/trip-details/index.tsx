@@ -18,7 +18,7 @@ interface State {
 
 class TripDetailsPage extends React.Component<{}, State> {
 
-  public state: State = {
+  state: State = {
     beerSum: 0,
     expenseFilters: {
       page: 1,
@@ -45,24 +45,7 @@ class TripDetailsPage extends React.Component<{}, State> {
       });
   }
 
-  @boundMethod
-  public onExpensePageChange(page) {
-    this.setState({
-      expenseFilters: {
-        ...this.state.expenseFilters,
-        page,
-      },
-    });
-  }
-
-  @boundMethod
-  public onUnlink(expenseId) {
-    api.trip
-      .deleteExpense(this.state.trip.id, expenseId)
-      .then(() => { });
-  }
-
-  public render() {
+  render() {
     const { beerSum, trackings, trip } = this.state;
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
@@ -130,6 +113,23 @@ class TripDetailsPage extends React.Component<{}, State> {
         </Row>
       </Grid>
     );
+  }
+
+  @boundMethod
+  public onExpensePageChange(page) {
+    this.setState({
+      expenseFilters: {
+        ...this.state.expenseFilters,
+        page,
+      },
+    });
+  }
+
+  @boundMethod
+  public onUnlink(expenseId) {
+    api.trip
+      .deleteExpense(this.state.trip.id, expenseId)
+      .then(() => { });
   }
 }
 

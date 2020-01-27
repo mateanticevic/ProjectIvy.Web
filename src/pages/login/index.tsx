@@ -14,36 +14,19 @@ interface State {
 
 class LoginPage extends React.Component<{}, State> {
 
-  public state: State = {
+  state: State = {
     isLoggingIn: false,
     username: '',
     password: '',
   };
 
-  public componentDidMount() {
+  componentDidMount() {
     if (window.location.search === '?logout') {
       localStorage.removeItem('token');
     }
   }
 
-  @boundMethod
-  public loginTry(event) {
-    event.preventDefault();
-    this.setState({
-      isLoggingIn: true,
-    });
-    api.token.post(this.state.username, this.state.password).then((token) => {
-      localStorage.setItem('token', token);
-      apiConfig.setToken();
-      location.assign('/');
-    }).catch(() => {
-      this.setState({
-        isLoggingIn: false,
-      });
-    });
-  }
-
-  public render() {
+  render() {
 
     return (
       <Panel className="panel-login">
@@ -67,6 +50,23 @@ class LoginPage extends React.Component<{}, State> {
         </Panel.Body>
       </Panel>
     );
+  }
+
+  @boundMethod
+  public loginTry(event) {
+    event.preventDefault();
+    this.setState({
+      isLoggingIn: true,
+    });
+    api.token.post(this.state.username, this.state.password).then((token) => {
+      localStorage.setItem('token', token);
+      apiConfig.setToken();
+      location.assign('/');
+    }).catch(() => {
+      this.setState({
+        isLoggingIn: false,
+      });
+    });
   }
 }
 

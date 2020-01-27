@@ -6,7 +6,7 @@ import api from '../../api/main';
 
 class ToDosPage extends React.Component {
 
-    public state = {
+    state = {
         todos: {
             count: 0,
             items: [],
@@ -14,39 +14,11 @@ class ToDosPage extends React.Component {
         newTodo: '',
     };
 
-    public componentDidMount() {
+    componentDidMount() {
         this.getToDos();
     }
 
-    @boundMethod
-    public addNew(e) {
-        e.preventDefault();
-        api.todo.post(this.state.newTodo).then(() => {
-            this.setState({ newTodo: '' });
-            this.getToDos();
-        });
-        return false;
-    }
-
-    public getToDos() {
-        api.todo.get({ isDone: false }).then((todos) => this.setState({ todos }));
-    }
-
-    @boundMethod
-    public renderTodos() {
-        return this.state.todos.items.map((todo) => (<tr key={todo.id}>
-            <td><Checkbox onClick={() => this.setDone(todo.id)} /></td>
-            <td>{todo.name}</td>
-        </tr>
-        ));
-    }
-
-    @boundMethod
-    public setDone(id) {
-        api.todo.postDone(id).then(() => this.getToDos());
-    }
-
-    public render() {
+    render() {
 
         return (
             <Grid>
@@ -69,6 +41,34 @@ class ToDosPage extends React.Component {
                 </Row>
             </Grid>
         );
+    }
+
+    @boundMethod
+    private addNew(e) {
+        e.preventDefault();
+        api.todo.post(this.state.newTodo).then(() => {
+            this.setState({ newTodo: '' });
+            this.getToDos();
+        });
+        return false;
+    }
+
+    private getToDos() {
+        api.todo.get({ isDone: false }).then((todos) => this.setState({ todos }));
+    }
+
+    @boundMethod
+    private renderTodos() {
+        return this.state.todos.items.map((todo) => (<tr key={todo.id}>
+            <td><Checkbox onClick={() => this.setDone(todo.id)} /></td>
+            <td>{todo.name}</td>
+        </tr>
+        ));
+    }
+
+    @boundMethod
+    private setDone(id) {
+        api.todo.postDone(id).then(() => this.getToDos());
     }
 }
 

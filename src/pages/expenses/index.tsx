@@ -38,7 +38,7 @@ interface State {
 
 class ExpensesPage extends Page<{}, State> {
 
-  public state: State = {
+  state: State = {
     cards: [],
     currencies: [],
     defaultCurrency: {},
@@ -91,7 +91,7 @@ class ExpensesPage extends Page<{}, State> {
     vendorPois: [],
   };
 
-  public componentDidMount() {
+  componentDidMount() {
     this.onFiltersChanged();
     api.card.get().then(cards => this.setState({ cards }));
     api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
@@ -103,193 +103,7 @@ class ExpensesPage extends Page<{}, State> {
     api.expenseType.get().then(types => this.setState({ types }));
   }
 
-  @boundMethod
-  public deleteFile(fileId) {
-    api.file.deleteFile(fileId);
-  }
-
-  @boundMethod
-  public linkExpenseFile() {
-    api.expense
-      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type });
-  }
-
-  public newExpense(): Partial<Expense> {
-    return {
-      amount: 0,
-      comment: '',
-      currency: this.state.defaultCurrency,
-      date: moment().format('YYYY-M-D'),
-      expenseType: this.state.types[0],
-      paymentType: this.state.paymentTypes[0],
-    };
-  }
-
-  @boundMethod
-  public onExpenseChanged(expenseValue: ExpenseBinding) {
-    this.setState({
-      expense: {
-        ...this.state.expense,
-        ...expenseValue,
-      },
-    });
-
-    if (expenseValue && expenseValue.vendorId) {
-      this.onVendorChange(expenseValue.vendorId);
-    }
-  }
-
-  @boundMethod
-  public onExpenseEdit(expense: Expense) {
-    this.setState({
-      expense: {
-        ...expense,
-        date: moment(expense.date).format('YYYY-M-D'),
-      },
-      files: expense.files,
-      isModalOpen: true,
-    });
-  }
-
-  @boundMethod
-  public onExpenseNew() {
-    this.setState({
-      expense: this.newExpense(),
-      isModalOpen: true,
-    });
-  }
-
-  @boundMethod
-  public onExpenseSave(closeModal: boolean) {
-    this.setState({ isSavingExpense: true });
-
-    const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
-
-    saveMethod(this.toExpenseBinding(this.state.expense))
-      .then(() => {
-        this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
-        this.onFiltersChanged();
-      })
-      .catch(() => this.setState({ isSavingExpense: false }));
-  }
-
-  @boundMethod
-  public onFiltersChanged(changedFilters?: Partial<ExpenseFilters>) {
-    const filters = this.resolveFilters(this.state.filters, changedFilters);
-    this.pushHistoryState(filters);
-    this.setState({
-      expensesAreLoading: true,
-      filters,
-    });
-
-    api.expense
-      .get(filters)
-      .then(expenses => this.setState({
-        expenses,
-        expensesAreLoading: false,
-      }));
-
-    api.expense
-      .getCountByMonth(filters)
-      .then(countByMonth => this.setState({
-        graphs: {
-          ...this.state.graphs,
-          count: countByMonth,
-        },
-      }));
-
-    api.expense
-      .getSumByMonth(filters)
-      .then(sumByMonth => this.setState({
-        graphs: {
-          ...this.state.graphs,
-          sum: sumByMonth,
-        },
-      }));
-
-    const pageAllFilters = {
-      ...filters,
-      pageAll: true,
-    };
-
-    api.expense
-      .getCountByVendor(pageAllFilters)
-      .then(data => {
-        const top = _.take(_.filter(data.items, item => item.by), 3);
-        const other = _.difference(data.items, top);
-
-        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
-
-        if (other.length > 0) {
-          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-        }
-
-        this.setState({
-          graphs: {
-            ...this.state.graphs,
-            countByVendor: chartData,
-          },
-        });
-      });
-
-    api.expense
-      .getCountByType(pageAllFilters)
-      .then(data => {
-        const top = _.take(_.filter(data.items, item => item.by), 3);
-        const other = _.difference(data.items, top);
-
-        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
-        if (other.length > 0) {
-          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-        }
-
-        this.setState({
-          graphs: {
-            ...this.state.graphs,
-            countByType: chartData,
-          },
-        });
-      });
-
-    api.expense
-      .getSum(filters)
-      .then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
-
-    api.expense
-      .getTypeCount(filters)
-      .then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
-
-    api.expense
-      .getVendorCount(filters)
-      .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
-  }
-
-  @boundMethod
-  public onVendorChange(vendorId: string) {
-    api.vendor.getPois(vendorId)
-      .then(vendorPois => this.setState({ vendorPois }));
-  }
-
-  public toExpenseBinding(e: Expense): ExpenseBinding {
-    return {
-      amount: e.amount,
-      cardId: e.card ? e.card.id : undefined,
-      comment: e.comment,
-      currencyId: e.currency.id,
-      expenseTypeId: e.expenseType.id,
-      date: e.date,
-      timestamp: e.timestamp,
-      parentCurrencyId: e.parentCurrency ? e.parentCurrency.id : undefined,
-      parentCurrencyExchangeRate: e.parentCurrencyExchangeRate,
-      modified: e.modified,
-      id: e.id,
-      paymentTypeId: e.paymentType.id,
-      poiId: e.poi ? e.poi.id : undefined,
-      vendorId: e.vendor ? e.vendor.id : undefined,
-    };
-  }
-
-  public render() {
+  render() {
     const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => ({ value: x.data, key: moment(`${x.year}-${x.month}-1`).format('YYYY MMM') })));
 
     const countByOptions = [
@@ -442,6 +256,28 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
+  private deleteFile(fileId) {
+    api.file.deleteFile(fileId);
+  }
+
+  @boundMethod
+  private linkExpenseFile() {
+    api.expense
+      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type });
+  }
+
+  private newExpense(): Partial<Expense> {
+    return {
+      amount: 0,
+      comment: '',
+      currency: this.state.defaultCurrency,
+      date: moment().format('YYYY-M-D'),
+      expenseType: this.state.types[0],
+      paymentType: this.state.paymentTypes[0],
+    };
+  }
+
+  @boundMethod
   private onCountByClick(groupBy: GroupByTime) {
     let apiMethod;
 
@@ -470,6 +306,170 @@ class ExpensesPage extends Page<{}, State> {
           count: countBy,
         },
       }));
+  }
+
+  @boundMethod
+  private onExpenseChanged(expenseValue: ExpenseBinding) {
+    this.setState({
+      expense: {
+        ...this.state.expense,
+        ...expenseValue,
+      },
+    });
+
+    if (expenseValue && expenseValue.vendorId) {
+      this.onVendorChange(expenseValue.vendorId);
+    }
+  }
+
+  @boundMethod
+  private onExpenseEdit(expense: Expense) {
+    this.setState({
+      expense: {
+        ...expense,
+        date: moment(expense.date).format('YYYY-M-D'),
+      },
+      files: expense.files,
+      isModalOpen: true,
+    });
+  }
+
+  @boundMethod
+  private onExpenseNew() {
+    this.setState({
+      expense: this.newExpense(),
+      isModalOpen: true,
+    });
+  }
+
+  @boundMethod
+  private onExpenseSave(closeModal: boolean) {
+    this.setState({ isSavingExpense: true });
+
+    const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
+
+    saveMethod(this.toExpenseBinding(this.state.expense))
+      .then(() => {
+        this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
+        this.onFiltersChanged();
+      })
+      .catch(() => this.setState({ isSavingExpense: false }));
+  }
+
+  @boundMethod
+  private onFiltersChanged(changedFilters?: Partial<ExpenseFilters>) {
+    const filters = this.resolveFilters(this.state.filters, changedFilters);
+    this.pushHistoryState(filters);
+    this.setState({
+      expensesAreLoading: true,
+      filters,
+    });
+
+    api.expense
+      .get(filters)
+      .then(expenses => this.setState({
+        expenses,
+        expensesAreLoading: false,
+      }));
+
+    api.expense
+      .getCountByMonth(filters)
+      .then(countByMonth => this.setState({
+        graphs: {
+          ...this.state.graphs,
+          count: countByMonth,
+        },
+      }));
+
+    api.expense
+      .getSumByMonth(filters)
+      .then(sumByMonth => this.setState({
+        graphs: {
+          ...this.state.graphs,
+          sum: sumByMonth,
+        },
+      }));
+
+    const pageAllFilters = {
+      ...filters,
+      pageAll: true,
+    };
+
+    api.expense
+      .getCountByVendor(pageAllFilters)
+      .then(data => {
+        const top = _.take(_.filter(data.items, item => item.by), 3);
+        const other = _.difference(data.items, top);
+
+        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
+
+        if (other.length > 0) {
+          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+        }
+
+        this.setState({
+          graphs: {
+            ...this.state.graphs,
+            countByVendor: chartData,
+          },
+        });
+      });
+
+    api.expense
+      .getCountByType(pageAllFilters)
+      .then(data => {
+        const top = _.take(_.filter(data.items, item => item.by), 3);
+        const other = _.difference(data.items, top);
+
+        const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
+        if (other.length > 0) {
+          chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
+        }
+
+        this.setState({
+          graphs: {
+            ...this.state.graphs,
+            countByType: chartData,
+          },
+        });
+      });
+
+    api.expense
+      .getSum(filters)
+      .then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+
+    api.expense
+      .getTypeCount(filters)
+      .then(typeCount => this.setState({ stats: { ...this.state.stats, typeCount } }));
+
+    api.expense
+      .getVendorCount(filters)
+      .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
+  }
+
+  @boundMethod
+  private onVendorChange(vendorId: string) {
+    api.vendor.getPois(vendorId)
+      .then(vendorPois => this.setState({ vendorPois }));
+  }
+
+  private toExpenseBinding(e: Expense): ExpenseBinding {
+    return {
+      amount: e.amount,
+      cardId: e.card ? e.card.id : undefined,
+      comment: e.comment,
+      currencyId: e.currency.id,
+      expenseTypeId: e.expenseType.id,
+      date: e.date,
+      timestamp: e.timestamp,
+      parentCurrencyId: e.parentCurrency ? e.parentCurrency.id : undefined,
+      parentCurrencyExchangeRate: e.parentCurrencyExchangeRate,
+      modified: e.modified,
+      id: e.id,
+      paymentTypeId: e.paymentType.id,
+      poiId: e.poi ? e.poi.id : undefined,
+      vendorId: e.vendor ? e.vendor.id : undefined,
+    };
   }
 }
 

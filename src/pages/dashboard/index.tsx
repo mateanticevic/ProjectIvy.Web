@@ -13,7 +13,7 @@ import OnlineGraph from './OnlineGraph';
 
 class DashboardPage extends React.Component {
 
-  public state = {
+  state = {
     carLogLatest: { odometer: 0, timestamp: moment() },
     consumations: [],
     expenses: [],
@@ -33,7 +33,7 @@ class DashboardPage extends React.Component {
     spentByMonthGraphData: [],
   };
 
-  public componentWillMount() {
+  componentWillMount() {
 
     const lastFiveFilters = {
       pageSize: 5,
@@ -67,7 +67,7 @@ class DashboardPage extends React.Component {
     api.tracking.getDistance(monthFilters).then(month => this.setState({ distance: { ...this.state.distance, month } }));
   }
 
-  public render() {
+  render() {
     const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
     const expenseItems = expenses.map(expense => {
@@ -192,6 +192,11 @@ class DashboardPage extends React.Component {
     );
   }
 
+  @boundMethod
+  private dateTimeFormat(dateTime) {
+    return moment(dateTime).date() === moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
+  }
+
   private dayOfWeek(date) {
     const fullDate = (
       <Tooltip id="tooltip">
@@ -200,11 +205,6 @@ class DashboardPage extends React.Component {
     );
 
     return <OverlayTrigger placement="top" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
-  }
-
-  @boundMethod
-  private dateTimeFormat(dateTime) {
-    return moment(dateTime).date() === moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
   }
 }
 

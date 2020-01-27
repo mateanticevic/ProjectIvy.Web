@@ -31,7 +31,7 @@ interface State {
 
 class TripsPage extends Page<{}, State> {
 
-  public state: State = {
+  state: State = {
     countries: [],
     countriesVisited: [],
     filters: {
@@ -50,7 +50,7 @@ class TripsPage extends Page<{}, State> {
     countryBoundaries: [],
   };
 
-  public componentDidMount() {
+  componentDidMount() {
     api.country
       .getAll()
       .then(countries => this.setState({ countries: countries.items }));
@@ -58,67 +58,7 @@ class TripsPage extends Page<{}, State> {
     this.onFiltersChanged();
   }
 
-  @boundMethod
-  public loadCities(inputValue, callback) {
-    api.city
-      .get({ search: inputValue })
-      .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
-  }
-
-  @boundMethod
-  public loadVisitedCountries() {
-    api.country
-      .getVisitedBoundaries()
-      .then(countries => this.setState({ countryBoundaries: countries }));
-  }
-
-  @boundMethod
-  public onFiltersChanged(filterValue?) {
-    const filters = this.resolveFilters(this.state.filters, filterValue);
-    this.setState({
-      filters,
-      tripsAreLoading: true,
-    });
-    this.pushHistoryState(filters);
-
-    api.trip
-      .get(filters)
-      .then(trips => this.setState({
-        trips,
-        tripsAreLoading: false,
-      }));
-
-    api.country
-      .getVisited(filters)
-      .then(countriesVisited => this.setState({ countriesVisited }));
-  }
-
-  @boundMethod
-  public onTripChanged(changedValue: Partial<TripBinding>) {
-    this.setState({
-      trip: {
-        ...this.state.trip,
-        ...changedValue,
-      },
-    });
-  }
-
-  @boundMethod
-  public onTripSave() {
-    this.setState({ tripIsBeingAdded: true });
-    api.trip
-      .post(this.state.trip)
-      .then(() => {
-        this.setState({
-          isModalOpen: false,
-          tripIsBeingAdded: false,
-        });
-        this.onFiltersChanged();
-        this.loadVisitedCountries();
-      });
-  }
-
-  public render() {
+  render() {
     const countryPolygons = this.state.countryBoundaries.map(country => {
       return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
     });
@@ -236,6 +176,66 @@ class TripsPage extends Page<{}, State> {
         />
       </Grid>
     );
+  }
+
+  @boundMethod
+  private loadCities(inputValue, callback) {
+    api.city
+      .get({ search: inputValue })
+      .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
+  }
+
+  @boundMethod
+  private loadVisitedCountries() {
+    api.country
+      .getVisitedBoundaries()
+      .then(countries => this.setState({ countryBoundaries: countries }));
+  }
+
+  @boundMethod
+  private onFiltersChanged(filterValue?) {
+    const filters = this.resolveFilters(this.state.filters, filterValue);
+    this.setState({
+      filters,
+      tripsAreLoading: true,
+    });
+    this.pushHistoryState(filters);
+
+    api.trip
+      .get(filters)
+      .then(trips => this.setState({
+        trips,
+        tripsAreLoading: false,
+      }));
+
+    api.country
+      .getVisited(filters)
+      .then(countriesVisited => this.setState({ countriesVisited }));
+  }
+
+  @boundMethod
+  private onTripChanged(changedValue: Partial<TripBinding>) {
+    this.setState({
+      trip: {
+        ...this.state.trip,
+        ...changedValue,
+      },
+    });
+  }
+
+  @boundMethod
+  private onTripSave() {
+    this.setState({ tripIsBeingAdded: true });
+    api.trip
+      .post(this.state.trip)
+      .then(() => {
+        this.setState({
+          isModalOpen: false,
+          tripIsBeingAdded: false,
+        });
+        this.onFiltersChanged();
+        this.loadVisitedCountries();
+      });
   }
 }
 

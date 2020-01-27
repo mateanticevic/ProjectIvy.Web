@@ -23,7 +23,7 @@ interface State {
 
 export default class CallsPage extends Page<{}, State> {
 
-    public state: State = {
+    state: State = {
         calls: {
             count: 0,
             items: [],
@@ -34,39 +34,11 @@ export default class CallsPage extends Page<{}, State> {
         },
     };
 
-    public componentDidMount() {
+    componentDidMount() {
         this.onFiltersChange();
     }
 
-    public fetchCalls() {
-        api.call
-            .get(this.state.filters)
-            .then(calls => this.setState({ calls }));
-    }
-
-    @boundMethod
-    public onFiltersChange(changedFilters?) {
-        const filters = this.resolveFilters(this.state.filters, changedFilters);
-        this.pushHistoryState(filters);
-
-        this.setState({ filters }, this.fetchCalls);
-    }
-
-    @boundMethod
-    public renderCalls() {
-
-        return this.state.calls.items.map(call => (<tr>
-            <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
-            <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
-            <td>{formatHelper.time(call.duration)}</td>
-            <td>
-                <audio controls src={`https://api2.anticevic.net/file/${call.file.id}`} />
-            </td>
-        </tr>
-        ));
-    }
-
-    public render() {
+    render() {
         const { calls, filters } = this.state;
 
         const pages = Math.ceil(calls.count / filters.pageSize);
@@ -118,5 +90,33 @@ export default class CallsPage extends Page<{}, State> {
                     </Col>
                 </Row>
             </Grid>);
+    }
+
+    private fetchCalls() {
+        api.call
+            .get(this.state.filters)
+            .then(calls => this.setState({ calls }));
+    }
+
+    @boundMethod
+    private onFiltersChange(changedFilters?) {
+        const filters = this.resolveFilters(this.state.filters, changedFilters);
+        this.pushHistoryState(filters);
+
+        this.setState({ filters }, this.fetchCalls);
+    }
+
+    @boundMethod
+    private renderCalls() {
+
+        return this.state.calls.items.map(call => (<tr>
+            <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
+            <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
+            <td>{formatHelper.time(call.duration)}</td>
+            <td>
+                <audio controls src={`https://api2.anticevic.net/file/${call.file.id}`} />
+            </td>
+        </tr>
+        ));
     }
 }

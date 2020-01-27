@@ -34,64 +34,13 @@ class PoisPage extends React.Component {
     };
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     this.onFiltersChanged();
     api.common.getPoiCategories().then((poiCategories) => this.setState({ poiCategories }));
     api.vendor.get(this.state.filters).then((vendors) => this.setState({ vendors: vendors.items }));
   }
 
-  public onAddToTrip(poiId: string) {
-  }
-
-  @boundMethod
-  public onFiltersChanged(filter?) {
-    const filters = { ...this.state.filters, ...filter };
-    this.setState({ filters });
-    api.poi.get(filters).then((pois) => this.setState({ pois }));
-  }
-
-  @boundMethod
-  public onMapClick(e) {
-    this.setState({
-      isModalOpen: true,
-      poi: {
-        latitude: e.latLng.lat(),
-        longitude: e.latLng.lng(),
-      },
-    });
-  }
-
-  @boundMethod
-  public onModalClose() {
-    this.setState({ isModalOpen: false });
-  }
-
-  @boundMethod
-  public onMapDragEnd() {
-    // let bounds = this.map.state.map.getBounds();
-
-    // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
-    // this.setState({ filters: filters });
-  }
-
-  @boundMethod
-  public onNewClick() {
-    this.setState({ isModalOpen: true });
-  }
-
-  @boundMethod
-  public onPoiChange(property: object) {
-    const poi = { ...this.state.poi, ...property };
-    this.setState({ poi });
-  }
-
-  @boundMethod
-  public onSave() {
-    this.setState({ isModalOpen: false });
-    this.onFiltersChanged();
-  }
-
-  public render() {
+  render() {
 
     const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
 
@@ -152,6 +101,57 @@ class PoisPage extends React.Component {
         />
       </Grid>
     );
+  }
+
+  public onAddToTrip(poiId: string) {
+  }
+
+  @boundMethod
+  public onFiltersChanged(filter?) {
+    const filters = { ...this.state.filters, ...filter };
+    this.setState({ filters });
+    api.poi.get(filters).then((pois) => this.setState({ pois }));
+  }
+
+  @boundMethod
+  public onMapClick(e) {
+    this.setState({
+      isModalOpen: true,
+      poi: {
+        latitude: e.latLng.lat(),
+        longitude: e.latLng.lng(),
+      },
+    });
+  }
+
+  @boundMethod
+  public onMapDragEnd() {
+    // let bounds = this.map.state.map.getBounds();
+
+    // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
+    // this.setState({ filters: filters });
+  }
+
+  @boundMethod
+  public onModalClose() {
+    this.setState({ isModalOpen: false });
+  }
+
+  @boundMethod
+  public onNewClick() {
+    this.setState({ isModalOpen: true });
+  }
+
+  @boundMethod
+  public onPoiChange(property: object) {
+    const poi = { ...this.state.poi, ...property };
+    this.setState({ poi });
+  }
+
+  @boundMethod
+  public onSave() {
+    this.setState({ isModalOpen: false });
+    this.onFiltersChanged();
   }
 }
 

@@ -16,7 +16,7 @@ interface State {
 
 class FlightsPage extends Page<{}, State> {
 
-    public state = {
+    state = {
         countByAirport: [],
         filters: {
             page: 1,
@@ -29,26 +29,11 @@ class FlightsPage extends Page<{}, State> {
         showFlights: false,
     };
 
-    public componentDidMount() {
+    componentDidMount() {
         this.onFiltersChange();
     }
 
-    @boundMethod
-    public onFiltersChange(changedFilters) {
-        const filters = this.resolveFilters(this.state.filters, changedFilters);
-        this.pushHistoryState(filters);
-
-        this.setState({filters});
-
-        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
-    }
-
-    @boundMethod
-    public toggleShowFlights() {
-        this.setState({ showFlights: !this.state.showFlights });
-    }
-
-    public render() {
+    render() {
         const { filters, flights } = this.state;
 
         const airports = this.state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
@@ -120,6 +105,21 @@ class FlightsPage extends Page<{}, State> {
                 </Row>
             </Grid>
         );
+    }
+
+    @boundMethod
+    private onFiltersChange(changedFilters?) {
+        const filters = this.resolveFilters(this.state.filters, changedFilters);
+        this.pushHistoryState(filters);
+
+        this.setState({filters});
+
+        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
+    }
+
+    @boundMethod
+    private toggleShowFlights() {
+        this.setState({ showFlights: !this.state.showFlights });
     }
 }
 
