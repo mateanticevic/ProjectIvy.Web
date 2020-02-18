@@ -9,7 +9,7 @@ import { Movement } from './types';
 const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onChartsClick }: Movement) => {
     return (
         <tr>
-            <td><span style={{ color }}>■</span> {moment(day).format('ddd')} {moment(day).format('DD.MM.YYYY.')}</td>
+            <td title={moment(day).format('dddd')}><span style={{ color }}>■</span> {moment(day).format('DD.MM.YYYY.')}</td>
             <td title="From"><FontAwesome name="hourglass-start" />&nbsp;{moment(_.min(trackings.map((x) => x.timestamp))).format('HH:mm')}</td>
             <td title="To"><FontAwesome name="hourglass-end" />&nbsp;{moment(_.max(trackings.map((x) => x.timestamp))).format('HH:mm')}</td>
             <td title="Max speed"><FontAwesome name="tachometer" />&nbsp;{Math.round(_.max(trackings.map((x) => x.speed)) * 3.6)} km/h</td>
