@@ -29,19 +29,27 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
             />
             <FormGroup>
                 <ControlLabel>Brand</ControlLabel>
-                <Select options={brands} onChange={id => onChange({ brandId: id })} />
+                <Select
+                    onChange={id => onChange({ brandId: id })}
+                    options={brands}
+                    selected={filters.brandId}
+                />
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Beer</ControlLabel>
                 <AsyncSelect
+                    defaultOptions
                     loadOptions={beerLoader}
                     onChange={x => onChange({ beerId: x.value })}
-                    defaultOptions
                 />
             </FormGroup>
             <FormGroup>
                 <ControlLabel>Serving</ControlLabel>
-                <Select options={servings} onChange={x => onChange({ serving: x })} />
+                <Select
+                    onChange={x => onChange({ serving: x })}
+                    options={servings}
+                    selected={filters.serving}
+                />
             </FormGroup>
         </React.Fragment>
     );

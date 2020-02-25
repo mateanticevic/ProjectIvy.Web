@@ -353,6 +353,7 @@ class BeerPage extends Page<{}, State> {
         this.pushHistoryState(filters);
 
         this.setState({ filters }, this.onCountByClick);
+        console.log(filters);
 
         api.consumation
             .get(filters)
