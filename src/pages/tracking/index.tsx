@@ -189,7 +189,8 @@ class TrackingPage extends Page<{}, State> {
                     distance,
                     color: this.colors[this.state.movements.length % this.colors.length],
                 };
-                this.setState({ movements: [...this.state.movements, movement] });
+                const movements = [...this.state.movements, movement].sort((a, b) => new Date(b.day) - new Date(a.day));
+                this.setState({ movements });
             });
         });
     }
@@ -269,7 +270,7 @@ class TrackingPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private removeTracking(id) {
+    private removeTracking(id: string) {
         this.setState({
             movements: _.filter(this.state.movements, t => t.id !== id),
         });
