@@ -4,5 +4,4 @@ export interface Movement {
     distance: number;
     trackings: any[];
     color: string;
-    onRemoveTracking: (id: string) => void;
 }

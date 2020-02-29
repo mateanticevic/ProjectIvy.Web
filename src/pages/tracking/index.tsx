@@ -46,7 +46,7 @@ class TrackingPage extends Page<{}, State> {
         '#ffff00',
     ];
 
-    state = {
+    state: State = {
         datesInsideRectangle: [],
         filters: {
         },
@@ -81,7 +81,10 @@ class TrackingPage extends Page<{}, State> {
                                         />
                                     }
                                     {this.state.lastTracking &&
-                                        <Marker position={{ lat: this.state.lastTracking.lat, lng: this.state.lastTracking.lng }} title={`Location at ${this.state.lastTracking.timestamp}`} />
+                                        <Marker
+                                            position={{ lat: this.state.lastTracking.lat, lng: this.state.lastTracking.lng }}
+                                            title={`Location at ${this.state.lastTracking.timestamp}`}
+                                        />
                                     }
                                 </Map>
                             </Panel.Body>
@@ -116,7 +119,7 @@ class TrackingPage extends Page<{}, State> {
                                             {datesInsideRectangle.map(date =>
                                                 <tr>
                                                     <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
-                                                </tr>,
+                                                </tr>
                                             )}
                                         </tbody>
                                     </Table>
@@ -177,7 +180,7 @@ class TrackingPage extends Page<{}, State> {
         });
     }
 
-    private loadDay(day) {
+    private loadDay(day: string) {
         const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: day, to: nextDay };
         api.tracking.get(filters).then(trackings => {
