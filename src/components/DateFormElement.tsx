@@ -1,13 +1,12 @@
 import moment from 'moment';
-import enGb from 'moment/locale/en-gb';
 import React from 'react';
 import { ControlLabel, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap/lib';
 import Datetime from 'react-datetime';
 
 interface Props {
     label: string;
-    onChange: (date: string) => void;
     value?: any;
+    onChange: (date: string) => void;
 }
 
 const DateFormElement = ({ label, onChange, value }: Props) => {

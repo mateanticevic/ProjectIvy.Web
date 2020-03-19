@@ -15,22 +15,18 @@ const Pagination = ({ showPages, page, pages, onPageChange }: Props) => {
 
     const startPage = page > 1 ? Math.floor((page - 2) / (showPages - 2)) * (showPages - 2) + 1 : 1;
 
-    //const startPage = page > 2 ? (page + showPages > pages ? (pages - showPages < 0 ? 1 : pages - showPages + 1) : page - 2) : 1;
-
     const endPage = startPage + showPages > pages ? pages : startPage + showPages - 1;
-
-    const items = _.range(startPage, endPage + 1).map(item =>
-        <BootstrapPagination.Item
-            key={_.uniqueId('pagination_item_')}
-            active={item == page}
-            onClick={() => onPageChange(item)}>
-            {item}
-        </BootstrapPagination.Item>,
-    );
 
     return (
         <BootstrapPagination>
-            {items}
+            {_.range(startPage, endPage + 1).map(item =>
+                <BootstrapPagination.Item
+                    key={_.uniqueId('pagination_item_')}
+                    active={item == page}
+                    onClick={() => onPageChange(item)}>
+                    {item}
+                </BootstrapPagination.Item>,
+            )}
         </BootstrapPagination>
     );
 };

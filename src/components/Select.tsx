@@ -2,12 +2,12 @@ import React from 'react';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
 interface Props {
-  options: any[];
-  onChange: (id: string) => void;
   defaultOptionId?: string;
   defaultOptionValue?: string;
-  selected?: string;
   hideDefaultOption?: boolean;
+  options: any[];
+  selected?: string;
+  onChange: (id: string) => void;
 }
 
 const Select: React.SFC<Props> = ({ options, onChange, defaultOptionId, defaultOptionValue, selected, hideDefaultOption }) => {
