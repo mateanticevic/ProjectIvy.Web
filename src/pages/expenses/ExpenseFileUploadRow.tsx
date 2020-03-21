@@ -1,6 +1,6 @@
 import filesize from 'filesize';
 import React from 'react';
-import { Button, FormControl } from 'react-bootstrap/lib';
+import { Button, FormControl } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import Select from '../../components/Select';
 
@@ -52,10 +52,10 @@ class ExpenseFileUploadRow extends React.Component {
                     <Select options={this.props.fileTypes} onChange={this.onTypeIdChanged} />
                 </td>
                 <td>
-                    <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={this.onClickLink}>
+                    <Button className="pull-right" variant="primary" size="xsmall" onClick={this.onClickLink}>
                         <FontAwesome name="link" /> Link
                     </Button>&nbsp;
-                    <Button className="pull-right" bsStyle="danger" bsSize="xsmall" onClick={() => this.props.deleteFile(this.props.file.id)}>
+                    <Button className="pull-right" variant="danger" size="xsmall" onClick={() => this.props.deleteFile(this.props.file.id)}>
                         <FontAwesome name="trash" /> Delete
                     </Button>
                 </td>

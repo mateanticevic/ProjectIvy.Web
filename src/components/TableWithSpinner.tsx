@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap/lib';
+import { Table } from 'react-bootstrap';
 import Spinner from './Spinner';
 
 const TableWithSpinner = ({ children, isLoading }) => {

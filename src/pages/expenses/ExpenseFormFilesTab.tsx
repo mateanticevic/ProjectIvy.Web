@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap/lib';
+import { Col, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import ExpenseFileTable from './ExpenseFileTable';
 import ExpenseFileUploadTable from './ExpenseFileUploadTable';

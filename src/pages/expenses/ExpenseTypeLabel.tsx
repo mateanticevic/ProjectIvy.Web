@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label } from 'react-bootstrap/lib';
+import { Badge } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { ExpenseType } from 'types/expenses';
@@ -11,9 +11,9 @@ interface Props {
 const ExpenseTypeLabel = ({ expenseType }: Props) => {
 
     return (
-        <Label bsStyle="primary">
+        <Badge variant="primary">
             {expenseType.icon && <FontAwesome name={expenseType.icon} />} {expenseType.name}
-        </Label>
+        </Badge>
     );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, Row } from 'react-bootstrap/lib';
+import { Col, Container, Row } from 'react-bootstrap';
 
 import * as formatHelper from '../utils/formatHelper';
 
@@ -13,7 +13,7 @@ const WidgetCard = (props) => {
     }
 
     return (
-          <Grid>
+          <Container>
               <Row>
                   <Col lg={12}>{props.title}</Col>
               </Row>
@@ -22,7 +22,7 @@ const WidgetCard = (props) => {
                     <h3 style={{ margin: '0px' }}>{value}</h3>
                   </Col>
               </Row>
-          </Grid>
+          </Container>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Panel, Row } from 'react-bootstrap/lib';
+import { Button, Col, Panel, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Pagination from '../../components/Pagination';
@@ -19,20 +19,20 @@ const PoiPanel: React.SFC<Props> = ({ pagedItems, addToTrip, onNewClick, onPageC
   const header = `Pois (${pagedItems.list.count})`;
 
   return (
-    <Panel>
-      <Panel.Heading>
+    <Card>
+      <Card.Header>
         <Row>
           <Col xs={10}>
             {header}
           </Col>
           <Col xs={2}>
             {onNewClick &&
-              <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
+              <Button className="pull-right" variant="primary" size="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
             }
           </Col>
         </Row>
-      </Panel.Heading>
-      <Panel.Body>
+      </Card.Header>
+      <Card.Body>
         <Row>
           <Col lg={12}>
             <PoiTable pois={pagedItems.list.items} addToTrip={addToTrip} />
@@ -45,8 +45,8 @@ const PoiPanel: React.SFC<Props> = ({ pagedItems, addToTrip, onNewClick, onPageC
               onPageChange={onPageChange} />
           </Col>
         </Row>
-      </Panel.Body>
-    </Panel>
+      </Card.Body>
+    </Card>
   );
 };
 

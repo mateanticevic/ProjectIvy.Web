@@ -1,6 +1,6 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
-import { Col, ControlLabel, FormControl, FormGroup, Grid, Panel, Row, Table } from 'react-bootstrap/lib';
+import { Col, FormLabel, FormControl, FormGroup, Container, Panel, Row, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 import { Call } from 'types/calls';
@@ -44,12 +44,12 @@ export default class CallsPage extends Page<{}, State> {
         const pages = Math.ceil(calls.count / filters.pageSize);
 
         return (
-            <Grid>
+            <Container>
                 <Row>
                     <Col lg={3}>
-                        <Panel>
-                            <Panel.Heading>Filters</Panel.Heading>
-                            <Panel.Body>
+                        <Card>
+                            <Card.Header>Filters</Card.Header>
+                            <Card.Body>
                                 <DateFormElement
                                     label="From"
                                     onChange={date => this.onFiltersChange({ from: date })}
@@ -61,20 +61,20 @@ export default class CallsPage extends Page<{}, State> {
                                     value={filters.to}
                                 />
                                 <FormGroup>
-                                    <ControlLabel>Number</ControlLabel>
+                                    <FormLabel>Number</FormLabel>
                                     <FormControl
                                         value={filters.number}
                                         type="text"
                                         onChange={x => this.onFiltersChange({ number: x.target.value })}
                                     />
                                 </FormGroup>
-                            </Panel.Body>
-                        </Panel>
+                            </Card.Body>
+                        </Card>
                     </Col>
                     <Col lg={9}>
-                        <Panel>
-                            <Panel.Heading>Calls ({calls.count})</Panel.Heading>
-                            <Panel.Body>
+                        <Card>
+                            <Card.Header>Calls ({calls.count})</Card.Header>
+                            <Card.Body>
                                 <Table responsive>
                                     <tbody>
                                         {this.renderCalls()}
@@ -85,11 +85,11 @@ export default class CallsPage extends Page<{}, State> {
                                     pages={pages}
                                     onPageChange={page => this.onFiltersChange({ page })}
                                 />
-                            </Panel.Body>
-                        </Panel>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
-            </Grid>);
+            </Container>);
     }
 
     private fetchCalls() {

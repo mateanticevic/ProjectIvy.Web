@@ -1,6 +1,6 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
-import { Col, ControlLabel, FormControl, Grid, Panel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
+import { Col, FormLabel, FormControl, Container, Panel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
 
@@ -45,43 +45,43 @@ class PoisPage extends React.Component {
     const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
 
     return (
-      <Grid>
+      <Container>
         <Row>
           <Col lg={12}>
-            <Panel>
-              <Panel.Heading>Map</Panel.Heading>
-              <Panel.Body className="padding-0 panel-large">
+            <Card>
+              <Card.Header>Map</Card.Header>
+              <Card.Body className="padding-0 panel-large">
                 <Map onClick={this.onMapClick}
                   map={map => this.map = map}
                   onDragEnd={this.onMapDragEnd}>
                   {poiMarkers}
                 </Map>
-              </Panel.Body>
-              <Panel.Footer>
+              </Card.Body>
+              <Card.Footer>
                 <ToggleButtonGroup type="radio" name="options" defaultValue={'move'}>
                   <ToggleButton value={'move'}><FontAwesome name="arrows" /> Move</ToggleButton>
                   <ToggleButton value={'new'}><FontAwesome name="map-marker" /> New</ToggleButton>
                 </ToggleButtonGroup>
-              </Panel.Footer>
-            </Panel>
+              </Card.Footer>
+            </Card>
           </Col>
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel>
-              <Panel.Heading>Filters</Panel.Heading>
-              <Panel.Body>
-                <ControlLabel>Category</ControlLabel>
+            <Card>
+              <Card.Header>Filters</Card.Header>
+              <Card.Body>
+                <FormLabel>Category</FormLabel>
                 <Select options={this.state.poiCategories} onChange={id => this.onFiltersChanged({ categoryId: id })} />
-                <ControlLabel>Vendor</ControlLabel>
+                <FormLabel>Vendor</FormLabel>
                 <Select options={this.state.vendors} onChange={id => this.onFiltersChanged({ vendorId: id })} />
-                <ControlLabel>Name</ControlLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl
                   type="text"
                   onChange={x => this.onFiltersChanged({ name: x.target.value })}
                 />
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
           <Col lg={9}>
             <PoiPanel
@@ -99,7 +99,7 @@ class PoisPage extends React.Component {
           onPoiChange={this.onPoiChange}
           poi={this.state.poi}
         />
-      </Grid>
+      </Container>
     );
   }
 

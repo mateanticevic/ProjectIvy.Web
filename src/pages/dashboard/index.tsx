@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Grid, Label, ListGroup, ListGroupItem, OverlayTrigger, Panel, Row, Tooltip } from 'react-bootstrap/lib';
+import { Col, Container, Label, ListGroup, ListGroupItem, OverlayTrigger, Panel, Row, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
 import Moment from 'react-moment';
 
@@ -79,7 +79,7 @@ class DashboardPage extends React.Component {
     const movieItems = movies.map(movie => {
       return <ListGroupItem key={_.uniqueId('list_item_')}>
         {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
-        <span className="pull-right"><Label bsStyle="primary">{movie.myRating}</Label></span>
+        <span className="pull-right"><Badge variant="primary">{movie.myRating}</Badge></span>
       </ListGroupItem>;
     });
 
@@ -89,106 +89,106 @@ class DashboardPage extends React.Component {
       return <ListGroupItem key={_.uniqueId('list_item_')}>
         {this.dayOfWeek(consumation.date)} {consumation.beer.name}
         <OverlayTrigger placement="top" overlay={tooltip}>
-          <span className="pull-right"><Label bsStyle="primary">{consumation.volume / 1000}L</Label></span>
+          <span className="pull-right"><Badge variant="primary">{consumation.volume / 1000}L</Badge></span>
         </OverlayTrigger>
       </ListGroupItem>;
     });
 
     return (
-      <Grid>
+      <Container>
         <Row>
           <Col lg={6}>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>Last location @ {this.dateTimeFormat(location.timestamp)}</Panel.Heading>
-                  <Panel.Body className="panel-medium padding-0">
+                <Card>
+                  <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
+                  <Card.Body className="panel-medium padding-0">
                     <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
                       <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
                     </Map>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>Online last 30 days</Panel.Heading>
-                  <Panel.Body className="panel-medium">
+                <Card>
+                  <Card.Header>Online last 30 days</Card.Header>
+                  <Card.Body className="panel-medium">
                     <OnlineGraph data={onlineGraphData} />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>
           <Col lg={6}>
             <Row>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Expenses</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Expenses</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <ListGroup>
                       {expenseItems}
                     </ListGroup>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Spent</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Spent</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <ValueLabel label="Today" unit="kn" value={spent.today} />
                     <ValueLabel label="This week" unit="kn" value={spent.week} />
                     <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Beer</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Beer</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <ListGroup>
                       {consumationItems}
                     </ListGroup>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Movies</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Movies</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <ListGroup>
                       {movieItems}
                     </ListGroup>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Golf 7</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Golf 7</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <h1 className="text-align-center">{carLogLatest.odometer} km</h1>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>Distance</Panel.Heading>
-                  <Panel.Body className="panel-small padding-0">
+                <Card>
+                  <Card.Header>Distance</Card.Header>
+                  <Card.Body className="panel-small padding-0">
                     <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
                     <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
                     <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 
@@ -204,7 +204,7 @@ class DashboardPage extends React.Component {
       </Tooltip>
     );
 
-    return <OverlayTrigger placement="top" overlay={fullDate}><Label bsStyle="primary"><Moment format="ddd">{date}</Moment></Label></OverlayTrigger>;
+    return <OverlayTrigger placement="top" overlay={fullDate}><Badge variant="primary"><Moment format="ddd">{date}</Moment></Badge></OverlayTrigger>;
   }
 }
 

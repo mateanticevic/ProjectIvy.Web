@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Button, Col, Grid, Panel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
+import { Button, Col, Container, Panel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline, Marker } from 'react-google-maps';
@@ -66,12 +66,12 @@ class TrackingPage extends Page<{}, State> {
         ];
 
         return (
-            <Grid>
+            <Container>
                 <Row>
                     <Col lg={12}>
-                        <Panel>
-                            <Panel.Heading>Map</Panel.Heading>
-                            <Panel.Body className="padding-0 panel-large">
+                        <Card>
+                            <Card.Header>Map</Card.Header>
+                            <Card.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.798894, lng: 15.908531 }}>
                                     {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
                                     {this.state.mapMode === MapMode.Select &&
@@ -87,8 +87,8 @@ class TrackingPage extends Page<{}, State> {
                                         />
                                     }
                                 </Map>
-                            </Panel.Body>
-                            <Panel.Footer className="flex-container">
+                            </Card.Body>
+                            <Card.Footer className="flex-container">
                                 <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={mapMode => this.setState({ mapMode })}>
                                     <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
                                     <ToggleButton value={MapMode.Select}><FontAwesome name="square-o" /> Select</ToggleButton>
@@ -96,24 +96,24 @@ class TrackingPage extends Page<{}, State> {
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD hh:mm'))} />
-                            </Panel.Footer>
-                        </Panel>
+                            </Card.Footer>
+                        </Card>
                         {movements.length > 0 &&
-                            <Panel>
-                                <Panel.Heading>Movements</Panel.Heading>
-                                <Panel.Body>
+                            <Card>
+                                <Card.Header>Movements</Card.Header>
+                                <Card.Body>
                                     <Table>
                                         <tbody>
                                             {movements.map(movement => <MovementRow {...movement} onRemoveClick={this.removeTracking} onChartsClick={() => this.loadCharts(movement.id)} />)}
                                         </tbody>
                                     </Table>
-                                </Panel.Body>
-                            </Panel>
+                                </Card.Body>
+                            </Card>
                         }
                         {datesInsideRectangle.length > 0 &&
-                            <Panel>
-                                <Panel.Heading>Dates inside rectangle ({datesInsideRectangle.length})</Panel.Heading>
-                                <Panel.Body>
+                            <Card>
+                                <Card.Header>Dates inside rectangle ({datesInsideRectangle.length})</Card.Header>
+                                <Card.Body>
                                     <Table>
                                         <tbody>
                                             {datesInsideRectangle.map(date =>
@@ -128,47 +128,47 @@ class TrackingPage extends Page<{}, State> {
                                         name="year"
                                         value="count"
                                     />
-                                </Panel.Body>
-                                <Panel.Footer>
+                                </Card.Body>
+                                <Card.Footer>
                                     <RadioLabel options={countGroupByOptions} onSelect={this.onGClick} />
-                                </Panel.Footer>
-                            </Panel>
+                                </Card.Footer>
+                            </Card>
                         }
                         {this.state.altitudeChartData &&
-                            <Panel>
-                                <Panel.Heading>
+                            <Card>
+                                <Card.Header>
                                     Altitude
                                     <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ altitudeChartData: null })} />
-                                </Panel.Heading>
-                                <Panel.Body>
+                                </Card.Header>
+                                <Card.Body>
                                     <SimpleLineChart
                                         data={this.state.altitudeChartData}
                                         name="time"
                                         unit=" m"
                                         value="altitude"
                                     />
-                                </Panel.Body>
-                            </Panel>
+                                </Card.Body>
+                            </Card>
                         }
                         {this.state.speedChartData &&
-                            <Panel>
-                                <Panel.Heading>
+                            <Card>
+                                <Card.Header>
                                     Speed
                                     <FontAwesome title="Close" name="times" className="pull-right cursor-pointer" onClick={() => this.setState({ speedChartData: null })} />
-                                </Panel.Heading>
-                                <Panel.Body>
+                                </Card.Header>
+                                <Card.Body>
                                     <SimpleLineChart
                                         data={this.state.speedChartData}
                                         name="time"
                                         unit=" km/h"
                                         value="speed"
                                     />
-                                </Panel.Body>
-                            </Panel>
+                                </Card.Body>
+                            </Card>
                         }
                     </Col>
                 </Row>
-            </Grid >
+            </Container>
         );
     }
 

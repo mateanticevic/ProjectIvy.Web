@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from 'react-bootstrap/lib/Table';
+import Table from 'react-bootstrap/Table';
 
 import { Poi } from '../../types/pois';
 import PoiRow from './PoiRow';

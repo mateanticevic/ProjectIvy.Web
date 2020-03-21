@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Panel, Row } from 'react-bootstrap/lib';
+import { Button, Col, Panel, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { Currency, Expense } from 'types/expenses';
@@ -33,20 +33,20 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
   const expenseTable = items && items.length > 0 ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} /> : <h2>No data</h2>;
 
   return (
-    <Panel>
-      <Panel.Heading>
+    <Card>
+      <Card.Header>
         <Row>
           <Col xs={10}>
             {expensesHeader}
           </Col>
           <Col xs={2}>
             {onNewClick &&
-              <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
+              <Button className="pull-right" variant="primary" size="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
             }
           </Col>
         </Row>
-      </Panel.Heading>
-      <Panel.Body>
+      </Card.Header>
+      <Card.Body>
         <Row>
           <Col lg={12}>
             {isLoading ? <Spinner /> : expenseTable}
@@ -61,12 +61,12 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
             />
           </Col>
         </Row>
-      </Panel.Body>
+      </Card.Body>
       {stats &&
-        <Panel.Footer>
+        <Card.Footer>
           Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
-        </Panel.Footer>}
-    </Panel>
+        </Card.Footer>}
+    </Card>
   );
 };
 

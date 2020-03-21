@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
-import { Col, ControlLabel, FormGroup } from 'react-bootstrap/lib';
-import Row from 'react-bootstrap/lib/Row';
+import { Col, FormLabel, FormGroup } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
 import Datetime from 'react-datetime';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
@@ -34,7 +34,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
       <Row>
         <Col xs={6}>
           <FormGroup>
-            <ControlLabel>From</ControlLabel>
+            <FormLabel>From</FormLabel>
             <Datetime
               dateFormat={dateFormat}
               timeFormat={false}
@@ -45,7 +45,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
         </Col>
         <Col xs={6}>
           <FormGroup>
-            <ControlLabel>To</ControlLabel>
+            <FormLabel>To</FormLabel>
             <Datetime
               dateFormat={dateFormat}
               timeFormat={false}
@@ -58,7 +58,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
       <Row>
         <Col lg={12}>
           <FormGroup>
-            <ControlLabel>Currency</ControlLabel>
+            <FormLabel>Currency</FormLabel>
             <ReactSelect
               isMulti
               options={currencies.map(x => ({ value: x.id, label: x.name }))}
@@ -66,7 +66,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Vendor</ControlLabel>
+            <FormLabel>Vendor</FormLabel>
             <AsyncSelect
               loadOptions={vendorLoader}
               isMulti
@@ -75,7 +75,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Type</ControlLabel>
+            <FormLabel>Type</FormLabel>
             <ReactSelect
               isMulti
               options={types.map(x => ({ value: x.id, label: x.name }))}

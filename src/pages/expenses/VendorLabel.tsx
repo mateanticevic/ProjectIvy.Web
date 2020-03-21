@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import { Label, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { Expense } from 'types/expenses';
@@ -19,11 +19,11 @@ const VendorLabel = ({ expense }: Props) => {
     return (
         <div>
             {expense.vendor &&
-                <Label bsStyle="primary">{expense.vendor.name}&nbsp;
+                <Badge variant="primary">{expense.vendor.name}&nbsp;
             {expense.poi &&
                         <OverlayTrigger placement="right" overlay={poiNameTooltip}>
                             <FontAwesome name="map-marker" />
-                        </OverlayTrigger>}</Label>
+                        </OverlayTrigger>}</Badge>
             }
         </div>
     );

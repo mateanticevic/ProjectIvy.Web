@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { Checkbox, Col, Grid, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap/lib';
+import { Checkbox, Col, Container, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
 import Moment from 'react-moment';
@@ -43,25 +43,25 @@ class FlightsPage extends Page<{}, State> {
             path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]} />);
 
         const flightItems = flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
-            <Label bsStyle="primary" title={flight.origin.name}>{flight.origin.iata}</Label>&nbsp;
+            <Badge variant="primary" title={flight.origin.name}>{flight.origin.iata}</Badge>&nbsp;
             <FontAwesome name="long-arrow-right" />&nbsp;
-            <Label bsStyle="primary" title={flight.destination.name}>{flight.destination.iata}</Label>
+            <Badge variant="primary" title={flight.destination.name}>{flight.destination.iata}</Badge>
             <Moment className="pull-right" format="Do MMMM YYYY">{flight.departure}</Moment>
         </ListGroupItem>);
 
         return (
-            <Grid>
+            <Container>
                 <Row>
                     <Col lg={9}>
-                        <Panel>
-                            <Panel.Heading>Map</Panel.Heading>
-                            <Panel.Body className="padding-0 panel-large">
+                        <Card>
+                            <Card.Header>Map</Card.Header>
+                            <Card.Body className="padding-0 panel-large">
                                 <Map onClick={this.onMapClick}>
                                     {airports}
                                     {this.state.showFlights && flightPolylines}
                                 </Map>
-                            </Panel.Body>
-                            <Panel.Footer>
+                            </Card.Body>
+                            <Card.Footer>
                                 <Checkbox
                                     checked={this.state.showFlights}
                                     onChange={this.toggleShowFlights}
@@ -69,14 +69,14 @@ class FlightsPage extends Page<{}, State> {
                                 >
                                     Show flights
                                 </Checkbox>
-                            </Panel.Footer>
-                        </Panel>
+                            </Card.Footer>
+                        </Card>
                     </Col>
                     <Col lg={3}>
                         <Row>
-                            <Panel>
-                                <Panel.Heading>Filters</Panel.Heading>
-                                <Panel.Body>
+                            <Card>
+                                <Card.Header>Filters</Card.Header>
+                                <Card.Body>
                                     <DateFormElement
                                         label="From"
                                         onChange={date => this.onFiltersChange({ from: date })}
@@ -87,23 +87,23 @@ class FlightsPage extends Page<{}, State> {
                                         onChange={date => this.onFiltersChange({ to: date })}
                                         value={filters.to}
                                     />
-                                </Panel.Body>
-                            </Panel>
+                                </Card.Body>
+                            </Card>
                         </Row>
                         <Row>
-                            <Panel>
-                                <Panel.Heading>Flights ({flights.count})</Panel.Heading>
-                                <Panel.Body className="padding-0">
+                            <Card>
+                                <Card.Header>Flights ({flights.count})</Card.Header>
+                                <Card.Body className="padding-0">
                                     <ListGroup>
                                         {flightItems}
                                     </ListGroup>
-                                </Panel.Body>
-                            </Panel>
+                                </Card.Body>
+                            </Card>
                         </Row>
 
                     </Col>
                 </Row>
-            </Grid>
+            </Container>
         );
     }
 

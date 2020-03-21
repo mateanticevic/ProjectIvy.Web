@@ -1,6 +1,6 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
-import { Col, ControlLabel, FormControl, Panel, Row } from 'react-bootstrap/lib';
+import { Col, FormLabel, FormControl, Panel, Row } from 'react-bootstrap';
 
 import * as apiConfig from '../../api/config';
 import api from '../../api/main';
@@ -29,17 +29,17 @@ class LoginPage extends React.Component<{}, State> {
   render() {
 
     return (
-      <Panel className="panel-login">
-        <Panel.Heading>Login</Panel.Heading>
-        <Panel.Body>
+      <Card className="panel-login">
+        <Card.Header>Login</Card.Header>
+        <Card.Body>
           <form onSubmit={this.loginTry}>
             <Row>
               <Col sm={12}>
-                <ControlLabel>Username</ControlLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl type="text" onChange={(e) => this.setState({ username: e.target.value })} />
               </Col>
               <Col sm={12}>
-                <ControlLabel>Password</ControlLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl type="password" onChange={(e) => this.setState({ password: e.target.value })} />
               </Col>
             </Row>
@@ -47,8 +47,8 @@ class LoginPage extends React.Component<{}, State> {
               <Col xs={12}><ButtonWithSpinner onClick={this.loginTry} isLoading={this.state.isLoggingIn}>Login</ButtonWithSpinner></Col>
             </Row>
           </form>
-        </Panel.Body>
-      </Panel>
+        </Card.Body>
+      </Card>
     );
   }
 

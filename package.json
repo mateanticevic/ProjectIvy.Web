@@ -20,16 +20,15 @@
     "@types/lodash": "^4.14.149",
     "@types/markerclustererplus": "2.1.33",
     "@types/react": "^16.9.25",
-    "@types/react-bootstrap": "0.32.19",
     "@types/react-fontawesome": "^1.6.4",
     "autobind-decorator": "^2.4.0",
     "filesize": "4.2.0",
     "lodash": "4.17.15",
     "moment": "2.24.0",
-    "react": "^16.13.1",
-    "react-bootstrap": "0.32.4",
+    "react": "16.13.1",
+    "react-bootstrap": "~1.0.0-beta.17",
     "react-datetime": "^2.16.3",
-    "react-dom": "^16.13.1",
+    "react-dom": "16.13.1",
     "react-dropzone": "4.2.9",
     "react-fontawesome": "1.6.1",
     "react-google-maps": "9.4.5",
@@ -48,7 +47,7 @@
     "react-hot-loader": "4.12.14",
     "sass": "1.26.3",
     "tslint": "^5.20.1",
-    "typescript": "^3.8.3"
+    "typescript": "3.8.3"
   },
   "keywords": [],
   "repository": {

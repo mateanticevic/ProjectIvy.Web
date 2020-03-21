@@ -1,5 +1,5 @@
 import React from 'react';
-import FormControl from 'react-bootstrap/lib/FormControl';
+import FormControl from 'react-bootstrap/FormControl';
 
 interface Props {
   defaultOptionId?: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Col, Modal, Row } from 'react-bootstrap/lib';
+import { Button, Checkbox, Col, Modal, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
@@ -10,7 +10,7 @@ const ExpenseModal = (props) => {
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} bsSize="lg">
+        <Modal show={props.isOpen} onHide={props.onClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>{header}</Modal.Title>
             </Modal.Header>
@@ -43,7 +43,7 @@ const ExpenseModal = (props) => {
                         </ButtonWithSpinner>
                     </Col>
                     <Col lg={6}>
-                        <Checkbox bsClass="pull-left"> Add another?</Checkbox>
+                        <Checkbox bsPrefix="pull-left"> Add another?</Checkbox>
                     </Col>
                 </Row>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap/lib';
+import { Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { Poi } from '../../types/pois';
@@ -17,12 +17,12 @@ const PoiRow: React.SFC<Props> = ({ poi, addToTrip }) => {
       <td>{poi.category.name}</td>
       <td>{poi.address}</td>
       <td>
-        <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => addToTrip(poi.id)}>
+        <Button className="pull-right" variant="primary" size="xsmall" onClick={() => addToTrip(poi.id)}>
           <FontAwesome name="link" /> Link to trip
         </Button>
       </td>
       <td>
-        <Button className="pull-right" bsStyle="primary" bsSize="xsmall">
+        <Button className="pull-right" variant="primary" size="xsmall">
           <FontAwesome name="map" /> Show
         </Button>
       </td>

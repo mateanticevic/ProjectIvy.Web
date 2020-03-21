@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlLabel, FormGroup } from 'react-bootstrap/lib';
+import { FormLabel, FormGroup } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
 import { DateFormElement } from '../../components';
@@ -28,7 +28,7 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                 value={filters.to}
             />
             <FormGroup>
-                <ControlLabel>Brand</ControlLabel>
+                <FormLabel>Brand</FormLabel>
                 <Select
                     onChange={id => onChange({ brandId: id })}
                     options={brands}
@@ -36,7 +36,7 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Beer</ControlLabel>
+                <FormLabel>Beer</FormLabel>
                 <AsyncSelect
                     defaultOptions
                     loadOptions={beerLoader}
@@ -44,7 +44,7 @@ const Filters = ({ brands, filters, onChange, servings }: Props) => {
                 />
             </FormGroup>
             <FormGroup>
-                <ControlLabel>Serving</ControlLabel>
+                <FormLabel>Serving</FormLabel>
                 <Select
                     onChange={x => onChange({ serving: x })}
                     options={servings}

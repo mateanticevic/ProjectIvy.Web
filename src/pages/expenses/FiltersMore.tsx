@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, ControlLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap/lib';
+import { Col, FormLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 
 import { ExpenseFilters } from 'types/expenses';
@@ -30,30 +30,30 @@ const FiltersMore = (props: Props) => {
       <Row>
         <Col lg={12}>
           <FormGroup>
-            <ControlLabel>Description</ControlLabel>
+            <FormLabel>Description</FormLabel>
             <FormControl type="text" onChange={x => props.onChange({ description: x.target.value })} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Amount from</ControlLabel>
+            <FormLabel>Amount from</FormLabel>
             <FormControl type="number" onChange={x => props.onChange({ amountFrom: x.target.value })} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Amount to</ControlLabel>
+            <FormLabel>Amount to</FormLabel>
             <FormControl type="number" onChange={x => props.onChange({ amountTo: x.target.value })} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Order</ControlLabel>
+            <FormLabel>Order</FormLabel>
             <Select options={props.orderBy} onChange={x => props.onChange({ orderBy: x })} hideDefaultOption={true} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>By&nbsp;</ControlLabel>
+            <FormLabel>By&nbsp;</FormLabel>
             <ToggleButtonGroup type="radio" name="options" value={props.filters.orderAscending} onChange={x => props.onChange({ orderAscending: x })}>
               <ToggleButton value="false">Descending</ToggleButton>
               <ToggleButton value="true">Ascending</ToggleButton>
             </ToggleButtonGroup>
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Day of week</ControlLabel>
+            <FormLabel>Day of week</FormLabel>
             <ReactSelect
               isMulti
               options={daysofWeek}
@@ -61,7 +61,7 @@ const FiltersMore = (props: Props) => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Payment type</ControlLabel>
+            <FormLabel>Payment type</FormLabel>
             <ReactSelect
               isMulti
               options={props.paymentTypes.map(x => ({ value: x.id, label: x.name }))}
@@ -69,7 +69,7 @@ const FiltersMore = (props: Props) => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Card</ControlLabel>
+            <FormLabel>Card</FormLabel>
             <ReactSelect
               isMulti
               options={props.cards.map(x => ({ value: x.id, label: x.name }))}
@@ -77,7 +77,7 @@ const FiltersMore = (props: Props) => {
             />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Has linked files</ControlLabel>
+            <FormLabel>Has linked files</FormLabel>
             <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
               <ToggleButton value="">Show all</ToggleButton>
               <ToggleButton value="true">Yes</ToggleButton>
@@ -85,7 +85,7 @@ const FiltersMore = (props: Props) => {
             </ToggleButtonGroup>
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Has poi</ControlLabel>
+            <FormLabel>Has poi</FormLabel>
             <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>
               <ToggleButton value="">Show all</ToggleButton>
               <ToggleButton value="true">Yes</ToggleButton>

@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { Button, Col, ControlLabel, FormGroup, Grid, Panel, Row } from 'react-bootstrap/lib';
+import { Button, Col, FormLabel, FormGroup, Container, Panel, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 import ReactSelect from 'react-select';
@@ -68,24 +68,24 @@ class TripsPage extends Page<{}, State> {
     const { countries, countriesVisited, filters, trips, tripIsBeingAdded } = this.state;
 
     return (
-      <Grid>
+      <Container>
         <Row>
           <Col lg={12}>
-            <Panel>
-              <Panel.Heading>Map</Panel.Heading>
-              <Panel.Body className="padding-0 panel-large">
+            <Card>
+              <Card.Header>Map</Card.Header>
+              <Card.Body className="padding-0 panel-large">
                 <Map defaultCenter={{ lat: 50.666841, lng: 49.800719 }}>
                   {polygons}
                 </Map>
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
         <Row>
           <Col lg={3}>
-            <Panel>
-              <Panel.Heading>Filters</Panel.Heading>
-              <Panel.Body>
+            <Card>
+              <Card.Header>Filters</Card.Header>
+              <Card.Body>
                 <DateFormElement
                   label="From"
                   onChange={date => this.onFiltersChanged({ from: date })}
@@ -97,7 +97,7 @@ class TripsPage extends Page<{}, State> {
                   value={filters.to}
                 />
                 <FormGroup>
-                  <ControlLabel>Country</ControlLabel>
+                  <FormLabel>Country</FormLabel>
                   <ReactSelect
                     isMulti
                     options={countries.map(x => ({ value: x.id, label: x.name }))}
@@ -106,7 +106,7 @@ class TripsPage extends Page<{}, State> {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <ControlLabel>City</ControlLabel>
+                  <FormLabel>City</FormLabel>
                   <AsyncSelect
                     defaultOptions
                     isMulti
@@ -114,28 +114,28 @@ class TripsPage extends Page<{}, State> {
                     onChange={cities => this.onFiltersChanged({ cityId: cities ? cities.map(x => x.value) : [] })}
                   />
                 </FormGroup>
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
           <Col lg={6}>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>
+                <Card>
+                  <Card.Header>
                     <Row>
                       <Col xs={10}>Trips ({trips.count})</Col>
                       <Col xs={2}>
                         <Button
                           className="pull-right"
-                          bsStyle="primary"
-                          bsSize="xsmall"
+                          variant="primary"
+                          size="xsmall"
                           onClick={() => this.setState({ isModalOpen: true })}>
                           <FontAwesome name="plus" /> New
                         </Button>
                       </Col>
                     </Row>
-                  </Panel.Heading>
-                  <Panel.Body>
+                  </Card.Header>
+                  <Card.Body>
                     <Row>
                       <Col lg={12}>
                         <TableWithSpinner isLoading={this.state.tripsAreLoading}>
@@ -152,18 +152,18 @@ class TripsPage extends Page<{}, State> {
                         />
                       </Col>
                     </Row>
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>
           <Col lg={3}>
-            <Panel>
-              <Panel.Heading>Countries ({countriesVisited.length})</Panel.Heading>
-              <Panel.Body className="panel-countries">
+            <Card>
+              <Card.Header>Countries ({countriesVisited.length})</Card.Header>
+              <Card.Body className="panel-countries">
                 {countriesVisited.map(country => <FlagIcon code={country.id} country={country.name} className="country-flag" />)}
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
         <TripModal
@@ -174,7 +174,7 @@ class TripsPage extends Page<{}, State> {
           loadCities={this.loadCities}
           isOpen={this.state.isModalOpen}
         />
-      </Grid>
+      </Container>
     );
   }
 

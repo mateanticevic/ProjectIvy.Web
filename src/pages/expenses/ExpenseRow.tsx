@@ -2,7 +2,7 @@ import { faFile } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import moment from 'moment';
 import React from 'react';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { Expense } from 'types/expenses';
@@ -57,10 +57,10 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
       </td>
       <td>
         {onEdit &&
-          <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => onEdit(expense)}><FontAwesome name="pencil" /> Edit</Button>
+          <Button className="pull-right" variant="primary" size="xsmall" onClick={() => onEdit(expense)}><FontAwesome name="pencil" /> Edit</Button>
         }
         {onUnlink &&
-          <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => onUnlink(expense.id)}><FontAwesome name="link" /> Unlink</Button>
+          <Button className="pull-right" variant="primary" size="xsmall" onClick={() => onUnlink(expense.id)}><FontAwesome name="link" /> Unlink</Button>
         }
       </td>
     </tr>

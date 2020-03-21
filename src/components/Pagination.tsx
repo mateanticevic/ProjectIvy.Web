@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import BootstrapPagination from 'react-bootstrap/lib/Pagination';
+import BootstrapPagination from 'react-bootstrap/Pagination';
 
 interface Props {
     page: number;

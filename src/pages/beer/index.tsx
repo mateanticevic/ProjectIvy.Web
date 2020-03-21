@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, DropdownButton, Grid, Label, ListGroup, ListGroupItem, MenuItem, Panel, Row, Table } from 'react-bootstrap/lib';
+import { Col, DropdownButton, Container, Badge, ListGroup, ListGroupItem, NavItem, Card, Row, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { toast } from 'react-toastify';
 
@@ -106,7 +106,7 @@ class BeerPage extends Page<{}, State> {
 
         const topBeers = this.state.topBeers.map(beer => (
             <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                {beer.by.name} <span className="pull-right"><Label bsStyle="primary" title={`${beer.sum / 1000}L`}>{Math.ceil(beer.sum / 1000)}L</Label></span>
+                {beer.by.name} <span className="pull-right"><Badge variant="primary" title={`${beer.sum / 1000}L`}>{Math.ceil(beer.sum / 1000)}L</Badge></span>
             </ListGroupItem>
         ));
 
@@ -128,40 +128,40 @@ class BeerPage extends Page<{}, State> {
         const pages = Math.ceil(consumations.count / filters.pageSize);
 
         return (
-            <Grid>
+            <Container>
                 <Row>
                     <Col lg={3}>
-                        <Panel>
-                            <Panel.Heading>Filters</Panel.Heading>
-                            <Panel.Body>
+                        <Card>
+                            <Card.Header>Filters</Card.Header>
+                            <Card.Body>
                                 <Filters
                                     filters={filters}
                                     onChange={this.onFiltersChange}
                                     servings={servings}
                                     brands={brands}
                                 />
-                            </Panel.Body>
-                        </Panel>
+                            </Card.Body>
+                        </Card>
                     </Col>
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
-                                <Panel>
-                                    <Panel.Heading>
+                                <Card>
+                                    <Card.Header>
                                         <Row>
                                             <Col xs={10}>
                                                 Consumations ({consumations.count})
                                             </Col>
                                             <Col xs={2}>
-                                                <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" bsStyle="primary" bsSize="xsmall" className="pull-right">
-                                                    <MenuItem eventKey="1" onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</MenuItem>
-                                                    <MenuItem eventKey="2" onClick={() => this.setState({ beerModalOpen: true })}>Beer</MenuItem>
-                                                    <MenuItem eventKey="3" onClick={() => this.setState({ brandModalOpen: true })}>Brand</MenuItem>
+                                                <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" variant="primary" size="xsmall" className="pull-right">
+                                                    <NavItem onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</NavItem>
+                                                    <NavItem onClick={() => this.setState({ beerModalOpen: true })}>Beer</NavItem>
+                                                    <NavItem onClick={() => this.setState({ brandModalOpen: true })}>Brand</NavItem>
                                                 </DropdownButton>
                                             </Col>
                                         </Row>
-                                    </Panel.Heading>
-                                    <Panel.Body>
+                                    </Card.Header>
+                                    <Card.Body>
                                         <Table>
                                             <tbody>
                                                 {consumationRows}
@@ -172,56 +172,54 @@ class BeerPage extends Page<{}, State> {
                                             pages={pages}
                                             onPageChange={page => this.onFiltersChange({ page })}
                                         />
-                                    </Panel.Body>
-                                    <Panel.Footer>
+                                    </Card.Body>
+                                    <Card.Footer>
                                         Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{sum}L Per day ~{perDay}L
-                                    </Panel.Footer>
-                                </Panel>
+                                    </Card.Footer>
+                                </Card>
                             </Col>
                         </Row>
                         <Row>
                             <Col lg={12}>
-                                <Panel>
-                                    <Panel.Heading>
-                                        <Panel.Toggle>Count</Panel.Toggle>
-                                    </Panel.Heading>
-                                    <Panel.Body>
+                                <Card>
+                                    <Card.Header>Count</Card.Header>
+                                    <Card.Body>
                                         <SimpleBarChart
                                             data={this.state.chartCountData}
                                             name="key"
                                             value="value"
                                         />
-                                    </Panel.Body>
-                                    <Panel.Footer>
+                                    </Card.Body>
+                                    <Card.Footer>
                                         <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
-                                    </Panel.Footer>
-                                </Panel>
+                                    </Card.Footer>
+                                </Card>
                             </Col>
                         </Row>
                     </Col>
                     <Col lg={3}>
-                        <Panel>
-                            <Panel.Heading>Top Beers</Panel.Heading>
-                            <Panel.Body className="panel-small padding-0">
+                        <Card>
+                            <Card.Header>Top Beers</Card.Header>
+                            <Card.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {topBeers}
                                 </ListGroup>
-                            </Panel.Body>
-                        </Panel>
-                        <Panel>
-                            <Panel.Heading>New Beers ({this.state.newBeers.count})</Panel.Heading>
-                            <Panel.Body className="panel-small padding-0">
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Header>New Beers ({this.state.newBeers.count})</Card.Header>
+                            <Card.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {newBeers}
                                 </ListGroup>
-                            </Panel.Body>
-                        </Panel>
-                        <Panel>
-                            <Panel.Heading>By Serving</Panel.Heading>
-                            <Panel.Body className="panel-small padding-0">
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Header>By Serving</Card.Header>
+                            <Card.Body className="panel-small padding-0">
                                 <SumByServingChart data={this.state.sumByServing} />
-                            </Panel.Body>
-                        </Panel>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
                 <ConsumationModal
@@ -248,7 +246,7 @@ class BeerPage extends Page<{}, State> {
                     onClose={() => this.setState({ brandModalOpen: false })}
                     onSave={this.addBrand}
                 />
-            </Grid>
+            </Container>
         );
     }
 

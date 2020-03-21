@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ControlLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap/lib';
+import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Select from '../../components/Select';
@@ -7,29 +7,29 @@ import Select from '../../components/Select';
 const BeerModal = (props) => {
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} bsSize="sm">
+        <Modal show={props.isOpen} onHide={props.onClose} size="sm">
             <Modal.Header closeButton>
                 <Modal.Title>New beer</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FormGroup>
-                    <ControlLabel>Name</ControlLabel>
-                    <FormControl value={props.brand} type="text" onChange={(x) => props.onChange({ name: x.target.value })} />
+                    <FormLabel>Name</FormLabel>
+                    <FormControl value={props.brand} type="text" onChange={x => props.onChange({ name: x.target.value })} />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Brand</ControlLabel>
-                    <Select options={props.brands} onChange={(id) => props.onChange({ brandId: id })} />
+                    <FormLabel>Brand</FormLabel>
+                    <Select options={props.brands} onChange={id => props.onChange({ brandId: id })} />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Abv</ControlLabel>
+                    <FormLabel>Abv</FormLabel>
                     <InputGroup>
-                        <FormControl type="number" onChange={(x) => props.onChange({ abv: x.target.value })} />
-                        <InputGroup.Addon>%</InputGroup.Addon>
+                        <FormControl type="number" onChange={x => props.onChange({ abv: x.target.value })} />
+                        <InputGroup.Append>%</InputGroup.Append>
                     </InputGroup>
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block bsStyle="primary" onClick={() => { props.onSave(); props.onClose(); }}>
+                <Button block variant="primary" onClick={() => { props.onSave(); props.onClose(); }}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>

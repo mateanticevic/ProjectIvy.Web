@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
+import { Col, Container, Panel, Row } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
 import api from '../../api/main';
@@ -115,14 +115,14 @@ class ExpensesPage extends Page<{}, State> {
     ];
 
     return (
-      <Grid>
+      <Container>
         <Row>
           <Col lg={3}>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>Filters</Panel.Heading>
-                  <Panel.Body>
+                <Card>
+                  <Card.Header>Filters</Card.Header>
+                  <Card.Body>
                     <Filters
                       currencies={this.state.currencies}
                       vendors={this.state.vendors}
@@ -130,17 +130,17 @@ class ExpensesPage extends Page<{}, State> {
                       filters={this.state.filters}
                       onChange={this.onFiltersChanged}
                     />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>
-                    <Panel.Toggle>More filters</Panel.Toggle>
-                  </Panel.Heading>
-                  <Panel.Body collapsible>
+                <Card>
+                  <Card.Header>
+                    <Card.Toggle>More filters</Panel.Toggle>
+                  </Card.Header>
+                  <Card.Body collapsible>
                     <FiltersMore
                       cards={this.state.cards}
                       paymentTypes={this.state.paymentTypes}
@@ -149,8 +149,8 @@ class ExpensesPage extends Page<{}, State> {
                       orderBy={this.state.orderBy}
                       onChange={this.onFiltersChanged}
                     />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>
@@ -173,60 +173,60 @@ class ExpensesPage extends Page<{}, State> {
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>
-                    <Panel.Toggle>Count</Panel.Toggle>
-                  </Panel.Heading>
-                  <Panel.Body>
+                <Card>
+                  <Card.Header>
+                    <Card.Toggle>Count</Panel.Toggle>
+                  </Card.Header>
+                  <Card.Body>
                     <SimpleBarChart
                       data={this.state.graphs.count}
                       name="key"
                       value="value"
                     />
-                  </Panel.Body>
-                  <Panel.Footer>
+                  </Card.Body>
+                  <Card.Footer>
                     <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
-                  </Panel.Footer>
-                </Panel>
+                  </Card.Footer>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <Panel>
-                  <Panel.Heading>
-                    <Panel.Toggle>Sum</Panel.Toggle>
-                  </Panel.Heading>
-                  <Panel.Body>
+                <Card>
+                  <Card.Header>
+                    <Card.Toggle>Sum</Panel.Toggle>
+                  </Card.Header>
+                  <Card.Body>
                     <SimpleBarChart
                       data={chartSumData}
                       name="key"
                       value="value"
                       unit=" kn"
                     />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>
-                    <Panel.Toggle>By Type</Panel.Toggle>
-                  </Panel.Heading>
-                  <Panel.Body collapsible>
+                <Card>
+                  <Card.Header>
+                    <Card.Toggle>By Type</Panel.Toggle>
+                  </Card.Header>
+                  <Card.Body collapsible>
                     <CountByChart data={this.state.graphs.countByType} />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
               <Col lg={6}>
-                <Panel>
-                  <Panel.Heading>
-                    <Panel.Toggle>By Vendor</Panel.Toggle>
-                  </Panel.Heading>
-                  <Panel.Body collapsible>
+                <Card>
+                  <Card.Header>
+                    <Card.Toggle>By Vendor</Panel.Toggle>
+                  </Card.Header>
+                  <Card.Body collapsible>
                     <CountByChart data={this.state.graphs.countByVendor} />
-                  </Panel.Body>
-                </Panel>
+                  </Card.Body>
+                </Card>
               </Col>
             </Row>
           </Col>
@@ -251,7 +251,7 @@ class ExpensesPage extends Page<{}, State> {
           onClose={() => this.setState({ isModalOpen: false })}
           onChange={this.onExpenseChanged}
         />
-      </Grid>
+      </Container>
     );
   }
 

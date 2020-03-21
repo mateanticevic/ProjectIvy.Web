@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Modal } from 'react-bootstrap/lib';
+import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import AsyncSelect from 'react-select/async';
@@ -23,24 +23,26 @@ interface Props {
 const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, servings }: Props) => {
 
     return (
-        <Modal show={isOpen} onHide={onClose} bsSize="sm">
+        <Modal show={isOpen} onHide={onClose} size="sm">
             <Modal.Header closeButton>
                 <Modal.Title>New consumation</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <FormGroup>
-                    <ControlLabel>Date</ControlLabel>
+                    <FormLabel>Date</FormLabel>
                     <InputGroup>
                         <Datetime
                             dateFormat="YYYY-MM-DD"
                             onChange={x => onChange({ date: x.format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
-                        <InputGroup.Addon><Glyphicon glyph="calendar" /></InputGroup.Addon>
+                        <InputGroup.Append>
+                            {/* <Glyphicon glyph="calendar" /> */}
+                        </InputGroup.Append>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Beer</ControlLabel>
+                    <FormLabel>Beer</FormLabel>
                     <AsyncSelect
                         loadOptions={beerLoader}
                         onChange={x => onChange({ beerId: x.value })}
@@ -48,23 +50,23 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                     />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Serving</ControlLabel>
+                    <FormLabel>Serving</FormLabel>
                     <Select options={servings} hideDefaultOption={true} onChange={servingId => onChange({ servingId })} />
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Volume</ControlLabel>
+                    <FormLabel>Volume</FormLabel>
                     <InputGroup>
                         <FormControl type="number" onChange={x => onChange({ volume: x.target.value })} />
-                        <InputGroup.Addon>ml</InputGroup.Addon>
+                        <InputGroup.Append>ml</InputGroup.Append>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>Units</ControlLabel>
+                    <FormLabel>Units</FormLabel>
                     <FormControl type="number" onChange={x => onChange({ units: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block bsStyle="primary" onClick={onSave}>
+                <Button block variant="primary" onClick={onSave}>
                     <FontAwesome name="save" /> Save
             </Button>
             </Modal.Footer>

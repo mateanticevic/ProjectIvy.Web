@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { ControlLabel, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap/lib';
+import { FormLabel, FormGroup, InputGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 
 interface Props {
@@ -11,9 +11,9 @@ interface Props {
 
 const DateFormElement = ({ label, onChange, value }: Props) => {
     return (<FormGroup>
-        <ControlLabel>
+        <FormLabel>
             {label}
-        </ControlLabel>
+        </FormLabel>
         <InputGroup>
             <Datetime
                 dateFormat="YYYY-MM-DD"
@@ -22,9 +22,9 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                 onChange={x => onChange(x.format('YYYY-MM-DD'))}
                 value={value}
             />
-            <InputGroup.Addon>
-                <Glyphicon glyph="calendar" />
-            </InputGroup.Addon>
+            <InputGroup.Append>
+                {/* <Glyphicon glyph="calendar" /> */}
+            </InputGroup.Append>
         </InputGroup>
     </FormGroup>);
 };

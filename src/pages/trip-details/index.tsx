@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import moment from 'moment';
 import React from 'react';
-import { Col, Grid, Panel, Row } from 'react-bootstrap/lib';
+import { Col, Container, Panel, Row } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 
 import { Trip } from 'types/trips';
@@ -53,7 +53,7 @@ class TripDetailsPage extends React.Component<{}, State> {
     const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
     return (
-      <Grid>
+      <Container>
         <Row>
           <Col lg={12}>
             <h1>{trip.name}</h1>
@@ -61,9 +61,9 @@ class TripDetailsPage extends React.Component<{}, State> {
         </Row>
         <Row>
           <Col lg={12}>
-            <Panel>
-              <Panel.Heading>Stats</Panel.Heading>
-              <Panel.Body>
+            <Card>
+              <Card.Header>Stats</Card.Header>
+              <Card.Body>
                 <Row>
                   <Col lg={2} md={3} sm={6} xs={12}>
                     <ValueLabel label="Days" value={days} />
@@ -84,21 +84,21 @@ class TripDetailsPage extends React.Component<{}, State> {
                     <ValueLabel label="Beer" unit="L" value={Math.ceil(beerSum / 1000)} />
                   </Col>
                 </Row>
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
         <Row>
           <Col lg={12}>
-            <Panel>
-              <Panel.Heading>Map</Panel.Heading>
-              <Panel.Body className="padding-0 panel-medium">
+            <Card>
+              <Card.Header>Map</Card.Header>
+              <Card.Body className="padding-0 panel-medium">
                 <Map>
                   {poiMarkers}
                   <Polyline path={trackings} />
                 </Map>
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
         <Row>
@@ -111,7 +111,7 @@ class TripDetailsPage extends React.Component<{}, State> {
               onUnlink={this.onUnlink} />
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 

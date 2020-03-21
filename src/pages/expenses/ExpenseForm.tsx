@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, ControlLabel, FormControl, FormGroup, Glyphicon, InputGroup, Row, Tab, Tabs } from 'react-bootstrap/lib';
+import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
@@ -40,7 +40,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Type</ControlLabel>
+              <FormLabel>Type</FormLabel>
               <Select
                 hideDefaultOption={true}
                 onChange={expenseTypeId => onChange({ expenseType: { id: expenseTypeId } })}
@@ -53,7 +53,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Vendor</ControlLabel>
+              <FormLabel>Vendor</FormLabel>
               <AsyncSelect
                 loadOptions={vendorLoader}
                 onChange={vendor => onChange({ vendor: { id: vendor.value } })}
@@ -64,7 +64,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Poi</ControlLabel>
+              <FormLabel>Poi</FormLabel>
               <Select
                 selected={expense.poi?.id}
                 defaultOptionValue="N/A"
@@ -77,7 +77,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Currency</ControlLabel>
+              <FormLabel>Currency</FormLabel>
               <Select
                 hideDefaultOption={true}
                 onChange={currencyId => onChange({ currency: { id: currencyId } })}
@@ -88,14 +88,14 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Amount</ControlLabel>
+              <FormLabel>Amount</FormLabel>
               <InputGroup>
                 <FormControl
                   onChange={(x) => onChange({ amount: x.target.value })}
                   type="number"
                   value={expense.amount}
                 />
-                <InputGroup.Addon>{expense.currency?.id}</InputGroup.Addon>
+                <InputGroup.Append>{expense.currency?.id}</InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -103,7 +103,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Payment type</ControlLabel>
+              <FormLabel>Payment type</FormLabel>
               <Select
                 hideDefaultOption={true}
                 onChange={paymentTypeId => onChange({ paymentType: { id: paymentTypeId } })}
@@ -114,7 +114,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Card</ControlLabel>
+              <FormLabel>Card</FormLabel>
               <Select
                 defaultOptionValue="N/A"
                 onChange={cardId => onChange({ card: { id: cardId } })}
@@ -127,7 +127,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={12}>
             <FormGroup>
-              <ControlLabel>Description</ControlLabel>
+              <FormLabel>Description</FormLabel>
               <FormControl
                 value={expense.comment}
                 type="text"
@@ -141,7 +141,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Parent currency</ControlLabel>
+              <FormLabel>Parent currency</FormLabel>
               <Select
                 selected={expense.parentCurrency?.id }
                 options={currencies}
@@ -152,7 +152,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Exchange rate</ControlLabel>
+              <FormLabel>Exchange rate</FormLabel>
               <InputGroup>
                 <FormControl
                   value={expense.parentCurrencyExchangeRate}
@@ -160,7 +160,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                   readOnly={!expense.parentCurrency?.id}
                   onChange={x => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
                 />
-                <InputGroup.Addon>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Addon>
+                <InputGroup.Append>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -180,23 +180,23 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
         <Row>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Created</ControlLabel>
+              <FormLabel>Created</FormLabel>
               <InputGroup>
                 <Datetime value={expense.timestamp} inputProps={{ readOnly: true }} />
-                <InputGroup.Addon>
-                  <Glyphicon glyph="calendar" />
-                </InputGroup.Addon>
+                <InputGroup.Append>
+                  {/* <Glyphicon glyph="calendar" /> */}
+                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <ControlLabel>Modified</ControlLabel>
+              <FormLabel>Modified</FormLabel>
               <InputGroup>
                 <Datetime value={expense.modified} inputProps={{ readOnly: true }} />
-                <InputGroup.Addon>
-                  <Glyphicon glyph="calendar" />
-                </InputGroup.Addon>
+                <InputGroup.Append>
+                  {/* <Glyphicon glyph="calendar" /> */}
+                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>

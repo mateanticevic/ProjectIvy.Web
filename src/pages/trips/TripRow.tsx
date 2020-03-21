@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
-import { OverlayTrigger } from 'react-bootstrap/lib';
-import Label from 'react-bootstrap/lib/Label';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
+import { OverlayTrigger } from 'react-bootstrap';
+import Label from 'react-bootstrap/Label';
+import Tooltip from 'react-bootstrap/Tooltip';
 import Moment from 'react-moment';
 
 const TripRow = (props) => {
@@ -22,7 +22,7 @@ const TripRow = (props) => {
   <tr key={props.trip.id} className="cursor-pointer" onClick={() => window.location.assign(`/trips/${props.trip.id}`)}>
       <td>
         <OverlayTrigger placement="left" overlay={yearTooltip}>
-          <Label bsStyle={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? 'success' : 'primary'}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Label>
+          <Badge variant={moment(props.trip.timestampStart).isAfter(moment(), 'day') ? 'success' : 'primary'}><Moment format="YYYY">{props.trip.timestampStart}</Moment></Badge>
         </OverlayTrigger>
       </td>
       <td>{props.trip.name}</td>

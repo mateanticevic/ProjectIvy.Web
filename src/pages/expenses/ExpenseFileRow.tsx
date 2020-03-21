@@ -1,6 +1,6 @@
 import filesize from 'filesize';
 import React from 'react';
-import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap/lib';
+import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
 
@@ -34,7 +34,7 @@ const ExpenseFileRow = ({ expenseFile }) => {
                 &nbsp;{expenseFile.type.name} {expenseFile.name && `(${expenseFile.name})`}
             </td>
             <td>
-                <Button className="pull-right" bsStyle="primary" bsSize="xsmall" onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}>
+                <Button className="pull-right" variant="primary" size="xsmall" onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}>
                     <FontAwesome name="download" /> Download
                 </Button>
             </td>
