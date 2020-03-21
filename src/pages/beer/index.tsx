@@ -105,15 +105,15 @@ class BeerPage extends Page<{}, State> {
         </tr>);
 
         const topBeers = this.state.topBeers.map(beer => (
-            <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+            <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.by.name} <span className="pull-right"><Badge variant="primary" title={`${beer.sum / 1000}L`}>{Math.ceil(beer.sum / 1000)}L</Badge></span>
-            </ListGroupItem>
+            </ListGroup.Item>
         ));
 
         const newBeers = this.state.newBeers.items.map(beer => (
-            <ListGroupItem key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+            <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
                 {beer.name}
-            </ListGroupItem>
+            </ListGroup.Item>
         ));
 
         const { brands, consumations, filters, servings } = this.state;
@@ -200,19 +200,15 @@ class BeerPage extends Page<{}, State> {
                     <Col lg={3}>
                         <Card>
                             <Card.Header>Top Beers</Card.Header>
-                            <Card.Body className="panel-small padding-0">
-                                <ListGroup>
-                                    {topBeers}
-                                </ListGroup>
-                            </Card.Body>
+                            <ListGroup>
+                                {topBeers}
+                            </ListGroup>
                         </Card>
                         <Card>
                             <Card.Header>New Beers ({this.state.newBeers.count})</Card.Header>
-                            <Card.Body className="panel-small padding-0">
-                                <ListGroup>
-                                    {newBeers}
-                                </ListGroup>
-                            </Card.Body>
+                            <ListGroup>
+                                {newBeers}
+                            </ListGroup>
                         </Card>
                         <Card>
                             <Card.Header>By Serving</Card.Header>
@@ -321,7 +317,7 @@ class BeerPage extends Page<{}, State> {
     @boundMethod
     private onCountByClick(groupBy?: GroupByTime) {
         let apiMethod;
-        
+
         if (groupBy) {
             this.setState({ countBy: groupBy });
         }

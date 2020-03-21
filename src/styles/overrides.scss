@@ -11,6 +11,19 @@ h1 {
   margin-bottom: 20px;
 }
 
+.card-header {
+  background-color: unset;
+  border: unset;
+  font-weight: 600;
+  padding: 10px 15px;
+}
+
+.card-footer {
+  background-color: unset;
+  border: unset;
+  padding: 10px 15px;
+}
+
 .form-group {
   margin-bottom: 5px;
 }
@@ -19,27 +32,13 @@ h1 {
   border: unset;
 }
 
-.panel-default {
-    .panel-heading {
-      background-color: unset;
-      border-color: transparent;
-      font-weight: 600;
-    }
-  
-    .panel-footer {
-      background-color: unset;
-      border-color: transparent;
-    }
-  }
-  
-  label {
-    font-weight: unset;
-  }
-  
-  th {
-    font-weight: unset;
-  }
+label {
+  font-weight: unset;
+}
 
-  .input-group .form-control{
-    z-index: unset;
-  }
+th {
+  font-weight: unset;
+}
+.input-group .form-control{
+  z-index: unset;
+}
