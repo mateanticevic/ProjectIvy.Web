@@ -47,7 +47,13 @@ const FiltersMore = (props: Props) => {
           </FormGroup>
           <FormGroup>
             <FormLabel>By&nbsp;</FormLabel>
-            <ToggleButtonGroup type="radio" name="options" value={props.filters.orderAscending} onChange={x => props.onChange({ orderAscending: x })}>
+            <ToggleButtonGroup
+              type="radio"
+              size="sm"
+              name="options"
+              value={props.filters.orderAscending}
+              onChange={x => props.onChange({ orderAscending: x })}
+            >
               <ToggleButton value="false">Descending</ToggleButton>
               <ToggleButton value="true">Ascending</ToggleButton>
             </ToggleButtonGroup>
@@ -78,7 +84,13 @@ const FiltersMore = (props: Props) => {
           </FormGroup>
           <FormGroup>
             <FormLabel>Has linked files</FormLabel>
-            <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasLinkedFiles: x })}>
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              defaultValue={null}
+              size="sm"
+              onChange={x => props.onChange({ hasLinkedFiles: x })}
+            >
               <ToggleButton value="">Show all</ToggleButton>
               <ToggleButton value="true">Yes</ToggleButton>
               <ToggleButton value="false">No</ToggleButton>
@@ -86,7 +98,13 @@ const FiltersMore = (props: Props) => {
           </FormGroup>
           <FormGroup>
             <FormLabel>Has poi</FormLabel>
-            <ToggleButtonGroup type="radio" name="options" defaultValue={null} onChange={x => props.onChange({ hasPoi: x })}>
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              defaultValue={null}
+              onChange={x => props.onChange({ hasPoi: x })}
+              size="sm"
+            >
               <ToggleButton value="">Show all</ToggleButton>
               <ToggleButton value="true">Yes</ToggleButton>
               <ToggleButton value="false">No</ToggleButton>

@@ -1,5 +1,5 @@
-import { faFile } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaFile, FaPen, FaLink, FaExclamation } from 'react-icons/fa';
 import moment from 'moment';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -48,19 +48,19 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
       <td>
         {expense.files && expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
-            <FontAwesomeIcon icon={faFile} />
+            <FaFile />
           </OverlayTrigger>}
         {expense.needsReview &&
           <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
-            <FontAwesome name="exclamation" />
+            <FaExclamation />
           </OverlayTrigger>}
       </td>
       <td>
         {onEdit &&
-          <Button className="pull-right" variant="primary" size="xsmall" onClick={() => onEdit(expense)}><FontAwesome name="pencil" /> Edit</Button>
+          <Button className="pull-right" variant="primary" size="sm" onClick={() => onEdit(expense)}><FaPen size="10px" /> Edit</Button>
         }
         {onUnlink &&
-          <Button className="pull-right" variant="primary" size="xsmall" onClick={() => onUnlink(expense.id)}><FontAwesome name="link" /> Unlink</Button>
+          <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>
         }
       </td>
     </tr>

@@ -1,6 +1,6 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
-import { Col, FormLabel, FormControl, Panel, Row } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, Card, Row } from 'react-bootstrap';
 
 import * as apiConfig from '../../api/config';
 import api from '../../api/main';
@@ -36,11 +36,11 @@ class LoginPage extends React.Component<{}, State> {
             <Row>
               <Col sm={12}>
                 <FormLabel>Username</FormLabel>
-                <FormControl type="text" onChange={(e) => this.setState({ username: e.target.value })} />
+                <FormControl type="text" onChange={e => this.setState({ username: e.target.value })} />
               </Col>
               <Col sm={12}>
                 <FormLabel>Password</FormLabel>
-                <FormControl type="password" onChange={(e) => this.setState({ password: e.target.value })} />
+                <FormControl type="password" onChange={e => this.setState({ password: e.target.value })} />
               </Col>
             </Row>
             <Row className="margin-top-10">
@@ -58,15 +58,16 @@ class LoginPage extends React.Component<{}, State> {
     this.setState({
       isLoggingIn: true,
     });
-    api.token.post(this.state.username, this.state.password).then((token) => {
-      localStorage.setItem('token', token);
-      apiConfig.setToken();
-      location.assign('/');
-    }).catch(() => {
-      this.setState({
-        isLoggingIn: false,
+    api.token.post(this.state.username, this.state.password)
+      .then(token => {
+        localStorage.setItem('token', token);
+        apiConfig.setToken();
+        location.assign('/');
+      }).catch(() => {
+        this.setState({
+          isLoggingIn: false,
+        });
       });
-    });
   }
 }
 

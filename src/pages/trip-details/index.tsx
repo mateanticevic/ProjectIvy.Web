@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Panel, Row } from 'react-bootstrap';
+import { Col, Container, Card, Row } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 
 import { Trip } from 'types/trips';

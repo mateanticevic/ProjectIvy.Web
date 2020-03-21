@@ -41,7 +41,14 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
           </Col>
           <Col xs={2}>
             {onNewClick &&
-              <Button className="pull-right" variant="primary" size="xsmall" onClick={onNewClick}><FontAwesome name="plus" /> New</Button>
+              <Button
+                className="pull-right"
+                variant="primary"
+                size="sm"
+                onClick={onNewClick}
+              >
+                <FontAwesome name="plus" /> New
+              </Button>
             }
           </Col>
         </Row>

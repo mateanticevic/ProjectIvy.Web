@@ -1,6 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, NavItem, NavDropdown } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 import { User } from 'types/users';
 
@@ -14,48 +13,30 @@ const NavigationBar = ({ user }: Props) => {
 
   return (
     <Navbar fixed="top" collapseOnSelect>
-      <Navbar.Toggle />
-      <Navbar.Collapse>
-        <Nav>
-          <NavDropdown id="nav_finance" eventKey={3} title="Finance">
-            <LinkContainer to="/expenses">
-              <NavItem>Expenses</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/incomes">
-              <NavItem>Incomes</NavItem>
-            </LinkContainer>
+      <Navbar.Brand href="/">ProjectIvy</Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav" >
+        <Nav className="mr-auto">
+          <NavDropdown id="nav-dropdown-finance" title="Finance">
+            <NavDropdown.Item href="/expenses">Expenses</NavDropdown.Item>
           </NavDropdown>
-          <NavDropdown id="nav_travel" eventKey={4} title="Travel">
-            <LinkContainer to="/flights">
-              <NavItem>Flights</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/pois">
-              <NavItem>Pois</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/tracking">
-              <NavItem>Tracking</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/trips">
-              <NavItem>Trips</NavItem>
-            </LinkContainer>
+          <NavDropdown id="nav-dropdown-travel" title="Travel">
+            <NavDropdown.Item href="/flights">Expenses</NavDropdown.Item>
+            <NavDropdown.Item href="/pois">Pois</NavDropdown.Item>
+            <NavDropdown.Item href="/tracking">Tracking</NavDropdown.Item>
+            <NavDropdown.Item href="/trips">Trips</NavDropdown.Item>
           </NavDropdown>
-          <NavDropdown id="nav_other" eventKey={5} title="Other">
-            <LinkContainer to="/beer">
-              <NavItem>Beer</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/calls">
-              <NavItem>Calls</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/todos">
-              <NavItem>To Do</NavItem>
-            </LinkContainer>
+          <NavDropdown id="nav-dropdown-other" title="Other">
+            <NavDropdown.Item href="/beer">Beer</NavDropdown.Item>
+            <NavDropdown.Item href="/calls">Calls</NavDropdown.Item>
+            <NavDropdown.Item href="/todos">To Do</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         <Nav>
-          <NavDropdown id="nav_user" eventKey={4} title={`${firstName} ${lastName}`}>
-            <LinkContainer to="/login?logout">
-              <NavItem>Logout</NavItem>
-            </LinkContainer>
+          <NavDropdown id="nav-dropdown-account" title={`${firstName} ${lastName}`}>
+            <NavDropdown.Item href="/">My account</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="/login?logout">Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
