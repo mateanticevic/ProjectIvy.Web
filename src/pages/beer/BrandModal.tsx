@@ -12,7 +12,7 @@ const BrandModal = (props) => {
             <Modal.Body>
                 <FormGroup>
                     <FormLabel>Name</FormLabel>
-                    <FormControl type="text" onChange={(x) => props.onChange({ name: x.target.value })} />
+                    <FormControl type="text" onChange={x => props.onChange({ name: x.target.value })} />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>

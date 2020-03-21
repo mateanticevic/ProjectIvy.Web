@@ -1,6 +1,6 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
-import { Col, FormLabel, FormControl, FormGroup, Container, Panel, Row, Table } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, FormGroup, Container, Card, Row, Table } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 import { Call } from 'types/calls';
