@@ -6,6 +6,7 @@ import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
+import { FaPlus } from 'react-icons/fa';
 
 import { TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
@@ -128,9 +129,10 @@ class TripsPage extends Page<{}, State> {
                         <Button
                           className="pull-right"
                           variant="primary"
-                          size="xsmall"
-                          onClick={() => this.setState({ isModalOpen: true })}>
-                          <FontAwesome name="plus" /> New
+                          size="sm"
+                          onClick={() => this.setState({ isModalOpen: true })}
+                        >
+                          <FaPlus /> New
                         </Button>
                       </Col>
                     </Row>

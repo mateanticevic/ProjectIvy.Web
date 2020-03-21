@@ -95,7 +95,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                   type="number"
                   value={expense.amount}
                 />
-                <InputGroup.Append>{expense.currency?.id}</InputGroup.Append>
+                <InputGroup.Append>
+                  <InputGroup.Text id="basic-addon2">{expense.currency?.id}</InputGroup.Text>
+                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -143,7 +145,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <FormLabel>Parent currency</FormLabel>
               <Select
-                selected={expense.parentCurrency?.id }
+                selected={expense.parentCurrency?.id}
                 options={currencies}
                 defaultOptionValue="No parent currency"
                 onChange={parentCurrencyId => onChange({ parentCurrency: { id: parentCurrencyId } })}

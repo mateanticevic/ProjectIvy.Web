@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Checkbox, Col, Modal, Row } from 'react-bootstrap';
+import { FormCheck, Col, Modal, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
@@ -43,7 +43,7 @@ const ExpenseModal = (props) => {
                         </ButtonWithSpinner>
                     </Col>
                     <Col lg={6}>
-                        <Checkbox bsPrefix="pull-left"> Add another?</Checkbox>
+                        <FormCheck type="checkbox" bsPrefix="pull-left"> Add another?</Checkbox>
                     </Col>
                 </Row>
 

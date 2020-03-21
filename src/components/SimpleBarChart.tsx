@@ -19,7 +19,7 @@ const SimpleBarChart = ({ data, name, value }: Props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Bar type="monotone" dataKey={value} fill="#337ab7" />
+                <Bar type="monotone" dataKey={value} fill="#007bff" />
             </BarChart>
         </ResponsiveContainer>
     );

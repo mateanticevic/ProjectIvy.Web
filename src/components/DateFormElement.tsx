@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { FormLabel, FormGroup, InputGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
+import { FaCalendar } from 'react-icons/fa';
 
 interface Props {
     label: string;
@@ -23,7 +24,9 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                 value={value}
             />
             <InputGroup.Append>
-                {/* <Glyphicon glyph="calendar" /> */}
+                <InputGroup.Text>
+                    <FaCalendar />
+                </InputGroup.Text>
             </InputGroup.Append>
         </InputGroup>
     </FormGroup>);

@@ -19,7 +19,7 @@ const SimpleLineChart = ({ data, name, unit, value }: Props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey={value} stroke="#337ab7" unit={unit ?? '' } />
+                <Line type="monotone" dot={false} dataKey={value} stroke="#007bff" unit={unit ?? '' } />
             </LineChart>
         </ResponsiveContainer>
     );

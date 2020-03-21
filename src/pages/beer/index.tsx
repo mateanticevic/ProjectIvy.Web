@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, DropdownButton, Container, Badge, ListGroup, ListGroupItem, NavItem, Card, Row, Table } from 'react-bootstrap';
+import { Col, DropdownButton, Container, Badge, ListGroup, ListGroupItem, NavItem, Card, Row, Table, Dropdown } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { toast } from 'react-toastify';
 
@@ -153,10 +153,10 @@ class BeerPage extends Page<{}, State> {
                                                 Consumations ({consumations.count})
                                             </Col>
                                             <Col xs={2}>
-                                                <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" variant="primary" size="xsmall" className="pull-right">
-                                                    <NavItem onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</NavItem>
-                                                    <NavItem onClick={() => this.setState({ beerModalOpen: true })}>Beer</NavItem>
-                                                    <NavItem onClick={() => this.setState({ brandModalOpen: true })}>Brand</NavItem>
+                                                <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" variant="primary" size="sm" className="pull-right">
+                                                    <Dropdown.Item onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => this.setState({ beerModalOpen: true })}>Beer</Dropdown.Item>
+                                                    <Dropdown.Item onClick={() => this.setState({ brandModalOpen: true })}>Brand</Dropdown.Item>
                                                 </DropdownButton>
                                             </Col>
                                         </Row>
