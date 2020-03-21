@@ -86,12 +86,14 @@ class DashboardPage extends React.Component {
     const consumationItems = consumations.map(consumation => {
       const tooltip = <Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>;
 
-      return <ListGroupItem key={_.uniqueId('list_item_')}>
-        {this.dayOfWeek(consumation.date)} {consumation.beer.name}
-        <OverlayTrigger placement="top" overlay={tooltip}>
-          <span className="pull-right"><Badge variant="primary">{consumation.volume / 1000}L</Badge></span>
-        </OverlayTrigger>
-      </ListGroupItem>;
+      return (
+        <ListGroup.Item key={_.uniqueId('list_item_')}>
+          {this.dayOfWeek(consumation.date)} {consumation.beer.name}
+          <OverlayTrigger placement="top" overlay={tooltip}>
+            <span className="pull-right"><Badge variant="primary">{consumation.volume / 1000}L</Badge></span>
+          </OverlayTrigger>
+        </ListGroup.Item>
+      );
     });
 
     return (
@@ -126,11 +128,9 @@ class DashboardPage extends React.Component {
               <Col lg={6}>
                 <Card>
                   <Card.Header>Expenses</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <ListGroup>
-                      {expenseItems}
-                    </ListGroup>
-                  </Card.Body>
+                  <ListGroup>
+                    {expenseItems}
+                  </ListGroup>
                 </Card>
               </Col>
               <Col lg={6}>
@@ -148,30 +148,27 @@ class DashboardPage extends React.Component {
               <Col lg={6}>
                 <Card>
                   <Card.Header>Beer</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <ListGroup>
-                      {consumationItems}
-                    </ListGroup>
-                  </Card.Body>
+                  <ListGroup variant="flush">
+                    {consumationItems}
+                  </ListGroup>
                 </Card>
               </Col>
               <Col lg={6}>
                 <Card>
                   <Card.Header>Movies</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <ListGroup>
-                      {movieItems}
-                    </ListGroup>
-                  </Card.Body>
+                  <ListGroup>
+                    {movieItems}
+                  </ListGroup>
                 </Card>
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
                 <Card>
-                  <Card.Header>Golf 7</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <h1 className="text-align-center">{carLogLatest.odometer} km</h1>
+                  <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
+                  <Card.Body>
+                    <Card.Title>Golf VII 2.0 TDI</Card.Title>
+                    <Card.Text>{carLogLatest.odometer} km</Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
