@@ -1,16 +1,21 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import ExpenseRow from './ExpenseRow';
+import { ExpenseTableLoader } from './ExpenseTableLoader';
 
 const ExpenseTable = (props) => {
 
-  const rows = props.expenses.map(function(expense) {
-    return <ExpenseRow key={expense.id} expense={expense} onEdit={props.onEdit} onUnlink={props.onUnlink} />;
-  });
+  const rows = props.expenses.map(expense => <ExpenseRow key={expense.id} expense={expense} onEdit={props.onEdit} onUnlink={props.onUnlink} />);
 
   return (
     <Table responsive>
-        <tbody>{rows}</tbody>
+      <tbody>
+        {props.isLoading ?
+          <ExpenseTableLoader />
+          :
+          (rows)
+        }
+      </tbody>
     </Table>
   );
 };

@@ -5,7 +5,6 @@ import FontAwesome from 'react-fontawesome';
 import { Currency, Expense } from 'types/expenses';
 import { PagedItems, PagingFilters } from 'types/paging';
 import Pagination from '../../components/Pagination';
-import Spinner from '../../components/Spinner';
 import ExpenseTable from './ExpenseTable';
 
 type Props = PagingFilters & {
@@ -30,7 +29,7 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
 
   const count = serverPaging ? expenses.count : expenses.items.length;
 
-  const expenseTable = items && items.length > 0 ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} /> : <h2>No data</h2>;
+  const expenseTable = items && items.length > 0 || isLoading ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} isLoading={isLoading} /> : <h2>No data</h2>;
 
   return (
     <Card>
@@ -56,7 +55,7 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
       <Card.Body>
         <Row>
           <Col lg={12}>
-            {isLoading ? <Spinner size="2x" /> : expenseTable}
+            {expenseTable}
           </Col>
         </Row>
         <Row>

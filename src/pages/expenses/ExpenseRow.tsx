@@ -1,9 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaFile, FaPen, FaLink, FaExclamation } from 'react-icons/fa';
 import moment from 'moment';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
 
 import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './ExpenseTypeLabel';
@@ -49,11 +47,13 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
         {expense.files && expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
             <FaFile />
-          </OverlayTrigger>}
+          </OverlayTrigger>
+        }
         {expense.needsReview &&
           <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
             <FaExclamation />
-          </OverlayTrigger>}
+          </OverlayTrigger>
+        }
       </td>
       <td>
         {onEdit &&

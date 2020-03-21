@@ -137,3 +137,21 @@ tr:hover > td > .show-on-hover{
   line-height: 20px;
   margin-bottom: 20px;
 }
+
+.loader-bar {
+  background-color: #00000015;
+  height: 20px;
+}
+
+$heights: 10, 15, 20, 25, 30;
+$widths: 20, 30, 40, 50, 70, 100, 120, 150;
+
+@each $height in $heights {
+  @each $width in $widths {
+    .loader-bar-#{$height}-#{$width} {
+      background-color: #00000015;
+      height: $height + px;
+      min-width: $width + px;
+    }
+  }
+}
