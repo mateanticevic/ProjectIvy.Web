@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Button, Col, Container, Panel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Button, Col, Container, Card, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline, Marker } from 'react-google-maps';

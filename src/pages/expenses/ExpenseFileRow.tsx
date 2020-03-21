@@ -34,7 +34,12 @@ const ExpenseFileRow = ({ expenseFile }) => {
                 &nbsp;{expenseFile.type.name} {expenseFile.name && `(${expenseFile.name})`}
             </td>
             <td>
-                <Button className="pull-right" variant="primary" size="xsmall" onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}>
+                <Button
+                    className="pull-right"
+                    variant="primary"
+                    size="xsmall"
+                    onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}
+                >
                     <FontAwesome name="download" /> Download
                 </Button>
             </td>

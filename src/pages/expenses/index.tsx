@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Panel, Row } from 'react-bootstrap';
+import { Col, Container, Card, Row } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
 import api from '../../api/main';
@@ -138,9 +138,9 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Toggle>More filters</Panel.Toggle>
+                    More filters
                   </Card.Header>
-                  <Card.Body collapsible>
+                  <Card.Body>
                     <FiltersMore
                       cards={this.state.cards}
                       paymentTypes={this.state.paymentTypes}
@@ -175,7 +175,7 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Toggle>Count</Panel.Toggle>
+                    Count
                   </Card.Header>
                   <Card.Body>
                     <SimpleBarChart
@@ -194,7 +194,7 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={12}>
                 <Card>
                   <Card.Header>
-                    <Card.Toggle>Sum</Panel.Toggle>
+                    Sum
                   </Card.Header>
                   <Card.Body>
                     <SimpleBarChart
@@ -211,9 +211,9 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={6}>
                 <Card>
                   <Card.Header>
-                    <Card.Toggle>By Type</Panel.Toggle>
+                    By Type
                   </Card.Header>
-                  <Card.Body collapsible>
+                  <Card.Body>
                     <CountByChart data={this.state.graphs.countByType} />
                   </Card.Body>
                 </Card>
@@ -221,9 +221,9 @@ class ExpensesPage extends Page<{}, State> {
               <Col lg={6}>
                 <Card>
                   <Card.Header>
-                    <Card.Toggle>By Vendor</Panel.Toggle>
+                    By Vendor
                   </Card.Header>
-                  <Card.Body collapsible>
+                  <Card.Body>
                     <CountByChart data={this.state.graphs.countByVendor} />
                   </Card.Body>
                 </Card>

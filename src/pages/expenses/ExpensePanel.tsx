@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Panel, Row } from 'react-bootstrap';
+import { Button, Col, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import { Currency, Expense } from 'types/expenses';
@@ -12,14 +12,14 @@ type Props = PagingFilters & {
   expenses: PagedItems<Expense>,
   defaultCurrency: Currency,
   isLoading: boolean,
-  onEdit: () => void,
-  onNewClick: () => void,
-  onPageChange: () => void,
-  onUnlink: () => void,
   page: number,
   pageSize: number,
   serverPaging: boolean,
   stats: any,
+  onEdit: () => void,
+  onNewClick: () => void,
+  onPageChange: () => void,
+  onUnlink: () => void,
 };
 
 const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
@@ -49,7 +49,7 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
       <Card.Body>
         <Row>
           <Col lg={12}>
-            {isLoading ? <Spinner /> : expenseTable}
+            {isLoading ? <Spinner size="2x" /> : expenseTable}
           </Col>
         </Row>
         <Row>

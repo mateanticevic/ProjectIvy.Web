@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { Button, Col, FormLabel, FormGroup, Container, Panel, Row } from 'react-bootstrap';
+import { Button, Col, FormLabel, FormGroup, Container, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Polygon } from 'react-google-maps';
 import ReactSelect from 'react-select';

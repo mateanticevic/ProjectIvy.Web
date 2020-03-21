@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { Checkbox, Col, Container, Label, ListGroup, ListGroupItem, Panel, Row } from 'react-bootstrap';
+import { FormCheck, Col, Container, Badge, ListGroup, ListGroupItem, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
 import Moment from 'react-moment';
@@ -62,13 +62,14 @@ class FlightsPage extends Page<{}, State> {
                                 </Map>
                             </Card.Body>
                             <Card.Footer>
-                                <Checkbox
+                                <FormCheck
                                     checked={this.state.showFlights}
                                     onChange={this.toggleShowFlights}
                                     className="margin-0"
+                                    type="checkbox"
                                 >
                                     Show flights
-                                </Checkbox>
+                                </FormCheck>
                             </Card.Footer>
                         </Card>
                     </Col>

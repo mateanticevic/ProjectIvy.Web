@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Label, ListGroup, ListGroupItem, OverlayTrigger, Panel, Row, Tooltip } from 'react-bootstrap';
+import { Col, Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Row, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
 import Moment from 'react-moment';
 

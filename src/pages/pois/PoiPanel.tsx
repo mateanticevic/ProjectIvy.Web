@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Panel, Row } from 'react-bootstrap';
+import { Button, Col, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Pagination from '../../components/Pagination';
@@ -8,10 +8,10 @@ import { Poi } from '../../types/pois';
 import PoiTable from './PoiTable';
 
 interface Props {
+  pagedItems: PagedItems<Poi>;
   addToTrip: (tripId: string) => void;
   onNewClick: () => void;
   onPageChange: (page: number) => void;
-  pagedItems: PagedItems<Poi>;
 }
 
 const PoiPanel: React.SFC<Props> = ({ pagedItems, addToTrip, onNewClick, onPageChange }) => {
