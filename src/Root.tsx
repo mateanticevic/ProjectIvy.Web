@@ -17,6 +17,7 @@ import ToDosPage from './pages/todos';
 import TrackingPage from './pages/tracking';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
+import CarDetailsPage from './pages/car-details';
 
 interface State {
   isLoggedIn: boolean;
@@ -40,7 +41,6 @@ export default class Root extends React.Component<{}, State> {
   }
 
   public render() {
-
     return (
       <BrowserRouter>
         <div id="main">
@@ -52,6 +52,7 @@ export default class Root extends React.Component<{}, State> {
               <Route path="/" exact component={DashboardPage} />
               <Route path="/beer" exact component={BeerPage} />
               <Route path="/calls" exact component={CallsPage} />
+              <Route path="/car/:id" exact component={CarDetailsPage} />
               <Route path="/expenses" exact component={ExpensesPage} />
               <Route path="/flights" exact component={FlightsPage} />
               <Route path="/login" exact component={LoginPage} />

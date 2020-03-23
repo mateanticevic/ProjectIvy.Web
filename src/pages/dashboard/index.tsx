@@ -170,6 +170,9 @@ class DashboardPage extends React.Component {
                     <Card.Title>Golf VII 2.0 TDI</Card.Title>
                     <Card.Text>{carLogLatest.odometer} km</Card.Text>
                   </Card.Body>
+                  <Card.Body>
+                    <Card.Link href="/car/golf-7">My car</Card.Link>
+                  </Card.Body>
                 </Card>
               </Col>
               <Col lg={6}>

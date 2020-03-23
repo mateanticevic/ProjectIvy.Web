@@ -37,11 +37,11 @@ class TripDetailsPage extends React.Component<{}, State> {
     super(props);
 
     api.trip.getById(props.match.params.id)
-      .then((trip) => {
+      .then(trip => {
         this.setState({ trip });
         const filters = { from: trip.timestampStart, to: trip.timestampEnd };
-        api.tracking.get(filters).then((trackings) => this.setState({ trackings }));
-        api.consumation.getSum(filters).then((beerSum) => this.setState({ beerSum }));
+        api.tracking.get(filters).then(trackings => this.setState({ trackings }));
+        api.consumation.getSum(filters).then(beerSum => this.setState({ beerSum }));
       });
   }
 
