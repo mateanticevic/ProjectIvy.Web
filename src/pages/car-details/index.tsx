@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Table, Badge } from 'react-bootstrap';

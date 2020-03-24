@@ -18,16 +18,22 @@ import TrackingPage from './pages/tracking';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
+import { Toast } from 'react-bootstrap';
+import autobind from 'autobind-decorator';
 
 interface State {
   isLoggedIn: boolean;
   user?: User;
+  showToast: boolean;
+  toastTitle?: string;
+  toastMessage?: string;
 }
 
 export default class Root extends React.Component<{}, State> {
 
   public state: State = {
     isLoggedIn: false,
+    showToast: true,
     user: undefined,
   };
 
@@ -35,7 +41,7 @@ export default class Root extends React.Component<{}, State> {
     const isLoggedIn = window.localStorage.getItem('token') != undefined;
 
     if (isLoggedIn) {
-      api.user.get().then((user) => this.setState({ user }));
+      api.user.get().then(user => this.setState({ user }));
       this.setState({ isLoggedIn });
     }
   }
@@ -50,7 +56,7 @@ export default class Root extends React.Component<{}, State> {
           <div>
             <Switch>
               <Route path="/" exact component={DashboardPage} />
-              <Route path="/beer" exact component={BeerPage} />
+              <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
               <Route path="/calls" exact component={CallsPage} />
               <Route path="/car/:id" exact component={CarDetailsPage} />
               <Route path="/expenses" exact component={ExpensesPage} />
@@ -63,18 +69,26 @@ export default class Root extends React.Component<{}, State> {
               <Route path="/trips/:id" exact component={TripDetailsPage} />
             </Switch>
           </div>
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            draggable
-            pauseOnHover
-          />
+          <Toast
+            autohide
+            delay={5000}
+            onClose={() => this.setState({ showToast: false })}
+            show={this.state.showToast}
+          >
+            <Toast.Header>{this.state.toastTitle}</Toast.Header>
+            <Toast.Body>{this.state.toastMessage}</Toast.Body>
+          </Toast>
         </div>
       </BrowserRouter>
     );
+  }
+
+  @autobind
+  private toast(title: string, message: string) {
+    this.setState({
+      showToast: true,
+      toastMessage: message,
+      toastTitle: title,
+    });
   }
 }

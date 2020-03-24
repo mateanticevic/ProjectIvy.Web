@@ -2,9 +2,8 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, DropdownButton, Container, Badge, ListGroup, ListGroupItem, NavItem, Card, Row, Table, Dropdown } from 'react-bootstrap';
+import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
 import Moment from 'react-moment';
-import { toast } from 'react-toastify';
 
 import { Beer, Brand, Consumation, ConsumationFilters, Serving } from 'types/beer';
 import api from '../../api/main';
@@ -16,6 +15,10 @@ import ConsumationModal from './ConsumationModal';
 import Filters from './Filters';
 import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from '../../consts/groupings';
+
+interface Props {
+    toast: (title: string, message: string) => void;
+}
 
 interface State {
     beerCount: number;
@@ -42,7 +45,7 @@ interface State {
     topBeers: Beer[];
 }
 
-class BeerPage extends Page<{}, State> {
+class BeerPage extends Page<Props, State> {
 
     state: State = {
         beerCount: 0,
@@ -251,7 +254,7 @@ class BeerPage extends Page<{}, State> {
         api.beer
             .postBeer(this.state.beer.brandId, this.state.beer)
             .then(() => {
-                toast.success('Beer added');
+                this.props.toast('Success', 'Beer addeed');
             });
     }
 
@@ -262,7 +265,7 @@ class BeerPage extends Page<{}, State> {
             .then(() => {
                 this.loadBrands();
                 this.setState({ brandModalOpen: false });
-                toast.success('Brand added');
+                this.props.toast('Success', 'Brand addeed');
             });
     }
 
@@ -273,7 +276,7 @@ class BeerPage extends Page<{}, State> {
             .then(() => {
                 this.onFiltersChange();
                 this.setState({ consumationModalOpen: false });
-                toast.success('Consumation added');
+                this.props.toast('Success', 'Consumation addeed');
             });
     }
 
