@@ -103,7 +103,7 @@ class BeerPage extends Page<Props, State> {
         const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
             <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
             <td>{consumation.beer.name}</td>
-            <td>{consumation.serving}</td>
+            <td>{consumation.serving}></td>
             <td>{consumation.volume / 1000}L</td>
         </tr>);
 

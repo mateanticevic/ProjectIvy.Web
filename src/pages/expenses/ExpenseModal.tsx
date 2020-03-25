@@ -6,7 +6,6 @@ import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 import ExpenseForm from './ExpenseForm';
 
 const ExpenseModal = (props) => {
-
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
 
     return (
@@ -33,20 +32,17 @@ const ExpenseModal = (props) => {
                 />
             </Modal.Body>
             <Modal.Footer>
-                <Row>
-                    <Col lg={6}>
-                        <ButtonWithSpinner
-                            isLoading={props.isSaving}
-                            onClick={() => props.onExpenseAdd(true)}
-                        >
-                            <FontAwesome name="save" /> Save
+                <Col lg={6}>
+                    <ButtonWithSpinner
+                        isLoading={props.isSaving}
+                        onClick={() => props.onExpenseAdd(true)}
+                    >
+                        <FontAwesome name="save" /> Save
                         </ButtonWithSpinner>
-                    </Col>
-                    <Col lg={6}>
-                        <FormCheck type="checkbox" bsPrefix="pull-left"> Add another?</Checkbox>
-                    </Col>
-                </Row>
-
+                </Col>
+                <Col lg={6}>
+                    <FormCheck type="checkbox" bsPrefix="pull-left"> Add another?</FormCheck>
+                </Col>
             </Modal.Footer>
         </Modal>
     );
