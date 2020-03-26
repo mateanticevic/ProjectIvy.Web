@@ -9,7 +9,12 @@ const ExpenseModal = (props) => {
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} size="lg">
+        <Modal
+            backdrop="static"
+            show={props.isOpen}
+            onHide={props.onClose}
+            size="lg"
+        >
             <Modal.Header closeButton>
                 <Modal.Title>{header}</Modal.Title>
             </Modal.Header>

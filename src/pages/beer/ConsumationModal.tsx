@@ -23,7 +23,12 @@ interface Props {
 const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, servings }: Props) => {
 
     return (
-        <Modal show={isOpen} onHide={onClose} size="sm">
+        <Modal
+            backdrop="static"
+            show={isOpen}
+            onHide={onClose}
+            size="sm"
+        >
             <Modal.Header closeButton>
                 <Modal.Title>New consumation</Modal.Title>
             </Modal.Header>

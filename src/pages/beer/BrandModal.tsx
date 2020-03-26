@@ -5,7 +5,12 @@ import FontAwesome from 'react-fontawesome';
 const BrandModal = (props) => {
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} size="sm">
+        <Modal
+            backdrop="static"
+            show={props.isOpen}
+            onHide={props.onClose}
+            size="sm"
+        >
             <Modal.Header closeButton>
                 <Modal.Title>New brand</Modal.Title>
             </Modal.Header>

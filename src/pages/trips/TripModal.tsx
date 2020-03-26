@@ -16,7 +16,11 @@ interface Props {
 
 const TripModal = ({ buttonIsLoading, isOpen, loadCities, onClose, onChange, onSave }: Props) => {
   return (
-    <Modal show={isOpen} onHide={onClose}>
+    <Modal
+      backdrop="static"
+      show={isOpen}
+      onHide={onClose}
+    >
       <Modal.Header closeButton>
         <Modal.Title>New trip</Modal.Title>
       </Modal.Header>

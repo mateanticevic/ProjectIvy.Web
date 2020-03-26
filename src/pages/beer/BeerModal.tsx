@@ -7,7 +7,12 @@ import Select from '../../components/Select';
 const BeerModal = (props) => {
 
     return (
-        <Modal show={props.isOpen} onHide={props.onClose} size="sm">
+        <Modal
+            backdrop="static"
+            show={props.isOpen}
+            onHide={props.onClose}
+            size="sm"
+        >
             <Modal.Header closeButton>
                 <Modal.Title>New beer</Modal.Title>
             </Modal.Header>
