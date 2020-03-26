@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row } from 'react-bootstrap';
+import { Button, Col, Container, Card, Row, Accordion } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
 import api from '../../api/main';
@@ -136,21 +136,28 @@ class ExpensesPage extends Page<{}, State> {
             </Row>
             <Row>
               <Col lg={12}>
-                <Card>
-                  <Card.Header>
-                    More filters
-                  </Card.Header>
-                  <Card.Body>
-                    <FiltersMore
-                      cards={this.state.cards}
-                      paymentTypes={this.state.paymentTypes}
-                      filters={this.state.filters}
-                      order={this.state.order}
-                      orderBy={this.state.orderBy}
-                      onChange={this.onFiltersChanged}
-                    />
-                  </Card.Body>
-                </Card>
+                <Accordion>
+                  <Card>
+                    <Accordion.Toggle
+                      as={Card.Header}
+                      eventKey="0"
+                    >
+                      More filters
+                        </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <FiltersMore
+                          cards={this.state.cards}
+                          paymentTypes={this.state.paymentTypes}
+                          filters={this.state.filters}
+                          order={this.state.order}
+                          orderBy={this.state.orderBy}
+                          onChange={this.onFiltersChanged}
+                        />
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
               </Col>
             </Row>
           </Col>

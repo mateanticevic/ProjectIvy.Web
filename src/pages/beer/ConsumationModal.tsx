@@ -3,6 +3,7 @@ import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 're
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import AsyncSelect from 'react-select/async';
+import { FaCalendar } from 'react-icons/fa';
 
 import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from '../../components/Select';
@@ -42,7 +43,9 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                             timeFormat={false}
                             value={consumation.date} />
                         <InputGroup.Append>
-                            {/* <Glyphicon glyph="calendar" /> */}
+                            <InputGroup.Text>
+                                <FaCalendar />
+                            </InputGroup.Text>
                         </InputGroup.Append>
                     </InputGroup>
                 </FormGroup>
@@ -62,7 +65,9 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                     <FormLabel>Volume</FormLabel>
                     <InputGroup>
                         <FormControl type="number" onChange={x => onChange({ volume: x.target.value })} />
-                        <InputGroup.Append>ml</InputGroup.Append>
+                        <InputGroup.Append>
+                            <InputGroup.Text>ml</InputGroup.Text>
+                        </InputGroup.Append>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>

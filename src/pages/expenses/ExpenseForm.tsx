@@ -162,7 +162,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                   readOnly={!expense.parentCurrency?.id}
                   onChange={x => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
                 />
-                <InputGroup.Append>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Append>
+                <InputGroup.Append>
+                  <InputGroup.Text>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Text>
+                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
