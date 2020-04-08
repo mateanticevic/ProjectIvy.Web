@@ -10,8 +10,14 @@ import api from '../../api/main';
 import { Map, ValueLabel } from '../../components';
 import ExpenseTypeLabel from '../../pages/expenses/ExpenseTypeLabel';
 import OnlineGraph from './OnlineGraph';
+import { User } from 'types/users';
+import { Module } from '../../consts/module';
 
-class DashboardPage extends React.Component {
+interface Props {
+  user: User;
+}
+
+class DashboardPage extends React.Component<Props> {
 
   state = {
     carLogLatest: { odometer: 0, timestamp: moment() },
@@ -33,8 +39,8 @@ class DashboardPage extends React.Component {
     spentByMonthGraphData: [],
   };
 
-  componentWillMount() {
-
+  componentDidMount() {
+    console.log("dash");
     const lastFiveFilters = {
       pageSize: 5,
     };
@@ -68,6 +74,7 @@ class DashboardPage extends React.Component {
   }
 
   render() {
+    const { user } = this.props;
     const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
     const expenseItems = expenses.map(expense => {
@@ -102,88 +109,104 @@ class DashboardPage extends React.Component {
           <Col lg={6}>
             <Row>
               <Col lg={12}>
-                <Card>
-                  <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
-                  <Card.Body className="panel-medium padding-0">
-                    <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
-                      <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
-                    </Map>
-                  </Card.Body>
-                </Card>
+                {user.modules.includes(Module.Tracking) &&
+                  <Card>
+                    <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
+                    <Card.Body className="panel-medium padding-0">
+                      <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
+                        <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
+                      </Map>
+                    </Card.Body>
+                  </Card>
+                }
               </Col>
             </Row>
             <Row>
               <Col lg={12}>
-                <Card>
-                  <Card.Header>Online last 30 days</Card.Header>
-                  <Card.Body className="panel-medium">
-                    <OnlineGraph data={onlineGraphData} />
-                  </Card.Body>
-                </Card>
+                {user.modules.includes(Module.TimeOnline) &&
+                  <Card>
+                    <Card.Header>Online last 30 days</Card.Header>
+                    <Card.Body className="panel-medium">
+                      <OnlineGraph data={onlineGraphData} />
+                    </Card.Body>
+                  </Card>
+                }
               </Col>
             </Row>
           </Col>
           <Col lg={6}>
             <Row>
               <Col lg={6}>
-                <Card>
-                  <Card.Header>Expenses</Card.Header>
-                  <ListGroup>
-                    {expenseItems}
-                  </ListGroup>
-                </Card>
+                {user.modules.includes(Module.Expenses) &&
+                  <Card>
+                    <Card.Header>Expenses</Card.Header>
+                    <ListGroup>
+                      {expenseItems}
+                    </ListGroup>
+                  </Card>
+                }
               </Col>
               <Col lg={6}>
-                <Card>
-                  <Card.Header>Spent</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <ValueLabel label="Today" unit="kn" value={spent.today} />
-                    <ValueLabel label="This week" unit="kn" value={spent.week} />
-                    <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                <Card>
-                  <Card.Header>Beer</Card.Header>
-                  <ListGroup variant="flush">
-                    {consumationItems}
-                  </ListGroup>
-                </Card>
-              </Col>
-              <Col lg={6}>
-                <Card>
-                  <Card.Header>Movies</Card.Header>
-                  <ListGroup>
-                    {movieItems}
-                  </ListGroup>
-                </Card>
+                {user.modules.includes(Module.Expenses) &&
+                  <Card>
+                    <Card.Header>Spent</Card.Header>
+                    <Card.Body className="panel-small padding-0">
+                      <ValueLabel label="Today" unit="kn" value={spent.today} />
+                      <ValueLabel label="This week" unit="kn" value={spent.week} />
+                      <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
+                    </Card.Body>
+                  </Card>
+                }
               </Col>
             </Row>
             <Row>
               <Col lg={6}>
-                <Card>
-                  <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
-                  <Card.Body>
-                    <Card.Title>Golf VII 2.0 TDI</Card.Title>
-                    <Card.Text>{carLogLatest.odometer} km</Card.Text>
-                  </Card.Body>
-                  <Card.Body>
-                    <Card.Link href="/car/golf-7">My car</Card.Link>
-                  </Card.Body>
-                </Card>
+                {user.modules.includes(Module.Beer) &&
+                  <Card>
+                    <Card.Header>Beer</Card.Header>
+                    <ListGroup variant="flush">
+                      {consumationItems}
+                    </ListGroup>
+                  </Card>
+                }
               </Col>
               <Col lg={6}>
-                <Card>
-                  <Card.Header>Distance</Card.Header>
-                  <Card.Body className="panel-small padding-0">
-                    <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
-                    <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
-                    <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
-                  </Card.Body>
-                </Card>
+                {user.modules.includes(Module.Movies) &&
+                  <Card>
+                    <Card.Header>Movies</Card.Header>
+                    <ListGroup>
+                      {movieItems}
+                    </ListGroup>
+                  </Card>
+                }
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6}>
+                {user.modules.includes(Module.CarInfo) &&
+                  <Card>
+                    <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
+                    <Card.Body>
+                      <Card.Title>Golf VII 2.0 TDI</Card.Title>
+                      <Card.Text>{carLogLatest.odometer} km</Card.Text>
+                    </Card.Body>
+                    <Card.Body>
+                      <Card.Link href="/car/golf-7">My car</Card.Link>
+                    </Card.Body>
+                  </Card>
+                }
+              </Col>
+              <Col lg={6}>
+                {user.modules.includes(Module.Tracking) &&
+                  <Card>
+                    <Card.Header>Distance</Card.Header>
+                    <Card.Body className="panel-small padding-0">
+                      <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
+                      <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
+                      <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
+                    </Card.Body>
+                  </Card>
+                }
               </Col>
             </Row>
           </Col>

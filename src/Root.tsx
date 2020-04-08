@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Toast } from 'react-bootstrap';
+import autobind from 'autobind-decorator';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -18,8 +18,6 @@ import TrackingPage from './pages/tracking';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
-import { Toast } from 'react-bootstrap';
-import autobind from 'autobind-decorator';
 
 interface State {
   isLoggedIn: boolean;
@@ -37,7 +35,7 @@ export default class Root extends React.Component<{}, State> {
     user: undefined,
   };
 
-  public componentDidMount() {
+  public componentWillMount() {
     const isLoggedIn = window.localStorage.getItem('token') != undefined;
 
     if (isLoggedIn) {
@@ -47,6 +45,12 @@ export default class Root extends React.Component<{}, State> {
   }
 
   public render() {
+    if (this.state.isLoggedIn && !this.state.user){
+      return null;
+    }
+
+    console.log(this.state.user);
+
     return (
       <BrowserRouter>
         <div id="main">
@@ -55,7 +59,7 @@ export default class Root extends React.Component<{}, State> {
           }
           <div>
             <Switch>
-              <Route path="/" exact component={DashboardPage} />
+              <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
               <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
               <Route path="/calls" exact component={CallsPage} />
               <Route path="/car/:id" exact component={CarDetailsPage} />
