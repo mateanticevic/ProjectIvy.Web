@@ -105,112 +105,98 @@ class DashboardPage extends React.Component<Props> {
 
     return (
       <Container>
-        <Row>
-          <Col lg={6}>
-            <Row>
-              <Col lg={12}>
-                {user.modules.includes(Module.Tracking) &&
-                  <Card>
-                    <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
-                    <Card.Body className="panel-medium padding-0">
-                      <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
-                        <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
-                      </Map>
-                    </Card.Body>
-                  </Card>
-                }
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
-                {user.modules.includes(Module.TimeOnline) &&
-                  <Card>
-                    <Card.Header>Online last 30 days</Card.Header>
-                    <Card.Body className="panel-medium">
-                      <OnlineGraph data={onlineGraphData} />
-                    </Card.Body>
-                  </Card>
-                }
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={6}>
-            <Row>
-              <Col lg={6}>
-                {user.modules.includes(Module.Expenses) &&
-                  <Card>
-                    <Card.Header>Expenses</Card.Header>
-                    <ListGroup>
-                      {expenseItems}
-                    </ListGroup>
-                  </Card>
-                }
-              </Col>
-              <Col lg={6}>
-                {user.modules.includes(Module.Expenses) &&
-                  <Card>
-                    <Card.Header>Spent</Card.Header>
-                    <Card.Body className="panel-small padding-0">
-                      <ValueLabel label="Today" unit="kn" value={spent.today} />
-                      <ValueLabel label="This week" unit="kn" value={spent.week} />
-                      <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
-                    </Card.Body>
-                  </Card>
-                }
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                {user.modules.includes(Module.Beer) &&
-                  <Card>
-                    <Card.Header>Beer</Card.Header>
-                    <ListGroup variant="flush">
-                      {consumationItems}
-                    </ListGroup>
-                  </Card>
-                }
-              </Col>
-              <Col lg={6}>
-                {user.modules.includes(Module.Movies) &&
-                  <Card>
-                    <Card.Header>Movies</Card.Header>
-                    <ListGroup>
-                      {movieItems}
-                    </ListGroup>
-                  </Card>
-                }
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={6}>
-                {user.modules.includes(Module.CarInfo) &&
-                  <Card>
-                    <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
-                    <Card.Body>
-                      <Card.Title>Golf VII 2.0 TDI</Card.Title>
-                      <Card.Text>{carLogLatest.odometer} km</Card.Text>
-                    </Card.Body>
-                    <Card.Body>
-                      <Card.Link href="/car/golf-7">My car</Card.Link>
-                    </Card.Body>
-                  </Card>
-                }
-              </Col>
-              <Col lg={6}>
-                {user.modules.includes(Module.Tracking) &&
-                  <Card>
-                    <Card.Header>Distance</Card.Header>
-                    <Card.Body className="panel-small padding-0">
-                      <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
-                      <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
-                      <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
-                    </Card.Body>
-                  </Card>
-                }
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <div className="flex-grid">
+          {user.modules.includes(Module.Tracking) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
+                <Card.Body className="panel-medium padding-0">
+                  <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
+                    <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
+                  </Map>
+                </Card.Body>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.TimeOnline) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Online last 30 days</Card.Header>
+                <Card.Body className="panel-medium">
+                  <OnlineGraph data={onlineGraphData} />
+                </Card.Body>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.Expenses) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Expenses</Card.Header>
+                <ListGroup>
+                  {expenseItems}
+                </ListGroup>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.Expenses) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Spent</Card.Header>
+                <Card.Body className="panel-small padding-0">
+                  <ValueLabel label="Today" unit="kn" value={spent.today} />
+                  <ValueLabel label="This week" unit="kn" value={spent.week} />
+                  <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
+                </Card.Body>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.Beer) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Beer</Card.Header>
+                <ListGroup variant="flush">
+                  {consumationItems}
+                </ListGroup>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.Movies) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Movies</Card.Header>
+                <ListGroup>
+                  {movieItems}
+                </ListGroup>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.CarInfo) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
+                <Card.Body>
+                  <Card.Title>Golf VII 2.0 TDI</Card.Title>
+                  <Card.Text>{carLogLatest.odometer} km</Card.Text>
+                </Card.Body>
+                <Card.Body>
+                  <Card.Link href="/car/golf-7">My car</Card.Link>
+                </Card.Body>
+              </Card>
+            </div>
+          }
+          {user.modules.includes(Module.Tracking) &&
+            <div className="flex-grid-item">
+              <Card>
+                <Card.Header>Distance</Card.Header>
+                <Card.Body className="panel-small padding-0">
+                  <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
+                  <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
+                  <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
+                </Card.Body>
+              </Card>
+            </div>
+          }
+        </div>
       </Container>
     );
   }

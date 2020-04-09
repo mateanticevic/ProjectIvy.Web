@@ -16,7 +16,7 @@ a {
 }
 
 #main {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .cursor-pointer {
@@ -46,7 +46,7 @@ a {
 }
 
 .panel-small {
-  height: 200px;
+  height: 230px;
 }
 
 .panel-no-padding .panel-body {
@@ -159,5 +159,42 @@ $widths: 20, 30, 40, 50, 70, 100, 120, 150;
       height: $height + px;
       min-width: $width + px;
     }
+  }
+}
+
+.flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 1400px;
+}
+
+.flex-grid-item {
+  flex-basis: 33%;
+  max-width: 450px;
+  position: relative;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+@media(max-width: 1333px) {
+  .flex-grid-item {
+    flex-basis: 33.33%;
+  }
+}
+@media(max-width: 1073px) {
+   .flex-grid-item {
+    flex-basis: 33.33%;
+  }
+}
+@media(max-width: 815px) {
+  .flex-grid-item {
+    flex-basis: 50%;
+  }
+}
+@media(max-width: 555px) {
+  .flex-grid-item {
+    flex-basis: 100%;
   }
 }
