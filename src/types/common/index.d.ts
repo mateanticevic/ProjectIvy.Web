@@ -15,12 +15,12 @@ export type FileType = {
     mimeType: string
 }
 
-export type File = {
+/* export type File = {
     id: string,
     size: number,
     created: string,
     type: FileType
-}
+} */
 
 export type Vendor = {
     id: string,
@@ -30,4 +30,9 @@ export type Vendor = {
 export interface Name {
     id: string;
     name: string;
+}
+
+export interface UploadedFile {
+    id: string;
+    file: File;
 }

@@ -49,9 +49,9 @@ export interface ExpenseFileType {
 }
 
 export interface ExpenseFile {
-    type: ExpenseFileType;
+    type?: ExpenseFileType;
+    typeId: string;
     name: string;
-    file: File;
 }
 
 export interface ExpenseFilters {

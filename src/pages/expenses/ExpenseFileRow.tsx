@@ -37,7 +37,7 @@ const ExpenseFileRow = ({ expenseFile }) => {
                 <Button
                     className="pull-right"
                     variant="primary"
-                    size="xsmall"
+                    size="sm"
                     onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}
                 >
                     <FontAwesome name="download" /> Download

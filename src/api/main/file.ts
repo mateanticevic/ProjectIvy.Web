@@ -1,6 +1,6 @@
 import * as api from '../config';
 
-function post(file) {
+function post(file): Promise<string> {
     return api.postFile('file', file);
 }
 

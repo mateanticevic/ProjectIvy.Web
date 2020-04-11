@@ -4,7 +4,7 @@ import moment from 'moment';
 import React from 'react';
 import { Button, Col, Container, Card, Row, Accordion } from 'react-bootstrap';
 
-import { Currency, Expense, ExpenseBinding, ExpenseFilters } from 'types/expenses';
+import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import api from '../../api/main';
 import { RadioLabel, SimpleBarChart } from '../../components';
 import { GroupByTime } from '../../consts/groupings';
@@ -250,13 +250,14 @@ class ExpensesPage extends Page<{}, State> {
           isOpen={this.state.isModalOpen}
           isSaving={this.state.isSavingExpense}
           files={this.state.files}
-          linkFile={(expenseId, expenseFile) => this.linkExpenseFile(expenseId, expenseFile, this.state.filters)}
+          linkFile={this.linkExpenseFile}
           deleteFile={this.deleteFile}
+          onChange={this.onExpenseChanged}
+          onClose={() => this.setState({ isModalOpen: false })}
           onExpenseAdd={this.onExpenseSave}
           onExpenseAddAnother={this.onExpenseAddAnother}
           onVendorChanged={this.onVendorChange}
-          onClose={() => this.setState({ isModalOpen: false })}
-          onChange={this.onExpenseChanged}
+          uploadFile={this.uploadFile}
         />
       </Container>
     );
@@ -268,9 +269,9 @@ class ExpensesPage extends Page<{}, State> {
   }
 
   @boundMethod
-  private linkExpenseFile() {
+  private linkExpenseFile(expenseId: string, fileId: string, expenseFile: ExpenseFile) {
     api.expense
-      .postFile(expenseId, expenseFile.file.id, { name: expenseFile.name, typeId: expenseFile.type });
+      .postFile(expenseId, fileId, expenseFile);
   }
 
   private newExpense(): Partial<Expense> {
@@ -477,6 +478,10 @@ class ExpensesPage extends Page<{}, State> {
       poiId: e.poi ? e.poi.id : undefined,
       vendorId: e.vendor ? e.vendor.id : undefined,
     };
+  }
+
+  private uploadFile(file: File) {
+    return api.file.post(file);
   }
 }
 

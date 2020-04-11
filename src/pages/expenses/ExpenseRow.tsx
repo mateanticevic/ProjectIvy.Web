@@ -16,7 +16,7 @@ interface Props {
 }
 
 const renderPaymentTypeIcon = (name: Name) => {
-  switch (name.id) {
+  switch (name?.id) {
     case PaymentType.Cash:
       return <FaMoneyBill title={name.name} />;
     case PaymentType.CreditCard:
@@ -74,7 +74,14 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
       </td>
       <td>
         {onEdit &&
-          <Button className="pull-right" variant="primary" size="sm" onClick={() => onEdit(expense)}><FaPen size="10px" /> Edit</Button>
+          <Button
+            className="pull-right"
+            variant="primary"
+            size="sm"
+            onClick={() => onEdit(expense)}
+          >
+            <FaPen size="10px" /> Edit
+          </Button>
         }
         {onUnlink &&
           <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>

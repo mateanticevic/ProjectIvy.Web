@@ -29,11 +29,12 @@ const ExpenseModal = (props) => {
                     cards={props.cards}
                     files={props.files}
                     deleteFile={props.deleteFile}
-                    linkFile={expenseFile => props.linkFile(props.expense.id, expenseFile)}
+                    linkFile={(fileId, expenseFile) => props.linkFile(props.expense.id, fileId, expenseFile)}
                     vendorPois={props.vendorPois}
                     uploadFiles={props.uploadFiles}
                     onVendorChanged={props.onVendorChanged}
                     onChange={props.onChange}
+                    uploadFile={props.uploadFile}
                 />
             </Modal.Body>
             <Modal.Footer>

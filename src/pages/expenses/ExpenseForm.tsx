@@ -25,7 +25,7 @@ interface Props {
   vendorPois: any;
 }
 
-const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFiles, vendorPois, linkFile }: Props) => {
+const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
 
   return (
     <Tabs id="expenseFormTabs" defaultActiveKey={1}>
@@ -178,6 +178,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
           files={files}
           deleteFile={deleteFile}
           linkFile={linkFile}
+          uploadFile={uploadFile}
         />
       </Tab>
       <Tab eventKey={4} title="Info">
