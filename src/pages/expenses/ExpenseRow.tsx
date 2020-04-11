@@ -1,4 +1,4 @@
-import { FaFile, FaPen, FaLink, FaExclamation } from 'react-icons/fa';
+import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaPen, FaLink, FaShoppingCart, FaExclamation } from 'react-icons/fa';
 import moment from 'moment';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -6,6 +6,8 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './ExpenseTypeLabel';
 import VendorLabel from './VendorLabel';
+import { PaymentType } from '../../consts/service';
+import { Name } from 'types/common';
 
 interface Props {
   expense: Expense;
@@ -13,8 +15,22 @@ interface Props {
   onUnlink?: () => void;
 }
 
-const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
+const renderPaymentTypeIcon = (name: Name) => {
+  switch (name.id) {
+    case PaymentType.Cash:
+      return <FaMoneyBill title={name.name} />;
+    case PaymentType.CreditCard:
+      return <FaCreditCard title={name.name} />;
+    case PaymentType.CreditCardOnline:
+      return <FaShoppingCart title={name.name} />;
+    case PaymentType.WireTransfer:
+      return <FaUniversity title={name.name} />;
+    default:
+      return null;
+  }
+}
 
+const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
   const hasFilesTooltip = (
     <Tooltip id="tooltip">
       Has {expense.files.length} linked files
@@ -44,6 +60,7 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
       <td><span className="pull-right">{expense.amount.toFixed(2)}</span></td>
       <td>{expense.currency.symbol}</td>
       <td>
+        {renderPaymentTypeIcon(expense.paymentType)}
         {expense.files && expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
             <FaFile />

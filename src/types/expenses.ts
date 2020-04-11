@@ -1,4 +1,4 @@
-import ExpenseCountGraph from 'src/pages/expenses/ExpenseCountGraph';
+import { Name } from './common';
 
 export interface Currency {
     id: string;
@@ -20,7 +20,7 @@ export interface Expense {
     needsReview: boolean;
     parentCurrency: Currency;
     parentCurrencyExchangeRate?: number;
-    paymentType: { id: string, name: string };
+    paymentType: Name;
     poi: any;
     timestamp: string;
     vendor: Vendor;

@@ -26,3 +26,8 @@ export type Vendor = {
     id: string,
     name: string
 }
+
+export interface Name {
+    id: string;
+    name: string;
+}

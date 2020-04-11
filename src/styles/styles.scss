@@ -198,3 +198,10 @@ $widths: 20, 30, 40, 50, 70, 100, 120, 150;
     flex-basis: 100%;
   }
 }
+
+td {
+  > svg {
+    margin-left: 5px;
+    color: #007bff;
+  }
+}

@@ -45,7 +45,7 @@ export default class Root extends React.Component<{}, State> {
   }
 
   public render() {
-    if (this.state.isLoggedIn && !this.state.user){
+    if (this.state.isLoggedIn && !this.state.user) {
       return null;
     }
 
@@ -57,22 +57,20 @@ export default class Root extends React.Component<{}, State> {
           {this.state.isLoggedIn &&
             <NavigationBar user={this.state.user} />
           }
-          <div>
-            <Switch>
-              <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
-              <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
-              <Route path="/calls" exact component={CallsPage} />
-              <Route path="/car/:id" exact component={CarDetailsPage} />
-              <Route path="/expenses" exact component={ExpensesPage} />
-              <Route path="/flights" exact component={FlightsPage} />
-              <Route path="/login" exact component={LoginPage} />
-              <Route path="/pois" exact component={PoisPage} />
-              <Route path="/todos" exact component={ToDosPage} />
-              <Route path="/tracking" exact component={TrackingPage} />
-              <Route path="/trips" exact component={TripsPage} />
-              <Route path="/trips/:id" exact component={TripDetailsPage} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
+            <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
+            <Route path="/calls" exact component={CallsPage} />
+            <Route path="/car/:id" exact component={CarDetailsPage} />
+            <Route path="/expenses" exact component={ExpensesPage} />
+            <Route path="/flights" exact component={FlightsPage} />
+            <Route path="/login" exact component={LoginPage} />
+            <Route path="/pois" exact component={PoisPage} />
+            <Route path="/todos" exact component={ToDosPage} />
+            <Route path="/tracking" exact component={TrackingPage} />
+            <Route path="/trips" exact component={TripsPage} />
+            <Route path="/trips/:id" exact component={TripDetailsPage} />
+          </Switch>
           <Toast
             autohide
             delay={5000}
