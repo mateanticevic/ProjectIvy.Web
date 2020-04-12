@@ -1,8 +1,8 @@
 import filesize from 'filesize';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
 import Moment from 'react-moment';
+import { FaFile, FaImage, FaDownload } from 'react-icons/fa';
 
 const ExpenseFileRow = ({ expenseFile }) => {
 
@@ -15,11 +15,9 @@ const ExpenseFileRow = ({ expenseFile }) => {
     function mapFileTypeToIcon(typeId) {
         switch (typeId) {
             case 'jpg':
-                return 'image';
-            case 'pdf':
-                return 'file-o';
+                return <FaImage />;
             default:
-                return 'file-o';
+                return <FaFile />;
         }
     }
 
@@ -29,7 +27,7 @@ const ExpenseFileRow = ({ expenseFile }) => {
             <td>{filesize(expenseFile.file.size)}</td>
             <td>
                 <OverlayTrigger placement="right" overlay={fileTypeTooltip}>
-                    <FontAwesome name={mapFileTypeToIcon(expenseFile.file.type.id)} />
+                    {mapFileTypeToIcon(expenseFile.file.type.id)}
                 </OverlayTrigger>
                 &nbsp;{expenseFile.type.name} {expenseFile.name && `(${expenseFile.name})`}
             </td>
@@ -40,7 +38,7 @@ const ExpenseFileRow = ({ expenseFile }) => {
                     size="sm"
                     onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}
                 >
-                    <FontAwesome name="download" /> Download
+                    <FaDownload /> Download
                 </Button>
             </td>
         </tr>

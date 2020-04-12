@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import ExpenseFileTable from './ExpenseFileTable';
 import { ExpenseFileUploadTable } from './ExpenseFileUploadTable';
 import { UploadedFile } from 'types/common';
+import { ExpenseFile } from 'types/expenses';
 
 const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileTypes }) => {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -30,6 +31,11 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
         effect();
     }, [acceptedFiles]);
 
+    const onLinkFile = (fileId: string, expenseFile: ExpenseFile) => {
+        linkFile(fileId, expenseFile);
+        setUploadedFiles(uploadedFiles.filter(x => x.id != fileId));
+    };
+
     return (
         <React.Fragment>
             {files && files.length > 0 &&
@@ -41,20 +47,22 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
             }
             <Row>
                 <Col lg={12}>
-                    <div {...getRootProps()}>
+                    <div className="dropzone" {...getRootProps()}>
                         <input {...getInputProps()} />
-                        <p>Drag 'n' drop some files here, or click to select files</p>
+                        Drag & drop or click here
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col lg={12}>
-                    <ExpenseFileUploadTable
-                        files={uploadedFiles}
-                        linkFile={linkFile}
-                        deleteFile={deleteFile}
-                        fileTypes={fileTypes}
-                    />
+                    {uploadedFiles?.length > 0 &&
+                        <ExpenseFileUploadTable
+                            files={uploadedFiles}
+                            linkFile={onLinkFile}
+                            deleteFile={deleteFile}
+                            fileTypes={fileTypes}
+                        />
+                    }
                 </Col>
             </Row>
         </React.Fragment>
