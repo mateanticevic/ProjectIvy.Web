@@ -11,18 +11,23 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
     const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
     useEffect(() => {
-        acceptedFiles.forEach(file => {
-            uploadFile(file).then(fileId => {
-                console.log(file.size);
-                setUploadedFiles([
-                    ...uploadedFiles,
-                    {
+        async function effect() {
+            const newUploadedFiles = await Promise.all(acceptedFiles.filter(file => !uploadedFiles.some(uf => uf.file == file))
+                .map(async (file) => {
+                    const fileId = await uploadFile(file);
+                    return {
                         id: fileId,
                         file,
-                    }
-                ]);
-            });
-        });
+                    };
+                }));
+
+            setUploadedFiles([
+                ...uploadedFiles,
+                ...newUploadedFiles,
+            ]);
+        }
+
+        effect();
     }, [acceptedFiles]);
 
     return (

@@ -1,68 +1,44 @@
+import React, { useState } from 'react';
 import filesize from 'filesize';
-import React from 'react';
-import { Button, FormControl } from 'react-bootstrap';
+import { FormControl, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+
 import Select from '../../components/Select';
+import { ExpenseFile } from 'types/expenses';
+import { UploadedFile } from 'types/common';
 
-class ExpenseFileUploadRow extends React.Component {
-
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            name: '',
-            typeId: '',
-        };
-
-        this.onClickLink = this.onClickLink.bind(this);
-        this.onNameChanged = this.onNameChanged.bind(this);
-        this.onTypeIdChanged = this.onTypeIdChanged.bind(this);
-    }
-
-    public onClickLink() {
-        const expenseFile = {
-            file: this.props.file,
-            name: this.state.name,
-            type: this.state.typeId,
-        };
-
-        this.props.linkFile(expenseFile);
-    }
-
-    public onNameChanged(value) {
-        this.setState({...this.state, name: value});
-    }
-
-    public onTypeIdChanged(typeId) {
-        this.setState({...this.state, typeId});
-    }
-
-    public render() {
-
-        const { file } = this.props;
-
-        return (
-            <tr>
-                <td>{file.type}</td>
-                <td>{filesize(file.size)}</td>
-                <td>
-                    <FormControl value={this.state.name} placeholder="Name" type="text" onChange={(e) => this.onNameChanged(e.target.value)} />
-                </td>
-                <td>
-                    <Select options={this.props.fileTypes} onChange={this.onTypeIdChanged} />
-                </td>
-                <td>
-                    <Button className="pull-right" variant="primary" size="xsmall" onClick={this.onClickLink}>
-                        <FontAwesome name="link" /> Link
-                    </Button>&nbsp;
-                    <Button className="pull-right" variant="danger" size="xsmall" onClick={() => this.props.deleteFile(this.props.file.id)}>
-                        <FontAwesome name="trash" /> Delete
-                    </Button>
-                </td>
-            </tr>
-      );
-    }
-
+interface Props {
+    fileTypes: any;
+    uploadedFile: UploadedFile;
+    linkFile: (fileId: string, expenseFile: ExpenseFile) => void;
 }
 
-export default ExpenseFileUploadRow;
+export const ExpenseFileUploadRow = ({ fileTypes, uploadedFile, linkFile }: Props) => {
+    const [name, setName] = useState('');
+    const [fileTypeId, setFileTypeId] = useState(fileTypes[0].id);
+
+    return (
+        <tr>
+            <td>{uploadedFile.file.type}</td>
+            <td>{filesize(uploadedFile.file.size)}</td>
+            <td>
+                <FormControl value={name} placeholder="Name" type="text" onChange={e => setName(e.target.value)} />
+            </td>
+            <td>
+                <Select
+                    options={fileTypes}
+                    onChange={id => setFileTypeId(id)}
+                    selected={fileTypeId}
+                />
+            </td>
+            <td>
+                <Button className="pull-right" variant="primary" size="sm" onClick={() => linkFile(uploadedFile.id, { name, typeId: fileTypeId })}>
+                    <FontAwesome name="link" /> Link
+                </Button>&nbsp;
+                <Button className="pull-right" variant="danger" size="sm">
+                    <FontAwesome name="trash" /> Delete
+                </Button>
+            </td>
+        </tr>
+    );
+}

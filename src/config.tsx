@@ -8,7 +8,7 @@ interface ConfigRoot {
 
 export const config: ConfigRoot = {
     api: {
-        url: 'http://api2.anticevic.net/',
+        url: 'https://api2.anticevic.net/',
         // url: "http://localhost:4680/"
     },
 };

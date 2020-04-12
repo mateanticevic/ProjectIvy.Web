@@ -1,11 +1,9 @@
 import React from 'react';
-import { Button, FormControl, Table } from 'react-bootstrap';
-import filesize from 'filesize';
-import FontAwesome from 'react-fontawesome';
+import { Table } from 'react-bootstrap';
 
-import Select from '../../components/Select';
 import { UploadedFile } from 'types/common';
 import { ExpenseFile } from 'types/expenses';
+import { ExpenseFileUploadRow } from './ExpenseFileUploadRow';
 
 interface Props {
   files: UploadedFile[];
@@ -27,24 +25,11 @@ export const ExpenseFileUploadTable = ({ files, fileTypes, deleteFile, linkFile 
     </thead>
     <tbody>
       {files.map(uploadedFile =>
-        <tr>
-          <td>{uploadedFile.file.type}</td>
-          <td>{filesize(uploadedFile.file.size)}</td>
-          <td>
-            <FormControl value={uploadedFile.file.name} placeholder="Name" type="text" />
-          </td>
-          <td>
-            <Select options={fileTypes} onChange={() => {}} />
-          </td>
-          <td>
-            <Button className="pull-right" variant="primary" size="sm" onClick={() => linkFile(uploadedFile.id, { name: '', typeId: fileTypes[0].id })}>
-              <FontAwesome name="link" /> Link
-            </Button>&nbsp;
-            <Button className="pull-right" variant="danger" size="sm">
-              <FontAwesome name="trash" /> Delete
-            </Button>
-          </td>
-        </tr>
+        <ExpenseFileUploadRow
+          fileTypes={fileTypes}
+          linkFile={linkFile}
+          uploadedFile={uploadedFile}
+        />
       )}
     </tbody>
   </Table>;
