@@ -4,7 +4,7 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Moment from 'react-moment';
 import { FaFile, FaImage, FaDownload } from 'react-icons/fa';
 
-const ExpenseFileRow = ({ expenseFile }) => {
+export const ExpenseFileRow = ({ expenseFile }) => {
 
     const fileTypeTooltip = (
         <Tooltip>
@@ -44,5 +44,3 @@ const ExpenseFileRow = ({ expenseFile }) => {
         </tr>
     );
 };
-
-export default ExpenseFileRow;

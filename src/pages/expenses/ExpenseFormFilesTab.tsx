@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 
-import ExpenseFileTable from './ExpenseFileTable';
-import { ExpenseFileUploadTable } from './ExpenseFileUploadTable';
 import { UploadedFile } from 'types/common';
 import { ExpenseFile } from 'types/expenses';
+import { ExpenseFileRow } from './ExpenseFileRow';
+import { ExpenseFileUploadRow } from './ExpenseFileUploadRow';
 
 const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileTypes }) => {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
@@ -41,7 +41,13 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
             {files && files.length > 0 &&
                 <Row>
                     <Col lg={12}>
-                        <ExpenseFileTable files={files} />
+                        <Table responsive>
+                            <tbody>
+                                {files &&
+                                    files.map(expenseFile => <ExpenseFileRow expenseFile={expenseFile} />)
+                                }
+                            </tbody>
+                        </Table>
                     </Col>
                 </Row>
             }
@@ -56,12 +62,17 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
             <Row>
                 <Col lg={12}>
                     {uploadedFiles?.length > 0 &&
-                        <ExpenseFileUploadTable
-                            files={uploadedFiles}
-                            linkFile={onLinkFile}
-                            deleteFile={deleteFile}
-                            fileTypes={fileTypes}
-                        />
+                        <Table responsive>
+                            <tbody>
+                                {uploadedFiles.map(uploadedFile =>
+                                    <ExpenseFileUploadRow
+                                        fileTypes={fileTypes}
+                                        linkFile={linkFile}
+                                        uploadedFile={uploadedFile}
+                                    />
+                                )}
+                            </tbody>
+                        </Table>
                     }
                 </Col>
             </Row>
