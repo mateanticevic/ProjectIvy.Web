@@ -1,12 +1,15 @@
 # stage1 as builder
-FROM node:10.15.3 as builder
+FROM node:14 as builder
 
-COPY . .
+# copy the package.json to install dependencies
+COPY package.json package-lock.json ./
 
 # Install the dependencies and make the folder
-RUN npm install
+RUN npm install && mkdir /build && mv ./node_modules ./build
 
-RUN ls
+WORKDIR /build
+
+COPY . .
 
 # Build the project and copy the files
 RUN npm run build
@@ -21,7 +24,7 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy from the stahg 1
-COPY --from=builder /dist /usr/share/nginx/html
+COPY --from=builder /build/dist /usr/share/nginx/html
 
 EXPOSE 80
 
