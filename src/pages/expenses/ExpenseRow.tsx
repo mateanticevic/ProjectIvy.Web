@@ -48,7 +48,7 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
   const formattedDate = exactDate ? moment(expense.date).format('Do MMMM YYYY') : moment(expense.date).format('dddd');
 
   return (
-    <tr>
+    <tr className={expense.needsReview ? 'warning' : null}>
       <td>{formattedDate}</td>
       <td>
         <ExpenseTypeLabel expenseType={expense.expenseType} />
