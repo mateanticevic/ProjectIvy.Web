@@ -5,8 +5,8 @@ function get(filters) {
     return api.get('beer', filters);
 }
 
-function getBrands() {
-    return api.get('beer/brand');
+function getBrands(filters?) {
+    return api.get('beer/brand', filters ?? {});
 }
 
 function postBrand(name) {

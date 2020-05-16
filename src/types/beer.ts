@@ -12,6 +12,11 @@ export interface Brand {
     countryId: string;
 }
 
+export interface BrandFilters {
+    hasCountry?: boolean;
+    search?: string;
+}
+
 export interface Consumation {
     date: string;
     beerId: string;
