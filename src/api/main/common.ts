@@ -16,11 +16,14 @@ function getBeerServing() {
     return api.get('common/beerServing');
 }
 
+const getBeerStyles = () => api.get('common/beerStyle');
+
 const common = {
     getExpenseFileTypes,
     getPaymentTypes,
     getPoiCategories,
     getBeerServing,
+    getBeerStyles
 };
 
 export default common;

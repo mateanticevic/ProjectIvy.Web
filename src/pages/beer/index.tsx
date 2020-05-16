@@ -5,14 +5,14 @@ import React from 'react';
 import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
 import Moment from 'react-moment';
 
-import { Beer, Brand, Consumation, ConsumationFilters, Serving } from 'types/beer';
+import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
 import api from '../../api/main';
 import { Pagination, RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
 import ConsumationModal from './ConsumationModal';
-import Filters from './Filters';
+import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from '../../consts/groupings';
 
@@ -40,6 +40,7 @@ interface State {
     filters: ConsumationFilters;
     newBeers: any;
     servings: Serving[];
+    styles: Style[];
     sum: number;
     sumByServing: any;
     topBeers: Beer[];
@@ -76,6 +77,7 @@ class BeerPage extends Page<Props, State> {
             items: [],
         },
         servings: [],
+        styles: [],
         sum: 0,
         sumByServing: [],
         topBeers: [],
@@ -91,6 +93,10 @@ class BeerPage extends Page<Props, State> {
                 this.setState({ servings });
                 this.onConsumationChange({ servingId: servings[0].id });
             });
+
+        api.common
+            .getBeerStyles()
+            .then(styles => this.setState({ styles }));
     }
 
     render() {
@@ -119,7 +125,7 @@ class BeerPage extends Page<Props, State> {
             </ListGroup.Item>
         ));
 
-        const { brands, consumations, filters, servings } = this.state;
+        const { brands, consumations, filters, servings, styles } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
 
@@ -138,10 +144,11 @@ class BeerPage extends Page<Props, State> {
                             <Card.Header>Filters</Card.Header>
                             <Card.Body>
                                 <Filters
-                                    filters={filters}
-                                    onChange={this.onFiltersChange}
-                                    servings={servings}
                                     brands={brands}
+                                    filters={filters}
+                                    servings={servings}
+                                    styles={styles}
+                                    onChange={this.onFiltersChange}
                                 />
                             </Card.Body>
                         </Card>
@@ -235,6 +242,7 @@ class BeerPage extends Page<Props, State> {
                 <BeerModal
                     isOpen={this.state.beerModalOpen}
                     brands={brands}
+                    styles={styles}
                     onChange={this.onBeerChange}
                     onClose={() => this.setState({ beerModalOpen: false })}
                     onSave={this.addBeer}

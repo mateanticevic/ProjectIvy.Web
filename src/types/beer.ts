@@ -30,3 +30,8 @@ export interface Serving {
     id: string;
     name: string;
 }
+
+export interface Style {
+    id: string;
+    name: string;
+}
