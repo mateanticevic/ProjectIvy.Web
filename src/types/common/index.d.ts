@@ -36,3 +36,8 @@ export interface UploadedFile {
     id: string;
     file: File;
 }
+
+export interface Country {
+    id: string;
+    name: string;
+}

@@ -9,6 +9,7 @@ export interface Beer {
 export interface Brand {
     id: string;
     name: string;
+    countryId: string;
 }
 
 export interface Consumation {

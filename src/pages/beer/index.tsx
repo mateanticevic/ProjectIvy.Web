@@ -95,8 +95,8 @@ class BeerPage extends Page<Props, State> {
             });
 
         api.common
-            .getBeerStyles()
-            .then(styles => this.setState({ styles }));
+           .getBeerStyles()
+           .then(styles => this.setState({ styles }));
     }
 
     render() {

@@ -18,6 +18,7 @@ import TrackingPage from './pages/tracking';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
+import BeerAdminPage from './pages/beer-admin';
 
 interface State {
   isLoggedIn: boolean;
@@ -60,6 +61,7 @@ export default class Root extends React.Component<{}, State> {
           <Switch>
             <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
             <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
+            <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
             <Route path="/calls" exact component={CallsPage} />
             <Route path="/car/:id" exact component={CarDetailsPage} />
             <Route path="/expenses" exact component={ExpensesPage} />
