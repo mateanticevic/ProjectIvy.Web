@@ -1,30 +1,67 @@
 import React from 'react';
-import { Container, Card, Tab, Table, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { Container, Card, Table, ToggleButtonGroup, ToggleButton, InputGroup, FormControl } from 'react-bootstrap';
 
 import { Page } from '../Page';
 import api from '../../api/main';
-import { Brand, BrandFilters } from 'types/beer';
+import { Brand, BrandFilters, Beer, Style } from 'types/beer';
 import { Country } from 'types/common';
-import { Select } from '../../components';
+import { Select, Pagination } from '../../components';
 
 interface State {
+    beerFilters: any;
+    beers: Beer[];
     brands: Brand[];
     brandFilters: BrandFilters;
     countries: Country[];
+    styles: Style[];
 }
 
 class BeerAdminPage extends Page<{}, State> {
     state: State = {
+        beerFilters: {
+            page: 1,
+            pageSize: 10,
+        },
+        beers: [],
         brands: [],
         brandFilters: {},
         countries: [],
+        styles: [],
     }
 
     componentDidMount() {
         this.onBrandFiltersChange();
+        this.onBeerFiltersChange();
+
         api.country
             .getAll()
             .then(paged => this.setState({ countries: paged.items }));
+
+        api.common
+            .getBeerStyles()
+            .then(styles => this.setState({ styles }));
+    }
+
+    onBeerChange(beer: Beer, update: Partial<Beer>) {
+        const updated = {
+            ...beer,
+            ...update,
+        };
+        api.beer
+            .putBeer(beer.id, updated)
+            .then();
+    }
+
+    onBeerFiltersChange(filter?: any) {
+        const beerFilters = {
+            ...this.state.beerFilters,
+            ...filter,
+        }
+        this.setState({ beerFilters });
+
+        api.beer
+            .get(beerFilters)
+            .then(paged => this.setState({ beers: paged.items }));
     }
 
     onBrandChange(brand: Brand, update: Partial<Brand>) {
@@ -46,15 +83,15 @@ class BeerAdminPage extends Page<{}, State> {
 
         api.beer
             .getBrands(brandFilters)
-            .then(brands => this.setState({ brands: brands.slice(0,10) }));
+            .then(brands => this.setState({ brands: brands.slice(0, 10) }));
     }
 
     render() {
-        const { brands, brandFilters, countries } = this.state;
+        const { beerFilters, beers, brands, brandFilters, countries, styles } = this.state;
         return (
             <Container>
                 <Card>
-                    <Card.Header>Brands</Card.Header>
+                    <Card.Header>Brands ({brands.length})</Card.Header>
                     <Card.Body>
                         <Table>
                             {brands.map(brand =>
@@ -85,6 +122,42 @@ class BeerAdminPage extends Page<{}, State> {
                             <ToggleButton value="false">No</ToggleButton>
                         </ToggleButtonGroup>
                     </Card.Footer>
+                </Card>
+                <Card>
+                    <Card.Header>Beers</Card.Header>
+                    <Card.Body>
+                        <Table>
+                            {beers.map(beer =>
+                                <tr key={beer.id}>
+                                    <td>{beer.name}</td>
+                                    <td>
+                                        <InputGroup>
+                                            <FormControl
+                                                type="number"
+                                                value={beer.abv}
+                                                onChange={x => this.onBeerChange(beer, { abv: x.target.value })}
+                                            />
+                                            <InputGroup.Append>
+                                                <InputGroup.Text>‰</InputGroup.Text>
+                                            </InputGroup.Append>
+                                        </InputGroup>
+                                    </td>
+                                    <td>
+                                        <Select
+                                            onChange={styleId => this.onBeerChange(beer, { styleId })}
+                                            options={styles}
+                                            selected={beer.style?.id}
+                                        />
+                                    </td>
+                                </tr>
+                            )}
+                        </Table>
+                        <Pagination
+                            page={beerFilters.page}
+                            pages={beerFilters.pages}
+                            onPageChange={page => this.onBeerFiltersChange({ page })}
+                        />
+                    </Card.Body>
                 </Card>
             </Container>
         );

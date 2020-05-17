@@ -1,5 +1,5 @@
 import * as api from '../config';
-import { Brand } from 'types/beer';
+import { Brand, Beer } from 'types/beer';
 
 function get(filters) {
     return api.get('beer', filters);
@@ -17,6 +17,8 @@ function postBeer(brandId, beer) {
     return api.post(`beer/brand/${brandId}/beer`, beer);
 }
 
+const putBeer = (beerId: string, beer: Beer) => api.put(`beer/${beerId}`, beer);
+
 const putBrand = (brandId: string, brand: Brand) => api.put(`beer/brand/${brandId}`, brand);
 
 const beer = {
@@ -24,6 +26,7 @@ const beer = {
     getBrands,
     postBrand,
     postBeer,
+    putBeer,
     putBrand,
 };
 

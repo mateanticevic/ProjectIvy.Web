@@ -4,6 +4,8 @@ export interface Beer {
     abv: number;
     brandId: string;
     id: string;
+    styleId?: string;
+    style?: Style;
 }
 
 export interface Brand {
