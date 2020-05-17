@@ -9,7 +9,7 @@ import { Select, Pagination } from '../../components';
 
 interface State {
     beerFilters: any;
-    beers: Beer[];
+    beers: any;
     brands: Brand[];
     brandFilters: BrandFilters;
     countries: Country[];
@@ -22,7 +22,10 @@ class BeerAdminPage extends Page<{}, State> {
             page: 1,
             pageSize: 10,
         },
-        beers: [],
+        beers: {
+            count: 0,
+            items: [],
+        },
         brands: [],
         brandFilters: {},
         countries: [],
@@ -61,7 +64,7 @@ class BeerAdminPage extends Page<{}, State> {
 
         api.beer
             .get(beerFilters)
-            .then(paged => this.setState({ beers: paged.items }));
+            .then(beers => this.setState({ beers }));
     }
 
     onBrandChange(brand: Brand, update: Partial<Brand>) {
@@ -96,7 +99,13 @@ class BeerAdminPage extends Page<{}, State> {
                         <Table>
                             {brands.map(brand =>
                                 <tr key={brand.id}>
-                                    <td>{brand.name}</td>
+                                    <td>
+                                        <FormControl
+                                            type="text"
+                                            defaultValue={brand.name}
+                                            onChange={x => this.onBrandChange(brand, { name: x.target.value })}
+                                        />
+                                    </td>
                                     <td>
                                         <Select
                                             onChange={countryId => this.onBrandChange(brand, { countryId })}
@@ -124,12 +133,18 @@ class BeerAdminPage extends Page<{}, State> {
                     </Card.Footer>
                 </Card>
                 <Card>
-                    <Card.Header>Beers</Card.Header>
+                    <Card.Header>Beers ({beers.count})</Card.Header>
                     <Card.Body>
                         <Table>
-                            {beers.map(beer =>
+                            {beers.items.map(beer =>
                                 <tr key={beer.id}>
-                                    <td>{beer.name}</td>
+                                    <td>
+                                        <FormControl
+                                            type="text"
+                                            defaultValue={beer.name}
+                                            onChange={x => this.onBeerChange(beer, { name: x.target.value })}
+                                        />
+                                    </td>
                                     <td>
                                         <InputGroup>
                                             <FormControl
