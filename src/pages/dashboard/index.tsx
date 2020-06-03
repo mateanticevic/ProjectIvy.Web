@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Row, Tooltip } from 'react-bootstrap';
+import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Row, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
 import Moment from 'react-moment';
 
@@ -28,7 +28,6 @@ class DashboardPage extends React.Component<Props> {
       today: 0,
       week: 0,
     },
-    location: { lat: 0, lng: 0, timestamp: moment() },
     movies: [],
     onlineGraphData: [],
     spent: {
@@ -106,14 +105,19 @@ class DashboardPage extends React.Component<Props> {
     return (
       <Container>
         <div className="flex-grid">
-          {user.modules.includes(Module.Tracking) &&
+          {user.modules.includes(Module.Tracking) && location &&
             <div className="flex-grid-item">
               <Card>
                 <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
                 <Card.Body className="panel-medium padding-0">
-                  <Map defaultZoom={15} defaultCenter={{ lat: location.lat, lng: location.lng }}>
-                    <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
-                  </Map>
+                  {location &&
+                    <Map
+                      defaultCenter={{ lat: location.lat, lng: location.lng }}
+                      defaultZoom={15}
+                    >
+                      <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
+                    </Map>
+                  }
                 </Card.Body>
               </Card>
             </div>
