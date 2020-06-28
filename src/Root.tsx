@@ -32,16 +32,18 @@ export default class Root extends React.Component<{}, State> {
 
   public state: State = {
     isLoggedIn: false,
-    showToast: true,
-    user: undefined,
+    showToast: false,
   };
 
   public componentWillMount() {
-    const isLoggedIn = window.localStorage.getItem('token') != undefined;
+    const isLoggedIn = !!window.localStorage.getItem('token');
 
     if (isLoggedIn) {
       api.user.get().then(user => this.setState({ user }));
       this.setState({ isLoggedIn });
+    }
+    else if (window.location.pathname !== '/login') {
+      window.location.assign('/login');
     }
   }
 
@@ -49,8 +51,6 @@ export default class Root extends React.Component<{}, State> {
     if (this.state.isLoggedIn && !this.state.user) {
       return null;
     }
-
-    console.log(this.state.user);
 
     return (
       <BrowserRouter>
