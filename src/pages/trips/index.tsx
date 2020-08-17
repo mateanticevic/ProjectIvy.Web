@@ -163,7 +163,12 @@ class TripsPage extends Page<{}, State> {
             <Card>
               <Card.Header>Countries ({countriesVisited.length})</Card.Header>
               <Card.Body className="panel-countries">
-                {countriesVisited.map(country => <FlagIcon code={country.id} country={country.name} className="country-flag" />)}
+                {countriesVisited.map((country, index) => <FlagIcon
+                  code={country.id}
+                  country={country.name}
+                  className="country-flag"
+                  title={`#${index + 1} ${country.name}`}
+                />)}
               </Card.Body>
             </Card>
           </Col>
