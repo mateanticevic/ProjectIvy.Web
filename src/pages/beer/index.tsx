@@ -379,7 +379,7 @@ class BeerPage extends Page<Props, State> {
             .then(beerCount => this.setState({ beerCount }));
 
         api.consumation
-            .getCountBeer(statsFilters)
+            .getCountBrand(statsFilters)
             .then(brandCount => this.setState({ brandCount }));
 
         api.consumation
