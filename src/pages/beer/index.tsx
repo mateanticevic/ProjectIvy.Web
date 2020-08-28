@@ -3,7 +3,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
-import Moment from 'react-moment';
 
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
 import api from '../../api/main';
@@ -107,7 +106,7 @@ class BeerPage extends Page<Props, State> {
         ];
 
         const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
-            <td><Moment format="Do MMMM YYYY">{consumation.date}</Moment></td>
+            <td>{moment(consumation.date).format('Do MMMM YYYY')}</td>
             <td>{consumation.beer.name}</td>
             <td>{consumation.serving}</td>
             <td>{consumation.volume / 1000}L</td>

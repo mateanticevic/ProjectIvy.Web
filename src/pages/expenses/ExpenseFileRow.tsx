@@ -1,8 +1,8 @@
 import filesize from 'filesize';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import Moment from 'react-moment';
 import { FaFile, FaImage, FaDownload } from 'react-icons/fa';
+import moment from 'moment';
 
 export const ExpenseFileRow = ({ expenseFile }) => {
 
@@ -23,7 +23,7 @@ export const ExpenseFileRow = ({ expenseFile }) => {
 
     return (
         <tr>
-            <td><Moment format="Do MMMM YYYY">{expenseFile.file.created}</Moment></td>
+            <td>{moment(expenseFile.file.created).format('Do MMMM YYYY')}</td>
             <td>{filesize(expenseFile.file.size)}</td>
             <td>
                 <OverlayTrigger placement="right" overlay={fileTypeTooltip}>

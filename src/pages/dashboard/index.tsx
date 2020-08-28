@@ -4,7 +4,6 @@ import moment from 'moment';
 import React from 'react';
 import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Row, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
-import Moment from 'react-moment';
 
 import api from '../../api/main';
 import { Map, ValueLabel } from '../../components';
@@ -39,7 +38,6 @@ class DashboardPage extends React.Component<Props> {
   };
 
   componentDidMount() {
-    console.log("dash");
     const lastFiveFilters = {
       pageSize: 5,
     };
@@ -213,11 +211,17 @@ class DashboardPage extends React.Component<Props> {
   private dayOfWeek(date) {
     const fullDate = (
       <Tooltip id="tooltip">
-        <Moment format="Do MMMM YYYY">{date}</Moment>
+        {moment(date).format('Do MMMM YYYY')}
       </Tooltip>
     );
 
-    return <OverlayTrigger placement="top" overlay={fullDate}><Badge variant="primary"><Moment format="ddd">{date}</Moment></Badge></OverlayTrigger>;
+    return (
+      <OverlayTrigger placement="top" overlay={fullDate}>
+        <Badge variant="primary">
+          {moment(date).format('ddd')}
+        </Badge>
+      </OverlayTrigger>
+    );
   }
 }
 

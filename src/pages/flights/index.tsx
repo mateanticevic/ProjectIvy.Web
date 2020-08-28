@@ -4,7 +4,7 @@ import React from 'react';
 import { FormCheck, Col, Container, Badge, ListGroup, ListGroupItem, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
-import Moment from 'react-moment';
+import moment from 'moment';
 
 import api from '../../api/main';
 import { DateFormElement, Map } from '../../components';
@@ -46,7 +46,7 @@ class FlightsPage extends Page<{}, State> {
             <Badge variant="primary" title={flight.origin.name}>{flight.origin.iata}</Badge>&nbsp;
             <FontAwesome name="long-arrow-right" />&nbsp;
             <Badge variant="primary" title={flight.destination.name}>{flight.destination.iata}</Badge>
-            <Moment className="pull-right" format="Do MMMM YYYY">{flight.departure}</Moment>
+            <div className="pull-right" format="Do MMMM YYYY">{moment(flight.departure).format('Do MMMM YYYY')}</div>
         </ListGroupItem>);
 
         return (

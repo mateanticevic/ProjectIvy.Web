@@ -1,7 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, Container, Card, Row, Table } from 'react-bootstrap';
-import Moment from 'react-moment';
+import moment from 'moment';
 
 import { Call } from 'types/calls';
 import api from '../../api/main';
@@ -110,7 +110,7 @@ export default class CallsPage extends Page<{}, State> {
     private renderCalls() {
 
         return this.state.calls.items.map(call => (<tr>
-            <td><Moment format="Do MMMM YYYY HH:mm:ss">{call.timestamp}</Moment></td>
+            <td>{moment(call.timestamp).format('Do MMMM YYYY HH:mm:ss')}</td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
             <td>{formatHelper.time(call.duration)}</td>
             <td>
