@@ -12,8 +12,13 @@ const NavigationBar = ({ user }: Props) => {
   const { firstName, lastName } = user || {};
 
   return (
-    <Navbar fixed="top" collapseOnSelect>
-      <Navbar.Brand href="/">ProjectIvy</Navbar.Brand>
+    <Navbar
+      bg="white"
+      collapseOnSelect
+      expand="lg"
+      fixed="top"
+    >
+      <Navbar.Brand href="/">Project Ivy</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav" >
         <Nav className="mr-auto">
