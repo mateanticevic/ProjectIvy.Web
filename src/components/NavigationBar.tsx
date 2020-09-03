@@ -26,7 +26,7 @@ const NavigationBar = ({ user }: Props) => {
             <NavDropdown.Item href="/expenses">Expenses</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown id="nav-dropdown-travel" title="Travel">
-            <NavDropdown.Item href="/flights">Expenses</NavDropdown.Item>
+            <NavDropdown.Item href="/flights">Flights</NavDropdown.Item>
             <NavDropdown.Item href="/pois">Pois</NavDropdown.Item>
             <NavDropdown.Item href="/tracking">Tracking</NavDropdown.Item>
             <NavDropdown.Item href="/trips">Trips</NavDropdown.Item>
