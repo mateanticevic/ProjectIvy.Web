@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
+import { FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import AsyncSelect from 'react-select/async';
@@ -61,7 +61,11 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Serving</FormLabel>
-                    <Select options={servings} hideDefaultOption={true} onChange={servingId => onChange({ servingId })} />
+                    <Select
+                        options={servings}
+                        hideDefaultOption={true}
+                        onChange={servingId => onChange({ servingId })}
+                    />
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Volume</FormLabel>

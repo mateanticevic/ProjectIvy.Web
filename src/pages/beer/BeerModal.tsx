@@ -3,7 +3,6 @@ import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 're
 import FontAwesome from 'react-fontawesome';
 
 import Select from '../../components/Select';
-import { FaDiscord } from 'react-icons/fa';
 
 const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
 
