@@ -8,11 +8,13 @@ import { FaCalendar } from 'react-icons/fa';
 import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from '../../components/Select';
 import { beerLoader } from '../../utils/selectLoaders';
+import ButtonWithSpinner from '../../components/ButtonWithSpinner';
 
 interface Props {
     beers: Beer[];
     brands: Brand[];
     consumation: Consumation;
+    disabled: boolean;
     isOpen: boolean;
     servings: Serving[];
     onBrandChange(brandId: string): void;
@@ -21,7 +23,7 @@ interface Props {
     onSave(): void;
 }
 
-const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, servings }: Props) => {
+const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, onSave, servings }: Props) => {
 
     return (
         <Modal
@@ -64,7 +66,11 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                 <FormGroup>
                     <FormLabel>Volume</FormLabel>
                     <InputGroup>
-                        <FormControl type="number" onChange={x => onChange({ volume: x.target.value })} />
+                        <FormControl
+                            disabled={disabled}
+                            type="number"
+                            onChange={x => onChange({ volume: x.target.value })}
+                        />
                         <InputGroup.Append>
                             <InputGroup.Text>ml</InputGroup.Text>
                         </InputGroup.Append>
@@ -72,13 +78,20 @@ const ConsumationModal = ({ consumation, isOpen, onChange, onClose, onSave, serv
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Units</FormLabel>
-                    <FormControl type="number" onChange={x => onChange({ units: x.target.value })} />
+                    <FormControl
+                        disabled={disabled}
+                        type="number"
+                        onChange={x => onChange({ units: x.target.value })}
+                    />
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block variant="primary" onClick={onSave}>
+                <ButtonWithSpinner
+                    isLoading={disabled}
+                    onClick={onSave}
+                >
                     <FontAwesome name="save" /> Save
-            </Button>
+                </ButtonWithSpinner>
             </Modal.Footer>
         </Modal>
     );

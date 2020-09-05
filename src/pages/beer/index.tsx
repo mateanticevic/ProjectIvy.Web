@@ -28,6 +28,7 @@ interface State {
     brands: Brand[];
     beerModalOpen: boolean;
     brandModalOpen: boolean;
+    callOngoing: boolean;
     chartCountData: any;
     consumationModalOpen: boolean;
     consumation: Consumation;
@@ -56,6 +57,7 @@ class BeerPage extends Page<Props, State> {
         brands: [],
         beerModalOpen: false,
         brandModalOpen: false,
+        callOngoing: false,
         chartCountData: [],
         consumationModalOpen: false,
         consumation: {
@@ -124,7 +126,7 @@ class BeerPage extends Page<Props, State> {
             </ListGroup.Item>
         ));
 
-        const { brands, consumations, filters, servings, styles } = this.state;
+        const { brands, callOngoing, consumations, filters, servings, styles } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
 
@@ -231,8 +233,9 @@ class BeerPage extends Page<Props, State> {
                     brands={this.state.brands}
                     beers={this.state.beers}
                     consumation={this.state.consumation}
-                    servings={this.state.servings}
+                    disabled={callOngoing}
                     isOpen={this.state.consumationModalOpen}
+                    servings={this.state.servings}
                     onBrandChange={this.onConsumationBrandChange}
                     onChange={this.onConsumationChange}
                     onClose={() => this.setState({ consumationModalOpen: false })}
@@ -278,11 +281,15 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     private addConsumation() {
+        this.setState({callOngoing: true});
         api.consumation
             .post(this.state.consumation)
             .then(() => {
                 this.onFiltersChange();
-                this.setState({ consumationModalOpen: false });
+                this.setState({
+                    callOngoing: false,
+                    consumationModalOpen: false,
+                });
                 this.props.toast('Success', 'Consumation addeed');
             });
     }

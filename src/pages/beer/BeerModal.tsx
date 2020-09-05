@@ -3,8 +3,9 @@ import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 're
 import FontAwesome from 'react-fontawesome';
 
 import Select from '../../components/Select';
+import { FaDiscord } from 'react-icons/fa';
 
-const BeerModal = ({brands, isOpen, styles, onChange, onClose, onSave}) => {
+const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
 
     return (
         <Modal
@@ -19,7 +20,10 @@ const BeerModal = ({brands, isOpen, styles, onChange, onClose, onSave}) => {
             <Modal.Body>
                 <FormGroup>
                     <FormLabel>Name</FormLabel>
-                    <FormControl type="text" onChange={x => onChange({ name: x.target.value })} />
+                    <FormControl
+                        type="text"
+                        onChange={x => onChange({ name: x.target.value })}
+                    />
                 </FormGroup>
                 <FormGroup>
                     <FormLabel>Brand</FormLabel>
