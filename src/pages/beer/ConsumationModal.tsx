@@ -9,6 +9,7 @@ import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from '../../components/Select';
 import { beerLoader } from '../../utils/selectLoaders';
 import ButtonWithSpinner from '../../components/ButtonWithSpinner';
+import moment from 'moment';
 
 interface Props {
     beers: Beer[];
@@ -17,7 +18,6 @@ interface Props {
     disabled: boolean;
     isOpen: boolean;
     servings: Serving[];
-    onBrandChange(brandId: string): void;
     onChange(beerValue: Partial<Consumation>): void;
     onClose(): void;
     onSave(): void;
@@ -41,7 +41,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                     <InputGroup>
                         <Datetime
                             dateFormat="YYYY-MM-DD"
-                            onChange={x => onChange({ date: x.format('YYYY-MM-DD') })}
+                            onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
                         <InputGroup.Append>
@@ -73,7 +73,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                         <FormControl
                             disabled={disabled}
                             type="number"
-                            onChange={x => onChange({ volume: x.target.value })}
+                            onChange={x => onChange({ volume: parseInt(x.target.value) })}
                         />
                         <InputGroup.Append>
                             <InputGroup.Text>ml</InputGroup.Text>
@@ -85,7 +85,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                     <FormControl
                         disabled={disabled}
                         type="number"
-                        onChange={x => onChange({ units: x.target.value })}
+                        onChange={x => onChange({ units: parseInt(x.target.value) })}
                     />
                 </FormGroup>
             </Modal.Body>
@@ -102,6 +102,3 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
 };
 
 export default ConsumationModal;
-
-ConsumationModal.propTypes = {
-};

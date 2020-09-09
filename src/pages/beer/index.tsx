@@ -60,9 +60,7 @@ class BeerPage extends Page<Props, State> {
         callOngoing: false,
         chartCountData: [],
         consumationModalOpen: false,
-        consumation: {
-            date: moment().format('YYYY-MM-DD'),
-        },
+        consumation: {},
         consumations: {
             count: 0,
             items: [],
@@ -70,8 +68,6 @@ class BeerPage extends Page<Props, State> {
         countBy: GroupByTime.ByMonthOfYear,
         filters: {
             from: moment().month(0).date(1).format('YYYY-MM-DD'),
-            page: 1,
-            pageSize: 10,
         },
         newBeers: {
             count: 0,
@@ -96,8 +92,8 @@ class BeerPage extends Page<Props, State> {
             });
 
         api.common
-           .getBeerStyles()
-           .then(styles => this.setState({ styles }));
+            .getBeerStyles()
+            .then(styles => this.setState({ styles }));
     }
 
     render() {
@@ -236,7 +232,6 @@ class BeerPage extends Page<Props, State> {
                     disabled={callOngoing}
                     isOpen={this.state.consumationModalOpen}
                     servings={this.state.servings}
-                    onBrandChange={this.onConsumationBrandChange}
                     onChange={this.onConsumationChange}
                     onClose={() => this.setState({ consumationModalOpen: false })}
                     onSave={this.addConsumation}
@@ -281,7 +276,7 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     private addConsumation() {
-        this.setState({callOngoing: true});
+        this.setState({ callOngoing: true });
         api.consumation
             .post(this.state.consumation)
             .then(() => {
@@ -333,8 +328,6 @@ class BeerPage extends Page<Props, State> {
 
     @boundMethod
     private onCountByClick(groupBy?: GroupByTime) {
-        let apiMethod;
-
         if (groupBy) {
             this.setState({ countBy: groupBy });
         }
@@ -342,6 +335,7 @@ class BeerPage extends Page<Props, State> {
             groupBy = this.state.countBy;
         }
 
+        let apiMethod;
         switch (groupBy) {
             case GroupByTime.ByYear:
                 apiMethod = api.consumation.getCountByYear;
@@ -402,7 +396,7 @@ class BeerPage extends Page<Props, State> {
 
         api.consumation
             .getSumByServing(filters)
-            .then(data => this.setState({ sumByServing: data.items.map(x => ({ name: x.by.name, value: x.sum }))}));
+            .then(data => this.setState({ sumByServing: data.items.map(x => ({ name: x.by.name, value: x.sum })) }));
     }
 }
 
