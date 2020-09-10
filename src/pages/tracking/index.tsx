@@ -16,6 +16,7 @@ import { GroupByTime } from '../../consts/groupings';
 import { Page } from '../Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
+import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 
 interface State {
     altitudeChartData?: any;
@@ -23,6 +24,7 @@ interface State {
     datesInsideRectangleChartData?: any;
     filters: any;
     groupDatesInsideRectangle: GroupByTime;
+    heatMapData?: any;
     lastTracking?: any;
     mapMode: MapMode;
     movements: Movement[];
@@ -31,11 +33,12 @@ interface State {
 
 enum MapMode {
     Move = 'Move',
-    Select = 'Select',
+    DaysInRectanlge = 'Select',
+    HeatmapInRectangle = 'HeatmapInRectangle',
+    TrackingsInRectangle = 'TrackingsInRectangle',
 }
 
 class TrackingPage extends Page<{}, State> {
-
     colors = [
         '#000000',
         '#ff0000',
@@ -74,7 +77,7 @@ class TrackingPage extends Page<{}, State> {
                             <Card.Body className="padding-0 panel-large">
                                 <Map defaultZoom={12} defaultCenter={{ lat: 45.798894, lng: 15.908531 }}>
                                     {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
-                                    {this.state.mapMode === MapMode.Select &&
+                                    {this.state.mapMode !== MapMode.Move &&
                                         <DrawingManager
                                             defaultDrawingMode={google.maps.drawing.OverlayType.RECTANGLE}
                                             onRectangleComplete={this.onSelectComplete}
@@ -86,12 +89,17 @@ class TrackingPage extends Page<{}, State> {
                                             title={`Location at ${this.state.lastTracking.timestamp}`}
                                         />
                                     }
+                                    {this.state.heatMapData &&
+                                        <HeatmapLayer data={this.state.heatMapData} />
+                                    }
                                 </Map>
                             </Card.Body>
                             <Card.Footer className="flex-container">
                                 <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={mapMode => this.setState({ mapMode })}>
                                     <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
-                                    <ToggleButton value={MapMode.Select}><FontAwesome name="square-o" /> Select</ToggleButton>
+                                    <ToggleButton value={MapMode.DaysInRectanlge}><FontAwesome name="calendar" /> Days</ToggleButton>
+                                    <ToggleButton value={MapMode.TrackingsInRectangle}><FontAwesome name="calendar" /> Movement</ToggleButton>
+                                    <ToggleButton value={MapMode.HeatmapInRectangle}><FontAwesome name="map-o" /> Heatmap</ToggleButton>
                                 </ToggleButtonGroup>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
@@ -170,6 +178,27 @@ class TrackingPage extends Page<{}, State> {
                 </Row>
             </Container>
         );
+    }
+
+    private drawHeatmap(trackings) {
+        this.setState({
+            heatMapData: trackings.map(x => new google.maps.LatLng(x.lat, x.lng))
+        });
+    }
+
+    private drawMovements(trackings) {
+        this.setState({
+            movements: [
+                ...this.state.movements,
+                {
+                    id: 'what',
+                    trackings,
+                    day: 'what',
+                    distance: 20,
+                    color: this.colors[0],
+                }
+            ],
+        })
     }
 
     private loadCharts(movementId: string) {
@@ -266,6 +295,21 @@ class TrackingPage extends Page<{}, State> {
         };
 
         rectangle.setMap(null);
+
+        const { mapMode } = this.state;
+
+        api.tracking
+            .get(filters)
+            .then(trackings => {
+                if (mapMode === MapMode.TrackingsInRectangle){
+                    this.drawMovements(trackings);
+                }
+                if (mapMode === MapMode.HeatmapInRectangle) {
+                    this.drawHeatmap(trackings);
+                }
+            });
+
+        return;
 
         api.tracking
             .getDays(filters)
