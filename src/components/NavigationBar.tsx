@@ -1,5 +1,12 @@
 import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { AiOutlineCheckSquare } from 'react-icons/ai';
+import { FaCarSide, FaDollarSign } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
+import { IoMdAirplane } from 'react-icons/io';
+import { MdCall, MdMyLocation } from 'react-icons/md';
+import { RiAccountCircleLine } from 'react-icons/ri';
+import { TiBeer, TiLocation } from 'react-icons/ti';
 
 import { User } from 'types/users';
 
@@ -23,25 +30,25 @@ const NavigationBar = ({ user }: Props) => {
       <Navbar.Collapse id="basic-navbar-nav" >
         <Nav className="mr-auto">
           <NavDropdown id="nav-dropdown-finance" title="Finance">
-            <NavDropdown.Item href="/expenses">Expenses</NavDropdown.Item>
+            <NavDropdown.Item href="/expenses"><FaDollarSign /> Expenses</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown id="nav-dropdown-travel" title="Travel">
-            <NavDropdown.Item href="/flights">Flights</NavDropdown.Item>
-            <NavDropdown.Item href="/pois">Pois</NavDropdown.Item>
-            <NavDropdown.Item href="/tracking">Tracking</NavDropdown.Item>
-            <NavDropdown.Item href="/trips">Trips</NavDropdown.Item>
+            <NavDropdown.Item href="/flights"><IoMdAirplane /> Flights</NavDropdown.Item>
+            <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
+            <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
+            <NavDropdown.Item href="/trips"><FaCarSide /> Trips</NavDropdown.Item>
           </NavDropdown>
           <NavDropdown id="nav-dropdown-other" title="Other">
-            <NavDropdown.Item href="/beer">Beer</NavDropdown.Item>
-            <NavDropdown.Item href="/calls">Calls</NavDropdown.Item>
-            <NavDropdown.Item href="/todos">To Do</NavDropdown.Item>
+            <NavDropdown.Item href="/beer"><TiBeer /> Beer</NavDropdown.Item>
+            <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
+            <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
           </NavDropdown>
         </Nav>
         <Nav>
           <NavDropdown id="nav-dropdown-account" title={`${firstName} ${lastName}`}>
-            <NavDropdown.Item href="/">My account</NavDropdown.Item>
+            <NavDropdown.Item href="/"><RiAccountCircleLine /> My account</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="/login?logout">Logout</NavDropdown.Item>
+            <NavDropdown.Item href="/login?logout"><FiLogOut /> Logout</NavDropdown.Item>
           </NavDropdown>
         </Nav>
       </Navbar.Collapse>
