@@ -6,7 +6,7 @@ import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dro
 
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
 import api from '../../api/main';
-import { FlagIcon, FlagIcon, Pagination, RadioLabel, SimpleBarChart } from '../../components';
+import { FlagIcon, Pagination, RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
@@ -16,6 +16,7 @@ import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from '../../consts/groupings';
 import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
+import { ServingIcon } from './ServingIcon';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -116,7 +117,7 @@ class BeerPage extends Page<Props, State> {
         const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
             <td>{moment(consumation.date).format('Do MMMM YYYY')}</td>
             <td>{consumation.beer.name}</td>
-            <td>{consumation.serving}</td>
+            <td><ServingIcon serving={consumation.serving} /></td>
             <td>{consumation.volume / 1000}L</td>
         </tr>);
 
