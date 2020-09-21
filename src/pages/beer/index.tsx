@@ -6,7 +6,7 @@ import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dro
 
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
 import api from '../../api/main';
-import { Pagination, RadioLabel, SimpleBarChart } from '../../components';
+import { FlagIcon, FlagIcon, Pagination, RadioLabel, SimpleBarChart } from '../../components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
@@ -15,6 +15,7 @@ import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from '../../consts/groupings';
 import { Country } from 'types/common';
+import { VolumeBadge } from './VolumeBadge';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -44,6 +45,7 @@ interface State {
     servings: Serving[];
     styles: Style[];
     sum: number;
+    sumByCountry: any;
     sumByServing: any;
     topBeers: Beer[];
 }
@@ -79,6 +81,7 @@ class BeerPage extends Page<Props, State> {
         servings: [],
         styles: [],
         sum: 0,
+        sumByCountry: [],
         sumByServing: [],
         topBeers: [],
     };
@@ -116,18 +119,6 @@ class BeerPage extends Page<Props, State> {
             <td>{consumation.serving}</td>
             <td>{consumation.volume / 1000}L</td>
         </tr>);
-
-        const topBeers = this.state.topBeers.map(beer => (
-            <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                {beer.by.name} <span className="pull-right"><Badge variant="primary" title={`${beer.sum / 1000}L`}>{Math.ceil(beer.sum / 1000)}L</Badge></span>
-            </ListGroup.Item>
-        ));
-
-        const newBeers = this.state.newBeers.items.map(beer => (
-            <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                {beer.name}
-            </ListGroup.Item>
-        ));
 
         const { brands, countries, callOngoing, consumations, filters, servings, styles } = this.state;
 
@@ -216,13 +207,35 @@ class BeerPage extends Page<Props, State> {
                         <Card>
                             <Card.Header>Top Beers</Card.Header>
                             <ListGroup>
-                                {topBeers}
+                                {this.state.topBeers.map(beer =>
+                                    <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                        {beer.by.name} <span className="pull-right"><VolumeBadge volume={beer.sum} /></span>
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card>
                         <Card>
                             <Card.Header>New Beers ({this.state.newBeers.count})</Card.Header>
                             <ListGroup>
-                                {newBeers}
+                                {this.state.newBeers.items.map(beer =>
+                                    <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                        {beer.name}
+                                    </ListGroup.Item>
+                                )}
+                            </ListGroup>
+                        </Card>
+                        <Card>
+                            <Card.Header>Top Countries</Card.Header>
+                            <ListGroup>
+                                {this.state.sumByCountry.map(country =>
+                                    <ListGroup.Item key={_.uniqueId('list_item_top_country_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                        <FlagIcon
+                                            code={country.by.id}
+                                            country={country.by.name}
+                                        />
+                                        &nbsp;{country.by.name} <span className="pull-right"><VolumeBadge volume={country.sum} /></span>
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
                         </Card>
                         <Card>
@@ -405,6 +418,10 @@ class BeerPage extends Page<Props, State> {
         api.consumation
             .getSumByServing(filters)
             .then(data => this.setState({ sumByServing: data.items.map(x => ({ name: x.by.name, value: x.sum })) }));
+
+        api.consumation
+            .getSumByCountry(statsFilters)
+            .then(countries => this.setState({ sumByCountry: countries.items }))
     }
 }
 
