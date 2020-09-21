@@ -14,6 +14,7 @@ import ConsumationModal from './ConsumationModal';
 import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from '../../consts/groupings';
+import { Country } from 'types/common';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -37,6 +38,7 @@ interface State {
         items: Consumation[],
     };
     countBy: GroupByTime;
+    countries: Country[];
     filters: ConsumationFilters;
     newBeers: any;
     servings: Serving[];
@@ -66,6 +68,7 @@ class BeerPage extends Page<Props, State> {
             items: [],
         },
         countBy: GroupByTime.ByMonthOfYear,
+        countries: [],
         filters: {
             from: moment().month(0).date(1).format('YYYY-MM-DD'),
         },
@@ -83,6 +86,10 @@ class BeerPage extends Page<Props, State> {
     componentDidMount() {
         this.onFiltersChange();
         this.loadBrands();
+
+        api.country
+            .getAll()
+            .then(response => this.setState({ countries: response.items }));
 
         api.common
             .getBeerServing()
@@ -122,7 +129,7 @@ class BeerPage extends Page<Props, State> {
             </ListGroup.Item>
         ));
 
-        const { brands, callOngoing, consumations, filters, servings, styles } = this.state;
+        const { brands, countries, callOngoing, consumations, filters, servings, styles } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
 
@@ -142,6 +149,7 @@ class BeerPage extends Page<Props, State> {
                             <Card.Body>
                                 <Filters
                                     brands={brands}
+                                    countries={countries}
                                     filters={filters}
                                     servings={servings}
                                     styles={styles}

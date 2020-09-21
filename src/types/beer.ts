@@ -39,7 +39,7 @@ export type ConsumationFilters = PagingFilters & {
     to?: string,
     beerId?: string[],
     brandId?: string,
-    countryId?: string[],
+    countryId?: string,
     servingId?: string,
     styleId?: string[],
 };

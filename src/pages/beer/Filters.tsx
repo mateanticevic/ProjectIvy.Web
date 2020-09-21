@@ -6,16 +6,18 @@ import { DateFormElement } from '../../components';
 import Select from '../../components/Select';
 import { beerLoader } from '../../utils/selectLoaders';
 import { Style, Brand, Serving, ConsumationFilters } from 'types/beer';
+import { Country } from 'types/common';
 
 interface Props {
     brands: Brand[];
+    countries: Country[];
     filters: ConsumationFilters;
     servings: Serving[];
     styles: Style[];
     onChange: (changed: Partial<ConsumationFilters>) => void;
 }
 
-export const Filters = ({ brands, filters, onChange, servings, styles }: Props) =>
+export const Filters = ({ brands, countries, filters, onChange, servings, styles }: Props) =>
     <React.Fragment>
         <DateFormElement
             label="From"
@@ -30,7 +32,7 @@ export const Filters = ({ brands, filters, onChange, servings, styles }: Props) 
         <FormGroup>
             <FormLabel>Brand</FormLabel>
             <Select
-                onChange={id => onChange({ brandId: id })}
+                onChange={brandId => onChange({ brandId })}
                 options={brands}
                 selected={filters.brandId}
             />
@@ -41,6 +43,14 @@ export const Filters = ({ brands, filters, onChange, servings, styles }: Props) 
                 defaultOptions
                 loadOptions={beerLoader}
                 onChange={x => onChange({ beerId: x.value })}
+            />
+        </FormGroup>
+        <FormGroup>
+            <FormLabel>Country</FormLabel>
+            <Select
+                onChange={countryId => onChange({ countryId })}
+                options={countries}
+                selected={filters.countryId}
             />
         </FormGroup>
         <FormGroup>
