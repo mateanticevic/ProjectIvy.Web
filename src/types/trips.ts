@@ -1,3 +1,12 @@
+import { Country } from './common';
+
+export interface CountryListVisited {
+    id: string;
+    name: string;
+    countriesNotVisited: Country[];
+    countriesVisited: Country[];
+}
+
 export interface Trip {
     id: string;
     name: string;

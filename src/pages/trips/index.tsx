@@ -1,13 +1,13 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { Button, Col, FormLabel, FormGroup, Container, Card, Row } from 'react-bootstrap';
+import { Button, Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar } from 'react-bootstrap';
 import { Polygon } from 'react-google-maps';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { FaPlus } from 'react-icons/fa';
 
-import { TripBinding, TripFilters } from 'types/trips';
+import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
 import api from '../../api/main';
 import { FlagIcon, Map, Pagination } from '../../components';
 import { DateFormElement } from '../../components';
@@ -23,6 +23,7 @@ interface State {
   countriesVisited: [];
   filters: TripFilters;
   isModalOpen: boolean;
+  lists: CountryListVisited[];
   trip: TripBinding;
   trips: any;
   tripIsBeingAdded: boolean;
@@ -41,6 +42,7 @@ class TripsPage extends Page<{}, State> {
       countryId: [],
     },
     isModalOpen: false,
+    lists: [],
     trip: {
       cityIds: [],
     },
@@ -54,8 +56,9 @@ class TripsPage extends Page<{}, State> {
     api.country
       .getAll()
       .then(countries => this.setState({ countries: countries.items }));
-    this.loadVisitedCountries();
     this.onFiltersChanged();
+
+    this.loadVisited();
   }
 
   render() {
@@ -65,7 +68,7 @@ class TripsPage extends Page<{}, State> {
 
     const polygons = [].concat(...countryPolygons);
 
-    const { countries, countriesVisited, filters, trips, tripIsBeingAdded } = this.state;
+    const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded } = this.state;
 
     return (
       <Container>
@@ -161,13 +164,21 @@ class TripsPage extends Page<{}, State> {
           <Col lg={3}>
             <Card>
               <Card.Header>Countries ({countriesVisited.length})</Card.Header>
-              <Card.Body className="panel-countries">
-                {countriesVisited.map((country, index) => <FlagIcon
-                  code={country.id}
-                  country={country.name}
-                  className="country-flag"
-                  title={`#${index + 1} ${country.name}`}
-                />)}
+              <Card.Body>
+                <div className="panel-countries">
+                  {countriesVisited.map((country, index) => <FlagIcon
+                    code={country.id}
+                    country={country.name}
+                    className="country-flag"
+                    title={`#${index + 1} ${country.name}`}
+                  />)}
+                </div>
+                {lists.map(list =>
+                  <ProgressBar
+                    now={list.countriesVisited.length * 100 / (list.countriesVisited.length + list.countriesNotVisited.length)}
+                    label={`${list.name} (${list.countriesVisited.length}/${list.countriesVisited.length + list.countriesNotVisited.length})`}
+                  />
+                )}
               </Card.Body>
             </Card>
           </Col>
@@ -192,10 +203,14 @@ class TripsPage extends Page<{}, State> {
   }
 
   @boundMethod
-  private loadVisitedCountries() {
+  private loadVisited() {
     api.country
       .getVisitedBoundaries()
       .then(countries => this.setState({ countryBoundaries: countries }));
+
+    api.country
+      .getListsVisited()
+      .then(lists => this.setState({ lists }));
   }
 
   @boundMethod
@@ -240,7 +255,7 @@ class TripsPage extends Page<{}, State> {
           tripIsBeingAdded: false,
         });
         this.onFiltersChanged();
-        this.loadVisitedCountries();
+        this.loadVisited();
       });
   }
 }
