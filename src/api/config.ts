@@ -1,11 +1,10 @@
-import { config } from '../config';
 import * as urlHelper from '../utils/urlHelper';
 import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';
 import { httpStatus } from './httpStatus';
 
-const headers = new Headers();
+const headers = new Headers(); 
 headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
 
 function handleResponse(response) {
@@ -28,7 +27,7 @@ function handleResponse(response) {
 }
 
 function apiPath(resource: string, parameters?: any) {
-    let url = config.api.url + resource;
+    let url = getBaseApiPath() + resource;
     if (parameters) {
         // url = url + urlHelper.jsonToQueryString(parameters);
         url = url + '?' + urlHelper.jsonToQueryString(parameters);
@@ -36,6 +35,8 @@ function apiPath(resource: string, parameters?: any) {
 
     return url;
 }
+
+const getBaseApiPath = () => process.env.NODE_ENV === 'development' ? 'https://ivy.anticevic.net/api/' : '/api/';
 
 export function get(resource: string, parameters?: any) {
 
