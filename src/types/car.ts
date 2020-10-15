@@ -25,3 +25,7 @@ export interface CarServiceType {
     id: string,
     name: string
 }
+
+export interface CarLogFilters {
+    hasOdometer?: boolean,
+}
