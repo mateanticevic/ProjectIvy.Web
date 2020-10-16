@@ -336,7 +336,7 @@ class BeerPage extends Page<Props, State> {
                 ...this.state.brand,
                 ...brandChanged,
             },
-        }, () => console.log(this.state.brand));
+        });
     }
 
     @boundMethod

@@ -33,9 +33,12 @@ export default class Root extends React.Component<{}, State> {
   public state: State = {
     isLoggedIn: false,
     showToast: false,
+    user: {
+      modules: [],
+    }
   };
 
-  public componentWillMount() {
+  public componentDidMount() {
     const isLoggedIn = !!window.localStorage.getItem('token');
 
     if (isLoggedIn) {
