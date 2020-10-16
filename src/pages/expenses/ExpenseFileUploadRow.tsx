@@ -41,4 +41,4 @@ export const ExpenseFileUploadRow = ({ fileTypes, uploadedFile, linkFile }: Prop
             </td>
         </tr>
     );
-}
+};

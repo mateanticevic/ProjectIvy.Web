@@ -55,7 +55,7 @@ class ToDosPage extends React.Component {
 
     private getToDos() {
         api.todo.get({ isDone: false })
-        .then(todos => this.setState({ todos }));
+            .then(todos => this.setState({ todos }));
     }
 
     @boundMethod
@@ -70,7 +70,7 @@ class ToDosPage extends React.Component {
     @boundMethod
     private setDone(id) {
         api.todo.postDone(id)
-        .then(() => this.getToDos());
+            .then(() => this.getToDos());
     }
 }
 

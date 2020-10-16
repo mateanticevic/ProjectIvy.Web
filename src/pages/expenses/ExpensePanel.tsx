@@ -23,57 +23,57 @@ type Props = PagingFilters & {
 
 const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
 
-  const expensesHeader = `Expenses (${expenses.count})`;
+    const expensesHeader = `Expenses (${expenses.count})`;
 
-  const items = serverPaging ? expenses.items : expenses.items.slice((page - 1) * pageSize, page * pageSize);
+    const items = serverPaging ? expenses.items : expenses.items.slice((page - 1) * pageSize, page * pageSize);
 
-  const count = serverPaging ? expenses.count : expenses.items.length;
+    const count = serverPaging ? expenses.count : expenses.items.length;
 
-  const expenseTable = items && items.length > 0 || isLoading ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} isLoading={isLoading} /> : <h2>No data</h2>;
+    const expenseTable = items && items.length > 0 || isLoading ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} isLoading={isLoading} /> : <h2>No data</h2>;
 
-  return (
-    <Card>
-      <Card.Header>
-        <Row>
-          <Col xs={10}>
-            {expensesHeader}
-          </Col>
-          <Col xs={2}>
-            {onNewClick &&
+    return (
+        <Card>
+            <Card.Header>
+                <Row>
+                    <Col xs={10}>
+                        {expensesHeader}
+                    </Col>
+                    <Col xs={2}>
+                        {onNewClick &&
               <Button
-                className="pull-right"
-                variant="primary"
-                size="sm"
-                onClick={onNewClick}
+                  className="pull-right"
+                  variant="primary"
+                  size="sm"
+                  onClick={onNewClick}
               >
-                <FontAwesome name="plus" /> New
+                  <FontAwesome name="plus" /> New
               </Button>
-            }
-          </Col>
-        </Row>
-      </Card.Header>
-      <Card.Body>
-        <Row>
-          <Col lg={12}>
-            {expenseTable}
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={12}>
-            <Pagination
-              page={page}
-              pages={Math.ceil(count / pageSize)}
-              onPageChange={onPageChange}
-            />
-          </Col>
-        </Row>
-      </Card.Body>
-      {stats &&
+                        }
+                    </Col>
+                </Row>
+            </Card.Header>
+            <Card.Body>
+                <Row>
+                    <Col lg={12}>
+                        {expenseTable}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={12}>
+                        <Pagination
+                            page={page}
+                            pages={Math.ceil(count / pageSize)}
+                            onPageChange={onPageChange}
+                        />
+                    </Col>
+                </Row>
+            </Card.Body>
+            {stats &&
         <Card.Footer>
           Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
         </Card.Footer>}
-    </Card>
-  );
+        </Card>
+    );
 };
 
 export default ExpensePanel;

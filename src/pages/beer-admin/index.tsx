@@ -59,7 +59,7 @@ class BeerAdminPage extends Page<{}, State> {
         const beerFilters = {
             ...this.state.beerFilters,
             ...filter,
-        }
+        };
         this.setState({ beerFilters });
 
         api.beer

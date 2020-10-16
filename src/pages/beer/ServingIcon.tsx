@@ -15,7 +15,7 @@ const mapping: Mapping = {
     'OnTap': <TiBeer size={20} />,
     'Bottle': <GiBeerBottle size={20} />,
     'Plastic': <GiWaterBottle size={20} />,
-}
+};
 
 export const ServingIcon = ({ serving }: Props) =>
     <div title={serving}>

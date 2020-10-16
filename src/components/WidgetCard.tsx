@@ -13,17 +13,17 @@ const WidgetCard = (props) => {
     }
 
     return (
-          <Container>
-              <Row>
-                  <Col lg={12}>{props.title}</Col>
-              </Row>
-              <Row>
-                  <Col lg={12}>
+        <Container>
+            <Row>
+                <Col lg={12}>{props.title}</Col>
+            </Row>
+            <Row>
+                <Col lg={12}>
                     <h3 style={{ margin: '0px' }}>{value}</h3>
-                  </Col>
-              </Row>
-          </Container>
-  );
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default WidgetCard;

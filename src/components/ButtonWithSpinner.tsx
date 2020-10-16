@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 
 interface Props {
-    isLoading: Boolean;
+    isLoading: boolean;
     onClick: () => void;
 }
 
@@ -25,6 +25,6 @@ const ButtonWithSpinner = ({ children, isLoading, onClick }: React.PropsWithChil
             :
             children
         }
-    </Button>
+    </Button>;
 
 export default ButtonWithSpinner;

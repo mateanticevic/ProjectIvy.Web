@@ -15,30 +15,30 @@ interface Props {
 }
 
 const TripModal = ({ buttonIsLoading, isOpen, loadCities, onClose, onChange, onSave }: Props) => {
-  return (
-    <Modal
-      backdrop="static"
-      show={isOpen}
-      onHide={onClose}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>New trip</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <TripForm
-          onChange={onChange}
-          loadCities={loadCities} />
-      </Modal.Body>
-      <Modal.Footer>
-        <ButtonWithSpinner
-          isLoading={buttonIsLoading}
-          onClick={onSave}
+    return (
+        <Modal
+            backdrop="static"
+            show={isOpen}
+            onHide={onClose}
         >
+            <Modal.Header closeButton>
+                <Modal.Title>New trip</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <TripForm
+                    onChange={onChange}
+                    loadCities={loadCities} />
+            </Modal.Body>
+            <Modal.Footer>
+                <ButtonWithSpinner
+                    isLoading={buttonIsLoading}
+                    onClick={onSave}
+                >
           Add
-        </ButtonWithSpinner>
-      </Modal.Footer>
-    </Modal>
-  );
+                </ButtonWithSpinner>
+            </Modal.Footer>
+        </Modal>
+    );
 };
 
 export default TripModal;

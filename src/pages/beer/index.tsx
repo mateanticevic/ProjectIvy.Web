@@ -360,15 +360,15 @@ class BeerPage extends Page<Props, State> {
 
         let apiMethod;
         switch (groupBy) {
-            case GroupByTime.ByYear:
-                apiMethod = api.consumation.getCountByYear;
-                break;
-            case GroupByTime.ByMonth:
-                apiMethod = api.consumation.getCountByMonth;
-                break;
-            case GroupByTime.ByMonthOfYear:
-                apiMethod = api.consumation.getCountByMonthOfYear;
-                break;
+        case GroupByTime.ByYear:
+            apiMethod = api.consumation.getCountByYear;
+            break;
+        case GroupByTime.ByMonth:
+            apiMethod = api.consumation.getCountByMonth;
+            break;
+        case GroupByTime.ByMonthOfYear:
+            apiMethod = api.consumation.getCountByMonthOfYear;
+            break;
         }
 
         apiMethod(this.state.filters)
@@ -423,7 +423,7 @@ class BeerPage extends Page<Props, State> {
 
         api.consumation
             .getSumByCountry(statsFilters)
-            .then(countries => this.setState({ sumByCountry: countries.items }))
+            .then(countries => this.setState({ sumByCountry: countries.items }));
     }
 }
 

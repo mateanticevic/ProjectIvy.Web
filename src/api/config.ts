@@ -16,9 +16,9 @@ function handleResponse(response) {
             return response.json();
         } else if (contentType && contentType.indexOf(httpContentType.TEXT) !== -1) {
             return response.text();
- } else {
+        } else {
             return response.status;
- }
+        }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
         window.location = '/login';
     } else {

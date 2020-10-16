@@ -11,26 +11,26 @@ interface Props {
 
 const PoiTable: React.SFC<Props> = ({ addToTrip, pois }) => {
 
-  const rows = pois.map(function(poi) {
-    return <PoiRow key={poi.id} poi={poi} addToTrip={addToTrip} />;
-  });
+    const rows = pois.map(function(poi) {
+        return <PoiRow key={poi.id} poi={poi} addToTrip={addToTrip} />;
+    });
 
-  return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Address</th>
-          <th />
-          <th />
-        </tr>
-      </thead>
-      <tbody>
-        {rows}
-      </tbody>
-    </Table>
-  );
+    return (
+        <Table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Address</th>
+                    <th />
+                    <th />
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </Table>
+    );
 };
 
 export default PoiTable;

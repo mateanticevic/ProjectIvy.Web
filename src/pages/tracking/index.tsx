@@ -198,7 +198,7 @@ class TrackingPage extends Page<{}, State> {
                     color: this.colors[0],
                 }
             ],
-        })
+        });
     }
 
     private loadCharts(movementId: string) {
@@ -252,18 +252,18 @@ class TrackingPage extends Page<{}, State> {
         let countBy;
 
         switch (this.state.groupDatesInsideRectangle) {
-            case GroupByTime.ByYear:
-                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
-                break;
-            case GroupByTime.ByMonthOfYear:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
-                break;
-            case GroupByTime.ByMonth:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
-                break;
-            case GroupByTime.ByDayOfWeek:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
-                break;
+        case GroupByTime.ByYear:
+            countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
+            break;
+        case GroupByTime.ByMonthOfYear:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+            break;
+        case GroupByTime.ByMonth:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
+            break;
+        case GroupByTime.ByDayOfWeek:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
+            break;
         }
 
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });

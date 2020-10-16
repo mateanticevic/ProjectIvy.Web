@@ -16,79 +16,79 @@ interface Props {
 }
 
 const renderPaymentTypeIcon = (name: Name) => {
-  switch (name?.id) {
+    switch (name?.id) {
     case PaymentType.Cash:
-      return <FaMoneyBill title={name.name} />;
+        return <FaMoneyBill title={name.name} />;
     case PaymentType.CreditCard:
-      return <FaCreditCard title={name.name} />;
+        return <FaCreditCard title={name.name} />;
     case PaymentType.CreditCardOnline:
-      return <FaShoppingCart title={name.name} />;
+        return <FaShoppingCart title={name.name} />;
     case PaymentType.WireTransfer:
-      return <FaUniversity title={name.name} />;
+        return <FaUniversity title={name.name} />;
     default:
-      return null;
-  }
-}
+        return null;
+    }
+};
 
 const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
-  const hasFilesTooltip = (
-    <Tooltip id="tooltip">
+    const hasFilesTooltip = (
+        <Tooltip id="tooltip">
       Has {expense.files.length} linked files
-    </Tooltip>
-  );
+        </Tooltip>
+    );
 
-  const needsReviewTooltop = (
-    <Tooltip id="tooltip">
+    const needsReviewTooltop = (
+        <Tooltip id="tooltip">
       Needs review
-    </Tooltip>
-  );
+        </Tooltip>
+    );
 
-  const exactDate = moment().diff(moment(expense.date), 'days') > 6;
+    const exactDate = moment().diff(moment(expense.date), 'days') > 6;
 
-  const formattedDate = exactDate ? moment(expense.date).format('Do MMMM YYYY') : moment(expense.date).format('dddd');
+    const formattedDate = exactDate ? moment(expense.date).format('Do MMMM YYYY') : moment(expense.date).format('dddd');
 
-  return (
-    <tr className={expense.needsReview ? 'warning' : null}>
-      <td>{formattedDate}</td>
-      <td>
-        <ExpenseTypeLabel expenseType={expense.expenseType} />
-      </td>
-      <td>
-        <VendorLabel expense={expense} />
-      </td>
-      <td className="cell-no-overflow-100" title={expense.comment}>{expense.comment}</td>
-      <td><span className="pull-right">{expense.amount.toFixed(2)}</span></td>
-      <td>{expense.currency.symbol}</td>
-      <td>
-        {renderPaymentTypeIcon(expense.paymentType)}
-        {expense.files && expense.files.length > 0 &&
+    return (
+        <tr className={expense.needsReview ? 'warning' : null}>
+            <td>{formattedDate}</td>
+            <td>
+                <ExpenseTypeLabel expenseType={expense.expenseType} />
+            </td>
+            <td>
+                <VendorLabel expense={expense} />
+            </td>
+            <td className="cell-no-overflow-100" title={expense.comment}>{expense.comment}</td>
+            <td><span className="pull-right">{expense.amount.toFixed(2)}</span></td>
+            <td>{expense.currency.symbol}</td>
+            <td>
+                {renderPaymentTypeIcon(expense.paymentType)}
+                {expense.files && expense.files.length > 0 &&
           <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
-            <FaFile />
+              <FaFile />
           </OverlayTrigger>
-        }
-        {expense.needsReview &&
+                }
+                {expense.needsReview &&
           <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
-            <FaExclamation />
+              <FaExclamation />
           </OverlayTrigger>
-        }
-      </td>
-      <td>
-        {onEdit &&
+                }
+            </td>
+            <td>
+                {onEdit &&
           <Button
-            className="pull-right"
-            variant="primary"
-            size="sm"
-            onClick={() => onEdit(expense)}
+              className="pull-right"
+              variant="primary"
+              size="sm"
+              onClick={() => onEdit(expense)}
           >
-            <FaPen size="10px" /> Edit
+              <FaPen size="10px" /> Edit
           </Button>
-        }
-        {onUnlink &&
+                }
+                {onUnlink &&
           <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>
-        }
-      </td>
-    </tr>
-  );
+                }
+            </td>
+        </tr>
+    );
 };
 
 export default ExpenseRow;

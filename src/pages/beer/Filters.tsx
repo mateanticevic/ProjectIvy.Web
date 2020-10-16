@@ -69,4 +69,4 @@ export const Filters = ({ brands, countries, filters, onChange, servings, styles
                 selected={filters.styleId}
             />
         </FormGroup>
-    </React.Fragment>
+    </React.Fragment>;

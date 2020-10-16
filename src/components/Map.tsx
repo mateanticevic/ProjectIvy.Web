@@ -11,19 +11,19 @@ interface Props {
 }
 
 const Map = ({ map, onDragEnd, onClick, defaultZoom, defaultCenter, children }: Props) => {
-  return (
-    <GoogleMaps
-      onClick={onClick}
-      ref={map}
-      onDragEnd={onDragEnd}
-      defaultCenter={defaultCenter ? defaultCenter : { lat: 0, lng: 0 }}
-      defaultZoom={defaultZoom ? defaultZoom : 2}
-      containerElement={<div style={{ height: `100%` }} />}
-      mapElement={<div style={{ height: `100%` }} />}
-    >
-      {children}
-    </GoogleMaps>
-  );
+    return (
+        <GoogleMaps
+            onClick={onClick}
+            ref={map}
+            onDragEnd={onDragEnd}
+            defaultCenter={defaultCenter ? defaultCenter : { lat: 0, lng: 0 }}
+            defaultZoom={defaultZoom ? defaultZoom : 2}
+            containerElement={<div style={{ height: '100%' }} />}
+            mapElement={<div style={{ height: '100%' }} />}
+        >
+            {children}
+        </GoogleMaps>
+    );
 };
 
 export default Map;

@@ -10,21 +10,21 @@ interface Props {
 }
 
 const defaultOptions: google.maps.MapOptions = {
-  mapTypeControl: false,
-  streetViewControl: false,
-  zoomControl: false,
+    mapTypeControl: false,
+    streetViewControl: false,
+    zoomControl: false,
 };
 
 const GoogleMaps = withGoogleMap(({ defaultCenter, defaultZoom, children, onClick, onDragEnd }: Props) => (
-  <GoogleMap
-    onClick={e => { if (onClick) { onClick(e); } }}
-    onDragEnd={() => { if (onDragEnd) { onDragEnd(); } }}
-    defaultOptions={defaultOptions}
-    defaultCenter={defaultCenter}
-    defaultZoom={defaultZoom}
-  >
-    {children}
-  </GoogleMap>
+    <GoogleMap
+        onClick={e => { if (onClick) { onClick(e); } }}
+        onDragEnd={() => { if (onDragEnd) { onDragEnd(); } }}
+        defaultOptions={defaultOptions}
+        defaultCenter={defaultCenter}
+        defaultZoom={defaultZoom}
+    >
+        {children}
+    </GoogleMap>
 ));
 
 export default GoogleMaps;

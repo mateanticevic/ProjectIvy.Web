@@ -45,7 +45,7 @@ const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
             <Modal.Footer>
                 <Button block variant="primary" onClick={() => { onSave(); onClose(); }}>
                     <FontAwesome name="save" /> Save
-            </Button>
+                </Button>
             </Modal.Footer>
         </Modal>
     );

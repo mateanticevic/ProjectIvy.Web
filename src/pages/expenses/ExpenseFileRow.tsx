@@ -14,10 +14,10 @@ export const ExpenseFileRow = ({ expenseFile }) => {
 
     function mapFileTypeToIcon(typeId) {
         switch (typeId) {
-            case 'jpg':
-                return <FaImage />;
-            default:
-                return <FaFile />;
+        case 'jpg':
+            return <FaImage />;
+        default:
+            return <FaFile />;
         }
     }
 

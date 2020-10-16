@@ -44,7 +44,7 @@ const ExpenseModal = (props) => {
                         onClick={() => props.onExpenseAdd(true)}
                     >
                         <FontAwesome name="save" /> Save
-                        </ButtonWithSpinner>
+                    </ButtonWithSpinner>
                 </Col>
                 <Col lg={6}>
                     <FormCheck type="checkbox" bsPrefix="pull-left"> Add another?</FormCheck>

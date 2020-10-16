@@ -16,44 +16,44 @@ interface Props {
 
 const NavigationBar = ({ user }: Props) => {
 
-  const { firstName, lastName } = user || {};
+    const { firstName, lastName } = user || {};
 
-  return (
-    <Navbar
-      bg="white"
-      collapseOnSelect
-      expand="lg"
-      fixed="top"
-    >
-      <Navbar.Brand href="/">Project Ivy</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav" >
-        <Nav className="mr-auto">
-          <NavDropdown id="nav-dropdown-finance" title="Finance">
-            <NavDropdown.Item href="/expenses"><FaDollarSign /> Expenses</NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown id="nav-dropdown-travel" title="Travel">
-            <NavDropdown.Item href="/flights"><IoMdAirplane /> Flights</NavDropdown.Item>
-            <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
-            <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
-            <NavDropdown.Item href="/trips"><FaCarSide /> Trips</NavDropdown.Item>
-          </NavDropdown>
-          <NavDropdown id="nav-dropdown-other" title="Other">
-            <NavDropdown.Item href="/beer"><TiBeer /> Beer</NavDropdown.Item>
-            <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
-            <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-        <Nav>
-          <NavDropdown id="nav-dropdown-account" title={`${firstName} ${lastName}`}>
-            <NavDropdown.Item href="/"><RiAccountCircleLine /> My account</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="/login?logout"><FiLogOut /> Logout</NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-  );
+    return (
+        <Navbar
+            bg="white"
+            collapseOnSelect
+            expand="lg"
+            fixed="top"
+        >
+            <Navbar.Brand href="/">Project Ivy</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav" >
+                <Nav className="mr-auto">
+                    <NavDropdown id="nav-dropdown-finance" title="Finance">
+                        <NavDropdown.Item href="/expenses"><FaDollarSign /> Expenses</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown id="nav-dropdown-travel" title="Travel">
+                        <NavDropdown.Item href="/flights"><IoMdAirplane /> Flights</NavDropdown.Item>
+                        <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
+                        <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
+                        <NavDropdown.Item href="/trips"><FaCarSide /> Trips</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown id="nav-dropdown-other" title="Other">
+                        <NavDropdown.Item href="/beer"><TiBeer /> Beer</NavDropdown.Item>
+                        <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
+                        <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+                <Nav>
+                    <NavDropdown id="nav-dropdown-account" title={`${firstName} ${lastName}`}>
+                        <NavDropdown.Item href="/"><RiAccountCircleLine /> My account</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="/login?logout"><FiLogOut /> Logout</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+            </Navbar.Collapse>
+        </Navbar>
+    );
 };
 
 export default NavigationBar;
