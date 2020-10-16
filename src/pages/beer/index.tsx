@@ -267,6 +267,7 @@ class BeerPage extends Page<Props, State> {
                     onSave={this.addBeer}
                 />
                 <BrandModal
+                    countries={countries}
                     isOpen={this.state.brandModalOpen}
                     onChange={this.onBrandChange}
                     onClose={() => this.setState({ brandModalOpen: false })}
@@ -288,7 +289,7 @@ class BeerPage extends Page<Props, State> {
     @boundMethod
     private addBrand() {
         api.beer
-            .postBrand(this.state.brand.name)
+            .postBrand(this.state.brand)
             .then(() => {
                 this.loadBrands();
                 this.setState({ brandModalOpen: false });
@@ -329,13 +330,13 @@ class BeerPage extends Page<Props, State> {
     }
 
     @boundMethod
-    private onBrandChange(brandValue: Partial<Brand>) {
+    private onBrandChange(brandChanged: Partial<Brand>) {
         this.setState({
             brand: {
                 ...this.state.brand,
-                ...brandValue,
+                ...brandChanged,
             },
-        });
+        }, () => console.log(this.state.brand));
     }
 
     @boundMethod

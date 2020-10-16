@@ -36,7 +36,7 @@ function apiPath(resource: string, parameters?: any) {
     return url;
 }
 
-const getBaseApiPath = () => process.env.NODE_ENV === 'development' ? 'http://localhost:23892/' : '/api/';
+const getBaseApiPath = () => process.env.NODE_ENV === 'development' ? 'http://api2.anticevic.net/' : '/api/';
 
 export function get(resource: string, parameters?: any) {
 

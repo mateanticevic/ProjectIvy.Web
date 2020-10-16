@@ -5,7 +5,6 @@ import { Container, Card, Row, Table, Badge } from 'react-bootstrap';
 import api from '../../api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { SimpleScatterChart } from '../../components';
-import { xor } from 'lodash';
 
 interface State {
     car: Car;

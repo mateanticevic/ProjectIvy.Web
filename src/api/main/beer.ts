@@ -9,9 +9,7 @@ function getBrands(filters?) {
     return api.get('beer/brand', filters ?? {});
 }
 
-function postBrand(name) {
-    return api.post('beer/brand', name);
-}
+const postBrand = (brand: Brand) => api.post('beer/brand', brand);
 
 function postBeer(brandId, beer) {
     return api.post(`beer/brand/${brandId}/beer`, beer);
