@@ -16,7 +16,8 @@ class CarDetailsPage extends React.Component<{}, State> {
     state: State = {
         car: {
             model: {} as CarModel,
-            services: []
+            services: [],
+            serviceDue: [],
         },
         logs: [],
         serviceIntervals: []
@@ -44,20 +45,20 @@ class CarDetailsPage extends React.Component<{}, State> {
                     <h1>{car.model.name}</h1>
                 </Row>
                 <Row>
-                    <Card>
+                    <Card style={{ width: '800px' }}>
+                        <Card.Header>Odometer</Card.Header>
                         <Card.Body>
                             <SimpleScatterChart
-                                data={logs.map(x => {
+                                data={logs.map(x => {
                                     return {
                                         ...x,
                                         timestamp: new Date(x.timestamp).getTime(),
                                     };
                                 })}
+                                unit='km'
                             />
                         </Card.Body>
                     </Card>
-                </Row>
-                <Row>
                     <Card>
                         <Card.Header>Service history</Card.Header>
                         <Card.Body>
@@ -81,18 +82,13 @@ class CarDetailsPage extends React.Component<{}, State> {
                         <Card.Body>
                             <Table>
                                 <tbody>
-                                    {serviceIntervals.map(serviceInterval =>
+                                    {car.serviceDue.map(serviceDue =>
                                         <tr>
                                             <td>
-                                                <Badge variant="primary">{serviceInterval.serviceType.name}</Badge>
+                                                <Badge variant="primary">{serviceDue.serviceType.name}</Badge>
                                             </td>
                                             <td>
-                                                {serviceInterval.range &&
-                                                    `${serviceInterval.range}km`
-                                                }
-                                                {serviceInterval.days &&
-                                                    `${Math.floor(serviceInterval.days / 365)} years`
-                                                }
+                                                {serviceDue.dueBefore}
                                             </td>
                                         </tr>
                                     )}

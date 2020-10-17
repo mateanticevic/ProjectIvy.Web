@@ -3,8 +3,8 @@ import moment from 'moment';
 import React from 'react';
 import { ScatterChart, Scatter, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-export const SimpleScatterChart = ({ data }) =>
-    <ResponsiveContainer width='95%' height={500} >
+export const SimpleScatterChart = ({ data, unit }) =>
+    <ResponsiveContainer width='95%' height={400} >
         <ScatterChart>
             <XAxis
                 dataKey='timestamp'
@@ -13,15 +13,20 @@ export const SimpleScatterChart = ({ data }) =>
                 tickFormatter={unixTime => moment(unixTime).format('YYYY MMM')}
                 type='number'
             />
-            <YAxis dataKey='odometer' name='Value' />
+            <YAxis
+                dataKey='odometer'
+                name='Value'
+                unit={unit ?? ''}
+                />
 
             <Scatter
                 data={data}
-                line={{ stroke: '#eee' }}
+                line={{ stroke: '#eee', strokeWidth: 5 }}
                 lineJointType='monotoneX'
-                lineType='joint'
+                lineType="joint"
                 name='Values'
             />
+            <Tooltip />
 
         </ScatterChart>
     </ResponsiveContainer>;

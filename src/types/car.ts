@@ -1,6 +1,7 @@
 export interface Car {
     model: CarModel,
-    services: CarService[]
+    services: CarService[],
+    serviceDue: CarServiceDue[],
 }
 
 export interface CarModel {
@@ -12,7 +13,12 @@ export interface CarService {
     date: Date,
     description: string,
     id: string,
-    serviceType: CarServiceType
+    serviceType: CarServiceType,
+}
+
+export interface CarServiceDue {
+    dueBefore: string,
+    serviceType: CarServiceType,
 }
 
 export interface CarServiceInterval {
