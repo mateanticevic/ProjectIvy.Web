@@ -1,12 +1,15 @@
 import React from 'react';
 import moment from 'moment';
-import { Badge, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Badge, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
+import Datetime from 'react-datetime';
+import 'rc-slider/assets/index.css';
 
 import { DistributionCard } from '../../components/DistributionCard';
 import api from '../../api/main';
 import { MovieGroupBy } from '../../consts/groupings';
 import { Page } from '../Page';
 import { MovieFilters } from 'types/movies';
+import { Range } from 'rc-slider';
 
 interface State {
     countChartData: any;
@@ -26,11 +29,18 @@ const maps = {
     [MovieGroupBy.ByRuntime]: api.movie.getCountByRuntime,
 }
 
+const dateFormat = 'YYYY-M-D';
+
 class MoviesPage extends Page<{}, State> {
 
     state: State = {
         countChartData: [],
-        filters: {},
+        filters: {
+            ratingHigher: 1,
+            ratingLower: 10,
+            runtimeLonger: 1,
+            runtimeShorter: 300,
+        },
         movieGroupBy: MovieGroupBy.ByYear,
         movies: {
             count: 0,
@@ -44,7 +54,7 @@ class MoviesPage extends Page<{}, State> {
 
     render() {
 
-        const { movies } = this.state;
+        const { filters, movies } = this.state;
 
         const countByOptions = [
             { value: MovieGroupBy.ByYear, name: 'Year' },
@@ -62,6 +72,54 @@ class MoviesPage extends Page<{}, State> {
                     <Col lg={3}>
                         <Card>
                             <Card.Header>Filter</Card.Header>
+                            <Card.Body>
+                                <FormGroup>
+                                    <FormLabel>From</FormLabel>
+                                    <Datetime
+                                        dateFormat={dateFormat}
+                                        timeFormat={false}
+                                        onChange={from => this.onFiltersChanged({ from: from.format(dateFormat) })}
+                                        value={filters.from}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>To</FormLabel>
+                                    <Datetime
+                                        dateFormat={dateFormat}
+                                        timeFormat={false}
+                                        onChange={to => this.onFiltersChanged({ to: to.format(dateFormat) })}
+                                        value={filters.to}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Rating</FormLabel>
+                                    <Range
+                                        max={10}
+                                        marks={{
+                                            1: '1',
+                                            10: '10',
+                                        }}
+                                        min={1}
+                                        onChange={c => this.onFiltersChanged({ ratingLower: c[1], ratingHigher: c[0] })}
+                                        step={0.1}
+                                        value={[filters.ratingHigher, filters.ratingLower]}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Runtime</FormLabel>
+                                    <Range
+                                        max={300}
+                                        marks={{
+                                            1: '1m',
+                                            300: '5h',
+                                        }}
+                                        min={1}
+                                        onChange={c => this.onFiltersChanged({ runtimeShorter: c[1], runtimeLonger: c[0] })}
+                                        step={1}
+                                        value={[filters.runtimeLonger, filters.runtimeShorter]}
+                                    />
+                                </FormGroup>
+                            </Card.Body>
                         </Card>
                     </Col>
                     <Col lg={9}>
