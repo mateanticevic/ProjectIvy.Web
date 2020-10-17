@@ -133,7 +133,7 @@ class DashboardPage extends React.Component<Props> {
                   {user.modules.includes(Module.Expenses) &&
             <div className="flex-grid-item">
                 <Card>
-                    <Card.Header>Expenses</Card.Header>
+                    <Card.Header><a href="/expenses">Expenses</a></Card.Header>
                     <ListGroup>
                         {expenseItems}
                     </ListGroup>
@@ -155,7 +155,7 @@ class DashboardPage extends React.Component<Props> {
                   {user.modules.includes(Module.Beer) &&
             <div className="flex-grid-item">
                 <Card>
-                    <Card.Header>Beer</Card.Header>
+                    <Card.Header><a href="/beer">Beer</a></Card.Header>
                     <ListGroup variant="flush">
                         {consumationItems}
                     </ListGroup>
@@ -165,7 +165,7 @@ class DashboardPage extends React.Component<Props> {
                   {user.modules.includes(Module.Movies) &&
             <div className="flex-grid-item">
                 <Card>
-                    <Card.Header>Movies</Card.Header>
+                    <Card.Header><a href="/movies">Movies</a></Card.Header>
                     <ListGroup>
                         {movieItems}
                     </ListGroup>

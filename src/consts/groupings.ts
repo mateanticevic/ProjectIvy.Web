@@ -5,3 +5,14 @@ export enum GroupByTime {
     ByDayOfWeek,
     ByDay,
 }
+
+export enum MovieGroupBy {
+    ByYear = 1,
+    ByMonthOfYear,
+    ByMonth,
+    ByDayOfWeek,
+    ByMyRating,
+    ByMovieDecade,
+    ByMovieYear,
+    ByRuntime,
+}

@@ -1,22 +1,33 @@
+import { MovieFilters } from 'types/movies';
 import * as api from '../config';
 
-function get(filters) {
-    return api.get('movie', filters);
-}
+const get = (filters: MovieFilters) => api.get('movie', filters);
 
-const getCountByDayOfWeek = () => api.get('movie/count/byDayOfWeek');
+const getCountByDayOfWeek = (filters: MovieFilters) => api.get('movie/count/byDayOfWeek', filters);
 
-const getCountByMonth = () => api.get('movie/count/byMonth');
+const getCountByMonth = (filters: MovieFilters) => api.get('movie/count/byMonth', filters);
 
-const getCountByMonthOfYear = () => api.get('movie/count/byMonthOfYear');
+const getCountByMonthOfYear = (filters: MovieFilters) => api.get('movie/count/byMonthOfYear', filters);
 
-const getCountByYear = () => api.get('movie/count/byYear');
+const getCountByMovieDecade = (filters: MovieFilters) => api.get('movie/count/byMovieDecade', filters);
+
+const getCountByMovieYear = (filters: MovieFilters) => api.get('movie/count/byMovieYear', filters);
+
+const getCountByMyRating = (filters: MovieFilters) => api.get('movie/count/byMyRating', filters);
+
+const getCountByRuntime = (filters: MovieFilters) => api.get('movie/count/byRuntime', filters);
+
+const getCountByYear = (filters: MovieFilters) => api.get('movie/count/byYear', filters);
 
 const movie = {
     get,
     getCountByDayOfWeek,
     getCountByMonth,
     getCountByMonthOfYear,
+    getCountByMovieDecade,
+    getCountByMovieYear,
+    getCountByMyRating,
+    getCountByRuntime,
     getCountByYear,
 };
 

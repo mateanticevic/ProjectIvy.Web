@@ -4,7 +4,7 @@ import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { FaCarSide, FaDollarSign } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { IoMdAirplane } from 'react-icons/io';
-import { MdCall, MdMyLocation } from 'react-icons/md';
+import { MdCall, MdMyLocation, MdLocalMovies } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 
@@ -41,6 +41,7 @@ const NavigationBar = ({ user }: Props) => {
                     <NavDropdown id="nav-dropdown-other" title="Other">
                         <NavDropdown.Item href="/beer"><TiBeer /> Beer</NavDropdown.Item>
                         <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
+                        <NavDropdown.Item href="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
                         <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
