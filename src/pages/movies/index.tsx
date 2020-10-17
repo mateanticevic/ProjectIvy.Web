@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Badge, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import 'rc-slider/assets/index.css';
+import { FaImdb } from 'react-icons/fa';
 
 import { DistributionCard } from '../../components/DistributionCard';
 import api from '../../api/main';
@@ -10,6 +11,7 @@ import { MovieGroupBy } from '../../consts/groupings';
 import { Page } from '../Page';
 import { MovieFilters } from 'types/movies';
 import { Range } from 'rc-slider';
+import { Select } from '../../components';
 
 interface State {
     countChartData: any;
@@ -17,6 +19,23 @@ interface State {
     movieGroupBy: MovieGroupBy;
     movies: any;
 }
+
+const countByOptions = [
+    { value: MovieGroupBy.ByYear, name: 'Year' },
+    { value: MovieGroupBy.ByMonth, name: 'Month' },
+    { value: MovieGroupBy.ByMonthOfYear, name: 'Month of Year' },
+    { value: MovieGroupBy.ByDayOfWeek, name: 'Day of Week' },
+    { value: MovieGroupBy.ByMyRating, name: 'My Rating' },
+    { value: MovieGroupBy.ByMovieDecade, name: 'Movie Decade' },
+    { value: MovieGroupBy.ByMovieYear, name: 'Movie Year' },
+    { value: MovieGroupBy.ByRuntime, name: 'Runtime' },
+];
+
+const orderByOptions = [
+    { id: 'rating', name: 'Rating' },
+    { id: 'myRating', name: 'My Rating' },
+    { id: 'myRatingDifference', name: 'My Rating Difference' },
+];
 
 const maps = {
     [MovieGroupBy.ByDayOfWeek]: api.movie.getCountByDayOfWeek,
@@ -32,7 +51,6 @@ const maps = {
 const dateFormat = 'YYYY-M-D';
 
 class MoviesPage extends Page<{}, State> {
-
     state: State = {
         countChartData: [],
         filters: {
@@ -53,19 +71,8 @@ class MoviesPage extends Page<{}, State> {
     }
 
     render() {
-
         const { filters, movies } = this.state;
 
-        const countByOptions = [
-            { value: MovieGroupBy.ByYear, name: 'Year' },
-            { value: MovieGroupBy.ByMonth, name: 'Month' },
-            { value: MovieGroupBy.ByMonthOfYear, name: 'Month of Year' },
-            { value: MovieGroupBy.ByDayOfWeek, name: 'Day of Week' },
-            { value: MovieGroupBy.ByMyRating, name: 'My Rating' },
-            { value: MovieGroupBy.ByMovieDecade, name: 'Movie Decade' },
-            { value: MovieGroupBy.ByMovieYear, name: 'Movie Year' },
-            { value: MovieGroupBy.ByRuntime, name: 'Runtime' },
-        ];
         return (
             <Container>
                 <Row>
@@ -119,6 +126,13 @@ class MoviesPage extends Page<{}, State> {
                                         value={[filters.runtimeLonger, filters.runtimeShorter]}
                                     />
                                 </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Order By</FormLabel>
+                                    <Select
+                                        options={orderByOptions}
+                                        onChange={orderBy => this.onFiltersChanged({ orderBy })}
+                                    />
+                                </FormGroup>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -135,6 +149,7 @@ class MoviesPage extends Page<{}, State> {
                                                 <td>{movie.title}</td>
                                                 <td>{movie.runtime}min</td>
                                                 <td><Badge variant="primary">{movie.myRating}</Badge></td>
+                                                <td><a target="_blank" href={`http://www.imdb.com/title/${movie.imdbId}`}><FaImdb size="20" /></a></td>
                                             </tr>
                                         )}
                                     </tbody>
