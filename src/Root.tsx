@@ -19,6 +19,7 @@ import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
+import MoviesPage from './pages/movies';
 
 interface State {
   isLoggedIn: boolean;
@@ -69,6 +70,7 @@ export default class Root extends React.Component<{}, State> {
                       <Route path="/car/:id" exact component={CarDetailsPage} />
                       <Route path="/expenses" exact component={ExpensesPage} />
                       <Route path="/flights" exact component={FlightsPage} />
+                      <Route path="/movies" exact component={MoviesPage} />
                       <Route path="/login" exact component={LoginPage} />
                       <Route path="/pois" exact component={PoisPage} />
                       <Route path="/todos" exact component={ToDosPage} />
