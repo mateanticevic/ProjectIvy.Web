@@ -6,6 +6,7 @@ import 'rc-slider/assets/index.css';
 import { FaImdb } from 'react-icons/fa';
 
 import { DistributionCard } from '../../components/DistributionCard';
+import Pagination from '../../components/Pagination';
 import api from '../../api/main';
 import { MovieGroupBy } from '../../consts/groupings';
 import { Page } from '../Page';
@@ -54,6 +55,8 @@ class MoviesPage extends Page<{}, State> {
     state: State = {
         countChartData: [],
         filters: {
+            page: 1,
+            pageSize: 10,
             ratingHigher: 1,
             ratingLower: 10,
             runtimeLonger: 1,
@@ -153,6 +156,11 @@ class MoviesPage extends Page<{}, State> {
                                             </tr>
                                         )}
                                     </tbody>
+                                    <Pagination
+                                        page={filters.page}
+                                        pages={Math.ceil(movies.count / filters.pageSize)}
+                                        onPageChange={page => this.onFiltersChanged({ page })}
+                                    />
                                 </Table>
                             </Card.Body>
                         </Card>
@@ -163,6 +171,7 @@ class MoviesPage extends Page<{}, State> {
                         <DistributionCard
                             countByOptions={countByOptions}
                             data={this.state.countChartData}
+                            name="Count"
                             onGroupByChange={this.onCountGroupByChange}
                         />
                     </Col>

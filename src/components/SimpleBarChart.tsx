@@ -9,7 +9,7 @@ interface Props {
     value: string;
 }
 
-const SimpleBarChart = ({ data, name, value }: Props) => {
+const SimpleBarChart = ({ data, name, unit, value }: Props) => {
 
     return (
         <ResponsiveContainer height={300}>
@@ -19,7 +19,7 @@ const SimpleBarChart = ({ data, name, value }: Props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Bar type="monotone" dataKey={value} fill="#007bff" />
+                <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />
             </BarChart>
         </ResponsiveContainer>
     );

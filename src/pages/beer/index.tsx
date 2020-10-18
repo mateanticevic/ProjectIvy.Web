@@ -17,6 +17,8 @@ import { GroupByTime } from '../../consts/groupings';
 import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
 import { ServingIcon } from './ServingIcon';
+import { DistributionCard } from '../../components/DistributionCard';
+import { Unit } from '../../consts/units';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -46,9 +48,21 @@ interface State {
     servings: Serving[];
     styles: Style[];
     sum: number;
+    sumChartData: any;
     sumByCountry: any;
+    sumByGrouping: GroupByTime;
     sumByServing: any;
     topBeers: Beer[];
+}
+
+const sumByOptions = [
+    { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+    { value: GroupByTime.ByYear, name: 'Year' },
+];
+
+const sumApiMapping = {
+    [GroupByTime.ByMonthOfYear]: api.consumation.getSumByMonthOfYear,
+    [GroupByTime.ByYear]: api.consumation.getSumByYear,
 }
 
 class BeerPage extends Page<Props, State> {
@@ -82,7 +96,9 @@ class BeerPage extends Page<Props, State> {
         servings: [],
         styles: [],
         sum: 0,
+        sumChartData: [],
         sumByCountry: [],
+        sumByGrouping: GroupByTime.ByMonthOfYear,
         sumByServing: [],
         topBeers: [],
     };
@@ -108,19 +124,6 @@ class BeerPage extends Page<Props, State> {
     }
 
     render() {
-        const countByOptions = [
-            { value: GroupByTime.ByYear, name: 'Year' },
-            { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
-            { value: GroupByTime.ByMonth, name: 'Month' },
-        ];
-
-        const consumationRows = this.state.consumations.items.map(consumation => <tr key={_.uniqueId('consumation_row_')}>
-            <td>{moment(consumation.date).format('Do MMMM YYYY')}</td>
-            <td>{consumation.beer.name}</td>
-            <td><ServingIcon serving={consumation.serving} /></td>
-            <td>{consumation.volume / 1000}L</td>
-        </tr>);
-
         const { brands, countries, callOngoing, consumations, filters, servings, styles } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
@@ -171,7 +174,14 @@ class BeerPage extends Page<Props, State> {
                                     <Card.Body>
                                         <Table>
                                             <tbody>
-                                                {consumationRows}
+                                                {consumations.items.map(consumation =>
+                                                    <tr key={_.uniqueId('consumation_row_')}>
+                                                        <td>{moment(consumation.date).format('Do MMMM YYYY')}</td>
+                                                        <td>{consumation.beer.name}</td>
+                                                        <td><ServingIcon serving={consumation.serving} /></td>
+                                                        <td>{consumation.volume / 1000}L</td>
+                                                    </tr>)
+                                                }
                                             </tbody>
                                         </Table>
                                         <Pagination
@@ -188,19 +198,13 @@ class BeerPage extends Page<Props, State> {
                         </Row>
                         <Row>
                             <Col lg={12}>
-                                <Card>
-                                    <Card.Header>Count</Card.Header>
-                                    <Card.Body>
-                                        <SimpleBarChart
-                                            data={this.state.chartCountData}
-                                            name="key"
-                                            value="value"
-                                        />
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
-                                    </Card.Footer>
-                                </Card>
+                                <DistributionCard
+                                    countByOptions={sumByOptions}
+                                    data={this.state.sumChartData}
+                                    name="Sum"
+                                    unit={Unit.Liters}
+                                    onGroupByChange={this.onCountGroupByChange}
+                                />
                             </Col>
                         </Row>
                     </Col>
@@ -360,15 +364,15 @@ class BeerPage extends Page<Props, State> {
 
         let apiMethod;
         switch (groupBy) {
-        case GroupByTime.ByYear:
-            apiMethod = api.consumation.getCountByYear;
-            break;
-        case GroupByTime.ByMonth:
-            apiMethod = api.consumation.getCountByMonth;
-            break;
-        case GroupByTime.ByMonthOfYear:
-            apiMethod = api.consumation.getCountByMonthOfYear;
-            break;
+            case GroupByTime.ByYear:
+                apiMethod = api.consumation.getCountByYear;
+                break;
+            case GroupByTime.ByMonth:
+                apiMethod = api.consumation.getCountByMonth;
+                break;
+            case GroupByTime.ByMonthOfYear:
+                apiMethod = api.consumation.getCountByMonthOfYear;
+                break;
         }
 
         apiMethod(this.state.filters)
@@ -380,14 +384,16 @@ class BeerPage extends Page<Props, State> {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.pushHistoryState(filters);
 
-        this.setState({ filters }, this.onCountByClick);
-        console.log(filters);
+        this.setState({ filters }, () => {
+            this.onCountByClick();
+            this.onCountGroupByChange();
+        });
 
         api.consumation
             .get(filters)
             .then(consumations => this.setState({ consumations }));
 
-        if (filterValue && filterValue.page) {
+        if (filterValue?.page) {
             return;
         }
 
@@ -424,6 +430,15 @@ class BeerPage extends Page<Props, State> {
         api.consumation
             .getSumByCountry(statsFilters)
             .then(countries => this.setState({ sumByCountry: countries.items }));
+
+        this.onCountGroupByChange(this.state.sumByGrouping);
+    }
+
+    onCountGroupByChange = (sumByGrouping?: GroupByTime) => {
+        if (sumByGrouping) {
+            this.setState({ sumByGrouping });
+        }
+        sumApiMapping[sumByGrouping ?? this.state.sumByGrouping](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
     }
 }
 

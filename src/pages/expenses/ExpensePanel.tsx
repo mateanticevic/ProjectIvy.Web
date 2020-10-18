@@ -8,17 +8,17 @@ import Pagination from '../../components/Pagination';
 import ExpenseTable from './ExpenseTable';
 
 type Props = PagingFilters & {
-  expenses: PagedItems<Expense>,
-  defaultCurrency: Currency,
-  isLoading: boolean,
-  page: number,
-  pageSize: number,
-  serverPaging: boolean,
-  stats: any,
-  onEdit: () => void,
-  onNewClick: () => void,
-  onPageChange: () => void,
-  onUnlink: () => void,
+    expenses: PagedItems<Expense>,
+    defaultCurrency: Currency,
+    isLoading: boolean,
+    page: number,
+    pageSize: number,
+    serverPaging: boolean,
+    stats: any,
+    onEdit: () => void,
+    onNewClick: () => void,
+    onPageChange: () => void,
+    onUnlink: () => void,
 };
 
 const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
@@ -40,13 +40,13 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
                     </Col>
                     <Col xs={2}>
                         {onNewClick &&
-              <Button
-                  className="pull-right"
-                  variant="primary"
-                  size="sm"
-                  onClick={onNewClick}
-              >
-                  <FontAwesome name="plus" /> New
+                            <Button
+                                className="pull-right"
+                                variant="primary"
+                                size="sm"
+                                onClick={onNewClick}
+                            >
+                                <FontAwesome name="plus" /> New
               </Button>
                         }
                     </Col>
@@ -69,9 +69,9 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
                 </Row>
             </Card.Body>
             {stats &&
-        <Card.Footer>
-          Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
-        </Card.Footer>}
+                <Card.Footer>
+                    Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
+                </Card.Footer>}
         </Card>
     );
 };
