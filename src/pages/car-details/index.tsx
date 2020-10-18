@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Container, Card, Row, Table, Badge } from 'react-bootstrap';
+import { Container, Card, Col, Row, Table, Badge } from 'react-bootstrap';
 
 import api from '../../api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
@@ -45,57 +45,67 @@ class CarDetailsPage extends React.Component<{}, State> {
                     <h1>{car.model.name}</h1>
                 </Row>
                 <Row>
-                    <Card style={{ width: '800px' }}>
-                        <Card.Header>Odometer</Card.Header>
-                        <Card.Body>
-                            <SimpleScatterChart
-                                data={logs.map(x => {
-                                    return {
-                                        ...x,
-                                        timestamp: new Date(x.timestamp).getTime(),
-                                    };
-                                })}
-                                unit='km'
-                            />
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Header>Service history</Card.Header>
-                        <Card.Body>
-                            <Table>
-                                <tbody>
-                                    {car.services.map(service =>
-                                        <tr>
-                                            <td>{moment(service.date).format('D MMMM YYYY')}</td>
-                                            <td>
-                                                <Badge variant="primary">{service.serviceType.name}</Badge>
-                                            </td>
-                                            <td>{service.description}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Header>Service intervals</Card.Header>
-                        <Card.Body>
-                            <Table>
-                                <tbody>
-                                    {car.serviceDue.map(serviceDue =>
-                                        <tr>
-                                            <td>
-                                                <Badge variant="primary">{serviceDue.serviceType.name}</Badge>
-                                            </td>
-                                            <td>
-                                                {serviceDue.dueBefore}
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-                        </Card.Body>
-                    </Card>
+                    <Col lg={5}>
+                        <Card>
+                            <Card.Header>Odometer</Card.Header>
+                            <Card.Body>
+                                <SimpleScatterChart
+                                    data={logs.map(x => {
+                                        return {
+                                            ...x,
+                                            timestamp: new Date(x.timestamp).getTime(),
+                                        };
+                                    })}
+                                    unit='km'
+                                />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={4}>
+                        <Card>
+                            <Card.Header>Service history</Card.Header>
+                            <Card.Body>
+                                <Table>
+                                    <tbody>
+                                        {car.services.map(service =>
+                                            <tr title={service.description}>
+                                                <td>{moment(service.date).format('D MMMM YYYY')}</td>
+                                                <td>
+                                                    <Badge variant="primary">{service.serviceType.name}</Badge>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={3}>
+                        <Card>
+                            <Card.Header>Service due</Card.Header>
+                            <Card.Body>
+                                <Table>
+                                    <tbody>
+                                        {car.serviceDue.map(serviceDue =>
+                                            <tr>
+                                                <td>
+                                                    {serviceDue.dueBefore &&
+                                                        `${moment(serviceDue.dueBefore).diff(moment(), 'days')} days`
+                                                    }
+                                                    {serviceDue.dueIn &&
+                                                        `${serviceDue.dueIn}km`
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <Badge variant="primary">{serviceDue.serviceType.name}</Badge>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                 </Row>
             </Container>
         );

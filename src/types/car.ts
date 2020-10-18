@@ -18,6 +18,8 @@ export interface CarService {
 
 export interface CarServiceDue {
     dueBefore: string,
+    dueAt?: number,
+    dueIn?: number,
     serviceType: CarServiceType,
 }
 
