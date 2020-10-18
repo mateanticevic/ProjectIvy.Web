@@ -32,7 +32,6 @@ const unitMapping = {
 };
 
 export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByChange }) => {
-
     const applyUnitFormatting = (data) => {
         if (unit == Unit.Liters){
             return data.map(x => {

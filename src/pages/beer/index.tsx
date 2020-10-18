@@ -57,10 +57,12 @@ interface State {
 
 const sumByOptions = [
     { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+    { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
     { value: GroupByTime.ByYear, name: 'Year' },
 ];
 
 const sumApiMapping = {
+    [GroupByTime.ByDayOfWeek]: api.consumation.getSumByDayOfWeek,
     [GroupByTime.ByMonthOfYear]: api.consumation.getSumByMonthOfYear,
     [GroupByTime.ByYear]: api.consumation.getSumByYear,
 }
