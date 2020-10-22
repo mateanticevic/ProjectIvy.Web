@@ -11,12 +11,21 @@ const getLogBySession = (carId: string, filters) => api.get(`car/${carId}/log/by
 
 const getServiceIntervals = (carModelId: string) => api.get(`carModel/${carModelId}/serviceInterval`);
 
+const getServiceTypes = (carModelId: string) => api.get(`carModel/${carModelId}/serviceType`);
+
+const postLog = (carId: string, carLog) => api.post(`car/${carId}/log`, carLog);
+
+const postService = (carId: string, carService) => api.post(`car/${carId}/service`, carService);
+
 const car = {
     get,
     getLogs,
     getLogLatest,
     getLogBySession,
     getServiceIntervals,
+    getServiceTypes,
+    postLog,
+    postService,
 };
 
 export default car;

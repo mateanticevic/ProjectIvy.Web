@@ -11,25 +11,27 @@ interface Props {
 }
 
 const DateFormElement = ({ label, onChange, value }: Props) => {
-    return (<FormGroup>
-        <FormLabel>
-            {label}
-        </FormLabel>
-        <InputGroup>
-            <Datetime
-                dateFormat="YYYY-MM-DD"
-                timeFormat={false}
-                locale={moment.locale('us')}
-                onChange={x => onChange(x.format('YYYY-MM-DD'))}
-                value={value}
-            />
-            <InputGroup.Append>
-                <InputGroup.Text>
-                    <FaCalendar />
-                </InputGroup.Text>
-            </InputGroup.Append>
-        </InputGroup>
-    </FormGroup>);
+    return (
+        <FormGroup>
+            <FormLabel>
+                {label}
+            </FormLabel>
+            <InputGroup>
+                <Datetime
+                    dateFormat="YYYY-MM-DD"
+                    timeFormat={false}
+                    locale={moment.locale('us')}
+                    onChange={x => onChange(x.format('YYYY-MM-DD'))}
+                    value={value}
+                />
+                <InputGroup.Append>
+                    <InputGroup.Text>
+                        <FaCalendar />
+                    </InputGroup.Text>
+                </InputGroup.Append>
+            </InputGroup>
+        </FormGroup>
+    );
 };
 
 export default DateFormElement;

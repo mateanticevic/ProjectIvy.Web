@@ -1,4 +1,5 @@
 export interface Car {
+    id: string,
     model: CarModel,
     services: CarService[],
     serviceDue: CarServiceDue[],
