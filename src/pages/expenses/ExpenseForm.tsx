@@ -131,6 +131,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
             <FormGroup>
               <FormLabel>Description</FormLabel>
               <FormControl
+                as="textarea"
                 value={expense.comment}
                 type="text"
                 onChange={x => onChange({ comment: x.target.value })}
