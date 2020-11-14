@@ -216,7 +216,7 @@ class BeerPage extends Page<Props, State> {
                             <ListGroup>
                                 {this.state.topBeers.map(beer =>
                                     <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                                        {beer.by.name} <span className="pull-right"><VolumeBadge volume={beer.sum} /></span>
+                                        {beer.key.name} <span className="pull-right"><VolumeBadge volume={beer.value} /></span>
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>
@@ -237,10 +237,10 @@ class BeerPage extends Page<Props, State> {
                                 {this.state.sumByCountry.map(country =>
                                     <ListGroup.Item key={_.uniqueId('list_item_top_country_')} className="list-group-item border-no-radius border-no-left border-no-right">
                                         <FlagIcon
-                                            code={country.by.id}
-                                            country={country.by.name}
+                                            code={country.key.id}
+                                            country={country.key.name}
                                         />
-                                        &nbsp;{country.by.name} <span className="pull-right"><VolumeBadge volume={country.sum} /></span>
+                                        &nbsp;{country.key.name} <span className="pull-right"><VolumeBadge volume={country.value} /></span>
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>

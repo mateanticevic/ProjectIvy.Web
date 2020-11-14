@@ -406,10 +406,10 @@ class ExpensesPage extends Page<{}, State> {
       api.expense
           .getCountByVendor(pageAllFilters)
           .then(data => {
-              const top = _.take(_.filter(data.items, item => item.by), 3);
+              const top = _.take(_.filter(data.items, item => item.key), 3);
               const other = _.difference(data.items, top);
 
-              const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
+              const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
 
               if (other.length > 0) {
                   chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
@@ -426,10 +426,10 @@ class ExpensesPage extends Page<{}, State> {
       api.expense
           .getCountByType(pageAllFilters)
           .then(data => {
-              const top = _.take(_.filter(data.items, item => item.by), 3);
+              const top = _.take(_.filter(data.items, item => item.key), 3);
               const other = _.difference(data.items, top);
 
-              const chartData = top.map(x => ({ name: x.by.name, value: x.count }));
+              const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
               if (other.length > 0) {
                   chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
               }
