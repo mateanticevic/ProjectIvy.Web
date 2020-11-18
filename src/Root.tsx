@@ -40,7 +40,7 @@ export default class Root extends React.Component<{}, State> {
   };
 
   public componentDidMount() {
-      const isLoggedIn = !!window.localStorage.getItem('token');
+      const isLoggedIn = document.cookie.includes('Token');
 
       if (isLoggedIn) {
           api.user.get().then(user => this.setState({ user }));

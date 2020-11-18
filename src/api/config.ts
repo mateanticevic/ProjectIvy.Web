@@ -5,7 +5,6 @@ import { httpMethod } from './httpMethod';
 import { httpStatus } from './httpStatus';
 
 const headers = new Headers(); 
-headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
 
 function handleResponse(response) {
 
@@ -42,6 +41,7 @@ export function get(resource: string, parameters?: any) {
 
     const init: RequestInit = {
         cache: 'default',
+        credentials: 'include',
         headers,
         method: httpMethod.GET,
         mode: 'cors',
@@ -53,6 +53,7 @@ export function get(resource: string, parameters?: any) {
 export function del(resource: string, parameters?: string) {
 
     const init: RequestInit = {
+        credentials: 'same-origin',
         headers,
         method: httpMethod.DELETE,
         mode: 'cors',
@@ -68,6 +69,7 @@ export function post(resource: string, json?: object, parameters?: string) {
     const init: RequestInit = {
         body: JSON.stringify(json),
         cache: 'default',
+        credentials: 'same-origin',
         headers,
         method: httpMethod.POST,
         mode: 'cors',
@@ -81,6 +83,7 @@ export function postFile(resource: string, file: File) {
     const init: RequestInit = {
         body: file,
         cache: 'default',
+        credentials: 'same-origin',
         headers,
         method: httpMethod.POST,
         mode: 'cors',
@@ -96,6 +99,7 @@ export function put(resource: string, json: object) {
     const init: RequestInit = {
         body: JSON.stringify(json),
         cache: 'default',
+        credentials: 'same-origin',
         headers,
         method: httpMethod.PUT,
         mode: 'cors',

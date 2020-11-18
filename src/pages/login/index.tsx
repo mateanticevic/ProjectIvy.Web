@@ -22,12 +22,11 @@ class LoginPage extends React.Component<{}, State> {
 
   componentDidMount() {
       if (window.location.search === '?logout') {
-          localStorage.removeItem('token');
+          document.cookie = `Token=;expires=${new Date().toUTCString()}`
       }
   }
 
   render() {
-
       return (
           <Card className="panel-login">
               <Card.Header>Login</Card.Header>
@@ -60,7 +59,7 @@ class LoginPage extends React.Component<{}, State> {
       });
       api.token.post(this.state.username, this.state.password)
           .then(token => {
-              localStorage.setItem('token', token);
+              document.cookie = `Token=${token}`;
               apiConfig.setToken();
               location.assign('/');
           }).catch(() => {
