@@ -2,6 +2,7 @@ import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaPen, FaLink, FaShopp
 import moment from 'moment';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { RiExchangeDollarLine } from 'react-icons/ri';
 
 import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './ExpenseTypeLabel';
@@ -10,36 +11,36 @@ import { PaymentType } from '../../consts/service';
 import { Name } from 'types/common';
 
 interface Props {
-  expense: Expense;
-  onEdit?: () => void;
-  onUnlink?: () => void;
+    expense: Expense;
+    onEdit?: () => void;
+    onUnlink?: () => void;
 }
 
 const renderPaymentTypeIcon = (name: Name) => {
     switch (name?.id) {
-    case PaymentType.Cash:
-        return <FaMoneyBill title={name.name} />;
-    case PaymentType.CreditCard:
-        return <FaCreditCard title={name.name} />;
-    case PaymentType.CreditCardOnline:
-        return <FaShoppingCart title={name.name} />;
-    case PaymentType.WireTransfer:
-        return <FaUniversity title={name.name} />;
-    default:
-        return null;
+        case PaymentType.Cash:
+            return <FaMoneyBill title={name.name} />;
+        case PaymentType.CreditCard:
+            return <FaCreditCard title={name.name} />;
+        case PaymentType.CreditCardOnline:
+            return <FaShoppingCart title={name.name} />;
+        case PaymentType.WireTransfer:
+            return <FaUniversity title={name.name} />;
+        default:
+            return null;
     }
 };
 
 const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
     const hasFilesTooltip = (
         <Tooltip id="tooltip">
-      Has {expense.files.length} linked files
+            Has {expense.files.length} linked files
         </Tooltip>
     );
 
     const needsReviewTooltop = (
         <Tooltip id="tooltip">
-      Needs review
+            Needs review
         </Tooltip>
     );
 
@@ -62,29 +63,32 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
             <td>
                 {renderPaymentTypeIcon(expense.paymentType)}
                 {expense.files && expense.files.length > 0 &&
-          <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
-              <FaFile />
-          </OverlayTrigger>
+                    <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
+                        <FaFile />
+                    </OverlayTrigger>
                 }
                 {expense.needsReview &&
-          <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
-              <FaExclamation />
-          </OverlayTrigger>
+                    <OverlayTrigger placement="right" overlay={needsReviewTooltop}>
+                        <FaExclamation />
+                    </OverlayTrigger>
+                }
+                {expense.parentCurrency &&
+                    <RiExchangeDollarLine title={`Parent currency ${expense.parentCurrency.code}`} />
                 }
             </td>
             <td>
                 {onEdit &&
-          <Button
-              className="pull-right"
-              variant="primary"
-              size="sm"
-              onClick={() => onEdit(expense)}
-          >
-              <FaPen size="10px" /> Edit
+                    <Button
+                        className="pull-right"
+                        variant="primary"
+                        size="sm"
+                        onClick={() => onEdit(expense)}
+                    >
+                        <FaPen size="10px" /> Edit
           </Button>
                 }
                 {onUnlink &&
-          <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>
+                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>
                 }
             </td>
         </tr>
