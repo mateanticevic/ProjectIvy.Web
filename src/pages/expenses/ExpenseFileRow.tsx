@@ -36,7 +36,7 @@ export const ExpenseFileRow = ({ expenseFile }) => {
                     className="pull-right"
                     variant="primary"
                     size="sm"
-                    onClick={() => window.open(`https://api2.anticevic.net/file/${expenseFile.file.id}`)}
+                    onClick={() => window.open(`/api/file/${expenseFile.file.id}`)}
                 >
                     <FaDownload /> Download
                 </Button>
