@@ -15,6 +15,7 @@ export interface Trip {
     distance: number;
     countries: any[];
     cities: any[];
+    files: any[];
     expenses: any[];
     pois?: any;
     totalSpent: number;
