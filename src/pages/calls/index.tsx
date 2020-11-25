@@ -114,7 +114,7 @@ export default class CallsPage extends Page<{}, State> {
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
             <td>{formatHelper.time(call.duration)}</td>
             <td>
-                <audio controls src={`https://api2.anticevic.net/file/${call.file.id}`} />
+                <audio controls src={`/api/file/${call.file.id}`} />
             </td>
         </tr>
         ));
