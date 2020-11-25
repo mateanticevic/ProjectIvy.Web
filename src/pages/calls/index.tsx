@@ -108,13 +108,12 @@ export default class CallsPage extends Page<{}, State> {
 
     @boundMethod
     private renderCalls() {
-
         return this.state.calls.items.map(call => (<tr>
             <td>{moment(call.timestamp).format('Do MMMM YYYY HH:mm:ss')}</td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
             <td>{formatHelper.time(call.duration)}</td>
             <td>
-                <audio controls src={`/api/file/${call.file.id}`} />
+                <audio preload="none" controls src={`/api/file/${call.file.id}`} />
             </td>
         </tr>
         ));
