@@ -16,7 +16,7 @@ const PoiTable: React.SFC<Props> = ({ addToTrip, pois }) => {
     });
 
     return (
-        <Table>
+        <Table responsive>
             <thead>
                 <tr>
                     <th>Name</th>

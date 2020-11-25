@@ -75,33 +75,36 @@ class FlightsPage extends Page<{}, State> {
                     </Col>
                     <Col lg={3}>
                         <Row>
-                            <Card>
-                                <Card.Header>Filters</Card.Header>
-                                <Card.Body>
-                                    <DateFormElement
-                                        label="From"
-                                        onChange={date => this.onFiltersChange({ from: date })}
-                                        value={filters.from}
-                                    />
-                                    <DateFormElement
-                                        label="To"
-                                        onChange={date => this.onFiltersChange({ to: date })}
-                                        value={filters.to}
-                                    />
-                                </Card.Body>
-                            </Card>
+                            <Col lg={12}>
+                                <Card>
+                                    <Card.Header>Filters</Card.Header>
+                                    <Card.Body>
+                                        <DateFormElement
+                                            label="From"
+                                            onChange={date => this.onFiltersChange({ from: date })}
+                                            value={filters.from}
+                                        />
+                                        <DateFormElement
+                                            label="To"
+                                            onChange={date => this.onFiltersChange({ to: date })}
+                                            value={filters.to}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         </Row>
                         <Row>
-                            <Card>
-                                <Card.Header>Flights ({flights.count})</Card.Header>
-                                <Card.Body className="padding-0">
-                                    <ListGroup>
-                                        {flightItems}
-                                    </ListGroup>
-                                </Card.Body>
-                            </Card>
+                            <Col lg={12}>
+                                <Card>
+                                    <Card.Header>Flights ({flights.count})</Card.Header>
+                                    <Card.Body className="padding-0">
+                                        <ListGroup>
+                                            {flightItems}
+                                        </ListGroup>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         </Row>
-
                     </Col>
                 </Row>
             </Container>
@@ -113,7 +116,7 @@ class FlightsPage extends Page<{}, State> {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
 
-        this.setState({filters});
+        this.setState({ filters });
 
         api.flight.getFlights(filters).then(flights => this.setState({ flights }));
     }
