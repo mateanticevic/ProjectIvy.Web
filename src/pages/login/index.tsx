@@ -1,6 +1,7 @@
 import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, FormLabel, FormControl, Card, Row, Container } from 'react-bootstrap';
+import moment from 'moment';
 
 import * as apiConfig from '../../api/config';
 import api from '../../api/main';
@@ -65,7 +66,8 @@ class LoginPage extends React.Component<{}, State> {
         });
         api.token.post(this.state.username, this.state.password)
             .then(token => {
-                document.cookie = `Token=${token}`;
+                const expires = moment().add(1, 'M');
+                document.cookie = `Token=${token};expires=${expires.utc()}`;
                 apiConfig.setToken();
                 location.assign('/');
             }).catch(() => {

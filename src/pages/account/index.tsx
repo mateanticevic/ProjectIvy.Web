@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Card, Container, Table } from 'react-bootstrap';
+import { Card, Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 import { UserSession } from 'types/users';
 
 import { Page } from '../Page';
@@ -44,7 +44,17 @@ class AccountPage extends Page<{}, State> {
                                         <td>{moment(session.validUntil).toString()}</td>
                                         <td>{session.userAgent}</td>
                                         <td>{session.operatingSystem}</td>
-                                        <td onClick={() => this.closeSession(session.id)}>Close</td>
+                                        <td>
+                                            {!session.isCurrentSession &&
+                                                <DropdownButton
+                                                    title="Actions"
+                                                    variant="primary"
+                                                    size="sm"
+                                                >
+                                                    <Dropdown.Item onClick={() => this.closeSession(session.id)}>Close</Dropdown.Item>
+                                                </DropdownButton>
+                                            }
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>

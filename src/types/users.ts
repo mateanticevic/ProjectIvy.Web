@@ -14,6 +14,7 @@ export interface UserSession {
     country: Country;
     id: string;
     ipAddress: string;
+    isCurrentSession: boolean;
     operatingSystem: string;
     userAgent: string;
     validUntil: string;

@@ -19,7 +19,7 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        window.location = '/login';
+        window.location = '/login?logout';
     } else {
         throw new Error();
     }
