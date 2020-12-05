@@ -23,7 +23,11 @@ class LoginPage extends React.Component<{}, State> {
 
     componentDidMount() {
         if (window.location.search === '?logout') {
-            document.cookie = `Token=;expires=${new Date().toUTCString()}`
+            api.user.deleteSession()
+                    .then(() => {
+                        document.cookie = `Token=;expires=${new Date().toUTCString()}`;
+                        window.location = '/login';
+                    });
         }
     }
 
