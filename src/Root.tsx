@@ -6,6 +6,7 @@ import autobind from 'autobind-decorator';
 import { User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
+import AccountPage from './pages/account';
 import BeerPage from './pages/beer';
 import CallsPage from './pages/calls';
 import DashboardPage from './pages/dashboard';
@@ -64,6 +65,7 @@ export default class Root extends React.Component<{}, State> {
                   }
                   <Switch>
                       <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
+                      <Route path="/account" exact render={() => <AccountPage />} />
                       <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
                       <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
                       <Route path="/calls" exact component={CallsPage} />

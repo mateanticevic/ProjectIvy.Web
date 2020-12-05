@@ -1,3 +1,4 @@
+import { Country } from './common';
 import { Currency } from './expenses';
 
 export interface User {
@@ -7,4 +8,13 @@ export interface User {
     lastName: string;
     modules: string[];
     username: string;
+}
+
+export interface UserSession {
+    country: Country;
+    id: string;
+    ipAddress: string;
+    operatingSystem: string;
+    userAgent: string;
+    validUntil: string;
 }
