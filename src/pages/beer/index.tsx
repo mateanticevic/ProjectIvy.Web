@@ -213,37 +213,43 @@ class BeerPage extends Page<Props, State> {
                     <Col lg={3}>
                         <Card>
                             <Card.Header>Top Beers</Card.Header>
-                            <ListGroup>
-                                {this.state.topBeers.map(beer =>
-                                    <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                                        {beer.key.name} <span className="pull-right"><VolumeBadge volume={beer.value} /></span>
-                                    </ListGroup.Item>
-                                )}
-                            </ListGroup>
+                            <Card.Body className="panel-small padding-0">
+                                <ListGroup>
+                                    {this.state.topBeers.map(beer =>
+                                        <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                            {beer.key.name} <span className="pull-right"><VolumeBadge volume={beer.value} /></span>
+                                        </ListGroup.Item>
+                                    )}
+                                </ListGroup>
+                            </Card.Body>
                         </Card>
                         <Card>
                             <Card.Header>New Beers ({this.state.newBeers.count})</Card.Header>
-                            <ListGroup>
-                                {this.state.newBeers.items.map(beer =>
-                                    <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                                        {beer.name}
-                                    </ListGroup.Item>
-                                )}
-                            </ListGroup>
+                            <Card.Body className="panel-small padding-0">
+                                <ListGroup>
+                                    {this.state.newBeers.items.map(beer =>
+                                        <ListGroup.Item key={_.uniqueId('list_item_top_beer_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                            {beer.name}
+                                        </ListGroup.Item>
+                                    )}
+                                </ListGroup>
+                            </Card.Body>
                         </Card>
                         <Card>
                             <Card.Header>Top Countries</Card.Header>
-                            <ListGroup>
-                                {this.state.sumByCountry.map(country =>
-                                    <ListGroup.Item key={_.uniqueId('list_item_top_country_')} className="list-group-item border-no-radius border-no-left border-no-right">
-                                        <FlagIcon
-                                            code={country.key.id}
-                                            country={country.key.name}
-                                        />
+                            <Card.Body className="panel-small padding-0">
+                                <ListGroup>
+                                    {this.state.sumByCountry.map(country =>
+                                        <ListGroup.Item key={_.uniqueId('list_item_top_country_')} className="list-group-item border-no-radius border-no-left border-no-right">
+                                            <FlagIcon
+                                                code={country.key.id}
+                                                country={country.key.name}
+                                            />
                                         &nbsp;{country.key.name} <span className="pull-right"><VolumeBadge volume={country.value} /></span>
-                                    </ListGroup.Item>
-                                )}
-                            </ListGroup>
+                                        </ListGroup.Item>
+                                    )}
+                                </ListGroup>
+                            </Card.Body>
                         </Card>
                         <Card>
                             <Card.Header>By Serving</Card.Header>

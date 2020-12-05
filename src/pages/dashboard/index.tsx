@@ -134,9 +134,11 @@ class DashboardPage extends React.Component<Props> {
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/expenses">Expenses</a></Card.Header>
-                                <ListGroup>
-                                    {expenseItems}
-                                </ListGroup>
+                                <Card.Body className="panel-small padding-0">
+                                    <ListGroup>
+                                        {expenseItems}
+                                    </ListGroup>
+                                </Card.Body>
                             </Card>
                         </div>
                     }
@@ -156,9 +158,11 @@ class DashboardPage extends React.Component<Props> {
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/beer">Beer</a></Card.Header>
-                                <ListGroup variant="flush">
-                                    {consumationItems}
-                                </ListGroup>
+                                <Card.Body className="panel-small padding-0">
+                                    <ListGroup variant="flush">
+                                        {consumationItems}
+                                    </ListGroup>
+                                </Card.Body>
                             </Card>
                         </div>
                     }
@@ -166,9 +170,11 @@ class DashboardPage extends React.Component<Props> {
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/movies">Movies</a></Card.Header>
-                                <ListGroup>
-                                    {movieItems}
-                                </ListGroup>
+                                <Card.Body className="panel-small padding-0">
+                                    <ListGroup>
+                                        {movieItems}
+                                    </ListGroup>
+                                </Card.Body>
                             </Card>
                         </div>
                     }
