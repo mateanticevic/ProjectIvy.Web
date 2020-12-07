@@ -19,6 +19,7 @@ interface State {
     cards: any[];
     currencies: Currency[];
     defaultCurrency: Currency;
+    descriptionSuggestions: string[];
     expense: Expense;
     expenses: Expense[];
     expensesAreLoading: boolean;
@@ -41,6 +42,7 @@ class ExpensesPage extends Page<{}, State> {
         cards: [],
         currencies: [],
         defaultCurrency: {},
+        descriptionSuggestions: [],
         expense: {
             currencyId: 'HRK',
             files: [],
@@ -238,6 +240,7 @@ class ExpensesPage extends Page<{}, State> {
                 </Row>
                 <ExpenseModal
                     currencies={this.state.currencies}
+                    descriptionSuggestions={this.state.descriptionSuggestions}
                     types={this.state.types}
                     vendorPois={this.state.vendorPois}
                     vendors={this.state.vendors}
@@ -321,6 +324,13 @@ class ExpensesPage extends Page<{}, State> {
                 ...this.state.expense,
                 ...expenseValue,
             },
+        }, () => {
+            api.expense
+                .getTopDescriptions({
+                    description: this.state.expense.comment,
+                    typeId: this.state.expense.expenseType.id,
+                })
+                .then(descriptionSuggestions => this.setState({ descriptionSuggestions }))
         });
 
         if (expenseValue && expenseValue.vendorId) {

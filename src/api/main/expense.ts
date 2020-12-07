@@ -40,6 +40,8 @@ function getSum(filters) {
     return api.get('expense/sum', filters);
 }
 
+const getTopDescriptions = (filters) => api.get('expense/top/description', filters);
+
 function getTypeCount(filters) {
     return api.get('expense/type/count', filters);
 }
@@ -79,6 +81,7 @@ const expense = {
     getCountByYear,
     getFiles,
     getSum,
+    getTopDescriptions,
     getTypeCount,
     getVendorCount,
     getSumByMonth,

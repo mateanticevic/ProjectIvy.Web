@@ -21,6 +21,7 @@ const ExpenseModal = (props) => {
             <Modal.Body>
                 <ExpenseForm
                     currencies={props.currencies}
+                    descriptionSuggestions={props.descriptionSuggestions}
                     types={props.types}
                     vendors={props.vendors}
                     fileTypes={props.fileTypes}

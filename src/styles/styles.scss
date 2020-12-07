@@ -215,3 +215,14 @@ td {
 .progress {
   margin-top: 5px;
 }
+
+.expense-form-description-suggestions {
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+}

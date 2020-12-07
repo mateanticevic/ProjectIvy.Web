@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
@@ -12,6 +12,7 @@ import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 interface Props {
   cards: any;
   currencies: any;
+  descriptionSuggestions: string[];
   expense: Expense;
   deleteFile: any;
   fileTypes: any;
@@ -25,7 +26,7 @@ interface Props {
   vendorPois: any;
 }
 
-const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
+const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
 
   return (
     <Tabs id="expenseFormTabs" defaultActiveKey={1}>
@@ -136,6 +137,18 @@ const ExpenseForm = ({ cards, currencies, deleteFile, expense, fileTypes, files,
                 type="text"
                 onChange={x => onChange({ comment: x.target.value })}
               />
+              <div className="expense-form-description-suggestions">
+                {descriptionSuggestions && !descriptionSuggestions.some(x => x === expense.comment) &&
+                  descriptionSuggestions.map(suggestion =>
+                    <Badge
+                      className="item cursor-pointer"
+                      onClick={() => onChange({ comment: suggestion })}
+                      variant="secondary"
+                    >
+                      {suggestion}
+                    </Badge>
+                  )}
+              </div>
             </FormGroup>
           </Col>
         </Row>
