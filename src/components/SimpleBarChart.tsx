@@ -9,20 +9,16 @@ interface Props {
     value: string;
 }
 
-const SimpleBarChart = ({ data, name, unit, value }: Props) => {
-
-    return (
-        <ResponsiveContainer height={300}>
-            <BarChart data={data}>
-                <XAxis dataKey={name} />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />
-            </BarChart>
-        </ResponsiveContainer>
-    );
-};
+const SimpleBarChart = ({ data, name, unit, value }: Props) =>
+    <ResponsiveContainer height={300}>
+        <BarChart data={data}>
+            <XAxis dataKey={name} />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Legend />
+            <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />
+        </BarChart>
+    </ResponsiveContainer>;
 
 export default SimpleBarChart;

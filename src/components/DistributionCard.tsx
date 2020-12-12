@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Card } from 'react-bootstrap';
 import { RadioLabel, SimpleBarChart } from '.';
 import { Unit } from '../consts/units';
+import { GroupByTime } from '../consts/groupings';
 
 const remap = (data) => {
     if (data[0]?.month) {
@@ -33,11 +34,11 @@ const unitMapping = {
 
 export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByChange }) => {
     const applyUnitFormatting = (data) => {
-        if (unit == Unit.Liters){
+        if (unit == Unit.Liters) {
             return data.map(x => {
                 return {
-                  key: x.key,
-                  value: Math.round(x.value / 1000),  
+                    key: x.key,
+                    value: Math.round(x.value / 1000),
                 };
             });
         }
@@ -45,19 +46,39 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
         return data;
     }
 
+    const [countByOption, setCountByOption] = React.useState(countByOptions[0]);
+
+    const groupByChange = (groupBy) => {
+        setCountByOption(groupBy);
+        onGroupByChange(groupBy);
+    };
+
+    let df = applyUnitFormatting(remap(data));
+    if (countByOption === GroupByTime.ByDayOfWeek){
+        df = df.map(x => {
+            return {
+                key: moment().day(x.key + 1).format("dddd"),
+                value: x.value,
+            };
+        });
+    }
+
     return (
         <Card>
             <Card.Header>{name}</Card.Header>
             <Card.Body>
                 <SimpleBarChart
-                    data={applyUnitFormatting(remap(data))}
+                    data={df}
                     name="key"
                     unit={unit ? unitMapping[unit] : ''}
                     value="value"
                 />
             </Card.Body>
             <Card.Footer>
-                <RadioLabel options={countByOptions} onSelect={onGroupByChange} />
+                <RadioLabel
+                    options={countByOptions}
+                    onSelect={groupByChange}
+                />
             </Card.Footer>
         </Card>
     );
