@@ -2,11 +2,10 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Button, Col, Container, Card, Row, Accordion } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import api from '../../api/main';
-import { RadioLabel, SimpleBarChart } from '../../components';
 import { GroupByTime } from '../../consts/groupings';
 import { Page } from '../Page';
 import { CountByChart } from './CountByChart';
@@ -14,6 +13,7 @@ import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import Filters from './Filters';
 import FiltersMore from './FiltersMore';
+import { DistributionCard } from '../../components/DistributionCard';
 
 interface State {
     cards: any[];
@@ -32,9 +32,23 @@ interface State {
     orderBy: any;
     paymentTypes: any[];
     stats: any;
+    sumChartData: any;
+    sumGroupBy: GroupByTime;
     types: any;
     vendors: any;
     vendorPois: any;
+}
+
+const sumByOptions = [
+    { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
+    { value: GroupByTime.ByMonth, name: 'Month' },
+    { value: GroupByTime.ByYear, name: 'Year' },
+];
+
+const maps = {
+    [GroupByTime.ByYear]: api.expense.getSumByYear,
+    [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
+    [GroupByTime.ByMonth]: api.expense.getSumByMonth,
 }
 
 class ExpensesPage extends Page<{}, State> {
@@ -63,11 +77,8 @@ class ExpensesPage extends Page<{}, State> {
             page: 1,
         },
         graphs: {
-            count: [],
             countByType: [],
             countByVendor: [],
-            sum: [],
-            sumByYear: [],
         },
         isSavingExpense: false,
         isModalOpen: false,
@@ -87,6 +98,8 @@ class ExpensesPage extends Page<{}, State> {
             typeCount: 0,
             vendorCount: 0,
         },
+        sumChartData: [],
+        sumGroupBy: GroupByTime.ByMonthOfYear,
         types: [],
         vendors: [],
         vendorPois: [],
@@ -180,38 +193,12 @@ class ExpensesPage extends Page<{}, State> {
                         </Row>
                         <Row>
                             <Col lg={12}>
-                                <Card>
-                                    <Card.Header>
-                                        Count
-                                  </Card.Header>
-                                    <Card.Body>
-                                        <SimpleBarChart
-                                            data={this.state.graphs.count}
-                                            name="key"
-                                            value="value"
-                                        />
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        <RadioLabel options={countByOptions} onSelect={this.onCountByClick} />
-                                    </Card.Footer>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>
-                                        Sum
-                                  </Card.Header>
-                                    <Card.Body>
-                                        <SimpleBarChart
-                                            data={chartSumData}
-                                            name="key"
-                                            value="value"
-                                            unit=" kn"
-                                        />
-                                    </Card.Body>
-                                </Card>
+                                <DistributionCard
+                                    countByOptions={sumByOptions}
+                                    data={this.state.sumChartData}
+                                    name="Sum"
+                                    onGroupByChange={this.onSumGroupBy}
+                                />
                             </Col>
                         </Row>
                         <Row>
@@ -287,37 +274,6 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     @boundMethod
-    private onCountByClick(groupBy: GroupByTime) {
-        let apiMethod;
-
-        switch (groupBy) {
-            case GroupByTime.ByYear:
-                apiMethod = api.expense.getCountByYear;
-                break;
-            case GroupByTime.ByMonth:
-                apiMethod = api.expense.getCountByMonth;
-                break;
-            case GroupByTime.ByMonthOfYear:
-                apiMethod = api.expense.getCountByMonthOfYear;
-                break;
-            case GroupByTime.ByDayOfWeek:
-                apiMethod = api.expense.getCountByDayOfWeek;
-                break;
-            case GroupByTime.ByDay:
-                apiMethod = api.expense.getCountByDay;
-                break;
-        }
-
-        apiMethod(this.state.filters)
-            .then(countBy => this.setState({
-                graphs: {
-                    ...this.state.graphs,
-                    count: countBy,
-                },
-            }));
-    }
-
-    @boundMethod
     private onExpenseChanged(expenseValue: ExpenseBinding) {
         this.setState({
             expense: {
@@ -379,6 +335,8 @@ class ExpensesPage extends Page<{}, State> {
         this.setState({
             expensesAreLoading: true,
             filters,
+        }, () => {
+            this.onSumGroupBy(this.state.sumGroupBy);
         });
 
         api.expense
@@ -386,24 +344,6 @@ class ExpensesPage extends Page<{}, State> {
             .then(expenses => this.setState({
                 expenses,
                 expensesAreLoading: false,
-            }));
-
-        api.expense
-            .getCountByMonth(filters)
-            .then(countByMonth => this.setState({
-                graphs: {
-                    ...this.state.graphs,
-                    count: countByMonth,
-                },
-            }));
-
-        api.expense
-            .getSumByMonth(filters)
-            .then(sumByMonth => this.setState({
-                graphs: {
-                    ...this.state.graphs,
-                    sum: sumByMonth,
-                },
             }));
 
         const pageAllFilters = {
@@ -461,6 +401,11 @@ class ExpensesPage extends Page<{}, State> {
         api.expense
             .getVendorCount(filters)
             .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
+    }
+
+    onSumGroupBy = (groupBy: GroupByTime) => {
+        this.setState({ sumGroupBy: groupBy });
+        maps[groupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
     }
 
     @boundMethod

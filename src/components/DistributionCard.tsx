@@ -7,6 +7,10 @@ import { Unit } from '../consts/units';
 import { GroupByTime } from '../consts/groupings';
 
 const remap = (data) => {
+    if (!data){
+        return data;
+    }
+
     if (data[0]?.month) {
         return data.map(i => {
             return {
@@ -46,7 +50,14 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
         return data;
     }
 
-    const [countByOption, setCountByOption] = React.useState(countByOptions[0]);
+    const applyKeyFormatting = {
+        [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format("dddd"),
+        [GroupByTime.ByMonth]: (key) => moment().month(key - 1).format("MMMM"),
+        [GroupByTime.ByMonthOfYear]: (key) => moment(key).format("MMM YYYY"),
+    };
+
+    const [countByOption, setCountByOption] = React.useState(countByOptions[0].value);
+    console.log(countByOption);
 
     const groupByChange = (groupBy) => {
         setCountByOption(groupBy);
@@ -54,10 +65,10 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
     };
 
     let df = applyUnitFormatting(remap(data));
-    if (countByOption === GroupByTime.ByDayOfWeek){
+    if (applyKeyFormatting[countByOption]){
         df = df.map(x => {
             return {
-                key: moment().day(x.key + 1).format("dddd"),
+                key: applyKeyFormatting[countByOption](x.key),
                 value: x.value,
             };
         });

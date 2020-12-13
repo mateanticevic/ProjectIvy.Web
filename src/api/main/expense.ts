@@ -50,9 +50,9 @@ function getVendorCount(filters) {
     return api.get('expense/vendor/count', filters);
 }
 
-function getSumByMonth(filters) {
-    return api.get('expense/sum/bymonth', filters);
-}
+const getSumByMonth = (filters) => api.get('expense/sum/byMonth', filters);
+
+const getSumByMonthOfYear = (filters) => api.get('expense/sum/byMonthOfYear', filters);
 
 function getSumByYear(filters) {
     return api.get('expense/sum/byyear', filters);
@@ -80,11 +80,12 @@ const expense = {
     getCountByVendor,
     getCountByYear,
     getFiles,
-    getSum,
     getTopDescriptions,
     getTypeCount,
     getVendorCount,
+    getSum,
     getSumByMonth,
+    getSumByMonthOfYear,
     getSumByYear,
     post,
     put,
