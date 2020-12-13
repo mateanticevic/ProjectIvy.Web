@@ -42,11 +42,13 @@ interface State {
 const sumByOptions = [
     { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
     { value: GroupByTime.ByMonth, name: 'Month' },
+    { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
     { value: GroupByTime.ByYear, name: 'Year' },
 ];
 
 const maps = {
     [GroupByTime.ByYear]: api.expense.getSumByYear,
+    [GroupByTime.ByDayOfWeek]: api.expense.getSumByDayOfWeek,
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
     [GroupByTime.ByMonth]: api.expense.getSumByMonth,
 }
