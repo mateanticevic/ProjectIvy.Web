@@ -25,8 +25,10 @@ const countByOptions = [
     { value: MovieGroupBy.ByMonthOfYear, name: 'Month of Year' },
     { value: MovieGroupBy.ByDayOfWeek, name: 'Day of Week' },
     { value: MovieGroupBy.ByMyRating, name: 'My Rating' },
+    { value: MovieGroupBy.ByMyRatingPerYear, name: 'My Rating per Year' },
     { value: MovieGroupBy.ByMovieDecade, name: 'Movie Decade' },
     { value: MovieGroupBy.ByMovieYear, name: 'Movie Year' },
+    { value: MovieGroupBy.ByRatingPerYear, name: 'Rating per Year' },
     { value: MovieGroupBy.ByRuntime, name: 'Runtime' },
 ];
 
@@ -36,8 +38,10 @@ const maps = {
     [MovieGroupBy.ByMonth]: api.movie.getCountByMonth,
     [MovieGroupBy.ByMonthOfYear]: api.movie.getCountByMonthOfYear,
     [MovieGroupBy.ByMyRating]: api.movie.getCountByMyRating,
+    [MovieGroupBy.ByMyRatingPerYear]: api.movie.getMyRatingAverageByYear,
     [MovieGroupBy.ByMovieDecade]: api.movie.getCountByMovieDecade,
     [MovieGroupBy.ByMovieYear]: api.movie.getCountByMovieYear,
+    [MovieGroupBy.ByRatingPerYear]: api.movie.getRatingAverageByYear,
     [MovieGroupBy.ByRuntime]: api.movie.getCountByRuntime,
 }
 

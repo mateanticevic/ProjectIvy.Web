@@ -19,6 +19,10 @@ const getCountByRuntime = (filters: MovieFilters) => api.get('movie/count/byRunt
 
 const getCountByYear = (filters: MovieFilters) => api.get('movie/count/byYear', filters);
 
+const getMyRatingAverageByYear = (filters: MovieFilters) => api.get('movie/myRating/byYear', filters);
+
+const getRatingAverageByYear = (filters: MovieFilters) => api.get('movie/rating/byYear', filters);
+
 const movie = {
     get,
     getCountByDayOfWeek,
@@ -29,6 +33,8 @@ const movie = {
     getCountByMyRating,
     getCountByRuntime,
     getCountByYear,
+    getMyRatingAverageByYear,
+    getRatingAverageByYear,
 };
 
 export default movie;

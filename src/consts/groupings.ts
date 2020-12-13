@@ -12,7 +12,9 @@ export enum MovieGroupBy {
     ByMonth,
     ByDayOfWeek,
     ByMyRating,
+    ByMyRatingPerYear,
     ByMovieDecade,
     ByMovieYear,
+    ByRatingPerYear,
     ByRuntime,
 }
