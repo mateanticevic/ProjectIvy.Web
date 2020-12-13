@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { Badge, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
-import Datetime from 'react-datetime';
+import { Badge, Card, Col, Container, Row, Table } from 'react-bootstrap';
 import 'rc-slider/assets/index.css';
 import { FaImdb } from 'react-icons/fa';
 
@@ -11,8 +10,7 @@ import api from '../../api/main';
 import { MovieGroupBy } from '../../consts/groupings';
 import { Page } from '../Page';
 import { MovieFilters } from 'types/movies';
-import { Range } from 'rc-slider';
-import { Select } from '../../components';
+import { FilterCard } from './FilterCard';
 
 interface State {
     countChartData: any;
@@ -32,12 +30,6 @@ const countByOptions = [
     { value: MovieGroupBy.ByRuntime, name: 'Runtime' },
 ];
 
-const orderByOptions = [
-    { id: 'rating', name: 'Rating' },
-    { id: 'myRating', name: 'My Rating' },
-    { id: 'myRatingDifference', name: 'My Rating Difference' },
-];
-
 const maps = {
     [MovieGroupBy.ByDayOfWeek]: api.movie.getCountByDayOfWeek,
     [MovieGroupBy.ByYear]: api.movie.getCountByYear,
@@ -48,8 +40,6 @@ const maps = {
     [MovieGroupBy.ByMovieYear]: api.movie.getCountByMovieYear,
     [MovieGroupBy.ByRuntime]: api.movie.getCountByRuntime,
 }
-
-const dateFormat = 'YYYY-M-D';
 
 class MoviesPage extends Page<{}, State> {
     state: State = {
@@ -80,64 +70,10 @@ class MoviesPage extends Page<{}, State> {
             <Container>
                 <Row>
                     <Col lg={3}>
-                        <Card>
-                            <Card.Header>Filter</Card.Header>
-                            <Card.Body>
-                                <FormGroup>
-                                    <FormLabel>From</FormLabel>
-                                    <Datetime
-                                        dateFormat={dateFormat}
-                                        timeFormat={false}
-                                        onChange={from => this.onFiltersChanged({ from: from.format(dateFormat) })}
-                                        value={filters.from}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormLabel>To</FormLabel>
-                                    <Datetime
-                                        dateFormat={dateFormat}
-                                        timeFormat={false}
-                                        onChange={to => this.onFiltersChanged({ to: to.format(dateFormat) })}
-                                        value={filters.to}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormLabel>Rating</FormLabel>
-                                    <Range
-                                        max={10}
-                                        marks={{
-                                            1: '1',
-                                            10: '10',
-                                        }}
-                                        min={1}
-                                        onChange={c => this.onFiltersChanged({ ratingLower: c[1], ratingHigher: c[0] })}
-                                        step={0.1}
-                                        value={[filters.ratingHigher, filters.ratingLower]}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormLabel>Runtime</FormLabel>
-                                    <Range
-                                        max={300}
-                                        marks={{
-                                            1: '1m',
-                                            300: '5h',
-                                        }}
-                                        min={1}
-                                        onChange={c => this.onFiltersChanged({ runtimeShorter: c[1], runtimeLonger: c[0] })}
-                                        step={1}
-                                        value={[filters.runtimeLonger, filters.runtimeShorter]}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <FormLabel>Order By</FormLabel>
-                                    <Select
-                                        options={orderByOptions}
-                                        onChange={orderBy => this.onFiltersChanged({ orderBy })}
-                                    />
-                                </FormGroup>
-                            </Card.Body>
-                        </Card>
+                        <FilterCard
+                            filters={filters}
+                            onFiltersChanged={this.onFiltersChanged}
+                        />
                     </Col>
                     <Col lg={9}>
                         <Card>
