@@ -66,6 +66,7 @@ const consumation = {
     getSumByBeer,
     getSumByCountry,
     getSumByDayOfWeek,
+    getSumByMonth: (filters) => api.get('consumation/sum/byMonth', filters),
     getSumByMonthOfYear,
     getSumByYear,
     getSumByServing,
