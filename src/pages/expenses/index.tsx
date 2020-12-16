@@ -14,6 +14,7 @@ import ExpensePanel from './ExpensePanel';
 import Filters from './Filters';
 import FiltersMore from './FiltersMore';
 import { DistributionCard } from '../../components/DistributionCard';
+import { PagedList } from 'types/common';
 
 interface State {
     cards: any[];
@@ -21,7 +22,7 @@ interface State {
     defaultCurrency: Currency;
     descriptionSuggestions: string[];
     expense: Expense;
-    expenses: Expense[];
+    expenses: PagedList<Expense>;
     expensesAreLoading: boolean;
     files: any[];
     fileTypes: any[];
@@ -354,16 +355,18 @@ class ExpensesPage extends Page<{}, State> {
         };
 
         api.expense
-            .getCountByVendor(pageAllFilters)
+            .getCountByVendor(filters)
             .then(data => {
-                const top = _.take(_.filter(data.items, item => item.key), 3);
-                const other = _.difference(data.items, top);
+                const top = _.take(_.filter(data.items, item => item.key.id), 3);
 
                 const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
 
-                if (other.length > 0) {
-                    chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-                }
+                console.log('CHART');
+
+                chartData.push({
+                    name: 'Other',
+                    value: this.state.expenses.count - _.sum(top.map(x => x.value))
+                });
 
                 this.setState({
                     graphs: {
