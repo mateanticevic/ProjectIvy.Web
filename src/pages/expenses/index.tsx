@@ -365,37 +365,37 @@ class ExpensesPage extends Page<{}, State> {
 
         api.expense
             .get(filters)
-            .then(expenses => this.setState({
-                expenses,
-                expensesAreLoading: false,
-            }));
+            .then(expenses => {
+                this.setState({
+                    expenses,
+                    expensesAreLoading: false,
+                });
+
+                api.expense
+                    .getCountByVendor(filters)
+                    .then(data => {
+                        const top = _.take(_.filter(data.items, item => item.key.id), 3);
+
+                        const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
+
+                        chartData.push({
+                            name: 'Other',
+                            value: expenses.count - _.sum(top.map(x => x.value))
+                        });
+
+                        this.setState({
+                            graphs: {
+                                ...this.state.graphs,
+                                countByVendor: chartData,
+                            },
+                        });
+                    });
+            });
 
         const pageAllFilters = {
             ...filters,
             pageAll: true,
         };
-
-        api.expense
-            .getCountByVendor(filters)
-            .then(data => {
-                const top = _.take(_.filter(data.items, item => item.key.id), 3);
-
-                const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
-
-                console.log('CHART');
-
-                chartData.push({
-                    name: 'Other',
-                    value: this.state.expenses.count - _.sum(top.map(x => x.value))
-                });
-
-                this.setState({
-                    graphs: {
-                        ...this.state.graphs,
-                        countByVendor: chartData,
-                    },
-                });
-            });
 
         api.expense
             .getCountByType(pageAllFilters)
