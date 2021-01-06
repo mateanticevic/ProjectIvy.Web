@@ -12,6 +12,8 @@ function getDistance(filters) {
     return api.get('tracking/distance', filters);
 }
 
+const getLastLocation = () => api.get('tracking/lastLocation');
+
 interface LastParameters {
     at?: string;
 }
@@ -25,6 +27,7 @@ const tracking = {
     getDays,
     getDistance,
     getLast,
+    getLastLocation,
 };
 
 export default tracking;

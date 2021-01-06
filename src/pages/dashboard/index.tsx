@@ -56,7 +56,7 @@ class DashboardPage extends React.Component<Props> {
 
         api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
         api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
-        api.tracking.getLast().then(location => this.setState({ location }));
+        api.tracking.getLastLocation().then(location => this.setState({ location }));
         api.car.getLogLatest('golf-7').then(carLogLatest => this.setState({ carLogLatest }));
         api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
 
@@ -106,14 +106,14 @@ class DashboardPage extends React.Component<Props> {
                     {user.modules.includes(Module.Tracking) && location &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Header>Last location @ {this.dateTimeFormat(location.timestamp)}</Card.Header>
+                                <Card.Header>{location.location ? location.location.name : 'Last location'} @ {this.dateTimeFormat(location.tracking.timestamp)}</Card.Header>
                                 <Card.Body className="panel-medium padding-0">
                                     {location &&
                                         <Map
-                                            defaultCenter={{ lat: location.lat, lng: location.lng }}
+                                            defaultCenter={{ lat: location.tracking.lat, lng: location.tracking.lng }}
                                             defaultZoom={15}
                                         >
-                                            <Marker position={{ lat: location.lat, lng: location.lng }} title="Current location" />
+                                            <Marker position={{ lat: location.tracking.lat, lng: location.tracking.lng }} title="Current location" />
                                         </Map>
                                     }
                                 </Card.Body>
