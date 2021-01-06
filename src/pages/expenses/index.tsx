@@ -2,7 +2,7 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import api from '../../api/main';
@@ -33,6 +33,7 @@ interface State {
     orderBy: any;
     paymentTypes: any[];
     stats: any;
+    sumByCurrency: any;
     sumChartData: any;
     sumGroupBy: GroupByTime;
     types: any;
@@ -102,6 +103,7 @@ class ExpensesPage extends Page<{}, State> {
             vendorCount: 0,
         },
         sumChartData: [],
+        sumByCurrency: [],
         sumGroupBy: GroupByTime.ByMonthOfYear,
         types: [],
         vendors: [],
@@ -222,6 +224,25 @@ class ExpensesPage extends Page<{}, State> {
                                   </Card.Header>
                                     <Card.Body>
                                         <CountByChart data={this.state.graphs.countByVendor} />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col lg={4}>
+                                <Card>
+                                    <Card.Header>
+                                        By Currency
+                                    </Card.Header>
+                                    <Card.Body className="padding-0">
+                                        <ListGroup>
+                                            {this.state.sumByCurrency.map(item =>
+                                                <ListGroupItem>
+                                                    <Badge variant="primary">{item.key.id}</Badge>&nbsp;{item.key.name}
+                                                    <span className="pull-right">{item.value}</span>
+                                                </ListGroupItem>
+                                            )}
+                                        </ListGroup>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -398,6 +419,10 @@ class ExpensesPage extends Page<{}, State> {
         api.expense
             .getSum(filters)
             .then(sum => this.setState({ stats: { ...this.state.stats, sum } }));
+
+        api.expense
+            .getSumByCurrency(filters)
+            .then(sumByCurrency => this.setState({ sumByCurrency }));
 
         api.expense
             .getTypeCount(filters)
