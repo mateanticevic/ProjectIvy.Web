@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Badge, Card, Col, Container, Row, Table } from 'react-bootstrap';
 import 'rc-slider/assets/index.css';
 import { FaImdb } from 'react-icons/fa';
+import { SiPlex } from 'react-icons/si';
 
 import { DistributionCard } from '../../components/DistributionCard';
 import Pagination from '../../components/Pagination';
@@ -93,6 +94,7 @@ class MoviesPage extends Page<{}, State> {
                                                 <td>{movie.runtime}min</td>
                                                 <td><Badge variant="primary">{movie.myRating}</Badge></td>
                                                 <td><a target="_blank" href={`http://www.imdb.com/title/${movie.imdbId}`}><FaImdb size="20" /></a></td>
+                                                <td><a target="_blank" href={`https://plex.anticevic.net/web/index.html#!/search?query=${encodeURIComponent(movie.title)}`}><SiPlex size="20" /></a></td>
                                             </tr>
                                         )}
                                     </tbody>
