@@ -1,9 +1,9 @@
 import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
-import { FaCarSide, FaDollarSign } from 'react-icons/fa';
+import { FaCarSide } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
-import { IoMdAirplane } from 'react-icons/io';
+import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
 import { MdCall, MdMyLocation, MdLocalMovies } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
@@ -30,10 +30,11 @@ const NavigationBar = ({ user }: Props) => {
             <Navbar.Collapse id="basic-navbar-nav" >
                 <Nav className="mr-auto">
                     <NavDropdown id="nav-dropdown-finance" title="Finance">
-                        <NavDropdown.Item href="/expenses"><FaDollarSign /> Expenses</NavDropdown.Item>
+                        <NavDropdown.Item href="/expenses"><GiPayMoney /> Expenses</NavDropdown.Item>
+                        <NavDropdown.Item href="/incomes"><GiReceiveMoney /> Incomes</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown id="nav-dropdown-travel" title="Travel">
-                        <NavDropdown.Item href="/flights"><IoMdAirplane /> Flights</NavDropdown.Item>
+                        <NavDropdown.Item href="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
                         <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
                         <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
                         <NavDropdown.Item href="/trips"><FaCarSide /> Trips</NavDropdown.Item>

@@ -11,6 +11,7 @@ import expense from './expense';
 import expenseType from './expenseType';
 import file from './file';
 import flight from './flight';
+import income from './income';
 import movie from './movie';
 import poi from './poi';
 import todo from './todo';
@@ -35,6 +36,7 @@ const api = {
     expenseType,
     file,
     flight,
+    income,
     movie,
     poi,
     todo,
