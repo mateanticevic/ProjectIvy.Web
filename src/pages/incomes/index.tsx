@@ -2,11 +2,22 @@ import React from "react";
 import { Badge, Card, Col, Container, Row, Table } from "react-bootstrap";
 import moment from "moment";
 
+import { DistributionCard } from '../../components/DistributionCard';
+import { GroupByTime } from '../../consts/groupings';
 import api from '../../api/main';
 import { Page } from "../Page";
 import { Income, IncomeFilters } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import Pagination from '../../components/Pagination';
+import { KeyValuePair } from "types/grouping";
+
+const sumByOptions = [
+    { value: GroupByTime.ByYear, name: 'Year' },
+];
+
+const maps = {
+    [GroupByTime.ByYear]: api.income.getSumByYear,
+}
 
 interface Props {
 
@@ -14,7 +25,9 @@ interface Props {
 
 interface State {
     filters: IncomeFilters;
+    groupBy: GroupByTime;
     incomes: PagedItems<Income>;
+    sumByTime: KeyValuePair<number>[];
 }
 
 class IncomesPage extends Page<Props, State> {
@@ -23,10 +36,12 @@ class IncomesPage extends Page<Props, State> {
             page: 1,
             pageSize: 10,
         },
+        groupBy: GroupByTime.ByYear,
         incomes: {
             count: 0,
             items: []
-        }
+        },
+        sumByTime: [],
     };
 
     componentDidMount() {
@@ -39,6 +54,7 @@ class IncomesPage extends Page<Props, State> {
         return (
             <Container>
                 <Row>
+                    <Col lg={3}></Col>
                     <Col lg={6}>
                         <Card>
                             <Card.Header>Incomes ({incomes.count})</Card.Header>
@@ -63,6 +79,12 @@ class IncomesPage extends Page<Props, State> {
                                 />
                             </Card.Body>
                         </Card>
+                        <DistributionCard
+                            countByOptions={sumByOptions}
+                            data={this.state.sumByTime}
+                            name="Sum"
+                            onGroupByChange={this.onGroupByChanged}
+                        />
                     </Col>
                 </Row>
             </Container>
@@ -78,6 +100,14 @@ class IncomesPage extends Page<Props, State> {
         this.setState({ filters });
         api.income.get(filters)
             .then(incomes => this.setState({ incomes }));
+        this.onGroupByChanged();
+    }
+
+    onGroupByChanged = (groupBy?: GroupByTime) => {
+        if (groupBy){
+            this.setState({ groupBy });
+        }
+        maps[groupBy ?? this.state.groupBy](this.state.filters).then(sumByTime => this.setState({ sumByTime }));
     }
 }
 
