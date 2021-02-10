@@ -13,6 +13,11 @@ export interface Income {
 export interface IncomeFilters extends PagingFilters {
 }
 
+export interface IncomeSource {
+    id: string;
+    name: string;
+}
+
 export interface IncomeType {
     id: string;
     name: string;
