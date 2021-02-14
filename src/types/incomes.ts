@@ -10,7 +10,17 @@ export interface Income {
     type: IncomeType;
 }
 
+export interface IncomeBinding {
+    amount: number;
+    currencyId: string;
+    date: string;
+    description: string;
+    sourceId: string;
+    typeId: string;
+}
+
 export interface IncomeFilters extends PagingFilters {
+    typeId: string;
 }
 
 export interface IncomeSource {

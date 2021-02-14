@@ -1,17 +1,18 @@
 import React from "react";
-import { Badge, Button, Card, Col, Container, Row, Table } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table } from "react-bootstrap";
 import moment from "moment";
 
 import { DistributionCard } from '../../components/DistributionCard';
 import { GroupByTime } from '../../consts/groupings';
 import api from '../../api/main';
 import { Page } from "../Page";
-import { Income, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
+import { Income, IncomeBinding, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import Pagination from '../../components/Pagination';
 import { KeyValuePair } from "types/grouping";
 import IncomeModal from "./IncomeModal";
 import FontAwesome from "react-fontawesome";
+import Select from '../../components/Select';
 
 const sumByOptions = [
     { value: GroupByTime.ByYear, name: 'Year' },
@@ -26,8 +27,10 @@ interface Props {
 }
 
 interface State {
+    currencies: Currency[];
     filters: IncomeFilters;
     groupBy: GroupByTime;
+    income: IncomeBinding;
     incomes: PagedItems<Income>;
     isModalOpen: boolean;
     sources: IncomeSource[];
@@ -37,11 +40,15 @@ interface State {
 
 class IncomesPage extends Page<Props, State> {
     state: State = {
+        currencies: [],
         filters: {
             page: 1,
             pageSize: 10,
         },
         groupBy: GroupByTime.ByYear,
+        income: {
+            amount: 0,
+        },
         incomes: {
             count: 0,
             items: []
@@ -53,6 +60,8 @@ class IncomesPage extends Page<Props, State> {
     };
 
     componentDidMount() {
+        api.currency.get()
+            .then(currencies => this.setState({ currencies }));
         api.income.getSources()
             .then(sources => this.setState({ sources }));
         api.common.getIncomeTypes()
@@ -61,12 +70,22 @@ class IncomesPage extends Page<Props, State> {
     }
 
     render() {
-        const { filters, incomes, sources, types } = this.state;
+        const { filters, income, incomes, sources, types } = this.state;
 
         return (
             <Container>
                 <Row>
-                    <Col lg={3}></Col>
+                    <Col lg={3}>
+                        <Card>
+                            <Card.Header>Filters</Card.Header>
+                            <Card.Body>
+                                <FormGroup>
+                                    <FormLabel>Type</FormLabel>
+                                    <Select options={types} onChange={typeId => this.onFiltersChanged({ typeId })} />
+                                </FormGroup>
+                            </Card.Body>
+                        </Card>
+                    </Col>
                     <Col lg={6}>
                         <Card>
                             <Card.Header>
@@ -85,40 +104,43 @@ class IncomesPage extends Page<Props, State> {
                                             </Button>
                                     </Col>
                                 </Row></Card.Header>
-                        <Card.Body>
-                            <Table responsive>
-                                <tbody>
-                                    {incomes.items.map(income =>
-                                        <tr>
-                                            <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
-                                            <td><Badge variant="primary">{income.type.name}</Badge></td>
-                                            <td>{income.description}</td>
-                                            <td>{income.amount}</td>
-                                            <td>{income.currency.code}</td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </Table>
-                            <Pagination
-                                page={filters.page}
-                                pages={Math.ceil(incomes.count / filters.pageSize)}
-                                onPageChange={page => this.onFiltersChanged({ page })}
-                            />
-                        </Card.Body>
+                            <Card.Body>
+                                <Table responsive>
+                                    <tbody>
+                                        {incomes.items.map(income =>
+                                            <tr>
+                                                <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
+                                                <td><Badge variant="primary">{income.type.name}</Badge></td>
+                                                <td>{income.description}</td>
+                                                <td>{income.amount}</td>
+                                                <td>{income.currency.code}</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                                <Pagination
+                                    page={filters.page}
+                                    pages={Math.ceil(incomes.count / filters.pageSize)}
+                                    onPageChange={page => this.onFiltersChanged({ page })}
+                                />
+                            </Card.Body>
                         </Card>
-                    <DistributionCard
-                        countByOptions={sumByOptions}
-                        data={this.state.sumByTime}
-                        name="Sum"
-                        onGroupByChange={this.onGroupByChanged}
-                    />
-                    <IncomeModal
-                        isOpen={this.state.isModalOpen}
-                        sources={sources}
-                        types={types}
-                        onClose={() => this.setState({ isModalOpen: false })}
-                        onChange={() => { }}
-                    />
+                        <DistributionCard
+                            countByOptions={sumByOptions}
+                            data={this.state.sumByTime}
+                            name="Sum"
+                            onGroupByChange={this.onGroupByChanged}
+                        />
+                        <IncomeModal
+                            currencies={this.state.currencies}
+                            income={income}
+                            isOpen={this.state.isModalOpen}
+                            sources={sources}
+                            types={types}
+                            onClose={() => this.setState({ isModalOpen: false })}
+                            onChange={this.onIncomeChanged}
+                            onSave={this.onModalSave}
+                        />
                     </Col>
                 </Row>
             </Container >
@@ -131,10 +153,9 @@ class IncomesPage extends Page<Props, State> {
             ...changed,
         } : this.state.filters;
 
-        this.setState({ filters });
+        this.setState({ filters }, this.onGroupByChanged);
         api.income.get(filters)
             .then(incomes => this.setState({ incomes }));
-        this.onGroupByChanged();
     }
 
     onGroupByChanged = (groupBy?: GroupByTime) => {
@@ -143,6 +164,18 @@ class IncomesPage extends Page<Props, State> {
         }
         maps[groupBy ?? this.state.groupBy](this.state.filters).then(sumByTime => this.setState({ sumByTime }));
     }
+
+    onIncomeChanged = (changed: Partial<IncomeBinding>) => {
+        this.setState({
+            income: {
+                ...this.state.income,
+                ...changed,
+            }
+        });
+    }
+
+    onModalSave = () => api.income.post(this.state.income)
+        .then(() => this.onFiltersChanged());
 }
 
 export default IncomesPage;
