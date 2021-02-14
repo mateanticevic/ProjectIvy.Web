@@ -9,10 +9,15 @@ export function number(number) {
             exponent: 'k',
             number: (number / 1000).toFixed(1),
         };
-    } else {
+    } else if (number < 1000000) {
         return {
             exponent: 'k',
             number: Math.round(number / 1000),
+        };
+    } else {
+        return {
+            exponent: 'M',
+            number: (number / 1000000).toFixed(1),
         };
     }
 }

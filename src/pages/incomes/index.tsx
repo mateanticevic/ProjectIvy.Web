@@ -3,6 +3,7 @@ import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table }
 import moment from "moment";
 
 import { DistributionCard } from '../../components/DistributionCard';
+import { FormattedNumber } from "../../components/FormattedNumber";
 import { GroupByTime } from '../../consts/groupings';
 import api from '../../api/main';
 import { Page } from "../Page";
@@ -13,6 +14,8 @@ import { KeyValuePair } from "types/grouping";
 import IncomeModal from "./IncomeModal";
 import FontAwesome from "react-fontawesome";
 import Select from '../../components/Select';
+import * as formatHelper from '../../utils/formatHelper';
+import { User } from "types/users";
 
 const sumByOptions = [
     { value: GroupByTime.ByYear, name: 'Year' },
@@ -23,7 +26,7 @@ const maps = {
 }
 
 interface Props {
-
+    user: User;
 }
 
 interface State {
@@ -34,6 +37,7 @@ interface State {
     incomes: PagedItems<Income>;
     isModalOpen: boolean;
     sources: IncomeSource[];
+    sum: number;
     sumByTime: KeyValuePair<number>[];
     types: IncomeType[];
 }
@@ -55,6 +59,7 @@ class IncomesPage extends Page<Props, State> {
         },
         isModalOpen: false,
         sources: [],
+        sum: 0,
         sumByTime: [],
         types: [],
     };
@@ -70,7 +75,8 @@ class IncomesPage extends Page<Props, State> {
     }
 
     render() {
-        const { filters, income, incomes, sources, types } = this.state;
+        const { filters, income, incomes, sources, sum, types } = this.state;
+        const { user } = this.props;
 
         return (
             <Container>
@@ -112,7 +118,9 @@ class IncomesPage extends Page<Props, State> {
                                                 <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
                                                 <td><Badge variant="primary">{income.type.name}</Badge></td>
                                                 <td>{income.description}</td>
-                                                <td>{income.amount}</td>
+                                                <td>
+                                                    <FormattedNumber number={income.amount} />
+                                                </td>
                                                 <td>{income.currency.code}</td>
                                             </tr>
                                         )}
@@ -124,6 +132,9 @@ class IncomesPage extends Page<Props, State> {
                                     onPageChange={page => this.onFiltersChanged({ page })}
                                 />
                             </Card.Body>
+                            <Card.Footer>
+                                <FormattedNumber number={sum} />&nbsp;{user?.defaultCurrency?.code}
+                            </Card.Footer>
                         </Card>
                         <DistributionCard
                             countByOptions={sumByOptions}
@@ -156,6 +167,8 @@ class IncomesPage extends Page<Props, State> {
         this.setState({ filters }, this.onGroupByChanged);
         api.income.get(filters)
             .then(incomes => this.setState({ incomes }));
+        api.income.getSum(filters)
+            .then(sum => this.setState({ sum }));
     }
 
     onGroupByChanged = (groupBy?: GroupByTime) => {

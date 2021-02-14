@@ -16,6 +16,7 @@ export interface Expense {
     expenseType: ExpenseType;
     files: [];
     id: string;
+    installmentRef: string;
     modified: string;
     needsReview: boolean;
     parentCurrency: Currency;
@@ -34,6 +35,7 @@ export interface ExpenseBinding {
     date: string;
     expenseTypeId: string;
     id: string;
+    installmentRef: string;
     modified: string;
     paymentTypeId: string;
     parentCurrencyExchangeRate?: number;

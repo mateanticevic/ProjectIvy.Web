@@ -457,6 +457,7 @@ class ExpensesPage extends Page<{}, State> {
             parentCurrencyExchangeRate: e.parentCurrencyExchangeRate,
             modified: e.modified,
             id: e.id,
+            installmentRef: e.installmentRef,
             paymentTypeId: e.paymentType.id,
             poiId: e.poi ? e.poi.id : undefined,
             vendorId: e.vendor ? e.vendor.id : undefined,

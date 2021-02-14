@@ -165,6 +165,14 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                 onChange={parentCurrencyId => onChange({ parentCurrency: { id: parentCurrencyId } })}
               />
             </FormGroup>
+            <FormGroup>
+              <FormLabel>Installment reference</FormLabel>
+              <FormControl
+                value={expense.installmentRef}
+                type="text"
+                onChange={x => onChange({ installmentRef: x.target.value })}
+              />
+            </FormGroup>
           </Col>
           <Col lg={6}>
             <FormGroup>
