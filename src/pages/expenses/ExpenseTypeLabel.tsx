@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
+import ExpenseTypeIcon from '../../components/ExpenseTypeIcon';
 
 import { ExpenseType } from 'types/expenses';
 
@@ -12,7 +12,10 @@ const ExpenseTypeLabel = ({ expenseType }: Props) => {
 
     return (
         <Badge variant="primary">
-            {expenseType.icon && <FontAwesome name={expenseType.icon} />} {expenseType.name}
+            {expenseType.icon &&
+                <ExpenseTypeIcon typeId={expenseType.id} />
+            }
+            &nbsp;{expenseType.name}
         </Badge>
     );
 };
