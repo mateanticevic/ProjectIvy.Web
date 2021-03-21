@@ -12,9 +12,7 @@ const ExpenseTypeLabel = ({ expenseType }: Props) => {
 
     return (
         <Badge variant="primary">
-            {expenseType.icon &&
-                <ExpenseTypeIcon typeId={expenseType.id} />
-            }
+            <ExpenseTypeIcon typeId={expenseType.id} />
             &nbsp;{expenseType.name}
         </Badge>
     );

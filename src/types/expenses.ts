@@ -65,7 +65,6 @@ export interface ExpenseFilters {
 
 export interface ExpenseType {
     id: string;
-    icon: string;
     name: string;
 }
 
