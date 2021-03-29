@@ -19,8 +19,19 @@ export const RadioLabel = ({ onSelect, options }: Props) => {
     const title = `Group by ${selected.name}`;
 
     return (
-        <DropdownButton id={_.uniqueId('dropdown_button_')} title={title} size="sm">
-            {options.map((option, index) => <Dropdown.Item onClick={() => onClick(option)}>{option.name}</Dropdown.Item>)}
+        <DropdownButton
+            id={_.uniqueId('dropdown_button_')}
+            title={title}
+            size="sm"
+        >
+            {options.map((option, index) =>
+                <Dropdown.Item
+                    key={option.value}
+                    onClick={() => onClick(option)}
+                >
+                    {option.name}
+                </Dropdown.Item>
+            )}
         </DropdownButton>
     );
 };

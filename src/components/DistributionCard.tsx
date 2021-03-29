@@ -57,7 +57,6 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
     };
 
     const [countByOption, setCountByOption] = React.useState(countByOptions[0].value);
-    console.log(countByOption);
 
     const groupByChange = (groupBy) => {
         setCountByOption(groupBy);
