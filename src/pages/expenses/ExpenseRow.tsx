@@ -13,6 +13,7 @@ import { Name } from 'types/common';
 interface Props {
     expense: Expense;
     onEdit?: () => void;
+    onLink?: () => void;
     onUnlink?: () => void;
 }
 
@@ -31,7 +32,7 @@ const renderPaymentTypeIcon = (name: Name) => {
     }
 };
 
-const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
+const ExpenseRow = ({ expense, onEdit, onLink, onUnlink }: Props) => {
     const hasFilesTooltip = (
         <Tooltip id="tooltip">
             Has {expense.files.length} linked files
@@ -85,7 +86,10 @@ const ExpenseRow = ({ expense, onEdit, onUnlink }: Props) => {
                         onClick={() => onEdit(expense)}
                     >
                         <FaPen size="10px" /> Edit
-          </Button>
+                    </Button>
+                }
+                {onLink &&
+                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onLink(expense.id)}><FaLink size="10px" /> Link</Button>
                 }
                 {onUnlink &&
                     <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>

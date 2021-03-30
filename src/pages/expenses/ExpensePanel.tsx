@@ -18,10 +18,11 @@ type Props = PagingFilters & {
     onEdit: () => void,
     onNewClick: () => void,
     onPageChange: () => void,
+    onLink: () => void,
     onUnlink: () => void,
 };
 
-const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
+const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onLink, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
 
     const expensesHeader = `Expenses (${expenses.count})`;
 
@@ -29,7 +30,7 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
 
     const count = serverPaging ? expenses.count : expenses.items.length;
 
-    const expenseTable = items && items.length > 0 || isLoading ? <ExpenseTable expenses={items} onEdit={onEdit} onUnlink={onUnlink} isLoading={isLoading} /> : <h2>No data</h2>;
+    const expenseTable = items && items.length > 0 || isLoading ? <ExpenseTable expenses={items} onEdit={onEdit} onLink={onLink} onUnlink={onUnlink} isLoading={isLoading} /> : <h2>No data</h2>;
 
     return (
         <Card>
@@ -47,7 +48,7 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
                                 onClick={onNewClick}
                             >
                                 <FontAwesome name="plus" /> New
-              </Button>
+                            </Button>
                         }
                     </Col>
                 </Row>

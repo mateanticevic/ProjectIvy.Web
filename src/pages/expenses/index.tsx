@@ -15,6 +15,7 @@ import Filters from './Filters';
 import FiltersMore from './FiltersMore';
 import { DistributionCard } from '../../components/DistributionCard';
 import { PagedList } from 'types/common';
+import ExpenseLinkModal from './ExpenseLinkModal';
 
 interface State {
     cards: any[];
@@ -30,9 +31,12 @@ interface State {
     graphs: any;
     isSavingExpense: boolean;
     isModalOpen: boolean;
+    isLinkModalOpen: boolean;
     orderBy: any;
     paymentTypes: any[];
     stats: any;
+    selectedExpenseId?: string;
+    selectedTripId?: string;
     sumByCurrency: any;
     sumChartData: any;
     sumGroupBy: GroupByTime;
@@ -85,6 +89,7 @@ class ExpensesPage extends Page<{}, State> {
             countByVendor: [],
         },
         isSavingExpense: false,
+        isLinkModalOpen: false,
         isModalOpen: false,
         order: [
             { id: 'false', name: 'Descending' },
@@ -187,6 +192,8 @@ class ExpensesPage extends Page<{}, State> {
                                     defaultCurrency={this.state.defaultCurrency}
                                     isLoading={this.state.expensesAreLoading}
                                     onEdit={this.onExpenseEdit}
+                                    onLink={this.onExpenseLinkClick}
+                                    onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
                                     onPageChange={page => this.onFiltersChanged({ page })}
                                     onNewClick={this.onExpenseNew}
                                     page={this.state.filters.page}
@@ -249,6 +256,12 @@ class ExpensesPage extends Page<{}, State> {
                         </Row>
                     </Col>
                 </Row>
+                <ExpenseLinkModal
+                    isOpen={this.state.isLinkModalOpen}
+                    onClose={() => this.setState({ isLinkModalOpen: false })}
+                    onLink={this.onExpenseLink}
+                    onTripChange={({ value }) => this.setState({ selectedTripId: value })}
+                />
                 <ExpenseModal
                     currencies={this.state.currencies}
                     descriptionSuggestions={this.state.descriptionSuggestions}
@@ -316,6 +329,19 @@ class ExpensesPage extends Page<{}, State> {
         if (expenseValue && expenseValue.vendorId) {
             this.onVendorChange(expenseValue.vendorId);
         }
+    }
+
+    @boundMethod
+    private onExpenseLinkClick(expenseId: string) {
+        this.setState({
+            isLinkModalOpen: true,
+            selectedExpenseId: expenseId,
+        });
+    }
+
+    @boundMethod
+    private onExpenseLink(expenseId: string) {
+        return api.trip.postExpense(this.state.selectedTripId!, this.state.selectedExpenseId!);
     }
 
     @boundMethod

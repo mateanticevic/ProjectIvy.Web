@@ -17,6 +17,8 @@ function post(trip: TripBinding) {
     return api.post('trip', trip);
 }
 
+const postExpense = (tripId: string, expenseId: string) => api.post(`trip/${tripId}/expense/${expenseId}`);
+
 function postPoi(tripId: string, poiId: string) {
     return api.post(`trip/${tripId}/poi/${poiId}`);
 }
@@ -26,6 +28,7 @@ const trip = {
     get,
     getById,
     post,
+    postExpense,
     postPoi,
 };
 
