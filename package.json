@@ -8,7 +8,8 @@
   "scripts": {
     "build": "parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
-    "lint": "tslint --project ./tsconfig.json"
+    "lint": "eslint --project ./tsconfig.json",
+    "start": "npm run dev"
   },
   "author": "Mate Antičević",
   "license": "MIT",
@@ -20,8 +21,6 @@
     "@types/react-fontawesome": "^1.6.4",
     "autobind-decorator": "^2.4.0",
     "bootstrap": "4.6.0",
-    "context": "1.1.1",
-    "contexts": "0.0.0",
     "filesize": "6.1.0",
     "lodash": "^4.17.21",
     "moment": "2.29.1",

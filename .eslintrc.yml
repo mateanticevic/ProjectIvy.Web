@@ -15,7 +15,7 @@ plugins:
   - react
   - '@typescript-eslint'
 rules:
-  "@typescript-eslint/explicit-module-boundary-types": false
+  "@typescript-eslint/explicit-module-boundary-types": 0
   indent:
     - error
     - 4
