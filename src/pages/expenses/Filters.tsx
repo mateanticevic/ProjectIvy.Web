@@ -8,7 +8,7 @@ import AsyncSelect from 'react-select/async';
 
 import { Currency } from 'types/expenses';
 import { ExpenseFilters } from 'types/expenses';
-import { vendorLoader } from '../../utils/selectLoaders';
+import { vendorLoader } from '~utils/selectLoaders';
 
 interface Props {
   currencies: Currency[];

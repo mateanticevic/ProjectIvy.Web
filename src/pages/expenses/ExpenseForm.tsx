@@ -4,9 +4,9 @@ import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
 import { Expense } from 'types/expenses';
-import { DateFormElement } from '../../components';
-import Select from '../../components/Select';
-import { vendorLoader } from '../../utils/selectLoaders';
+import { DateFormElement } from '~components';
+import Select from '~components/Select';
+import { vendorLoader } from '~utils/selectLoaders';
 import ExpenseFormFilesTab from './ExpenseFormFilesTab';
 
 interface Props {

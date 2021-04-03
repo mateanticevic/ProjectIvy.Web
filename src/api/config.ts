@@ -1,4 +1,4 @@
-import * as urlHelper from '../utils/urlHelper';
+import * as urlHelper from '~utils/urlHelper';
 import { httpContentType } from './httpContentType';
 import { httpHeader } from './httpHeader';
 import { httpMethod } from './httpMethod';

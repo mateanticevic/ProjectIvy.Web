@@ -3,7 +3,7 @@ import { Button, FormLabel, FormControl, FormGroup, Modal } from 'react-bootstra
 import FontAwesome from 'react-fontawesome';
 import { Brand } from 'types/beer';
 
-import Select from '../../components/Select';
+import Select from '~components/Select';
 
 interface Props {
     countries: any,

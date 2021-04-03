@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as formatHelper from '../utils/formatHelper';
+import * as formatHelper from '~utils/formatHelper';
 
 interface Props {
     number: number;

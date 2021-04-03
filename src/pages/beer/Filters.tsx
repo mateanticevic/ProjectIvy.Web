@@ -2,9 +2,9 @@ import React from 'react';
 import { FormLabel, FormGroup } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
-import { DateFormElement } from '../../components';
-import Select from '../../components/Select';
-import { beerLoader } from '../../utils/selectLoaders';
+import { DateFormElement } from '~components';
+import Select from '~components/Select';
+import { beerLoader } from '~utils/selectLoaders';
 import { Style, Brand, Serving, ConsumationFilters } from 'types/beer';
 import { Country } from 'types/common';
 

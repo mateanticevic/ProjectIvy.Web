@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 import { TripBinding } from 'types/trips';
-import ButtonWithSpinner from '../../components/ButtonWithSpinner';
+import ButtonWithSpinner from '~components/ButtonWithSpinner';
 import TripForm from './TripForm';
 
 interface Props {

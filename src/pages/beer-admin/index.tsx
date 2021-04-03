@@ -5,7 +5,7 @@ import { Page } from '~pages/Page';
 import api from '~api/main';
 import { Brand, BrandFilters, Beer, Style } from 'types/beer';
 import { Country } from 'types/common';
-import { Select, Pagination } from '../../components';
+import { Select, Pagination } from '~components';
 
 interface State {
     beerFilters: any;

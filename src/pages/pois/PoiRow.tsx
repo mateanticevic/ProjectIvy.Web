@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import { Poi } from '../../types/pois';
+import { Poi } from '~types/pois';
 
 interface Props {
   poi: Poi;

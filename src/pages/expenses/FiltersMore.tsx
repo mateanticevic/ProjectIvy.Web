@@ -3,7 +3,7 @@ import { Col, FormLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButton
 import ReactSelect from 'react-select';
 
 import { ExpenseFilters } from 'types/expenses';
-import Select from '../../components/Select';
+import Select from '~components/Select';
 
 interface Props {
   cards: any;

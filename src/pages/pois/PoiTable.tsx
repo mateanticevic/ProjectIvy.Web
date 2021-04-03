@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 
-import { Poi } from '../../types/pois';
+import { Poi } from '~types/pois';
 import PoiRow from './PoiRow';
 
 interface Props {

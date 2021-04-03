@@ -6,7 +6,7 @@ import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown }
 
 import api from '~api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
-import { FlagIcon, Pagination } from '../../components';
+import { FlagIcon, Pagination } from '~components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';

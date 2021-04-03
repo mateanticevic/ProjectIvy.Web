@@ -3,7 +3,7 @@ import { Button, FormLabel, FormGroup, Modal } from 'react-bootstrap';
 import { FaLink } from 'react-icons/fa';
 import AsyncSelect from 'react-select/async';
 
-import { tripLoader } from '../../utils/selectLoaders';
+import { tripLoader } from '~utils/selectLoaders';
 
 const ExpenseLinkModal = ({ isOpen, onClose, onLink, onTripChange }) => {
 
