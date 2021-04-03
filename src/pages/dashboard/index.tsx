@@ -2,21 +2,17 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Row, Tooltip } from 'react-bootstrap';
+import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
 
 import api from '../../api/main';
 import { Map, ValueLabel } from '../../components';
 import ExpenseTypeLabel from '../../pages/expenses/ExpenseTypeLabel';
 import OnlineGraph from './OnlineGraph';
-import { User } from 'types/users';
 import { Module } from '../../consts/module';
+import { UserContext } from '../../context/user-context';
 
-interface Props {
-    user: User;
-}
-
-class DashboardPage extends React.Component<Props> {
+class DashboardPage extends React.Component {
 
     state = {
         carLogLatest: { odometer: 0, timestamp: moment() },
@@ -71,7 +67,7 @@ class DashboardPage extends React.Component<Props> {
     }
 
     render() {
-        const { user } = this.props;
+        const user = this.context;
         const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
         const expenseItems = expenses.map(expense => {
@@ -230,5 +226,7 @@ class DashboardPage extends React.Component<Props> {
         );
     }
 }
+
+DashboardPage.contextType = UserContext;
 
 export default DashboardPage;

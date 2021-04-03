@@ -22,10 +22,11 @@ import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
+import { UserContext } from './context/user-context';
 
 interface State {
     isLoggedIn: boolean;
-    user?: User;
+    user: User;
     showToast: boolean;
     toastTitle?: string;
     toastMessage?: string;
@@ -59,40 +60,42 @@ export default class Root extends React.Component<{}, State> {
         }
 
         return (
-            <BrowserRouter>
-                <div id="main">
-                    {this.state.isLoggedIn &&
-                        <NavigationBar user={this.state.user} />
-                    }
-                    <Switch>
-                        <Route path="/" exact render={() => <DashboardPage user={this.state.user!} />} />
-                        <Route path="/account" exact render={() => <AccountPage />} />
-                        <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
-                        <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
-                        <Route path="/calls" exact component={CallsPage} />
-                        <Route path="/car/:id" exact component={CarDetailsPage} />
-                        <Route path="/expenses" exact component={ExpensesPage} />
-                        <Route path="/flights" exact component={FlightsPage} />
-                        <Route path="/incomes" exact render={() => <IncomesPage user={this.state.user!} />} />
-                        <Route path="/movies" exact component={MoviesPage} />
-                        <Route path="/login" exact component={LoginPage} />
-                        <Route path="/pois" exact component={PoisPage} />
-                        <Route path="/todos" exact component={ToDosPage} />
-                        <Route path="/tracking" exact component={TrackingPage} />
-                        <Route path="/trips" exact component={TripsPage} />
-                        <Route path="/trips/:id" exact component={TripDetailsPage} />
-                    </Switch>
-                    <Toast
-                        autohide
-                        delay={5000}
-                        onClose={() => this.setState({ showToast: false })}
-                        show={this.state.showToast}
-                    >
-                        <Toast.Header>{this.state.toastTitle}</Toast.Header>
-                        <Toast.Body>{this.state.toastMessage}</Toast.Body>
-                    </Toast>
-                </div>
-            </BrowserRouter>
+            <UserContext.Provider value={this.state.user}>
+                <BrowserRouter>
+                    <div id="main">
+                        {this.state.isLoggedIn &&
+                            <NavigationBar />
+                        }
+                        <Switch>
+                            <Route path="/" exact component={DashboardPage} />
+                            <Route path="/account" exact component={AccountPage} />
+                            <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
+                            <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
+                            <Route path="/calls" exact component={CallsPage} />
+                            <Route path="/car/:id" exact component={CarDetailsPage} />
+                            <Route path="/expenses" exact component={ExpensesPage} />
+                            <Route path="/flights" exact component={FlightsPage} />
+                            <Route path="/incomes" exact component={IncomesPage} />
+                            <Route path="/movies" exact component={MoviesPage} />
+                            <Route path="/login" exact component={LoginPage} />
+                            <Route path="/pois" exact component={PoisPage} />
+                            <Route path="/todos" exact component={ToDosPage} />
+                            <Route path="/tracking" exact component={TrackingPage} />
+                            <Route path="/trips" exact component={TripsPage} />
+                            <Route path="/trips/:id" exact component={TripDetailsPage} />
+                        </Switch>
+                        <Toast
+                            autohide
+                            delay={5000}
+                            onClose={() => this.setState({ showToast: false })}
+                            show={this.state.showToast}
+                        >
+                            <Toast.Header>{this.state.toastTitle}</Toast.Header>
+                            <Toast.Body>{this.state.toastMessage}</Toast.Body>
+                        </Toast>
+                    </div>
+                </BrowserRouter>
+            </UserContext.Provider>
         );
     }
 

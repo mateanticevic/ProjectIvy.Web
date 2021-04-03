@@ -14,8 +14,8 @@ import { KeyValuePair } from "types/grouping";
 import IncomeModal from "./IncomeModal";
 import FontAwesome from "react-fontawesome";
 import Select from '../../components/Select';
-import * as formatHelper from '../../utils/formatHelper';
 import { User } from "types/users";
+import { UserContext } from "../../context/user-context";
 
 const sumByOptions = [
     { value: GroupByTime.ByYear, name: 'Year' },
@@ -26,7 +26,6 @@ const maps = {
 }
 
 interface Props {
-    user: User;
 }
 
 interface State {
@@ -76,7 +75,7 @@ class IncomesPage extends Page<Props, State> {
 
     render() {
         const { filters, income, incomes, sources, sum, types } = this.state;
-        const { user } = this.props;
+        const user = this.context;
 
         return (
             <Container>
@@ -190,5 +189,7 @@ class IncomesPage extends Page<Props, State> {
     onModalSave = () => api.income.post(this.state.income)
         .then(() => this.onFiltersChanged());
 }
+
+IncomesPage.contextType = UserContext;
 
 export default IncomesPage;
