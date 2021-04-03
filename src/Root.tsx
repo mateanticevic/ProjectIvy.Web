@@ -22,7 +22,7 @@ import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
-import { UserContext } from './context/user-context';
+import { UserContext } from './contexts/user-context';
 
 interface State {
     isLoggedIn: boolean;

@@ -7,12 +7,12 @@ import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { FaPlus } from 'react-icons/fa';
 
+import api from '~api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
-import api from '../../api/main';
-import { FlagIcon, Map, Pagination } from '../../components';
-import { DateFormElement } from '../../components';
-import TableWithSpinner from '../../components/TableWithSpinner';
-import * as trackingHelper from '../../utils/trackingHelper';
+import { FlagIcon, Map, Pagination } from '~components';
+import { DateFormElement } from '~components';
+import TableWithSpinner from '~components/TableWithSpinner';
+import * as trackingHelper from '~utils/trackingHelper';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';

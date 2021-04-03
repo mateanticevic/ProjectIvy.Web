@@ -8,7 +8,7 @@ import { MdCall, MdMyLocation, MdLocalMovies } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 
-import { UserContext } from '../context/user-context';
+import { UserContext } from '~contexts/user-context';
 
 const NavigationBar = () =>
     <UserContext.Consumer>

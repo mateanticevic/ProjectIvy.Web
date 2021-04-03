@@ -5,12 +5,12 @@ import React from 'react';
 import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
 
-import api from '../../api/main';
-import { Map, ValueLabel } from '../../components';
-import ExpenseTypeLabel from '../../pages/expenses/ExpenseTypeLabel';
+import api from '~api/main';
+import { Map, ValueLabel } from '~components';
+import { Module } from '~consts/module';
+import { UserContext } from '~contexts/user-context';
+import ExpenseTypeLabel from '~pages/expenses/ExpenseTypeLabel';
 import OnlineGraph from './OnlineGraph';
-import { Module } from '../../consts/module';
-import { UserContext } from '../../context/user-context';
 
 class DashboardPage extends React.Component {
 

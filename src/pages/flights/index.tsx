@@ -6,9 +6,9 @@ import FontAwesome from 'react-fontawesome';
 import { Marker, Polyline } from 'react-google-maps';
 import moment from 'moment';
 
-import api from '../../api/main';
-import { DateFormElement, Map } from '../../components';
-import { Page } from '../Page';
+import api from '~api/main';
+import { DateFormElement, Map } from '~components';
+import { Page } from '~pages/Page';
 
 interface State {
 

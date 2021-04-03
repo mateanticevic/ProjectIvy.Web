@@ -2,23 +2,23 @@ import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, DropdownButton, Container, Badge, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
+import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
 
+import api from '~api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
-import api from '../../api/main';
-import { FlagIcon, Pagination, RadioLabel, SimpleBarChart } from '../../components';
+import { FlagIcon, Pagination } from '../../components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
 import ConsumationModal from './ConsumationModal';
 import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
-import { GroupByTime } from '../../consts/groupings';
+import { GroupByTime } from '~consts/groupings';
 import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
 import { ServingIcon } from './ServingIcon';
-import { DistributionCard } from '../../components/DistributionCard';
-import { Unit } from '../../consts/units';
+import { DistributionCard } from '~components/DistributionCard';
+import { Unit } from '~consts/units';
 
 interface Props {
     toast: (title: string, message: string) => void;

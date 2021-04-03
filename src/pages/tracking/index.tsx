@@ -8,12 +8,12 @@ import FontAwesome from 'react-fontawesome';
 import { Polyline, Marker } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 
-import api from '../../api/main';
-import { Map, RadioLabel } from '../../components';
-import SimpleBarChart from '../../components/SimpleBarChart';
-import SimpleLineChart from '../../components/SimpleLineChart';
-import { GroupByTime } from '../../consts/groupings';
-import { Page } from '../Page';
+import api from '~api/main';
+import { Map, RadioLabel } from '~components';
+import SimpleBarChart from '~components/SimpleBarChart';
+import SimpleLineChart from '~components/SimpleLineChart';
+import { GroupByTime } from '~consts/groupings';
+import { Page } from '~pages/Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';

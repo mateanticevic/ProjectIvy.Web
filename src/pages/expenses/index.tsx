@@ -5,15 +5,15 @@ import React from 'react';
 import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
-import api from '../../api/main';
-import { GroupByTime } from '../../consts/groupings';
-import { Page } from '../Page';
+import api from '~api/main';
+import { GroupByTime } from '~consts/groupings';
+import { Page } from '~pages/Page';
 import { CountByChart } from './CountByChart';
 import ExpenseModal from './ExpenseModal';
 import ExpensePanel from './ExpensePanel';
 import Filters from './Filters';
 import FiltersMore from './FiltersMore';
-import { DistributionCard } from '../../components/DistributionCard';
+import { DistributionCard } from '~components/DistributionCard';
 import { PagedList } from 'types/common';
 import ExpenseLinkModal from './ExpenseLinkModal';
 

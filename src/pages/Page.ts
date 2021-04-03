@@ -1,6 +1,6 @@
 import React from 'react';
 
-import * as urlHelper from '../utils/urlHelper';
+import * as urlHelper from '~utils/urlHelper';
 
 export class Page<TProps, TState> extends React.Component<TProps, TState> {
 

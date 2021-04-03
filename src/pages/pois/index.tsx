@@ -4,35 +4,31 @@ import { Col, FormLabel, FormControl, Container, Card, Row, ToggleButton, Toggle
 import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
 
-import api from '../../api/main';
-import Map from '../../components/Map';
-import Select from '../../components/Select';
+import api from '~api/main';
+import Map from '~components/Map';
+import Select from '~components/Select';
 import PoiModal from './PoiModal';
 import PoiPanel from './PoiPanel';
 
 class PoisPage extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            poi: {
-                latitude: 0,
-                longitude: 0,
-            },
-            pois: {
-                count: 0,
-                items: [],
-            },
-            isModalOpen: false,
-            filters: {
-                page: 1,
-                pageSize: 10,
-            },
-            poiCategories: [],
-            vendors: [],
-        };
-    }
+    state = {
+        poi: {
+            latitude: 0,
+            longitude: 0,
+        },
+        pois: {
+            count: 0,
+            items: [],
+        },
+        isModalOpen: false,
+        filters: {
+            page: 1,
+            pageSize: 10,
+        },
+        poiCategories: [],
+        vendors: [],
+    };
 
     componentDidMount() {
         this.onFiltersChanged();
@@ -106,53 +102,53 @@ class PoisPage extends React.Component {
     public onAddToTrip(poiId: string) {
     }
 
-  @boundMethod
+    @boundMethod
     public onFiltersChanged(filter?) {
         const filters = { ...this.state.filters, ...filter };
         this.setState({ filters });
         api.poi.get(filters).then((pois) => this.setState({ pois }));
     }
 
-  @boundMethod
-  public onMapClick(e) {
-      this.setState({
-          isModalOpen: true,
-          poi: {
-              latitude: e.latLng.lat(),
-              longitude: e.latLng.lng(),
-          },
-      });
-  }
+    @boundMethod
+    public onMapClick(e) {
+        this.setState({
+            isModalOpen: true,
+            poi: {
+                latitude: e.latLng.lat(),
+                longitude: e.latLng.lng(),
+            },
+        });
+    }
 
-  @boundMethod
-  public onMapDragEnd() {
-      // let bounds = this.map.state.map.getBounds();
+    @boundMethod
+    public onMapDragEnd() {
+        // let bounds = this.map.state.map.getBounds();
 
-      // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
-      // this.setState({ filters: filters });
-  }
+        // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
+        // this.setState({ filters: filters });
+    }
 
-  @boundMethod
-  public onModalClose() {
-      this.setState({ isModalOpen: false });
-  }
+    @boundMethod
+    public onModalClose() {
+        this.setState({ isModalOpen: false });
+    }
 
-  @boundMethod
-  public onNewClick() {
-      this.setState({ isModalOpen: true });
-  }
+    @boundMethod
+    public onNewClick() {
+        this.setState({ isModalOpen: true });
+    }
 
-  @boundMethod
-  public onPoiChange(property: object) {
-      const poi = { ...this.state.poi, ...property };
-      this.setState({ poi });
-  }
+    @boundMethod
+    public onPoiChange(property: object) {
+        const poi = { ...this.state.poi, ...property };
+        this.setState({ poi });
+    }
 
-  @boundMethod
-  public onSave() {
-      this.setState({ isModalOpen: false });
-      this.onFiltersChanged();
-  }
+    @boundMethod
+    public onSave() {
+        this.setState({ isModalOpen: false });
+        this.onFiltersChanged();
+    }
 }
 
 export default PoisPage;

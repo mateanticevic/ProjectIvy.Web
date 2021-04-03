@@ -4,9 +4,9 @@ import React from 'react';
 import { Col, Container, Card, Row, Carousel } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 
+import api from '~api/main';
 import { Trip } from 'types/trips';
-import api from '../../api/main';
-import { Map, ValueLabel } from '../../components';
+import { Map, ValueLabel } from '~components';
 import ExpensePanel from '../expenses/ExpensePanel';
 
 interface State {

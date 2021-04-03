@@ -4,11 +4,11 @@ import { Col, FormLabel, FormControl, FormGroup, Container, Card, Row, Table } f
 import moment from 'moment';
 
 import { Call } from 'types/calls';
-import api from '../../api/main';
-import { Pagination } from '../../components';
-import { DateFormElement } from '../../components';
-import * as formatHelper from '../../utils/formatHelper';
-import { Page } from '../Page';
+import api from '~api/main';
+import { Pagination } from '~components';
+import { DateFormElement } from '~components';
+import * as formatHelper from '~utils/formatHelper';
+import { Page } from '~pages/Page';
 
 interface State {
     calls: {

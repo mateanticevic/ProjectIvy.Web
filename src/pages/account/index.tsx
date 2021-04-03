@@ -1,11 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { Card, Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
-import { UserSession } from 'types/users';
 
-import { Page } from '../Page';
-import api from '../../api/main';
-import { FlagIcon } from '../../components';
+import api from '~api/main';
+import { FlagIcon } from '~components';
+import { Page } from '~pages/Page';
+import { UserSession } from 'types/users';
 
 interface State {
     sessions?: UserSession[];

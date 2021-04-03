@@ -3,9 +3,9 @@ import React from 'react';
 import { Col, FormLabel, FormControl, Card, Row, Container } from 'react-bootstrap';
 import moment from 'moment';
 
-import * as apiConfig from '../../api/config';
-import api from '../../api/main';
-import ButtonWithSpinner from '../../components/ButtonWithSpinner';
+import * as apiConfig from '~api/config';
+import api from '~api/main';
+import ButtonWithSpinner from '~components/ButtonWithSpinner';
 
 interface State {
     isLoggingIn: boolean;

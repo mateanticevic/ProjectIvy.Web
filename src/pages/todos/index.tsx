@@ -1,8 +1,8 @@
 import React from 'react';
-import { FormCheck, Col, Form, FormControl, Container, FormLabel, Card, Row, Table } from 'react-bootstrap';
+import { FormCheck, Col, Form, FormControl, Container, Card, Row, Table } from 'react-bootstrap';
 
 import { boundMethod } from 'autobind-decorator';
-import api from '../../api/main';
+import api from '~api/main';
 
 class ToDosPage extends React.Component {
 
