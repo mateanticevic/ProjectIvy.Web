@@ -6,7 +6,7 @@ import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown }
 
 import api from '~api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
-import { FlagIcon, Pagination } from '~components';
+import { DistributionCard, FlagIcon, Pagination } from '~components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
@@ -17,7 +17,6 @@ import { GroupByTime } from '~consts/groupings';
 import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
 import { ServingIcon } from './ServingIcon';
-import { DistributionCard } from '~components/DistributionCard';
 import { Unit } from '~consts/units';
 
 interface Props {
@@ -67,7 +66,7 @@ const sumApiMapping = {
     [GroupByTime.ByMonth]: api.consumation.getSumByMonth,
     [GroupByTime.ByMonthOfYear]: api.consumation.getSumByMonthOfYear,
     [GroupByTime.ByYear]: api.consumation.getSumByYear,
-}
+};
 
 class BeerPage extends Page<Props, State> {
 

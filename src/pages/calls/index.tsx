@@ -3,12 +3,11 @@ import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, Container, Card, Row, Table } from 'react-bootstrap';
 import moment from 'moment';
 
-import { Call } from 'types/calls';
 import api from '~api/main';
-import { Pagination } from '~components';
-import { DateFormElement } from '~components';
-import * as formatHelper from '~utils/format-helper';
+import { DateFormElement, Pagination } from '~components';
 import { Page } from '~pages/Page';
+import { Call } from 'types/calls';
+import * as formatHelper from '~utils/format-helper';
 
 interface State {
     calls: {

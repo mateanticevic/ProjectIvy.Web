@@ -4,17 +4,17 @@ import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 
-import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import api from '~api/main';
+import { DistributionCard } from '~components';
 import { GroupByTime } from '~consts/groupings';
 import { Page } from '~pages/Page';
-import { CountByChart } from './CountByChart';
-import ExpenseModal from './ExpenseModal';
-import ExpensePanel from './ExpensePanel';
-import Filters from './Filters';
-import FiltersMore from './FiltersMore';
-import { DistributionCard } from '~components/DistributionCard';
 import { PagedList } from 'types/common';
+import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
+import ExpensePanel from './ExpensePanel';
+import ExpenseModal from './ExpenseModal';
+import { CountByChart } from './CountByChart';
+import FiltersMore from './FiltersMore';
+import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
 
 interface State {
@@ -218,7 +218,7 @@ class ExpensesPage extends Page<{}, State> {
                                 <Card>
                                     <Card.Header>
                                         By Type
-                                  </Card.Header>
+                                    </Card.Header>
                                     <Card.Body>
                                         <CountByChart data={this.state.graphs.countByType} />
                                     </Card.Body>
@@ -228,7 +228,7 @@ class ExpensesPage extends Page<{}, State> {
                                 <Card>
                                     <Card.Header>
                                         By Vendor
-                                  </Card.Header>
+                                    </Card.Header>
                                     <Card.Body>
                                         <CountByChart data={this.state.graphs.countByVendor} />
                                     </Card.Body>
@@ -244,7 +244,7 @@ class ExpensesPage extends Page<{}, State> {
                                     <Card.Body className="padding-0">
                                         <ListGroup>
                                             {this.state.sumByCurrency.map(item =>
-                                                <ListGroupItem>
+                                                <ListGroupItem key={item.key.id}>
                                                     <Badge variant="primary">{item.key.id}</Badge>&nbsp;{item.key.name}
                                                     <span className="pull-right">{item.value}</span>
                                                 </ListGroupItem>

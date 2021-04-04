@@ -1,19 +1,16 @@
-import React from "react";
-import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table } from "react-bootstrap";
-import moment from "moment";
+import React from 'react';
+import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
+import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 
 import api from '~api/main';
-import { DistributionCard } from '~components/DistributionCard';
-import { FormattedNumber } from "~components/FormattedNumber";
-import Pagination from '~components/Pagination';
-import Select from '~components/Select';
+import { DistributionCard, FormattedNumber, Pagination, Select } from '~components';
 import { GroupByTime } from '~consts/groupings';
 import { UserContext } from '~contexts/user-context';
 import { Page } from '~pages/Page';
 import { Income, IncomeBinding, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
 import { PagedItems } from 'types/paging';
-import { KeyValuePair } from "types/grouping";
+import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './IncomeModal';
 
 const sumByOptions = [
@@ -22,7 +19,7 @@ const sumByOptions = [
 
 const maps = {
     [GroupByTime.ByYear]: api.income.getSumByYear,
-}
+};
 
 interface Props {
 }
@@ -105,14 +102,14 @@ class IncomesPage extends Page<Props, State> {
                                             onClick={() => this.setState({ isModalOpen: true })}
                                         >
                                             <FontAwesome name="plus" /> New
-                                            </Button>
+                                        </Button>
                                     </Col>
                                 </Row></Card.Header>
-                            <Card.Body>
+                            <Card.Body>[]
                                 <Table responsive>
                                     <tbody>
                                         {incomes.items.map(income =>
-                                            <tr>
+                                            <tr key={income.timestamp}>
                                                 <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
                                                 <td><Badge variant="primary">{income.type.name}</Badge></td>
                                                 <td>{income.description}</td>
