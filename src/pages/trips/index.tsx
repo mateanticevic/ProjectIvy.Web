@@ -12,7 +12,7 @@ import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
 import { FlagIcon, Map, Pagination } from '~components';
 import { DateFormElement } from '~components';
 import TableWithSpinner from '~components/TableWithSpinner';
-import * as trackingHelper from '~utils/trackingHelper';
+import * as trackingHelper from '~utils/tracking-helper';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';

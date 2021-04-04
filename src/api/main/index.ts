@@ -8,7 +8,7 @@ import consumation from './consumation';
 import country from './country';
 import currency from './currency';
 import expense from './expense';
-import expenseType from './expenseType';
+import expenseType from './expense-type';
 import file from './file';
 import flight from './flight';
 import income from './income';

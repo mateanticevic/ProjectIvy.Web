@@ -30,7 +30,7 @@ class AccountPage extends Page<{}, State> {
                         <Table responsive>
                             <tbody>
                                 {sessions?.map(session =>
-                                    <tr className={session.isCurrentSession ? 'alert-success' : ''}>
+                                    <tr key={session.id} className={session.isCurrentSession ? 'alert-success' : ''}>
                                         <td>
                                             {session.country &&
                                                 <FlagIcon

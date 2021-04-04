@@ -3,7 +3,7 @@ import moment from 'moment';
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 
-import * as formatHelper from '~utils/formatHelper';
+import * as formatHelper from '~utils/format-helper';
 import { Movement } from './types';
 
 const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onChartsClick }: Movement) => {

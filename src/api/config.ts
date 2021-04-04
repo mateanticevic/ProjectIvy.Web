@@ -1,8 +1,8 @@
-import * as urlHelper from '~utils/urlHelper';
-import { httpContentType } from './httpContentType';
-import { httpHeader } from './httpHeader';
-import { httpMethod } from './httpMethod';
-import { httpStatus } from './httpStatus';
+import * as urlHelper from '~utils/url-helper';
+import { httpContentType } from './http-content-type';
+import { httpHeader } from './http-header';
+import { httpMethod } from './http-method';
+import { httpStatus } from './http-status';
 
 const headers = new Headers(); 
 

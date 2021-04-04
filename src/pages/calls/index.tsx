@@ -7,7 +7,7 @@ import { Call } from 'types/calls';
 import api from '~api/main';
 import { Pagination } from '~components';
 import { DateFormElement } from '~components';
-import * as formatHelper from '~utils/formatHelper';
+import * as formatHelper from '~utils/format-helper';
 import { Page } from '~pages/Page';
 
 interface State {
