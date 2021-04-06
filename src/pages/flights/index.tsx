@@ -1,17 +1,20 @@
 import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { FormCheck, Col, Container, Badge, ListGroup, ListGroupItem, Card, Row } from 'react-bootstrap';
-import FontAwesome from 'react-fontawesome';
+import { FormCheck, Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button } from 'react-bootstrap';
+import { FaArrowRight, FaPlus } from 'react-icons/fa';
 import { Marker, Polyline } from 'react-google-maps';
 import moment from 'moment';
 
 import api from '~api/main';
 import { DateFormElement, Map } from '~components';
 import { Page } from '~pages/Page';
+import FlightModal from './flight-modal';
+import { FlightBinding } from '~types/flights';
 
 interface State {
-
+    flight: FlightBinding,
+    isModalOpen: boolean,
 }
 
 class FlightsPage extends Page<{}, State> {
@@ -22,10 +25,13 @@ class FlightsPage extends Page<{}, State> {
             page: 1,
             pageSize: 10,
         },
+        flight: {
+        },
         flights: {
             count: 0,
             items: [],
         },
+        isModalOpen: false,
         showFlights: false,
     };
 
@@ -34,7 +40,7 @@ class FlightsPage extends Page<{}, State> {
     }
 
     render() {
-        const { filters, flights } = this.state;
+        const { filters, flights, isModalOpen } = this.state;
 
         const airports = this.state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
             title={airport.by.name} />);
@@ -44,7 +50,7 @@ class FlightsPage extends Page<{}, State> {
 
         const flightItems = flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
             <Badge variant="primary" title={flight.origin.name}>{flight.origin.iata}</Badge>&nbsp;
-            <FontAwesome name="long-arrow-right" />&nbsp;
+            <FaArrowRight />&nbsp;
             <Badge variant="primary" title={flight.destination.name}>{flight.destination.iata}</Badge>
             <div className="pull-right" format="Do MMMM YYYY">{moment(flight.departure).format('Do MMMM YYYY')}</div>
         </ListGroupItem>);
@@ -54,7 +60,17 @@ class FlightsPage extends Page<{}, State> {
                 <Row>
                     <Col lg={9}>
                         <Card>
-                            <Card.Header>Map</Card.Header>
+                            <Card.Header>
+                                Map
+                                <Button
+                                    className="pull-right"
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => this.setState({ isModalOpen: true })}
+                                >
+                                    <FaPlus /> New
+                                </Button>
+                            </Card.Header>
                             <Card.Body className="padding-0 panel-large">
                                 <Map onClick={this.onMapClick}>
                                     {airports}
@@ -107,8 +123,31 @@ class FlightsPage extends Page<{}, State> {
                         </Row>
                     </Col>
                 </Row>
+                <FlightModal
+                    isOpen={isModalOpen}
+                    onChange={this.onFlightChange}
+                    onClose={() => this.setState({ isModalOpen: false })}
+                    onSave={this.onSaveFlight}
+                />
             </Container>
         );
+    }
+
+    onFlightChange = (changed: Partial<FlightBinding>) => {
+        this.setState({
+            flight: {
+                ...this.state.flight,
+                ...changed,
+            }
+        });
+    }
+
+    onSaveFlight = () => {
+        api.flight.post(this.state.flight)
+            .then(() => {
+                this.setState({ isModalOpen: false });
+                this.onFiltersChange();
+            });
     }
 
     @boundMethod

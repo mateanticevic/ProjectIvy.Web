@@ -1,3 +1,4 @@
+import airport from './airport';
 import beer from './beer';
 import call from './call';
 import car from './car';
@@ -23,6 +24,7 @@ import vendor from './vendor';
 import web from './web';
 
 const api = {
+    airport,
     beer,
     call,
     car,

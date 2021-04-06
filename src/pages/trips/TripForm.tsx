@@ -23,7 +23,7 @@ const TripForm = ({ loadCities, onChange }: Props) => {
             <AsyncSelect
                 loadOptions={loadCities}
                 isMulti
-                onChange={cities => onChange({ cityIds: cities.map((x) => x.value) })}
+                onChange={cities => onChange({ cityIds: cities.map(x => x.value) })}
                 defaultOptions
             />
         </div>

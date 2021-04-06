@@ -1,5 +1,7 @@
 import * as api from '../config';
 
+const getAirlines = (filters) => api.get('common/airline', filters);
+
 function getExpenseFileTypes() {
     return api.get('common/expenseFileType');
 }
@@ -21,6 +23,7 @@ const getIncomeTypes = () => api.get('common/incomeType');
 const getBeerStyles = () => api.get('common/beerStyle');
 
 const common = {
+    getAirlines,
     getExpenseFileTypes,
     getIncomeTypes,
     getPaymentTypes,
