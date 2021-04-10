@@ -9,13 +9,13 @@ import { FaPlus } from 'react-icons/fa';
 
 import api from '~api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
-import { FlagIcon, Map, Pagination } from '~components';
-import { DateFormElement } from '~components';
+import { DateFormElement, FlagIcon, Map, Pagination } from '~components';
 import TableWithSpinner from '~components/TableWithSpinner';
 import * as trackingHelper from '~utils/tracking-helper';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';
+import { convertToPolygons } from '~utils/gmap-helper';
 
 interface State {
   countries: [];
@@ -62,12 +62,6 @@ class TripsPage extends Page<{}, State> {
   }
 
   render() {
-      const countryPolygons = this.state.countryBoundaries.map(country => {
-          return country.polygons.map(path => <Polygon key={_.uniqueId('polygon_country_')} path={trackingHelper.toGoogleMapsLocations(path)} onClick={this.onMapClick} />);
-      });
-
-      const polygons = [].concat(...countryPolygons);
-
       const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded } = this.state;
 
       return (
@@ -78,7 +72,7 @@ class TripsPage extends Page<{}, State> {
                           <Card.Header>Map</Card.Header>
                           <Card.Body className="padding-0 panel-large">
                               <Map defaultCenter={{ lat: 50.666841, lng: 49.800719 }}>
-                                  {polygons}
+                                  {convertToPolygons(this.state.countryBoundaries)}
                               </Map>
                           </Card.Body>
                       </Card>

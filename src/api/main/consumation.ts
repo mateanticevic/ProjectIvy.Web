@@ -24,6 +24,10 @@ function getCountBrand(filters) {
     return api.get('consumation/brand/count', filters);
 }
 
+const getCountry = (filters) => api.get('consumation/country', filters);
+
+const getCountryBoundaries = (filters) => api.get('consumation/country/boundaries', filters);
+
 function getNewBeers(filters) {
     return api.get('consumation/beer/new', filters);
 }
@@ -61,6 +65,8 @@ const consumation = {
     getCountByMonthOfYear,
     getCountByYear,
     getCountBrand,
+    getCountry,
+    getCountryBoundaries,
     getNewBeers,
     getSum,
     getSumByBeer,

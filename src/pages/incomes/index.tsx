@@ -105,7 +105,7 @@ class IncomesPage extends Page<Props, State> {
                                         </Button>
                                     </Col>
                                 </Row></Card.Header>
-                            <Card.Body>[]
+                            <Card.Body>
                                 <Table responsive>
                                     <tbody>
                                         {incomes.items.map(income =>

@@ -4,9 +4,9 @@ export interface PagedList<Item> {
 }
 
 export interface PagedItems<Item> {
-    list: PagedList<Item>,
-    page: number,
-    pageSize: number
+    list: PagedList<Item>;
+    page: number;
+    pageSize: number;
 }
 
 export type FileType = {
@@ -16,8 +16,13 @@ export type FileType = {
 }
 
 export type Vendor = {
-    id: string,
-    name: string
+    id: string;
+    name: string;
+}
+
+export interface Location {
+    latitude: number;
+    longitude: number;
 }
 
 export interface Name {
@@ -33,4 +38,9 @@ export interface UploadedFile {
 export interface Country {
     id: string;
     name: string;
+}
+
+export interface CountryPolygon {
+    country: Country;
+    polygons: Location[][];
 }

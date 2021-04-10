@@ -1,10 +1,9 @@
 import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
-import { FaCarSide } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
+import { FiLogOut, FiMap } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
-import { MdCall, MdMyLocation, MdLocalMovies } from 'react-icons/md';
+import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 
@@ -31,10 +30,13 @@ const NavigationBar = () =>
                             <NavDropdown.Item href="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
                             <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
                             <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
-                            <NavDropdown.Item href="/trips"><FaCarSide /> Trips</NavDropdown.Item>
+                            <NavDropdown.Item href="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
+                        </NavDropdown>
+                        <NavDropdown id="nav-dropdown-beer" title="Beer">
+                            <NavDropdown.Item href="/beer"><TiBeer /> Log</NavDropdown.Item>
+                            <NavDropdown.Item href="/beer/map"><FiMap /> Map</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown id="nav-dropdown-other" title="Other">
-                            <NavDropdown.Item href="/beer"><TiBeer /> Beer</NavDropdown.Item>
                             <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
                             <NavDropdown.Item href="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
                             <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
