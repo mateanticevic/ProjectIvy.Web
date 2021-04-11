@@ -2,19 +2,24 @@ import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Carousel } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
+import 'react-vertical-timeline-component/style.min.css';
 
 import api from '~api/main';
 import { Trip } from 'types/trips';
 import { Map, ValueLabel } from '~components';
 import ExpensePanel from '../expenses/ExpensePanel';
 import RideModal from './ride-modal';
-import { RideBinding } from '~types/ride';
+import { Ride, RideBinding } from '~types/ride';
+import Timeline from './timeline';
+import { Flight } from '~types/flights';
 
 interface State {
     beerSum: number;
     expenseFilters: any;
+    flights: Flight[];
     isRideModalOpen: boolean;
     ride: RideBinding;
+    rides: Ride[];
     trackings: any[];
     trip: Trip;
 }
@@ -27,10 +32,12 @@ class TripDetailsPage extends React.Component<{}, State> {
             page: 1,
             pageSize: 10,
         },
-        isRideModalOpen: true,
+        flights: [],
+        isRideModalOpen: false,
         ride: {
             typeId: 'car'
         },
+        rides: [],
         trip: {
             cities: [],
             countries: [],
@@ -41,12 +48,14 @@ class TripDetailsPage extends React.Component<{}, State> {
     };
 
     componentDidMount() {
-        api.trip.getById(props.match.params.id)
+        api.trip.getById(this.props.match.params.id)
             .then(trip => {
                 this.setState({ trip });
                 const filters = { from: trip.timestampStart, to: trip.timestampEnd };
                 api.tracking.get(filters).then(trackings => this.setState({ trackings }));
                 api.consumation.getSum(filters).then(beerSum => this.setState({ beerSum }));
+                api.flight.getFlights(filters).then(flights => this.setState({ flights: flights.items }));
+                api.ride.get(filters).then(rides => this.setState({ rides }));
             });
     }
 
@@ -126,6 +135,16 @@ class TripDetailsPage extends React.Component<{}, State> {
                             pageSize={this.state.expenseFilters.pageSize}
                             onPageChange={this.onExpensePageChange}
                             onUnlink={this.onUnlink} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={12}>
+                        <Timeline
+                            from={moment(trip.timestampStart)}
+                            flights={this.state.flights}
+                            rides={this.state.rides}
+                            to={moment(trip.timestampEnd)}
+                        />
                     </Col>
                 </Row>
                 <RideModal

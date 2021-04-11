@@ -4,8 +4,10 @@ export interface Airport {
 }
 
 export interface Flight {
-    id: string,
-    name: string,
+    id: string;
+    name: string;
+    departure: Date;
+    arrival: Date;
 }
 
 export interface FlightBinding {

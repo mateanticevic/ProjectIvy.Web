@@ -103,7 +103,7 @@ class TrackingPage extends Page<{}, State> {
                                 </ToggleButtonGroup>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD hh:mm'))} />
+                                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD HH:mm'))} />
                             </Card.Footer>
                         </Card>
                         {movements.length > 0 &&

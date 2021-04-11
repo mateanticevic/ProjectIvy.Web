@@ -7,3 +7,8 @@ export interface RideBinding {
     arrival: string;
     departure: string;
 }
+
+export interface Ride {
+    arrival: Date;
+    departure: Date;
+}
