@@ -1,16 +1,19 @@
-import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import React from 'react';
-import { FormCheck, Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button } from 'react-bootstrap';
+import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, Form, FormGroup, FormLabel } from 'react-bootstrap';
 import { FaArrowRight, FaPlus } from 'react-icons/fa';
 import { Marker, Polyline } from 'react-google-maps';
 import moment from 'moment';
+import AsyncSelect from 'react-select/async';
+
 
 import api from '~api/main';
 import { DateFormElement, Map } from '~components';
 import { Page } from '~pages/Page';
 import FlightModal from './flight-modal';
 import { FlightBinding } from '~types/flights';
+import { airlineLoader, airportLoader } from '~utils/select-loaders';
+
 
 interface State {
     flight: FlightBinding,
@@ -23,7 +26,7 @@ class FlightsPage extends Page<{}, State> {
         countByAirport: [],
         filters: {
             page: 1,
-            pageSize: 10,
+            pageSize: 100,
         },
         flight: {
         },
@@ -32,7 +35,7 @@ class FlightsPage extends Page<{}, State> {
             items: [],
         },
         isModalOpen: false,
-        showFlights: false,
+        showFlights: true,
     };
 
     componentDidMount() {
@@ -78,14 +81,14 @@ class FlightsPage extends Page<{}, State> {
                                 </Map>
                             </Card.Body>
                             <Card.Footer>
-                                <FormCheck
+                                <Form.Check
                                     checked={this.state.showFlights}
                                     onChange={this.toggleShowFlights}
                                     className="margin-0"
                                     type="checkbox"
                                 >
                                     Show flights
-                                </FormCheck>
+                                </Form.Check>
                             </Card.Footer>
                         </Card>
                     </Col>
@@ -105,6 +108,22 @@ class FlightsPage extends Page<{}, State> {
                                             onChange={date => this.onFiltersChange({ to: date })}
                                             value={filters.to}
                                         />
+                                        <FormGroup>
+                                            <FormLabel>Origin</FormLabel>
+                                            <AsyncSelect
+                                                defaultOptions
+                                                loadOptions={airportLoader}
+                                                onChange={x => this.onFiltersChange({ originId: x.value })}
+                                            />
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <FormLabel>Destination</FormLabel>
+                                            <AsyncSelect
+                                                defaultOptions
+                                                loadOptions={airportLoader}
+                                                onChange={x => this.onFiltersChange({ destinationId: x.value })}
+                                            />
+                                        </FormGroup>
                                     </Card.Body>
                                 </Card>
                             </Col>
@@ -150,8 +169,8 @@ class FlightsPage extends Page<{}, State> {
             });
     }
 
-    @boundMethod
-    private onFiltersChange(changedFilters?) {
+
+    onFiltersChange = (changedFilters?) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
 
@@ -160,8 +179,7 @@ class FlightsPage extends Page<{}, State> {
         api.flight.getFlights(filters).then(flights => this.setState({ flights }));
     }
 
-    @boundMethod
-    private toggleShowFlights() {
+    toggleShowFlights = () => {
         this.setState({ showFlights: !this.state.showFlights });
     }
 }

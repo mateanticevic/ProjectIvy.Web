@@ -15,6 +15,7 @@ import flight from './flight';
 import income from './income';
 import movie from './movie';
 import poi from './poi';
+import ride from './ride';
 import todo from './todo';
 import token from './token';
 import tracking from './tracking';
@@ -41,6 +42,7 @@ const api = {
     income,
     movie,
     poi,
+    ride,
     todo,
     token,
     tracking,

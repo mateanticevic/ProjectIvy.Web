@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Carousel } from 'react-bootstrap';
@@ -8,10 +7,14 @@ import api from '~api/main';
 import { Trip } from 'types/trips';
 import { Map, ValueLabel } from '~components';
 import ExpensePanel from '../expenses/ExpensePanel';
+import RideModal from './ride-modal';
+import { RideBinding } from '~types/ride';
 
 interface State {
     beerSum: number;
     expenseFilters: any;
+    isRideModalOpen: boolean;
+    ride: RideBinding;
     trackings: any[];
     trip: Trip;
 }
@@ -24,6 +27,10 @@ class TripDetailsPage extends React.Component<{}, State> {
             page: 1,
             pageSize: 10,
         },
+        isRideModalOpen: true,
+        ride: {
+            typeId: 'car'
+        },
         trip: {
             cities: [],
             countries: [],
@@ -33,9 +40,7 @@ class TripDetailsPage extends React.Component<{}, State> {
         trackings: [],
     };
 
-    constructor(props) {
-        super(props);
-
+    componentDidMount() {
         api.trip.getById(props.match.params.id)
             .then(trip => {
                 this.setState({ trip });
@@ -56,17 +61,12 @@ class TripDetailsPage extends React.Component<{}, State> {
             <Container>
                 <Row>
                     <Col lg={12}>
-
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg={12}>
                         <Card>
                             <Card.Body className="padding-0">
                                 <Carousel>
                                     {trip.files &&
                                         trip.files.map(file =>
-                                            <Carousel.Item>
+                                            <Carousel.Item key={file.id}>
                                                 <img
                                                     className="d-block w-100"
                                                     src={`/api/file/${file.id}`}
@@ -128,12 +128,17 @@ class TripDetailsPage extends React.Component<{}, State> {
                             onUnlink={this.onUnlink} />
                     </Col>
                 </Row>
+                <RideModal
+                    isOpen={this.state.isRideModalOpen}
+                    onChange={this.onRideChange}
+                    onClose={() => this.setState({ isRideModalOpen: false })}
+                    onSave={this.onRideSave}
+                />
             </Container>
         );
     }
 
-    @boundMethod
-    public onExpensePageChange(page) {
+    onExpensePageChange = (page) => {
         this.setState({
             expenseFilters: {
                 ...this.state.expenseFilters,
@@ -142,8 +147,20 @@ class TripDetailsPage extends React.Component<{}, State> {
         });
     }
 
-    @boundMethod
-    public onUnlink(expenseId) {
+    onRideChange = (changed: Partial<RideBinding>) => {
+        this.setState({
+            ride: {
+                ...this.state.ride,
+                ...changed,
+            }
+        });
+    }
+
+    onRideSave = () => {
+        api.ride.post(this.state.ride);
+    }
+
+    onUnlink = (expenseId) => {
         api.trip
             .deleteExpense(this.state.trip.id, expenseId)
             .then(() => { });

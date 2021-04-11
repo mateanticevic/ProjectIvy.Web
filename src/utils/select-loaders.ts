@@ -10,5 +10,7 @@ export const airportLoader = (value, callback) => genericApi(api.airport.get, va
 
 export const airlineLoader = (value, callback) => genericLoader(api.common.getAirlines, value, callback);
 export const beerLoader = (value, callback) => genericPagedLoader(api.beer.get, value, callback);
+export const cityLoader = (value, callback) => genericPagedLoader(api.city.get, value, callback);
+export const poiLoader = (value, callback) => genericPagedLoader(api.poi.get, value, callback);
 export const tripLoader = (value, callback) => genericPagedLoader(api.trip.get, value, callback);
 export const vendorLoader = (value, callback) => genericPagedLoader(api.vendor.get, value, callback);
