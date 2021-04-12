@@ -2,11 +2,12 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
+import { GrCheckboxSelected } from 'react-icons/gr';
 
 import * as formatHelper from '~utils/format-helper';
 import { Movement } from './types';
 
-const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onChartsClick }: Movement) => {
+const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onChartsClick, onSelect }: Movement) => {
     return (
         <tr>
             <td title={moment(day).format('dddd')}><span style={{ color }}>■</span> {moment(day).format('DD.MM.YYYY.')}</td>
@@ -19,6 +20,9 @@ const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onCha
             </td>
             <td className="width-30">
                 <FontAwesome title="Remove" name="times" className="show-on-hover cursor-pointer" onClick={() => onRemoveClick(id)} />
+            </td>
+            <td>
+                <GrCheckboxSelected onClick={onSelect} />
             </td>
         </tr>
     );

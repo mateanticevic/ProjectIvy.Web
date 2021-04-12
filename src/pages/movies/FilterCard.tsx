@@ -1,6 +1,6 @@
 import React from 'react';
 import Datetime from 'react-datetime';
-import { Card, Form, FormGroup, FormLabel } from 'react-bootstrap';
+import { Card, FormGroup, FormLabel } from 'react-bootstrap';
 import { Range } from 'rc-slider';
 
 import { Select } from '~components';

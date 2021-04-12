@@ -7,6 +7,7 @@ import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline, Marker } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
+import 'rc-slider/assets/index.css';
 
 import api from '~api/main';
 import { Map, RadioLabel } from '~components';
@@ -17,6 +18,7 @@ import { Page } from '~pages/Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
+import SelectedMovement from './selected-movement';
 
 interface State {
     altitudeChartData?: any;
@@ -25,9 +27,11 @@ interface State {
     filters: any;
     groupDatesInsideRectangle: GroupByTime;
     heatMapData?: any;
-    lastTracking?: any;
     mapMode: MapMode;
     movements: Movement[];
+    movement?: Movement;
+    selectedMovementOffset: number;
+    selectedTracking?: any;
     speedChartData?: any;
 }
 
@@ -56,10 +60,11 @@ class TrackingPage extends Page<{}, State> {
         groupDatesInsideRectangle: GroupByTime.ByYear,
         mapMode: MapMode.Move,
         movements: [],
+        selectedMovementOffset: 0,
     };
 
     render() {
-        const { datesInsideRectangle, filters, movements } = this.state;
+        const { datesInsideRectangle, filters, movements, movement } = this.state;
 
         const countGroupByOptions = [
             { value: GroupByTime.ByYear, name: 'Year' },
@@ -83,10 +88,10 @@ class TrackingPage extends Page<{}, State> {
                                             onRectangleComplete={this.onSelectComplete}
                                         />
                                     }
-                                    {this.state.lastTracking &&
+                                    {this.state.selectedTracking &&
                                         <Marker
-                                            position={{ lat: this.state.lastTracking.lat, lng: this.state.lastTracking.lng }}
-                                            title={`Location at ${this.state.lastTracking.timestamp}`}
+                                            position={{ lat: this.state.selectedTracking.lat, lng: this.state.selectedTracking.lng }}
+                                            title={`Location at ${this.state.selectedTracking.timestamp}`}
                                         />
                                     }
                                     {this.state.heatMapData &&
@@ -106,13 +111,24 @@ class TrackingPage extends Page<{}, State> {
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD HH:mm'))} />
                             </Card.Footer>
                         </Card>
+                        {movement &&
+                            <SelectedMovement
+                                movement={movement}
+                                onTrackingSelected={selectedTracking => this.setState({ selectedTracking })}
+                            />
+                        }
                         {movements.length > 0 &&
                             <Card>
                                 <Card.Header>Movements</Card.Header>
                                 <Card.Body>
                                     <Table>
                                         <tbody>
-                                            {movements.map(movement => <MovementRow {...movement} onRemoveClick={this.removeTracking} onChartsClick={() => this.loadCharts(movement.id)} />)}
+                                            {movements.map(movement => <MovementRow
+                                                key={movement.id}
+                                                {...movement}
+                                                onRemoveClick={this.removeTracking}
+                                                onSelect={() => this.setState({ movement })}
+                                                onChartsClick={() => this.loadCharts(movement.id)} />)}
                                         </tbody>
                                     </Table>
                                 </Card.Body>
@@ -252,18 +268,18 @@ class TrackingPage extends Page<{}, State> {
         let countBy;
 
         switch (this.state.groupDatesInsideRectangle) {
-        case GroupByTime.ByYear:
-            countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
-            break;
-        case GroupByTime.ByMonthOfYear:
-            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
-            break;
-        case GroupByTime.ByMonth:
-            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
-            break;
-        case GroupByTime.ByDayOfWeek:
-            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
-            break;
+            case GroupByTime.ByYear:
+                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
+                break;
+            case GroupByTime.ByMonthOfYear:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+                break;
+            case GroupByTime.ByMonth:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
+                break;
+            case GroupByTime.ByDayOfWeek:
+                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
+                break;
         }
 
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
@@ -278,7 +294,7 @@ class TrackingPage extends Page<{}, State> {
     private onLastTrackingAtDate(dateTime: string) {
         api.tracking
             .getLast({ at: dateTime })
-            .then(lastTracking => this.setState({ lastTracking }));
+            .then(selectedTracking => this.setState({ selectedTracking }));
     }
 
     @boundMethod
@@ -301,7 +317,7 @@ class TrackingPage extends Page<{}, State> {
         api.tracking
             .get(filters)
             .then(trackings => {
-                if (mapMode === MapMode.TrackingsInRectangle){
+                if (mapMode === MapMode.TrackingsInRectangle) {
                     this.drawMovements(trackings);
                 }
                 if (mapMode === MapMode.HeatmapInRectangle) {

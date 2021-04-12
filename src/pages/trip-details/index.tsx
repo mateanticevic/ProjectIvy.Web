@@ -33,7 +33,7 @@ class TripDetailsPage extends React.Component<{}, State> {
             pageSize: 10,
         },
         flights: [],
-        isRideModalOpen: false,
+        isRideModalOpen: true,
         ride: {
             typeId: 'car'
         },

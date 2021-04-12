@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormGroup, FormLabel, Modal } from 'react-bootstrap';
+import { Col, Col, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
@@ -25,38 +25,42 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
             <Modal.Title>New ride</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <FormGroup>
-                <FormLabel>Origin city</FormLabel>
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={cityLoader}
-                    onChange={x => onChange({ originCityId: x.value })}
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel>Origin point</FormLabel>
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={poiLoader}
-                    onChange={x => onChange({ originPoiId: x.value })}
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel>Destination city</FormLabel>
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={cityLoader}
-                    onChange={x => onChange({ destinationCityId: x.value })}
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel>Destination point</FormLabel>
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={poiLoader}
-                    onChange={x => onChange({ destinationPoiId: x.value })}
-                />
-            </FormGroup>
+            <Form.Row>
+                <Form.Group as={Col}>
+                    <FormLabel>Origin city</FormLabel>
+                    <AsyncSelect
+                        defaultOptions
+                        loadOptions={cityLoader}
+                        onChange={x => onChange({ originCityId: x.value })}
+                    />
+                </Form.Group>
+                <Form.Group as={Col}>
+                    <FormLabel>Origin point</FormLabel>
+                    <AsyncSelect
+                        defaultOptions
+                        loadOptions={poiLoader}
+                        onChange={x => onChange({ originPoiId: x.value })}
+                    />
+                </Form.Group>
+            </Form.Row>
+            <Form.Row>
+                <Form.Group as={Col}>
+                    <FormLabel>Destination city</FormLabel>
+                    <AsyncSelect
+                        defaultOptions
+                        loadOptions={cityLoader}
+                        onChange={x => onChange({ destinationCityId: x.value })}
+                    />
+                </Form.Group>
+                <Form.Group as={Col}>
+                    <FormLabel>Destination point</FormLabel>
+                    <AsyncSelect
+                        defaultOptions
+                        loadOptions={poiLoader}
+                        onChange={x => onChange({ destinationPoiId: x.value })}
+                    />
+                </Form.Group>
+            </Form.Row>
             <FormGroup>
                 <FormLabel>Departure</FormLabel>
                 <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ departure: x.format('YYYY-MM-DD HH:mm') })} />
