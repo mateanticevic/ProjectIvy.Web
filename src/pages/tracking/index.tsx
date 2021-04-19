@@ -19,6 +19,7 @@ import MovementRow from './MovementRow';
 import { Movement } from './types';
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 import SelectedMovement from './selected-movement';
+import CalendarGrid from './calendar-grid';
 
 interface State {
     altitudeChartData?: any;
@@ -138,15 +139,10 @@ class TrackingPage extends Page<{}, State> {
                             <Card>
                                 <Card.Header>Dates inside rectangle ({datesInsideRectangle.length})</Card.Header>
                                 <Card.Body>
-                                    <Table>
-                                        <tbody>
-                                            {datesInsideRectangle.map(date =>
-                                                <tr>
-                                                    <td className="cursor-pointer" onClick={() => this.loadDay(date)}>{date}</td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </Table>
+                                    <CalendarGrid
+                                        dates={datesInsideRectangle}
+                                        onDateClick={this.loadDay}
+                                    />
                                     <SimpleBarChart
                                         data={this.state.datesInsideRectangleChartData}
                                         name="year"
@@ -225,7 +221,7 @@ class TrackingPage extends Page<{}, State> {
         });
     }
 
-    private loadDay(day: string) {
+    loadDay = (day: string) => {
         const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: day, to: nextDay };
         api.tracking.get(filters).then(trackings => {
@@ -241,7 +237,7 @@ class TrackingPage extends Page<{}, State> {
                 this.setState({ movements });
             });
         });
-    }
+    };
 
     @boundMethod
     private loadOnThisDay() {
@@ -314,6 +310,13 @@ class TrackingPage extends Page<{}, State> {
 
         const { mapMode } = this.state;
 
+        if (mapMode === MapMode.DaysInRectanlge) {
+            api.tracking
+                .getDays(filters)
+                .then(datesInsideRectangle => this.setState({ datesInsideRectangle }, this.onG));
+            return;
+        }
+
         api.tracking
             .get(filters)
             .then(trackings => {
@@ -324,12 +327,6 @@ class TrackingPage extends Page<{}, State> {
                     this.drawHeatmap(trackings);
                 }
             });
-
-        return;
-
-        api.tracking
-            .getDays(filters)
-            .then(datesInsideRectangle => this.setState({ datesInsideRectangle }, this.onG));
     }
 
     @boundMethod
