@@ -3,6 +3,8 @@ import * as api from '../config';
 
 const get = (filters: MovieFilters) => api.get('movie', filters);
 
+const getCountByDay = (filters: MovieFilters) => api.get('movie/count/byDay', filters);
+
 const getCountByDayOfWeek = (filters: MovieFilters) => api.get('movie/count/byDayOfWeek', filters);
 
 const getCountByMonth = (filters: MovieFilters) => api.get('movie/count/byMonth', filters);
@@ -25,6 +27,7 @@ const getRatingAverageByYear = (filters: MovieFilters) => api.get('movie/rating/
 
 const movie = {
     get,
+    getCountByDay,
     getCountByDayOfWeek,
     getCountByMonth,
     getCountByMonthOfYear,

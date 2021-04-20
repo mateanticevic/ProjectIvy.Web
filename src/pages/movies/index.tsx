@@ -12,8 +12,11 @@ import { Page } from '~pages/Page';
 import { Movie, MovieFilters } from '~types/movies';
 import { FilterCard } from './FilterCard';
 import { PagedList } from '~types/common';
+import { KeyValuePair } from '~types/grouping';
+import CalendarGrid from './calendar-grid';
 
 interface State {
+    countByDay: KeyValuePair<number>[];
     countChartData: any;
     filters: MovieFilters;
     movieGroupBy: MovieGroupBy;
@@ -44,10 +47,11 @@ const maps = {
     [MovieGroupBy.ByMovieYear]: api.movie.getCountByMovieYear,
     [MovieGroupBy.ByRatingPerYear]: api.movie.getRatingAverageByYear,
     [MovieGroupBy.ByRuntime]: api.movie.getCountByRuntime,
-}
+};
 
 class MoviesPage extends Page<{}, State> {
     state: State = {
+        countByDay: [],
         countChartData: [],
         filters: {
             page: 1,
@@ -69,7 +73,7 @@ class MoviesPage extends Page<{}, State> {
     }
 
     render() {
-        const { filters, movies } = this.state;
+        const { countByDay, filters, movies } = this.state;
 
         return (
             <Container>
@@ -118,6 +122,16 @@ class MoviesPage extends Page<{}, State> {
                         />
                     </Col>
                 </Row>
+                <Row>
+                    <Col lg={12}>
+                        <Card>
+                            <Card.Header>Calendar</Card.Header>
+                            <Card.Body>
+                                <CalendarGrid dates={countByDay} />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
             </Container>
         );
     }
@@ -137,6 +151,10 @@ class MoviesPage extends Page<{}, State> {
         api.movie
             .get(filters)
             .then(movies => this.setState({ movies }));
+
+        api.movie
+            .getCountByDay(filters)
+            .then(countByDay => this.setState({ countByDay }));
     }
 }
 
