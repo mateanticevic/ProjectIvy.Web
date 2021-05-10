@@ -19,6 +19,7 @@ export interface CarService {
 
 export interface CarServiceDue {
     dueBefore: string,
+    dueBeforeApprox: string,
     dueAt?: number,
     dueIn?: number,
     serviceType: CarServiceType,

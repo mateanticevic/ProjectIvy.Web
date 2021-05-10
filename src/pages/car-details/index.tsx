@@ -122,7 +122,7 @@ class CarDetailsPage extends React.Component<{}, State> {
                                                         `${moment(serviceDue.dueBefore).diff(moment(), 'days')} days`
                                                     }
                                                     {serviceDue.dueIn &&
-                                                        `${serviceDue.dueIn}km`
+                                                        `${serviceDue.dueIn}km (~${moment(serviceDue.dueBeforeApprox).diff(moment(), 'days')} days)`
                                                     }
                                                 </td>
                                                 <td>
