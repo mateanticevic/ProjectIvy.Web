@@ -3,6 +3,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
+import { Chart } from 'react-google-charts';
 
 import api from '~api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
@@ -127,7 +128,7 @@ class BeerPage extends Page<Props, State> {
     }
 
     render() {
-        const { brands, countries, callOngoing, consumations, filters, servings, styles } = this.state;
+        const { brands, countries, callOngoing, consumations, filters, servings, styles, sumByCountry } = this.state;
 
         const sum = Math.ceil(this.state.sum / 1000);
 
@@ -137,6 +138,11 @@ class BeerPage extends Page<Props, State> {
         const perDay = (sum / (1 + to.diff(from, 'days'))).toFixed(2);
 
         const pages = Math.ceil(consumations.count / filters.pageSize);
+
+        const mapData = [
+            ['Country', 'Liters'],
+            ...sumByCountry.map(x => [x.key.name, Math.ceil(x.value / 1000)]),
+        ];
 
         return (
             <Container>
@@ -210,6 +216,21 @@ class BeerPage extends Page<Props, State> {
                                 />
                             </Col>
                         </Row>
+                        <Row>
+                            <Col lg={12}>
+                                <Card>
+                                    <Card.Header>Map</Card.Header>
+                                    <Card.Body className="panel-medium">
+                                        <Chart
+                                            height="360px"
+                                            chartType="GeoChart"
+                                            data={mapData}
+                                            options={{ colorAxis: { colors: ['#a5cefa', '#007BFB'] } }}
+                                        />
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
                     </Col>
                     <Col lg={3}>
                         <Card>
@@ -240,7 +261,7 @@ class BeerPage extends Page<Props, State> {
                             <Card.Header>Top Countries</Card.Header>
                             <Card.Body className="panel-small padding-0">
                                 <ListGroup>
-                                    {this.state.sumByCountry.map(country =>
+                                    {sumByCountry.slice(0, 5).map(country =>
                                         <ListGroup.Item key={_.uniqueId('list_item_top_country_')} className="list-group-item border-no-radius border-no-left border-no-right">
                                             <FlagIcon
                                                 code={country.key.id}
@@ -412,6 +433,11 @@ class BeerPage extends Page<Props, State> {
             pageSize: 5,
         };
 
+        const sumByCountryFilters = {
+            ...filters,
+            pageAll: true,
+        };
+
         api.consumation
             .getCountBeer(statsFilters)
             .then(beerCount => this.setState({ beerCount }));
@@ -437,7 +463,7 @@ class BeerPage extends Page<Props, State> {
             .then(data => this.setState({ sumByServing: data.map(x => ({ name: x.key.name, value: x.value })) }));
 
         api.consumation
-            .getSumByCountry(statsFilters)
+            .getSumByCountry(sumByCountryFilters)
             .then(countries => this.setState({ sumByCountry: countries.items }));
 
         this.onCountGroupByChange(this.state.sumByGrouping);

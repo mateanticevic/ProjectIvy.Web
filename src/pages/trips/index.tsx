@@ -69,9 +69,10 @@ class TripsPage extends Page<{}, State> {
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="panel-medium">
                                 <Chart
-                                    height="380px"
+                                    height="360px"
                                     chartType="GeoChart"
                                     data={chartData}
+                                    options={{ defaultColor: '#a5cefa' }}
                                 />
                             </Card.Body>
                         </Card>
