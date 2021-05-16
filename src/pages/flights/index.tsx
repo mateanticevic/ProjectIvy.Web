@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
-import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, Form, FormGroup, FormLabel } from 'react-bootstrap';
+import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, FormGroup, FormLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { FaArrowRight, FaPlus } from 'react-icons/fa';
 import { Marker, Polyline } from 'react-google-maps';
 import moment from 'moment';
 import AsyncSelect from 'react-select/async';
-
 
 import api from '~api/main';
 import { DateFormElement, Map } from '~components';
@@ -14,15 +13,23 @@ import FlightModal from './flight-modal';
 import { FlightBinding } from '~types/flights';
 import { airlineLoader, airportLoader } from '~utils/select-loaders';
 
+enum MapMode {
+    Airports,
+    Flights,
+}
 
 interface State {
+    countByAirport: any,
+    filters: any,
     flight: FlightBinding,
+    flights: any,
     isModalOpen: boolean,
+    mapMode: MapMode,
 }
 
 class FlightsPage extends Page<{}, State> {
 
-    state = {
+    state: State = {
         countByAirport: [],
         filters: {
             page: 1,
@@ -35,7 +42,7 @@ class FlightsPage extends Page<{}, State> {
             items: [],
         },
         isModalOpen: false,
-        showFlights: true,
+        mapMode: MapMode.Airports,
     };
 
     componentDidMount() {
@@ -43,13 +50,7 @@ class FlightsPage extends Page<{}, State> {
     }
 
     render() {
-        const { filters, flights, isModalOpen } = this.state;
-
-        const airports = this.state.countByAirport.map(airport => <Marker key={_.uniqueId('marker_airport_')} position={{ lat: airport.by.poi.location.latitude, lng: airport.by.poi.location.longitude }}
-            title={airport.by.name} />);
-
-        const flightPolylines = flights.items.map(flight => <Polyline options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
-            path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]} />);
+        const { countByAirport, filters, flights, isModalOpen, mapMode } = this.state;
 
         const flightItems = flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
             <Badge variant="primary" title={flight.origin.name}>{flight.origin.iata}</Badge>&nbsp;
@@ -75,20 +76,37 @@ class FlightsPage extends Page<{}, State> {
                                 </Button>
                             </Card.Header>
                             <Card.Body className="padding-0 panel-large">
-                                <Map onClick={this.onMapClick}>
-                                    {airports}
-                                    {this.state.showFlights && flightPolylines}
+                                <Map>
+                                    {mapMode === MapMode.Airports &&
+                                        countByAirport.map(airport =>
+                                            <Marker
+                                                key={_.uniqueId('marker_airport_')}
+                                                label={{ text: airport.value.toString() }}
+                                                position={{ lat: airport.key.poi.location.latitude, lng: airport.key.poi.location.longitude }}
+                                            />
+                                        )
+                                    }
+                                    {mapMode === MapMode.Flights &&
+                                        flights.items.map(flight =>
+                                            <Polyline
+                                                key={_.uniqueId('polyline_flight_')}
+                                                options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
+                                                path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]}
+                                            />)
+                                    }
                                 </Map>
                             </Card.Body>
                             <Card.Footer>
-                                <Form.Check
-                                    checked={this.state.showFlights}
-                                    onChange={this.toggleShowFlights}
-                                    className="margin-0"
-                                    type="checkbox"
+                                <ToggleButtonGroup
+                                    type="radio"
+                                    size="sm"
+                                    name="options"
+                                    value={mapMode}
+                                    onChange={mapMode => this.setState({ mapMode })}
                                 >
-                                    Show flights
-                                </Form.Check>
+                                    <ToggleButton value={MapMode.Airports}>Airports</ToggleButton>
+                                    <ToggleButton value={MapMode.Flights}>Flights</ToggleButton>
+                                </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>
                     </Col>
@@ -169,7 +187,6 @@ class FlightsPage extends Page<{}, State> {
             });
     }
 
-
     onFiltersChange = (changedFilters?) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
@@ -177,10 +194,7 @@ class FlightsPage extends Page<{}, State> {
         this.setState({ filters });
 
         api.flight.getFlights(filters).then(flights => this.setState({ flights }));
-    }
-
-    toggleShowFlights = () => {
-        this.setState({ showFlights: !this.state.showFlights });
+        api.flight.getCountByAirport(filters).then(countByAirport => this.setState({ countByAirport }));
     }
 }
 
