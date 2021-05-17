@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import { KeyValuePair } from '~types/grouping';
+import { KeyValuePair } from 'types/grouping';
 
 interface Props {
     dates: KeyValuePair<number>[];

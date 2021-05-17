@@ -1,12 +1,11 @@
-import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, FormLabel, FormControl, Container, Card, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
 
-import api from '~api/main';
-import Map from '~components/Map';
-import Select from '~components/Select';
+import api from 'api/main';
+import Map from 'components/Map';
+import Select from 'components/Select';
 import PoiModal from './PoiModal';
 import PoiPanel from './PoiPanel';
 
@@ -99,18 +98,16 @@ class PoisPage extends React.Component {
         );
     }
 
-    public onAddToTrip(poiId: string) {
+    onAddToTrip = (poiId: string) => {
     }
 
-    @boundMethod
-    public onFiltersChanged(filter?) {
+    onFiltersChanged = (filter?) => {
         const filters = { ...this.state.filters, ...filter };
         this.setState({ filters });
         api.poi.get(filters).then((pois) => this.setState({ pois }));
     }
 
-    @boundMethod
-    public onMapClick(e) {
+    onMapClick = (e) => {
         this.setState({
             isModalOpen: true,
             poi: {
@@ -120,32 +117,27 @@ class PoisPage extends React.Component {
         });
     }
 
-    @boundMethod
-    public onMapDragEnd() {
+    onMapDragEnd = () => {
         // let bounds = this.map.state.map.getBounds();
 
         // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
         // this.setState({ filters: filters });
     }
 
-    @boundMethod
-    public onModalClose() {
+    onModalClose = () => {
         this.setState({ isModalOpen: false });
     }
 
-    @boundMethod
-    public onNewClick() {
+    onNewClick = () => {
         this.setState({ isModalOpen: true });
     }
 
-    @boundMethod
-    public onPoiChange(property: object) {
+    onPoiChange = (property: object) => {
         const poi = { ...this.state.poi, ...property };
         this.setState({ poi });
     }
 
-    @boundMethod
-    public onSave() {
+    onSave = () => {
         this.setState({ isModalOpen: false });
         this.onFiltersChanged();
     }

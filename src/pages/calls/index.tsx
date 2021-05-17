@@ -1,13 +1,12 @@
-import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, Container, Card, Row, Table } from 'react-bootstrap';
 import moment from 'moment';
 
-import api from '~api/main';
-import { DateFormElement, Pagination } from '~components';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { DateFormElement, Pagination } from 'components';
+import { Page } from 'pages/Page';
 import { Call } from 'types/calls';
-import * as formatHelper from '~utils/format-helper';
+import * as formatHelper from 'utils/format-helper';
 
 interface State {
     calls: {
@@ -91,22 +90,20 @@ export default class CallsPage extends Page<{}, State> {
             </Container>);
     }
 
-    private fetchCalls() {
+    fetchCalls = () => {
         api.call
             .get(this.state.filters)
             .then(calls => this.setState({ calls }));
     }
 
-    @boundMethod
-    private onFiltersChange(changedFilters?) {
+    onFiltersChange = (changedFilters?) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
 
         this.setState({ filters }, this.fetchCalls);
     }
 
-    @boundMethod
-    private renderCalls() {
+    renderCalls = () => {
         return this.state.calls.items.map(call => (<tr>
             <td>{moment(call.timestamp).format('Do MMMM YYYY HH:mm:ss')}</td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>

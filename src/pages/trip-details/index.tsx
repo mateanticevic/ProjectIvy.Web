@@ -4,14 +4,14 @@ import { Col, Container, Card, Row, Carousel } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 import 'react-vertical-timeline-component/style.min.css';
 
-import api from '~api/main';
+import api from 'api/main';
 import { Trip } from 'types/trips';
-import { Map, ValueLabel } from '~components';
+import { Map, ValueLabel } from 'components';
 import ExpensePanel from '../expenses/ExpensePanel';
 import RideModal from './ride-modal';
-import { Ride, RideBinding } from '~types/ride';
+import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
-import { Flight } from '~types/flights';
+import { Flight } from 'types/flights';
 
 interface State {
     beerSum: number;

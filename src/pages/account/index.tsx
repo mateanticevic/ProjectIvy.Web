@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { Card, Container, Dropdown, DropdownButton, Table } from 'react-bootstrap';
 
-import api from '~api/main';
-import { FlagIcon } from '~components';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { FlagIcon } from 'components';
+import { Page } from 'pages/Page';
 import { UserSession } from 'types/users';
 
 interface State {

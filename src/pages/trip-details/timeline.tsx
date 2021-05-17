@@ -4,9 +4,9 @@ import { GiFinishLine } from 'react-icons/gi';
 import { GrPlay } from 'react-icons/gr';
 import moment from 'moment';
 import { GoCalendar } from 'react-icons/go';
-import { Flight } from '~types/flights';
+import { Flight } from 'types/flights';
 import { FaCar, FaPlaneDeparture } from 'react-icons/fa';
-import { Ride } from '~types/ride';
+import { Ride } from 'types/ride';
 
 interface Props {
     from: moment.Moment;

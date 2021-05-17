@@ -1,11 +1,10 @@
-import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Col, FormLabel, FormControl, Card, Row, Container } from 'react-bootstrap';
 import moment from 'moment';
 
-import * as apiConfig from '~api/config';
-import api from '~api/main';
-import ButtonWithSpinner from '~components/ButtonWithSpinner';
+import * as apiConfig from 'api/config';
+import api from 'api/main';
+import ButtonWithSpinner from 'components/ButtonWithSpinner';
 
 interface State {
     isLoggingIn: boolean;
@@ -62,8 +61,7 @@ class LoginPage extends React.Component<{}, State> {
         );
     }
 
-    @boundMethod
-    public loginTry(event) {
+    loginTry = (event) => {
         event.preventDefault();
         this.setState({
             isLoggingIn: true,

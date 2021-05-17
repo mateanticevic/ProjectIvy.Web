@@ -2,7 +2,7 @@ import React from 'react';
 import { FormCheck, Col, Modal, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import ButtonWithSpinner from '~components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/ButtonWithSpinner';
 import ExpenseForm from './ExpenseForm';
 
 const ExpenseModal = (props) => {

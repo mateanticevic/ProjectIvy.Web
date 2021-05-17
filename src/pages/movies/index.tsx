@@ -5,14 +5,14 @@ import 'rc-slider/assets/index.css';
 import { FaImdb } from 'react-icons/fa';
 import { SiPlex } from 'react-icons/si';
 
-import api from '~api/main';
-import { DistributionCard, Pagination } from '~components';
-import { MovieGroupBy } from '~consts/groupings';
-import { Page } from '~pages/Page';
-import { Movie, MovieFilters } from '~types/movies';
+import api from 'api/main';
+import { DistributionCard, Pagination } from 'components';
+import { MovieGroupBy } from 'consts/groupings';
+import { Page } from 'pages/Page';
+import { Movie, MovieFilters } from 'types/movies';
 import { FilterCard } from './FilterCard';
-import { PagedList } from '~types/common';
-import { KeyValuePair } from '~types/grouping';
+import { PagedList } from 'types/common';
+import { KeyValuePair } from 'types/grouping';
 import CalendarGrid from './calendar-grid';
 
 interface State {

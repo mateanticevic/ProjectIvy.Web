@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import React from 'react';
 import { Button, Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar } from 'react-bootstrap';
 import ReactSelect from 'react-select';
@@ -6,10 +5,10 @@ import AsyncSelect from 'react-select/async';
 import { FaPlus } from 'react-icons/fa';
 import { Chart } from 'react-google-charts';
 
-import api from '~api/main';
+import api from 'api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
-import { DateFormElement, FlagIcon, Pagination } from '~components';
-import TableWithSpinner from '~components/TableWithSpinner';
+import { DateFormElement, FlagIcon, Pagination } from 'components';
+import TableWithSpinner from 'components/TableWithSpinner';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';
@@ -189,22 +188,19 @@ class TripsPage extends Page<{}, State> {
         );
     }
 
-    @boundMethod
-    private loadCities(inputValue, callback) {
+    loadCities = (inputValue, callback) => {
         api.city
             .get({ search: inputValue })
             .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
     }
 
-    @boundMethod
-    private loadVisited() {
+    loadVisited = () => {
         api.country
             .getListsVisited()
             .then(lists => this.setState({ lists }));
     }
 
-    @boundMethod
-    private onFiltersChanged(filterValue?) {
+    onFiltersChanged = (filterValue?) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.setState({
             filters,
@@ -224,8 +220,7 @@ class TripsPage extends Page<{}, State> {
             .then(countriesVisited => this.setState({ countriesVisited }));
     }
 
-    @boundMethod
-    private onTripChanged(changedValue: Partial<TripBinding>) {
+    onTripChanged = (changedValue: Partial<TripBinding>) => {
         this.setState({
             trip: {
                 ...this.state.trip,
@@ -234,8 +229,7 @@ class TripsPage extends Page<{}, State> {
         });
     }
 
-    @boundMethod
-    private onTripSave() {
+    onTripSave = () => {
         this.setState({ tripIsBeingAdded: true });
         api.trip
             .post(this.state.trip)

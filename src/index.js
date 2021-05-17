@@ -5,8 +5,10 @@ import moment from 'moment';
 
 import Root from './Root';
 
-require('./favicon.ico');
+import 'url:./favicon.ico';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
+import './styles/overrides.scss';
 
 // Move this somewhere
 moment.locale('hr', {

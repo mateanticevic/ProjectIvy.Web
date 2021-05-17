@@ -3,7 +3,7 @@ import Datetime from 'react-datetime';
 import { Card, FormGroup, FormLabel } from 'react-bootstrap';
 import { Range } from 'rc-slider';
 
-import { Select } from '~components';
+import { Select } from 'components';
 import { MovieFilters } from 'types/movies';
 
 const dateFormat = 'YYYY-M-D';

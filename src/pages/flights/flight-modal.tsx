@@ -3,9 +3,9 @@ import { FormControl, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
-import ButtonWithSpinner from '~components/ButtonWithSpinner';
-import { FlightBinding } from '~types/flights';
-import { airlineLoader, airportLoader } from '~utils/select-loaders';
+import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import { FlightBinding } from 'types/flights';
+import { airlineLoader, airportLoader } from 'utils/select-loaders';
 
 interface Props {
     isOpen: boolean,

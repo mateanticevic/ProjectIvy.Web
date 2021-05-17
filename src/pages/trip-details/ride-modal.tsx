@@ -1,11 +1,11 @@
 import React from 'react';
-import { Col, Col, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
+import { Col, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
-import ButtonWithSpinner from '~components/ButtonWithSpinner';
-import { cityLoader, poiLoader } from '~utils/select-loaders';
-import { RideBinding } from '~types/ride';
+import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import { cityLoader, poiLoader } from 'utils/select-loaders';
+import { RideBinding } from 'types/ride';
 
 interface Props {
     isOpen: boolean,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Toast } from 'react-bootstrap';
-import autobind from 'autobind-decorator';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -23,7 +22,7 @@ import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
-import BeerMapPage from '~pages/beer-map';
+import BeerMapPage from './pages/beer-map';
 
 interface State {
     isLoggedIn: boolean;
@@ -101,8 +100,7 @@ export default class Root extends React.Component<{}, State> {
         );
     }
 
-    @autobind
-    private toast(title: string, message: string) {
+    toast = (title: string, message: string) => {
         this.setState({
             showToast: true,
             toastMessage: message,

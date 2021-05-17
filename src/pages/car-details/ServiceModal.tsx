@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 
-import { DateFormElement, Select } from '~components';
+import { DateFormElement, Select } from 'components';
 
 interface Props {
     isOpen: boolean;

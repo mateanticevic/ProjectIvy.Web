@@ -1,4 +1,4 @@
-import { Location } from '~types/common';
+import { Location } from 'types/common';
 
 export function toGoogleMapsLocations(trackings: Location[]) {
     return trackings.map((t) => toGoogleMapsLocation(t));

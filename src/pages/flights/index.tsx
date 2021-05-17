@@ -6,12 +6,12 @@ import { Marker, Polyline } from 'react-google-maps';
 import moment from 'moment';
 import AsyncSelect from 'react-select/async';
 
-import api from '~api/main';
-import { DateFormElement, Map } from '~components';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { DateFormElement, Map } from 'components';
+import { Page } from 'pages/Page';
 import FlightModal from './flight-modal';
-import { FlightBinding } from '~types/flights';
-import { airlineLoader, airportLoader } from '~utils/select-loaders';
+import { FlightBinding } from 'types/flights';
+import { airlineLoader, airportLoader } from 'utils/select-loaders';
 
 enum MapMode {
     Airports,

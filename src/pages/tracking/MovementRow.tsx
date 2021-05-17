@@ -4,7 +4,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { GrCheckboxSelected } from 'react-icons/gr';
 
-import * as formatHelper from '~utils/format-helper';
+import * as formatHelper from 'utils/format-helper';
 import { Movement } from './types';
 
 const MovementRow = ({ day, distance, trackings, id, color, onRemoveClick, onChartsClick, onSelect }: Movement) => {

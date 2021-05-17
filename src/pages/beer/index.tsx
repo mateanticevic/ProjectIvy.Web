@@ -1,24 +1,23 @@
-import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
 import { Chart } from 'react-google-charts';
 
-import api from '~api/main';
+import api from 'api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
-import { DistributionCard, FlagIcon, Pagination } from '~components';
+import { DistributionCard, FlagIcon, Pagination } from 'components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
 import ConsumationModal from './ConsumationModal';
 import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
-import { GroupByTime } from '~consts/groupings';
+import { GroupByTime } from 'consts/groupings';
 import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
 import { ServingIcon } from './ServingIcon';
-import { Unit } from '~consts/units';
+import { Unit } from 'consts/units';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -311,8 +310,7 @@ class BeerPage extends Page<Props, State> {
         );
     }
 
-    @boundMethod
-    private addBeer() {
+    addBeer = () => {
         api.beer
             .postBeer(this.state.beer.brandId, this.state.beer)
             .then(() => {
@@ -320,8 +318,7 @@ class BeerPage extends Page<Props, State> {
             });
     }
 
-    @boundMethod
-    private addBrand() {
+    addBrand = () => {
         api.beer
             .postBrand(this.state.brand)
             .then(() => {
@@ -331,8 +328,7 @@ class BeerPage extends Page<Props, State> {
             });
     }
 
-    @boundMethod
-    private addConsumation() {
+    addConsumation = () => {
         this.setState({ callOngoing: true });
         api.consumation
             .post(this.state.consumation)
@@ -346,15 +342,13 @@ class BeerPage extends Page<Props, State> {
             });
     }
 
-    @boundMethod
-    private loadBrands() {
+    loadBrands = () => {
         api.beer
             .getBrands()
             .then(brands => this.setState({ brands }));
     }
 
-    @boundMethod
-    private onBeerChange(beerValue: Partial<Beer>) {
+    onBeerChange = (beerValue: Partial<Beer>) => {
         this.setState({
             beer: {
                 ...this.state.beer,
@@ -363,8 +357,7 @@ class BeerPage extends Page<Props, State> {
         });
     }
 
-    @boundMethod
-    private onBrandChange(brandChanged: Partial<Brand>) {
+    onBrandChange = (brandChanged: Partial<Brand>) => {
         this.setState({
             brand: {
                 ...this.state.brand,
@@ -373,8 +366,7 @@ class BeerPage extends Page<Props, State> {
         });
     }
 
-    @boundMethod
-    private onConsumationChange(consumationValue: Partial<Consumation>) {
+    onConsumationChange = (consumationValue: Partial<Consumation>) => {
         this.setState({
             consumation: {
                 ...this.state.consumation,
@@ -383,8 +375,7 @@ class BeerPage extends Page<Props, State> {
         });
     }
 
-    @boundMethod
-    private onCountByClick(groupBy?: GroupByTime) {
+    onCountByClick = (groupBy?: GroupByTime) => {
         if (groupBy) {
             this.setState({ countBy: groupBy });
         }
@@ -409,8 +400,7 @@ class BeerPage extends Page<Props, State> {
             .then(chartCountData => this.setState({ chartCountData: _.reverse(chartCountData) }));
     }
 
-    @boundMethod
-    private onFiltersChange(filterValue?: Partial<ConsumationFilters>) {
+    onFiltersChange = (filterValue?: Partial<ConsumationFilters>) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
         this.pushHistoryState(filters);
 

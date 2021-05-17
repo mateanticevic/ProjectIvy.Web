@@ -1,4 +1,3 @@
-import { boundMethod } from 'autobind-decorator';
 import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -9,12 +8,12 @@ import { Polyline, Marker } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 import 'rc-slider/assets/index.css';
 
-import api from '~api/main';
-import { Map, RadioLabel } from '~components';
-import SimpleBarChart from '~components/SimpleBarChart';
-import SimpleLineChart from '~components/SimpleLineChart';
-import { GroupByTime } from '~consts/groupings';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { Map, RadioLabel } from 'components';
+import SimpleBarChart from 'components/SimpleBarChart';
+import SimpleLineChart from 'components/SimpleLineChart';
+import { GroupByTime } from 'consts/groupings';
+import { Page } from 'pages/Page';
 import MovementRow from './MovementRow';
 import { Movement } from './types';
 import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
@@ -192,13 +191,13 @@ class TrackingPage extends Page<{}, State> {
         );
     }
 
-    private drawHeatmap(trackings) {
+    drawHeatmap = (trackings) => {
         this.setState({
             heatMapData: trackings.map(x => new google.maps.LatLng(x.lat, x.lng))
         });
     }
 
-    private drawMovements(trackings) {
+    drawMovements = (trackings) => {
         this.setState({
             movements: [
                 ...this.state.movements,
@@ -213,7 +212,7 @@ class TrackingPage extends Page<{}, State> {
         });
     }
 
-    private loadCharts(movementId: string) {
+    loadCharts = (movementId: string) => {
         const trackings = this.state.movements.find(x => x.id === movementId)!.trackings;
         this.setState({
             altitudeChartData: trackings.map(tracking => ({ altitude: Math.ceil(tracking.altitude), time: moment(tracking.timestamp).format('HH:mm') })),
@@ -239,15 +238,13 @@ class TrackingPage extends Page<{}, State> {
         });
     };
 
-    @boundMethod
-    private loadOnThisDay() {
+    loadOnThisDay = () => {
         for (let year = 2014; year <= moment().year(); year++) {
             this.loadDay(moment().year(year).format('YYYY-MM-DD'));
         }
     }
 
-    @boundMethod
-    public onFiltersChanged(filterValue?) {
+    onFiltersChanged = (filterValue?) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
 
         if (!filters.day) {
@@ -259,8 +256,7 @@ class TrackingPage extends Page<{}, State> {
         this.loadDay(filters.day);
     }
 
-    @boundMethod
-    private onG() {
+    onG = () => {
         let countBy;
 
         switch (this.state.groupDatesInsideRectangle) {
@@ -281,20 +277,17 @@ class TrackingPage extends Page<{}, State> {
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
     }
 
-    @boundMethod
-    private onGClick(groupDatesInsideRectangle: GroupByTime) {
+    onGClick = (groupDatesInsideRectangle: GroupByTime) => {
         this.setState({ groupDatesInsideRectangle }, this.onG);
     }
 
-    @boundMethod
-    private onLastTrackingAtDate(dateTime: string) {
+    onLastTrackingAtDate = (dateTime: string) => {
         api.tracking
             .getLast({ at: dateTime })
             .then(selectedTracking => this.setState({ selectedTracking }));
     }
 
-    @boundMethod
-    private onSelectComplete(rectangle: google.maps.Rectangle) {
+    onSelectComplete = (rectangle: google.maps.Rectangle) => {
         const filters = {
             topLeft: {
                 lat: rectangle.getBounds().getNorthEast().lat(),
@@ -329,8 +322,7 @@ class TrackingPage extends Page<{}, State> {
             });
     }
 
-    @boundMethod
-    private removeTracking(id: string) {
+    removeTracking = (id: string) => {
         this.setState({
             movements: _.filter(this.state.movements, t => t.id !== id),
         });

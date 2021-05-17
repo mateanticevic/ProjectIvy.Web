@@ -1,13 +1,12 @@
-import { boundMethod } from 'autobind-decorator';
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
 
-import api from '~api/main';
-import { DistributionCard } from '~components';
-import { GroupByTime } from '~consts/groupings';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { DistributionCard } from 'components';
+import { GroupByTime } from 'consts/groupings';
+import { Page } from 'pages/Page';
 import { PagedList } from 'types/common';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import ExpensePanel from './ExpensePanel';
@@ -288,18 +287,16 @@ class ExpensesPage extends Page<{}, State> {
         );
     }
 
-    @boundMethod
-    private deleteFile(fileId) {
+    deleteFile = (fileId) => {
         api.file.deleteFile(fileId);
     }
 
-    @boundMethod
-    private linkExpenseFile(expenseId: string, fileId: string, expenseFile: ExpenseFile) {
+    linkExpenseFile = (expenseId: string, fileId: string, expenseFile: ExpenseFile) => {
         api.expense
             .postFile(expenseId, fileId, expenseFile);
     }
 
-    private newExpense(): Partial<Expense> {
+    newExpense = (): Partial<Expense> => {
         return {
             amount: 0,
             comment: '',
@@ -310,8 +307,7 @@ class ExpensesPage extends Page<{}, State> {
         };
     }
 
-    @boundMethod
-    private onExpenseChanged(expenseValue: ExpenseBinding) {
+    onExpenseChanged = (expenseValue: ExpenseBinding) => {
         this.setState({
             expense: {
                 ...this.state.expense,
@@ -331,21 +327,18 @@ class ExpensesPage extends Page<{}, State> {
         }
     }
 
-    @boundMethod
-    private onExpenseLinkClick(expenseId: string) {
+    onExpenseLinkClick = (expenseId: string) => {
         this.setState({
             isLinkModalOpen: true,
             selectedExpenseId: expenseId,
         });
     }
 
-    @boundMethod
-    private onExpenseLink(expenseId: string) {
+    onExpenseLink = (expenseId: string) => {
         return api.trip.postExpense(this.state.selectedTripId!, this.state.selectedExpenseId!);
     }
 
-    @boundMethod
-    private onExpenseEdit(expense: Expense) {
+    onExpenseEdit = (expense: Expense) => {
         this.setState({
             expense: {
                 ...expense,
@@ -356,16 +349,14 @@ class ExpensesPage extends Page<{}, State> {
         });
     }
 
-    @boundMethod
-    private onExpenseNew() {
+    onExpenseNew = () => {
         this.setState({
             expense: this.newExpense(),
             isModalOpen: true,
         });
     }
 
-    @boundMethod
-    private onExpenseSave(closeModal: boolean) {
+    onExpenseSave = (closeModal: boolean) => {
         this.setState({ isSavingExpense: true });
 
         const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
@@ -378,8 +369,7 @@ class ExpensesPage extends Page<{}, State> {
             .catch(() => this.setState({ isSavingExpense: false }));
     }
 
-    @boundMethod
-    private onFiltersChanged(changedFilters?: Partial<ExpenseFilters>) {
+    onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
         this.setState({
@@ -464,13 +454,12 @@ class ExpensesPage extends Page<{}, State> {
         maps[groupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
     }
 
-    @boundMethod
-    private onVendorChange(vendorId: string) {
+    onVendorChange = (vendorId: string) => {
         api.vendor.getPois(vendorId)
             .then(vendorPois => this.setState({ vendorPois }));
     }
 
-    private toExpenseBinding(e: Expense): ExpenseBinding {
+    toExpenseBinding = (e: Expense): ExpenseBinding => {
         return {
             amount: e.amount,
             cardId: e.card ? e.card.id : undefined,
@@ -490,7 +479,7 @@ class ExpensesPage extends Page<{}, State> {
         };
     }
 
-    private uploadFile(file: File) {
+    uploadFile = (file: File) => {
         return api.file.post(file);
     }
 }

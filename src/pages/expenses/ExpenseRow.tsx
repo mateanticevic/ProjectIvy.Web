@@ -7,7 +7,7 @@ import { RiExchangeDollarLine } from 'react-icons/ri';
 import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './ExpenseTypeLabel';
 import VendorLabel from './VendorLabel';
-import { PaymentType } from '~consts/service';
+import { PaymentType } from 'consts/service';
 import { Name } from 'types/common';
 
 interface Props {

@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormCheck, Col, Form, FormControl, Container, Card, Row, Table } from 'react-bootstrap';
 
-import { boundMethod } from 'autobind-decorator';
-import api from '~api/main';
+import api from 'api/main';
 
 class ToDosPage extends React.Component {
 
@@ -43,8 +42,7 @@ class ToDosPage extends React.Component {
         );
     }
 
-    @boundMethod
-    private addNew(e) {
+    addNew = (e) => {
         e.preventDefault();
         api.todo.post(this.state.newTodo).then(() => {
             this.setState({ newTodo: '' });
@@ -53,13 +51,12 @@ class ToDosPage extends React.Component {
         return false;
     }
 
-    private getToDos() {
+    getToDos = () => {
         api.todo.get({ isDone: false })
             .then(todos => this.setState({ todos }));
     }
 
-    @boundMethod
-    private renderTodos() {
+    renderTodos = () => {
         return this.state.todos.items.map((todo) => (<tr key={todo.id}>
             <td><FormCheck onClick={() => this.setDone(todo.id)} /></td>
             <td>{todo.name}</td>
@@ -67,8 +64,7 @@ class ToDosPage extends React.Component {
         ));
     }
 
-    @boundMethod
-    private setDone(id) {
+    setDone = (id) => {
         api.todo.postDone(id)
             .then(() => this.getToDos());
     }

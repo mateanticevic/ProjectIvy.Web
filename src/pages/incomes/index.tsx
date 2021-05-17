@@ -3,11 +3,11 @@ import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table }
 import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 
-import api from '~api/main';
-import { DistributionCard, FormattedNumber, Pagination, Select } from '~components';
-import { GroupByTime } from '~consts/groupings';
-import { UserContext } from '~contexts/user-context';
-import { Page } from '~pages/Page';
+import api from 'api/main';
+import { DistributionCard, FormattedNumber, Pagination, Select } from 'components';
+import { GroupByTime } from 'consts/groupings';
+import { UserContext } from 'contexts/user-context';
+import { Page } from 'pages/Page';
 import { Income, IncomeBinding, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Col, Container, Card, Row } from 'react-bootstrap';
 
-import api from '~api/main';
-import { FlagIcon, Map } from '~components';
-import { Page } from '~pages/Page';
-import { CountryPolygon } from '~types/common';
-import { convertToPolygons } from '~utils/gmap-helper';
+import api from 'api/main';
+import { FlagIcon, Map } from 'components';
+import { Page } from 'pages/Page';
+import { CountryPolygon } from 'types/common';
+import { convertToPolygons } from 'utils/gmap-helper';
 
 interface Props {
     toast: (title: string, message: string) => void;
