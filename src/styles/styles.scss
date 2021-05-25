@@ -260,4 +260,34 @@ body #app {
     fill: #007bffff;
   }
 
+  .expense-item {
+    align-items: center;
+    display: flex;
+  }
+
+  .expense-type-badge {
+    font-size: 50px;
+    padding: 15px;
+  }
+
+  .expense-item-currency {
+    font-size: 30px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+
+  .expense-item-content {
+    display: inline;
+  }
+
+  .expense-item-title {
+    font-size: 20px;
+    margin-left: 20px;
+  }
+
+  .expense-item-date {
+    color: gray;
+    font-size: 14px;
+    margin-left: 20px;
+  }
 }

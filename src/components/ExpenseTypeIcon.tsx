@@ -1,9 +1,9 @@
 import React from 'react';
-import { BiDrink, BiRestaurant, BiTaxi } from 'react-icons/bi';
+import { BiDrink, BiRestaurant, BiTaxi, BiDollar } from 'react-icons/bi';
 import { CgGames } from 'react-icons/cg';
 import { MdBatteryFull, MdFlight } from 'react-icons/md';
-import { FaParking, FaTv, FaShoppingBasket, FaCoffee, FaGasPump, FaWarehouse, FaUsb, FaCar, FaGlasses, FaMobile, FaRoad, FaBolt, FaFire, FaBuilding } from 'react-icons/fa';
-import { GiCarWheel, GiFoodTruck, GiSonicShoes, GiHomeGarage } from 'react-icons/gi';
+import { FaParking, FaTv, FaShoppingBasket, FaCoffee, FaGasPump, FaWarehouse, FaUsb, FaCar, FaGlasses, FaMobile, FaRoad, FaBolt, FaFire, FaBuilding, FaTooth } from 'react-icons/fa';
+import { GiCarWheel, GiFoodTruck, GiSonicShoes, GiHomeGarage, GiDeliveryDrone } from 'react-icons/gi';
 import { GoPackage } from 'react-icons/go';
 
 const icons = {
@@ -15,10 +15,13 @@ const icons = {
     ['coffee']: <FaCoffee />,
     ['contact-lenses']: <FaGlasses />,
     ['car-maintenance']: <GiCarWheel />,
+    ['car-parts']: <GiCarWheel />,
     ['games']: <CgGames />,
     ['gas']: <FaFire />,
     ['delivery']: <GoPackage />,
+    ['dentist']: <FaTooth />,
     ['drinks']: <BiDrink />,
+    ['drone']: <GiDeliveryDrone />,
     ['electricity']: <FaBolt />,
     ['house-repair']: <FaWarehouse />,
     ['house-supplies']: <FaWarehouse />,
@@ -41,6 +44,6 @@ interface Props {
     typeId: string
 }
 
-const ExpenseTypeIcon = ({ typeId }: Props) => icons[typeId] ?? <React.Fragment />;
+const ExpenseTypeIcon = ({ typeId }: Props) => icons[typeId] ?? <BiDollar />;
 
 export default ExpenseTypeIcon;

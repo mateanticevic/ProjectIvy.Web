@@ -15,6 +15,7 @@ import { CountByChart } from './CountByChart';
 import FiltersMore from './FiltersMore';
 import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
+import ExpenseItem from './expense-item';
 
 interface State {
     cards: any[];
@@ -136,6 +137,8 @@ class ExpensesPage extends Page<{}, State> {
             { value: GroupByTime.ByDay, name: 'Day' },
         ];
 
+        const { expenses } = this.state;
+
         return (
             <Container>
                 <Row>
@@ -200,6 +203,12 @@ class ExpensesPage extends Page<{}, State> {
                                     serverPaging
                                     stats={this.state.stats}
                                 />
+                                {expenses.items.map(expense =>
+                                    <ExpenseItem
+                                        key={expense.id}
+                                        expense={expense}
+                                    />
+                                )}
                             </Col>
                         </Row>
                         <Row>
