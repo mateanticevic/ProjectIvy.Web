@@ -271,6 +271,7 @@ body #app {
   }
 
   .expense-item-currency {
+    flex-shrink: 0;
     font-size: 30px;
     font-weight: 600;
     margin-left: auto;

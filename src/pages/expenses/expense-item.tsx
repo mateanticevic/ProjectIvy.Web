@@ -27,6 +27,9 @@ const ExpenseItem = ({ expense }: Props) =>
                 </div>
                 <div className="expense-item-date">
                     {formatDate(expense.timestamp)}
+                    {expense.vendor &&
+                        ` | ${expense.vendor.name}`
+                    }
                 </div>
             </div>
             <div className="expense-item-currency">{expense.amount.toFixed(2)}  {expense.currency.code}</div>
