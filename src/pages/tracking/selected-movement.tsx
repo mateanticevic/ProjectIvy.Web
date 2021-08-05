@@ -68,15 +68,19 @@ const SelectedMovement = ({ movement, onTrackingSelected }: Props) => {
         onTrackingSelected(movement.trackings[newIndex]);
     };
 
+    const currentTracking = movement.trackings[index];
+    const previousTracking = index == 0 ? null : movement.trackings[index - 1];
+    const previousLatLng = previousTracking ? new google.maps.LatLng(previousTracking.latitude, previousTracking.longitude) : null;
+    const currentLatLng = new google.maps.LatLng(currentTracking.latitude, currentTracking.longitude);
+    const distanceFromPrevious = previousLatLng ? google.maps.geometry.spherical.computeDistanceBetween(previousLatLng, currentLatLng) : null;
+
     const selectedTime = moment(movement.trackings[index].timestamp);
-
-
 
     return (
         <Card>
             <Card.Header>Selected movement</Card.Header>
             <Card.Body>
-                {selectedTime.format('HH:mm:ss')}
+                {`${selectedTime.format('HH:mm:ss.SSS')} - ${movement.trackings[index].speed * 3.6}km/h - from previous: ${distanceFromPrevious}m`}
                 <Range
                     max={movement.trackings.length - 1}
                     min={0}
