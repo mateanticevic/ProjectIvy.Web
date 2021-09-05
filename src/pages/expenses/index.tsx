@@ -57,7 +57,7 @@ const maps = {
     [GroupByTime.ByDayOfWeek]: api.expense.getSumByDayOfWeek,
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
     [GroupByTime.ByMonth]: api.expense.getSumByMonth,
-}
+};
 
 class ExpensesPage extends Page<{}, State> {
     state: State = {
@@ -168,7 +168,7 @@ class ExpensesPage extends Page<{}, State> {
                                             eventKey="0"
                                         >
                                             More filters
-                                      </Accordion.Toggle>
+                                        </Accordion.Toggle>
                                         <Accordion.Collapse eventKey="0">
                                             <Card.Body>
                                                 <FiltersMore
@@ -282,7 +282,7 @@ class ExpensesPage extends Page<{}, State> {
                     expense={this.state.expense}
                     isOpen={this.state.isModalOpen}
                     isSaving={this.state.isSavingExpense}
-                    files={this.state.files}
+                    files={this.state.expense?.files ?? []}
                     linkFile={this.linkExpenseFile}
                     deleteFile={this.deleteFile}
                     onChange={this.onExpenseChanged}
@@ -300,10 +300,12 @@ class ExpensesPage extends Page<{}, State> {
         api.file.deleteFile(fileId);
     }
 
-    linkExpenseFile = (expenseId: string, fileId: string, expenseFile: ExpenseFile) => {
+    linkExpenseFile = (expenseId: string, fileId: string, expenseFile: ExpenseFile) =>
         api.expense
-            .postFile(expenseId, fileId, expenseFile);
-    }
+            .postFile(expenseId, fileId, expenseFile)
+            .then(() => {
+                this.onFiltersChanged(undefined, true);
+            });
 
     newExpense = (): Partial<Expense> => {
         return {
@@ -328,7 +330,7 @@ class ExpensesPage extends Page<{}, State> {
                     description: this.state.expense.comment,
                     typeId: this.state.expense.expenseType.id,
                 })
-                .then(descriptionSuggestions => this.setState({ descriptionSuggestions }))
+                .then(descriptionSuggestions => this.setState({ descriptionSuggestions }));
         });
 
         if (expenseValue && expenseValue.vendorId) {
@@ -343,9 +345,8 @@ class ExpensesPage extends Page<{}, State> {
         });
     }
 
-    onExpenseLink = (expenseId: string) => {
-        return api.trip.postExpense(this.state.selectedTripId!, this.state.selectedExpenseId!);
-    }
+    onExpenseLink = (expenseId: string) =>
+        api.trip.postExpense(this.state.selectedTripId!, this.state.selectedExpenseId!);
 
     onExpenseEdit = (expense: Expense) => {
         this.setState({
@@ -378,11 +379,11 @@ class ExpensesPage extends Page<{}, State> {
             .catch(() => this.setState({ isSavingExpense: false }));
     }
 
-    onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>) => {
+    onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
         this.setState({
-            expensesAreLoading: true,
+            expensesAreLoading: !silent,
             filters,
         }, () => {
             this.onSumGroupBy(this.state.sumGroupBy);
@@ -394,6 +395,7 @@ class ExpensesPage extends Page<{}, State> {
                 this.setState({
                     expenses,
                     expensesAreLoading: false,
+                    expense: this.state.expense ? expenses.items.find(x => x.id === this.state.expense.id) : undefined
                 });
 
                 api.expense

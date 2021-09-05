@@ -26,6 +26,7 @@
     "lodash": "^4.17.21",
     "moment": "2.29.1",
     "moment-range": "4.0.2",
+    "ngeohash": "0.6.3",
     "rc-slider": "9.7.2",
     "react": "17.0.2",
     "react-bootstrap": "^1.5.2",

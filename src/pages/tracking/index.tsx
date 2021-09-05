@@ -4,9 +4,10 @@ import React from 'react';
 import { Button, Col, Container, Card, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
-import { Polyline, Marker } from 'react-google-maps';
+import { Polyline, Marker, Rectangle } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 import 'rc-slider/assets/index.css';
+import geohash from 'ngeohash';
 
 import api from 'api/main';
 import { Map, RadioLabel } from 'components';
@@ -25,6 +26,7 @@ interface State {
     datesInsideRectangle: string[];
     datesInsideRectangleChartData?: any;
     filters: any;
+    geohashRectangles: any;
     groupDatesInsideRectangle: GroupByTime;
     heatMapData?: any;
     mapMode: MapMode;
@@ -40,6 +42,7 @@ enum MapMode {
     DaysInRectanlge = 'Select',
     HeatmapInRectangle = 'HeatmapInRectangle',
     TrackingsInRectangle = 'TrackingsInRectangle',
+    Geohash = 'Geohash'
 }
 
 class TrackingPage extends Page<{}, State> {
@@ -57,14 +60,17 @@ class TrackingPage extends Page<{}, State> {
         datesInsideRectangle: [],
         filters: {
         },
+        geohashRectangles: [],
         groupDatesInsideRectangle: GroupByTime.ByYear,
         mapMode: MapMode.Move,
         movements: [],
         selectedMovementOffset: 0,
     };
 
+    map;
+
     render() {
-        const { datesInsideRectangle, filters, movements, movement } = this.state;
+        const { datesInsideRectangle, filters, mapMode, movements, movement } = this.state;
 
         const countGroupByOptions = [
             { value: GroupByTime.ByYear, name: 'Year' },
@@ -80,9 +86,13 @@ class TrackingPage extends Page<{}, State> {
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-large">
-                                <Map defaultZoom={12} defaultCenter={{ lat: 45.798894, lng: 15.908531 }}>
+                                <Map
+                                    defaultZoom={12}
+                                    defaultCenter={{ lat: 45.798894, lng: 15.908531 }}
+                                    refSet={mapRef => this.map = mapRef}
+                                >
                                     {movements.map(movement => <Polyline path={movement.trackings} options={{ strokeColor: movement.color }} />)}
-                                    {this.state.mapMode !== MapMode.Move &&
+                                    {[MapMode.DaysInRectanlge, MapMode.HeatmapInRectangle, MapMode.TrackingsInRectangle].includes(mapMode) &&
                                         <DrawingManager
                                             defaultDrawingMode={google.maps.drawing.OverlayType.RECTANGLE}
                                             onRectangleComplete={this.onSelectComplete}
@@ -97,14 +107,16 @@ class TrackingPage extends Page<{}, State> {
                                     {this.state.heatMapData &&
                                         <HeatmapLayer data={this.state.heatMapData} />
                                     }
+                                    {this.state.geohashRectangles.map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
                                 </Map>
                             </Card.Body>
                             <Card.Footer className="flex-container">
-                                <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={mapMode => this.setState({ mapMode })}>
+                                <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={this.onMapModeChange}>
                                     <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
                                     <ToggleButton value={MapMode.DaysInRectanlge}><FontAwesome name="calendar" /> Days</ToggleButton>
                                     <ToggleButton value={MapMode.TrackingsInRectangle}><FontAwesome name="calendar" /> Movement</ToggleButton>
                                     <ToggleButton value={MapMode.HeatmapInRectangle}><FontAwesome name="map-o" /> Heatmap</ToggleButton>
+                                    <ToggleButton value={MapMode.Geohash}><FontAwesome name="map-o" /> Geohash</ToggleButton>
                                 </ToggleButtonGroup>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
@@ -189,6 +201,40 @@ class TrackingPage extends Page<{}, State> {
                 </Row>
             </Container>
         );
+    }
+
+    drawGeohash = () => {
+        const center = this.map.getCenter();
+        const zoom = this.map.getZoom();
+
+        const z = {
+            [1]: { precision: 1, search: 0 },
+            [2]: { precision: 1, search: 0 },
+            [3]: { precision: 2, search: 0 },
+            [4]: { precision: 3, search: 1 },
+            [5]: { precision: 3, search: 1 },
+            [6]: { precision: 4, search: 2 },
+            [7]: { precision: 4, search: 2 },
+            [8]: { precision: 5, search: 2 },
+            [9]: { precision: 5, search: 3 },
+            [10]: { precision: 6, search: 3 },
+            [11]: { precision: 6, search: 4 },
+            [12]: { precision: 6, search: 4 },
+            [13]: { precision: 7, search: 5 },
+            [14]: { precision: 7, search: 5 },
+            [15]: { precision: 8, search: 5 },
+            [16]: { precision: 8, search: 6 },
+            [17]: { precision: 9, search: 6 }
+        };
+
+        const settings = z[zoom > 17 ? 17 : zoom];
+
+        api.geohash.get(geohash.encode(center.lat(), center.lng()).substring(0, settings.search), settings.precision)
+            .then(hashes => {
+                this.setState({
+                    geohashRectangles: hashes.map(hash => geohash.decode_bbox(hash))
+                });
+            });
     }
 
     drawHeatmap = (trackings) => {
@@ -285,6 +331,14 @@ class TrackingPage extends Page<{}, State> {
         api.tracking
             .getLast({ at: dateTime })
             .then(selectedTracking => this.setState({ selectedTracking }));
+    }
+
+    onMapModeChange = (mapMode: MapMode) => {
+        if (mapMode === MapMode.Geohash){
+            this.drawGeohash();
+        }
+
+        this.setState({ mapMode });
     }
 
     onSelectComplete = (rectangle: google.maps.Rectangle) => {

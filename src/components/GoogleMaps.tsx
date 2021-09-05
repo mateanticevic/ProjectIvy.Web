@@ -7,6 +7,7 @@ interface Props {
   children: any;
   onClick?(event: google.maps.MouseEvent): void;
   onDragEnd?(): void;
+  refSet: any;
 }
 
 const defaultOptions: google.maps.MapOptions = {
@@ -15,8 +16,9 @@ const defaultOptions: google.maps.MapOptions = {
     zoomControl: false,
 };
 
-const GoogleMaps = withGoogleMap(({ defaultCenter, defaultZoom, children, onClick, onDragEnd }: Props) => (
+const GoogleMaps = withGoogleMap(({ defaultCenter, defaultZoom, children, onClick, onDragEnd, refSet }: Props) => (
     <GoogleMap
+        ref={refSet}
         onClick={e => { if (onClick) { onClick(e); } }}
         onDragEnd={() => { if (onDragEnd) { onDragEnd(); } }}
         defaultOptions={defaultOptions}

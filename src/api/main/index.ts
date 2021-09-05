@@ -12,6 +12,7 @@ import expense from './expense';
 import expenseType from './expense-type';
 import file from './file';
 import flight from './flight';
+import geohash from './geohash';
 import income from './income';
 import movie from './movie';
 import poi from './poi';
@@ -39,6 +40,7 @@ const api = {
     expenseType,
     file,
     flight,
+    geohash,
     income,
     movie,
     poi,

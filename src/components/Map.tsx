@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleMaps from './GoogleMaps';
 
 interface Props {
-  map?: any;
+  refSet?: any;
   onClick?: any;
   onDragEnd?: any;
   defaultZoom?: number;
@@ -10,11 +10,11 @@ interface Props {
   children?: any[];
 }
 
-const Map = ({ map, onDragEnd, onClick, defaultZoom, defaultCenter, children }: Props) => {
+const Map = ({ onDragEnd, onClick, defaultZoom, defaultCenter, refSet, children }: Props) => {
     return (
         <GoogleMaps
             onClick={onClick}
-            ref={map}
+            refSet={refSet}
             onDragEnd={onDragEnd}
             defaultCenter={defaultCenter ? defaultCenter : { lat: 0, lng: 0 }}
             defaultZoom={defaultZoom ? defaultZoom : 2}
