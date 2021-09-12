@@ -23,6 +23,7 @@ import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
 import BeerMapPage from './pages/beer-map';
+import LocationPage from 'pages/location';
 
 interface State {
     isLoggedIn: boolean;
@@ -77,6 +78,7 @@ export default class Root extends React.Component<{}, State> {
                             <Route path="/expenses" exact component={ExpensesPage} />
                             <Route path="/flights" exact component={FlightsPage} />
                             <Route path="/incomes" exact component={IncomesPage} />
+                            <Route path="/location" exact component={LocationPage} />
                             <Route path="/movies" exact component={MoviesPage} />
                             <Route path="/login" exact component={LoginPage} />
                             <Route path="/pois" exact component={PoisPage} />

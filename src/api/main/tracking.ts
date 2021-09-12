@@ -1,4 +1,7 @@
+import { components } from 'types/ivy-types';
 import * as api from '../config';
+
+type Tracking = components['schemas']['Tracking'];
 
 function get(filters) {
     return api.get('tracking', filters);
@@ -12,7 +15,7 @@ function getDistance(filters) {
     return api.get('tracking/distance', filters);
 }
 
-const getLastLocation = () => api.get('tracking/lastLocation');
+const getLastLocation = () => api.get('tracking/lastLocation');
 
 interface LastParameters {
     at?: string;

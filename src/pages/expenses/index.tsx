@@ -395,7 +395,7 @@ class ExpensesPage extends Page<{}, State> {
                 this.setState({
                     expenses,
                     expensesAreLoading: false,
-                    expense: this.state.expense ? expenses.items.find(x => x.id === this.state.expense.id) : undefined
+                    //expense: this.state.expense ? expenses.items.find(x => x.id === this.state.expense.id) : undefined
                 });
 
                 api.expense

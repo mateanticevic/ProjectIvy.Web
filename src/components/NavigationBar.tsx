@@ -30,6 +30,7 @@ const NavigationBar = () =>
                             <NavDropdown.Item href="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
                             <NavDropdown.Item href="/pois"><TiLocation /> Pois</NavDropdown.Item>
                             <NavDropdown.Item href="/tracking"><MdMyLocation /> Tracking</NavDropdown.Item>
+                            <NavDropdown.Item href="/location"><MdMyLocation /> Location</NavDropdown.Item>
                             <NavDropdown.Item href="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown id="nav-dropdown-beer" title="Beer">
