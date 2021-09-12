@@ -5,7 +5,7 @@ import Datetime from 'react-datetime';
 import { FaCalendar } from 'react-icons/fa';
 
 interface Props {
-    label: string;
+    label?: string;
     value?: any;
     onChange: (date: string) => void;
 }
@@ -13,9 +13,11 @@ interface Props {
 const DateFormElement = ({ label, onChange, value }: Props) => {
     return (
         <FormGroup>
-            <FormLabel>
-                {label}
-            </FormLabel>
+            {label &&
+                <FormLabel>
+                    {label}
+                </FormLabel>
+            }
             <InputGroup>
                 <Datetime
                     dateFormat="YYYY-MM-DD"
