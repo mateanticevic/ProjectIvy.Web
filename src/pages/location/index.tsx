@@ -1,24 +1,29 @@
 import React from 'react';
-import { Button, Card, Col, Container, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Card, Col, Container, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 
 import { Page } from 'pages/Page';
 import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
-import { GoogleMap, Polyline } from 'react-google-maps';
+import { GoogleMap, Marker, Polyline } from 'react-google-maps';
 import { MdToday } from 'react-icons/md';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill } from 'react-icons/ri';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
 import { Layer } from 'types/location';
 import moment from 'moment';
 import _ from 'lodash';
-import { trackingToLatLng } from 'utils/gmap-helper';
+import { trackingsToLatLng } from 'utils/gmap-helper';
+import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { DrawMode } from 'consts/location';
 
 type Tracking = components['schemas']['Tracking'];
 
+const { MarkerClusterer } = require('react-google-maps/lib/components/addons/MarkerClusterer');
+
 interface State {
     dateMode: DateMode,
+    drawMode: DrawMode,
     filterDay?: string,
     last?: Tracking,
     lastNDays: LastNDays,
@@ -52,6 +57,7 @@ class LocationPage extends Page<{}, State> {
 
     state: State = {
         dateMode: DateMode.Day,
+        drawMode: DrawMode.Line,
         lastNDays: LastNDays.One,
         layers: [],
         requestActive: false,
@@ -64,7 +70,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, last, layers, requestActive } = this.state;
+        const { dateMode, drawMode, last, layers, requestActive } = this.state;
 
         const isMapReady = !!last;
 
@@ -93,6 +99,13 @@ class LocationPage extends Page<{}, State> {
                                         />
                                     </FormGroup>
                                 }
+                                <FormGroup>
+                                    <ToggleButtonGroup type="radio" name="options" value={drawMode} onChange={drawMode => this.setState({ drawMode })}>
+                                        <ToggleButton value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
+                                        <ToggleButton value={DrawMode.Points}><BiDotsHorizontalRounded /> Points</ToggleButton>
+                                        <ToggleButton value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </FormGroup>
                                 <ButtonWithSpinner
                                     isLoading={requestActive}
                                     onClick={this.draw}
@@ -112,12 +125,23 @@ class LocationPage extends Page<{}, State> {
                                         defaultCenter={{ lat: last.latitude, lng: last.longitude }}
                                         refSet={mapRef => this.map = mapRef}
                                     >
-                                        {layers.map(layer =>
+                                        {layers.filter(layer => layer.drawMode === DrawMode.Line).map(layer =>
                                             <Polyline
                                                 key={layer.id}
                                                 path={layer.path}
                                             />
                                         )}
+                                        <MarkerClusterer>
+                                            {layers.filter(layer => layer.drawMode === DrawMode.Points).map(layer =>
+                                                layer.path.map(point =>
+                                                    <Marker
+                                                        key={_.uniqueId()}
+                                                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                                                        position={point}
+                                                    />
+                                                )
+                                            )}
+                                        </MarkerClusterer>
                                     </Map>
                                 }
                             </Card.Body>
@@ -136,7 +160,8 @@ class LocationPage extends Page<{}, State> {
             api.tracking.getDistance(filters).then(distance => {
                 const layer: Layer = {
                     id: _.uniqueId(),
-                    path: trackingToLatLng(trackings),
+                    path: trackingsToLatLng(trackings),
+                    drawMode: this.state.drawMode,
                 };
                 this.setState({
                     layers: [
