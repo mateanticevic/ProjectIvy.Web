@@ -1,21 +1,24 @@
 import React from 'react';
 import { Card, Col, Container, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import geohash from 'ngeohash';
+import { BiRectangle } from 'react-icons/bi';
+import { GoogleMap, Marker, Polyline, Rectangle } from 'react-google-maps';
+import { MdLocationOn, MdToday } from 'react-icons/md';
+import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
+import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
+import moment from 'moment';
+import _ from 'lodash';
 
 import { Page } from 'pages/Page';
 import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
-import { GoogleMap, Marker, Polyline } from 'react-google-maps';
-import { MdToday } from 'react-icons/md';
-import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
-import { Ri24HoursFill } from 'react-icons/ri';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
 import { Layer } from 'types/location';
-import moment from 'moment';
-import _ from 'lodash';
 import { trackingsToLatLng } from 'utils/gmap-helper';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import { DrawMode } from 'consts/location';
+import { DrawMode, MapMode } from 'consts/location';
+import GeohashSettings from './geohash-settings';
+import { GeohashLayer, PointLayer, PolygonLayer } from 'models/layers';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -25,9 +28,13 @@ interface State {
     dateMode: DateMode,
     drawMode: DrawMode,
     filterDay?: string,
+    geohashPrecision: number,
+    geohashSearch: number,
     last?: Tracking,
     lastNDays: LastNDays,
     layers: Layer[],
+    mapMode: MapMode,
+    mapZoom: number,
     requestActive: boolean,
 }
 
@@ -58,8 +65,12 @@ class LocationPage extends Page<{}, State> {
     state: State = {
         dateMode: DateMode.Day,
         drawMode: DrawMode.Line,
+        geohashPrecision: 7,
+        geohashSearch: 5,
         lastNDays: LastNDays.One,
         layers: [],
+        mapMode: MapMode.Drag,
+        mapZoom: 13,
         requestActive: false,
     }
 
@@ -70,7 +81,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, requestActive } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, requestActive } = this.state;
 
         const isMapReady = !!last;
 
@@ -95,17 +106,25 @@ class LocationPage extends Page<{}, State> {
                                     <FormGroup>
                                         <Select
                                             options={lastNDaysOptions}
-                                            onChange={lastNDays => this.setState({ lastNDays })}
+                                            onChange={lastNDays => this.setState({ lastNDays: lastNDays as LastNDays })}
                                         />
                                     </FormGroup>
                                 }
                                 <FormGroup>
                                     <ToggleButtonGroup type="radio" name="options" value={drawMode} onChange={drawMode => this.setState({ drawMode })}>
                                         <ToggleButton value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
-                                        <ToggleButton value={DrawMode.Points}><BiDotsHorizontalRounded /> Points</ToggleButton>
                                         <ToggleButton value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
+                                {drawMode === DrawMode.Geohash &&
+                                    <GeohashSettings
+                                        precision={geohashPrecision}
+                                        search={geohashSearch}
+                                        zoom={mapZoom}
+                                        onPrecisionChange={geohashPrecision => this.setState({ geohashPrecision })}
+                                        onSearchChange={geohashSearch => this.setState({ geohashSearch })}
+                                    />
+                                }
                                 <ButtonWithSpinner
                                     isLoading={requestActive}
                                     onClick={this.draw}
@@ -121,18 +140,27 @@ class LocationPage extends Page<{}, State> {
                             <Card.Body className="padding-0 panel-large">
                                 {isMapReady &&
                                     <Map
-                                        defaultZoom={13}
+                                        defaultZoom={mapZoom}
                                         defaultCenter={{ lat: last.latitude, lng: last.longitude }}
+                                        onClick={this.onMapClick}
+                                        onZoomChanged={() => this.setState({ mapZoom: this.map.getZoom() })}
                                         refSet={mapRef => this.map = mapRef}
                                     >
-                                        {layers.filter(layer => layer.drawMode === DrawMode.Line).map(layer =>
+                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => !layer.renderAsPoints).map(layer =>
                                             <Polyline
                                                 key={layer.id}
                                                 path={layer.path}
                                             />
                                         )}
+                                        {layers.filter(layer => layer instanceof PointLayer).map(layer => layer as PointLayer).map(layer =>
+                                            <Marker
+                                                key={layer.id}
+                                                position={layer.point}
+                                            />
+                                        )}
+                                        {layers.filter(layer => layer instanceof GeohashLayer).map(layer => layer as GeohashLayer).flatMap(layer => layer.geohashRectangles).map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
                                         <MarkerClusterer>
-                                            {layers.filter(layer => layer.drawMode === DrawMode.Points).map(layer =>
+                                            {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
                                                 layer.path.map(point =>
                                                     <Marker
                                                         key={_.uniqueId()}
@@ -145,6 +173,13 @@ class LocationPage extends Page<{}, State> {
                                     </Map>
                                 }
                             </Card.Body>
+                            <Card.Footer>
+                                <ToggleButtonGroup type="radio" name="options" value={mapMode} onChange={mapMode => this.setState({ mapMode })}>
+                                    <ToggleButton value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
+                                    <ToggleButton value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
+                                    <ToggleButton value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
+                                </ToggleButtonGroup>
+                            </Card.Footer>
                         </Card>
                     </Col>
                 </Row>
@@ -154,15 +189,16 @@ class LocationPage extends Page<{}, State> {
 
     draw = () => {
         this.setState({ requestActive: true });
+
+        if (this.state.drawMode === DrawMode.Geohash) {
+            return this.drawGeohash();
+        }
+
         const nextDay = moment(this.state.filterDay).add(1, 'days').format('YYYY-MM-DD');
         const filters = { from: this.state.filterDay, to: nextDay };
         api.tracking.get(filters).then(trackings => {
             api.tracking.getDistance(filters).then(distance => {
-                const layer: Layer = {
-                    id: _.uniqueId(),
-                    path: trackingsToLatLng(trackings),
-                    drawMode: this.state.drawMode,
-                };
+                const layer = new PolygonLayer(trackingsToLatLng(trackings));
                 this.setState({
                     layers: [
                         ...this.state.layers,
@@ -172,6 +208,35 @@ class LocationPage extends Page<{}, State> {
                 });
             });
         });
+    }
+
+    drawGeohash = () => {
+        const { geohashPrecision, geohashSearch } = this.state;
+        const center = this.map.getCenter();
+
+        api.geohash.get(geohash.encode(center.lat(), center.lng()).substring(0, geohashSearch), geohashPrecision)
+            .then(hashes => {
+                const layer = new GeohashLayer(hashes.map(hash => geohash.decode_bbox(hash)));
+                this.setState({
+                    layers: [
+                        ...this.state.layers,
+                        layer,
+                    ],
+                    requestActive: false,
+                });
+            });
+    }
+
+    onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
+        if (this.state.mapMode === MapMode.Drop) {
+            const layer = new PointLayer(event.latLng);
+            this.setState({
+                layers: [
+                    ...this.state.layers,
+                    layer,
+                ],
+            });
+        }
     }
 }
 

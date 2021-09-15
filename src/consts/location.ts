@@ -1,5 +1,10 @@
 export enum DrawMode {
     Line,
-    Points,
     Geohash
+}
+
+export enum MapMode {
+    Drag,
+    Drop,
+    Select
 }

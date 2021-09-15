@@ -62,7 +62,9 @@
     "components": "./src/components",
     "consts": "./src/consts",
     "contexts": "./src/contexts",
+    "models": "./src/models",
     "pages": "./src/pages",
+    "types": "./src/types",
     "utils": "./src/utils"
   },
   "keywords": [],

@@ -45,7 +45,9 @@
       "components/*": ["components/*"],
       "consts/*": ["consts/*"],
       "contexts/*": ["contexts/*"],
+      "models/*": ["models/*"],
       "pages/*": ["pages/*"],
+      "types/*": ["types/*"],
       "utils/*": ["utils/*"]
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "rootDirs": ["src"],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
