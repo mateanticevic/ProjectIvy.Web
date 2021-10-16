@@ -3,7 +3,7 @@ import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 're
 import FontAwesome from 'react-fontawesome';
 import Datetime from 'react-datetime';
 import { Currency } from 'types/expenses';
-import { Income, IncomeBinding, IncomeSource, IncomeType } from 'types/incomes';
+import { IncomeBinding, IncomeSource, IncomeType } from 'types/incomes';
 import { FaCalendar } from 'react-icons/fa';
 import moment from 'moment';
 
@@ -17,7 +17,7 @@ interface Props {
     types: IncomeType[];
     onClose(): void;
     onChange(changed: Partial<IncomeBinding>): void;
-    onSave(): Promise;
+    onSave(): Promise<void>;
 }
 
 const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, sources, types }: Props) => {
@@ -60,7 +60,7 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, so
                     <InputGroup>
                         <FormControl
                             type="number"
-                            onChange={x => onChange({ amount: parseInt(x.target.value) })}
+                            onChange={x => onChange({ amount: Number.parseFloat(x.target.value) })}
                         />
                         <InputGroup.Append>
                             <InputGroup.Text>{income.currencyId}</InputGroup.Text>

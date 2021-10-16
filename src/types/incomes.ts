@@ -1,6 +1,5 @@
-import { PaginationProps } from "react-bootstrap";
-import { Currency } from "./expenses";
-import { PagingFilters } from "./paging";
+import { Currency } from './expenses';
+import { PagingFilters } from './paging';
 
 export interface Income {
     amount: number;
