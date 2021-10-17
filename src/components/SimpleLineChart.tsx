@@ -10,7 +10,7 @@ interface Props {
     value: string;
 }
 
-export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
+const SimpleLineChart = ({ data, name, unit, value }: Props) => {
 
     return (
         <ResponsiveContainer height={300}>
@@ -29,3 +29,5 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
         </ResponsiveContainer>
     );
 };
+
+export default SimpleLineChart;
