@@ -35,7 +35,6 @@ const NavigationBar = () =>
                         </NavDropdown>
                         <NavDropdown id="nav-dropdown-beer" title="Beer">
                             <NavDropdown.Item href="/beer"><TiBeer /> Log</NavDropdown.Item>
-                            <NavDropdown.Item href="/beer/map"><FiMap /> Map</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown id="nav-dropdown-other" title="Other">
                             <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>

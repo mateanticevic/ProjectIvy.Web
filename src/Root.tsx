@@ -22,7 +22,6 @@ import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
-import BeerMapPage from './pages/beer-map';
 import LocationPage from 'pages/location';
 
 interface State {
@@ -71,7 +70,6 @@ export default class Root extends React.Component<{}, State> {
                             <Route path="/" exact component={DashboardPage} />
                             <Route path="/account" exact component={AccountPage} />
                             <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
-                            <Route path="/beer/map" exact component={BeerMapPage} />
                             <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
                             <Route path="/calls" exact component={CallsPage} />
                             <Route path="/car/:id" exact component={CarDetailsPage} />
