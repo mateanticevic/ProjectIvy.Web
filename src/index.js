@@ -1,6 +1,5 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
 import moment from 'moment';
 
 import Root from './Root';
@@ -22,15 +21,3 @@ render(
     <Root />,
     document.getElementById('app')
 );
-
-// if (module.hot) {
-//     module.hot.accept('./Root', () => {
-//         const NewRoot = require('./Root').default;
-//         render(
-//             <AppContainer>
-//                 <NewRoot />
-//             </AppContainer>,
-//             document.getElementById('app')
-//         );
-//     });
-// }
