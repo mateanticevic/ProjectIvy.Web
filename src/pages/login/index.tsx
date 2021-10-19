@@ -1,10 +1,11 @@
 import React from 'react';
-import { Col, FormLabel, FormControl, Card, Row, Container } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, Card, Row, Container, Button } from 'react-bootstrap';
 import moment from 'moment';
 
 import * as apiConfig from 'api/config';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import _ from 'lodash';
 
 interface State {
     isLoggingIn: boolean;
@@ -23,10 +24,10 @@ class LoginPage extends React.Component<{}, State> {
     componentDidMount() {
         if (window.location.search === '?logout') {
             api.user.deleteSession()
-                    .then(() => {
-                        document.cookie = `Token=;expires=${new Date().toUTCString()}`;
-                        window.location = '/login';
-                    });
+                .then(() => {
+                    document.cookie = `Token=;expires=${new Date().toUTCString()}`;
+                    window.location = '/login';
+                });
         }
     }
 
@@ -34,7 +35,7 @@ class LoginPage extends React.Component<{}, State> {
         return (
             <Container>
                 <Row>
-                    <Col lg={{span: 4, offset: 4}}>
+                    <Col lg={{ span: 4, offset: 4 }}>
                         <Card>
                             <Card.Header>Login</Card.Header>
                             <Card.Body>
@@ -53,6 +54,7 @@ class LoginPage extends React.Component<{}, State> {
                                         <Col xs={12}><ButtonWithSpinner onClick={this.loginTry} isLoading={this.state.isLoggingIn}>Login</ButtonWithSpinner></Col>
                                     </Row>
                                 </form>
+                                <Button onClick={this.redirectToAuth}>Log in</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -77,6 +79,10 @@ class LoginPage extends React.Component<{}, State> {
                     isLoggingIn: false,
                 });
             });
+    }
+
+    redirectToAuth = () => {
+        window.location = `https://localhost:5001/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234%2Flogin&nonce=${_.uniqueId}`;
     }
 }
 
