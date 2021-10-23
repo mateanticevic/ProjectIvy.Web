@@ -46,7 +46,7 @@ const NavigationBar = () =>
                         <NavDropdown id="nav-dropdown-account" title={`${firstName} ${lastName}`}>
                             <NavDropdown.Item href="/account"><RiAccountCircleLine /> My account</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/login?logout"><FiLogOut /> Logout</NavDropdown.Item>
+                            <NavDropdown.Item href="/not-found"><FiLogOut /> Logout</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

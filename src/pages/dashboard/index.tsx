@@ -33,6 +33,13 @@ class DashboardPage extends React.Component {
     };
 
     componentDidMount() {
+        if (window.location.hash) {
+            const params = new URLSearchParams(window.location.hash.substring(1));
+            document.cookie = `IdToken=${params.get('id_token')}`;
+            document.cookie = `AccessToken=${params.get('access_token')}`;
+            history.replaceState(null, null, ' ');
+        }
+
         const lastFiveFilters = {
             pageSize: 5,
         };
@@ -120,7 +127,7 @@ class DashboardPage extends React.Component {
                             <Card>
                                 <Card.Header>Online last 30 days</Card.Header>
                                 <Card.Body className="panel-medium">
-                                    <OnlineGraph data={onlineGraphData} />
+                                    {/* <OnlineGraph data={onlineGraphData} /> */}
                                 </Card.Body>
                             </Card>
                         </div>

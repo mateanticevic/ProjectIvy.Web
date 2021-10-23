@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import * as urlHelper from 'utils/url-helper';
 import { httpContentType } from './http-content-type';
 import { httpHeader } from './http-header';
@@ -7,7 +9,7 @@ import { httpStatus } from './http-status';
 const headers = new Headers(); 
 
 function handleResponse(response) {
-
+    console.log('unauth');
     const contentType = response.headers.get(httpHeader.CONTENT_TYPE);
 
     if (response.ok) {
@@ -19,7 +21,9 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        window.location = '/login?logout';
+        
+        window.location = `https://auth.anticevic.net/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234&nonce=${_.uniqueId()}`;
+        //window.location = `https://localhost:5001/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234&nonce=${_.uniqueId()}`;
     } else {
         throw new Error();
     }

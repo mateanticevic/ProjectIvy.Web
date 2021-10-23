@@ -12,7 +12,6 @@ import DashboardPage from './pages/dashboard';
 import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
 import IncomesPage from './pages/incomes';
-import LoginPage from './pages/login';
 import PoisPage from './pages/pois';
 import ToDosPage from './pages/todos';
 import TrackingPage from './pages/tracking';
@@ -49,9 +48,6 @@ export default class Root extends React.Component<{}, State> {
             api.user.get().then(user => this.setState({ user }));
             this.setState({ isLoggedIn });
         }
-        else if (window.location.pathname !== '/login') {
-            window.location.assign('/login');
-        }
     }
 
     public render() {
@@ -78,7 +74,6 @@ export default class Root extends React.Component<{}, State> {
                             <Route path="/incomes" exact component={IncomesPage} />
                             <Route path="/location" exact component={LocationPage} />
                             <Route path="/movies" exact component={MoviesPage} />
-                            <Route path="/login" exact component={LoginPage} />
                             <Route path="/pois" exact component={PoisPage} />
                             <Route path="/todos" exact component={ToDosPage} />
                             <Route path="/tracking" exact component={TrackingPage} />
