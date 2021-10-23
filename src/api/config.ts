@@ -8,6 +8,8 @@ import { httpStatus } from './http-status';
 
 const headers = new Headers(); 
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 function handleResponse(response) {
     console.log('unauth');
     const contentType = response.headers.get(httpHeader.CONTENT_TYPE);
@@ -21,8 +23,9 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
+        const thisHost = isDevelopment ? 'http://localhost:1234' : 'https://ivy.anticevic.net';
         
-        window.location = `https://auth.anticevic.net/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234&nonce=${_.uniqueId()}`;
+        window.location = `https://auth.anticevic.net/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=${encodeURIComponent(thisHost)}&nonce=${_.uniqueId()}`;
         //window.location = `https://localhost:5001/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234&nonce=${_.uniqueId()}`;
     } else {
         throw new Error();
@@ -39,8 +42,8 @@ function apiPath(resource: string, parameters?: any) {
     return url;
 }
 
-const getBaseApiPath = () => process.env.NODE_ENV === 'development' ? 'http://localhost:54452/' : '/api/';
-//const getBaseApiPath = () => process.env.NODE_ENV === 'development' ? 'https://api2.anticevic.net/' : '/api/';
+const getBaseApiPath = () => isDevelopment ? 'http://localhost:54452/' : '/api/';
+//const getBaseApiPath = () => isDevelopment ? 'https://api2.anticevic.net/' : '/api/';
 
 export function get(resource: string, parameters?: any) {
 
