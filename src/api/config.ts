@@ -6,12 +6,9 @@ import { httpHeader } from './http-header';
 import { httpMethod } from './http-method';
 import { httpStatus } from './http-status';
 
-const headers = new Headers(); 
-
-const isDevelopment = process.env.NODE_ENV === 'development';
+const headers = new Headers();
 
 function handleResponse(response) {
-    console.log('unauth');
     const contentType = response.headers.get(httpHeader.CONTENT_TYPE);
 
     if (response.ok) {
@@ -23,10 +20,7 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        const thisHost = isDevelopment ? 'http://localhost:1234' : 'https://ivy.anticevic.net';
-        
-        window.location = `https://auth.anticevic.net/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=${encodeURIComponent(thisHost)}&nonce=${_.uniqueId()}`;
-        //window.location = `https://localhost:5001/connect/authorize?client_id=project-ivy-web&scope=openid%20userid&response_type=id_token%20token&redirect_uri=http%3A%2F%2Flocalhost%3A1234&nonce=${_.uniqueId()}`;
+        window.location = `${process.env.AUTH_URL}/connect/authorize?client_id=${process.env.OAUTH_CLIENT_ID}&scope=openid%20userid&response_type=id_token%20token&redirect_uri=${encodeURIComponent(process.env.APP_URL)}&nonce=${_.uniqueId()}`;
     } else {
         throw new Error();
     }
@@ -42,8 +36,7 @@ function apiPath(resource: string, parameters?: any) {
     return url;
 }
 
-const getBaseApiPath = () => isDevelopment ? 'http://localhost:54452/' : '/api/';
-//const getBaseApiPath = () => isDevelopment ? 'https://api2.anticevic.net/' : '/api/';
+const getBaseApiPath = () => `${process.env.API_URL}/`;
 
 export function get(resource: string, parameters?: any) {
 
@@ -114,9 +107,4 @@ export function put(resource: string, json: object) {
     };
 
     return fetch(apiPath(resource), init).then(handleResponse);
-}
-
-export function setToken() {
-    headers.delete(httpHeader.AUTHORIZATION);
-    headers.append(httpHeader.AUTHORIZATION, localStorage.getItem('token'));
 }

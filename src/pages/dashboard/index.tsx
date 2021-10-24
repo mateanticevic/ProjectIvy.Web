@@ -36,7 +36,7 @@ class DashboardPage extends React.Component {
         if (window.location.hash) {
             const params = new URLSearchParams(window.location.hash.substring(1));
             document.cookie = `IdToken=${params.get('id_token')}`;
-            document.cookie = `AccessToken=${params.get('access_token')}`;
+            document.cookie = `AccessToken=${params.get('access_token')};domain=${process.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
             history.replaceState(null, null, ' ');
         }
 

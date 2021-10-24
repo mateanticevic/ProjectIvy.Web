@@ -7,9 +7,12 @@
   },
   "scripts": {
     "build": "parcel build ./src/index.html",
-    "dev": "parcel --no-cache ./src/index.html",
+    "dev": "parcel ./src/index.html",
     "lint": "eslint --project ./tsconfig.json",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net ./src/index.html",
+    "start-prod-auth": "",
+    "start-prod-api": ""
   },
   "author": "Mate Antičević",
   "license": "MIT",
@@ -52,6 +55,7 @@
     "@parcel/transformer-sass": "2.0.0",
     "@typescript-eslint/eslint-plugin": "4.20.0",
     "@typescript-eslint/parser": "4.20.0",
+    "dotenv": "^10.0.0",
     "eslint": "7.23.0",
     "eslint-plugin-react": "7.26.1",
     "parcel": "2.0.0",
