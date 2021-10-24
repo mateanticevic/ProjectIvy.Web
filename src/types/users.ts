@@ -6,7 +6,6 @@ export interface User {
     email: string;
     firstName: string;
     lastName: string;
-    modules: string[];
     username: string;
 }
 
@@ -18,4 +17,19 @@ export interface UserSession {
     operatingSystem: string;
     userAgent: string;
     validUntil: string;
+}
+
+export enum Feature {
+    Beer = 'beer',
+    Calls = 'calls',
+    Cars = 'cars',
+    Finance = 'finance',
+    Movies = 'movies',
+    Tracking = 'tracking',
+    Travel = 'travel',
+}
+
+export interface Identity {
+    name: string;
+    pif: Feature[]
 }

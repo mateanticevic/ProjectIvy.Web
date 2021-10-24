@@ -9,9 +9,12 @@ import { Map, ValueLabel } from 'components';
 import { Module } from 'consts/module';
 import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/ExpenseTypeLabel';
+import { getIdentity } from 'utils/cookie-helper';
 import OnlineGraph from './OnlineGraph';
+import { Feature } from 'types/users';
 
 class DashboardPage extends React.Component {
+    identity = getIdentity();
 
     state = {
         carLogLatest: { odometer: 0, timestamp: moment() },
@@ -33,13 +36,6 @@ class DashboardPage extends React.Component {
     };
 
     componentDidMount() {
-        if (window.location.hash) {
-            const params = new URLSearchParams(window.location.hash.substring(1));
-            document.cookie = `IdToken=${params.get('id_token')}`;
-            document.cookie = `AccessToken=${params.get('access_token')};domain=${process.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
-            history.replaceState(null, null, ' ');
-        }
-
         const lastFiveFilters = {
             pageSize: 5,
         };
@@ -73,7 +69,6 @@ class DashboardPage extends React.Component {
     }
 
     render() {
-        const user = this.context;
         const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
         const expenseItems = expenses.map(expense => {
@@ -105,11 +100,11 @@ class DashboardPage extends React.Component {
         return (
             <Container>
                 <div className="flex-grid">
-                    {user.modules.includes(Module.Tracking) && location &&
+                    {this.identity?.pif.includes(Feature.Tracking) && location &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>{location.location ? location.location.name : 'Last location'} @ {this.dateTimeFormat(location.tracking.timestamp)}</Card.Header>
-                                <Card.Body className="panel-medium padding-0">
+                                <Card.Body className="panel-small padding-0">
                                     {location &&
                                         <Map
                                             defaultCenter={{ lat: location.tracking.lat, lng: location.tracking.lng }}
@@ -122,29 +117,19 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.TimeOnline) &&
+                    {this.identity?.pif.includes(Feature.Tracking) &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Header>Online last 30 days</Card.Header>
-                                <Card.Body className="panel-medium">
-                                    {/* <OnlineGraph data={onlineGraphData} /> */}
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    }
-                    {user.modules.includes(Module.Expenses) &&
-                        <div className="flex-grid-item">
-                            <Card>
-                                <Card.Header><a href="/expenses">Expenses</a></Card.Header>
+                                <Card.Header>Distance</Card.Header>
                                 <Card.Body className="panel-small padding-0">
-                                    <ListGroup>
-                                        {expenseItems}
-                                    </ListGroup>
+                                    <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
+                                    <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
+                                    <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
                                 </Card.Body>
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.Expenses) &&
+                    {this.identity?.pif.includes(Feature.Finance) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>Spent</Card.Header>
@@ -156,7 +141,19 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.Beer) &&
+                    {this.identity?.pif.includes(Feature.Finance) &&
+                        <div className="flex-grid-item">
+                            <Card>
+                                <Card.Header><a href="/expenses">Expenses</a></Card.Header>
+                                <Card.Body className="panel-small padding-0">
+                                    <ListGroup>
+                                        {expenseItems}
+                                    </ListGroup>
+                                </Card.Body>
+                            </Card>
+                        </div>
+                    }
+                    {this.identity?.pif.includes(Feature.Beer) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/beer">Beer</a></Card.Header>
@@ -168,7 +165,7 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.Movies) &&
+                    {this.identity?.pif.includes(Feature.Movies) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/movies">Movies</a></Card.Header>
@@ -180,7 +177,7 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.CarInfo) &&
+                    {this.identity?.pif.includes(Feature.Cars) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
@@ -194,25 +191,13 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {user.modules.includes(Module.Tracking) &&
-                        <div className="flex-grid-item">
-                            <Card>
-                                <Card.Header>Distance</Card.Header>
-                                <Card.Body className="panel-small padding-0">
-                                    <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
-                                    <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
-                                    <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    }
                 </div>
             </Container>
         );
     }
 
     dateTimeFormat = (dateTime) => {
-        return moment(dateTime).date() === moment().date() ? `Today ${moment(dateTime).format('H:mm')}` : moment(dateTime).format('MMMM Do H:mm');
+        return moment(dateTime).date() === moment().date() ? `Today ${moment.utc(dateTime).local().format('H:mm')}` : moment.utc(dateTime).local().format('MMMM Do H:mm');
     }
 
     dayOfWeek = (date) => {

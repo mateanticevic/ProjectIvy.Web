@@ -13,7 +13,6 @@ import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
 import IncomesPage from './pages/incomes';
 import PoisPage from './pages/pois';
-import ToDosPage from './pages/todos';
 import TrackingPage from './pages/tracking';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
@@ -22,9 +21,9 @@ import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
 import LocationPage from 'pages/location';
+import { getIdentity } from 'utils/cookie-helper';
 
 interface State {
-    isLoggedIn: boolean;
     user: User;
     showToast: boolean;
     toastTitle?: string;
@@ -32,35 +31,33 @@ interface State {
 }
 
 export default class Root extends React.Component<{}, State> {
+    identity = getIdentity();
 
     public state: State = {
-        isLoggedIn: false,
         showToast: false,
-        user: {
-            modules: [],
-        }
     };
 
     public componentDidMount() {
-        const isLoggedIn = document.cookie.includes('Token');
+        if (window.location.hash) {
+            const params = new URLSearchParams(window.location.hash.substring(1));
+            document.cookie = `IdToken=${params.get('id_token')}`;
+            document.cookie = `AccessToken=${params.get('access_token')};domain=${process.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
+            history.replaceState(null, null, ' ');
+        }
 
-        if (isLoggedIn) {
+        if (this.identity) {
             api.user.get().then(user => this.setState({ user }));
-            this.setState({ isLoggedIn });
         }
     }
 
     public render() {
-        if (this.state.isLoggedIn && !this.state.user) {
-            return null;
-        }
 
         return (
             <UserContext.Provider value={this.state.user}>
                 <BrowserRouter>
                     <div id="main">
-                        {this.state.isLoggedIn &&
-                            <NavigationBar />
+                        {this.identity &&
+                            <NavigationBar identity={this.identity} />
                         }
                         <Switch>
                             <Route path="/" exact component={DashboardPage} />
