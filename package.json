@@ -6,7 +6,7 @@
     "npm": ">=3"
   },
   "scripts": {
-    "build": "parcel build ./src/index.html",
+    "build": "NODE_ENV=test parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
     "lint": "eslint --project ./tsconfig.json",
     "start": "npm run dev",
