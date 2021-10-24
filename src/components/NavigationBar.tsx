@@ -39,7 +39,6 @@ const NavigationBar = () =>
                         <NavDropdown id="nav-dropdown-other" title="Other">
                             <NavDropdown.Item href="/calls"><MdCall /> Calls</NavDropdown.Item>
                             <NavDropdown.Item href="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
-                            <NavDropdown.Item href="/todos"><AiOutlineCheckSquare /> To Do</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Nav>

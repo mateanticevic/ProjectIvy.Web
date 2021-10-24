@@ -10,7 +10,7 @@
     "dev": "parcel ./src/index.html",
     "lint": "eslint --project ./tsconfig.json",
     "start": "npm run dev",
-    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net ./src/index.html",
+    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 443 ./src/index.html",
     "start-prod-auth": "",
     "start-prod-api": ""
   },

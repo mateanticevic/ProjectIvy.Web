@@ -75,7 +75,6 @@ export default class Root extends React.Component<{}, State> {
                             <Route path="/location" exact component={LocationPage} />
                             <Route path="/movies" exact component={MoviesPage} />
                             <Route path="/pois" exact component={PoisPage} />
-                            <Route path="/todos" exact component={ToDosPage} />
                             <Route path="/tracking" exact component={TrackingPage} />
                             <Route path="/trips" exact component={TripsPage} />
                             <Route path="/trips/:id" exact component={TripDetailsPage} />
