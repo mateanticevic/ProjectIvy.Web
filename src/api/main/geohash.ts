@@ -1,6 +1,7 @@
 import * as api from '../config';
+import { GeohashFilters } from 'types/geohash';
 
-const get = (geohash: string, precision: number) => api.get(`geohash?geohash=${geohash}&precision=${precision}`);
+const get = (filters: GeohashFilters) => api.get('geohash', filters);
 
 const geohash = {
     get

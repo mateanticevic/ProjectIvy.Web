@@ -19,6 +19,7 @@ import { trackingsToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import GeohashSettings from './geohash-settings';
 import { GeohashLayer, PointLayer, PolygonLayer } from 'models/layers';
+import { GeohashFilters } from 'types/geohash';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -57,6 +58,13 @@ const lastNDaysOptions = [
     { id: LastNDays.Month, name: 'Month' },
     { id: LastNDays.Year, name: 'Year' },
 ];
+
+const lastNDaysMapping = {
+    [LastNDays.One]: 1,
+    [LastNDays.Week]: 7,
+    [LastNDays.Month]: 31,
+    [LastNDays.Year]: 365,
+};
 
 class LocationPage extends Page<{}, State> {
 
@@ -158,7 +166,7 @@ class LocationPage extends Page<{}, State> {
                                                 position={layer.point}
                                             />
                                         )}
-                                        {layers.filter(layer => layer instanceof GeohashLayer).map(layer => layer as GeohashLayer).flatMap(layer => layer.geohashRectangles).map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
+                                        {layers.filter(layer => layer instanceof GeohashLayer).map(layer => layer as GeohashLayer).flatMap(layer => layer.rectangles).map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
                                         <MarkerClusterer>
                                             {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
                                                 layer.path.map(point =>
@@ -187,6 +195,23 @@ class LocationPage extends Page<{}, State> {
         );
     }
 
+    dateFilter = () => {
+        const { dateMode, filterDay, lastNDays } = this.state;
+        if (dateMode === DateMode.Day && filterDay) {
+            return {
+                from: filterDay,
+                to: moment(filterDay).add(1, 'days').format('YYYY-MM-DD')
+            };
+        }
+        else if (dateMode === DateMode.Last)
+            return {
+                from: moment().subtract(lastNDaysMapping[lastNDays], 'day').format('YYYY-MM-DD')
+            };
+        return {
+
+        };
+    }
+
     draw = () => {
         this.setState({ requestActive: true });
 
@@ -194,18 +219,14 @@ class LocationPage extends Page<{}, State> {
             return this.drawGeohash();
         }
 
-        const nextDay = moment(this.state.filterDay).add(1, 'days').format('YYYY-MM-DD');
-        const filters = { from: this.state.filterDay, to: nextDay };
-        api.tracking.get(filters).then(trackings => {
-            api.tracking.getDistance(filters).then(distance => {
-                const layer = new PolygonLayer(trackingsToLatLng(trackings));
-                this.setState({
-                    layers: [
-                        ...this.state.layers,
-                        layer,
-                    ],
-                    requestActive: false,
-                });
+        api.tracking.get(this.dateFilter()).then(trackings => {
+            const layer = new PolygonLayer(trackingsToLatLng(trackings));
+            this.setState({
+                layers: [
+                    ...this.state.layers,
+                    layer,
+                ],
+                requestActive: false,
             });
         });
     }
@@ -214,7 +235,13 @@ class LocationPage extends Page<{}, State> {
         const { geohashPrecision, geohashSearch } = this.state;
         const center = this.map.getCenter();
 
-        api.geohash.get(geohash.encode(center.lat(), center.lng()).substring(0, geohashSearch), geohashPrecision)
+        const filters: GeohashFilters = {
+            geohash: geohash.encode(center.lat(), center.lng()).substring(0, geohashSearch),
+            precision: geohashPrecision,
+            ...this.dateFilter(),
+        };
+
+        api.geohash.get(filters)
             .then(hashes => {
                 const layer = new GeohashLayer(hashes.map(hash => geohash.decode_bbox(hash)));
                 this.setState({
