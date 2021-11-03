@@ -19,7 +19,9 @@ export interface IncomeBinding {
 }
 
 export interface IncomeFilters extends PagingFilters {
-    typeId: string;
+    from?: string;
+    to?: string;
+    typeId?: string;
 }
 
 export interface IncomeSource {

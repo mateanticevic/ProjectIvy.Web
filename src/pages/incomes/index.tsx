@@ -4,7 +4,7 @@ import moment from 'moment';
 import FontAwesome from 'react-fontawesome';
 
 import api from 'api/main';
-import { DistributionCard, FormattedNumber, Pagination, Select } from 'components';
+import { DateFormElement, DistributionCard, FormattedNumber, Pagination, Select } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { UserContext } from 'contexts/user-context';
 import { Page } from 'pages/Page';
@@ -14,10 +14,12 @@ import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './IncomeModal';
 
 const sumByOptions = [
+    { value: GroupByTime.ByMonth, name: 'Month' },
     { value: GroupByTime.ByYear, name: 'Year' },
 ];
 
 const maps = {
+    [GroupByTime.ByMonthOfYear]: api.income.getSumByMonth,
     [GroupByTime.ByYear]: api.income.getSumByYear,
 };
 
@@ -41,10 +43,11 @@ class IncomesPage extends Page<Props, State> {
     state: State = {
         currencies: [],
         filters: {
+            from: moment().month(0).date(1).format('YYYY-MM-DD'),
             page: 1,
             pageSize: 10,
         },
-        groupBy: GroupByTime.ByYear,
+        groupBy: GroupByTime.ByMonthOfYear,
         income: {
             amount: 0,
         },
@@ -83,6 +86,21 @@ class IncomesPage extends Page<Props, State> {
                                 <FormGroup>
                                     <FormLabel>Type</FormLabel>
                                     <Select options={types} onChange={typeId => this.onFiltersChanged({ typeId })} />
+                                </FormGroup>
+                                <FormGroup>
+                                    <DateFormElement
+                                        label="From"
+                                        onChange={date => this.onFiltersChanged({ from: date })}
+                                        value={filters.from}
+                                    />
+                                </FormGroup>
+
+                                <FormGroup>
+                                    <DateFormElement
+                                        label="To"
+                                        onChange={date => this.onFiltersChanged({ to: date })}
+                                        value={filters.to}
+                                    />
                                 </FormGroup>
                             </Card.Body>
                         </Card>
@@ -167,6 +185,7 @@ class IncomesPage extends Page<Props, State> {
     }
 
     onGroupByChanged = (groupBy?: GroupByTime) => {
+        console.log(groupBy);
         if (groupBy) {
             this.setState({ groupBy });
         }

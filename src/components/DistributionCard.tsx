@@ -30,7 +30,7 @@ const remap = (data) => {
     }
 
     return data;
-}
+};
 
 const unitMapping = {
     [Unit.Liters]: 'L',
