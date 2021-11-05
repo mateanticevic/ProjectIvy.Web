@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Tabs, Tab } from 'react-bootstrap';
 
 import api from 'api/main';
 import { DistributionCard } from 'components';
@@ -16,6 +16,7 @@ import FiltersMore from './FiltersMore';
 import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
 import ExpenseItem from './expense-item';
+import DayExpenses from './day-expenses';
 
 interface State {
     cards: any[];
@@ -32,7 +33,9 @@ interface State {
     isSavingExpense: boolean;
     isModalOpen: boolean;
     isLinkModalOpen: boolean;
+    layoutMode: LayoutMode;
     orderBy: any;
+    pageTab: PageTab;
     paymentTypes: any[];
     stats: any;
     selectedExpenseId?: string;
@@ -58,6 +61,16 @@ const maps = {
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
     [GroupByTime.ByMonth]: api.expense.getSumByMonth,
 };
+
+enum LayoutMode {
+    Classic,
+    New,
+}
+
+enum PageTab {
+    Analytics,
+    Expenses,
+}
 
 class ExpensesPage extends Page<{}, State> {
     state: State = {
@@ -91,6 +104,7 @@ class ExpensesPage extends Page<{}, State> {
         isSavingExpense: false,
         isLinkModalOpen: false,
         isModalOpen: false,
+        layoutMode: LayoutMode.New,
         order: [
             { id: 'false', name: 'Descending' },
             { id: 'true', name: 'Ascending' },
@@ -101,6 +115,7 @@ class ExpensesPage extends Page<{}, State> {
             { id: 'modified', name: 'Modified' },
             { id: 'amount', name: 'Amount' },
         ],
+        pageTab: PageTab.Expenses,
         paymentTypes: [],
         stats: {
             sum: 0,
@@ -138,6 +153,9 @@ class ExpensesPage extends Page<{}, State> {
         ];
 
         const { expenses } = this.state;
+
+        const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
+        const days = Object.keys(expensesByDay);
 
         return (
             <Container>
@@ -186,82 +204,96 @@ class ExpensesPage extends Page<{}, State> {
                             </Col>
                         </Row>
                     </Col>
-                    <Col lg={9}>
-                        <Row>
-                            <Col lg={12}>
-                                <ExpensePanel
-                                    expenses={this.state.expenses}
-                                    defaultCurrency={this.state.defaultCurrency}
-                                    isLoading={this.state.expensesAreLoading}
-                                    onEdit={this.onExpenseEdit}
-                                    onLink={this.onExpenseLinkClick}
-                                    onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
-                                    onPageChange={page => this.onFiltersChanged({ page })}
-                                    onNewClick={this.onExpenseNew}
-                                    page={this.state.filters.page}
-                                    pageSize={this.state.filters.pageSize}
-                                    serverPaging
-                                    stats={this.state.stats}
-                                />
-                                {expenses.items.map(expense =>
-                                    <ExpenseItem
-                                        key={expense.id}
-                                        expense={expense}
+                    <Col lg={6}>
+                        <Tabs activeKey={this.state.pageTab} onSelect={pageTab => this.setState({ pageTab })} className="mb-3">
+                            <Tab eventKey={PageTab.Expenses} title="Expenses">
+                                {this.state.layoutMode === LayoutMode.Classic &&
+                                    <ExpensePanel
+                                        expenses={this.state.expenses}
+                                        defaultCurrency={this.state.defaultCurrency}
+                                        isLoading={this.state.expensesAreLoading}
+                                        onEdit={this.onExpenseEdit}
+                                        onLink={this.onExpenseLinkClick}
+                                        onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
+                                        onPageChange={page => this.onFiltersChanged({ page })}
+                                        onNewClick={this.onExpenseNew}
+                                        page={this.state.filters.page}
+                                        pageSize={this.state.filters.pageSize}
+                                        serverPaging
+                                        stats={this.state.stats}
+                                    />
+                                }
+                                {this.state.layoutMode === LayoutMode.New && days.map(day =>
+                                    <DayExpenses
+                                        key={day}
+                                        day={day}
+                                        expenses={expensesByDay[day]}
+                                        onExpenseClick={this.onExpenseEdit}
                                     />
                                 )}
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <DistributionCard
-                                    countByOptions={sumByOptions}
-                                    data={this.state.sumChartData}
-                                    name="Sum"
-                                    onGroupByChange={this.onSumGroupBy}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={6}>
-                                <Card>
-                                    <Card.Header>
-                                        By Type
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <CountByChart data={this.state.graphs.countByType} />
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                            <Col lg={6}>
-                                <Card>
-                                    <Card.Header>
-                                        By Vendor
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <CountByChart data={this.state.graphs.countByVendor} />
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={4}>
-                                <Card>
-                                    <Card.Header>
-                                        By Currency
-                                    </Card.Header>
-                                    <Card.Body className="padding-0">
-                                        <ListGroup>
-                                            {this.state.sumByCurrency.map(item =>
-                                                <ListGroupItem key={item.key.id}>
-                                                    <Badge variant="primary">{item.key.id}</Badge>&nbsp;{item.key.name}
-                                                    <span className="pull-right">{item.value}</span>
-                                                </ListGroupItem>
-                                            )}
-                                        </ListGroup>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
+                            </Tab>
+                            <Tab eventKey={PageTab.Analytics} title="Analytics">
+                                <Row>
+                                    <Col lg={12}>
+                                        <DistributionCard
+                                            countByOptions={sumByOptions}
+                                            data={this.state.sumChartData}
+                                            name="Sum"
+                                            onGroupByChange={this.onSumGroupBy}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg={6}>
+                                        <Card>
+                                            <Card.Header>
+                                                By Type
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <CountByChart data={this.state.graphs.countByType} />
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                    <Col lg={6}>
+                                        <Card>
+                                            <Card.Header>
+                                                By Vendor
+                                            </Card.Header>
+                                            <Card.Body>
+                                                <CountByChart data={this.state.graphs.countByVendor} />
+                                            </Card.Body>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                            </Tab>
+                        </Tabs>
+                    </Col>
+                    <Col lg={3}>
+                        <ToggleButtonGroup
+                            type="radio"
+                            size="sm"
+                            name="options"
+                            value={this.state.layoutMode}
+                            onChange={layoutMode => this.setState({ layoutMode })}
+                        >
+                            <ToggleButton value={LayoutMode.Classic}>Classic</ToggleButton>
+                            <ToggleButton value={LayoutMode.New}>New</ToggleButton>
+                        </ToggleButtonGroup>
+                        <Card>
+                            <Card.Header>
+                                By Currency
+                            </Card.Header>
+                            <Card.Body className="padding-0">
+                                <ListGroup>
+                                    {this.state.sumByCurrency.map(item =>
+                                        <ListGroupItem key={item.key.id}>
+                                            {item.key.name}
+                                            <span className="pull-right">{item.value} <Badge variant="primary">{item.key.id}</Badge></span>
+                                        </ListGroupItem>
+                                    )}
+                                </ListGroup>
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
                 <ExpenseLinkModal

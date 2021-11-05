@@ -274,11 +274,19 @@ body #app {
     padding: 15px;
   }
 
-  .expense-item-currency {
+  .expense-item-payment {
     flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .expense-item-amount {
     font-size: 30px;
     font-weight: 600;
-    margin-left: auto;
+  }
+
+  .expense-item-payment-type {
+    text-align: right;
+    margin-bottom: 10px;
   }
 
   .expense-item-content {
