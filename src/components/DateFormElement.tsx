@@ -26,11 +26,9 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                     onChange={x => onChange(x.format('YYYY-MM-DD'))}
                     value={value}
                 />
-                <InputGroup.Append>
-                    <InputGroup.Text>
-                        <FaCalendar />
-                    </InputGroup.Text>
-                </InputGroup.Append>
+                <InputGroup.Text>
+                    <FaCalendar />
+                </InputGroup.Text>
             </InputGroup>
         </FormGroup>
     );

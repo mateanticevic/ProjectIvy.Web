@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormCheck, Col, Modal, Row } from 'react-bootstrap';
+import { FormCheck, Col, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from 'components/ButtonWithSpinner';

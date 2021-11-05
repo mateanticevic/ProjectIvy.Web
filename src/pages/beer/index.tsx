@@ -210,7 +210,7 @@ class BeerPage extends Page<Props, State> {
                                     countByOptions={sumByOptions}
                                     data={this.state.sumChartData}
                                     name="Sum"
-                                    unit={Unit.Liters}
+                                    unitType={Unit.Volume}
                                     onGroupByChange={this.onCountGroupByChange}
                                 />
                             </Col>

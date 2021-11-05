@@ -1,17 +1,17 @@
 import React from 'react';
-import { Col, FormLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButtonGroup, FloatingLabel, Form } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 
 import { ExpenseFilters } from 'types/expenses';
 import Select from 'components/Select';
 
 interface Props {
-  cards: any;
-  filters: ExpenseFilters;
-  order: any;
-  orderBy: any;
-  paymentTypes: any;
-  onChange: (filters: Partial<ExpenseFilters>) => void;
+    cards: any;
+    filters: ExpenseFilters;
+    order: any;
+    orderBy: any;
+    paymentTypes: any;
+    onChange: (filters: Partial<ExpenseFilters>) => void;
 }
 
 const daysofWeek = [
@@ -29,10 +29,13 @@ const FiltersMore = (props: Props) => {
         <React.Fragment>
             <Row>
                 <Col lg={12}>
-                    <FormGroup>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl type="text" onChange={x => props.onChange({ description: x.target.value })} />
-                    </FormGroup>
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="Description"
+                        className="mb-3"
+                    >
+                        <Form.Control type="text" placeholder="Description" onChange={x => props.onChange({ description: x.target.value })} />
+                    </FloatingLabel>
                     <FormGroup>
                         <FormLabel>Amount from</FormLabel>
                         <FormControl type="number" onChange={x => props.onChange({ amountFrom: x.target.value })} />
@@ -54,8 +57,8 @@ const FiltersMore = (props: Props) => {
                             value={props.filters.orderAscending}
                             onChange={x => props.onChange({ orderAscending: x })}
                         >
-                            <ToggleButton value="false">Descending</ToggleButton>
-                            <ToggleButton value="true">Ascending</ToggleButton>
+                            <ToggleButton id="radio-desc" value="false">Descending</ToggleButton>
+                            <ToggleButton id="radio-asc" value="true">Ascending</ToggleButton>
                         </ToggleButtonGroup>
                     </FormGroup>
                     <FormGroup>

@@ -96,9 +96,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                   type="number"
                   value={expense.amount}
                 />
-                <InputGroup.Append>
-                  <InputGroup.Text id="basic-addon2">{expense.currency?.id}</InputGroup.Text>
-                </InputGroup.Append>
+                <InputGroup.Text id="basic-addon2">{expense.currency?.id}</InputGroup.Text>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -184,9 +182,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                   readOnly={!expense.parentCurrency?.id}
                   onChange={x => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
                 />
-                <InputGroup.Append>
-                  <InputGroup.Text>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Text>
-                </InputGroup.Append>
+                <InputGroup.Text>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Text>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -210,9 +206,6 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
               <FormLabel>Created</FormLabel>
               <InputGroup>
                 <Datetime value={expense.timestamp} inputProps={{ readOnly: true }} />
-                <InputGroup.Append>
-                  {/* <Glyphicon glyph="calendar" /> */}
-                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>
@@ -221,9 +214,6 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
               <FormLabel>Modified</FormLabel>
               <InputGroup>
                 <Datetime value={expense.modified} inputProps={{ readOnly: true }} />
-                <InputGroup.Append>
-                  {/* <Glyphicon glyph="calendar" /> */}
-                </InputGroup.Append>
               </InputGroup>
             </FormGroup>
           </Col>

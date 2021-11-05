@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Tabs, Tab } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Tabs, Tab, AccordionButton } from 'react-bootstrap';
 
 import api from 'api/main';
 import { DistributionCard } from 'components';
@@ -11,12 +11,11 @@ import { PagedList } from 'types/common';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import ExpensePanel from './ExpensePanel';
 import ExpenseModal from './ExpenseModal';
-import { CountByChart } from './CountByChart';
 import FiltersMore from './FiltersMore';
 import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
-import ExpenseItem from './expense-item';
 import DayExpenses from './day-expenses';
+import Button from '@restart/ui/esm/Button';
 
 interface State {
     cards: any[];
@@ -173,34 +172,25 @@ class ExpensesPage extends Page<{}, State> {
                                             filters={this.state.filters}
                                             onChange={this.onFiltersChanged}
                                         />
+                                        <Accordion>
+                                            <Accordion.Item eventKey="0">
+                                                <Accordion.Header as={Button} eventKey="0">
+                                                    More filters
+                                                </Accordion.Header>
+                                                <Accordion.Body>
+                                                    <FiltersMore
+                                                        cards={this.state.cards}
+                                                        paymentTypes={this.state.paymentTypes}
+                                                        filters={this.state.filters}
+                                                        order={this.state.order}
+                                                        orderBy={this.state.orderBy}
+                                                        onChange={this.onFiltersChanged}
+                                                    />
+                                                </Accordion.Body>
+                                            </Accordion.Item>
+                                        </Accordion>
                                     </Card.Body>
                                 </Card>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <Accordion>
-                                    <Card>
-                                        <Accordion.Toggle
-                                            as={Card.Header}
-                                            eventKey="0"
-                                        >
-                                            More filters
-                                        </Accordion.Toggle>
-                                        <Accordion.Collapse eventKey="0">
-                                            <Card.Body>
-                                                <FiltersMore
-                                                    cards={this.state.cards}
-                                                    paymentTypes={this.state.paymentTypes}
-                                                    filters={this.state.filters}
-                                                    order={this.state.order}
-                                                    orderBy={this.state.orderBy}
-                                                    onChange={this.onFiltersChanged}
-                                                />
-                                            </Card.Body>
-                                        </Accordion.Collapse>
-                                    </Card>
-                                </Accordion>
                             </Col>
                         </Row>
                     </Col>
@@ -260,8 +250,8 @@ class ExpensesPage extends Page<{}, State> {
                             value={this.state.layoutMode}
                             onChange={layoutMode => this.setState({ layoutMode })}
                         >
-                            <ToggleButton value={LayoutMode.Classic}>Classic</ToggleButton>
-                            <ToggleButton value={LayoutMode.New}>New</ToggleButton>
+                            <ToggleButton id="op1" value={LayoutMode.Classic} type="radio">Classic</ToggleButton>
+                            <ToggleButton id="op2" value={LayoutMode.New}>New</ToggleButton>
                         </ToggleButtonGroup>
                     </Col>
                 </Row>
