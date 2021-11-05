@@ -17,10 +17,10 @@ const tickFormatter = (value: number) => {
 };
 
 const SimpleBarChart = ({ data, name, unit, value }: Props) =>
-    <ResponsiveContainer height={300}>
+    <ResponsiveContainer height={250}>
         <BarChart data={data}>
             <XAxis dataKey={name} />
-            <YAxis name="kn" tickFormatter={tickFormatter} />
+            <YAxis tickFormatter={tickFormatter} />
             <Tooltip />
             <Legend />
             <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />

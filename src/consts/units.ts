@@ -1,3 +1,3 @@
 export enum Unit {
-    Liters
+    Volume
 }

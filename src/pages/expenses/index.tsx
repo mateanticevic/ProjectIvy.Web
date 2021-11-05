@@ -235,6 +235,7 @@ class ExpensesPage extends Page<{}, State> {
                             countByOptions={sumByOptions}
                             data={this.state.sumChartData}
                             name="Sum"
+                            unit="kn"
                             onGroupByChange={this.onSumGroupBy}
                         />
                         <Card>

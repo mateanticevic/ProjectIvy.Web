@@ -33,16 +33,17 @@ const remap = (data) => {
 };
 
 const unitMapping = {
-    [Unit.Liters]: 'L',
+    [Unit.Volume]: 'L',
 };
 
 interface Props {
-    unit?: Unit;
+    unit?: string;
+    unitType?: Unit;
 }
 
-export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByChange }: Props) => {
+export const DistributionCard = ({ countByOptions, data, name, unit, unitType, onGroupByChange }: Props) => {
     const applyUnitFormatting = (data) => {
-        if (unit == Unit.Liters) {
+        if (unitType == Unit.Volume) {
             return data.map(x => {
                 return {
                     key: x.key,
@@ -84,7 +85,7 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
                 <SimpleBarChart
                     data={df}
                     name="key"
-                    unit={unit ? unitMapping[unit] : ''}
+                    unit={unitType ? unitMapping[unitType] : unit ?? ''}
                     value="value"
                 />
             </Card.Body>
