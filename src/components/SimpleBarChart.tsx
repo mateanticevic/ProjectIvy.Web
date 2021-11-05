@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
+import * as formatHelper from 'utils/format-helper';
 
 interface Props {
     data: any;
@@ -9,12 +11,16 @@ interface Props {
     value: string;
 }
 
+const tickFormatter = (value: number) => {
+    const formattedNumber = formatHelper.number(value);
+    return `${formattedNumber.number}${formattedNumber.exponent}`;
+};
+
 const SimpleBarChart = ({ data, name, unit, value }: Props) =>
     <ResponsiveContainer height={300}>
         <BarChart data={data}>
             <XAxis dataKey={name} />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
+            <YAxis name="kn" tickFormatter={tickFormatter} />
             <Tooltip />
             <Legend />
             <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />

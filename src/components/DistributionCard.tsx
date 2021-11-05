@@ -36,7 +36,11 @@ const unitMapping = {
     [Unit.Liters]: 'L',
 };
 
-export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByChange }) => {
+interface Props {
+    unit?: Unit;
+}
+
+export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByChange }: Props) => {
     const applyUnitFormatting = (data) => {
         if (unit == Unit.Liters) {
             return data.map(x => {
@@ -48,26 +52,26 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
         }
 
         return data;
-    }
-
-    const applyKeyFormatting = {
-        [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format("dddd"),
-        [GroupByTime.ByMonth]: (key) => moment().month(key - 1).format("MMMM"),
-        [GroupByTime.ByMonthOfYear]: (key) => moment(key).format("MMM YYYY"),
     };
 
-    const [countByOption, setCountByOption] = React.useState(countByOptions[0].value);
+    const applyKeyFormatting = {
+        [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format('dddd'),
+        [GroupByTime.ByMonth]: (key) => moment().month(key - 1).format('MMMM'),
+        [GroupByTime.ByMonthOfYear]: (key) => moment(key).format('MMM YYYY'),
+    };
+
+    const [groupByOption, setGroupByOption] = React.useState(countByOptions[0].value);
 
     const groupByChange = (groupBy) => {
-        setCountByOption(groupBy);
+        setGroupByOption(groupBy);
         onGroupByChange(groupBy);
     };
 
     let df = applyUnitFormatting(remap(data));
-    if (applyKeyFormatting[countByOption]){
+    if (applyKeyFormatting[groupByOption]){
         df = df.map(x => {
             return {
-                key: applyKeyFormatting[countByOption](x.key),
+                key: applyKeyFormatting[groupByOption](x.key),
                 value: x.value,
             };
         });
@@ -92,4 +96,4 @@ export const DistributionCard = ({ countByOptions, data, name, unit, onGroupByCh
             </Card.Footer>
         </Card>
     );
-}
+};
