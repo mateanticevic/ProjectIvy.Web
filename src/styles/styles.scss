@@ -280,8 +280,13 @@ body #app {
   }
 
   .expense-item-amount {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 600;
+  }
+
+  .expense-item-amount-decimal {
+    font-size: 15px;
+    font-weight: 400;
   }
 
   .expense-item-payment-type {

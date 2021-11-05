@@ -205,80 +205,38 @@ class ExpensesPage extends Page<{}, State> {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        <Tabs activeKey={this.state.pageTab} onSelect={pageTab => this.setState({ pageTab })} className="mb-3">
-                            <Tab eventKey={PageTab.Expenses} title="Expenses">
-                                {this.state.layoutMode === LayoutMode.Classic &&
-                                    <ExpensePanel
-                                        expenses={this.state.expenses}
-                                        defaultCurrency={this.state.defaultCurrency}
-                                        isLoading={this.state.expensesAreLoading}
-                                        onEdit={this.onExpenseEdit}
-                                        onLink={this.onExpenseLinkClick}
-                                        onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
-                                        onPageChange={page => this.onFiltersChanged({ page })}
-                                        onNewClick={this.onExpenseNew}
-                                        page={this.state.filters.page}
-                                        pageSize={this.state.filters.pageSize}
-                                        serverPaging
-                                        stats={this.state.stats}
-                                    />
-                                }
-                                {this.state.layoutMode === LayoutMode.New && days.map(day =>
-                                    <DayExpenses
-                                        key={day}
-                                        day={day}
-                                        expenses={expensesByDay[day]}
-                                        onExpenseClick={this.onExpenseEdit}
-                                    />
-                                )}
-                            </Tab>
-                            <Tab eventKey={PageTab.Analytics} title="Analytics">
-                                <Row>
-                                    <Col lg={12}>
-                                        <DistributionCard
-                                            countByOptions={sumByOptions}
-                                            data={this.state.sumChartData}
-                                            name="Sum"
-                                            onGroupByChange={this.onSumGroupBy}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col lg={6}>
-                                        <Card>
-                                            <Card.Header>
-                                                By Type
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <CountByChart data={this.state.graphs.countByType} />
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                    <Col lg={6}>
-                                        <Card>
-                                            <Card.Header>
-                                                By Vendor
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <CountByChart data={this.state.graphs.countByVendor} />
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                </Row>
-                            </Tab>
-                        </Tabs>
+                        {this.state.layoutMode === LayoutMode.Classic &&
+                            <ExpensePanel
+                                expenses={this.state.expenses}
+                                defaultCurrency={this.state.defaultCurrency}
+                                isLoading={this.state.expensesAreLoading}
+                                onEdit={this.onExpenseEdit}
+                                onLink={this.onExpenseLinkClick}
+                                onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
+                                onPageChange={page => this.onFiltersChanged({ page })}
+                                onNewClick={this.onExpenseNew}
+                                page={this.state.filters.page}
+                                pageSize={this.state.filters.pageSize}
+                                serverPaging
+                                stats={this.state.stats}
+                            />
+                        }
+                        {this.state.layoutMode === LayoutMode.New && days.map(day =>
+                            <DayExpenses
+                                key={day}
+                                day={day}
+                                expenses={expensesByDay[day]}
+                                onExpenseClick={this.onExpenseEdit}
+                            />
+                        )}
                     </Col>
                     <Col lg={3}>
-                        <ToggleButtonGroup
-                            type="radio"
-                            size="sm"
-                            name="options"
-                            value={this.state.layoutMode}
-                            onChange={layoutMode => this.setState({ layoutMode })}
-                        >
-                            <ToggleButton value={LayoutMode.Classic}>Classic</ToggleButton>
-                            <ToggleButton value={LayoutMode.New}>New</ToggleButton>
-                        </ToggleButtonGroup>
+                        <DistributionCard
+                            countByOptions={sumByOptions}
+                            data={this.state.sumChartData}
+                            name="Sum"
+                            onGroupByChange={this.onSumGroupBy}
+                        />
                         <Card>
                             <Card.Header>
                                 By Currency
@@ -294,6 +252,16 @@ class ExpensesPage extends Page<{}, State> {
                                 </ListGroup>
                             </Card.Body>
                         </Card>
+                        <ToggleButtonGroup
+                            type="radio"
+                            size="sm"
+                            name="options"
+                            value={this.state.layoutMode}
+                            onChange={layoutMode => this.setState({ layoutMode })}
+                        >
+                            <ToggleButton value={LayoutMode.Classic}>Classic</ToggleButton>
+                            <ToggleButton value={LayoutMode.New}>New</ToggleButton>
+                        </ToggleButtonGroup>
                     </Col>
                 </Row>
                 <ExpenseLinkModal
