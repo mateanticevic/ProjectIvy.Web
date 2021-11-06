@@ -4,6 +4,7 @@ import { TiBeer } from 'react-icons/ti';
 
 interface Props {
     serving: string;
+    title?: string;
 }
 
 interface Mapping {
@@ -17,7 +18,7 @@ const mapping: Mapping = {
     'Plastic': <GiWaterBottle size={20} />,
 };
 
-export const ServingIcon = ({ serving }: Props) =>
-    <div title={serving}>
+export const ServingIcon = ({ serving, title}: Props) =>
+    <div title={title ?? serving}>
         {mapping[serving]}
     </div>;

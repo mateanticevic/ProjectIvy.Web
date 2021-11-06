@@ -18,6 +18,7 @@ import { Country } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
 import { ServingIcon } from './ServingIcon';
 import { Unit } from 'consts/units';
+import DayConsumations from './day-consumations';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -143,6 +144,9 @@ class BeerPage extends Page<Props, State> {
             ...sumByCountry.map(x => [x.key.name, Math.ceil(x.value / 1000)]),
         ];
 
+        const consumationsByDay = _.groupBy(consumations.items, consumation => consumation.date);
+        const days = Object.keys(consumationsByDay);
+
         return (
             <Container>
                 <Row>
@@ -164,6 +168,13 @@ class BeerPage extends Page<Props, State> {
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
+                                {days.map(day =>
+                                    <DayConsumations
+                                        key={day}
+                                        day={day}
+                                        consumations={consumationsByDay[day]}
+                                    />
+                                )}
                                 <Card>
                                     <Card.Header>
                                         <Row>
@@ -266,7 +277,7 @@ class BeerPage extends Page<Props, State> {
                                                 code={country.key.id}
                                                 country={country.key.name}
                                             />
-                                        &nbsp;{country.key.name} <span className="pull-right"><VolumeBadge volume={country.value} /></span>
+                                            &nbsp;{country.key.name} <span className="pull-right"><VolumeBadge volume={country.value} /></span>
                                         </ListGroup.Item>
                                     )}
                                 </ListGroup>
