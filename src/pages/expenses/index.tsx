@@ -236,15 +236,32 @@ class ExpensesPage extends Page<{}, State> {
                             onGroupByChange={this.onSumGroupBy}
                         />
                         <Card>
-                            <Card.Header>
-                                By Currency
-                            </Card.Header>
+                            <Card.Header>Numbers</Card.Header>
                             <Card.Body className="padding-0">
+                                <ListGroup>
+                                <ListGroupItem>
+                                        Count
+                                        <span className="pull-right">{expenses.count}</span>
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Types
+                                        <span className="pull-right">{this.state.stats.typeCount}</span>
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Vendors
+                                        <span className="pull-right">{this.state.stats.vendorCount}</span>
+                                    </ListGroupItem>
+                                    <ListGroupItem>
+                                        Total
+                                        <span className="pull-right">{this.state.stats.sum.toFixed(2)} <Badge variant="primary">HRK</Badge></span>
+                                    </ListGroupItem>
+                                </ListGroup>
+                                <br/>
                                 <ListGroup>
                                     {this.state.sumByCurrency.map(item =>
                                         <ListGroupItem key={item.key.id}>
                                             {item.key.name}
-                                            <span className="pull-right">{item.value} <Badge variant="primary">{item.key.id}</Badge></span>
+                                            <span className="pull-right">{item.value.toFixed(2)} <Badge variant="primary">{item.key.id}</Badge></span>
                                         </ListGroupItem>
                                     )}
                                 </ListGroup>
