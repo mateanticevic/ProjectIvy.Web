@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormLabel, FormControl, FormGroup, Modal } from 'react-bootstrap';
+import { Button, FormControl, Modal, FloatingLabel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import { Brand } from 'types/beer';
 
@@ -24,23 +24,24 @@ const BrandModal = ({ countries, isOpen, onClose, onChange, onSave }: Props) =>
             <Modal.Title>New brand</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <FormGroup>
-                <FormLabel>Name</FormLabel>
-                <FormControl
-                    type="text"
-                    onChange={x => onChange({ name: x.target.value })}
-                />
-            </FormGroup>
-            <FormGroup>
-                <FormLabel>Country</FormLabel>
-                <Select
-                    options={countries}
-                    onChange={countryId => onChange({ countryId })}
-                />
-            </FormGroup>
+            <div className="form-grid">
+                <FloatingLabel label="Name">
+                    <FormControl
+                        placeholder="Name"
+                        type="text"
+                        onChange={x => onChange({ name: x.target.value })}
+                    />
+                </FloatingLabel>
+                <FloatingLabel label="Country">
+                    <Select
+                        options={countries}
+                        onChange={countryId => onChange({ countryId })}
+                    />
+                </FloatingLabel>
+            </div>
         </Modal.Body>
         <Modal.Footer>
-            <Button block variant="primary" onClick={onSave}>
+            <Button variant="primary" onClick={onSave}>
                 <FontAwesome name="save" /> Save
             </Button>
         </Modal.Footer>

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Tabs, Tab, AccordionButton } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 
 import api from 'api/main';
 import { DistributionCard } from 'components';
@@ -15,7 +15,6 @@ import FiltersMore from './FiltersMore';
 import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
 import DayExpenses from './day-expenses';
-import Button from '@restart/ui/esm/Button';
 
 interface State {
     cards: any[];
@@ -174,7 +173,7 @@ class ExpensesPage extends Page<{}, State> {
                                         />
                                         <Accordion>
                                             <Accordion.Item eventKey="0">
-                                                <Accordion.Header as={Button} eventKey="0">
+                                                <Accordion.Header>
                                                     More filters
                                                 </Accordion.Header>
                                                 <Accordion.Body>
@@ -191,6 +190,14 @@ class ExpensesPage extends Page<{}, State> {
                                         </Accordion>
                                     </Card.Body>
                                 </Card>
+                                <div className="form-grid">
+                                    <Button
+                                        size="sm"
+                                        variant="primary"
+                                        onClick={this.onExpenseNew}>
+                                        New
+                                    </Button>
+                                </div>
                             </Col>
                         </Row>
                     </Col>

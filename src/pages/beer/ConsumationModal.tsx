@@ -44,11 +44,9 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                             onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
                             timeFormat={false}
                             value={consumation.date} />
-                        <InputGroup.Append>
-                            <InputGroup.Text>
-                                <FaCalendar />
-                            </InputGroup.Text>
-                        </InputGroup.Append>
+                        <InputGroup.Text>
+                            <FaCalendar />
+                        </InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -75,9 +73,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                             type="number"
                             onChange={x => onChange({ volume: parseInt(x.target.value) })}
                         />
-                        <InputGroup.Append>
-                            <InputGroup.Text>ml</InputGroup.Text>
-                        </InputGroup.Append>
+                        <InputGroup.Text>ml</InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>

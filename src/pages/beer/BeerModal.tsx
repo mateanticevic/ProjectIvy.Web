@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
+import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal, FloatingLabel, Form } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Select from 'components/Select';
@@ -17,30 +17,28 @@ const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
                 <Modal.Title>New beer</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <FormGroup>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl
-                        type="text"
-                        onChange={x => onChange({ name: x.target.value })}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Brand</FormLabel>
-                    <Select options={brands} onChange={brandId => onChange({ brandId })} />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Style</FormLabel>
-                    <Select options={styles} onChange={styleId => onChange({ styleId })} />
-                </FormGroup>
-                <FormGroup>
-                    <FormLabel>Abv</FormLabel>
-                    <InputGroup>
-                        <FormControl type="number" onChange={x => onChange({ abv: x.target.value })} />
-                        <InputGroup.Append>
+                <div className="form-grid">
+                    <FloatingLabel label="Name">
+                        <Form.Control
+                            type="text"
+                            placeholder="Name"
+                            onChange={x => onChange({ name: x.target.value })}
+                        />
+                    </FloatingLabel>
+                    <FloatingLabel label="Brand">
+                        <Select options={brands} onChange={brandId => onChange({ brandId })} />
+                    </FloatingLabel>
+                    <FloatingLabel label="Style">
+                        <Select options={styles} onChange={styleId => onChange({ styleId })} />
+                    </FloatingLabel>
+                    <FormGroup>
+                        <FormLabel>Abv</FormLabel>
+                        <InputGroup>
+                            <FormControl type="number" onChange={x => onChange({ abv: x.target.value })} />
                             <InputGroup.Text>‰</InputGroup.Text>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </FormGroup>
+                        </InputGroup>
+                    </FormGroup>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button block variant="primary" onClick={() => { onSave(); onClose(); }}>

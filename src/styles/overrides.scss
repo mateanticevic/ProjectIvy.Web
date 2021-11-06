@@ -28,6 +28,10 @@
     border: unset;
     font-weight: 600;
     padding: 10px 15px;
+    
+    a {
+      text-decoration: none;
+    }
   }
 
   .card-footer {
@@ -62,4 +66,9 @@
   .dropdown-menu {
     font-size: 14px;
   }
+}
+
+.modal-footer {
+  display: grid;
+  justify-content: unset;
 }

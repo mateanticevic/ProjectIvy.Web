@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
@@ -127,27 +127,27 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
         </Row>
         <Row>
           <Col lg={12}>
-            <FormGroup>
-              <FormLabel>Description</FormLabel>
-              <FormControl
+            <FloatingLabel controlId="floatingTextarea2" label="Description">
+              <Form.Control
                 as="textarea"
                 value={expense.comment}
                 type="text"
+                style={{ height: '100px' }}
                 onChange={x => onChange({ comment: x.target.value })}
               />
-              <div className="expense-form-description-suggestions">
-                {descriptionSuggestions && !descriptionSuggestions.some(x => x === expense.comment) &&
-                  descriptionSuggestions.map(suggestion =>
-                    <Badge
-                      className="item cursor-pointer"
-                      onClick={() => onChange({ comment: suggestion })}
-                      variant="secondary"
-                    >
-                      {suggestion}
-                    </Badge>
-                  )}
-              </div>
-            </FormGroup>
+            </FloatingLabel>
+            <div className="expense-form-description-suggestions">
+              {descriptionSuggestions && !descriptionSuggestions.some(x => x === expense.comment) &&
+                descriptionSuggestions.map(suggestion =>
+                  <Badge
+                    bg="secondary"
+                    className="item cursor-pointer"
+                    onClick={() => onChange({ comment: suggestion })}
+                  >
+                    {suggestion}
+                  </Badge>
+                )}
+            </div>
           </Col>
         </Row>
       </Tab>

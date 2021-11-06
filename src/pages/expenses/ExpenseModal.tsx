@@ -39,17 +39,12 @@ const ExpenseModal = (props) => {
                 />
             </Modal.Body>
             <Modal.Footer>
-                <Col lg={6}>
-                    <ButtonWithSpinner
-                        isLoading={props.isSaving}
-                        onClick={() => props.onExpenseAdd(true)}
-                    >
-                        <FontAwesome name="save" /> Save
-                    </ButtonWithSpinner>
-                </Col>
-                <Col lg={6}>
-                    <FormCheck type="checkbox" bsPrefix="pull-left"> Add another?</FormCheck>
-                </Col>
+                <ButtonWithSpinner
+                    isLoading={props.isSaving}
+                    onClick={() => props.onExpenseAdd(true)}
+                >
+                    <FontAwesome name="save" /> Save
+                </ButtonWithSpinner>
             </Modal.Footer>
         </Modal>
     );
