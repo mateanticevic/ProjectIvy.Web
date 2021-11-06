@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion, ListGroup, ListGroupItem, Badge, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, Button } from 'react-bootstrap';
 
 import api from 'api/main';
 import { DistributionCard } from 'components';
@@ -9,12 +9,12 @@ import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/Page';
 import { PagedList } from 'types/common';
 import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
-import ExpensePanel from './ExpensePanel';
 import ExpenseModal from './ExpenseModal';
 import FiltersMore from './FiltersMore';
 import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
 import DayExpenses from './day-expenses';
+import NumbersCard from './numbers-card';
 
 interface State {
     cards: any[];
@@ -140,8 +140,6 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     render() {
-        const chartSumData = _.reverse(_.map(this.state.graphs.sum, x => ({ value: x.data, key: moment(`${x.year}-${x.month}-1`).format('YYYY MMM') })));
-
         const countByOptions = [
             { value: GroupByTime.ByYear, name: 'Year' },
             { value: GroupByTime.ByMonth, name: 'Month' },
@@ -150,7 +148,8 @@ class ExpensesPage extends Page<{}, State> {
             { value: GroupByTime.ByDay, name: 'Day' },
         ];
 
-        const { expenses } = this.state;
+        const { expenses, sumByCurrency } = this.state;
+        const { vendorCount, typeCount, sum } = this.state.stats;
 
         const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
         const days = Object.keys(expensesByDay);
@@ -202,23 +201,7 @@ class ExpensesPage extends Page<{}, State> {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        {this.state.layoutMode === LayoutMode.Classic &&
-                            <ExpensePanel
-                                expenses={this.state.expenses}
-                                defaultCurrency={this.state.defaultCurrency}
-                                isLoading={this.state.expensesAreLoading}
-                                onEdit={this.onExpenseEdit}
-                                onLink={this.onExpenseLinkClick}
-                                onLinkTripChange={selectedTripId => this.setState({ selectedTripId })}
-                                onPageChange={page => this.onFiltersChanged({ page })}
-                                onNewClick={this.onExpenseNew}
-                                page={this.state.filters.page}
-                                pageSize={this.state.filters.pageSize}
-                                serverPaging
-                                stats={this.state.stats}
-                            />
-                        }
-                        {this.state.layoutMode === LayoutMode.New && days.map(day =>
+                        {days.map(day =>
                             <DayExpenses
                                 key={day}
                                 day={day}
@@ -235,48 +218,13 @@ class ExpensesPage extends Page<{}, State> {
                             unit="kn"
                             onGroupByChange={this.onSumGroupBy}
                         />
-                        <Card>
-                            <Card.Header>Numbers</Card.Header>
-                            <Card.Body className="padding-0">
-                                <ListGroup>
-                                <ListGroupItem>
-                                        Count
-                                        <span className="pull-right">{expenses.count}</span>
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        Types
-                                        <span className="pull-right">{this.state.stats.typeCount}</span>
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        Vendors
-                                        <span className="pull-right">{this.state.stats.vendorCount}</span>
-                                    </ListGroupItem>
-                                    <ListGroupItem>
-                                        Total
-                                        <span className="pull-right">{this.state.stats.sum.toFixed(2)} <Badge variant="primary">HRK</Badge></span>
-                                    </ListGroupItem>
-                                </ListGroup>
-                                <br/>
-                                <ListGroup>
-                                    {this.state.sumByCurrency.map(item =>
-                                        <ListGroupItem key={item.key.id}>
-                                            {item.key.name}
-                                            <span className="pull-right">{item.value.toFixed(2)} <Badge variant="primary">{item.key.id}</Badge></span>
-                                        </ListGroupItem>
-                                    )}
-                                </ListGroup>
-                            </Card.Body>
-                        </Card>
-                        <ToggleButtonGroup
-                            type="radio"
-                            size="sm"
-                            name="options"
-                            value={this.state.layoutMode}
-                            onChange={layoutMode => this.setState({ layoutMode })}
-                        >
-                            <ToggleButton id="op1" value={LayoutMode.Classic} type="radio">Classic</ToggleButton>
-                            <ToggleButton id="op2" value={LayoutMode.New}>New</ToggleButton>
-                        </ToggleButtonGroup>
+                        <NumbersCard
+                            expenseCount={expenses.count}
+                            vendorCount={vendorCount}
+                            typeCount={typeCount}
+                            sum={sum}
+                            sumByCurrency={sumByCurrency}
+                        />
                     </Col>
                 </Row>
                 <ExpenseLinkModal
@@ -410,51 +358,6 @@ class ExpensesPage extends Page<{}, State> {
                 this.setState({
                     expenses,
                     expensesAreLoading: false,
-                    //expense: this.state.expense ? expenses.items.find(x => x.id === this.state.expense.id) : undefined
-                });
-
-                api.expense
-                    .getCountByVendor(filters)
-                    .then(data => {
-                        const top = _.take(_.filter(data.items, item => item.key.id), 3);
-
-                        const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
-
-                        chartData.push({
-                            name: 'Other',
-                            value: expenses.count - _.sum(top.map(x => x.value))
-                        });
-
-                        this.setState({
-                            graphs: {
-                                ...this.state.graphs,
-                                countByVendor: chartData,
-                            },
-                        });
-                    });
-            });
-
-        const pageAllFilters = {
-            ...filters,
-            pageAll: true,
-        };
-
-        api.expense
-            .getCountByType(pageAllFilters)
-            .then(data => {
-                const top = _.take(_.filter(data.items, item => item.key), 3);
-                const other = _.difference(data.items, top);
-
-                const chartData = top.map(x => ({ name: x.key.name, value: x.value }));
-                if (other.length > 0) {
-                    chartData.push({ name: 'Other', value: _.sum(other.map(x => x.count)) });
-                }
-
-                this.setState({
-                    graphs: {
-                        ...this.state.graphs,
-                        countByType: chartData,
-                    },
                 });
             });
 

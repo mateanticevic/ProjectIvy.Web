@@ -73,3 +73,8 @@ export interface Vendor {
     name: string;
     city: any;
 }
+
+export interface AmountInCurrency {
+    key: Currency;
+    value: number;
+}
