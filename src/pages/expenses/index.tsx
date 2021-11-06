@@ -15,6 +15,7 @@ import Filters from './Filters';
 import ExpenseLinkModal from './ExpenseLinkModal';
 import DayExpenses from './day-expenses';
 import NumbersCard from './numbers-card';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface State {
     cards: any[];
@@ -33,7 +34,6 @@ interface State {
     isLinkModalOpen: boolean;
     layoutMode: LayoutMode;
     orderBy: any;
-    pageTab: PageTab;
     paymentTypes: any[];
     stats: any;
     selectedExpenseId?: string;
@@ -59,16 +59,6 @@ const maps = {
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
     [GroupByTime.ByMonth]: api.expense.getSumByMonth,
 };
-
-enum LayoutMode {
-    Classic,
-    New,
-}
-
-enum PageTab {
-    Analytics,
-    Expenses,
-}
 
 class ExpensesPage extends Page<{}, State> {
     state: State = {
@@ -102,7 +92,6 @@ class ExpensesPage extends Page<{}, State> {
         isSavingExpense: false,
         isLinkModalOpen: false,
         isModalOpen: false,
-        layoutMode: LayoutMode.New,
         order: [
             { id: 'false', name: 'Descending' },
             { id: 'true', name: 'Ascending' },
@@ -113,7 +102,6 @@ class ExpensesPage extends Page<{}, State> {
             { id: 'modified', name: 'Modified' },
             { id: 'amount', name: 'Amount' },
         ],
-        pageTab: PageTab.Expenses,
         paymentTypes: [],
         stats: {
             sum: 0,
@@ -201,14 +189,26 @@ class ExpensesPage extends Page<{}, State> {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        {days.map(day =>
-                            <DayExpenses
-                                key={day}
-                                day={day}
-                                expenses={expensesByDay[day]}
-                                onExpenseClick={this.onExpenseEdit}
-                            />
-                        )}
+                        <InfiniteScroll
+                            dataLength={expenses.items.length}
+                            next={this.getNextPage}
+                            hasMore={true}
+                            loader={<h4>Loading...</h4>}
+                            endMessage={
+                                <p style={{ textAlign: 'center' }}>
+                                    <b>Yay! You have seen it all</b>
+                                </p>
+                            }
+                        >
+                            {days.map(day =>
+                                <DayExpenses
+                                    key={day}
+                                    day={day}
+                                    expenses={expensesByDay[day]}
+                                    onExpenseClick={this.onExpenseEdit}
+                                />
+                            )}
+                        </InfiniteScroll>
                     </Col>
                     <Col lg={3}>
                         <DistributionCard
@@ -263,6 +263,12 @@ class ExpensesPage extends Page<{}, State> {
         api.file.deleteFile(fileId);
     }
 
+    getNextPage = () => {
+        this.onFiltersChanged({
+            page: this.state.filters.page + 1,
+        });
+    }
+
     linkExpenseFile = (expenseId: string, fileId: string, expenseFile: ExpenseFile) =>
         api.expense
             .postFile(expenseId, fileId, expenseFile)
@@ -308,9 +314,6 @@ class ExpensesPage extends Page<{}, State> {
         });
     }
 
-    onExpenseLink = (expenseId: string) =>
-        api.trip.postExpense(this.state.selectedTripId!, this.state.selectedExpenseId!);
-
     onExpenseEdit = (expense: Expense) => {
         this.setState({
             expense: {
@@ -344,7 +347,12 @@ class ExpensesPage extends Page<{}, State> {
 
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
-        this.pushHistoryState(filters);
+
+        const state = {...filters};
+        delete state.page;
+        delete state.pageSize;
+
+        this.pushHistoryState(state);
         this.setState({
             expensesAreLoading: !silent,
             filters,
@@ -352,11 +360,16 @@ class ExpensesPage extends Page<{}, State> {
             this.onSumGroupBy(this.state.sumGroupBy);
         });
 
+        const pageChanged = !!changedFilters?.page;
+
         api.expense
             .get(filters)
             .then(expenses => {
                 this.setState({
-                    expenses,
+                    expenses: pageChanged ? {
+                        count: expenses.count,
+                        items: [...this.state.expenses.items, ...expenses.items],
+                    } : expenses,
                     expensesAreLoading: false,
                 });
             });
