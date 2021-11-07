@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, ListGroup, Card, Row } from 'react-bootstrap';
+import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
 
 import api from 'api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
@@ -167,6 +167,26 @@ class BeerPage extends Page<Props, State> {
                                 />
                             </Card.Body>
                         </Card>
+                        <div className="form-grid">
+                            <Button
+                                size="sm"
+                                variant="primary"
+                                onClick={() => this.setState({ consumationModalOpen: true })}>
+                                Consumation
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="primary"
+                                onClick={() => this.setState({ brandModalOpen: true })}>
+                                Brand
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="primary"
+                                onClick={() => this.setState({ beerModalOpen: true })}>
+                                Beer
+                            </Button>
+                        </div>
                     </Col>
                     <Col lg={6}>
                         <Row>
@@ -383,7 +403,12 @@ class BeerPage extends Page<Props, State> {
 
     onFiltersChange = (filterValue?: Partial<ConsumationFilters>) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
-        this.pushHistoryState(filters);
+
+        const state = { ...filters };
+        delete state.page;
+        delete state.pageSize;
+
+        this.pushHistoryState(state);
 
         this.setState({ filters }, () => {
             this.onCountByClick();
@@ -401,7 +426,7 @@ class BeerPage extends Page<Props, State> {
                 }
             }));
 
-        if (filterValue?.page) {
+        if (pageChanged) {
             return;
         }
 

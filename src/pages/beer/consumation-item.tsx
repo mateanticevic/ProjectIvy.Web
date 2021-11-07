@@ -33,7 +33,6 @@ const ConsumationItem = ({ consumations }: Props) => {
                         {beer.style &&
                             `${beer.style.name}`
                         }
-                        {'Lager'}
                     </div>
                 </div>
                 <div className="expense-item-payment">

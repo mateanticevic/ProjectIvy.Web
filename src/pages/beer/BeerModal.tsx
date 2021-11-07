@@ -35,7 +35,7 @@ const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
                         <FormLabel>Abv</FormLabel>
                         <InputGroup>
                             <FormControl type="number" onChange={x => onChange({ abv: x.target.value })} />
-                            <InputGroup.Text>‰</InputGroup.Text>
+                            <InputGroup.Text>%</InputGroup.Text>
                         </InputGroup>
                     </FormGroup>
                 </div>

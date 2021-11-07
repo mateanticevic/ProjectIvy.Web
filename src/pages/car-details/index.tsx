@@ -38,7 +38,7 @@ class CarDetailsPage extends React.Component<{}, State> {
     }
 
     render() {
-        const { car, logs, serviceIntervals } = this.state;
+        const { car, logs } = this.state;
 
         return (
             <Container>
@@ -71,9 +71,7 @@ class CarDetailsPage extends React.Component<{}, State> {
                                         type="number"
                                         onKeyUp={e => e.key === 'Enter' && this.createLog(e.target.value)}
                                     />
-                                    <InputGroup.Append>
-                                        <InputGroup.Text>km</InputGroup.Text>
-                                    </InputGroup.Append>
+                                    <InputGroup.Text>km</InputGroup.Text>
                                 </InputGroup>
                             </Card.Body>
                         </Card>
@@ -84,7 +82,7 @@ class CarDetailsPage extends React.Component<{}, State> {
                                 <Row>
                                     <Col xs={10}>
                                         Service history
-                                            </Col>
+                                    </Col>
                                     <Col xs={2}>
                                         <Button
                                             size="sm"

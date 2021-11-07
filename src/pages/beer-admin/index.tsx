@@ -152,9 +152,7 @@ class BeerAdminPage extends Page<{}, State> {
                                                 value={beer.abv}
                                                 onChange={x => this.onBeerChange(beer, { abv: x.target.value })}
                                             />
-                                            <InputGroup.Append>
-                                                <InputGroup.Text>‰</InputGroup.Text>
-                                            </InputGroup.Append>
+                                            <InputGroup.Text>‰</InputGroup.Text>
                                         </InputGroup>
                                     </td>
                                     <td>
