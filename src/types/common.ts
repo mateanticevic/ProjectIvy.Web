@@ -44,3 +44,8 @@ export interface CountryPolygon {
     country: Country;
     polygons: Location[][];
 }
+
+export interface KeyValue<TKey, TValue> {
+    key: TKey,
+    value: TValue,
+}

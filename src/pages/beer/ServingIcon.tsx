@@ -18,7 +18,7 @@ const mapping: Mapping = {
     'Plastic': <GiWaterBottle size={20} />,
 };
 
-export const ServingIcon = ({ serving, title}: Props) =>
+export const ServingIcon = ({ serving, title }: Props) =>
     <div title={title ?? serving}>
         {mapping[serving]}
     </div>;

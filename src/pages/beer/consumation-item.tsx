@@ -39,7 +39,11 @@ const ConsumationItem = ({ consumations }: Props) => {
                 <div className="expense-item-payment">
                     <div className="expense-item-payment-type">
                         {consumations.map(consumation =>
-                            <ServingIcon serving={consumation.serving} />
+                            <ServingIcon
+                                key={_.uniqueId()}
+                                serving={consumation.serving}
+                                title={`${consumation.volume}ml`}
+                            />
                         )}
                     </div>
                     <span className="expense-item-amount">{amountWholePart}</span>

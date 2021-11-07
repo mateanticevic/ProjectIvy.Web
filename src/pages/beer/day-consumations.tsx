@@ -13,16 +13,18 @@ interface Props {
 const formatDate = (date) => moment().diff(moment(date), 'days') > 6 ? moment(date).format('Do MMMM YYYY') : moment(date).format('dddd');
 
 const DayConsumations = ({ day, consumations }: Props) => {
-    const consumationsByBeer = _.groupBy(consumations, consumation => consumation.beer);
-    const beers = Object.keys(consumationsByBeer);
+    const consumationsByBeer = _.groupBy(consumations, consumation => consumation.beer.id);
+    const beerIds = Object.keys(consumationsByBeer);
+
+    console.log(beerIds);
 
     return (
         <React.Fragment>
             <h2>{formatDate(day)}</h2>
-            {beers.map(beer =>
+            {beerIds.map(beerId =>
                 <ConsumationItem
-                    key={beer}
-                    consumations={consumationsByBeer[beer]}
+                    key={beerId}
+                    consumations={consumationsByBeer[beerId]}
                 />
             )}
         </React.Fragment>

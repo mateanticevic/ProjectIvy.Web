@@ -1,12 +1,11 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, DropdownButton, Container, ListGroup, Card, Row, Table, Dropdown } from 'react-bootstrap';
-import { Chart } from 'react-google-charts';
+import { Col, Container, ListGroup, Card, Row } from 'react-bootstrap';
 
 import api from 'api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
-import { DistributionCard, FlagIcon, Pagination } from 'components';
+import { DistributionCard, FlagIcon } from 'components';
 import { Page } from '../Page';
 import BeerModal from './BeerModal';
 import BrandModal from './BrandModal';
@@ -14,11 +13,12 @@ import ConsumationModal from './ConsumationModal';
 import { Filters } from './Filters';
 import { SumByServingChart } from './SumByServingChart';
 import { GroupByTime } from 'consts/groupings';
-import { Country } from 'types/common';
+import { Country, KeyValue } from 'types/common';
 import { VolumeBadge } from './VolumeBadge';
-import { ServingIcon } from './ServingIcon';
 import { Unit } from 'consts/units';
 import DayConsumations from './day-consumations';
+import CountryMapModal from './country-map-modal';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -33,6 +33,7 @@ interface State {
     brands: Brand[];
     beerModalOpen: boolean;
     brandModalOpen: boolean;
+    countryMapModalOpen: boolean;
     callOngoing: boolean;
     chartCountData: any;
     consumationModalOpen: boolean;
@@ -49,7 +50,7 @@ interface State {
     styles: Style[];
     sum: number;
     sumChartData: any;
-    sumByCountry: any;
+    sumByCountry: KeyValue<Country, number>[];
     sumByGrouping: GroupByTime;
     sumByServing: any;
     topBeers: Beer[];
@@ -90,8 +91,10 @@ class BeerPage extends Page<Props, State> {
         },
         countBy: GroupByTime.ByMonthOfYear,
         countries: [],
+        countryMapModalOpen: false,
         filters: {
             from: moment().month(0).date(1).format('YYYY-MM-DD'),
+            page: 1,
         },
         newBeers: {
             count: 0,
@@ -168,81 +171,37 @@ class BeerPage extends Page<Props, State> {
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
-                                {days.map(day =>
-                                    <DayConsumations
-                                        key={day}
-                                        day={day}
-                                        consumations={consumationsByDay[day]}
-                                    />
-                                )}
-                                <Card>
-                                    <Card.Header>
-                                        <Row>
-                                            <Col xs={10}>
-                                                Consumations ({consumations.count})
-                                            </Col>
-                                            <Col xs={2}>
-                                                <DropdownButton id={_.uniqueId('dropdown_button_')} title="New" variant="primary" size="sm" className="pull-right">
-                                                    <Dropdown.Item onClick={() => this.setState({ consumationModalOpen: true })}>Consumation</Dropdown.Item>
-                                                    <Dropdown.Item onClick={() => this.setState({ beerModalOpen: true })}>Beer</Dropdown.Item>
-                                                    <Dropdown.Item onClick={() => this.setState({ brandModalOpen: true })}>Brand</Dropdown.Item>
-                                                </DropdownButton>
-                                            </Col>
-                                        </Row>
-                                    </Card.Header>
-                                    <Card.Body>
-                                        <Table>
-                                            <tbody>
-                                                {consumations.items.map(consumation =>
-                                                    <tr key={_.uniqueId('consumation_row_')}>
-                                                        <td>{moment(consumation.date).format('Do MMMM YYYY')}</td>
-                                                        <td>{consumation.beer.name}</td>
-                                                        <td><ServingIcon serving={consumation.serving} /></td>
-                                                        <td>{consumation.volume / 1000}L</td>
-                                                    </tr>)
-                                                }
-                                            </tbody>
-                                        </Table>
-                                        <Pagination
-                                            page={filters.page}
-                                            pages={pages}
-                                            onPageChange={page => this.onFiltersChange({ page })}
+                                <InfiniteScroll
+                                    dataLength={consumations.items.length}
+                                    next={this.getNextPage}
+                                    hasMore={true}
+                                    loader={<h4>Loading...</h4>}
+                                    endMessage={
+                                        <p style={{ textAlign: 'center' }}>
+                                            <b>Yay! You have seen it all</b>
+                                        </p>
+                                    }
+                                >
+                                    {days.map(day =>
+                                        <DayConsumations
+                                            key={day}
+                                            day={day}
+                                            consumations={consumationsByDay[day]}
                                         />
-                                    </Card.Body>
-                                    <Card.Footer>
-                                        Beers {this.state.beerCount} Brands {this.state.brandCount} Sum ~{sum}L Per day ~{perDay}L
-                                    </Card.Footer>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <DistributionCard
-                                    countByOptions={sumByOptions}
-                                    data={this.state.sumChartData}
-                                    name="Sum"
-                                    unitType={Unit.Volume}
-                                    onGroupByChange={this.onCountGroupByChange}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>Map</Card.Header>
-                                    <Card.Body className="panel-medium">
-                                        <Chart
-                                            height="360px"
-                                            chartType="GeoChart"
-                                            data={mapData}
-                                            options={{ colorAxis: { colors: ['#a5cefa', '#007BFB'] } }}
-                                        />
-                                    </Card.Body>
-                                </Card>
+                                    )}
+                                </InfiniteScroll>
                             </Col>
                         </Row>
                     </Col>
                     <Col lg={3}>
+                        <DistributionCard
+                            countByOptions={sumByOptions}
+                            data={this.state.sumChartData}
+                            name="Sum"
+                            unit="L"
+                            unitType={Unit.Volume}
+                            onGroupByChange={this.onCountGroupByChange}
+                        />
                         <Card>
                             <Card.Header>Top Beers</Card.Header>
                             <Card.Body className="panel-small padding-0">
@@ -268,7 +227,7 @@ class BeerPage extends Page<Props, State> {
                             </Card.Body>
                         </Card>
                         <Card>
-                            <Card.Header>Top Countries</Card.Header>
+                            <Card.Header onClick={() => this.setState({ countryMapModalOpen: true })}>Top Countries</Card.Header>
                             <Card.Body className="panel-small padding-0">
                                 <ListGroup>
                                     {sumByCountry.slice(0, 5).map(country =>
@@ -317,6 +276,11 @@ class BeerPage extends Page<Props, State> {
                     onClose={() => this.setState({ brandModalOpen: false })}
                     onSave={this.addBrand}
                 />
+                <CountryMapModal
+                    isOpen={this.state.countryMapModalOpen}
+                    sumByCountry={sumByCountry}
+                    onClose={() => this.setState({ countryMapModalOpen: false })}
+                />
             </Container>
         );
     }
@@ -351,6 +315,12 @@ class BeerPage extends Page<Props, State> {
                 });
                 this.props.toast('Success', 'Consumation addeed');
             });
+    }
+
+    getNextPage = () => {
+        this.onFiltersChange({
+            page: this.state.filters.page + 1
+        });
     }
 
     loadBrands = () => {
@@ -420,9 +390,16 @@ class BeerPage extends Page<Props, State> {
             this.onCountGroupByChange();
         });
 
+        const pageChanged = !!filterValue?.page;
+
         api.consumation
             .get(filters)
-            .then(consumations => this.setState({ consumations }));
+            .then(consumations => this.setState({
+                consumations: {
+                    count: consumations.count,
+                    items: pageChanged ? [...this.state.consumations.items, ...consumations.items] : consumations.items,
+                }
+            }));
 
         if (filterValue?.page) {
             return;
