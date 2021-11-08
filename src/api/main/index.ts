@@ -1,3 +1,4 @@
+import account from './account';
 import airport from './airport';
 import beer from './beer';
 import call from './call';
@@ -26,6 +27,7 @@ import vendor from './vendor';
 import web from './web';
 
 const api = {
+    account,
     airport,
     beer,
     call,

@@ -22,6 +22,7 @@ import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
 import LocationPage from 'pages/location';
 import { getIdentity } from 'utils/cookie-helper';
+import AccountsPage from 'pages/accounts';
 
 interface State {
     user: User;
@@ -62,6 +63,7 @@ export default class Root extends React.Component<{}, State> {
                         <Switch>
                             <Route path="/" exact component={DashboardPage} />
                             <Route path="/account" exact component={AccountPage} />
+                            <Route path="/accounts" exact component={AccountsPage} />
                             <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
                             <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
                             <Route path="/calls" exact component={CallsPage} />

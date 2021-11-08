@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
-import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel } from 'react-icons/md';
+import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 import { Feature, Identity } from 'types/users';
@@ -24,6 +24,7 @@ const NavigationBar = ({ identity }: Props) =>
             <Nav className="mr-auto">
                 {identity.pif?.includes(Feature.Beer) &&
                     <NavDropdown id="nav-dropdown-finance" title="Finance">
+                        <NavDropdown.Item href="/accounts"><MdAccountBalance /> Accounts</NavDropdown.Item>
                         <NavDropdown.Item href="/expenses"><GiPayMoney /> Expenses</NavDropdown.Item>
                         <NavDropdown.Item href="/incomes"><GiReceiveMoney /> Incomes</NavDropdown.Item>
                     </NavDropdown>
