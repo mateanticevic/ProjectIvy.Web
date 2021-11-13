@@ -200,11 +200,12 @@ class ExpensesPage extends Page<{}, State> {
                                 </p>
                             }
                         >
-                            {days.map(day =>
+                            {days.map((day, index) =>
                                 <DayExpenses
                                     key={day}
                                     day={day}
                                     expenses={expensesByDay[day]}
+                                    nestedComponent={index === 0 ? () => <Button /> : null}
                                     onExpenseClick={this.onExpenseEdit}
                                 />
                             )}

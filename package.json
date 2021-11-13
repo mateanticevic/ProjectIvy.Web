@@ -6,11 +6,11 @@
     "npm": ">=3"
   },
   "scripts": {
-    "build": "NODE_ENV=test parcel build ./src/index.html",
+    "build": "NODE_ENV=production parcel build ./src/index.html",
     "dev": "parcel ./src/index.html",
     "lint": "eslint --project ./tsconfig.json",
     "start": "npm run dev",
-    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 443 ./src/index.html && printenv"
+    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 443 ./src/index.html"
   },
   "author": "Mate Antičević",
   "license": "MIT",
