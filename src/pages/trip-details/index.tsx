@@ -147,12 +147,12 @@ class TripDetailsPage extends React.Component<{}, State> {
                         />
                     </Col>
                 </Row>
-                <RideModal
+                {/* <RideModal
                     isOpen={this.state.isRideModalOpen}
                     onChange={this.onRideChange}
                     onClose={() => this.setState({ isRideModalOpen: false })}
                     onSave={this.onRideSave}
-                />
+                /> */}
             </Container>
         );
     }
