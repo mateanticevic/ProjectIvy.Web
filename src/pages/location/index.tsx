@@ -120,8 +120,8 @@ class LocationPage extends Page<{}, State> {
                                 }
                                 <FormGroup>
                                     <ToggleButtonGroup type="radio" name="options" value={drawMode} onChange={drawMode => this.setState({ drawMode })}>
-                                        <ToggleButton value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
-                                        <ToggleButton value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
+                                        <ToggleButton id="toggle-mode-line" value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
+                                        <ToggleButton id="toggle-mode-geohash" value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 {drawMode === DrawMode.Geohash &&
