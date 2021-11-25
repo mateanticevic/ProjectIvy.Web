@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Toast } from 'react-bootstrap';
 
 import { User } from 'types/users';
@@ -38,7 +38,7 @@ export default class Root extends React.Component<{}, State> {
         showToast: false,
     };
 
-    public componentDidMount() {
+    public elementDidMount() {
         if (window.location.hash) {
             const params = new URLSearchParams(window.location.hash.substring(1));
             document.cookie = `IdToken=${params.get('id_token')}`;
@@ -60,24 +60,24 @@ export default class Root extends React.Component<{}, State> {
                         {this.identity &&
                             <NavigationBar identity={this.identity} />
                         }
-                        <Switch>
-                            <Route path="/" exact component={DashboardPage} />
-                            <Route path="/account" exact component={AccountPage} />
-                            <Route path="/accounts" exact component={AccountsPage} />
-                            <Route path="/beer" exact render={() => <BeerPage toast={this.toast} />} />
-                            <Route path="/beer/admin" exact render={() => <BeerAdminPage />} />
-                            <Route path="/calls" exact component={CallsPage} />
-                            <Route path="/car/:id" exact component={CarDetailsPage} />
-                            <Route path="/expenses" exact component={ExpensesPage} />
-                            <Route path="/flights" exact component={FlightsPage} />
-                            <Route path="/incomes" exact component={IncomesPage} />
-                            <Route path="/location" exact component={LocationPage} />
-                            <Route path="/movies" exact component={MoviesPage} />
-                            <Route path="/pois" exact component={PoisPage} />
-                            <Route path="/tracking" exact component={TrackingPage} />
-                            <Route path="/trips" exact component={TripsPage} />
-                            <Route path="/trips/:id" exact component={TripDetailsPage} />
-                        </Switch>
+                        <Routes>
+                            <Route path="/" element={<DashboardPage />} />
+                            <Route path="/account" element={<AccountPage />} />
+                            <Route path="/accounts" element={<AccountsPage />} />
+                            <Route path="/beer" element={<BeerPage toast={this.toast} />} />
+                            <Route path="/beer/admin" element={<BeerAdminPage />} />
+                            <Route path="/calls" element={<CallsPage />} />
+                            <Route path="/car/:id" element={<CarDetailsPage />} />
+                            <Route path="/expenses" element={<ExpensesPage />} />
+                            <Route path="/flights" element={<FlightsPage />} />
+                            <Route path="/incomes" element={<IncomesPage />} />
+                            <Route path="/location" element={<LocationPage />} />
+                            <Route path="/movies" element={<MoviesPage />} />
+                            <Route path="/pois" element={<PoisPage />} />
+                            <Route path="/tracking" element={<TrackingPage />} />
+                            <Route path="/trips" element={<TripsPage />} />
+                            <Route path="/trips/:id" element={<TripDetailsPage />} />
+                        </Routes>
                         <Toast
                             autohide
                             delay={5000}
