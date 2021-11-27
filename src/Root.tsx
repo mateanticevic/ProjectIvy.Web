@@ -38,11 +38,12 @@ export default class Root extends React.Component<{}, State> {
         showToast: false,
     };
 
-    public elementDidMount() {
+    componentDidMount() {
         if (window.location.hash) {
             const params = new URLSearchParams(window.location.hash.substring(1));
             document.cookie = `IdToken=${params.get('id_token')}`;
             document.cookie = `AccessToken=${params.get('access_token')};domain=${process.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
+            console.log('auth cookies set');
             history.replaceState(null, null, ' ');
         }
 
