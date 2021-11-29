@@ -6,6 +6,15 @@ import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { SimpleScatterChart } from 'components';
 import { ServiceModal } from './ServiceModal';
+import { useParams } from 'react-router-dom';
+
+interface QueryStrings {
+    id: string;
+}
+
+interface Props {
+    params: QueryStrings;
+}
 
 interface State {
     car: Car;
@@ -16,7 +25,7 @@ interface State {
     serviceIntervals: CarServiceInterval[];
 }
 
-class CarDetailsPage extends React.Component<{}, State> {
+class CarDetailsPage extends React.Component<Props, State> {
     state: State = {
         car: {
             id: '',
@@ -34,7 +43,7 @@ class CarDetailsPage extends React.Component<{}, State> {
     };
 
     async componentDidMount() {
-        await this.reload(this.props.match.params.id);
+        await this.reload(this.props.params.id);
     }
 
     render() {
@@ -185,4 +194,5 @@ class CarDetailsPage extends React.Component<{}, State> {
     };
 }
 
-export default CarDetailsPage;
+export default () =>
+    <CarDetailsPage params={useParams() as QueryStrings} />;

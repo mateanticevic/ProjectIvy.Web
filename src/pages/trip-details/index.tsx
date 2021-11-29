@@ -12,6 +12,15 @@ import RideModal from './ride-modal';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
 import { Flight } from 'types/flights';
+import { useParams } from 'react-router';
+
+interface QueryStrings {
+    id: string;
+}
+
+interface Props {
+    params: QueryStrings;
+}
 
 interface State {
     beerSum: number;
@@ -24,7 +33,7 @@ interface State {
     trip: Trip;
 }
 
-class TripDetailsPage extends React.Component<{}, State> {
+class TripDetailsPage extends React.Component<Props, State> {
 
     state: State = {
         beerSum: 0,
@@ -48,7 +57,7 @@ class TripDetailsPage extends React.Component<{}, State> {
     };
 
     componentDidMount() {
-        api.trip.getById(this.props.match.params.id)
+        api.trip.getById(this.props.params.id)
             .then(trip => {
                 this.setState({ trip });
                 const filters = { from: trip.timestampStart, to: trip.timestampEnd };
@@ -186,4 +195,5 @@ class TripDetailsPage extends React.Component<{}, State> {
     }
 }
 
-export default TripDetailsPage;
+export default () =>
+    <TripDetailsPage params={useParams() as QueryStrings} />;
