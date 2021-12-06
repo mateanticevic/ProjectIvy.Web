@@ -41,11 +41,9 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, so
                             onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
                             timeFormat={false}
                         />
-                        <InputGroup.Append>
-                            <InputGroup.Text>
-                                <FaCalendar />
-                            </InputGroup.Text>
-                        </InputGroup.Append>
+                        <InputGroup.Text>
+                            <FaCalendar />
+                        </InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -62,9 +60,7 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, so
                             type="number"
                             onChange={x => onChange({ amount: Number.parseFloat(x.target.value) })}
                         />
-                        <InputGroup.Append>
-                            <InputGroup.Text>{income.currencyId}</InputGroup.Text>
-                        </InputGroup.Append>
+                        <InputGroup.Text>{income.currencyId}</InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -81,7 +77,7 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, so
                 </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-                <Button block variant="primary" onClick={() => onSave().then(() => onClose())}>
+                <Button variant="primary" onClick={() => onSave().then(() => onClose())}>
                     <FontAwesome name="save" /> Save
                 </Button>
             </Modal.Footer>
