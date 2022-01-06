@@ -104,8 +104,8 @@ class FlightsPage extends Page<{}, State> {
                                     value={mapMode}
                                     onChange={mapMode => this.setState({ mapMode })}
                                 >
-                                    <ToggleButton value={MapMode.Airports}>Airports</ToggleButton>
-                                    <ToggleButton value={MapMode.Flights}>Flights</ToggleButton>
+                                    <ToggleButton id="mode-airports" value={MapMode.Airports}>Airports</ToggleButton>
+                                    <ToggleButton id="mode-flights" value={MapMode.Flights}>Flights</ToggleButton>
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>

@@ -126,9 +126,9 @@ class BeerAdminPage extends Page<{}, State> {
                             size="sm"
                             onChange={hasCountry => this.onBrandFiltersChange({ hasCountry })}
                         >
-                            <ToggleButton value="">Show all</ToggleButton>
-                            <ToggleButton value="true">Yes</ToggleButton>
-                            <ToggleButton value="false">No</ToggleButton>
+                            <ToggleButton id="has-country-null" value="">Show all</ToggleButton>
+                            <ToggleButton id="has-country-yes" value="true">Yes</ToggleButton>
+                            <ToggleButton id="has-country-no" value="false">No</ToggleButton>
                         </ToggleButtonGroup>
                     </Card.Footer>
                 </Card>

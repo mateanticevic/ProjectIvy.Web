@@ -94,9 +94,9 @@ const FiltersMore = (props: Props) => {
                             size="sm"
                             onChange={x => props.onChange({ hasLinkedFiles: x })}
                         >
-                            <ToggleButton value="">Show all</ToggleButton>
-                            <ToggleButton value="true">Yes</ToggleButton>
-                            <ToggleButton value="false">No</ToggleButton>
+                            <ToggleButton id="has-linked-files-all" value="">Show all</ToggleButton>
+                            <ToggleButton id="has-linked-files-yes" value="true">Yes</ToggleButton>
+                            <ToggleButton id="has-linked-files-no" value="false">No</ToggleButton>
                         </ToggleButtonGroup>
                     </FormGroup>
                     <FormGroup>
@@ -108,9 +108,9 @@ const FiltersMore = (props: Props) => {
                             onChange={x => props.onChange({ hasPoi: x })}
                             size="sm"
                         >
-                            <ToggleButton value="">Show all</ToggleButton>
-                            <ToggleButton value="true">Yes</ToggleButton>
-                            <ToggleButton value="false">No</ToggleButton>
+                            <ToggleButton id="has-poi-all" value="">Show all</ToggleButton>
+                            <ToggleButton id="has-poi-yes" value="true">Yes</ToggleButton>
+                            <ToggleButton id="has-poi-no" value="false">No</ToggleButton>
                         </ToggleButtonGroup>
                     </FormGroup>
                 </Col>

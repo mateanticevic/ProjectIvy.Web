@@ -89,10 +89,10 @@ const SelectedMovement = ({ movement, onTrackingSelected }: Props) => {
                     value={[index]}
                 />
                 <ToggleButtonGroup name="manual-offset" type="radio" value={0} onChange={value => onChange(parseInt(value) + index)}>
-                    <ToggleButton value={-10}><MdFastRewind /></ToggleButton>
-                    <ToggleButton value={-1}><GrFormPrevious /></ToggleButton>
-                    <ToggleButton value={1}><GrFormNext /></ToggleButton>
-                    <ToggleButton value={10}><MdFastForward /></ToggleButton>
+                    <ToggleButton id="tracking-rew-10" value={-10}><MdFastRewind /></ToggleButton>
+                    <ToggleButton id="tracking-rew-1" value={-1}><GrFormPrevious /></ToggleButton>
+                    <ToggleButton id="tracking-fwd-1" value={1}><GrFormNext /></ToggleButton>
+                    <ToggleButton id="tracking-fwd-10" value={10}><MdFastForward /></ToggleButton>
                 </ToggleButtonGroup>
                 {React.useMemo(() => Segments(movement), [movement])}
             </Card.Body>

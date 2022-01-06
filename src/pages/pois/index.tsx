@@ -54,8 +54,8 @@ class PoisPage extends React.Component {
                             </Card.Body>
                             <Card.Footer>
                                 <ToggleButtonGroup type="radio" name="options" defaultValue={'move'}>
-                                    <ToggleButton value={'move'}><FontAwesome name="arrows" /> Move</ToggleButton>
-                                    <ToggleButton value={'new'}><FontAwesome name="map-marker" /> New</ToggleButton>
+                                    <ToggleButton id="map-mode-move" value={'move'}><FontAwesome name="arrows" /> Move</ToggleButton>
+                                    <ToggleButton id="map-mode-new" value={'new'}><FontAwesome name="map-marker" /> New</ToggleButton>
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>

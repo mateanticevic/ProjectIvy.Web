@@ -102,9 +102,9 @@ class LocationPage extends Page<{}, State> {
                             <Card.Body>
                                 <FormGroup>
                                     <ToggleButtonGroup type="radio" name="options" value={dateMode} onChange={dateMode => this.setState({ dateMode })}>
-                                        <ToggleButton value={DateMode.Day}><MdToday /> Day</ToggleButton>
-                                        <ToggleButton value={DateMode.Range}><FaRegCalendarAlt /> Range</ToggleButton>
-                                        <ToggleButton value={DateMode.Last}><Ri24HoursFill /> Last</ToggleButton>
+                                        <ToggleButton id="date-mode-day" value={DateMode.Day}><MdToday /> Day</ToggleButton>
+                                        <ToggleButton id="date-mode-range" value={DateMode.Range}><FaRegCalendarAlt /> Range</ToggleButton>
+                                        <ToggleButton id="date-mode-last" value={DateMode.Last}><Ri24HoursFill /> Last</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 {dateMode == DateMode.Day &&
@@ -183,9 +183,9 @@ class LocationPage extends Page<{}, State> {
                             </Card.Body>
                             <Card.Footer>
                                 <ToggleButtonGroup type="radio" name="options" value={mapMode} onChange={mapMode => this.setState({ mapMode })}>
-                                    <ToggleButton value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
-                                    <ToggleButton value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
-                                    <ToggleButton value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
+                                    <ToggleButton id="map-mode-drag" value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
+                                    <ToggleButton id="map-mode-drop" value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
+                                    <ToggleButton id="map-mode-select" value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>

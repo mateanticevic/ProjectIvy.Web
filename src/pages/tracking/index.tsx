@@ -112,11 +112,11 @@ class TrackingPage extends Page<{}, State> {
                             </Card.Body>
                             <Card.Footer className="flex-container">
                                 <ToggleButtonGroup type="radio" name="options" value={this.state.mapMode} onChange={this.onMapModeChange}>
-                                    <ToggleButton value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
-                                    <ToggleButton value={MapMode.DaysInRectanlge}><FontAwesome name="calendar" /> Days</ToggleButton>
-                                    <ToggleButton value={MapMode.TrackingsInRectangle}><FontAwesome name="calendar" /> Movement</ToggleButton>
-                                    <ToggleButton value={MapMode.HeatmapInRectangle}><FontAwesome name="map-o" /> Heatmap</ToggleButton>
-                                    <ToggleButton value={MapMode.Geohash}><FontAwesome name="map-o" /> Geohash</ToggleButton>
+                                    <ToggleButton id="map-mode-move" value={MapMode.Move}><FontAwesome name="arrows" /> Move</ToggleButton>
+                                    <ToggleButton id="map-mode-days" value={MapMode.DaysInRectanlge}><FontAwesome name="calendar" /> Days</ToggleButton>
+                                    <ToggleButton id="map-mode-trackings" value={MapMode.TrackingsInRectangle}><FontAwesome name="calendar" /> Movement</ToggleButton>
+                                    <ToggleButton id="map-mode-heatmap" value={MapMode.HeatmapInRectangle}><FontAwesome name="map-o" /> Heatmap</ToggleButton>
+                                    <ToggleButton id="map-mode-geohash" value={MapMode.Geohash}><FontAwesome name="map-o" /> Geohash</ToggleButton>
                                 </ToggleButtonGroup>
                                 <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
