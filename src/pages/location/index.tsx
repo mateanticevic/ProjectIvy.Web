@@ -15,7 +15,7 @@ import { components } from 'types/ivy-types';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
 import { Layer } from 'types/location';
-import { trackingsToLatLng } from 'utils/gmap-helper';
+import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import GeohashSettings from './geohash-settings';
 import { GeohashLayer, PointLayer, PolygonLayer } from 'models/layers';
@@ -154,13 +154,21 @@ class LocationPage extends Page<{}, State> {
                                         onZoomChanged={() => this.setState({ mapZoom: this.map.getZoom() })}
                                         refSet={mapRef => this.map = mapRef}
                                     >
-                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => !layer.renderAsPoints).map(layer =>
+                                        {layers.map(layer => layer as PolygonLayer).filter(layer => !layer.renderAsPoints).map(layer =>
                                             <Polyline
                                                 key={layer.id}
-                                                path={layer.path}
+                                                path={trackingsToLatLng(layer.trackings)}
                                             />
                                         )}
-                                        {layers.filter(layer => layer instanceof PointLayer).map(layer => layer as PointLayer).map(layer =>
+                                        {layers.map(layer => layer as PolygonLayer).map(layer => {
+                                            return layer.trackings.map(tracking =>
+                                                <Marker
+                                                    position={trackingToLatLng(tracking)}
+                                                    onClick={() => this.deleteTracking(layer, tracking)}
+                                                />
+                                            );
+                                        })}
+                                        {layers.map(layer => layer as PointLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
                                                 position={layer.point}
@@ -212,6 +220,23 @@ class LocationPage extends Page<{}, State> {
         };
     }
 
+    deleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
+        api.tracking.del(moment.utc(tracking.timestamp).format('x'))
+            .then(() => {
+                const updatedLayer = {
+                    ...layer,
+                    trackings: layer.trackings.filter(x => x != tracking)
+                };
+                const layers = [
+                    ...this.state.layers.filter(x => x != layer).map(layer => layer as PolygonLayer),
+                    updatedLayer as PolygonLayer,
+                ];
+                this.setState({
+                    layers
+                });
+            });
+    }
+
     draw = () => {
         this.setState({ requestActive: true });
 
@@ -220,7 +245,7 @@ class LocationPage extends Page<{}, State> {
         }
 
         api.tracking.get(this.dateFilter()).then(trackings => {
-            const layer = new PolygonLayer(trackingsToLatLng(trackings));
+            const layer = new PolygonLayer(trackings);
             this.setState({
                 layers: [
                     ...this.state.layers,

@@ -1,15 +1,18 @@
+import { components } from 'types/ivy-types';
 import _ from 'lodash';
 
 import { Layer } from 'types/location';
 
+type Tracking = components['schemas']['Tracking'];
+
 export class PolygonLayer implements Layer {
     id: string;
-    path: google.maps.LatLng[];
     renderAsPoints = false;
+    trackings: Tracking[];
 
-    constructor(path: google.maps.LatLng[]){
+    constructor(trackings: Tracking[]){
         this.id = _.uniqueId();
-        this.path = path;
+        this.trackings = trackings;
     }
 }
 
