@@ -128,14 +128,6 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     render() {
-        const countByOptions = [
-            { value: GroupByTime.ByYear, name: 'Year' },
-            { value: GroupByTime.ByMonth, name: 'Month' },
-            { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
-            { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
-            { value: GroupByTime.ByDay, name: 'Day' },
-        ];
-
         const { expenses, sumByCurrency } = this.state;
         const { vendorCount, typeCount, sum } = this.state.stats;
 
@@ -347,11 +339,19 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
-        const filters = this.resolveFilters(this.state.filters, changedFilters);
+        let filters = this.resolveFilters(this.state.filters, changedFilters);
 
         const state = {...filters};
         delete state.page;
         delete state.pageSize;
+
+        const pageChanged = !!changedFilters?.page;
+        if (!pageChanged) {
+            filters = {
+                ...filters,
+                page: 1,
+            };
+        }
 
         this.pushHistoryState(state);
         this.setState({
@@ -360,8 +360,6 @@ class ExpensesPage extends Page<{}, State> {
         }, () => {
             this.onSumGroupBy(this.state.sumGroupBy);
         });
-
-        const pageChanged = !!changedFilters?.page;
 
         api.expense
             .get(filters)
