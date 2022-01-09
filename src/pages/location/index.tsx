@@ -18,8 +18,9 @@ import { Layer } from 'types/location';
 import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import GeohashSettings from './geohash-settings';
-import { GeohashLayer, PointLayer, PolygonLayer } from 'models/layers';
+import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
+import PolylineLayer from './polyline-layer';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -154,25 +155,42 @@ class LocationPage extends Page<{}, State> {
                                         onZoomChanged={() => this.setState({ mapZoom: this.map.getZoom() })}
                                         refSet={mapRef => this.map = mapRef}
                                     >
-                                        {layers.map(layer => layer as PolygonLayer).filter(layer => !layer.renderAsPoints).map(layer =>
+                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).map(layer =>
                                             <Polyline
                                                 key={layer.id}
                                                 path={trackingsToLatLng(layer.trackings)}
                                             />
                                         )}
-                                        {layers.map(layer => layer as PolygonLayer).map(layer => {
-                                            return layer.trackings.map(tracking =>
-                                                <Marker
-                                                    position={trackingToLatLng(tracking)}
-                                                    onClick={() => this.deleteTracking(layer, tracking)}
-                                                />
-                                            );
-                                        })}
-                                        {layers.map(layer => layer as PointLayer).map(layer =>
+                                        {layers.filter(layer => layer instanceof PolygonLayer)
+                                            .map(layer => layer as PolygonLayer)
+                                            .filter(layer => layer.showPoints)
+                                            .map(layer => {
+                                                return layer.trackings.map(tracking =>
+                                                    <Marker
+                                                        key={_.uniqueId()}
+                                                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                                                        position={trackingToLatLng(tracking)}
+                                                        onClick={() => this.selectTracking(tracking)}
+                                                    />
+                                                );
+                                            })}
+                                        {layers.filter(layer => layer instanceof TrackingLayer).map(layer => layer as TrackingLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
-                                                position={layer.point}
+                                                position={trackingToLatLng(layer.tracking)}
                                             />
+                                        )}
+                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).map(layer =>
+                                            <React.Fragment key={layer.id}>
+                                                <Marker
+                                                    key={`${layer.id}-end`}
+                                                    position={trackingToLatLng(layer.endTracking)}
+                                                />
+                                                <Marker
+                                                    key={`${layer.id}-start`}
+                                                    position={trackingToLatLng(layer.startTracking)}
+                                                />
+                                            </React.Fragment>
                                         )}
                                         {layers.filter(layer => layer instanceof GeohashLayer).map(layer => layer as GeohashLayer).flatMap(layer => layer.rectangles).map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
                                         <MarkerClusterer>
@@ -197,6 +215,16 @@ class LocationPage extends Page<{}, State> {
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>
+                        {layers.map(layer =>
+                            <PolylineLayer
+                                key={layer.id}
+                                layer={layer}
+                                onEndMarkerMoved={tracking => this.onEndMarkerMoved(layer, tracking)}
+                                onClip={() => this.onPolygonClip(layer)}
+                                onStartMarkerMoved={tracking => this.onStartMarkerMoved(layer, tracking)}
+                                onShowPointsToggle={this.onPointsShow}
+                            />
+                        )}
                     </Col>
                 </Row>
             </Container>
@@ -289,6 +317,52 @@ class LocationPage extends Page<{}, State> {
                 ],
             });
         }
+    }
+
+    onEndMarkerMoved = (layer: PolygonLayer, tracking: Tracking) => {
+        layer.endTracking = tracking;
+        const layers = [
+            ...this.state.layers.filter(x => x != layer),
+            layer,
+        ];
+        this.setState({ layers });
+    }
+
+    onPolygonClip = (layer: PolygonLayer) => {
+        layer.trackings = layer.trackings.slice(layer.trackings.indexOf(layer.startTracking), layer.trackings.indexOf(layer.endTracking));
+        const layers = [
+            ...this.state.layers.filter(x => x != layer),
+            layer,
+        ];
+        this.setState({ layers });
+    }
+
+    onPointsShow = (layer: PolygonLayer, show: boolean) => {
+        layer.showPoints = show;
+        const layers = [
+            ...this.state.layers.filter(x => x != layer),
+            layer,
+        ];
+        this.setState({ layers });
+    }
+
+    onStartMarkerMoved = (layer: PolygonLayer, tracking: Tracking) => {
+        layer.startTracking = tracking;
+        const layers = [
+            ...this.state.layers.filter(x => x != layer),
+            layer,
+        ];
+        this.setState({ layers });
+    }
+
+    selectTracking = (tracking: Tracking) => {
+        const layer = new TrackingLayer(tracking);
+        this.setState({
+            layers: [
+                ...this.state.layers,
+                layer,
+            ]
+        });
     }
 }
 

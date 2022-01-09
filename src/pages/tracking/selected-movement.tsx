@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import _ from 'lodash';
 import { Range } from 'rc-slider';
 import moment from 'moment';
 import { MdFastRewind, MdFastForward } from 'react-icons/md';
