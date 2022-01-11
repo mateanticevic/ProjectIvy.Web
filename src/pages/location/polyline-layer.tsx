@@ -5,6 +5,9 @@ import { PolygonLayer } from 'models/layers';
 import { Tracking } from 'pages/tracking/types';
 import moment from 'moment';
 import MarkerControl from './marker-control';
+import { AiOutlineScissor } from 'react-icons/ai';
+import { MdLocationOn } from 'react-icons/md';
+import { BiStopwatch } from 'react-icons/bi';
 
 interface Props {
     layer: PolygonLayer,
@@ -21,6 +24,10 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
 
     const determineIndex = (index: number) => index < 0 ? 0 : index >= layer.trackings.length ? layer.trackings.length - 1 : index;
 
+    React.useEffect(() => {
+        onChange(0, layer.trackings.length - 1);
+    }, [layer.trackings]);
+
     const onChange = (startIndex: number, endIndex: number) => {
         setEndIndex(determineIndex(endIndex));
         setStartIndex(determineIndex(startIndex));
@@ -34,8 +41,10 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
     return (
         <Card>
             <Card.Body>
-                <Button onClick={onClip}>Clip</Button>
-                <ButtonGroup className="mb-2">
+                <Button size="sm" onClick={onClip}>
+                    <AiOutlineScissor /> Clip
+                </Button>
+                <ButtonGroup size="sm">
                     <ToggleButton
                         id="toggle-check"
                         type="checkbox"
@@ -44,7 +53,7 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                         value="1"
                         onChange={e => onShowPointsToggle(layer, e.currentTarget.checked)}
                     >
-                        Points
+                        <MdLocationOn /> Trackings
                     </ToggleButton>
                 </ButtonGroup>
                 <Range
@@ -54,9 +63,22 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                     step={1}
                     value={[startIndex, endIndex]}
                 />
-                <MarkerControl tracking={layer.startTracking} />
-                <MarkerControl tracking={layer.endTracking} />
-                {moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp), 'minutes')}
+                <MarkerControl
+                    tracking={layer.startTracking}
+                    onNext={() => onChange(startIndex + 1, endIndex)}
+                    onPrevious={() => onChange(startIndex - 1, endIndex)}
+                />
+                <div className="pull-right">
+                    <MarkerControl
+                        tracking={layer.endTracking}
+                        onNext={() => onChange(startIndex, endIndex + 1)}
+                        onPrevious={() => onChange(startIndex, endIndex - 1)}
+                    />
+                </div>
+                <div>
+                    <BiStopwatch title="Time between trackings" />
+                    {moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp), 'minutes')}m
+                </div>
             </Card.Body>
         </Card>
     );

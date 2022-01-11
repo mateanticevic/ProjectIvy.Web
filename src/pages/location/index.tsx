@@ -67,6 +67,55 @@ const lastNDaysMapping = {
     [LastNDays.Year]: 365,
 };
 
+interface PolygonProps {
+    layers: Layer[];
+}
+
+const Polygons = ({ layers }) =>
+    <React.Fragment>
+        {layers.filter(layer => layer instanceof PolygonLayer)
+            .map(layer => layer as PolygonLayer)
+            .filter(layer => layer.showPoints)
+            .map(layer => {
+                return layer.trackings.map(tracking =>
+                    <Marker
+                        key={_.uniqueId()}
+                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                        position={trackingToLatLng(tracking)}
+                        onClick={() => this.selectTracking(tracking)}
+                    />
+                );
+            })}
+    </React.Fragment>;
+
+const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
+    const oldLayers = oldProps.layers;
+    const newLayers = newProps.layers;
+
+    console.log(oldLayers);
+    console.log(newLayers);
+
+    if (oldLayers.length !== newLayers.length) {
+        return false;
+    }
+
+    for (let i = 0; i <= oldLayers.length; i++) {
+        if (oldLayers[i] instanceof PolygonLayer) {
+            const oldPolygonLayer = oldLayers[i] as PolygonLayer;
+            const newPolygonLayer = newLayers[i] as PolygonLayer;
+            console.log(oldPolygonLayer);
+            console.log(newPolygonLayer);
+            if (oldPolygonLayer.showPoints !== newPolygonLayer.showPoints) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};
+
+const PolygonsMemo = React.memo(Polygons, areLayersEqual);
+
 class LocationPage extends Page<{}, State> {
 
     map: GoogleMap;
@@ -161,19 +210,7 @@ class LocationPage extends Page<{}, State> {
                                                 path={trackingsToLatLng(layer.trackings)}
                                             />
                                         )}
-                                        {layers.filter(layer => layer instanceof PolygonLayer)
-                                            .map(layer => layer as PolygonLayer)
-                                            .filter(layer => layer.showPoints)
-                                            .map(layer => {
-                                                return layer.trackings.map(tracking =>
-                                                    <Marker
-                                                        key={_.uniqueId()}
-                                                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
-                                                        position={trackingToLatLng(tracking)}
-                                                        onClick={() => this.selectTracking(tracking)}
-                                                    />
-                                                );
-                                            })}
+                                        <PolygonsMemo layers={layers} />
                                         {layers.filter(layer => layer instanceof TrackingLayer).map(layer => layer as TrackingLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
