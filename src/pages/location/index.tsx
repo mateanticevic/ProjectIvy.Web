@@ -37,6 +37,7 @@ interface State {
     layers: Layer[],
     mapMode: MapMode,
     mapZoom: number,
+    polygonLayers: PolygonLayer[],
     requestActive: boolean,
 }
 
@@ -68,14 +69,12 @@ const lastNDaysMapping = {
 };
 
 interface PolygonProps {
-    layers: Layer[];
+    layers: PolygonLayer[];
 }
 
-const Polygons = ({ layers }) =>
+const Polygons = ({ layers }: PolygonProps) =>
     <React.Fragment>
-        {layers.filter(layer => layer instanceof PolygonLayer)
-            .map(layer => layer as PolygonLayer)
-            .filter(layer => layer.showPoints)
+        {layers.filter(layer => layer.showPoints)
             .map(layer => {
                 return layer.trackings.map(tracking =>
                     <Marker
@@ -92,25 +91,18 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     const oldLayers = oldProps.layers;
     const newLayers = newProps.layers;
 
-    console.log(oldLayers);
-    console.log(newLayers);
-
-    if (oldLayers.length !== newLayers.length) {
+    if (oldLayers.length !== newLayers.length || oldLayers.length === 0) {
         return false;
     }
 
-    for (let i = 0; i <= oldLayers.length; i++) {
-        if (oldLayers[i] instanceof PolygonLayer) {
-            const oldPolygonLayer = oldLayers[i] as PolygonLayer;
-            const newPolygonLayer = newLayers[i] as PolygonLayer;
-            console.log(oldPolygonLayer);
-            console.log(newPolygonLayer);
-            if (oldPolygonLayer.showPoints !== newPolygonLayer.showPoints) {
-                return false;
-            }
+    for (let i = 0; i < oldLayers.length; i++) {
+        const oldPolygonLayer = oldLayers[i];
+        const newPolygonLayer = newLayers[i];
+        if (oldPolygonLayer.showPoints !== newPolygonLayer.showPoints
+            || oldPolygonLayer.trackings.length !== newPolygonLayer.trackings.length) {
+            return false;
         }
     }
-
     return true;
 };
 
@@ -129,6 +121,7 @@ class LocationPage extends Page<{}, State> {
         layers: [],
         mapMode: MapMode.Drag,
         mapZoom: 13,
+        polygonLayers: [],
         requestActive: false,
     }
 
@@ -139,7 +132,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, requestActive } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive } = this.state;
 
         const isMapReady = !!last;
 
@@ -204,20 +197,20 @@ class LocationPage extends Page<{}, State> {
                                         onZoomChanged={() => this.setState({ mapZoom: this.map.getZoom() })}
                                         refSet={mapRef => this.map = mapRef}
                                     >
-                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).map(layer =>
+                                        {polygonLayers.map(layer =>
                                             <Polyline
                                                 key={layer.id}
                                                 path={trackingsToLatLng(layer.trackings)}
                                             />
                                         )}
-                                        <PolygonsMemo layers={layers} />
+                                        <PolygonsMemo layers={polygonLayers} />
                                         {layers.filter(layer => layer instanceof TrackingLayer).map(layer => layer as TrackingLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
                                                 position={trackingToLatLng(layer.tracking)}
                                             />
                                         )}
-                                        {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).map(layer =>
+                                        {polygonLayers.map(layer =>
                                             <React.Fragment key={layer.id}>
                                                 <Marker
                                                     key={`${layer.id}-end`}
@@ -252,7 +245,7 @@ class LocationPage extends Page<{}, State> {
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>
-                        {layers.map(layer =>
+                        {polygonLayers.map(layer =>
                             <PolylineLayer
                                 key={layer.id}
                                 layer={layer}
@@ -312,8 +305,8 @@ class LocationPage extends Page<{}, State> {
         api.tracking.get(this.dateFilter()).then(trackings => {
             const layer = new PolygonLayer(trackings);
             this.setState({
-                layers: [
-                    ...this.state.layers,
+                polygonLayers: [
+                    ...this.state.polygonLayers,
                     layer,
                 ],
                 requestActive: false,
@@ -356,40 +349,52 @@ class LocationPage extends Page<{}, State> {
         }
     }
 
-    onEndMarkerMoved = (layer: PolygonLayer, tracking: Tracking) => {
-        layer.endTracking = tracking;
-        const layers = [
-            ...this.state.layers.filter(x => x != layer),
-            layer,
+    onEndMarkerMoved = (layer: PolygonLayer, endTracking: Tracking) => {
+        const updatedLayer = {
+            ...layer,
+            endTracking,
+        } as PolygonLayer;
+        const polygonLayers = [
+            ...this.state.polygonLayers,
+            updatedLayer,
         ];
-        this.setState({ layers });
+        this.setState({ polygonLayers });
     }
 
     onPolygonClip = (layer: PolygonLayer) => {
-        layer.trackings = layer.trackings.slice(layer.trackings.indexOf(layer.startTracking), layer.trackings.indexOf(layer.endTracking));
-        const layers = [
-            ...this.state.layers.filter(x => x != layer),
-            layer,
+        const updatedLayer = {
+            ...layer,
+            trackings: layer.trackings.slice(layer.trackings.indexOf(layer.startTracking), layer.trackings.indexOf(layer.endTracking)),
+        } as PolygonLayer;
+        const polygonLayers = [
+            ...this.state.polygonLayers.filter(x => x !== layer),
+            updatedLayer,
         ];
-        this.setState({ layers });
+        this.setState({ polygonLayers });
     }
 
-    onPointsShow = (layer: PolygonLayer, show: boolean) => {
-        layer.showPoints = show;
-        const layers = [
-            ...this.state.layers.filter(x => x != layer),
-            layer,
+    onPointsShow = (layer: PolygonLayer, showPoints: boolean) => {
+        const updatedLayer = {
+            ...layer,
+            showPoints,
+        } as PolygonLayer;
+        const polygonLayers = [
+            ...this.state.polygonLayers.filter(x => x != layer),
+            updatedLayer,
         ];
-        this.setState({ layers });
+        this.setState({ polygonLayers });
     }
 
-    onStartMarkerMoved = (layer: PolygonLayer, tracking: Tracking) => {
-        layer.startTracking = tracking;
-        const layers = [
-            ...this.state.layers.filter(x => x != layer),
-            layer,
+    onStartMarkerMoved = (layer: PolygonLayer, startTracking: Tracking) => {
+        const updatedLayer = {
+            ...layer,
+            startTracking,
+        } as PolygonLayer;
+        const polygonLayers = [
+            ...this.state.polygonLayers.filter(x => x != layer),
+            updatedLayer,
         ];
-        this.setState({ layers });
+        this.setState({ polygonLayers });
     }
 
     selectTracking = (tracking: Tracking) => {
