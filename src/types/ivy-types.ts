@@ -4,6 +4,35 @@
  */
 
 export interface paths {
+  "/Account": {
+    get: {
+      parameters: {
+        query: {
+          IsActive?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/Account/{accountId}/transaction": {
+    post: {
+      parameters: {
+        path: {
+          accountId: string;
+        };
+        query: {
+          transactionSource?: components["schemas"]["TransactionSource"];
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
   "/Airport": {
     get: {
       parameters: {
@@ -2470,13 +2499,20 @@ export interface paths {
       };
       responses: {
         /** Success */
-        200: {
-          content: {
-            "text/plain": string[];
-            "application/json": string[];
-            "text/json": string[];
-          };
+        200: unknown;
+      };
+    };
+  };
+  "/Geohash/{geohashId}": {
+    get: {
+      parameters: {
+        path: {
+          geohashId: string;
         };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
       };
     };
   };
@@ -2582,7 +2618,7 @@ export interface paths {
       };
     };
   };
-  "/Income/Sum/ByMonth": {
+  "/Income/Sum/ByMonthOfYear": {
     get: {
       parameters: {
         query: {
@@ -2602,13 +2638,7 @@ export interface paths {
       };
       responses: {
         /** Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["DecimalGroupedByMonth"][];
-            "application/json": components["schemas"]["DecimalGroupedByMonth"][];
-            "text/json": components["schemas"]["DecimalGroupedByMonth"][];
-          };
-        };
+        200: unknown;
       };
     };
   };
@@ -2628,6 +2658,73 @@ export interface paths {
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/IotDevice/{deviceId}/Ping": {
+    post: {
+      parameters: {
+        path: {
+          deviceId: string;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/IotDevice/{deviceId}/Data/{fieldIdentifier}": {
+    get: {
+      parameters: {
+        path: {
+          deviceId: string;
+          fieldIdentifier: string;
+        };
+        query: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+    post: {
+      parameters: {
+        path: {
+          deviceId: string;
+          fieldIdentifier: string;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+      requestBody: {
+        content: {
+          "application/json-patch+json": components["schemas"]["IotDeviceDataBinding"];
+          "application/json": components["schemas"]["IotDeviceDataBinding"];
+          "text/json": components["schemas"]["IotDeviceDataBinding"];
+          "application/*+json": components["schemas"]["IotDeviceDataBinding"];
+        };
+      };
+    };
+  };
+  "/IotDevice/{deviceId}/Data/{fieldIdentifier}/{value}": {
+    post: {
+      parameters: {
+        path: {
+          deviceId: string;
+          fieldIdentifier: string;
+          value: string;
         };
       };
       responses: {
@@ -3330,20 +3427,6 @@ export interface paths {
       };
     };
   };
-  "/Token": {
-    post: {
-      parameters: {
-        query: {
-          username?: string;
-          password?: string;
-        };
-      };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-    };
-  };
   "/Service/LastFm/Track": {
     get: {
       parameters: {
@@ -3407,6 +3490,19 @@ export interface paths {
             "text/json": components["schemas"]["Track"][];
           };
         };
+      };
+    };
+  };
+  "/Tracking/{timestamp}": {
+    delete: {
+      parameters: {
+        path: {
+          timestamp: number;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
       };
     };
   };
@@ -3858,19 +3954,6 @@ export interface paths {
       };
     };
   };
-  "/User/Session/{id}": {
-    delete: {
-      parameters: {
-        query: {
-          id?: number;
-        };
-      };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-    };
-  };
   "/User": {
     get: {
       responses: {
@@ -3881,30 +3964,6 @@ export interface paths {
             "application/json": components["schemas"]["User"];
             "text/json": components["schemas"]["User"];
           };
-        };
-      };
-    };
-  };
-  "/User/Session": {
-    get: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-    };
-  };
-  "/User/Password": {
-    post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["PasswordSetBinding"];
-          "application/json": components["schemas"]["PasswordSetBinding"];
-          "text/json": components["schemas"]["PasswordSetBinding"];
-          "application/*+json": components["schemas"]["PasswordSetBinding"];
         };
       };
     };
@@ -4295,11 +4354,6 @@ export interface components {
       | "Thursday"
       | "Friday"
       | "Saturday";
-    DecimalGroupedByMonth: {
-      data?: number;
-      month?: number;
-      year?: number;
-    };
     Domain: {
       id?: string | null;
     };
@@ -4666,6 +4720,7 @@ export interface components {
     GoogleCloudDialogflowV2QueryResult: {
       action?: string | null;
       allRequiredParamsPresent?: boolean | null;
+      cancelsSlotFilling?: boolean | null;
       diagnosticInfo?: { [key: string]: any } | null;
       fulfillmentMessages?:
         | components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][]
@@ -4765,6 +4820,12 @@ export interface components {
       month?: number;
       year?: number;
     };
+    IotDeviceDataBinding: {
+      deviceId?: string | null;
+      fieldIdentifier?: string | null;
+      value?: string | null;
+      timestamp?: string | null;
+    };
     Location: {
       latitude?: number;
       longitude?: number;
@@ -4793,9 +4854,6 @@ export interface components {
       | "MyRatingDifference"
       | "Title"
       | "Year";
-    PasswordSetBinding: {
-      password?: string | null;
-    };
     PaymentType: {
       id?: string | null;
       name?: string | null;
@@ -4830,10 +4888,6 @@ export interface components {
       arrival?: string;
       departure?: string;
       typeId?: string | null;
-    };
-    Role: {
-      id?: string | null;
-      name?: string | null;
     };
     StringDecimalKeyValuePair: {
       key?: string | null;
@@ -4872,6 +4926,7 @@ export interface components {
       timestamp?: string;
       speed?: number | null;
     };
+    TransactionSource: "Hac" | "OtpBank" | "Revolut";
     TransferWiseTransferEvent: {
       resourceId?: number;
       message?: string | null;
@@ -4906,7 +4961,6 @@ export interface components {
       lastName?: string | null;
       email?: string | null;
       username?: string | null;
-      roles?: components["schemas"]["Role"][] | null;
       modules?: string[] | null;
     };
     Vendor: {
