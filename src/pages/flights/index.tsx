@@ -12,6 +12,7 @@ import { Page } from 'pages/Page';
 import FlightModal from './flight-modal';
 import { FlightBinding } from 'types/flights';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
+import { RiTreasureMapLine } from 'react-icons/ri';
 
 enum MapMode {
     Airports,
@@ -33,7 +34,7 @@ class FlightsPage extends Page<{}, State> {
         countByAirport: [],
         filters: {
             page: 1,
-            pageSize: 100,
+            pageAll: true,
         },
         flight: {
         },

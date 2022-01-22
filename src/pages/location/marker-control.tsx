@@ -17,13 +17,13 @@ const MarkerControl = ({ tracking, onNext, onPrevious }: Props) => {
 
     return (
         <React.Fragment>
-            <Button size="sm">
+            <Button size="sm" title="Previous">
                 <MdSkipPrevious onClick={onPrevious} />
             </Button>
-            <Button size="sm">
+            <Button size="sm" title="Next">
                 <MdSkipNext onClick={onNext} />
             </Button>
-            {moment(tracking.timestamp).format('MM-DD hh:mm:ss.SSS')}
+            {moment(tracking.timestamp).format('MMM DD hh:mm:ss.SSS')}
         </React.Fragment>
     );
 };

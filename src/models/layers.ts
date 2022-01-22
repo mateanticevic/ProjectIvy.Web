@@ -5,13 +5,18 @@ import { Layer } from 'types/location';
 
 type Tracking = components['schemas']['Tracking'];
 
+export interface GeohashElement {
+    id: string,
+    rectangle: number[],
+}
+
 export class GeohashLayer implements Layer {
     id: string;
-    rectangles: number[][];
+    elements: GeohashElement[];
 
-    constructor(rectangles: number[][]){
+    constructor(elements: GeohashElement[]){
         this.id = _.uniqueId();
-        this.rectangles = rectangles;
+        this.elements = elements;
     }
 }
 

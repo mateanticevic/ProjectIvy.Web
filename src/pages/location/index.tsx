@@ -91,7 +91,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     const oldLayers = oldProps.layers;
     const newLayers = newProps.layers;
 
-    if (oldLayers.length !== newLayers.length || oldLayers.length === 0) {
+    if (oldLayers.length !== newLayers.length || oldLayers.length === 0) {
         return false;
     }
 
@@ -222,7 +222,17 @@ class LocationPage extends Page<{}, State> {
                                                 />
                                             </React.Fragment>
                                         )}
-                                        {layers.filter(layer => layer instanceof GeohashLayer).map(layer => layer as GeohashLayer).flatMap(layer => layer.rectangles).map(rectangle => <Rectangle options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }} bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }} />)}
+                                        {layers.filter(layer => layer instanceof GeohashLayer)
+                                            .map(layer => layer as GeohashLayer)
+                                            .flatMap(layer => layer.elements)
+                                            .map(element =>
+                                                <Rectangle
+                                                    key={_.uniqueId()}
+                                                    options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }}
+                                                    bounds={{ north: element.rectangle[2], south: element.rectangle[0], east: element.rectangle[3], west: element.rectangle[1] }}
+                                                    onClick={() => console.log(element.id)}
+                                                />
+                                            )}
                                         <MarkerClusterer>
                                             {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
                                                 layer.path.map(point =>
@@ -326,7 +336,13 @@ class LocationPage extends Page<{}, State> {
 
         api.geohash.get(filters)
             .then(hashes => {
-                const layer = new GeohashLayer(hashes.map(hash => geohash.decode_bbox(hash)));
+                const elements = hashes.map(hash => {
+                    return {
+                        id: hash,
+                        rectangle: geohash.decode_bbox(hash),
+                    };
+                });
+                const layer = new GeohashLayer(elements);
                 this.setState({
                     layers: [
                         ...this.state.layers,
