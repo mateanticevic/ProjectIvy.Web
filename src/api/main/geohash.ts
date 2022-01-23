@@ -3,8 +3,11 @@ import { GeohashFilters } from 'types/geohash';
 
 const get = (filters: GeohashFilters) => api.get('geohash', filters);
 
+const getSingle = (id: string) => api.get(`geohash/${id}`);
+
 const geohash = {
-    get
+    get,
+    getSingle,
 };
 
 export default geohash;

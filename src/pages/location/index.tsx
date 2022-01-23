@@ -14,13 +14,14 @@ import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
-import { Layer } from 'types/location';
+import { GeohashItem, Layer } from 'types/location';
 import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import GeohashSettings from './geohash-settings';
 import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
+import GeohashInfo from './geohash-info';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -39,6 +40,7 @@ interface State {
     mapZoom: number,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
+    selectedGeohashItems: GeohashItem[],
 }
 
 enum DateMode {
@@ -123,6 +125,7 @@ class LocationPage extends Page<{}, State> {
         mapZoom: 13,
         polygonLayers: [],
         requestActive: false,
+        selectedGeohashItems: [],
     }
 
     componentDidMount() {
@@ -132,7 +135,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive, selectedGeohashItems } = this.state;
 
         const isMapReady = !!last;
 
@@ -187,7 +190,7 @@ class LocationPage extends Page<{}, State> {
                     </Col>
                     <Col lg={9}>
                         <Card>
-                            <Card.Header>Map</Card.Header>
+                            <Card.Header>Map2</Card.Header>
                             <Card.Body className="padding-0 panel-large">
                                 {isMapReady &&
                                     <Map
@@ -230,9 +233,17 @@ class LocationPage extends Page<{}, State> {
                                                     key={_.uniqueId()}
                                                     options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }}
                                                     bounds={{ north: element.rectangle[2], south: element.rectangle[0], east: element.rectangle[3], west: element.rectangle[1] }}
-                                                    onClick={() => console.log(element.id)}
+                                                    onClick={() => this.onSelectGeohash(element.id)}
                                                 />
                                             )}
+                                        {/* {selectedGeohashItems.map(geohashItem =>
+                                            <Rectangle
+                                                key={_.uniqueId()}
+                                                options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }}
+                                                bounds={{ north: geohashItem.geohash.rectangle[2], south: element.rectangle[0], east: element.rectangle[3], west: element.rectangle[1] }}
+                                                onClick={() => this.onSelectGeohash(element.id)}
+                                            />
+                                        )} */}
                                         <MarkerClusterer>
                                             {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
                                                 layer.path.map(point =>
@@ -264,6 +275,9 @@ class LocationPage extends Page<{}, State> {
                                 onStartMarkerMoved={tracking => this.onStartMarkerMoved(layer, tracking)}
                                 onShowPointsToggle={this.onPointsShow}
                             />
+                        )}
+                        {selectedGeohashItems.map(geohash =>
+                            <GeohashInfo key={_.uniqueId()} geohash={geohash} />
                         )}
                     </Col>
                 </Row>
@@ -399,6 +413,16 @@ class LocationPage extends Page<{}, State> {
             updatedLayer,
         ];
         this.setState({ polygonLayers });
+    }
+
+    onSelectGeohash = async (id: string) => {
+        const geohashItem = {
+            geohash: await api.geohash.getSingle(id)
+        } as GeohashItem;
+
+        this.setState({
+            selectedGeohashItems: [...this.state.selectedGeohashItems, geohashItem]
+        });
     }
 
     onStartMarkerMoved = (layer: PolygonLayer, startTracking: Tracking) => {
