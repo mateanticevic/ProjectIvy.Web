@@ -12,6 +12,15 @@ import TableWithSpinner from 'components/TableWithSpinner';
 import { Page } from '../Page';
 import TripModal from './TripModal';
 import TripRow from './TripRow';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import moment from 'moment';
+
+import { components } from 'types/ivy-types';
+import { PagedList } from 'types/common';
+import _ from 'lodash';
+import YearTrips from './year-trips';
+
+type Trip = components['schemas']['Trip'];
 
 interface State {
     countries: [];
@@ -20,7 +29,7 @@ interface State {
     isModalOpen: boolean;
     lists: CountryListVisited[];
     trip: TripBinding;
-    trips: any;
+    trips: PagedList<Trip>;
     tripIsBeingAdded: boolean;
     tripsAreLoading: boolean;
 }
@@ -59,6 +68,12 @@ class TripsPage extends Page<{}, State> {
         const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded } = this.state;
 
         const chartData = countriesVisited.map(x => [x.name]);
+
+        const tripsByYear = _.groupBy(trips.items, trip => {
+            const date = moment(trip.timestampStart);
+            return date > moment() ? 'Planned' : date.year();
+        });
+        const years = Object.keys(tripsByYear).sort().reverse();
 
         return (
             <Container>
@@ -116,7 +131,7 @@ class TripsPage extends Page<{}, State> {
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
-                                <Card>
+{/*                                 <Card>
                                     <Card.Header>
                                         <Row>
                                             <Col xs={10}>Trips ({trips.count})</Col>
@@ -128,7 +143,7 @@ class TripsPage extends Page<{}, State> {
                                                     onClick={() => this.setState({ isModalOpen: true })}
                                                 >
                                                     <FaPlus /> New
-                                              </Button>
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </Card.Header>
@@ -150,7 +165,21 @@ class TripsPage extends Page<{}, State> {
                                             </Col>
                                         </Row>
                                     </Card.Body>
-                                </Card>
+                                </Card> */}
+                                <InfiniteScroll
+                                    dataLength={trips.items.length}
+                                    next={this.getNextPage}
+                                    hasMore={filters.page * filters.pageSize < trips.count}
+                                    loader={<h4>Loading...</h4>}
+                                >
+                                    {years.map((year, index) =>
+                                        <YearTrips
+                                            key={year}
+                                            year={year}
+                                            trips={tripsByYear[year]}
+                                        />
+                                    )}
+                                </InfiniteScroll>
                             </Col>
                         </Row>
                     </Col>
@@ -188,6 +217,12 @@ class TripsPage extends Page<{}, State> {
         );
     }
 
+    getNextPage = () => {
+        this.onFiltersChanged({
+            page: this.state.filters.page + 1,
+        });
+    }
+
     loadCities = (inputValue, callback) => {
         api.city
             .get({ search: inputValue })
@@ -211,7 +246,10 @@ class TripsPage extends Page<{}, State> {
         api.trip
             .get(filters)
             .then(trips => this.setState({
-                trips,
+                trips: {
+                    count: trips.count,
+                    items: [...this.state.trips.items, ...trips.items],
+                },
                 tripsAreLoading: false,
             }));
 
