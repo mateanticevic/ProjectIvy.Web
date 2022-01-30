@@ -9,6 +9,8 @@ function getById(tripId: string) {
     return api.get(`trip/${tripId}`);
 }
 
+const getDaysByYear = () => api.get('trip/days/byyear');
+
 function deleteExpense(tripId: string, expenseId: string) {
     return api.del(`trip/${tripId}/expense/${expenseId}`);
 }
@@ -27,6 +29,7 @@ const trip = {
     deleteExpense,
     get,
     getById,
+    getDaysByYear,
     post,
     postExpense,
     postPoi,

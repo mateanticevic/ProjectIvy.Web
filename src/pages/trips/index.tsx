@@ -7,7 +7,7 @@ import { Chart } from 'react-google-charts';
 
 import api from 'api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
-import { DateFormElement, FlagIcon, Pagination } from 'components';
+import { DateFormElement, DistributionCard, FlagIcon, Pagination } from 'components';
 import TableWithSpinner from 'components/TableWithSpinner';
 import { Page } from '../Page';
 import TripModal from './TripModal';
@@ -25,6 +25,7 @@ type Trip = components['schemas']['Trip'];
 interface State {
     countries: [];
     countriesVisited: [];
+    daysByYear: any;
     filters: TripFilters;
     isModalOpen: boolean;
     lists: CountryListVisited[];
@@ -39,6 +40,7 @@ class TripsPage extends Page<{}, State> {
     state: State = {
         countries: [],
         countriesVisited: [],
+        daysByYear: [],
         filters: {
             pageSize: 10,
             page: 1,
@@ -60,6 +62,9 @@ class TripsPage extends Page<{}, State> {
             .getAll()
             .then(countries => this.setState({ countries: countries.items }));
         this.onFiltersChanged();
+
+        api.trip.getDaysByYear()
+            .then(daysByYear => this.setState({ daysByYear }));
 
         this.loadVisited();
     }
@@ -203,6 +208,11 @@ class TripsPage extends Page<{}, State> {
                                 )}
                             </Card.Body>
                         </Card>
+                        <DistributionCard
+                            data={this.state.daysByYear}
+                            name="Days"
+                            unit=" days"
+                        />
                     </Col>
                 </Row>
                 <TripModal

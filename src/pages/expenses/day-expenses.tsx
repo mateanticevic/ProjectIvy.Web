@@ -18,7 +18,7 @@ const DayExpenses = ({ day, expenses, nestedComponent, onExpenseClick }: Props) 
         <React.Fragment>
             <div>
                 <h2>{formatDate(day)}</h2>
-                {nestedComponent && nestedComponent()}
+                {/* {nestedComponent && nestedComponent()} */}
             </div>
             {expenses.map(expense =>
                 <ExpenseItem

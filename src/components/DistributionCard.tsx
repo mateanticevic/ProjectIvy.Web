@@ -7,7 +7,7 @@ import { Unit } from '../consts/units';
 import { GroupByTime } from '../consts/groupings';
 
 const remap = (data) => {
-    if (!data){
+    if (!data) {
         return data;
     }
 
@@ -39,6 +39,8 @@ const unitMapping = {
 interface Props {
     unit?: string;
     unitType?: Unit;
+    countByOptions?(): void;
+    onGroupByChange?(): void;
 }
 
 export const DistributionCard = ({ countByOptions, data, name, unit, unitType, onGroupByChange }: Props) => {
@@ -61,15 +63,15 @@ export const DistributionCard = ({ countByOptions, data, name, unit, unitType, o
         [GroupByTime.ByMonthOfYear]: (key) => moment(key).format('MMM YYYY'),
     };
 
-    const [groupByOption, setGroupByOption] = React.useState(countByOptions[0].value);
+    const [groupByOption, setGroupByOption] = React.useState(countByOptions ? countByOptions[0].value : null);
 
     const groupByChange = (groupBy) => {
         setGroupByOption(groupBy);
-        onGroupByChange(groupBy);
+        onGroupByChange && onGroupByChange(groupBy);
     };
 
     let df = applyUnitFormatting(remap(data));
-    if (applyKeyFormatting[groupByOption]){
+    if (applyKeyFormatting[groupByOption]) {
         df = df.map(x => {
             return {
                 key: applyKeyFormatting[groupByOption](x.key),
@@ -90,10 +92,12 @@ export const DistributionCard = ({ countByOptions, data, name, unit, unitType, o
                 />
             </Card.Body>
             <Card.Footer>
-                <RadioLabel
-                    options={countByOptions}
-                    onSelect={groupByChange}
-                />
+                {countByOptions &&
+                    <RadioLabel
+                        options={countByOptions}
+                        onSelect={groupByChange}
+                    />
+                }
             </Card.Footer>
         </Card>
     );
