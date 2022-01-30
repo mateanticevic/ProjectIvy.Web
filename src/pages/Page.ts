@@ -5,7 +5,10 @@ import * as urlHelper from 'utils/url-helper';
 export class Page<TProps, TState> extends React.Component<TProps, TState> {
 
     public pushHistoryState(filters) {
-        window.history.pushState(null, null, window.location.pathname + '?' + urlHelper.jsonToQueryString(filters));
+        const queryString = urlHelper.jsonToQueryString(filters);
+        const state = queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+        
+        window.history.pushState(null, null, state);
     }
 
     public resolveFilters(filters, filterValue) {

@@ -131,7 +131,7 @@ class TripsPage extends Page<{}, State> {
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
-{/*                                 <Card>
+                                {/*                                 <Card>
                                     <Card.Header>
                                         <Row>
                                             <Col xs={10}>Trips ({trips.count})</Col>
@@ -237,11 +237,16 @@ class TripsPage extends Page<{}, State> {
 
     onFiltersChanged = (filterValue?) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
+
+        const state = { ...filters };
+        delete state.page;
+        delete state.pageSize;
+
         this.setState({
             filters,
             tripsAreLoading: true,
         });
-        this.pushHistoryState(filters);
+        this.pushHistoryState(state);
 
         api.trip
             .get(filters)

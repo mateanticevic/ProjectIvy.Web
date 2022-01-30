@@ -341,7 +341,7 @@ class ExpensesPage extends Page<{}, State> {
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
         let filters = this.resolveFilters(this.state.filters, changedFilters);
 
-        const state = {...filters};
+        const state = { ...filters };
         delete state.page;
         delete state.pageSize;
 

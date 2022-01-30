@@ -8,7 +8,7 @@ export { default as SimpleBarChart } from './SimpleBarChart';
 export { SimpleLineChart } from './SimpleLineChart';
 export { SimpleScatterChart } from './SimpleScatterChart';
 export { default as Map } from './Map';
-export { default as NavigationBar } from './NavigationBar';
+export { default as NavigationBar } from './navigation-bar';
 export { default as Select } from './Select';
 export { default as ValueLabel } from './ValueLabel';
 export { default as Widget } from './Widget';
