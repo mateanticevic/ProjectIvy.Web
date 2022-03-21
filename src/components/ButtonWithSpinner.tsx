@@ -8,7 +8,6 @@ interface Props {
 
 const ButtonWithSpinner = ({ children, isLoading, onClick }: React.PropsWithChildren<Props>) =>
     <Button
-        block
         disabled={!!isLoading}
         type="submit"
         variant="primary"
