@@ -1,13 +1,16 @@
 import React from 'react';
 import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';
 import { Range } from 'rc-slider';
-import { PolygonLayer } from 'models/layers';
-import { Tracking } from 'pages/tracking/types';
 import moment from 'moment';
-import MarkerControl from './marker-control';
 import { AiOutlineScissor } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
+
+import { components } from 'types/ivy-types';
+import MarkerControl from './marker-control';
+import { PolygonLayer } from 'models/layers';
+
+type Tracking = components['schemas']['Tracking'];
 
 interface Props {
     layer: PolygonLayer,
