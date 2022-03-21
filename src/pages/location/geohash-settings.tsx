@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import 'rc-slider/assets/index.css';
 import { Range } from 'rc-slider';
 import { Form, FormGroup, FormLabel } from 'react-bootstrap';
@@ -34,7 +34,7 @@ const presets = {
 const GeohashSettings = ({ precision, search, zoom, onPrecisionChange, onSearchChange }: Props) => {
 
     const [autoEnabled, setAutoEnabled] = React.useState(true);
-    useEffect(() => {
+    React.useEffect(() => {
         if (autoEnabled) {
             onPrecisionChange(presets[zoom].precision);
             onSearchChange(presets[zoom].search);
