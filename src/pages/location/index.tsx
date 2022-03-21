@@ -8,6 +8,7 @@ import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
 import moment from 'moment';
 import _ from 'lodash';
+import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 
 import { Page } from 'pages/Page';
 import { DateFormElement, Map, Select } from 'components';
@@ -24,8 +25,6 @@ import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
 
 type Tracking = components['schemas']['Tracking'];
-
-const { MarkerClusterer } = require('react-google-maps/lib/components/addons/MarkerClusterer');
 
 interface State {
     dateMode: DateMode,
