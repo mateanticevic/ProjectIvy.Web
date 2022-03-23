@@ -1,17 +1,14 @@
 import React from 'react';
-import { Button, Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar } from 'react-bootstrap';
+import { Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar, Button } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
-import { FaPlus } from 'react-icons/fa';
 import { Chart } from 'react-google-charts';
 
 import api from 'api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
-import { DateFormElement, DistributionCard, FlagIcon, Pagination } from 'components';
-import TableWithSpinner from 'components/TableWithSpinner';
+import { DateFormElement, DistributionCard, FlagIcon } from 'components';
 import { Page } from '../Page';
 import TripModal from './TripModal';
-import TripRow from './TripRow';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
 
@@ -132,6 +129,14 @@ class TripsPage extends Page<{}, State> {
                                 </FormGroup>
                             </Card.Body>
                         </Card>
+                        <div className="form-grid">
+                            <Button
+                                size="sm"
+                                variant="primary"
+                                onClick={() => this.setState({ isModalOpen: true })}>
+                                New
+                            </Button>
+                        </div>
                     </Col>
                     <Col lg={6}>
                         <Row>
