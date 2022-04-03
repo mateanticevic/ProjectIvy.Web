@@ -73,21 +73,6 @@ interface PolygonProps {
     layers: PolygonLayer[];
 }
 
-const Polygons = ({ layers }: PolygonProps) =>
-    <React.Fragment>
-        {layers.filter(layer => layer.showPoints)
-            .map(layer => {
-                return layer.trackings.map(tracking =>
-                    <Marker
-                        key={_.uniqueId()}
-                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
-                        position={trackingToLatLng(tracking)}
-                        onClick={() => this.selectTracking(tracking)}
-                    />
-                );
-            })}
-    </React.Fragment>;
-
 const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     const oldLayers = oldProps.layers;
     const newLayers = newProps.layers;
@@ -106,8 +91,6 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     }
     return true;
 };
-
-const PolygonsMemo = React.memo(Polygons, areLayersEqual);
 
 class LocationPage extends Page<{}, State> {
 
@@ -189,7 +172,7 @@ class LocationPage extends Page<{}, State> {
                     </Col>
                     <Col lg={9}>
                         <Card>
-                            <Card.Header>Map2</Card.Header>
+                            <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-large">
                                 {isMapReady &&
                                     <Map
@@ -205,7 +188,7 @@ class LocationPage extends Page<{}, State> {
                                                 path={trackingsToLatLng(layer.trackings)}
                                             />
                                         )}
-                                        <PolygonsMemo layers={polygonLayers} />
+                                        <this.renderPointsMemoized layers={polygonLayers} />
                                         {layers.filter(layer => layer instanceof TrackingLayer).map(layer => layer as TrackingLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
@@ -435,6 +418,23 @@ class LocationPage extends Page<{}, State> {
         ];
         this.setState({ polygonLayers });
     }
+
+    renderPoints = ({ layers }: PolygonProps) =>
+        <React.Fragment>
+            {layers.filter(layer => layer.showPoints)
+                .map(layer => {
+                    return layer.trackings.map(tracking =>
+                        <Marker
+                            key={_.uniqueId()}
+                            icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                            position={trackingToLatLng(tracking)}
+                            onClick={() => this.deleteTracking(layer, tracking)}
+                        />
+                    );
+                })}
+        </React.Fragment>;
+
+    renderPointsMemoized = React.memo(this.renderPoints, areLayersEqual);
 
     selectTracking = (tracking: Tracking) => {
         const layer = new TrackingLayer(tracking);

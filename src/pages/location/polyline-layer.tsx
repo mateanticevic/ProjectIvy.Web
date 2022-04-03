@@ -67,12 +67,16 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                     value={[startIndex, endIndex]}
                 />
                 <MarkerControl
+                    nextExists={endIndex - startIndex > 1}
+                    previousExists={startIndex > 0}
                     tracking={layer.startTracking}
                     onNext={() => onChange(startIndex + 1, endIndex)}
                     onPrevious={() => onChange(startIndex - 1, endIndex)}
                 />
                 <div className="pull-right">
                     <MarkerControl
+                        nextExists={layer.trackings.length > endIndex + 1}
+                        previousExists={endIndex - startIndex > 1}
                         tracking={layer.endTracking}
                         onNext={() => onChange(startIndex, endIndex + 1)}
                         onPrevious={() => onChange(startIndex, endIndex - 1)}

@@ -8,20 +8,32 @@ import { components } from 'types/ivy-types';
 type Tracking = components['schemas']['Tracking'];
 
 interface Props {
+    nextExists: boolean;
+    previousExists: boolean;
     tracking: Tracking;
     onNext(): void;
     onPrevious(): void;
 }
 
-const MarkerControl = ({ tracking, onNext, onPrevious }: Props) => {
+const MarkerControl = ({ tracking, onNext, onPrevious, previousExists, nextExists }: Props) => {
 
     return (
         <React.Fragment>
-            <Button size="sm" title="Previous">
-                <MdSkipPrevious onClick={onPrevious} />
+            <Button
+                disabled={!previousExists}
+                size="sm"
+                title="Previous"
+                onClick={onPrevious}
+            >
+                <MdSkipPrevious />
             </Button>
-            <Button size="sm" title="Next">
-                <MdSkipNext onClick={onNext} />
+            <Button
+                disabled={!nextExists}
+                size="sm"
+                title="Next"
+                onClick={onNext}
+            >
+                <MdSkipNext />
             </Button>
             {moment(tracking.timestamp).format('MMM DD hh:mm:ss.SSS')}
         </React.Fragment>
