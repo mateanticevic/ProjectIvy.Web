@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Col, Container, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
-import { GoogleMap, Marker, Polyline, Rectangle } from 'react-google-maps';
+import { GoogleMap, InfoWindow, Marker, Polyline, Rectangle } from 'react-google-maps';
 import { MdLocationOn, MdToday } from 'react-icons/md';
 import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
@@ -85,6 +85,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
         const oldPolygonLayer = oldLayers[i];
         const newPolygonLayer = newLayers[i];
         if (oldPolygonLayer.showPoints !== newPolygonLayer.showPoints
+            || oldPolygonLayer.showStops !== newPolygonLayer.showStops
             || oldPolygonLayer.trackings.length !== newPolygonLayer.trackings.length) {
             return false;
         }
@@ -189,6 +190,7 @@ class LocationPage extends Page<{}, State> {
                                             />
                                         )}
                                         <this.renderPointsMemoized layers={polygonLayers} />
+                                        <this.renderStopsMemoized layers={polygonLayers} />
                                         {layers.filter(layer => layer instanceof TrackingLayer).map(layer => layer as TrackingLayer).map(layer =>
                                             <Marker
                                                 key={layer.id}
@@ -256,6 +258,7 @@ class LocationPage extends Page<{}, State> {
                                 onClip={() => this.onPolygonClip(layer)}
                                 onStartMarkerMoved={tracking => this.onStartMarkerMoved(layer, tracking)}
                                 onShowPointsToggle={this.onPointsShow}
+                                onShowStopsToggle={this.onStopsShow}
                             />
                         )}
                         {selectedGeohashItems.map(geohash =>
@@ -418,6 +421,38 @@ class LocationPage extends Page<{}, State> {
         ];
         this.setState({ polygonLayers });
     }
+
+    onStopsShow = (layer: PolygonLayer, showStops: boolean) => {
+        const updatedLayer = {
+            ...layer,
+            showStops,
+        } as PolygonLayer;
+        const polygonLayers = [
+            ...this.state.polygonLayers.filter(x => x != layer),
+            updatedLayer,
+        ];
+        this.setState({ polygonLayers });
+    }
+
+    renderStops = ({ layers }: PolygonProps) =>
+        <React.Fragment>
+            {layers.filter(layer => layer.showStops)
+                .map(layer => {
+                    return layer.stops.map(stop =>
+                        <Marker
+                            key={_.uniqueId()}
+                            icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                            position={stop.latLng}
+                        >
+                            <InfoWindow>
+                                <div>{`${stop.start.format('HH:mm')} - ${stop.end.format('HH:mm')}`}</div>
+                            </InfoWindow>
+                        </Marker>
+                    );
+                })}
+        </React.Fragment>;
+
+    renderStopsMemoized = React.memo(this.renderStops, areLayersEqual);
 
     renderPoints = ({ layers }: PolygonProps) =>
         <React.Fragment>

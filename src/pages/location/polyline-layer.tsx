@@ -18,9 +18,10 @@ interface Props {
     onEndMarkerMoved(tracking: Tracking): void,
     onStartMarkerMoved(tracking: Tracking): void,
     onShowPointsToggle(layer: PolygonLayer, show: boolean): void,
+    onShowStopsToggle(layer: PolygonLayer, show: boolean): void,
 }
 
-const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, onStartMarkerMoved }: Props) => {
+const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -44,19 +45,33 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
     return (
         <Card>
             <Card.Body>
-                <Button size="sm" onClick={onClip}>
+                <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
                 </Button>
+                &nbsp;
                 <ButtonGroup size="sm">
                     <ToggleButton
-                        id="toggle-check"
+                        id="toggle-points"
                         type="checkbox"
-                        variant="secondary"
+                        variant="primary"
                         checked={layer.showPoints}
                         value="1"
                         onChange={e => onShowPointsToggle(layer, e.currentTarget.checked)}
                     >
-                        <MdLocationOn /> Trackings
+                        <MdLocationOn /> Points
+                    </ToggleButton>
+                </ButtonGroup>
+                &nbsp;
+                <ButtonGroup size="sm">
+                    <ToggleButton
+                        id="toggle-stops"
+                        type="checkbox"
+                        variant="primary"
+                        checked={layer.showStops}
+                        value="2"
+                        onChange={e => onShowStopsToggle(layer, e.currentTarget.checked)}
+                    >
+                        <BiStopwatch /> Stops
                     </ToggleButton>
                 </ButtonGroup>
                 <Range

@@ -27,6 +27,7 @@ const MarkerControl = ({ tracking, onNext, onPrevious, previousExists, nextExist
             >
                 <MdSkipPrevious />
             </Button>
+            &nbsp;
             <Button
                 disabled={!nextExists}
                 size="sm"
@@ -35,6 +36,7 @@ const MarkerControl = ({ tracking, onNext, onPrevious, previousExists, nextExist
             >
                 <MdSkipNext />
             </Button>
+            &nbsp;
             {moment(tracking.timestamp).format('MMM DD hh:mm:ss.SSS')}
         </React.Fragment>
     );
