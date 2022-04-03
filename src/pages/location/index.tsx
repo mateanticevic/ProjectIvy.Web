@@ -389,14 +389,15 @@ class LocationPage extends Page<{}, State> {
     }
 
     onPointsShow = (layer: PolygonLayer, showPoints: boolean) => {
+        console.log(layer.id);
         const updatedLayer = {
             ...layer,
             showPoints,
         } as PolygonLayer;
-        const polygonLayers = [
-            ...this.state.polygonLayers.filter(x => x != layer),
-            updatedLayer,
-        ];
+
+        const polygonLayers = [...this.state.polygonLayers];
+        polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
+
         this.setState({ polygonLayers });
     }
 
@@ -427,10 +428,10 @@ class LocationPage extends Page<{}, State> {
             ...layer,
             showStops,
         } as PolygonLayer;
-        const polygonLayers = [
-            ...this.state.polygonLayers.filter(x => x != layer),
-            updatedLayer,
-        ];
+
+        const polygonLayers = [...this.state.polygonLayers];
+        polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
+
         this.setState({ polygonLayers });
     }
 

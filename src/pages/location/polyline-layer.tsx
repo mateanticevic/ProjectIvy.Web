@@ -9,6 +9,7 @@ import { BiStopwatch } from 'react-icons/bi';
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
+import { uniqueId } from 'lodash';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -51,9 +52,9 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 &nbsp;
                 <ButtonGroup size="sm">
                     <ToggleButton
-                        id="toggle-points"
+                        id={`toggle-points-${layer.id}`}
                         type="checkbox"
-                        variant="primary"
+                        variant="secondary"
                         checked={layer.showPoints}
                         value="1"
                         onChange={e => onShowPointsToggle(layer, e.currentTarget.checked)}
@@ -64,9 +65,9 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 &nbsp;
                 <ButtonGroup size="sm">
                     <ToggleButton
-                        id="toggle-stops"
+                        id={`toggle-stops-${layer.id}`}
                         type="checkbox"
-                        variant="primary"
+                        variant="secondary"
                         checked={layer.showStops}
                         value="2"
                         onChange={e => onShowStopsToggle(layer, e.currentTarget.checked)}
