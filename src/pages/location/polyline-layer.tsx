@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';
 import { Range } from 'rc-slider';
 import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
 import { AiOutlineScissor } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
@@ -9,7 +10,8 @@ import { BiStopwatch } from 'react-icons/bi';
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
-import { uniqueId } from 'lodash';
+
+momentDurationFormatSetup(moment);
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -100,7 +102,7 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 </div>
                 <div>
                     <BiStopwatch title="Time between trackings" />
-                    {moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp), 'minutes')}m
+                    {moment.duration(moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp))).format()}
                 </div>
             </Card.Body>
         </Card>

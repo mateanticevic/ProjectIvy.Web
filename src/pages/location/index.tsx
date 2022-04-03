@@ -127,7 +127,7 @@ class LocationPage extends Page<{}, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Draw</Card.Header>
+                            <Card.Header>Draw2</Card.Header>
                             <Card.Body>
                                 <FormGroup>
                                     <ToggleButtonGroup type="radio" name="options" value={dateMode} onChange={dateMode => this.setState({ dateMode })}>
@@ -254,11 +254,11 @@ class LocationPage extends Page<{}, State> {
                             <PolylineLayer
                                 key={layer.id}
                                 layer={layer}
-                                onEndMarkerMoved={tracking => this.onEndMarkerMoved(layer, tracking)}
+                                onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
-                                onStartMarkerMoved={tracking => this.onStartMarkerMoved(layer, tracking)}
-                                onShowPointsToggle={this.onPointsShow}
-                                onShowStopsToggle={this.onStopsShow}
+                                onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
+                                onShowPointsToggle={() => this.onLayerUpdated(layer, { showPoints: !layer.showPoints })}
+                                onShowStopsToggle={() => this.onLayerUpdated(layer, { showStops: !layer.showStops })}
                             />
                         )}
                         {selectedGeohashItems.map(geohash =>
@@ -364,35 +364,19 @@ class LocationPage extends Page<{}, State> {
         }
     }
 
-    onEndMarkerMoved = (layer: PolygonLayer, endTracking: Tracking) => {
-        const updatedLayer = {
-            ...layer,
-            endTracking,
-        } as PolygonLayer;
-        const polygonLayers = [
-            ...this.state.polygonLayers,
-            updatedLayer,
-        ];
-        this.setState({ polygonLayers });
-    }
-
     onPolygonClip = (layer: PolygonLayer) => {
         const updatedLayer = {
             ...layer,
             trackings: layer.trackings.slice(layer.trackings.indexOf(layer.startTracking), layer.trackings.indexOf(layer.endTracking)),
         } as PolygonLayer;
-        const polygonLayers = [
-            ...this.state.polygonLayers.filter(x => x !== layer),
-            updatedLayer,
-        ];
-        this.setState({ polygonLayers });
+
+        this.onLayerUpdated(layer, updatedLayer);
     }
 
-    onPointsShow = (layer: PolygonLayer, showPoints: boolean) => {
-        console.log(layer.id);
+    onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {
         const updatedLayer = {
             ...layer,
-            showPoints,
+            ...updated,
         } as PolygonLayer;
 
         const polygonLayers = [...this.state.polygonLayers];
@@ -409,30 +393,6 @@ class LocationPage extends Page<{}, State> {
         this.setState({
             selectedGeohashItems: [...this.state.selectedGeohashItems, geohashItem]
         });
-    }
-
-    onStartMarkerMoved = (layer: PolygonLayer, startTracking: Tracking) => {
-        const updatedLayer = {
-            ...layer,
-            startTracking,
-        } as PolygonLayer;
-        const polygonLayers = [
-            ...this.state.polygonLayers.filter(x => x != layer),
-            updatedLayer,
-        ];
-        this.setState({ polygonLayers });
-    }
-
-    onStopsShow = (layer: PolygonLayer, showStops: boolean) => {
-        const updatedLayer = {
-            ...layer,
-            showStops,
-        } as PolygonLayer;
-
-        const polygonLayers = [...this.state.polygonLayers];
-        polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
-
-        this.setState({ polygonLayers });
     }
 
     renderStops = ({ layers }: PolygonProps) =>
