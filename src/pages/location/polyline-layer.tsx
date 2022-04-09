@@ -7,6 +7,7 @@ import { AiOutlineScissor } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
 import { ImRoad } from 'react-icons/im';
+import { RiPinDistanceFill } from 'react-icons/ri';
 
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
@@ -47,14 +48,21 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
         onStartMarkerMoved(layer.startTracking);
     };
 
-    let distance = 0;
-    for (let i = 0; i < layer.trackings.length - 1; i++) {
-        const a = trackingToLatLng(layer.trackings[i]);
-        const b = trackingToLatLng(layer.trackings[i + 1]);
-        distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
+    const getDistanceBetweenTrackings = (from: number, to: number) => {
+        let distance = 0;
+        for (let i = from; i < to - 1; i++) {
+            const a = trackingToLatLng(layer.trackings[i]);
+            const b = trackingToLatLng(layer.trackings[i + 1]);
+            distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
+        }
+        return distance;
     }
 
-    const distanceFormat = distance > 1000 ? `${Math.round(distance/1000)}km` : `${Math.round(distance)}m`;
+    const distance = getDistanceBetweenTrackings(0, layer.trackings.length);
+    const distanceFormatted = distance > 1000 ? `${Math.round(distance / 1000)}km` : `${Math.round(distance)}m`;
+
+    const distanceBetweenMarkers = getDistanceBetweenTrackings(startIndex, endIndex);
+    const distanceBetweenMarkersFormatted = distanceBetweenMarkers > 1000 ? `${Math.round(distanceBetweenMarkers / 1000)}km` : `${Math.round(distanceBetweenMarkers)}m`;
 
     return (
         <Card>
@@ -117,7 +125,11 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 </div>
                 <div>
                     <ImRoad />
-                    &nbsp;{distanceFormat}
+                    &nbsp;{distanceFormatted}
+                </div>
+                <div>
+                    <RiPinDistanceFill />
+                    &nbsp;{distanceBetweenMarkersFormatted}
                 </div>
             </Card.Body>
         </Card>
