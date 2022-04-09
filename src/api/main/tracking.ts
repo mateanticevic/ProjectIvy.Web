@@ -3,7 +3,7 @@ import * as api from '../config';
 
 type Tracking = components['schemas']['Tracking'];
 
-const del = (timestamp: number) => api.del(`tracking/${timestamp}`);
+const del = (timestamp: string) => api.del(`tracking/${timestamp}`);
 
 function get(filters) {
     return api.get('tracking', filters);

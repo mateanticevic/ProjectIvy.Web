@@ -6,10 +6,12 @@ import momentDurationFormatSetup from 'moment-duration-format';
 import { AiOutlineScissor } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
+import { ImRoad } from 'react-icons/im';
 
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
+import { trackingToLatLng } from 'utils/gmap-helper';
 
 momentDurationFormatSetup(moment);
 
@@ -44,6 +46,15 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
         onEndMarkerMoved(layer.endTracking);
         onStartMarkerMoved(layer.startTracking);
     };
+
+    let distance = 0;
+    for (let i = 0; i < layer.trackings.length - 1; i++) {
+        const a = trackingToLatLng(layer.trackings[i]);
+        const b = trackingToLatLng(layer.trackings[i + 1]);
+        distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
+    }
+
+    const distanceFormat = distance > 1000 ? `${Math.round(distance/1000)}km` : `${Math.round(distance)}m`;
 
     return (
         <Card>
@@ -102,7 +113,11 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 </div>
                 <div>
                     <BiStopwatch title="Time between trackings" />
-                    {moment.duration(moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp))).format()}
+                    &nbsp;{moment.duration(moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp))).format()}
+                </div>
+                <div>
+                    <ImRoad />
+                    &nbsp;{distanceFormat}
                 </div>
             </Card.Body>
         </Card>
