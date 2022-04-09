@@ -290,17 +290,7 @@ class LocationPage extends Page<{}, State> {
     deleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
         api.tracking.del(moment.utc(tracking.timestamp).format('x'))
             .then(() => {
-                const updatedLayer = {
-                    ...layer,
-                    trackings: layer.trackings.filter(x => x != tracking)
-                };
-                const layers = [
-                    ...this.state.layers.filter(x => x != layer).map(layer => layer as PolygonLayer),
-                    updatedLayer as PolygonLayer,
-                ];
-                this.setState({
-                    layers
-                });
+                this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
             });
     }
 
