@@ -50,7 +50,7 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
 
     const getDistanceBetweenTrackings = (from: number, to: number) => {
         let distance = 0;
-        for (let i = from; i < to - 1; i++) {
+        for (let i = from; i < (to > layer.trackings.length ? layer.trackings.length : to) - 1; i++) {
             const a = trackingToLatLng(layer.trackings[i]);
             const b = trackingToLatLng(layer.trackings[i + 1]);
             distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
