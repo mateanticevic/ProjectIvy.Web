@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Container, FormGroup, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Card, Col, Container, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
 import { GoogleMap, InfoWindow, Marker, Polyline, Rectangle } from 'react-google-maps';
@@ -7,6 +7,7 @@ import { MdLocationOn, MdToday } from 'react-icons/md';
 import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
 import moment from 'moment';
+import mtz from 'moment-timezone';
 import _ from 'lodash';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 
@@ -23,6 +24,7 @@ import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
+import ReactSelect from 'react-select';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -40,6 +42,7 @@ interface State {
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
     selectedGeohashItems: GeohashItem[],
+    timezone?: string,
 }
 
 enum DateMode {
@@ -108,7 +111,7 @@ class LocationPage extends Page<{}, State> {
         mapZoom: 13,
         polygonLayers: [],
         requestActive: false,
-        selectedGeohashItems: [],
+        selectedGeohashItems: []
     }
 
     componentDidMount() {
@@ -118,7 +121,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive, selectedGeohashItems } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -162,6 +165,13 @@ class LocationPage extends Page<{}, State> {
                                         onSearchChange={geohashSearch => this.setState({ geohashSearch })}
                                     />
                                 }
+                                <FormGroup>
+                                    <FormLabel>Timezone</FormLabel>
+                                    <ReactSelect
+                                        options={mtz?.tz?.names()?.map(tz => { return { value: tz, label: tz } }) ?? []}
+                                        onChange={option => this.setState({ timezone: option.value })}
+                                    />
+                                </FormGroup>
                                 <ButtonWithSpinner
                                     isLoading={requestActive}
                                     onClick={this.draw}
@@ -254,6 +264,7 @@ class LocationPage extends Page<{}, State> {
                             <PolylineLayer
                                 key={layer.id}
                                 layer={layer}
+                                timezone={timezone}
                                 onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
                                 onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
@@ -301,7 +312,13 @@ class LocationPage extends Page<{}, State> {
             return this.drawGeohash();
         }
 
-        api.tracking.get(this.dateFilter()).then(trackings => {
+        const filters = this.dateFilter();
+        if (this.state.timezone) {
+            filters.from = mtz.tz(filters.from, this.state.timezone).utc().format('YYYY-MM-DD HH:mm');
+            filters.to = mtz.tz(filters.to, this.state.timezone).utc().format('YYYY-MM-DD HH:mm');
+        }
+
+        api.tracking.get(filters).then(trackings => {
             const layer = new PolygonLayer(trackings);
             this.setState({
                 polygonLayers: [

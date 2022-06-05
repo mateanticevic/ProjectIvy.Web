@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
+import mtz from 'moment-timezone';
 
 import { components } from 'types/ivy-types';
 
@@ -10,12 +11,15 @@ type Tracking = components['schemas']['Tracking'];
 interface Props {
     nextExists: boolean;
     previousExists: boolean;
+    timezone?: string;
     tracking: Tracking;
     onNext(): void;
     onPrevious(): void;
 }
 
-const MarkerControl = ({ tracking, onNext, onPrevious, previousExists, nextExists }: Props) => {
+const MarkerControl = ({ timezone, tracking, onNext, onPrevious, previousExists, nextExists }: Props) => {
+
+    const timestamp = timezone ? mtz.utc(tracking.timestamp).tz(timezone) : moment(tracking.timestamp);
 
     return (
         <React.Fragment>
@@ -37,7 +41,7 @@ const MarkerControl = ({ tracking, onNext, onPrevious, previousExists, nextExist
                 <MdSkipNext />
             </Button>
             &nbsp;
-            {moment(tracking.timestamp).format('MMM DD hh:mm:ss.SSS')}
+            {timestamp.format('MMM DD HH:mm:ss.SSS')}
         </React.Fragment>
     );
 };

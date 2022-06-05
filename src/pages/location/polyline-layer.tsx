@@ -20,6 +20,7 @@ type Tracking = components['schemas']['Tracking'];
 
 interface Props {
     layer: PolygonLayer,
+    timezone?: string,
     onClip(): void,
     onEndMarkerMoved(tracking: Tracking): void,
     onStartMarkerMoved(tracking: Tracking): void,
@@ -27,7 +28,7 @@ interface Props {
     onShowStopsToggle(layer: PolygonLayer, show: boolean): void,
 }
 
-const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
+const PolylineLayer = ({ layer, timezone, onClip, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -103,6 +104,7 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                 <MarkerControl
                     nextExists={endIndex - startIndex > 1}
                     previousExists={startIndex > 0}
+                    timezone={timezone}
                     tracking={layer.startTracking}
                     onNext={() => onChange(startIndex + 1, endIndex)}
                     onPrevious={() => onChange(startIndex - 1, endIndex)}
@@ -111,6 +113,7 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
                     <MarkerControl
                         nextExists={layer.trackings.length > endIndex + 1}
                         previousExists={endIndex - startIndex > 1}
+                        timezone={timezone}
                         tracking={layer.endTracking}
                         onNext={() => onChange(startIndex, endIndex + 1)}
                         onPrevious={() => onChange(startIndex, endIndex - 1)}
