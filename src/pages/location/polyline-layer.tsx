@@ -55,14 +55,11 @@ const PolylineLayer = ({ layer, onClip, onEndMarkerMoved, onShowPointsToggle, on
             const b = trackingToLatLng(layer.trackings[i + 1]);
             distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
         }
-        return distance;
+        return distance > 1000 ? `${Math.round(distance / 1000)}km` : `${Math.round(distance)}m`;
     }
 
-    const distance = getDistanceBetweenTrackings(0, layer.trackings.length);
-    const distanceFormatted = distance > 1000 ? `${Math.round(distance / 1000)}km` : `${Math.round(distance)}m`;
-
-    const distanceBetweenMarkers = getDistanceBetweenTrackings(startIndex, endIndex);
-    const distanceBetweenMarkersFormatted = distanceBetweenMarkers > 1000 ? `${Math.round(distanceBetweenMarkers / 1000)}km` : `${Math.round(distanceBetweenMarkers)}m`;
+    const distanceFormatted = getDistanceBetweenTrackings(0, layer.trackings.length);
+    const distanceBetweenMarkersFormatted = getDistanceBetweenTrackings(startIndex, endIndex);
 
     return (
         <Card>

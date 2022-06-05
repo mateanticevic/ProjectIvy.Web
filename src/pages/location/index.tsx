@@ -127,7 +127,7 @@ class LocationPage extends Page<{}, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Draw2</Card.Header>
+                            <Card.Header>Draw</Card.Header>
                             <Card.Body>
                                 <FormGroup>
                                     <ToggleButtonGroup type="radio" name="options" value={dateMode} onChange={dateMode => this.setState({ dateMode })}>

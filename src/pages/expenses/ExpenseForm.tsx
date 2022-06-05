@@ -174,15 +174,14 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
           </Col>
           <Col lg={6}>
             <FormGroup>
-              <FormLabel>Exchange rate</FormLabel>
+              <FormLabel>Amount</FormLabel>
               <InputGroup>
                 <FormControl
-                  value={expense.parentCurrencyExchangeRate}
+                  onChange={(x) => onChange({ parentAmount: x.target.value })}
                   type="number"
-                  readOnly={!expense.parentCurrency?.id}
-                  onChange={x => onChange({ parentCurrencyExchangeRate: parseFloat(x.target.value) })}
+                  value={expense.parentAmount}
                 />
-                <InputGroup.Text>{expense.currency?.id} -> {expense.parentCurrency?.id}</InputGroup.Text>
+                <InputGroup.Text id="basic-addon2">{expense.parentCurrency?.id}</InputGroup.Text>
               </InputGroup>
             </FormGroup>
           </Col>

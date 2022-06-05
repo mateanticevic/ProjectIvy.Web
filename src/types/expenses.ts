@@ -19,6 +19,7 @@ export interface Expense {
     installmentRef: string;
     modified: string;
     needsReview: boolean;
+    parentAmount?: number;
     parentCurrency: Currency;
     parentCurrencyExchangeRate?: number;
     paymentType: Name;
@@ -38,6 +39,7 @@ export interface ExpenseBinding {
     installmentRef: string;
     modified: string;
     paymentTypeId: string;
+    parentAmount?: number;
     parentCurrencyExchangeRate?: number;
     parentCurrencyId?: string;
     poiId?: string;
