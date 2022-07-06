@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "changeOrigin": true,
+    "target": "https://api.anticevic.net",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

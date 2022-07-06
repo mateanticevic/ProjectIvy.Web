@@ -7,10 +7,10 @@
   },
   "scripts": {
     "build": "NODE_ENV=production parcel build ./src/index.html",
-    "dev": "parcel ./src/index.html",
+    "dev": "parcel ./src/index.html --log-level verbose",
     "lint": "eslint --project ./tsconfig.json",
     "start": "npm run dev",
-    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 3000 ./src/index.html"
+    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 3000 ./src/index.html --log-level info"
   },
   "author": "Mate Antičević",
   "license": "MIT",
@@ -27,8 +27,8 @@
     "jwt-decode": "3.1.2",
     "lodash": "^4.17.21",
     "moment": "2.29.1",
-    "moment-range": "4.0.2",
     "moment-duration-format": "2.3.2",
+    "moment-range": "4.0.2",
     "moment-timezone": "0.5.34",
     "ngeohash": "0.6.3",
     "rc-slider": "9.7.5",
@@ -60,6 +60,7 @@
     "dotenv": "^16.0.0",
     "eslint": "8.11.0",
     "eslint-plugin-react": "7.29.4",
+    "http-proxy-middleware": "2.0.6",
     "parcel": "2.3.2",
     "react-hot-loader": "4.13.0",
     "sass": "1.49.9",
