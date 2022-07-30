@@ -10,7 +10,7 @@
     "dev": "parcel ./src/index.html --log-level verbose",
     "lint": "eslint --project ./tsconfig.json",
     "start": "npm run dev",
-    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 3000 ./src/index.html --log-level info"
+    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 443 ./src/index.html --log-level info"
   },
   "author": "Mate Antičević",
   "license": "MIT",
