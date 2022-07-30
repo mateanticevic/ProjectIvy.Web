@@ -57,13 +57,15 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 </div>
                 <div className="expense-item-payment">
                     <div className="expense-item-payment-type">
-                        {renderPaymentTypeIcon(expense.paymentType)}
-                        {expense.parentCurrency &&
-                            <RiExchangeDollarLine title={`Parent currency ${expense.parentCurrency.code}`} />
-                        }
-                        {expense.files && expense.files.length > 0 &&
-                            <FaFile title={`Has ${expense.files.length} linked files`} />
-                        }
+                        <div className="expense-item-flags">
+                            {renderPaymentTypeIcon(expense.paymentType)}
+                            {expense.parentCurrency &&
+                                <RiExchangeDollarLine title={`Parent currency ${expense.parentCurrency.code}`} />
+                            }
+                            {expense.files && expense.files.length > 0 &&
+                                <FaFile title={`Has ${expense.files.length} linked files`} />
+                            }
+                        </div>
                     </div>
                     <span className="expense-item-amount">{amountWholePart}</span>
                     <span className="expense-item-amount-decimal">{amountDecimalPart}  {expense.currency.code}</span>

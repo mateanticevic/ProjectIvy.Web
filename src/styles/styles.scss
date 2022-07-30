@@ -300,6 +300,12 @@ body #app {
     display: flex;
   }
 
+  .expense-item-flags {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+
   .expense-item-content {
     display: inline;
   }
