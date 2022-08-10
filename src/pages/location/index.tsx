@@ -125,6 +125,13 @@ class LocationPage extends Page<{}, State> {
 
         const isMapReady = !!last;
 
+        const timezoneOptions = mtz?.tz?.names()?.map(tz => { return { value: tz, label: tz } }) ?? [];
+        const defaultTimezone = timezoneOptions.find(tz => tz.value == 'Europe/Zagreb');
+
+        if (!this.state.timezone) {
+            this.setState({ timezone: defaultTimezone?.value });
+        }
+
         return (
             <Container>
                 <Row>
@@ -168,8 +175,9 @@ class LocationPage extends Page<{}, State> {
                                 <FormGroup>
                                     <FormLabel>Timezone</FormLabel>
                                     <ReactSelect
-                                        options={mtz?.tz?.names()?.map(tz => { return { value: tz, label: tz } }) ?? []}
+                                        options={timezoneOptions}
                                         onChange={option => this.setState({ timezone: option.value })}
+                                        value={defaultTimezone}
                                     />
                                 </FormGroup>
                                 <ButtonWithSpinner
