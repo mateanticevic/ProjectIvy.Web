@@ -19,6 +19,7 @@ interface Props {
 
 const MarkerControl = ({ timezone, tracking, onNext, onPrevious, previousExists, nextExists }: Props) => {
 
+    const speed = tracking.speed ? Math.round(tracking.speed * 3.6) : null;
     const timestamp = timezone ? mtz.utc(tracking.timestamp).tz(timezone) : moment(tracking.timestamp);
 
     return (
@@ -41,7 +42,7 @@ const MarkerControl = ({ timezone, tracking, onNext, onPrevious, previousExists,
                 <MdSkipNext />
             </Button>
             &nbsp;
-            {timestamp.format('MMM DD HH:mm:ss.SSS')}
+            {timestamp.format('MMM DD HH:mm:ss.SSS')} | {speed ? `${speed} km/h` : 'n/a'} | {Math.round(tracking.altitude)}m
         </React.Fragment>
     );
 };
