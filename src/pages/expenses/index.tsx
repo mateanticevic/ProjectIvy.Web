@@ -408,6 +408,7 @@ class ExpensesPage extends Page<{}, State> {
             currencyId: e.currency.id,
             expenseTypeId: e.expenseType.id,
             date: e.date,
+            datePaid: e.datePaid ?? e.date,
             timestamp: e.timestamp,
             parentAmount: e.parentAmount,
             parentCurrencyId: e.parentCurrency ? e.parentCurrency.id : undefined,

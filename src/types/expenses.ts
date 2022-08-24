@@ -13,6 +13,7 @@ export interface Expense {
     comment: string;
     currency: Currency;
     date: string;
+    datePaid: string;
     expenseType: ExpenseType;
     files: [];
     id: string;
@@ -34,6 +35,7 @@ export interface ExpenseBinding {
     comment: string;
     currencyId: string;
     date: string;
+    datePaid: string;
     expenseTypeId: string;
     id: string;
     installmentRef: string;

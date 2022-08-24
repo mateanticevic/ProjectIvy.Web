@@ -40,6 +40,13 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
             />
           </Col>
           <Col lg={6}>
+            <DateFormElement
+              label="Date paid"
+              onChange={datePaid => onChange({ datePaid })}
+              value={expense.datePaid}
+            />
+          </Col>
+          <Col lg={6}>
             <FormGroup>
               <FormLabel>Type</FormLabel>
               <Select
