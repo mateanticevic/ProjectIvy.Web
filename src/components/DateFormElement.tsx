@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import React from 'react';
 import { FormLabel, FormGroup, InputGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
@@ -6,7 +6,7 @@ import { FaCalendar } from 'react-icons/fa';
 
 interface Props {
     label?: string;
-    value?: any;
+    value?: string | Date | moment.Moment;
     onChange: (date: string) => void;
 }
 
@@ -22,7 +22,7 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                 <Datetime
                     dateFormat="YYYY-MM-DD"
                     timeFormat={false}
-                    locale={moment.locale('us')}
+                    locale={moment.locale('hr')}
                     onChange={x => onChange(x.format('YYYY-MM-DD'))}
                     value={value}
                 />

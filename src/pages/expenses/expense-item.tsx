@@ -45,6 +45,11 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 >
                     <ExpenseTypeIcon typeId={expense.expenseType.id} />
                 </Badge>
+                <img
+                    className="expense-item-icon"
+                    src={`https://cdn.anticevic.net/vendors/${expense.vendor?.id}.jpg`}
+                    onError={x => x.target.src=''}
+                />
                 <div className="expense-item-content">
                     <div className="expense-item-title">
                         {expense.comment?.length > 0 ? expense.comment : expense.expenseType.name}

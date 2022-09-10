@@ -300,6 +300,11 @@ body #app {
     display: flex;
   }
 
+  .expense-item-icon {
+    margin-left: -60px;
+    width: 65px;
+  }
+
   .expense-item-flags {
     display: flex;
     gap: 4px;
