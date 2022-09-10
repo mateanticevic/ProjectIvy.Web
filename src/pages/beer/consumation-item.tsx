@@ -19,12 +19,11 @@ const ConsumationItem = ({ consumations }: Props) => {
     return (
         <Card>
             <Card.Body className="expense-item">
-                <Badge
-                    bg="primary"
-                    className="expense-type-badge"
-                >
-                    {beer.abv?.toFixed(1)}%
-                </Badge>
+                <img
+                    className="consumation-item-icon"
+                    src={`https://cdn.anticevic.net/beers/${beer.id}.jpg`}
+                    onError={x => x.target.src=''}
+                />
                 <div className="expense-item-content">
                     <div className="expense-item-title">
                         {beer.name}
