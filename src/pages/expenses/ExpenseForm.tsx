@@ -134,11 +134,10 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
         </Row>
         <Row>
           <Col lg={12}>
-            <FloatingLabel controlId="floatingTextarea2" label="Description">
+            <FloatingLabel controlId="floatingTextarea" label="Description">
               <Form.Control
                 as="textarea"
                 value={expense.comment}
-                type="text"
                 style={{ height: '100px' }}
                 onChange={x => onChange({ comment: x.target.value })}
               />

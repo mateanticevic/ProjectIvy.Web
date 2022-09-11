@@ -39,7 +39,6 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
         <Card onClick={() => onClick(expense)}>
             <Card.Body className="expense-item">
                 <Badge
-                    bg="primary"
                     className="expense-type-badge"
                     title={expense.expenseType.name}
                 >

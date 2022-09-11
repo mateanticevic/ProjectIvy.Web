@@ -6,7 +6,7 @@ import { Range } from 'rc-slider';
 import { Select } from 'components';
 import { MovieFilters } from 'types/movies';
 
-const dateFormat = 'YYYY-M-D';
+const dateFormat = 'YYYY-MM-DD';
 
 interface Props {
     filters: MovieFilters;

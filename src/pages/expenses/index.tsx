@@ -311,7 +311,8 @@ class ExpensesPage extends Page<{}, State> {
         this.setState({
             expense: {
                 ...expense,
-                date: moment(expense.date).format('YYYY-M-D'),
+                date: moment(expense.date).format('YYYY-MM-DD'),
+                datePaid: moment(expense.date).format('YYYY-MM-DD'),
             },
             files: expense.files,
             isModalOpen: true,

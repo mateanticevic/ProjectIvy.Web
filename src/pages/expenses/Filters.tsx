@@ -17,7 +17,7 @@ interface Props {
   onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }
 
-const dateFormat = 'YYYY-M-D';
+const dateFormat = 'YYYY-MM-DD';
 
 const isValidDate = (value: string | moment.Moment) => {
     return value == '' || value.format;
