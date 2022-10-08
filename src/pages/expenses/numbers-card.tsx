@@ -1,4 +1,5 @@
-import React from 'react';
+import { UserContext } from 'contexts/user-context';
+import React, { useContext } from 'react';
 import { Badge, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import { AmountInCurrency } from 'types/expenses';
@@ -12,6 +13,9 @@ interface Props {
 }
 
 const NumbersCard = ({ expenseCount, typeCount, vendorCount, sum, sumByCurrency }: Props) => {
+
+    const user = useContext(UserContext);
+
     return (
         <Card>
             <Card.Header>Numbers</Card.Header>
@@ -31,7 +35,7 @@ const NumbersCard = ({ expenseCount, typeCount, vendorCount, sum, sumByCurrency 
                     </ListGroupItem>
                     <ListGroupItem>
                         Total
-                        <span className="pull-right">{sum.toFixed(2)} <Badge bg="primary">HRK</Badge></span>
+                        <span className="pull-right">{sum.toFixed(2)} <Badge bg="primary">{user.defaultCurrency.code}</Badge></span>
                     </ListGroupItem>
                 </ListGroup>
                 <br />

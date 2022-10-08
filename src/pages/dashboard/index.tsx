@@ -17,7 +17,7 @@ class DashboardPage extends React.Component {
     user: User;
 
     state = {
-        carLogLatest: { odometer: 0, timestamp: moment() },
+        carLog: { odometer: 0, timestamp: moment() },
         consumations: [],
         expenses: [],
         distance: {
@@ -60,7 +60,7 @@ class DashboardPage extends React.Component {
         api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
 
         if (this.user?.defaultCar) {
-            api.car.getLogLatest(this.user.defaultCar.id).then(carLogLatest => this.setState({ carLogLatest }));
+            api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carLog }));
             this.setState({ car: this.user.defaultCar });
         }
 
@@ -75,7 +75,7 @@ class DashboardPage extends React.Component {
     }
 
     render() {
-        const { carLogLatest, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
+        const { carLog: carLog, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
         const expenseItems = expenses.map(expense => {
             return <ListGroupItem key={_.uniqueId('list_item_')}>
@@ -186,18 +186,18 @@ class DashboardPage extends React.Component {
                     {this.identity?.pif.includes(Feature.Cars) && this.user?.defaultCar &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Img variant="top" src="https://cdn.anticevic.net/cars/golf-7-2012-tdi-20.jpg" />
+                                <Card.Img variant="top" src={`https://cdn.anticevic.net/cars/${this.user.defaultCar?.model?.id}.jpg`} />
                                 <Card.Body>
-                                    <Card.Title>{this.user.defaultCar.id}</Card.Title>
-                                    <Card.Text>{carLogLatest.odometer} km</Card.Text>
+                                    <Card.Title>{this.user.defaultCar?.model?.name}</Card.Title>
+                                    <Card.Text>{carLog.odometer} km</Card.Text>
                                 </Card.Body>
                                 <Card.Body>
                                     <Card.Link href={`/car/${this.user.defaultCar.id}`}>History</Card.Link>
-                            </Card.Body>
-                        </Card>
+                                </Card.Body>
+                            </Card>
                         </div>
                     }
-            </div>
+                </div>
             </Container >
         );
     }
