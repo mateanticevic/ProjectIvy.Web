@@ -6,15 +6,15 @@ import { Marker } from 'react-google-maps';
 
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
-import { Module } from 'consts/module';
 import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/ExpenseTypeLabel';
 import { getIdentity } from 'utils/cookie-helper';
 import OnlineGraph from './OnlineGraph';
-import { Feature } from 'types/users';
+import { Feature, User } from 'types/users';
 
 class DashboardPage extends React.Component {
     identity = getIdentity();
+    user: User;
 
     state = {
         carLogLatest: { odometer: 0, timestamp: moment() },
@@ -36,6 +36,8 @@ class DashboardPage extends React.Component {
     };
 
     componentDidMount() {
+        this.user = this.context;
+
         const lastFiveFilters = {
             pageSize: 5,
         };
@@ -55,8 +57,12 @@ class DashboardPage extends React.Component {
         api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
         api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
         api.tracking.getLastLocation().then(location => this.setState({ location }));
-        api.car.getLogLatest('golf-7').then(carLogLatest => this.setState({ carLogLatest }));
         api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
+
+        if (this.user?.defaultCar) {
+            api.car.getLogLatest(this.user.defaultCar.id).then(carLogLatest => this.setState({ carLogLatest }));
+            this.setState({ car: this.user.defaultCar });
+        }
 
         api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
         api.expense.getSum(todayFilters).then(today => this.setState({ spent: { ...this.state.spent, today } }));
@@ -177,22 +183,22 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Cars) &&
+                    {this.identity?.pif.includes(Feature.Cars) && this.user?.defaultCar &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Img variant="top" src="https://wallpaperaccess.com/full/1110034.jpg" />
+                                <Card.Img variant="top" src="https://cdn.anticevic.net/cars/golf-7-2012-tdi-20.jpg" />
                                 <Card.Body>
-                                    <Card.Title>Golf VII 2.0 TDI</Card.Title>
+                                    <Card.Title>{this.user.defaultCar.id}</Card.Title>
                                     <Card.Text>{carLogLatest.odometer} km</Card.Text>
                                 </Card.Body>
                                 <Card.Body>
-                                    <Card.Link href="/car/golf-7">My car</Card.Link>
-                                </Card.Body>
-                            </Card>
+                                    <Card.Link href={`/car/${this.user.defaultCar.id}`}>History</Card.Link>
+                            </Card.Body>
+                        </Card>
                         </div>
                     }
-                </div>
-            </Container>
+            </div>
+            </Container >
         );
     }
 

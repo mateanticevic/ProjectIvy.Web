@@ -43,7 +43,6 @@ export default class Root extends React.Component<{}, State> {
             const params = new URLSearchParams(window.location.hash.substring(1));
             document.cookie = `IdToken=${params.get('id_token')}`;
             document.cookie = `AccessToken=${params.get('access_token')};domain=${process.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
-            console.log('auth cookies set');
             history.replaceState(null, null, ' ');
         }
 
@@ -54,7 +53,7 @@ export default class Root extends React.Component<{}, State> {
 
     public render() {
 
-        return (
+        return this.state.user ? (
             <UserContext.Provider value={this.state.user}>
                 <BrowserRouter>
                     <div id="main">
@@ -91,7 +90,7 @@ export default class Root extends React.Component<{}, State> {
                     </div>
                 </BrowserRouter>
             </UserContext.Provider>
-        );
+        ) : "loading";
     }
 
     toast = (title: string, message: string) => {

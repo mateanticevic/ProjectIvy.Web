@@ -12,6 +12,13 @@ export class Page<TProps, TState> extends React.Component<TProps, TState> {
     }
 
     public resolveFilters(filters, filterValue) {
-        return filterValue ? { ...filters, ...filterValue } : { ...filters, ...(urlHelper.queryStringToJson(window.location.search)) };
+        return filterValue ? {
+            ...filters,
+            ...filterValue
+        }
+        : {
+            ...filters,
+            ...(urlHelper.queryStringToJson(window.location.search))
+        };
     }
 }

@@ -1,7 +1,9 @@
+import { Car } from './car';
 import { Country } from './common';
 import { Currency } from './expenses';
 
 export interface User {
+    defaultCar?: Car; 
     defaultCurrency: Currency;
     email: string;
     firstName: string;

@@ -274,7 +274,7 @@ class ExpensesPage extends Page<{}, State> {
             amount: 0,
             comment: '',
             currency: this.state.defaultCurrency,
-            date: moment().format('YYYY-M-D'),
+            date: moment().format('YYYY-MM-DD'),
             expenseType: this.state.types[0],
             paymentType: this.state.paymentTypes[0],
         };
