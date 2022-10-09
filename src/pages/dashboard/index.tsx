@@ -77,6 +77,8 @@ class DashboardPage extends React.Component {
     render() {
         const { carLog: carLog, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
 
+        const { defaultCurrency }: User = this.context;
+
         const expenseItems = expenses.map(expense => {
             return <ListGroupItem key={_.uniqueId('list_item_')}>
                 {this.dayOfWeek(expense.date)} <ExpenseTypeLabel expenseType={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
@@ -140,9 +142,9 @@ class DashboardPage extends React.Component {
                             <Card>
                                 <Card.Header>Spent</Card.Header>
                                 <Card.Body className="panel-small padding-0">
-                                    <ValueLabel label="Today" unit="kn" value={spent.today} />
-                                    <ValueLabel label="This week" unit="kn" value={spent.week} />
-                                    <ValueLabel label={moment().format('MMMM')} unit="kn" value={spent.month} />
+                                    <ValueLabel label="Today" unit={defaultCurrency.symbol} value={spent.today} />
+                                    <ValueLabel label="This week" unit={defaultCurrency.symbol} value={spent.week} />
+                                    <ValueLabel label={moment().format('MMMM')} unit={defaultCurrency.symbol} value={spent.month} />
                                 </Card.Body>
                             </Card>
                         </div>

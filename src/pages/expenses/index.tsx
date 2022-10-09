@@ -16,11 +16,12 @@ import ExpenseLinkModal from './ExpenseLinkModal';
 import DayExpenses from './day-expenses';
 import NumbersCard from './numbers-card';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { User } from 'types/users';
+import { UserContext } from 'contexts/user-context';
 
 interface State {
     cards: any[];
     currencies: Currency[];
-    defaultCurrency: Currency;
     descriptionSuggestions: string[];
     expense: Expense;
     expenses: PagedList<Expense>;
@@ -61,13 +62,14 @@ const maps = {
 };
 
 class ExpensesPage extends Page<{}, State> {
+
+    user: User;
     state: State = {
         cards: [],
         currencies: [],
-        defaultCurrency: {},
         descriptionSuggestions: [],
         expense: {
-            currencyId: 'HRK',
+            currencyId: '',
             files: [],
             parentCurrencyId: null,
             paymentTypeId: 'cash',
@@ -117,13 +119,13 @@ class ExpensesPage extends Page<{}, State> {
     };
 
     componentDidMount() {
+        this.user = this.context;
         this.onFiltersChanged();
         api.card.get().then(cards => this.setState({ cards }));
         api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
         api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
         api.currency.get().then(currencies => this.setState({ currencies }));
         api.vendor.get().then(vendors => this.setState({ vendors: vendors.items }));
-        api.user.get().then(user => this.setState({ defaultCurrency: user.defaultCurrency }));
         api.expenseType.get().then(types => this.setState({ types }));
     }
 
@@ -133,6 +135,8 @@ class ExpensesPage extends Page<{}, State> {
 
         const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
         const days = Object.keys(expensesByDay);
+
+        const { defaultCurrency }: User = this.context;
 
         return (
             <Container>
@@ -208,7 +212,7 @@ class ExpensesPage extends Page<{}, State> {
                             countByOptions={sumByOptions}
                             data={this.state.sumChartData}
                             name="Sum"
-                            unit="kn"
+                            unit={defaultCurrency.symbol}
                             onGroupByChange={this.onSumGroupBy}
                         />
                         <NumbersCard
@@ -273,7 +277,7 @@ class ExpensesPage extends Page<{}, State> {
         return {
             amount: 0,
             comment: '',
-            currency: this.state.defaultCurrency,
+            currency: this.user.defaultCurrency,
             date: moment().format('YYYY-MM-DD'),
             expenseType: this.state.types[0],
             paymentType: this.state.paymentTypes[0],
@@ -427,5 +431,7 @@ class ExpensesPage extends Page<{}, State> {
         return api.file.post(file);
     }
 }
+
+ExpensesPage.contextType = UserContext;
 
 export default ExpensesPage;
