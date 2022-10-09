@@ -107,7 +107,7 @@ export default class CallsPage extends Page<{}, State> {
         return this.state.calls.items.map(call => (<tr>
             <td>{moment(call.timestamp).format('Do MMMM YYYY HH:mm:ss')}</td>
             <td>{call.person ? `${call.person.firstName} ${call.person.lastName}` : call.number}</td>
-            <td>{formatHelper.time(call.duration)}</td>
+            <td><a href={`/api/file/${call.file.id}`}>{formatHelper.time(call.duration)}</a></td>
             <td>
                 <audio preload="none" controls src={`/api/file/${call.file.id}`} />
             </td>

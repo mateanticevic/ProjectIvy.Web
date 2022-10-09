@@ -23,7 +23,7 @@ interface State {
     cards: any[];
     currencies: Currency[];
     descriptionSuggestions: string[];
-    expense: Expense;
+    expense?: Expense;
     expenses: PagedList<Expense>;
     expensesAreLoading: boolean;
     files: any[];
@@ -68,12 +68,6 @@ class ExpensesPage extends Page<{}, State> {
         cards: [],
         currencies: [],
         descriptionSuggestions: [],
-        expense: {
-            currencyId: '',
-            files: [],
-            parentCurrencyId: null,
-            paymentTypeId: 'cash',
-        },
         expenses: {
             count: 0,
             items: [],
@@ -130,7 +124,7 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     render() {
-        const { expenses, sumByCurrency } = this.state;
+        const { expenses, filters, sumByCurrency } = this.state;
         const { vendorCount, typeCount, sum } = this.state.stats;
 
         const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
@@ -188,13 +182,8 @@ class ExpensesPage extends Page<{}, State> {
                         <InfiniteScroll
                             dataLength={expenses.items.length}
                             next={this.getNextPage}
-                            hasMore={true}
+                            hasMore={filters.page * filters.pageSize < expenses.count}
                             loader={<h4>Loading...</h4>}
-                            endMessage={
-                                <p style={{ textAlign: 'center' }}>
-                                    <b>Yay! You have seen it all</b>
-                                </p>
-                            }
                         >
                             {days.map((day, index) =>
                                 <DayExpenses
@@ -230,28 +219,30 @@ class ExpensesPage extends Page<{}, State> {
                     onLink={this.onExpenseLink}
                     onTripChange={({ value }) => this.setState({ selectedTripId: value })}
                 />
-                <ExpenseModal
-                    currencies={this.state.currencies}
-                    descriptionSuggestions={this.state.descriptionSuggestions}
-                    types={this.state.types}
-                    vendorPois={this.state.vendorPois}
-                    vendors={this.state.vendors}
-                    fileTypes={this.state.fileTypes}
-                    paymentTypes={this.state.paymentTypes}
-                    cards={this.state.cards}
-                    expense={this.state.expense}
-                    isOpen={this.state.isModalOpen}
-                    isSaving={this.state.isSavingExpense}
-                    files={this.state.expense?.files ?? []}
-                    linkFile={this.linkExpenseFile}
-                    deleteFile={this.deleteFile}
-                    onChange={this.onExpenseChanged}
-                    onClose={() => this.setState({ isModalOpen: false })}
-                    onExpenseAdd={this.onExpenseSave}
-                    onExpenseAddAnother={this.onExpenseAddAnother}
-                    onVendorChanged={this.onVendorChange}
-                    uploadFile={this.uploadFile}
-                />
+                {this.state.expense &&
+                    <ExpenseModal
+                        currencies={this.state.currencies}
+                        descriptionSuggestions={this.state.descriptionSuggestions}
+                        types={this.state.types}
+                        vendorPois={this.state.vendorPois}
+                        vendors={this.state.vendors}
+                        fileTypes={this.state.fileTypes}
+                        paymentTypes={this.state.paymentTypes}
+                        cards={this.state.cards}
+                        expense={this.state.expense}
+                        isOpen={this.state.isModalOpen}
+                        isSaving={this.state.isSavingExpense}
+                        files={this.state.expense?.files ?? []}
+                        linkFile={this.linkExpenseFile}
+                        deleteFile={this.deleteFile}
+                        onChange={this.onExpenseChanged}
+                        onClose={() => this.setState({ isModalOpen: false })}
+                        onExpenseAdd={this.onExpenseSave}
+                        onExpenseAddAnother={this.onExpenseAddAnother}
+                        onVendorChanged={this.onVendorChange}
+                        uploadFile={this.uploadFile}
+                    />
+                }
             </Container>
         );
     }
