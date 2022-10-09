@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Toast } from 'react-bootstrap';
+import { Spinner, Toast } from 'react-bootstrap';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -90,7 +90,19 @@ export default class Root extends React.Component<{}, State> {
                     </div>
                 </BrowserRouter>
             </UserContext.Provider>
-        ) : "loading";
+        )
+            :
+            <div className="loading-status">
+                <p>Connecting to the api...</p>
+                <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    variant="primary"
+                />
+            </div>;
     }
 
     toast = (title: string, message: string) => {
