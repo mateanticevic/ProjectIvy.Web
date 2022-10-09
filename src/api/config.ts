@@ -22,7 +22,7 @@ function handleResponse(response) {
     } else if (response.status == httpStatus.UNAUTHORIZED) {
         window.location = `${process.env.AUTH_URL}/connect/authorize?client_id=${process.env.OAUTH_CLIENT_ID}&scope=openid%20userid&response_type=id_token%20token&redirect_uri=${encodeURIComponent(process.env.APP_URL)}&nonce=${_.uniqueId()}`;
     } else {
-        throw new Error();
+        throw new Error(response.status);
     }
 }
 
@@ -36,9 +36,19 @@ function apiPath(resource: string, parameters?: any) {
     return url;
 }
 
+function fetchWithTimeout(url, options, timeout: number) {
+    console.log('with timeout');
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), timeout)
+        )
+    ]);
+}
+
 const getBaseApiPath = () => `${process.env.API_URL}/`;
 
-export function get(resource: string, parameters?: any) {
+export function get(resource: string, parameters?: any, timeout?: number) {
 
     const init: RequestInit = {
         cache: 'default',
@@ -48,7 +58,7 @@ export function get(resource: string, parameters?: any) {
         mode: 'cors',
     };
 
-    return fetch(apiPath(resource, parameters), init).then(handleResponse);
+    return fetchWithTimeout(apiPath(resource, parameters), init, timeout ?? 30000).then(handleResponse);
 }
 
 export function del(resource: string, parameters?: string) {
