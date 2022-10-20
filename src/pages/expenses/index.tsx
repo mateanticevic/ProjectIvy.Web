@@ -307,7 +307,7 @@ class ExpensesPage extends Page<{}, State> {
             expense: {
                 ...expense,
                 date: moment(expense.date).format('YYYY-MM-DD'),
-                datePaid: moment(expense.date).format('YYYY-MM-DD'),
+                datePaid: moment(expense.datePaid).format('YYYY-MM-DD'),
             },
             files: expense.files,
             isModalOpen: true,

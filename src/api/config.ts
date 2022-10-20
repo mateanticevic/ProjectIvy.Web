@@ -37,7 +37,6 @@ function apiPath(resource: string, parameters?: any) {
 }
 
 function fetchWithTimeout(url, options, timeout: number) {
-    console.log('with timeout');
     return Promise.race([
         fetch(url, options),
         new Promise((_, reject) =>
