@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Badge, Card } from 'react-bootstrap';
 
 import { Consumation } from 'types/beer';
-import { ServingIcon } from './ServingIcon';
+import { ServingIcon } from './serving-icon';
 
 interface Props {
     consumations: Consumation[];
