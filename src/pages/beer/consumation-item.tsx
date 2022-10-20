@@ -12,7 +12,7 @@ interface Props {
 const ConsumationItem = ({ consumations }: Props) => {
     const beer = consumations[0].beer;
     const sum = _.sum(consumations.map(x => x.volume));
-    const amountFormatted = (sum / 1000).toFixed(1).toString();
+    const amountFormatted = (sum / 1000).toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
 
