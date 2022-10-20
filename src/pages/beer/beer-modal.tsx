@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal, FloatingLabel, Form } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import Select from 'components/Select';
+import Select from 'components/select';
 
 const BeerModal = ({ brands, isOpen, styles, onChange, onClose, onSave }) => {
 

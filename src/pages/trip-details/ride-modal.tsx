@@ -3,7 +3,7 @@ import { Col, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
-import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/button-with-spinner';
 import { cityLoader, poiLoader } from 'utils/select-loaders';
 import { RideBinding } from 'types/ride';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
-import ExpenseTypeIcon from 'components/ExpenseTypeIcon';
+import ExpenseTypeIcon from 'components/expense-type-icon';
 
 import { ExpenseType } from 'types/expenses';
 

@@ -6,9 +6,9 @@ import AsyncSelect from 'react-select/async';
 import { FaCalendar } from 'react-icons/fa';
 
 import { Beer, Brand, Consumation, Serving } from 'types/beer';
-import Select from 'components/Select';
+import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
-import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/button-with-spinner';
 import moment from 'moment';
 
 interface Props {

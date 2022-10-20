@@ -4,7 +4,7 @@ import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaShoppingCart, FaExcl
 import { RiExchangeDollarLine } from 'react-icons/ri';
 import { SiRevolut } from 'react-icons/si';
 
-import ExpenseTypeIcon from 'components/ExpenseTypeIcon';
+import ExpenseTypeIcon from 'components/expense-type-icon';
 import { Name } from 'types/common';
 import { Expense } from 'types/expenses';
 import { PaymentType } from 'consts/service';

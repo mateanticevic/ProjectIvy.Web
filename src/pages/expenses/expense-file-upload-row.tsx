@@ -3,7 +3,7 @@ import filesize from 'filesize';
 import { FormControl, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import Select from 'components/Select';
+import Select from 'components/select';
 import { ExpenseFile } from 'types/expenses';
 import { UploadedFile } from 'types/common';
 

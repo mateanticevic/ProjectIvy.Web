@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, FormLabel, FormControl, FormGroup, Modal, Row } from 'react-bootstrap';
 
-import Select from 'components/Select';
+import Select from 'components/select';
 import { Poi } from 'types/pois';
 
 interface Props {

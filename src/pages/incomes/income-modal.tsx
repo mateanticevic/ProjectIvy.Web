@@ -7,7 +7,7 @@ import { IncomeBinding, IncomeSource, IncomeType } from 'types/incomes';
 import { FaCalendar } from 'react-icons/fa';
 import moment from 'moment';
 
-import Select from 'components/Select';
+import Select from 'components/select';
 
 interface Props {
     currencies: Currency[];

@@ -4,8 +4,8 @@ import FontAwesome from 'react-fontawesome';
 import { Marker } from 'react-google-maps';
 
 import api from 'api/main';
-import Map from 'components/Map';
-import Select from 'components/Select';
+import Map from 'components/map';
+import Select from 'components/select';
 import PoiModal from './poi-modal';
 import PoiPanel from './poi-panel';
 

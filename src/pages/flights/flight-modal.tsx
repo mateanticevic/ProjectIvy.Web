@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
-import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/button-with-spinner';
 import { FlightBinding } from 'types/flights';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
 

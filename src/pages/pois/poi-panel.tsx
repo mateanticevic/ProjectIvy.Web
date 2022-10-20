@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Col, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import Pagination from 'components/Pagination';
+import Pagination from 'components/pagination';
 import { PagedItems } from 'types/common';
 import { Poi } from 'types/pois';
 import PoiTable from './poi-table';

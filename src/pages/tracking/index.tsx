@@ -11,8 +11,8 @@ import geohash from 'ngeohash';
 
 import api from 'api/main';
 import { Map, RadioLabel } from 'components';
-import SimpleBarChart from 'components/SimpleBarChart';
-import SimpleLineChart from 'components/SimpleLineChart';
+import SimpleBarChart from 'components/simple-bar-chart';
+import SimpleLineChart from 'components/simple-line-chart';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import MovementRow from './movement-row';

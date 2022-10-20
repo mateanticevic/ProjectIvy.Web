@@ -3,7 +3,7 @@ import { FormLabel, FormGroup } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
 import { DateFormElement } from 'components';
-import Select from 'components/Select';
+import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
 import { Style, Brand, Serving, ConsumationFilters } from 'types/beer';
 import { Country } from 'types/common';

@@ -15,7 +15,7 @@ import { Page } from 'pages/page';
 import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
-import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/button-with-spinner';
 import { GeohashItem, Layer } from 'types/location';
 import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';

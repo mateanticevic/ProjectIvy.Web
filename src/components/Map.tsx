@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleMaps from './GoogleMaps';
+import GoogleMaps from './google-maps';
 
 interface Props {
   refSet?: any;

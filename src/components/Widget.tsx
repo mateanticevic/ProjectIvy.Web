@@ -1,6 +1,6 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
-import WidgetCard from './WidgetCard';
+import WidgetCard from './widget-card';
 
 const Widget = (props) => {
 
