@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Card, Table, ToggleButtonGroup, ToggleButton, InputGroup, FormControl } from 'react-bootstrap';
 
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import api from 'api/main';
 import { Brand, BrandFilters, Beer, Style } from 'types/beer';
 import { Country } from 'types/common';

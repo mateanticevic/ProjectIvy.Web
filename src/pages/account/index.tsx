@@ -4,7 +4,7 @@ import { Card, Container, Dropdown, DropdownButton, Table } from 'react-bootstra
 
 import api from 'api/main';
 import { FlagIcon } from 'components';
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import { UserSession } from 'types/users';
 
 interface State {

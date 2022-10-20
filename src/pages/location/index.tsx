@@ -11,7 +11,7 @@ import mtz from 'moment-timezone';
 import _ from 'lodash';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';

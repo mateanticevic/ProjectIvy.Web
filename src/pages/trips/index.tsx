@@ -7,8 +7,8 @@ import { Chart } from 'react-google-charts';
 import api from 'api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
 import { DateFormElement, DistributionCard, FlagIcon } from 'components';
-import { Page } from '../Page';
-import TripModal from './TripModal';
+import { Page } from '../page';
+import TripModal from './trip-modal';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
 

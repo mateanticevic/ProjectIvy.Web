@@ -7,11 +7,11 @@ import api from 'api/main';
 import { DateFormElement, DistributionCard, FormattedNumber, Pagination, Select } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { UserContext } from 'contexts/user-context';
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import { Income, IncomeBinding, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';
-import IncomeModal from './IncomeModal';
+import IncomeModal from './income-modal';
 
 const sumByOptions = [
     { value: GroupByTime.ByMonth, name: 'Month' },

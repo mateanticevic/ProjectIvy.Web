@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import api from 'api/main';
 import { DateFormElement, Pagination } from 'components';
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import { Call } from 'types/calls';
 import * as formatHelper from 'utils/format-helper';
 

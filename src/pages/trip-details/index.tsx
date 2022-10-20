@@ -7,7 +7,7 @@ import 'react-vertical-timeline-component/style.min.css';
 import api from 'api/main';
 import { Trip } from 'types/trips';
 import { Map, ValueLabel } from 'components';
-import ExpensePanel from '../expenses/ExpensePanel';
+import ExpensePanel from '../expenses/expense-panel';
 import RideModal from './ride-modal';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';

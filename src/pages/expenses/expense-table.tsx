@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import ExpenseRow from './ExpenseRow';
-import { ExpenseTableLoader } from './ExpenseTableLoader';
+import ExpenseRow from './expense-row';
+import { ExpenseTableLoader } from './expense-table-loader';
 
 const ExpenseTable = (props) => {
 

@@ -7,7 +7,7 @@ import { Expense } from 'types/expenses';
 import { DateFormElement } from 'components';
 import Select from 'components/Select';
 import { vendorLoader } from 'utils/select-loaders';
-import ExpenseFormFilesTab from './ExpenseFormFilesTab';
+import ExpenseFormFilesTab from './expense-form-files-tab';
 
 interface Props {
   cards: any;

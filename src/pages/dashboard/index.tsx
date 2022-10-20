@@ -7,9 +7,9 @@ import { Marker } from 'react-google-maps';
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
 import { UserContext } from 'contexts/user-context';
-import ExpenseTypeLabel from 'pages/expenses/ExpenseTypeLabel';
+import ExpenseTypeLabel from 'pages/expenses/expense-type-label';
 import { getIdentity } from 'utils/cookie-helper';
-import OnlineGraph from './OnlineGraph';
+import OnlineGraph from './online-graph';
 import { Feature, User } from 'types/users';
 
 class DashboardPage extends React.Component {

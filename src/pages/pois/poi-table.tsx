@@ -2,7 +2,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 
 import { Poi } from 'types/pois';
-import PoiRow from './PoiRow';
+import PoiRow from './poi-row';
 
 interface Props {
   pois: Poi[];

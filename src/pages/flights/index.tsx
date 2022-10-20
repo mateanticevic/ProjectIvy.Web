@@ -8,7 +8,7 @@ import AsyncSelect from 'react-select/async';
 
 import api from 'api/main';
 import { DateFormElement, Map } from 'components';
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import FlightModal from './flight-modal';
 import { FlightBinding } from 'types/flights';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';

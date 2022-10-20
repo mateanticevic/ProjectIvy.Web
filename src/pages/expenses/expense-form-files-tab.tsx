@@ -4,8 +4,8 @@ import { useDropzone } from 'react-dropzone';
 
 import { UploadedFile } from 'types/common';
 import { ExpenseFile } from 'types/expenses';
-import { ExpenseFileRow } from './ExpenseFileRow';
-import { ExpenseFileUploadRow } from './ExpenseFileUploadRow';
+import { ExpenseFileRow } from './expense-file-row';
+import { ExpenseFileUploadRow } from './expense-file-upload-row';
 
 const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileTypes }) => {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();

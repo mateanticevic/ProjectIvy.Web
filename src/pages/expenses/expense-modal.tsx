@@ -3,7 +3,7 @@ import { FormCheck, Col, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
-import ExpenseForm from './ExpenseForm';
+import ExpenseForm from './expense-form';
 
 const ExpenseModal = (props) => {
     const header = props.expense.id ? `Expense #${props.expense.id}` : 'New expense';

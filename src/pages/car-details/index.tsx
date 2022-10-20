@@ -5,7 +5,7 @@ import { Container, Card, Col, Row, Table, Badge, InputGroup, FormControl, Butto
 import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { SimpleScatterChart } from 'components';
-import { ServiceModal } from './ServiceModal';
+import { ServiceModal } from './service-modal';
 import { useParams } from 'react-router-dom';
 
 interface QueryStrings {

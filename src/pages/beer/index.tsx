@@ -6,7 +6,7 @@ import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
 import api from 'api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
 import { DistributionCard, FlagIcon } from 'components';
-import { Page } from '../Page';
+import { Page } from '../page';
 import BeerModal from './beer-modal';
 import BrandModal from './brand-modal';
 import ConsumationModal from './consumation-modal';

@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 
 import { TripBinding } from 'types/trips';
 import ButtonWithSpinner from 'components/ButtonWithSpinner';
-import TripForm from './TripForm';
+import TripForm from './trip-form';
 
 interface Props {
   buttonIsLoading: boolean;

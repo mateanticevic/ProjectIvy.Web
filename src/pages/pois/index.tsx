@@ -6,8 +6,8 @@ import { Marker } from 'react-google-maps';
 import api from 'api/main';
 import Map from 'components/Map';
 import Select from 'components/Select';
-import PoiModal from './PoiModal';
-import PoiPanel from './PoiPanel';
+import PoiModal from './poi-modal';
+import PoiPanel from './poi-panel';
 
 class PoisPage extends React.Component {
 

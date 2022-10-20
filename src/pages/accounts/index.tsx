@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import api from 'api/main';
-import { Page } from 'pages/Page';
+import { Page } from 'pages/page';
 import { Account } from 'types/account';
 import BankAccounts from './bank-accounts';
 

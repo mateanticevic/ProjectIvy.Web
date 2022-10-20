@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import { Currency, Expense } from 'types/expenses';
 import { PagedItems, PagingFilters } from 'types/paging';
 import Pagination from 'components/Pagination';
-import ExpenseTable from './ExpenseTable';
+import ExpenseTable from './expense-table';
 
 type Props = PagingFilters & {
     expenses: PagedItems<Expense>,

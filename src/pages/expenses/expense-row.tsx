@@ -5,8 +5,8 @@ import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { RiExchangeDollarLine } from 'react-icons/ri';
 
 import { Expense } from 'types/expenses';
-import ExpenseTypeLabel from './ExpenseTypeLabel';
-import VendorLabel from './VendorLabel';
+import ExpenseTypeLabel from './expense-type-label';
+import VendorLabel from './vendor-label';
 import { PaymentType } from 'consts/service';
 import { Name } from 'types/common';
 
