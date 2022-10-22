@@ -2,9 +2,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import moment from 'moment';
 
-import Root from './Root';
+import Root from './root';
 
-import 'url:./favicon.ico';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
 import './styles/overrides.scss';
