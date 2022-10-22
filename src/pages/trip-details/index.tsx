@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Carousel } from 'react-bootstrap';
+import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 import 'react-vertical-timeline-component/style.min.css';
 
@@ -13,6 +13,7 @@ import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
 import { Flight } from 'types/flights';
 import { useParams } from 'react-router';
+import AsyncSelect from 'react-select/async';
 
 interface QueryStrings {
     id: string;
@@ -129,11 +130,26 @@ class TripDetailsPage extends React.Component<Props, State> {
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
                                 <Map>
+                                    {trip.cities.map(city =>
+                                        <Marker
+                                            key={city.id}
+                                            defaultPosition={{ lat: city.lat, lng: city.lng }}
+                                            title={city.name}
+                                        />
+                                    )}
                                     {poiMarkers}
                                     <Polyline path={trackings} />
                                 </Map>
                             </Card.Body>
                         </Card>
+                        {trip.cities.map(city =>
+                            <Badge onClick={() => this.deleteCity(city.id)}>{city.name}</Badge>
+                        )}
+                        <AsyncSelect
+                            loadOptions={this.loadCities}
+                            onChange={city => this.addCity(city.value)}
+                            defaultOptions
+                        />
                     </Col>
                 </Row>
                 <Row>
@@ -164,6 +180,20 @@ class TripDetailsPage extends React.Component<Props, State> {
                 /> */}
             </Container>
         );
+    }
+
+    addCity = (cityId: string) => {
+        api.trip.postCity(this.state.trip.id, cityId);
+    }
+
+    deleteCity = (cityId: string) => {
+        api.trip.deleteCity(this.state.trip.id, cityId);
+    }
+
+    loadCities = (inputValue, callback) => {
+        api.city
+            .get({ search: inputValue })
+            .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
     }
 
     onExpensePageChange = (page) => {
