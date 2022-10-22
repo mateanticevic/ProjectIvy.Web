@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 import { FormControl, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 

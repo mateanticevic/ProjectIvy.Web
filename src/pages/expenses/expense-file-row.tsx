@@ -1,4 +1,4 @@
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaFile, FaImage, FaDownload } from 'react-icons/fa';
@@ -14,10 +14,10 @@ export const ExpenseFileRow = ({ expenseFile }) => {
 
     function mapFileTypeToIcon(typeId) {
         switch (typeId) {
-        case 'jpg':
-            return <FaImage />;
-        default:
-            return <FaFile />;
+            case 'jpg':
+                return <FaImage />;
+            default:
+                return <FaFile />;
         }
     }
 
