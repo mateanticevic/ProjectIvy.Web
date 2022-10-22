@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { BiWorld } from 'react-icons/bi';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
 import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance } from 'react-icons/md';
@@ -34,6 +35,7 @@ const NavigationBar = ({ identity }: Props) =>
                     }
                     {identity.pif?.includes(Feature.Tracking) &&
                         <NavDropdown id="nav-dropdown-travel" title="Travel">
+                            <NavDropdown.Item><BiWorld /> <Link to="/countries">Countries</Link></NavDropdown.Item>
                             <NavDropdown.Item><GiAirplaneDeparture /> <Link to="/flights">Flights</Link></NavDropdown.Item>
                             <NavDropdown.Item><TiLocation /> <Link to="/pois">Pois</Link></NavDropdown.Item>
                             <NavDropdown.Item><MdCardTravel /> <Link to="/trips">Trips</Link></NavDropdown.Item>

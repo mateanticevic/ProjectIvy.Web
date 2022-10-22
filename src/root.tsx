@@ -23,6 +23,7 @@ import { UserContext } from './contexts/user-context';
 import LocationPage from 'pages/location';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
+import CountriesPage from 'pages/countries';
 
 interface State {
     error?: string,
@@ -99,6 +100,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
+                                    <Route path="/countries" element={<CountriesPage />} />
                                     <Route path="/expenses" element={<ExpensesPage />} />
                                     <Route path="/flights" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />

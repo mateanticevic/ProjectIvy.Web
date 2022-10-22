@@ -27,9 +27,9 @@ const TripItem = ({ trip }: Props) => {
                         {numberOfDays}
                     </Badge>
                 </h3>
-                <h6>
+                <h2>
                     {trip.name}
-                </h6>
+                </h2>
                 {trip.countries?.map(country =>
                     <span
                         key={country.id}

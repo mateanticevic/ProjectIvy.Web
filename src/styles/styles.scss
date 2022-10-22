@@ -336,6 +336,19 @@ body #app {
     left: 50%;
     text-align: center;
   }
+
+  .country-item {
+    display: flex;
+
+    .country-flag {
+      height: 60px;
+      width: 80px;
+    }
+  }
+
+  .country-item-not-visited {
+    opacity: 0.4;
+  }
 }
 
 .form-grid {
