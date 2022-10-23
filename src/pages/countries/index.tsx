@@ -3,8 +3,13 @@ import { ButtonGroup, Card, Col, Container, Row, ToggleButton } from 'react-boot
 import classNames from 'classnames';
 
 import api from 'api/main';
+import { Map } from 'components';
 import { Page } from 'pages/page';
 import { Country } from 'types/common';
+import { components } from 'types/ivy-types';
+import { Marker } from 'react-google-maps';
+
+type City = components['schemas']['City'];
 
 enum CountryVisited {
     All,
@@ -17,6 +22,7 @@ interface Filters {
 }
 
 interface State {
+    cities: City[],
     countries: Country[],
     filters: Filters,
     visitedCountries: Country[],
@@ -25,6 +31,7 @@ interface State {
 class CountriesPage extends Page<{}, State> {
 
     state: State = {
+        cities: [],
         countries: [],
         filters: {
             visited: CountryVisited.All,
@@ -33,12 +40,14 @@ class CountriesPage extends Page<{}, State> {
     }
 
     componentDidMount() {
+        api.city.getVisited().then(cities => this.setState({ cities }));
         api.country.getAll().then(response => this.setState({ countries: response.items }));
         api.country.getVisited({}).then(visitedCountries => this.setState({ visitedCountries }));
     }
 
     render() {
-        const { countries, filters, visitedCountries } = this.state;
+        const { cities, countries, filters, visitedCountries } = this.state;
+
         const filteredCountries = filters.visited === CountryVisited.All ?
             countries
             : filters.visited === CountryVisited.Yes ? visitedCountries : countries.filter(c => !visitedCountries.map(x => x.id).includes(c.id));
@@ -51,6 +60,24 @@ class CountriesPage extends Page<{}, State> {
 
         return (
             <Container>
+                <Row>
+                    <Col lg={12}>
+                        <Card>
+                            <Card.Header>Map</Card.Header>
+                            <Card.Body className="padding-0 panel-medium">
+                                <Map>
+                                        {cities.map(city =>
+                                            <Marker
+                                                key={city.id}
+                                                defaultPosition={{ lat: city.lat, lng: city.lng }}
+                                                title={city.name}
+                                            />
+                                        )}
+                                </Map>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
                 <Row>
                     <Col lg={3}>
                         <Card>
