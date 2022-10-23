@@ -8,6 +8,8 @@ import { Page } from 'pages/page';
 import { Country } from 'types/common';
 import { components } from 'types/ivy-types';
 import { Marker } from 'react-google-maps';
+import AsyncSelect from 'react-select/async';
+import { cityLoader } from 'utils/select-loaders';
 
 type City = components['schemas']['City'];
 
@@ -61,21 +63,28 @@ class CountriesPage extends Page<{}, State> {
         return (
             <Container>
                 <Row>
-                    <Col lg={12}>
+                    <Col lg={9}>
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
                                 <Map>
-                                        {cities.map(city =>
-                                            <Marker
-                                                key={city.id}
-                                                defaultPosition={{ lat: city.lat, lng: city.lng }}
-                                                title={city.name}
-                                            />
-                                        )}
+                                    {cities.map(city =>
+                                        <Marker
+                                            key={city.id}
+                                            defaultPosition={{ lat: city.lat, lng: city.lng }}
+                                            title={city.name}
+                                        />
+                                    )}
                                 </Map>
                             </Card.Body>
                         </Card>
+                    </Col>
+                    <Col lg={3}>
+                        <AsyncSelect
+                            loadOptions={cityLoader}
+                            onChange={city => this.addVisitedCity(city.value)}
+                            defaultOptions
+                        />
                     </Col>
                 </Row>
                 <Row>
@@ -111,6 +120,10 @@ class CountriesPage extends Page<{}, State> {
                 </Row>
             </Container >
         );
+    }
+
+    addVisitedCity = (cityId: string) => {
+        api.city.postVisited(cityId);
     }
 
     onFiltersChanged = (changed: Partial<Filters>) => {
