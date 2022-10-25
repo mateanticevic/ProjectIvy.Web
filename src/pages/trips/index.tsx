@@ -16,6 +16,7 @@ import { components } from 'types/ivy-types';
 import { PagedList } from 'types/common';
 import _ from 'lodash';
 import YearTrips from './year-trips';
+import { cityLoader } from 'utils/select-loaders';
 
 type Trip = components['schemas']['Trip'];
 
@@ -123,7 +124,7 @@ class TripsPage extends Page<{}, State> {
                                     <AsyncSelect
                                         defaultOptions
                                         isMulti
-                                        loadOptions={this.loadCities}
+                                        loadOptions={cityLoader}
                                         onChange={cities => this.onFiltersChanged({ cityId: cities ? cities.map(x => x.value) : [] })}
                                     />
                                 </FormGroup>
@@ -236,12 +237,6 @@ class TripsPage extends Page<{}, State> {
         this.onFiltersChanged({
             page: this.state.filters.page + 1,
         });
-    }
-
-    loadCities = (inputValue, callback) => {
-        api.city
-            .get({ search: inputValue })
-            .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
     }
 
     loadVisited = () => {

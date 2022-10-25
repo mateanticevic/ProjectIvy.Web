@@ -14,6 +14,7 @@ import Timeline from './timeline';
 import { Flight } from 'types/flights';
 import { useParams } from 'react-router';
 import AsyncSelect from 'react-select/async';
+import { cityLoader } from 'utils/select-loaders';
 
 interface QueryStrings {
     id: string;
@@ -146,7 +147,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                             <Badge onClick={() => this.deleteCity(city.id)}>{city.name}</Badge>
                         )}
                         <AsyncSelect
-                            loadOptions={this.loadCities}
+                            loadOptions={cityLoader}
                             onChange={city => this.addCity(city.value)}
                             defaultOptions
                         />
@@ -188,12 +189,6 @@ class TripDetailsPage extends React.Component<Props, State> {
 
     deleteCity = (cityId: string) => {
         api.trip.deleteCity(this.state.trip.id, cityId);
-    }
-
-    loadCities = (inputValue, callback) => {
-        api.city
-            .get({ search: inputValue })
-            .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
     }
 
     onExpensePageChange = (page) => {
