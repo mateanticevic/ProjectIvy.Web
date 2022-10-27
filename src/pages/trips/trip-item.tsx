@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Badge, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 import { components } from 'types/ivy-types';
@@ -13,31 +13,24 @@ interface Props {
 
 const TripItem = ({ trip }: Props) => {
 
-    const start = moment(trip.timestampStart);
-    const end = moment(trip.timestampEnd);
-    const numberOfDays = end.diff(start, 'days') + (end.hour() > 5 ? 1 : 0);
-    
     const navigate = useNavigate();
 
     return (
         <Card onClick={() => navigate(`/trips/${trip.id}`)}>
-            <Card.Body>
+            <Card.Body className="trip-item">
                 <h3>
-                    <Badge bg="primary">
-                        {numberOfDays}
-                    </Badge>
-                </h3>
-                <h2>
                     {trip.name}
-                </h2>
-                {trip.countries?.map(country =>
-                    <span
-                        key={country.id}
-                        title={country.name}
-                    >
-                        <span className={`flag-icon flag-icon-${country.id?.toLowerCase()}`} />&nbsp;
-                    </span>
-                )}
+                </h3>
+                <div className="trip-item-flags">
+                    {trip.countries?.map(country =>
+                        <span
+                            key={country.id}
+                            title={country.name}
+                        >
+                            <span className={`flag-icon flag-icon-${country.id?.toLowerCase()}`} />&nbsp;
+                        </span>
+                    )}
+                </div>
             </Card.Body>
         </Card>
     );

@@ -349,6 +349,20 @@ body #app {
   .country-item-not-visited {
     opacity: 0.4;
   }
+
+  .trip-item {
+    display: flex;
+
+    .trip-item-flags {
+      flex-grow: 1;
+      text-align: right;
+
+      .flag-icon {
+        height: 30px;
+        width: 40px;
+      }
+    }
+  }
 }
 
 .form-grid {
