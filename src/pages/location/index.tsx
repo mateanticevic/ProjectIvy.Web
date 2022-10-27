@@ -10,6 +10,7 @@ import moment from 'moment';
 import mtz from 'moment-timezone';
 import _ from 'lodash';
 import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
+import ReactSelect from 'react-select';
 
 import { Page } from 'pages/page';
 import { DateFormElement, Map, Select } from 'components';
@@ -24,7 +25,6 @@ import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
-import ReactSelect from 'react-select';
 
 type Tracking = components['schemas']['Tracking'];
 

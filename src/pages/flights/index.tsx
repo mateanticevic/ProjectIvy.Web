@@ -11,8 +11,7 @@ import { DateFormElement, Map } from 'components';
 import { Page } from 'pages/page';
 import FlightModal from './flight-modal';
 import { FlightBinding } from 'types/flights';
-import { airlineLoader, airportLoader } from 'utils/select-loaders';
-import { RiTreasureMapLine } from 'react-icons/ri';
+import { airportLoader } from 'utils/select-loaders';
 
 enum MapMode {
     Airports,

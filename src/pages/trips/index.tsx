@@ -3,18 +3,17 @@ import { Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar, Button } 
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Chart } from 'react-google-charts';
+import _ from 'lodash';
+import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
 import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
 import { DateFormElement, DistributionCard, FlagIcon } from 'components';
 import { Page } from '../page';
 import TripModal from './trip-modal';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import moment from 'moment';
-
 import { components } from 'types/ivy-types';
 import { PagedList } from 'types/common';
-import _ from 'lodash';
 import YearTrips from './year-trips';
 import { cityLoader } from 'utils/select-loaders';
 

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
 import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
@@ -18,7 +19,6 @@ import { VolumeBadge } from './volume-badge';
 import { Unit } from 'consts/units';
 import DayConsumations from './day-consumations';
 import CountryMapModal from './country-map-modal';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface Props {
     toast: (title: string, message: string) => void;

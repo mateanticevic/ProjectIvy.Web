@@ -1,12 +1,12 @@
 import moment from 'moment';
 import React from 'react';
 import { Container, Card, Col, Row, Table, Badge, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { SimpleScatterChart } from 'components';
 import { ServiceModal } from './service-modal';
-import { useParams } from 'react-router-dom';
 
 interface QueryStrings {
     id: string;

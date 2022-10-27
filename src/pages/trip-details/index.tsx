@@ -3,6 +3,8 @@ import React from 'react';
 import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
 import { Marker, Polyline } from 'react-google-maps';
 import 'react-vertical-timeline-component/style.min.css';
+import AsyncSelect from 'react-select/async';
+import { useParams } from 'react-router';
 
 import api from 'api/main';
 import { Trip } from 'types/trips';
@@ -12,8 +14,6 @@ import RideModal from './ride-modal';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
 import { Flight } from 'types/flights';
-import { useParams } from 'react-router';
-import AsyncSelect from 'react-select/async';
 import { cityLoader } from 'utils/select-loaders';
 
 interface QueryStrings {

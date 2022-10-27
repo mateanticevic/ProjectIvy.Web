@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Accordion, Button } from 'react-bootstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
 import { DistributionCard } from 'components';
@@ -15,7 +16,6 @@ import Filters from './filters';
 import ExpenseLinkModal from './expense-link-modal';
 import DayExpenses from './day-expenses';
 import NumbersCard from './numbers-card';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { User } from 'types/users';
 import { UserContext } from 'contexts/user-context';
 
@@ -148,25 +148,25 @@ class ExpensesPage extends Page<{}, State> {
                                             filters={this.state.filters}
                                             onChange={this.onFiltersChanged}
                                         />
-                                        <Accordion>
-                                            <Accordion.Item eventKey="0">
-                                                <Accordion.Header>
-                                                    More filters
-                                                </Accordion.Header>
-                                                <Accordion.Body>
-                                                    <FiltersMore
-                                                        cards={this.state.cards}
-                                                        paymentTypes={this.state.paymentTypes}
-                                                        filters={this.state.filters}
-                                                        order={this.state.order}
-                                                        orderBy={this.state.orderBy}
-                                                        onChange={this.onFiltersChanged}
-                                                    />
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-                                        </Accordion>
                                     </Card.Body>
                                 </Card>
+                                <Accordion>
+                                    <Accordion.Item eventKey="0">
+                                        <Accordion.Header>
+                                            More filters
+                                        </Accordion.Header>
+                                        <Accordion.Body>
+                                            <FiltersMore
+                                                cards={this.state.cards}
+                                                paymentTypes={this.state.paymentTypes}
+                                                filters={this.state.filters}
+                                                order={this.state.order}
+                                                orderBy={this.state.orderBy}
+                                                onChange={this.onFiltersChanged}
+                                            />
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </Accordion>
                                 <div className="form-grid">
                                     <Button
                                         size="sm"

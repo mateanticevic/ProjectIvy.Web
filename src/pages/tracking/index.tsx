@@ -8,6 +8,7 @@ import { Polyline, Marker, Rectangle } from 'react-google-maps';
 import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
 import 'rc-slider/assets/index.css';
 import geohash from 'ngeohash';
+import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 
 import api from 'api/main';
 import { Map, RadioLabel } from 'components';
@@ -17,7 +18,6 @@ import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import MovementRow from './movement-row';
 import { Movement } from './types';
-import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 import SelectedMovement from './selected-movement';
 import CalendarGrid from './calendar-grid';
 
