@@ -6,15 +6,14 @@ import ButtonWithSpinner from 'components/button-with-spinner';
 import TripForm from './trip-form';
 
 interface Props {
-  buttonIsLoading: boolean;
-  isOpen: boolean;
-  loadCities: any;
-  onClose: () => void;
-  onChange: (changedValue: Partial<TripBinding>) => void;
-  onSave: () => void;
+    buttonIsLoading: boolean;
+    isOpen: boolean;
+    onClose: () => void;
+    onChange: (changedValue: Partial<TripBinding>) => void;
+    onSave: () => void;
 }
 
-const TripModal = ({ buttonIsLoading, isOpen, loadCities, onClose, onChange, onSave }: Props) => {
+const TripModal = ({ buttonIsLoading, isOpen, onClose, onChange, onSave }: Props) => {
     return (
         <Modal
             backdrop="static"
@@ -27,14 +26,14 @@ const TripModal = ({ buttonIsLoading, isOpen, loadCities, onClose, onChange, onS
             <Modal.Body>
                 <TripForm
                     onChange={onChange}
-                    loadCities={loadCities} />
+                />
             </Modal.Body>
             <Modal.Footer>
                 <ButtonWithSpinner
                     isLoading={buttonIsLoading}
                     onClick={onSave}
                 >
-          Add
+                    Add
                 </ButtonWithSpinner>
             </Modal.Footer>
         </Modal>

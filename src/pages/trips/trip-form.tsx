@@ -4,13 +4,13 @@ import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
 import { TripBinding } from 'types/trips';
+import { cityLoader } from 'utils/select-loaders';
 
 interface Props {
-  loadCities: any;
   onChange: (changedValue: Partial<TripBinding>) => void;
 }
 
-const TripForm = ({ loadCities, onChange }: Props) => {
+const TripForm = ({ onChange }: Props) => {
     return (
         <div>
             <FormLabel>Name</FormLabel>
@@ -21,7 +21,7 @@ const TripForm = ({ loadCities, onChange }: Props) => {
             <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ timestampEnd: x.format('YYYY-MM-DD HH:mm') })} />
             <FormLabel>Cities</FormLabel>
             <AsyncSelect
-                loadOptions={loadCities}
+                loadOptions={cityLoader}
                 isMulti
                 onChange={cities => onChange({ cityIds: cities.map(x => x.value) })}
                 defaultOptions

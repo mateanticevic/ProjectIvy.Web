@@ -225,7 +225,6 @@ class TripsPage extends Page<{}, State> {
                     onClose={() => this.setState({ isModalOpen: false })}
                     onChange={this.onTripChanged}
                     onSave={this.onTripSave}
-                    loadCities={this.loadCities}
                     isOpen={this.state.isModalOpen}
                 />
             </Container>
