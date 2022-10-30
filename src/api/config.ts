@@ -5,6 +5,7 @@ import { httpContentType } from './http-content-type';
 import { httpHeader } from './http-header';
 import { httpMethod } from './http-method';
 import { httpStatus } from './http-status';
+import { redirectToAuth } from 'utils/redirect-helper';
 
 const headers = new Headers();
 
@@ -20,7 +21,7 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        window.location = `${process.env.AUTH_URL}/connect/authorize?client_id=${process.env.OAUTH_CLIENT_ID}&scope=openid%20userid&response_type=id_token%20token&redirect_uri=${encodeURIComponent(process.env.APP_URL)}&nonce=${_.uniqueId()}`;
+        redirectToAuth();
     } else {
         throw new Error(response.status);
     }

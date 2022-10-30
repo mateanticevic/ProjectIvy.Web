@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Spinner, Toast } from 'react-bootstrap';
+import _ from 'lodash';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -24,6 +25,7 @@ import LocationPage from 'pages/location';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import CountriesPage from 'pages/countries';
+import { redirectToAuth } from 'utils/redirect-helper';
 
 interface State {
     error?: string,
@@ -65,12 +67,14 @@ export default class Root extends React.Component<{}, State> {
                     });
                 })
                 .catch(error => {
-                    console.log(error);
                     this.setState({
                         error: error.message,
                         loadingState: LoadingState.Error,
                     });
                 });
+        }
+        else {
+            redirectToAuth();
         }
     }
 
