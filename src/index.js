@@ -1,12 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
 import moment from 'moment';
-
-import Root from './root';
-
+import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
 import './styles/overrides.scss';
+
+import Root from './root';
 
 // Move this somewhere
 moment.locale('hr', {
@@ -16,7 +15,7 @@ moment.locale('hr', {
     },
 });
 
-render(
-    <Root />,
-    document.getElementById('app')
-);
+const rootElement = document.getElementById("app");
+const root = createRoot(rootElement);
+
+root.render(<Root />);
