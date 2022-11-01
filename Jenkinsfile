@@ -6,10 +6,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                   def version = readJSON(file: 'package.json').version
-                   currentBuild.displayName = version
-
-                   def image = docker.build("mateanticevic/project-ivy-web", "--build-arg version=${version} .")
+                    def package = props = readJSON file: 'package.json'
+                    currentBuild.displayName = package.version
+                    
+                    def image = docker.build("mateanticevic/project-ivy-web", "--build-arg version=${version} .")
                 }
             }
         }
