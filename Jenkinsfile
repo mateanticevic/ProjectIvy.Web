@@ -6,8 +6,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def package = readJSON file: 'package.json'
-                    currentBuild.displayName = package.version
+                    def package = "custom"
+                    currentBuild.displayName = package
 
                     def image = docker.build('mateanticevic/project-ivy-web', "--build-arg version=custom .")
                 }
