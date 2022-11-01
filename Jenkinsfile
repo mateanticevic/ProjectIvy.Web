@@ -6,9 +6,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def package = props = readJSON file: 'package.json'
+                    def package = readJSON file: 'package.json'
                     currentBuild.displayName = package.version
-                    
+
                     def image = docker.build("mateanticevic/project-ivy-web", "--build-arg version=${version} .")
                 }
             }
