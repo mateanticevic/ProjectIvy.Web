@@ -17,6 +17,19 @@ export interface paths {
       };
     };
   };
+  "/Account/{accountId}/overview": {
+    get: {
+      parameters: {
+        path: {
+          accountId: string;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
   "/Account/{accountId}/transaction": {
     post: {
       parameters: {
@@ -94,9 +107,9 @@ export interface paths {
         /** Success */
         200: {
           content: {
-            "text/plain": { [key: string]: any };
-            "application/json": { [key: string]: any };
-            "text/json": { [key: string]: any };
+            "text/plain": { [key: string]: unknown };
+            "application/json": { [key: string]: unknown };
+            "text/json": { [key: string]: unknown };
           };
         };
       };
@@ -597,6 +610,19 @@ export interface paths {
       };
     };
   };
+  "/City/Visited/{cityId}": {
+    post: {
+      parameters: {
+        path: {
+          cityId: string;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
   "/Common/Airline": {
     get: {
       parameters: {
@@ -678,6 +704,29 @@ export interface paths {
   };
   "/Common/IncomeType": {
     get: {
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/Consumation/Alcohol/ByYear": {
+    get: {
+      parameters: {
+        query: {
+          BeerId?: string;
+          BrandId?: string;
+          CountryId?: string;
+          Serving?: components["schemas"]["BeerServing"];
+          StyleId?: string;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
       responses: {
         /** Success */
         200: unknown;
@@ -1356,6 +1405,33 @@ export interface paths {
       };
     };
   };
+  "/Country/{countryId}/City": {
+    get: {
+      parameters: {
+        path: {
+          countryId: string;
+        };
+        query: {
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["CityPagedView"];
+            "application/json": components["schemas"]["CityPagedView"];
+            "text/json": components["schemas"]["CityPagedView"];
+          };
+        };
+      };
+    };
+  };
   "/Country/Count": {
     get: {
       parameters: {
@@ -1404,6 +1480,7 @@ export interface paths {
           CountryId?: string[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
+          IsDomestic?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1446,6 +1523,7 @@ export interface paths {
           CountryId?: string[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
+          IsDomestic?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2774,6 +2852,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2826,6 +2905,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2859,6 +2939,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2886,6 +2967,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2913,6 +2995,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2940,6 +3023,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2967,6 +3051,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2994,6 +3079,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3021,6 +3107,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3048,6 +3135,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3075,6 +3163,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3102,6 +3191,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3135,6 +3225,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3162,6 +3253,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3195,6 +3287,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3222,6 +3315,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3255,6 +3349,7 @@ export interface paths {
           Title?: string;
           MyRating?: number[];
           Year?: number[];
+          YearWatched?: number[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3589,6 +3684,12 @@ export interface paths {
         };
       };
     };
+    post: {
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
   };
   "/Tracking/Count": {
     get: {
@@ -3915,6 +4016,7 @@ export interface paths {
           CountryId?: string[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
+          IsDomestic?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3954,6 +4056,29 @@ export interface paths {
       };
     };
   };
+  "/Trip/Days/ByYear": {
+    get: {
+      parameters: {
+        query: {
+          CityId?: string[];
+          CountryId?: string[];
+          OrderBy?: components["schemas"]["TripSort"];
+          Search?: string;
+          IsDomestic?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
   "/User": {
     get: {
       responses: {
@@ -3964,6 +4089,20 @@ export interface paths {
             "application/json": components["schemas"]["User"];
             "text/json": components["schemas"]["User"];
           };
+        };
+      };
+    };
+    put: {
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+      requestBody: {
+        content: {
+          "application/json-patch+json": components["schemas"]["UserUpdateBinding"];
+          "application/json": components["schemas"]["UserUpdateBinding"];
+          "text/json": components["schemas"]["UserUpdateBinding"];
+          "application/*+json": components["schemas"]["UserUpdateBinding"];
         };
       };
     };
@@ -4020,9 +4159,9 @@ export interface paths {
         /** Success */
         200: {
           content: {
-            "text/plain": { [key: string]: unknown }[];
-            "application/json": { [key: string]: unknown }[];
-            "text/json": { [key: string]: unknown }[];
+            "text/plain": unknown[];
+            "application/json": unknown[];
+            "text/json": unknown[];
           };
         };
       };
@@ -4179,28 +4318,35 @@ export interface components {
       name?: string | null;
     };
     AirportPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Airport"][] | null;
     };
     Artist: {
       name?: string | null;
+      /** Format: int32 */
       playCount?: number;
+      /** Format: int32 */
       rank?: number;
       url?: string | null;
     };
     Beer: {
       id?: string | null;
       name?: string | null;
+      /** Format: double */
       abv?: number;
       style?: components["schemas"]["BeerStyle"];
     };
     BeerBinding: {
+      /** Format: double */
       abv?: number;
       brandId?: string | null;
       name?: string | null;
       styleId?: string | null;
     };
+    /** @enum {string} */
     BeerServing: "OnTap" | "Bottle" | "Can" | "Plastic";
+    /** @enum {string} */
     BeerSort: "Abv" | "Name";
     BeerStyle: {
       id?: string | null;
@@ -4212,30 +4358,38 @@ export interface components {
     };
     BrowserLog: {
       domain?: components["schemas"]["Domain"];
+      /** Format: date-time */
       end?: string;
+      /** Format: date-time */
       start?: string;
       web?: components["schemas"]["Web"];
     };
     BrowserLogBinding: {
       isSecured?: boolean;
+      /** Format: date-time */
       end?: string;
+      /** Format: date-time */
       start?: string;
       deviceId?: string | null;
       domain?: string | null;
     };
     BrowserLogPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["BrowserLog"][] | null;
     };
     CallBinding: {
       number?: string | null;
+      /** Format: date-time */
       timestamp?: string;
       fileId?: string | null;
+      /** Format: int32 */
       duration?: number;
     };
     Car: {
       id?: string | null;
       model?: components["schemas"]["CarModel"];
+      /** Format: int32 */
       productionYear?: number;
       services?: components["schemas"]["CarService"][] | null;
       serviceDue?: components["schemas"]["CarServiceDue"][] | null;
@@ -4244,61 +4398,76 @@ export interface components {
       model?: string | null;
       manufacturerId?: string | null;
       valueId?: string | null;
+      /** Format: int32 */
       productionYear?: number;
     };
-    Card: {
-      id?: string | null;
-      name?: string | null;
-      expires?: string;
-      issued?: string;
-      lastFourDigits?: string | null;
-    };
     CarLog: {
+      /** Format: int32 */
       odometer?: number | null;
+      /** Format: date-time */
       timestamp?: string;
     };
     CarLogBinding: {
       carValueId?: string | null;
+      /** Format: int32 */
       odometer?: number;
     };
     CarLogBySession: {
+      /** Format: date-time */
       end?: string;
+      /** Format: date-time */
       start?: string;
+      /** Format: int32 */
       distance?: number | null;
+      /** Format: int32 */
       count?: number;
+      /** Format: double */
       fuelUsed?: number | null;
+      /** Format: int32 */
       maxEngineRpm?: number | null;
+      /** Format: int32 */
       maxSpeed?: number | null;
       session?: string | null;
     };
     CarModel: {
+      /** Format: int32 */
       engineDisplacement?: number;
+      /** Format: int32 */
       modelYear?: number;
       id?: string | null;
       name?: string | null;
+      /** Format: int32 */
       power?: number;
       manufacturer?: components["schemas"]["Manufacturer"];
     };
     CarService: {
       id?: string | null;
       serviceType?: components["schemas"]["CarServiceType"];
+      /** Format: date-time */
       date?: string;
       description?: string | null;
     };
     CarServiceBinding: {
+      /** Format: date-time */
       date?: string;
       description?: string | null;
       typeId?: string | null;
     };
     CarServiceDue: {
+      /** Format: int32 */
       dueAt?: number | null;
+      /** Format: int32 */
       dueIn?: number | null;
+      /** Format: date-time */
       dueBefore?: string | null;
+      /** Format: date-time */
       dueBeforeApprox?: string | null;
       serviceType?: components["schemas"]["CarServiceType"];
     };
     CarServiceInterval: {
+      /** Format: int32 */
       days?: number | null;
+      /** Format: int32 */
       range?: number | null;
       serviceType?: components["schemas"]["CarServiceType"];
     };
@@ -4306,37 +4475,64 @@ export interface components {
       id?: string | null;
       name?: string | null;
     };
+    Card: {
+      id?: string | null;
+      name?: string | null;
+      /** Format: date-time */
+      expires?: string;
+      /** Format: date-time */
+      issued?: string;
+      lastFourDigits?: string | null;
+    };
     City: {
       id?: string | null;
       name?: string | null;
+      /** Format: double */
+      lat?: number | null;
+      /** Format: double */
+      lng?: number | null;
       country?: components["schemas"]["Country"];
+    };
+    CityPagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["City"][] | null;
     };
     Consumation: {
       beer?: components["schemas"]["Beer"];
+      /** Format: date-time */
       date?: string;
+      /** Format: int32 */
       volume?: number;
       serving?: components["schemas"]["BeerServing"];
     };
     ConsumationBinding: {
       beerId?: string | null;
       servingId?: string | null;
+      /** Format: date-time */
       date?: string;
+      /** Format: int32 */
       units?: number;
+      /** Format: int32 */
       volume?: number;
     };
     ConsumationPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Consumation"][] | null;
     };
     Country: {
       id?: string | null;
       name?: string | null;
+      /** Format: int64 */
+      population?: number | null;
     };
     CountryBoundaries: {
       country?: components["schemas"]["Country"];
       polygons?: components["schemas"]["Location"][][] | null;
     };
     CountryPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Country"][] | null;
     };
@@ -4346,6 +4542,7 @@ export interface components {
       name?: string | null;
       symbol?: string | null;
     };
+    /** @enum {string} */
     DayOfWeek:
       | "Sunday"
       | "Monday"
@@ -4358,15 +4555,24 @@ export interface components {
       id?: string | null;
     };
     Expense: {
+      /** Format: double */
       amount?: number;
+      /** Format: double */
       parentCurrencyExchangeRate?: number | null;
       comment?: string | null;
       card?: components["schemas"]["Card"];
       currency?: components["schemas"]["Currency"];
       files?: components["schemas"]["ExpenseFile"][] | null;
+      /** Format: double */
+      parentAmount?: number | null;
       parentCurrency?: components["schemas"]["Currency"];
+      /** Format: date-time */
       date?: string;
+      /** Format: date-time */
+      datePaid?: string;
+      /** Format: date-time */
       modified?: string | null;
+      /** Format: date-time */
       timestamp?: string | null;
       expenseType?: components["schemas"]["ExpenseType"];
       poi?: components["schemas"]["Poi"];
@@ -4377,14 +4583,21 @@ export interface components {
       vendor?: components["schemas"]["Vendor"];
     };
     ExpenseBinding: {
+      /** Format: double */
       amount?: number;
+      /** Format: double */
       parentCurrencyExchangeRate?: number | null;
       comment?: string | null;
       currencyId?: string | null;
+      /** Format: date-time */
       date?: string;
+      /** Format: date-time */
+      datePaid?: string | null;
       expenseTypeId?: string | null;
       needsReview?: boolean;
       paymentTypeId?: string | null;
+      /** Format: double */
+      parentAmount?: number | null;
       parentCurrencyId?: string | null;
       cardId?: string | null;
       poiId?: string | null;
@@ -4407,9 +4620,11 @@ export interface components {
       name?: string | null;
     };
     ExpensePagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Expense"][] | null;
     };
+    /** @enum {string} */
     ExpenseSort: "Date" | "Created" | "Modified" | "Amount";
     ExpenseType: {
       id?: string | null;
@@ -4421,7 +4636,9 @@ export interface components {
     };
     File: {
       id?: string | null;
+      /** Format: int32 */
       size?: number;
+      /** Format: date-time */
       created?: string;
       type?: components["schemas"]["FileType"];
     };
@@ -4435,13 +4652,16 @@ export interface components {
       destinationId?: string | null;
       flightNumber?: string | null;
       originId?: string | null;
+      /** Format: date-time */
       arrival?: string;
+      /** Format: date-time */
       departure?: string;
     };
     GoogleCloudDialogflowV2Context: {
+      /** Format: int32 */
       lifespanCount?: number | null;
       name?: string | null;
-      parameters?: { [key: string]: any } | null;
+      parameters?: { [key: string]: unknown } | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2EntityTypeEntity: {
@@ -4452,7 +4672,7 @@ export interface components {
     GoogleCloudDialogflowV2EventInput: {
       languageCode?: string | null;
       name?: string | null;
-      parameters?: { [key: string]: any } | null;
+      parameters?: { [key: string]: unknown } | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2Intent: {
@@ -4479,6 +4699,7 @@ export interface components {
         | components["schemas"]["GoogleCloudDialogflowV2IntentParameter"][]
         | null;
       parentFollowupIntentName?: string | null;
+      /** Format: int32 */
       priority?: number | null;
       resetContexts?: boolean | null;
       rootFollowupIntentName?: string | null;
@@ -4502,7 +4723,7 @@ export interface components {
       linkOutSuggestion?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageLinkOutSuggestion"];
       listSelect?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelect"];
       mediaContent?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContent"];
-      payload?: { [key: string]: any } | null;
+      payload?: { [key: string]: unknown } | null;
       platform?: string | null;
       quickReplies?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageQuickReplies"];
       simpleResponses?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponses"];
@@ -4700,6 +4921,7 @@ export interface components {
       parts?:
         | components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrasePart"][]
         | null;
+      /** Format: int32 */
       timesAddedCount?: number | null;
       type?: string | null;
       eTag?: string | null;
@@ -4712,7 +4934,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2OriginalDetectIntentRequest: {
-      payload?: { [key: string]: any } | null;
+      payload?: { [key: string]: unknown } | null;
       source?: string | null;
       version?: string | null;
       eTag?: string | null;
@@ -4721,27 +4943,31 @@ export interface components {
       action?: string | null;
       allRequiredParamsPresent?: boolean | null;
       cancelsSlotFilling?: boolean | null;
-      diagnosticInfo?: { [key: string]: any } | null;
+      diagnosticInfo?: { [key: string]: unknown } | null;
       fulfillmentMessages?:
         | components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][]
         | null;
       fulfillmentText?: string | null;
       intent?: components["schemas"]["GoogleCloudDialogflowV2Intent"];
+      /** Format: float */
       intentDetectionConfidence?: number | null;
       languageCode?: string | null;
       outputContexts?:
         | components["schemas"]["GoogleCloudDialogflowV2Context"][]
         | null;
-      parameters?: { [key: string]: any } | null;
+      parameters?: { [key: string]: unknown } | null;
       queryText?: string | null;
       sentimentAnalysisResult?: components["schemas"]["GoogleCloudDialogflowV2SentimentAnalysisResult"];
+      /** Format: float */
       speechRecognitionConfidence?: number | null;
-      webhookPayload?: { [key: string]: any } | null;
+      webhookPayload?: { [key: string]: unknown } | null;
       webhookSource?: string | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2Sentiment: {
+      /** Format: float */
       magnitude?: number | null;
+      /** Format: float */
       score?: number | null;
       eTag?: string | null;
     };
@@ -4773,7 +4999,7 @@ export interface components {
       outputContexts?:
         | components["schemas"]["GoogleCloudDialogflowV2Context"][]
         | null;
-      payload?: { [key: string]: any } | null;
+      payload?: { [key: string]: unknown } | null;
       sessionEntityTypes?:
         | components["schemas"]["GoogleCloudDialogflowV2SessionEntityType"][]
         | null;
@@ -4787,25 +5013,31 @@ export interface components {
       extraLarge?: string | null;
     };
     Income: {
+      /** Format: double */
       amount?: number;
       currency?: components["schemas"]["Currency"];
       description?: string | null;
       source?: components["schemas"]["IncomeSource"];
       type?: components["schemas"]["IncomeType"];
+      /** Format: date-time */
       timestamp?: string;
     };
     IncomeBinding: {
+      /** Format: double */
       amount?: number;
       currencyId?: string | null;
       description?: string | null;
       sourceId?: string | null;
       typeId?: string | null;
+      /** Format: date-time */
       date?: string;
     };
     IncomePagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Income"][] | null;
     };
+    /** @enum {string} */
     IncomeSort: "Date" | "Amount";
     IncomeSource: {
       id?: string | null;
@@ -4816,36 +5048,49 @@ export interface components {
       name?: string | null;
     };
     Int32GroupedByMonth: {
+      /** Format: int32 */
       data?: number;
+      /** Format: int32 */
       month?: number;
+      /** Format: int32 */
       year?: number;
     };
     IotDeviceDataBinding: {
       deviceId?: string | null;
       fieldIdentifier?: string | null;
       value?: string | null;
+      /** Format: date-time */
       timestamp?: string | null;
     };
     Location: {
+      /** Format: double */
       latitude?: number;
+      /** Format: double */
       longitude?: number;
     };
     Manufacturer: {
       name?: string | null;
     };
     Movie: {
+      /** Format: date-time */
       timestamp?: string;
+      /** Format: int32 */
       myRating?: number;
+      /** Format: double */
       rating?: number;
+      /** Format: int32 */
       runtime?: number;
+      /** Format: int32 */
       year?: number;
       imdbId?: string | null;
       title?: string | null;
     };
     MoviePagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Movie"][] | null;
     };
+    /** @enum {string} */
     MovieSort:
       | "Watched"
       | "Rating"
@@ -4869,7 +5114,9 @@ export interface components {
       address?: string | null;
       name?: string | null;
       poiCategoryId?: string | null;
+      /** Format: double */
       latitude?: number;
+      /** Format: double */
       longitude?: number;
     };
     PoiCategory: {
@@ -4877,6 +5124,7 @@ export interface components {
       name?: string | null;
     };
     PoiPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Poi"][] | null;
     };
@@ -4885,77 +5133,110 @@ export interface components {
       destinationPoiId?: string | null;
       originCityId?: string | null;
       originPoiId?: string | null;
+      /** Format: date-time */
       arrival?: string;
+      /** Format: date-time */
       departure?: string;
       typeId?: string | null;
     };
     StringDecimalKeyValuePair: {
       key?: string | null;
+      /** Format: double */
       value?: number;
     };
     StringInt32KeyValuePair: {
       key?: string | null;
+      /** Format: int32 */
       value?: number;
     };
     TimeByDay: {
+      /** Format: date-time */
       day?: string;
+      /** Format: int32 */
       seconds?: number;
+      /** Format: int32 */
       sessions?: number;
     };
     Track: {
       artist?: components["schemas"]["Artist"];
       images?: components["schemas"]["Images"];
       title?: string | null;
+      /** Format: date-time */
       timestamp?: string | null;
     };
     Tracking: {
+      /** Format: double */
       accuracy?: number | null;
+      /** Format: double */
       altitude?: number | null;
+      /** Format: double */
       latitude?: number;
+      /** Format: double */
       longitude?: number;
+      /** Format: double */
       lat?: number;
+      /** Format: double */
       lng?: number;
+      /** Format: double */
       speed?: number | null;
+      /** Format: date-time */
       timestamp?: string;
     };
     TrackingBinding: {
+      /** Format: double */
       accuracy?: number | null;
+      /** Format: double */
       altitude?: number | null;
+      /** Format: double */
       latitude?: number;
+      /** Format: double */
       longitude?: number;
+      /** Format: date-time */
       timestamp?: string;
+      /** Format: double */
       speed?: number | null;
     };
+    /** @enum {string} */
     TransactionSource: "Hac" | "OtpBank" | "Revolut";
     TransferWiseTransferEvent: {
+      /** Format: int32 */
       resourceId?: number;
       message?: string | null;
     };
     Trip: {
       id?: string | null;
       name?: string | null;
+      /** Format: date-time */
       timestampEnd?: string;
+      /** Format: date-time */
       timestampStart?: string;
+      /** Format: int32 */
       distance?: number;
       countries?: components["schemas"]["Country"][] | null;
       cities?: components["schemas"]["City"][] | null;
       files?: components["schemas"]["File"][] | null;
       expenses?: components["schemas"]["Expense"][] | null;
       pois?: components["schemas"]["Poi"][] | null;
+      /** Format: double */
       totalSpent?: number;
     };
     TripBinding: {
       name?: string | null;
+      /** Format: date-time */
       timestampEnd?: string;
+      /** Format: date-time */
       timestampStart?: string;
       cityIds?: string[] | null;
     };
     TripPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Trip"][] | null;
     };
+    /** @enum {string} */
     TripSort: "Date" | "Duration";
     User: {
+      defaultCar?: components["schemas"]["Car"];
       defaultCurrency?: components["schemas"]["Currency"];
       firstName?: string | null;
       lastName?: string | null;
@@ -4963,12 +5244,18 @@ export interface components {
       username?: string | null;
       modules?: string[] | null;
     };
+    UserUpdateBinding: {
+      defaultCarId?: string | null;
+      defaultCurrencyId?: string | null;
+      defaultLanguageId?: string | null;
+    };
     Vendor: {
       id?: string | null;
       name?: string | null;
       city?: components["schemas"]["City"];
     };
     VendorPagedView: {
+      /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Vendor"][] | null;
     };
@@ -4977,6 +5264,7 @@ export interface components {
       name?: string | null;
     };
     WebTime: {
+      /** Format: int32 */
       seconds?: number;
       webId?: string | null;
     };
