@@ -37,13 +37,16 @@ const unitMapping = {
 };
 
 interface Props {
+    dontRenderCard?: boolean;
+    stacked?: boolean;
     unit?: string;
     unitType?: Unit;
     countByOptions?(): void;
+    onClick?(): void;
     onGroupByChange?(): void;
 }
 
-export const DistributionCard = ({ countByOptions, data, name, unit, unitType, onGroupByChange }: Props) => {
+export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
     const applyUnitFormatting = (data) => {
         if (unitType == Unit.Volume) {
             return data.map(x => {
@@ -80,16 +83,24 @@ export const DistributionCard = ({ countByOptions, data, name, unit, unitType, o
         });
     }
 
+    const ChartComponent = () => <SimpleBarChart
+        data={stacked ? data : df}
+        name="key"
+        stacked={stacked}
+        unit={unitType ? unitMapping[unitType] : unit ?? ''}
+        value="value"
+        onClick={onClick}
+    />;
+
+    if (dontRenderCard){
+        return (<ChartComponent />);
+    }
+
     return (
         <Card>
             <Card.Header>{name}</Card.Header>
             <Card.Body>
-                <SimpleBarChart
-                    data={df}
-                    name="key"
-                    unit={unitType ? unitMapping[unitType] : unit ?? ''}
-                    value="value"
-                />
+                <ChartComponent />
             </Card.Body>
             <Card.Footer>
                 {countByOptions &&

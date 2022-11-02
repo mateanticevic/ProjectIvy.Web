@@ -58,21 +58,15 @@ const getSumByMonth = (filters) => api.get('expense/sum/byMonth', filters);
 
 const getSumByMonthOfYear = (filters) => api.get('expense/sum/byMonthOfYear', filters);
 
-function getSumByYear(filters) {
-    return api.get('expense/sum/byyear', filters);
-}
+const getSumByMonthOfYearByType = (filters) => api.get(`expense/sum/byMonthOfYear/byType`, filters);
 
-function post(expense) {
-    return api.post('expense', expense);
-}
+const getSumByYear = (filters) => api.get('expense/sum/byYear', filters);
 
-function put(expense) {
-    return api.put(`expense/${expense.id}`, expense);
-}
+const post = (expense) => api.post('expense', expense);
 
-function postFile(expenseId, fileId, payload) {
-    return api.post(`expense/${expenseId}/file/${fileId}`, payload);
-}
+const postFile = (expenseId, fileId, payload) => api.post(`expense/${expenseId}/file/${fileId}`, payload);
+
+const put = (expense) => api.put(`expense/${expense.id}`, expense);
 
 const expense = {
     get,
@@ -92,6 +86,7 @@ const expense = {
     getSumByDayOfWeek,
     getSumByMonth,
     getSumByMonthOfYear,
+    getSumByMonthOfYearByType,
     getSumByYear,
     post,
     put,

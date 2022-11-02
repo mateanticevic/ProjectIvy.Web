@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, Card, Row, Accordion, Button } from 'react-bootstrap';
+import { Col, Container, Card, Row, Accordion, Button, Modal, Form } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
@@ -18,6 +18,7 @@ import DayExpenses from './day-expenses';
 import NumbersCard from './numbers-card';
 import { User } from 'types/users';
 import { UserContext } from 'contexts/user-context';
+import { FaThList } from 'react-icons/fa';
 
 interface State {
     cards: any[];
@@ -33,6 +34,7 @@ interface State {
     isSavingExpense: boolean;
     isModalOpen: boolean;
     isLinkModalOpen: boolean;
+    isSumModalOpen: boolean;
     layoutMode: LayoutMode;
     orderBy: any;
     paymentTypes: any[];
@@ -40,8 +42,11 @@ interface State {
     selectedExpenseId?: string;
     selectedTripId?: string;
     sumByCurrency: any;
+    sumByType: boolean;
     sumChartData: any;
     sumGroupBy: GroupByTime;
+    sumGroupByBaseType: boolean;
+    sumGroupByType: boolean;
     types: any;
     vendors: any;
     vendorPois: any;
@@ -88,6 +93,7 @@ class ExpensesPage extends Page<{}, State> {
         isSavingExpense: false,
         isLinkModalOpen: false,
         isModalOpen: false,
+        isSumModalOpen: false,
         order: [
             { id: 'false', name: 'Descending' },
             { id: 'true', name: 'Ascending' },
@@ -106,7 +112,10 @@ class ExpensesPage extends Page<{}, State> {
         },
         sumChartData: [],
         sumByCurrency: [],
+        sumByType: true,
         sumGroupBy: GroupByTime.ByMonthOfYear,
+        sumGroupByBaseType: true,
+        sumGroupByType: false,
         types: [],
         vendors: [],
         vendorPois: [],
@@ -124,7 +133,7 @@ class ExpensesPage extends Page<{}, State> {
     }
 
     render() {
-        const { expenses, filters, sumByCurrency } = this.state;
+        const { expenses, filters, isSumModalOpen, sumByCurrency } = this.state;
         const { vendorCount, typeCount, sum } = this.state.stats;
 
         const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
@@ -201,9 +210,26 @@ class ExpensesPage extends Page<{}, State> {
                             countByOptions={sumByOptions}
                             data={this.state.sumChartData}
                             name="Sum"
+                            stacked={this.state.sumGroupByType}
                             unit={defaultCurrency.symbol}
+                            onClick={() => this.setState({ isSumModalOpen: true })}
                             onGroupByChange={this.onSumGroupBy}
                         />
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                            <Form.Check
+                                type="checkbox"
+                                label="Group by type"
+                                checked={this.state.sumGroupByType}
+                                onChange={() => this.onSumGroupBy(undefined, !this.state.sumGroupByType)}
+                            />
+                            <Form.Check
+                                disabled={!this.state.sumGroupByType}
+                                type="checkbox"
+                                label="By base type"
+                                checked={this.state.sumGroupByBaseType}
+                                onChange={() => this.setState({ sumGroupByBaseType: !this.state.sumGroupByBaseType }, this.onSumGroupBy)}
+                            />
+                        </Form.Group>
                         <NumbersCard
                             expenseCount={expenses.count}
                             vendorCount={vendorCount}
@@ -243,6 +269,24 @@ class ExpensesPage extends Page<{}, State> {
                         uploadFile={this.uploadFile}
                     />
                 }
+                <Modal
+                    size="xl"
+                    show={isSumModalOpen}
+                    onHide={() => this.setState({ isSumModalOpen: false })}
+                >
+                    <Modal.Header>Sum by</Modal.Header>
+                    <Modal.Body>
+                        <DistributionCard
+                            dontRenderCard
+                            data={this.state.sumChartData}
+                            name="Sum"
+                            stacked={true}
+                            unit={defaultCurrency.symbol}
+                            countByOptions={sumByOptions}
+                            onGroupByChange={this.onSumGroupBy}
+                        />
+                    </Modal.Body>
+                </Modal>
             </Container>
         );
     }
@@ -386,9 +430,40 @@ class ExpensesPage extends Page<{}, State> {
             .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
     }
 
-    onSumGroupBy = (groupBy: GroupByTime) => {
-        this.setState({ sumGroupBy: groupBy });
-        maps[groupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
+    onSumGroupBy = (groupBy?: GroupByTime, groupByType?: boolean) => {
+        const sumGroupByType = groupByType === undefined ? this.state.sumGroupByType : groupByType;
+        this.setState({
+            sumGroupBy: groupBy ?? this.state.sumGroupBy,
+            sumGroupByType,
+        });
+
+        this.setState({ sumChartData: [] });
+
+        if (sumGroupByType) {
+            api.expense
+                .getSumByMonthOfYearByType({
+                    ...this.state.filters,
+                    byBaseType: this.state.sumGroupByBaseType,
+                })
+                .then(sumChartData => this.setState({ sumChartData: this.transformToChartData(sumChartData) }));
+        }
+        else {
+            maps[groupBy ?? this.state.sumGroupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
+        }
+    }
+
+    transformToChartData = (data) => {
+        return data.map(month => {
+            return Object.assign({
+                key: month.key
+            },
+                ...month.value.map(type => {
+                    return {
+                        [type.key]: type.value
+                    };
+                })
+            );
+        });
     }
 
     onVendorChange = (vendorId: string) => {
