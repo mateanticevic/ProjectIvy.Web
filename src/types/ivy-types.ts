@@ -803,12 +803,12 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
         };
       };
       responses: {
@@ -821,12 +821,12 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
         };
       };
       responses: {
@@ -839,12 +839,12 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
         };
       };
       responses: {
@@ -1412,12 +1412,12 @@ export interface paths {
           countryId: string;
         };
         query: {
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
         };
       };
       responses: {
@@ -1997,6 +1997,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2031,6 +2032,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2065,6 +2067,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2099,6 +2102,42 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
+          TargetCurrencyId?: string;
+          Day?: components["schemas"]["DayOfWeek"][];
+          Month?: number[];
+          OrderBy?: components["schemas"]["ExpenseSort"];
+          HasLinkedFiles?: boolean;
+          HasPoi?: boolean;
+          NeedsReview?: boolean;
+          AmountFrom?: number;
+          AmountTo?: number;
+          CardId?: string[];
+          CurrencyId?: string[];
+          Description?: string;
+          PaymentTypeId?: string[];
+          TypeId?: string[];
+          VendorId?: string[];
+          ExcludeId?: string[];
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/Expense/Sum/ByMonthOfYear/ByType": {
+    get: {
+      parameters: {
+        query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2133,6 +2172,42 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
+          TargetCurrencyId?: string;
+          Day?: components["schemas"]["DayOfWeek"][];
+          Month?: number[];
+          OrderBy?: components["schemas"]["ExpenseSort"];
+          HasLinkedFiles?: boolean;
+          HasPoi?: boolean;
+          NeedsReview?: boolean;
+          AmountFrom?: number;
+          AmountTo?: number;
+          CardId?: string[];
+          CurrencyId?: string[];
+          Description?: string;
+          PaymentTypeId?: string[];
+          TypeId?: string[];
+          VendorId?: string[];
+          ExcludeId?: string[];
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** Success */
+        200: unknown;
+      };
+    };
+  };
+  "/Expense/Sum/ByYear/ByType": {
+    get: {
+      parameters: {
+        query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2167,6 +2242,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -2201,6 +2277,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
+          ByBaseType?: boolean;
           TargetCurrencyId?: string;
           Day?: components["schemas"]["DayOfWeek"][];
           Month?: number[];
@@ -3526,12 +3603,12 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
         };
       };
       responses: {
