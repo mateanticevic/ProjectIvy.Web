@@ -43,7 +43,7 @@ interface State {
     selectedTripId?: string;
     sumByCurrency: any;
     sumByType: boolean;
-    sumChartData: any;
+    sumChartData?: any;
     sumGroupBy: GroupByTime;
     sumGroupByBaseType: boolean;
     sumGroupByType: boolean;
@@ -110,7 +110,6 @@ class ExpensesPage extends Page<{}, State> {
             typeCount: 0,
             vendorCount: 0,
         },
-        sumChartData: [],
         sumByCurrency: [],
         sumByType: true,
         sumGroupBy: GroupByTime.ByMonthOfYear,
@@ -437,7 +436,7 @@ class ExpensesPage extends Page<{}, State> {
             sumGroupByType,
         });
 
-        this.setState({ sumChartData: [] });
+        this.setState({ sumChartData: undefined });
 
         if (sumGroupByType) {
             api.expense

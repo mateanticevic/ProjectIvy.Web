@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { Card } from 'react-bootstrap';
+import { Card, Spinner } from 'react-bootstrap';
 import { RadioLabel, SimpleBarChart } from '.';
 import { Unit } from '../consts/units';
 import { GroupByTime } from '../consts/groupings';
@@ -46,19 +46,24 @@ interface Props {
     onGroupByChange?(): void;
 }
 
-export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
-    const applyUnitFormatting = (data) => {
-        if (unitType == Unit.Volume) {
-            return data.map(x => {
-                return {
-                    key: x.key,
-                    value: Math.round(x.value / 1000),
-                };
-            });
-        }
+const applyUnitFormatting = (data, unitType) => {
+    if (!data) {
+        return null;
+    }
+    if (unitType == Unit.Volume) {
+        return data.map(x => {
+            return {
+                key: x.key,
+                value: Math.round(x.value / 1000),
+            };
+        });
+    }
 
-        return data;
-    };
+    return data;
+};
+
+export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
+
 
     const applyKeyFormatting = {
         [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format('dddd'),
@@ -73,26 +78,34 @@ export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, un
         onGroupByChange && onGroupByChange(groupBy);
     };
 
-    let df = applyUnitFormatting(remap(data));
+    let df = stacked ? data : applyUnitFormatting(remap(data), unitType);
     if (applyKeyFormatting[groupByOption]) {
-        df = df.map(x => {
+        df = df?.map(x => {
             return {
+                ...x,
                 key: applyKeyFormatting[groupByOption](x.key),
-                value: x.value,
             };
         });
     }
 
-    const ChartComponent = () => <SimpleBarChart
-        data={stacked ? data : df}
+    const ChartComponent = () => data ? <SimpleBarChart
+        data={df}
         name="key"
         stacked={stacked}
         unit={unitType ? unitMapping[unitType] : unit ?? ''}
         value="value"
         onClick={onClick}
-    />;
+    />
+        :
+        <Spinner
+            as="span"
+            animation="grow"
+            size="sm"
+            role="status"
+            aria-hidden="true"
+        />;
 
-    if (dontRenderCard){
+    if (dontRenderCard) {
         return (<ChartComponent />);
     }
 
