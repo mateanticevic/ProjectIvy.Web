@@ -59,11 +59,16 @@ const sumByOptions = [
     { value: GroupByTime.ByYear, name: 'Year' },
 ];
 
-const maps = {
+const groupyByApis = {
     [GroupByTime.ByYear]: api.expense.getSumByYear,
     [GroupByTime.ByDayOfWeek]: api.expense.getSumByDayOfWeek,
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYear,
     [GroupByTime.ByMonth]: api.expense.getSumByMonth,
+};
+
+const groupyByTypeApis = {
+    [GroupByTime.ByYear]: api.expense.getSumByYearByType,
+    [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYearByType,
 };
 
 class ExpensesPage extends Page<{}, State> {
@@ -439,15 +444,14 @@ class ExpensesPage extends Page<{}, State> {
         this.setState({ sumChartData: undefined });
 
         if (sumGroupByType) {
-            api.expense
-                .getSumByMonthOfYearByType({
+            groupyByTypeApis[groupBy ?? this.state.sumGroupBy]({
                     ...this.state.filters,
                     byBaseType: this.state.sumGroupByBaseType,
                 })
                 .then(sumChartData => this.setState({ sumChartData: this.transformToChartData(sumChartData) }));
         }
         else {
-            maps[groupBy ?? this.state.sumGroupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
+            groupyByApis[groupBy ?? this.state.sumGroupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
         }
     }
 
