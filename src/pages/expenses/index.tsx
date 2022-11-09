@@ -477,7 +477,7 @@ class ExpensesPage extends Page<{}, State> {
     toExpenseBinding = (e: Expense): ExpenseBinding => {
         return {
             amount: e.amount,
-            cardId: e.card ? e.card.id : undefined,
+            cardId: e.card?.id,
             comment: e.comment,
             currencyId: e.currency.id,
             expenseTypeId: e.expenseType.id,
@@ -491,8 +491,8 @@ class ExpensesPage extends Page<{}, State> {
             id: e.id,
             installmentRef: e.installmentRef,
             paymentTypeId: e.paymentType.id,
-            poiId: e.poi ? e.poi.id : undefined,
-            vendorId: e.vendor ? e.vendor.id : undefined,
+            poiId: e.poi?.id,
+            vendorId: e.vendor?.id,
         };
     }
 

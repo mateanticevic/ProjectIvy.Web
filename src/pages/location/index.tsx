@@ -219,12 +219,28 @@ class LocationPage extends Page<{}, State> {
                                             <React.Fragment key={layer.id}>
                                                 <Marker
                                                     key={`${layer.id}-end`}
-                                                    position={trackingToLatLng(layer.endTracking)}
+                                                    icon="https://cdn.anticevic.net/icons/flag.png"
+                                                    position={trackingToLatLng(layer.trackings[layer.trackings.length - 1])}
                                                 />
                                                 <Marker
                                                     key={`${layer.id}-start`}
-                                                    position={trackingToLatLng(layer.startTracking)}
+                                                    icon="https://cdn.anticevic.net/icons/go.png"
+                                                    position={trackingToLatLng(layer.trackings[0])}
                                                 />
+                                                {layer.endTracking !== layer.trackings[layer.trackings.length - 1] &&
+                                                    <Marker
+                                                        key={`${layer.id}-trim-out`}
+                                                        icon="https://cdn.anticevic.net/icons/bracket-right.png"
+                                                        position={trackingToLatLng(layer.endTracking)}
+                                                    />
+                                                }
+                                                {layer.startTracking !== layer.trackings[0] &&
+                                                    <Marker
+                                                        key={`${layer.id}-trim-in`}
+                                                        icon="https://cdn.anticevic.net/icons/bracket-left.png"
+                                                        position={trackingToLatLng(layer.startTracking)}
+                                                    />
+                                                }
                                             </React.Fragment>
                                         )}
                                         {layers.filter(layer => layer instanceof GeohashLayer)
@@ -417,7 +433,7 @@ class LocationPage extends Page<{}, State> {
                     return layer.stops.map(stop =>
                         <Marker
                             key={_.uniqueId()}
-                            icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                            icon="https://cdn.anticevic.net/icons/visit-marker.png"
                             position={stop.latLng}
                         >
                             <InfoWindow>
@@ -437,7 +453,7 @@ class LocationPage extends Page<{}, State> {
                     return layer.trackings.map(tracking =>
                         <Marker
                             key={_.uniqueId()}
-                            icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                            icon="https://cdn.anticevic.net/icons/location.png"
                             position={trackingToLatLng(tracking)}
                             onClick={() => this.deleteTracking(layer, tracking)}
                         />
