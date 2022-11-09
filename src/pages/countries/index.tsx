@@ -71,7 +71,7 @@ class CountriesPage extends Page<{}, State> {
                                     {cities.map(city =>
                                         <Marker
                                             key={city.id}
-                                            icon="https://cdn.anticevic.net/icons/city.png"
+                                            icon="https://cdn.anticevic.net/icons/location-small.png"
                                             defaultPosition={{ lat: city.lat, lng: city.lng }}
                                             title={city.name}
                                         />

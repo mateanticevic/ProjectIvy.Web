@@ -118,7 +118,11 @@ class DashboardPage extends React.Component {
                                             defaultCenter={{ lat: location.tracking.lat, lng: location.tracking.lng }}
                                             defaultZoom={15}
                                         >
-                                            <Marker position={{ lat: location.tracking.lat, lng: location.tracking.lng }} title="Current location" />
+                                            <Marker
+                                                icon="https://cdn.anticevic.net/icons/location-small.png"
+                                                position={{ lat: location.tracking.lat, lng: location.tracking.lng }}
+                                                title="Current location"
+                                                />
                                         </Map>
                                     }
                                 </Card.Body>
