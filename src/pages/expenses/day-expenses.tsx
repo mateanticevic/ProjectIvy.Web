@@ -22,7 +22,7 @@ const DayExpenses = ({ day, expenses, nestedComponent, onExpenseClick }: Props) 
             </div>
             {expenses.map(expense =>
                 <ExpenseItem
-                    key={expense.id}
+                    key={`expense-item-${expense.id}`}
                     expense={expense}
                     onClick={onExpenseClick}
                 />

@@ -1,0 +1,1 @@
+export const iconUrl = (icon: string) => `https://cdn.anticevic.net/icons/${icon}.png`;

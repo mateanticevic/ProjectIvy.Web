@@ -10,6 +10,7 @@ import { components } from 'types/ivy-types';
 import { Marker } from 'react-google-maps';
 import AsyncSelect from 'react-select/async';
 import { cityLoader } from 'utils/select-loaders';
+import { iconUrl } from 'utils/cdn-helper';
 
 type City = components['schemas']['City'];
 
@@ -71,7 +72,7 @@ class CountriesPage extends Page<{}, State> {
                                     {cities.map(city =>
                                         <Marker
                                             key={city.id}
-                                            icon="https://cdn.anticevic.net/icons/location-small.png"
+                                            icon={iconUrl('location-small')}
                                             defaultPosition={{ lat: city.lat, lng: city.lng }}
                                             title={city.name}
                                         />

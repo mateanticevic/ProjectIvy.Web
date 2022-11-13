@@ -25,6 +25,7 @@ import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
+import { iconUrl } from 'utils/cdn-helper';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -219,25 +220,25 @@ class LocationPage extends Page<{}, State> {
                                             <React.Fragment key={layer.id}>
                                                 <Marker
                                                     key={`${layer.id}-end`}
-                                                    icon="https://cdn.anticevic.net/icons/flag.png"
+                                                    icon={iconUrl('flag')}
                                                     position={trackingToLatLng(layer.trackings[layer.trackings.length - 1])}
                                                 />
                                                 <Marker
                                                     key={`${layer.id}-start`}
-                                                    icon="https://cdn.anticevic.net/icons/go.png"
+                                                    icon={iconUrl('go')}
                                                     position={trackingToLatLng(layer.trackings[0])}
                                                 />
                                                 {layer.endTracking !== layer.trackings[layer.trackings.length - 1] &&
                                                     <Marker
                                                         key={`${layer.id}-trim-out`}
-                                                        icon="https://cdn.anticevic.net/icons/bracket-right.png"
+                                                        icon={iconUrl('bracket-right')}
                                                         position={trackingToLatLng(layer.endTracking)}
                                                     />
                                                 }
                                                 {layer.startTracking !== layer.trackings[0] &&
                                                     <Marker
                                                         key={`${layer.id}-trim-in`}
-                                                        icon="https://cdn.anticevic.net/icons/bracket-left.png"
+                                                        icon={iconUrl('bracket-left')}
                                                         position={trackingToLatLng(layer.startTracking)}
                                                     />
                                                 }

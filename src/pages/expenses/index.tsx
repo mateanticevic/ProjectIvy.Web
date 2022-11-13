@@ -397,13 +397,16 @@ class ExpensesPage extends Page<{}, State> {
             };
         }
 
-        this.pushHistoryState(state);
         this.setState({
             expensesAreLoading: !silent,
             filters,
         }, () => {
-            this.onSumGroupBy(this.state.sumGroupBy);
+            if (!pageChanged) {
+                this.onSumGroupBy(this.state.sumGroupBy);
+            }
         });
+
+        this.pushHistoryState(state);
 
         api.expense
             .get(filters)
@@ -445,9 +448,9 @@ class ExpensesPage extends Page<{}, State> {
 
         if (sumGroupByType) {
             groupyByTypeApis[groupBy ?? this.state.sumGroupBy]({
-                    ...this.state.filters,
-                    byBaseType: this.state.sumGroupByBaseType,
-                })
+                ...this.state.filters,
+                byBaseType: this.state.sumGroupByBaseType,
+            })
                 .then(sumChartData => this.setState({ sumChartData: this.transformToChartData(sumChartData) }));
         }
         else {
