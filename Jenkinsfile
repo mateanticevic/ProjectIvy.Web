@@ -1,3 +1,6 @@
+def image
+def version
+
 pipeline {
     agent {
         label 'worker'
@@ -6,11 +9,19 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def version = readJSON(file: 'package.json').version
+                    version = readJSON(file: 'package.json').version
                     currentBuild.displayName = version
 
-                    def image = docker.build("mateanticevic/project-ivy-web:${version}")
+                    image = docker.build("mateanticevic/project-ivy-web:${version}")
                 }
+            }
+        }
+        stage('Push') {
+            when {
+                branch 'master'
+            }
+            steps {
+                image.push()
             }
         }
     }
