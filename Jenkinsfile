@@ -21,7 +21,9 @@ pipeline {
                 branch 'master'
             }
             steps {
-                image.push()
+                script {
+                    image.push()
+                }
             }
         }
     }
