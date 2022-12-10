@@ -1,11 +1,11 @@
 # stage1 as builder
-FROM node:14 as builder
+FROM node:16 as builder
 
 # copy the package.json to install dependencies
 COPY package.json package-lock.json ./
 
 # Install the dependencies and make the folder
-RUN npm install && mkdir /build && mv ./node_modules ./build
+RUN npm install --legacy-peer-deps && mkdir /build && mv ./node_modules ./build
 
 WORKDIR /build
 
