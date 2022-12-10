@@ -9,7 +9,7 @@ pipeline {
                     def version = readJSON(file: 'package.json').version
                     currentBuild.displayName = version
 
-                    def image = docker.build('mateanticevic/project-ivy-web', "--build-arg version=custom .")
+                    def image = docker.build("mateanticevic/project-ivy-web:${version}")
                 }
             }
         }
