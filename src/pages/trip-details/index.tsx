@@ -15,6 +15,7 @@ import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
 import { Flight } from 'types/flights';
 import { cityLoader } from 'utils/select-loaders';
+import { UserContext } from 'contexts/user-context';
 
 interface QueryStrings {
     id: string;
@@ -77,6 +78,8 @@ class TripDetailsPage extends React.Component<Props, State> {
 
         const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
 
+        const { defaultCurrency }: User = this.context;
+
         return (
             <Container>
                 <Row>
@@ -109,7 +112,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                                         <ValueLabel label="Distance" unit="km" value={Number(trip.distance / 1000)} />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Spent" unit="kn" value={Number(trip.totalSpent)} />
+                                        <ValueLabel label="Spent" unit={defaultCurrency.symbol} value={Number(trip.totalSpent)} />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
                                         <ValueLabel label="Cities" value={trip.cities.length} />
@@ -220,6 +223,8 @@ class TripDetailsPage extends React.Component<Props, State> {
             .then(() => { });
     }
 }
+
+TripDetailsPage.contextType = UserContext;
 
 export default () =>
     <TripDetailsPage params={useParams() as QueryStrings} />;
