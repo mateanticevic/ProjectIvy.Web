@@ -2,6 +2,7 @@ import { components } from 'types/ivy-types';
 import * as api from '../config';
 
 type Tracking = components['schemas']['Tracking'];
+type TrackingBinding = components['schemas']['TrackingBinding'];
 
 const del = (timestamp: string) => api.del(`tracking/${timestamp}`);
 
@@ -27,6 +28,8 @@ function getLast(filters?: LastParameters) {
     return api.get('tracking/last', filters);
 }
 
+const post = (tracking: TrackingBinding) => api.put('tracking', tracking);
+
 const tracking = {
     del,
     get,
@@ -34,6 +37,7 @@ const tracking = {
     getDistance,
     getLast,
     getLastLocation,
+    post,
 };
 
 export default tracking;

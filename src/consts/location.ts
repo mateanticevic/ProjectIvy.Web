@@ -6,5 +6,6 @@ export enum DrawMode {
 export enum MapMode {
     Drag,
     Drop,
-    Select
+    Select,
+    New
 }

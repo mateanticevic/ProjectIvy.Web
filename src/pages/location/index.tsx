@@ -26,8 +26,10 @@ import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
 import { iconUrl } from 'utils/cdn-helper';
+import NewLocationModal from './new-location-modal';
 
 type Tracking = components['schemas']['Tracking'];
+type TrackingBinding = components['schemas']['TrackingBinding'];
 
 interface State {
     dateMode: DateMode,
@@ -40,6 +42,8 @@ interface State {
     layers: Layer[],
     mapMode: MapMode,
     mapZoom: number,
+    newLocationModalOpened: boolean,
+    newTracking: TrackingBinding,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
     selectedGeohashItems: GeohashItem[],
@@ -110,6 +114,9 @@ class LocationPage extends Page<{}, State> {
         layers: [],
         mapMode: MapMode.Drag,
         mapZoom: 13,
+        newLocationModalOpened: false,
+        newTracking: {
+        },
         polygonLayers: [],
         requestActive: false,
         selectedGeohashItems: []
@@ -122,7 +129,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -278,10 +285,16 @@ class LocationPage extends Page<{}, State> {
                                 }
                             </Card.Body>
                             <Card.Footer>
-                                <ToggleButtonGroup type="radio" name="options" value={mapMode} onChange={mapMode => this.setState({ mapMode })}>
+                                <ToggleButtonGroup
+                                    type="radio"
+                                    name="options"
+                                    value={mapMode}
+                                    onChange={mapMode => this.setState({ mapMode })}
+                                >
                                     <ToggleButton id="map-mode-drag" value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
                                     <ToggleButton id="map-mode-drop" value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
                                     <ToggleButton id="map-mode-select" value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
+                                    <ToggleButton id="map-mode-select" value={MapMode.New}><MdLocationOn /> New</ToggleButton>
                                 </ToggleButtonGroup>
                             </Card.Footer>
                         </Card>
@@ -302,6 +315,13 @@ class LocationPage extends Page<{}, State> {
                         )}
                     </Col>
                 </Row>
+                <NewLocationModal
+                    isOpen={newLocationModalOpened}
+                    tracking={newTracking}
+                    onChange={this.onNewLocationChanged}
+                    onClose={() => this.setState({ newLocationModalOpened: false })}
+                    onSave={this.onNewLocationSave}
+                />
             </Container>
         );
     }
@@ -385,7 +405,18 @@ class LocationPage extends Page<{}, State> {
     }
 
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
-        if (this.state.mapMode === MapMode.Drop) {
+        const { mapMode } = this.state;
+
+        console.log(event.latLng.lat());
+        this.setState({
+            newLocationModalOpened: true,
+            newTracking: {
+                latitude: event.latLng.lat(),
+                longitude: event.latLng.lng(),
+            }
+        });
+
+        if (mapMode === MapMode.Drop) {
             const layer = new PointLayer(event.latLng);
             this.setState({
                 layers: [
@@ -394,6 +425,24 @@ class LocationPage extends Page<{}, State> {
                 ],
             });
         }
+        else if (mapMode === MapMode.New) {
+            console.log('newww');
+        }
+    }
+
+    onNewLocationChanged = (changed: Partial<TrackingBinding>) => {
+        console.log(changed);
+        this.setState({
+            newTracking: {
+                ...this.state.newTracking,
+                ...changed,
+            }
+        });
+    }
+
+    onNewLocationSave = () => {
+        api.tracking.post(this.state.newTracking)
+            .then(() => this.setState({ newLocationModalOpened: false }));
     }
 
     onPolygonClip = (layer: PolygonLayer) => {
