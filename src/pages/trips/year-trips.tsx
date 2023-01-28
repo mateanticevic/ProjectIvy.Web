@@ -14,7 +14,7 @@ const YearTrips = ({ trips, year }: Props) => {
     return (
         <React.Fragment>
             <div>
-                <h3>{year}</h3>
+                <h2>{year}</h2>
             </div>
             {trips.map(trip =>
                 <TripItem

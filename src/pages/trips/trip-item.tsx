@@ -18,9 +18,9 @@ const TripItem = ({ trip }: Props) => {
     return (
         <Card onClick={() => navigate(`/trips/${trip.id}`)}>
             <Card.Body className="trip-item">
-                <h3>
+                <h5>
                     {trip.name}
-                </h3>
+                </h5>
                 <div className="trip-item-flags">
                     {trip.countries?.map(country =>
                         <span
