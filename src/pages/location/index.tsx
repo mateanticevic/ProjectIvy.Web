@@ -37,6 +37,7 @@ interface State {
     filterDay?: string,
     geohashPrecision: number,
     geohashSearch: number,
+    geohashSegments: string[],
     last?: Tracking,
     lastNDays: LastNDays,
     layers: Layer[],
@@ -47,6 +48,7 @@ interface State {
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
     selectedGeohashItems: GeohashItem[],
+    visitedGeohashes: string[],
     timezone?: string,
 }
 
@@ -63,6 +65,8 @@ enum LastNDays {
     Year = 'year'
 }
 
+const geohashCharacters = ['b', 'c', 'd', 'e', 'f', 'h', 'g', 'k', 'j', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
 const lastNDaysOptions = [
     { id: LastNDays.One, name: '24 hours' },
     { id: LastNDays.Week, name: 'Week' },
@@ -75,6 +79,18 @@ const lastNDaysMapping = {
     [LastNDays.Week]: 7,
     [LastNDays.Month]: 31,
     [LastNDays.Year]: 365,
+};
+
+const rectangleOptionsVisited: google.maps.RectangleOptions = {
+    strokeColor: '#0d6efd',
+    fillOpacity: 0,
+    strokeWeight: 1,
+};
+
+const rectangleOptionsNonVisited: google.maps.RectangleOptions = {
+    strokeColor: '#0d6efd',
+    fillOpacity: 0.4,
+    strokeWeight: 1,
 };
 
 interface PolygonProps {
@@ -110,26 +126,31 @@ class LocationPage extends Page<{}, State> {
         drawMode: DrawMode.Line,
         geohashPrecision: 7,
         geohashSearch: 5,
+        geohashSegments: geohashCharacters,
         lastNDays: LastNDays.One,
         layers: [],
         mapMode: MapMode.Drag,
-        mapZoom: 13,
+        mapZoom: 0,
         newLocationModalOpened: false,
         newTracking: {
         },
         polygonLayers: [],
         requestActive: false,
-        selectedGeohashItems: []
+        selectedGeohashItems: [],
+        visitedGeohashes: [],
     }
 
     componentDidMount() {
         api.tracking.getLastLocation()
             .then(response => this.setState({ last: response.tracking }));
+
+        api.geohash.getChildren('root')
+            .then(visitedGeohashes => this.setState({ visitedGeohashes }));
     }
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -139,6 +160,14 @@ class LocationPage extends Page<{}, State> {
         if (!this.state.timezone) {
             this.setState({ timezone: defaultTimezone?.value });
         }
+
+        const geohashRectangles = geohashSegments.map(g => {
+            const rectangle = geohash.decode_bbox(g);
+
+            return {
+
+            }
+        });
 
         return (
             <Container>
@@ -171,7 +200,7 @@ class LocationPage extends Page<{}, State> {
                                         <ToggleButton id="toggle-mode-geohash" value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
-                                {drawMode === DrawMode.Geohash &&
+                                {/* {drawMode === DrawMode.Geohash &&
                                     <GeohashSettings
                                         precision={geohashPrecision}
                                         search={geohashSearch}
@@ -179,7 +208,7 @@ class LocationPage extends Page<{}, State> {
                                         onPrecisionChange={geohashPrecision => this.setState({ geohashPrecision })}
                                         onSearchChange={geohashSearch => this.setState({ geohashSearch })}
                                     />
-                                }
+                                } */}
                                 <FormGroup>
                                     <FormLabel>Timezone</FormLabel>
                                     <ReactSelect
@@ -251,6 +280,18 @@ class LocationPage extends Page<{}, State> {
                                                 }
                                             </React.Fragment>
                                         )}
+                                        {drawMode === DrawMode.Geohash && geohashSegments.map(g => {
+                                            const rectangle = geohash.decode_bbox(g);
+
+                                            return (
+                                                <Rectangle
+                                                    key={_.uniqueId()}
+                                                    options={this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited}
+                                                    bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                                    onClick={() => this.onGeohashSegmentClick(g)}
+                                                />
+                                            );
+                                        })}
                                         {layers.filter(layer => layer instanceof GeohashLayer)
                                             .map(layer => layer as GeohashLayer)
                                             .flatMap(layer => layer.elements)
@@ -404,10 +445,29 @@ class LocationPage extends Page<{}, State> {
             });
     }
 
+    onGeohashSegmentClick = (geohash: string) => {
+        this.setState({
+            geohashSegments: [
+                ...this.state.geohashSegments.filter(g => g != geohash),
+                ...geohashCharacters.map(g => `${geohash}${g}`),
+            ]
+        });
+
+        api.geohash.getChildren(geohash)
+            .then(visitedGeohashes => this.setState({
+                visitedGeohashes: [
+                    ...this.state.visitedGeohashes,
+                    ...visitedGeohashes,
+                ]
+            }));
+    }
+
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
         const { mapMode } = this.state;
 
-        console.log(event.latLng.lat());
+        api.country.getSingle(event.latLng.lat(), event.latLng.lng())
+            .then(country => console.log(country?.name));
+
         this.setState({
             newLocationModalOpened: true,
             newTracking: {

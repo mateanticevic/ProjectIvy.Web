@@ -1,23 +1,20 @@
 import { CountryListVisited } from 'types/trips';
 import * as api from '../config';
 
-function getAll() {
-    return api.get('country?pageAll=true');
-}
+const getAll = () => api.get('country?pageAll=true');
 
 const getListsVisited = () => api.get('country/list/visited');
 
-function getVisited(filters) {
-    return api.get('country/visited', filters);
-}
+const getSingle = (latitude: number, longitude: number) => api.get('country/single', { latitude, longitude });
 
-function getVisitedBoundaries() {
-    return api.get('country/visited/boundaries');
-}
+const getVisited = (filters) => api.get('country/visited', filters);
+
+const getVisitedBoundaries = () => api.get('country/visited/boundaries');
 
 const country = {
     getAll,
     getListsVisited,
+    getSingle,
     getVisited,
     getVisitedBoundaries,
 };
