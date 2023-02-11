@@ -446,15 +446,12 @@ class LocationPage extends Page<{}, State> {
     }
 
     onGeohashSegmentClick = (geohash: string) => {
-        this.setState({
-            geohashSegments: [
-                ...this.state.geohashSegments.filter(g => g != geohash),
-                ...geohashCharacters.map(g => `${geohash}${g}`),
-            ]
-        });
-
         api.geohash.getChildren(geohash)
             .then(visitedGeohashes => this.setState({
+                geohashSegments: [
+                    ...this.state.geohashSegments.filter(g => g != geohash),
+                    ...geohashCharacters.map(g => `${geohash}${g}`),
+                ],
                 visitedGeohashes: [
                     ...this.state.visitedGeohashes,
                     ...visitedGeohashes,
