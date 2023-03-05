@@ -3,6 +3,7 @@
  * Do not make direct changes to the file.
  */
 
+
 export interface paths {
   "/Account": {
     get: {
@@ -12,8 +13,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -25,24 +26,24 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Account/{accountId}/transaction": {
     post: {
       parameters: {
-        path: {
-          accountId: string;
-        };
         query: {
           transactionSource?: components["schemas"]["TransactionSource"];
         };
+        path: {
+          accountId: string;
+        };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -60,7 +61,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["AirportPagedView"];
@@ -85,7 +86,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -104,12 +105,18 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": { [key: string]: unknown };
-            "application/json": { [key: string]: unknown };
-            "text/json": { [key: string]: unknown };
+            "text/plain": {
+              [key: string]: unknown | undefined;
+            };
+            "application/json": {
+              [key: string]: unknown | undefined;
+            };
+            "text/json": {
+              [key: string]: unknown | undefined;
+            };
           };
         };
       };
@@ -118,12 +125,12 @@ export interface paths {
   "/Service/LastFm/Artist/Top": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Artist"][];
-            "application/json": components["schemas"]["Artist"][];
-            "text/json": components["schemas"]["Artist"][];
+            "text/plain": (components["schemas"]["Artist"])[];
+            "application/json": (components["schemas"]["Artist"])[];
+            "text/json": (components["schemas"]["Artist"])[];
           };
         };
       };
@@ -143,8 +150,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -156,8 +163,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -170,22 +177,22 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["BrandBinding"];
           "application/json": components["schemas"]["BrandBinding"];
           "text/json": components["schemas"]["BrandBinding"];
           "application/*+json": components["schemas"]["BrandBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -196,17 +203,17 @@ export interface paths {
           brandId: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["BeerBinding"];
           "application/json": components["schemas"]["BeerBinding"];
           "text/json": components["schemas"]["BeerBinding"];
           "application/*+json": components["schemas"]["BeerBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -217,17 +224,17 @@ export interface paths {
           beerId: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["BeerBinding"];
           "application/json": components["schemas"]["BeerBinding"];
           "text/json": components["schemas"]["BeerBinding"];
           "application/*+json": components["schemas"]["BeerBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -238,17 +245,17 @@ export interface paths {
           brandId: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["BrandBinding"];
           "application/json": components["schemas"]["BrandBinding"];
           "text/json": components["schemas"]["BrandBinding"];
           "application/*+json": components["schemas"]["BrandBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -266,16 +273,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["CallBinding"];
           "application/json": components["schemas"]["CallBinding"];
@@ -283,17 +286,21 @@ export interface paths {
           "application/*+json": components["schemas"]["CallBinding"];
         };
       };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
     };
   };
   "/Car": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Car"][];
-            "application/json": components["schemas"]["Car"][];
-            "text/json": components["schemas"]["Car"][];
+            "text/plain": (components["schemas"]["Car"])[];
+            "application/json": (components["schemas"]["Car"])[];
+            "text/json": (components["schemas"]["Car"])[];
           };
         };
       };
@@ -307,7 +314,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Car"];
@@ -321,9 +328,6 @@ export interface paths {
   "/Car/{carId}/Log/BySession": {
     get: {
       parameters: {
-        path: {
-          carId: string;
-        };
         query: {
           HasOdometer?: boolean;
           PageAll?: boolean;
@@ -333,14 +337,17 @@ export interface paths {
           To?: string;
           OrderAscending?: boolean;
         };
+        path: {
+          carId: string;
+        };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["CarLogBySession"][];
-            "application/json": components["schemas"]["CarLogBySession"][];
-            "text/json": components["schemas"]["CarLogBySession"][];
+            "text/plain": (components["schemas"]["CarLogBySession"])[];
+            "application/json": (components["schemas"]["CarLogBySession"])[];
+            "text/json": (components["schemas"]["CarLogBySession"])[];
           };
         };
       };
@@ -354,7 +361,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -368,9 +375,6 @@ export interface paths {
   "/Car/{carId}/Log/Latest": {
     get: {
       parameters: {
-        path: {
-          carId: string;
-        };
         query: {
           HasOdometer?: boolean;
           PageAll?: boolean;
@@ -380,9 +384,12 @@ export interface paths {
           To?: string;
           OrderAscending?: boolean;
         };
+        path: {
+          carId: string;
+        };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["CarLog"];
@@ -396,9 +403,6 @@ export interface paths {
   "/Car/{carId}/Log": {
     get: {
       parameters: {
-        path: {
-          carId: string;
-        };
         query: {
           HasOdometer?: boolean;
           PageAll?: boolean;
@@ -408,19 +412,19 @@ export interface paths {
           To?: string;
           OrderAscending?: boolean;
         };
+        path: {
+          carId: string;
+        };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Car/{carId}/Log/Torque.php": {
     get: {
       parameters: {
-        path: {
-          carId: string;
-        };
         query: {
           Time?: number;
           K11?: number;
@@ -446,9 +450,12 @@ export interface paths {
           Kf?: number;
           Session?: string;
         };
+        path: {
+          carId: string;
+        };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": string;
@@ -466,22 +473,22 @@ export interface paths {
           id: string;
         };
       };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["CarLogBinding"];
+          "application/json": components["schemas"]["CarLogBinding"];
+          "text/json": components["schemas"]["CarLogBinding"];
+          "application/*+json": components["schemas"]["CarLogBinding"];
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": string;
             "application/json": string;
             "text/json": string;
           };
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["CarLogBinding"];
-          "application/json": components["schemas"]["CarLogBinding"];
-          "text/json": components["schemas"]["CarLogBinding"];
-          "application/*+json": components["schemas"]["CarLogBinding"];
         };
       };
     };
@@ -493,17 +500,17 @@ export interface paths {
           id: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["CarServiceBinding"];
           "application/json": components["schemas"]["CarServiceBinding"];
           "text/json": components["schemas"]["CarServiceBinding"];
           "application/*+json": components["schemas"]["CarServiceBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -514,17 +521,17 @@ export interface paths {
           id: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["CarBinding"];
           "application/json": components["schemas"]["CarBinding"];
           "text/json": components["schemas"]["CarBinding"];
           "application/*+json": components["schemas"]["CarBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -536,8 +543,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -549,12 +556,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["CarServiceInterval"][];
-            "application/json": components["schemas"]["CarServiceInterval"][];
-            "text/json": components["schemas"]["CarServiceInterval"][];
+            "text/plain": (components["schemas"]["CarServiceInterval"])[];
+            "application/json": (components["schemas"]["CarServiceInterval"])[];
+            "text/json": (components["schemas"]["CarServiceInterval"])[];
           };
         };
       };
@@ -568,12 +575,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["CarServiceType"][];
-            "application/json": components["schemas"]["CarServiceType"][];
-            "text/json": components["schemas"]["CarServiceType"][];
+            "text/plain": (components["schemas"]["CarServiceType"])[];
+            "application/json": (components["schemas"]["CarServiceType"])[];
+            "text/json": (components["schemas"]["CarServiceType"])[];
           };
         };
       };
@@ -591,20 +598,33 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/City/{cityId}/Geohash": {
+    get: {
+      parameters: {
+        path: {
+          cityId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/City/Visited": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["City"][];
-            "application/json": components["schemas"]["City"][];
-            "text/json": components["schemas"]["City"][];
+            "text/plain": (components["schemas"]["City"])[];
+            "application/json": (components["schemas"]["City"])[];
+            "text/json": (components["schemas"]["City"])[];
           };
         };
       };
@@ -618,8 +638,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -631,20 +651,20 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Common/Currency": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Currency"][];
-            "application/json": components["schemas"]["Currency"][];
-            "text/json": components["schemas"]["Currency"][];
+            "text/plain": (components["schemas"]["Currency"])[];
+            "application/json": (components["schemas"]["Currency"])[];
+            "text/json": (components["schemas"]["Currency"])[];
           };
         };
       };
@@ -653,28 +673,28 @@ export interface paths {
   "/Common/BeerServing": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Common/BeerStyle": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Common/ExpenseFileType": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["ExpenseFileType"][];
-            "application/json": components["schemas"]["ExpenseFileType"][];
-            "text/json": components["schemas"]["ExpenseFileType"][];
+            "text/plain": (components["schemas"]["ExpenseFileType"])[];
+            "application/json": (components["schemas"]["ExpenseFileType"])[];
+            "text/json": (components["schemas"]["ExpenseFileType"])[];
           };
         };
       };
@@ -683,20 +703,20 @@ export interface paths {
   "/Common/PaymentType": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Common/PoiCategory": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["PoiCategory"][];
-            "application/json": components["schemas"]["PoiCategory"][];
-            "text/json": components["schemas"]["PoiCategory"][];
+            "text/plain": (components["schemas"]["PoiCategory"])[];
+            "application/json": (components["schemas"]["PoiCategory"])[];
+            "text/json": (components["schemas"]["PoiCategory"])[];
           };
         };
       };
@@ -705,8 +725,8 @@ export interface paths {
   "/Common/IncomeType": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -728,8 +748,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -751,8 +771,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -774,7 +794,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["ConsumationPagedView"];
@@ -785,11 +805,7 @@ export interface paths {
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["ConsumationBinding"];
           "application/json": components["schemas"]["ConsumationBinding"];
@@ -797,23 +813,27 @@ export interface paths {
           "application/*+json": components["schemas"]["ConsumationBinding"];
         };
       };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
     };
   };
   "/Consumation/Beer": {
     get: {
       parameters: {
         query: {
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -821,17 +841,17 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -839,17 +859,17 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -871,8 +891,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -894,7 +914,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -923,8 +943,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -946,12 +966,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-            "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-            "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+            "text/plain": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "application/json": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "text/json": (components["schemas"]["StringInt32KeyValuePair"])[];
           };
         };
       };
@@ -975,12 +995,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-            "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-            "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+            "text/plain": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "application/json": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "text/json": (components["schemas"]["StringInt32KeyValuePair"])[];
           };
         };
       };
@@ -1004,8 +1024,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1027,7 +1047,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1056,7 +1076,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1085,7 +1105,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1114,7 +1134,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1143,8 +1163,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1166,8 +1186,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1189,7 +1209,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1218,8 +1238,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1241,8 +1261,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1264,8 +1284,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1287,8 +1307,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1310,8 +1330,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1333,8 +1353,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1356,8 +1376,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1379,8 +1399,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1394,7 +1414,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["CountryPagedView"];
@@ -1408,20 +1428,20 @@ export interface paths {
   "/Country/{countryId}/City": {
     get: {
       parameters: {
-        path: {
-          countryId: string;
-        };
         query: {
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+        path: {
+          countryId: string;
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["CityPagedView"];
@@ -1442,7 +1462,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1453,15 +1473,15 @@ export interface paths {
       };
     };
   };
-  "/Country/{id}": {
+  "/Country/{countryId}": {
     get: {
       parameters: {
         path: {
-          id: string;
+          countryId: string;
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Country"];
@@ -1472,12 +1492,39 @@ export interface paths {
       };
     };
   };
+  "/Country/{countryId}/Geohash": {
+    get: {
+      parameters: {
+        path: {
+          countryId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Country/Single": {
+    get: {
+      parameters: {
+        query: {
+          latitude?: number;
+          longitude?: number;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
   "/Country/Visited": {
     get: {
       parameters: {
         query: {
-          CityId?: string[];
-          CountryId?: string[];
+          CityId?: (string)[];
+          CountryId?: (string)[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
           IsDomestic?: boolean;
@@ -1490,12 +1537,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Country"][];
-            "application/json": components["schemas"]["Country"][];
-            "text/json": components["schemas"]["Country"][];
+            "text/plain": (components["schemas"]["Country"])[];
+            "application/json": (components["schemas"]["Country"])[];
+            "text/json": (components["schemas"]["Country"])[];
           };
         };
       };
@@ -1504,7 +1551,7 @@ export interface paths {
   "/Country/Visited/Count": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1519,8 +1566,8 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          CityId?: string[];
-          CountryId?: string[];
+          CityId?: (string)[];
+          CountryId?: (string)[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
           IsDomestic?: boolean;
@@ -1533,12 +1580,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["CountryBoundaries"][];
-            "application/json": components["schemas"]["CountryBoundaries"][];
-            "text/json": components["schemas"]["CountryBoundaries"][];
+            "text/plain": (components["schemas"]["CountryBoundaries"])[];
+            "application/json": (components["schemas"]["CountryBoundaries"])[];
+            "text/json": (components["schemas"]["CountryBoundaries"])[];
           };
         };
       };
@@ -1547,28 +1594,28 @@ export interface paths {
   "/Country/List": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Country/List/Visited": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Currency": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Currency"][];
-            "application/json": components["schemas"]["Currency"][];
-            "text/json": components["schemas"]["Currency"][];
+            "text/plain": (components["schemas"]["Currency"])[];
+            "application/json": (components["schemas"]["Currency"])[];
+            "text/json": (components["schemas"]["Currency"])[];
           };
         };
       };
@@ -1581,17 +1628,17 @@ export interface paths {
           deviceId: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["BrowserLogBinding"];
           "application/json": components["schemas"]["BrowserLogBinding"];
           "text/json": components["schemas"]["BrowserLogBinding"];
           "application/*+json": components["schemas"]["BrowserLogBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1603,7 +1650,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": boolean;
@@ -1622,7 +1669,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Expense"];
@@ -1637,21 +1684,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1661,7 +1708,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["ExpensePagedView"];
@@ -1672,8 +1719,16 @@ export interface paths {
       };
     };
     post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
+          "application/json": components["schemas"]["ExpenseBinding"];
+          "text/json": components["schemas"]["ExpenseBinding"];
+          "application/*+json": components["schemas"]["ExpenseBinding"];
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": string;
@@ -1682,35 +1737,27 @@ export interface paths {
           };
         };
       };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
-          "application/json": components["schemas"]["ExpenseBinding"];
-          "text/json": components["schemas"]["ExpenseBinding"];
-          "application/*+json": components["schemas"]["ExpenseBinding"];
-        };
-      };
     };
   };
   "/Expense/Count": {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1720,7 +1767,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -1735,21 +1782,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1759,12 +1806,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-            "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-            "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+            "text/plain": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "application/json": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "text/json": (components["schemas"]["StringInt32KeyValuePair"])[];
           };
         };
       };
@@ -1774,21 +1821,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1798,8 +1845,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1807,21 +1854,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1831,8 +1878,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1840,21 +1887,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1864,12 +1911,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-            "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-            "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+            "text/plain": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "application/json": (components["schemas"]["StringInt32KeyValuePair"])[];
+            "text/json": (components["schemas"]["StringInt32KeyValuePair"])[];
           };
         };
       };
@@ -1879,21 +1926,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1903,8 +1950,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1912,21 +1959,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1936,8 +1983,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1945,21 +1992,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1969,8 +2016,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -1982,12 +2029,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["ExpenseFile"][];
-            "application/json": components["schemas"]["ExpenseFile"][];
-            "text/json": components["schemas"]["ExpenseFile"][];
+            "text/plain": (components["schemas"]["ExpenseFile"])[];
+            "application/json": (components["schemas"]["ExpenseFile"])[];
+            "text/json": (components["schemas"]["ExpenseFile"])[];
           };
         };
       };
@@ -1999,21 +2046,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2023,8 +2070,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2034,21 +2081,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2058,8 +2105,43 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Expense/Sum/ByDay": {
+    get: {
+      parameters: {
+        query: {
+          ByBaseType?: boolean;
+          TargetCurrencyId?: string;
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
+          OrderBy?: components["schemas"]["ExpenseSort"];
+          HasLinkedFiles?: boolean;
+          HasPoi?: boolean;
+          NeedsReview?: boolean;
+          AmountFrom?: number;
+          AmountTo?: number;
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
+          Description?: string;
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2069,21 +2151,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2093,8 +2175,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2104,21 +2186,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2128,8 +2210,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2139,21 +2221,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2163,8 +2245,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2174,21 +2256,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2198,8 +2280,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2209,21 +2291,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2233,8 +2315,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2244,21 +2326,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2268,8 +2350,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2279,21 +2361,21 @@ export interface paths {
         query: {
           ByBaseType?: boolean;
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2303,12 +2385,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["StringDecimalKeyValuePair"][];
-            "application/json": components["schemas"]["StringDecimalKeyValuePair"][];
-            "text/json": components["schemas"]["StringDecimalKeyValuePair"][];
+            "text/plain": (components["schemas"]["StringDecimalKeyValuePair"])[];
+            "application/json": (components["schemas"]["StringDecimalKeyValuePair"])[];
+            "text/json": (components["schemas"]["StringDecimalKeyValuePair"])[];
           };
         };
       };
@@ -2318,21 +2400,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2342,7 +2424,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -2357,21 +2439,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2381,8 +2463,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2390,21 +2472,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
-          Month?: number[];
+          Day?: (components["schemas"]["DayOfWeek"])[];
+          Month?: (number)[];
           OrderBy?: components["schemas"]["ExpenseSort"];
           HasLinkedFiles?: boolean;
           HasPoi?: boolean;
           NeedsReview?: boolean;
           AmountFrom?: number;
           AmountTo?: number;
-          CardId?: string[];
-          CurrencyId?: string[];
+          CardId?: (string)[];
+          CurrencyId?: (string)[];
           Description?: string;
-          PaymentTypeId?: string[];
-          TypeId?: string[];
-          VendorId?: string[];
-          ExcludeId?: string[];
+          PaymentTypeId?: (string)[];
+          TypeId?: (string)[];
+          VendorId?: (string)[];
+          ExcludeId?: (string)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2414,7 +2496,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -2432,22 +2514,22 @@ export interface paths {
           id: string;
         };
       };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
+          "application/json": components["schemas"]["ExpenseBinding"];
+          "text/json": components["schemas"]["ExpenseBinding"];
+          "application/*+json": components["schemas"]["ExpenseBinding"];
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": boolean;
             "application/json": boolean;
             "text/json": boolean;
           };
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
-          "application/json": components["schemas"]["ExpenseBinding"];
-          "text/json": components["schemas"]["ExpenseBinding"];
-          "application/*+json": components["schemas"]["ExpenseBinding"];
         };
       };
     };
@@ -2460,17 +2542,17 @@ export interface paths {
           fileId: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["ExpenseFileBinding"];
           "application/json": components["schemas"]["ExpenseFileBinding"];
           "text/json": components["schemas"]["ExpenseFileBinding"];
           "application/*+json": components["schemas"]["ExpenseFileBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2484,12 +2566,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["ExpenseType"][];
-            "application/json": components["schemas"]["ExpenseType"][];
-            "text/json": components["schemas"]["ExpenseType"][];
+            "text/plain": (components["schemas"]["ExpenseType"])[];
+            "application/json": (components["schemas"]["ExpenseType"])[];
+            "text/json": (components["schemas"]["ExpenseType"])[];
           };
         };
       };
@@ -2498,12 +2580,12 @@ export interface paths {
   "/ExpenseType/Tree": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["ExpenseTypeNode"][];
-            "application/json": components["schemas"]["ExpenseTypeNode"][];
-            "text/json": components["schemas"]["ExpenseTypeNode"][];
+            "text/plain": (components["schemas"]["ExpenseTypeNode"])[];
+            "application/json": (components["schemas"]["ExpenseTypeNode"])[];
+            "text/json": (components["schemas"]["ExpenseTypeNode"])[];
           };
         };
       };
@@ -2517,8 +2599,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     delete: {
@@ -2528,8 +2610,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2541,8 +2623,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2561,8 +2643,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2581,8 +2663,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2601,8 +2683,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2621,22 +2703,22 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["FlightBinding"];
           "application/json": components["schemas"]["FlightBinding"];
           "text/json": components["schemas"]["FlightBinding"];
           "application/*+json": components["schemas"]["FlightBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2653,21 +2735,73 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
-  "/Geohash/{geohashId}": {
+  "/Geohash/{geohash}": {
     get: {
       parameters: {
         path: {
-          geohashId: string;
+          geohash: string;
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Geohash/Root/Children": {
+    get: {
+      parameters: {
+        query: {
+          geohash?: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Geohash/{geohash}/Children": {
+    get: {
+      parameters: {
+        path: {
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Geohash/{geohash}/City": {
+    get: {
+      parameters: {
+        path: {
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
+  "/Geohash/{geohash}/Country": {
+    get: {
+      parameters: {
+        path: {
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2675,7 +2809,7 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           OrderBy?: components["schemas"]["IncomeSort"];
           CurrencyId?: string;
           SourceId?: string;
@@ -2689,7 +2823,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["IncomePagedView"];
@@ -2700,17 +2834,17 @@ export interface paths {
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["IncomeBinding"];
           "application/json": components["schemas"]["IncomeBinding"];
           "text/json": components["schemas"]["IncomeBinding"];
           "application/*+json": components["schemas"]["IncomeBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2724,7 +2858,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -2738,8 +2872,8 @@ export interface paths {
   "/Income/Source": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2748,7 +2882,7 @@ export interface paths {
       parameters: {
         query: {
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           OrderBy?: components["schemas"]["IncomeSort"];
           CurrencyId?: string;
           SourceId?: string;
@@ -2762,7 +2896,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -2778,7 +2912,7 @@ export interface paths {
       parameters: {
         query: {
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           OrderBy?: components["schemas"]["IncomeSort"];
           CurrencyId?: string;
           SourceId?: string;
@@ -2792,8 +2926,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2802,7 +2936,7 @@ export interface paths {
       parameters: {
         query: {
           TargetCurrencyId?: string;
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           OrderBy?: components["schemas"]["IncomeSort"];
           CurrencyId?: string;
           SourceId?: string;
@@ -2816,8 +2950,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2829,27 +2963,27 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/IotDevice/{deviceId}/Data/{fieldIdentifier}": {
     get: {
       parameters: {
-        path: {
-          deviceId: string;
-          fieldIdentifier: string;
-        };
         query: {
           From?: string;
           To?: string;
           OrderAscending?: boolean;
         };
+        path: {
+          deviceId: string;
+          fieldIdentifier: string;
+        };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
@@ -2859,17 +2993,17 @@ export interface paths {
           fieldIdentifier: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["IotDeviceDataBinding"];
           "application/json": components["schemas"]["IotDeviceDataBinding"];
           "text/json": components["schemas"]["IotDeviceDataBinding"];
           "application/*+json": components["schemas"]["IotDeviceDataBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2883,8 +3017,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -2905,7 +3039,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["BrowserLogPagedView"];
@@ -2920,16 +3054,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2939,7 +3073,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["MoviePagedView"];
@@ -2958,7 +3092,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Movie"];
@@ -2973,16 +3107,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2992,7 +3126,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3007,16 +3141,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3026,8 +3160,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3035,16 +3169,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3054,8 +3188,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3063,16 +3197,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3082,8 +3216,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3091,16 +3225,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3110,8 +3244,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3119,16 +3253,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3138,8 +3272,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3147,16 +3281,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3166,8 +3300,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3175,16 +3309,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3194,8 +3328,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3203,16 +3337,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3222,8 +3356,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3231,16 +3365,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3250,8 +3384,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3259,16 +3393,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3278,7 +3412,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3293,16 +3427,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3312,8 +3446,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3321,16 +3455,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3340,7 +3474,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3355,16 +3489,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3374,8 +3508,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3383,16 +3517,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3402,7 +3536,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3417,16 +3551,16 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          Day?: components["schemas"]["DayOfWeek"][];
+          Day?: (components["schemas"]["DayOfWeek"])[];
           RatingHigher?: number;
           RatingLower?: number;
           RuntimeLonger?: number;
           RuntimeShorter?: number;
           OrderBy?: components["schemas"]["MovieSort"];
           Title?: string;
-          MyRating?: number[];
-          Year?: number[];
-          YearWatched?: number[];
+          MyRating?: (number)[];
+          Year?: (number)[];
+          YearWatched?: (number)[];
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3436,7 +3570,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3455,8 +3589,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3467,17 +3601,17 @@ export interface paths {
           authorizationCode?: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["TransferWiseTransferEvent"];
           "application/json": components["schemas"]["TransferWiseTransferEvent"];
           "text/json": components["schemas"]["TransferWiseTransferEvent"];
           "application/*+json": components["schemas"]["TransferWiseTransferEvent"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3499,7 +3633,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["PoiPagedView"];
@@ -3510,17 +3644,17 @@ export interface paths {
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["PoiBinding"];
           "application/json": components["schemas"]["PoiBinding"];
           "text/json": components["schemas"]["PoiBinding"];
           "application/*+json": components["schemas"]["PoiBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3534,22 +3668,22 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["RideBinding"];
           "application/json": components["schemas"]["RideBinding"];
           "text/json": components["schemas"]["RideBinding"];
           "application/*+json": components["schemas"]["RideBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3567,22 +3701,22 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": string;
           "application/json": string;
           "text/json": string;
           "application/*+json": string;
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3594,8 +3728,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3603,21 +3737,21 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Track"][];
-            "application/json": components["schemas"]["Track"][];
-            "text/json": components["schemas"]["Track"][];
+            "text/plain": (components["schemas"]["Track"])[];
+            "application/json": (components["schemas"]["Track"])[];
+            "text/json": (components["schemas"]["Track"])[];
           };
         };
       };
@@ -3626,7 +3760,7 @@ export interface paths {
   "/Service/LastFm/Track/Count": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3640,12 +3774,12 @@ export interface paths {
   "/Service/LastFm/Track/Loved": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Track"][];
-            "application/json": components["schemas"]["Track"][];
-            "text/json": components["schemas"]["Track"][];
+            "text/plain": (components["schemas"]["Track"])[];
+            "application/json": (components["schemas"]["Track"])[];
+            "text/json": (components["schemas"]["Track"])[];
           };
         };
       };
@@ -3654,12 +3788,12 @@ export interface paths {
   "/Service/LastFm/Track/Top": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Track"][];
-            "application/json": components["schemas"]["Track"][];
-            "text/json": components["schemas"]["Track"][];
+            "text/plain": (components["schemas"]["Track"])[];
+            "application/json": (components["schemas"]["Track"])[];
+            "text/json": (components["schemas"]["Track"])[];
           };
         };
       };
@@ -3673,8 +3807,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3692,19 +3826,27 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Tracking"][];
-            "application/json": components["schemas"]["Tracking"][];
-            "text/json": components["schemas"]["Tracking"][];
+            "text/plain": (components["schemas"]["Tracking"])[];
+            "application/json": (components["schemas"]["Tracking"])[];
+            "text/json": (components["schemas"]["Tracking"])[];
           };
         };
       };
     };
     put: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["TrackingBinding"];
+          "application/json": components["schemas"]["TrackingBinding"];
+          "text/json": components["schemas"]["TrackingBinding"];
+          "application/*+json": components["schemas"]["TrackingBinding"];
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": boolean;
@@ -3713,27 +3855,19 @@ export interface paths {
           };
         };
       };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"];
-          "application/json": components["schemas"]["TrackingBinding"];
-          "text/json": components["schemas"]["TrackingBinding"];
-          "application/*+json": components["schemas"]["TrackingBinding"];
-        };
-      };
     };
     post: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"][];
-          "application/json": components["schemas"]["TrackingBinding"][];
-          "text/json": components["schemas"]["TrackingBinding"][];
-          "application/*+json": components["schemas"]["TrackingBinding"][];
+          "application/json-patch+json": (components["schemas"]["TrackingBinding"])[];
+          "application/json": (components["schemas"]["TrackingBinding"])[];
+          "text/json": (components["schemas"]["TrackingBinding"])[];
+          "application/*+json": (components["schemas"]["TrackingBinding"])[];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3751,7 +3885,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": string;
@@ -3763,8 +3897,8 @@ export interface paths {
     };
     post: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3778,7 +3912,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3799,12 +3933,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Int32GroupedByMonth"][];
-            "application/json": components["schemas"]["Int32GroupedByMonth"][];
-            "text/json": components["schemas"]["Int32GroupedByMonth"][];
+            "text/plain": (components["schemas"]["Int32GroupedByMonth"])[];
+            "application/json": (components["schemas"]["Int32GroupedByMonth"])[];
+            "text/json": (components["schemas"]["Int32GroupedByMonth"])[];
           };
         };
       };
@@ -3820,8 +3954,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3835,7 +3969,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3860,8 +3994,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3875,7 +4009,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3894,22 +4028,16 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["Tracking"];
-            "application/json": components["schemas"]["Tracking"];
-            "text/json": components["schemas"]["Tracking"];
-          };
-        };
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Tracking/LastLocation": {
     get: {
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -3923,7 +4051,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3944,7 +4072,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -3955,24 +4083,40 @@ export interface paths {
       };
     };
   };
+  "/Tracking/Delete": {
+    post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": (number)[];
+          "application/json": (number)[];
+          "text/json": (number)[];
+          "application/*+json": (number)[];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
+    };
+  };
   "/Tracking/Kml": {
     put: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": string;
+          "application/json": string;
+          "text/json": string;
+          "application/*+json": string;
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": boolean;
             "application/json": boolean;
             "text/json": boolean;
           };
-        };
-      };
-      requestBody: {
-        content: {
-          "application/json-patch+json": string;
-          "application/json": string;
-          "text/json": string;
-          "application/*+json": string;
         };
       };
     };
@@ -3985,7 +4129,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Trip"];
@@ -4002,8 +4146,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -4016,8 +4160,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     delete: {
@@ -4028,8 +4172,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -4042,8 +4186,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     delete: {
@@ -4054,8 +4198,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -4068,8 +4212,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
     delete: {
@@ -4080,8 +4224,8 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -4089,8 +4233,8 @@ export interface paths {
     get: {
       parameters: {
         query: {
-          CityId?: string[];
-          CountryId?: string[];
+          CityId?: (string)[];
+          CountryId?: (string)[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
           IsDomestic?: boolean;
@@ -4103,7 +4247,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["TripPagedView"];
@@ -4119,11 +4263,7 @@ export interface paths {
           tripId?: string;
         };
       };
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["TripBinding"];
           "application/json": components["schemas"]["TripBinding"];
@@ -4131,14 +4271,18 @@ export interface paths {
           "application/*+json": components["schemas"]["TripBinding"];
         };
       };
+      responses: {
+        /** @description Success */
+        200: never;
+      };
     };
   };
   "/Trip/Days/ByYear": {
     get: {
       parameters: {
         query: {
-          CityId?: string[];
-          CountryId?: string[];
+          CityId?: (string)[];
+          CountryId?: (string)[];
           OrderBy?: components["schemas"]["TripSort"];
           Search?: string;
           IsDomestic?: boolean;
@@ -4151,15 +4295,15 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/User": {
     get: {
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["User"];
@@ -4170,17 +4314,17 @@ export interface paths {
       };
     };
     put: {
-      responses: {
-        /** Success */
-        200: unknown;
-      };
-      requestBody: {
+      requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["UserUpdateBinding"];
           "application/json": components["schemas"]["UserUpdateBinding"];
           "text/json": components["schemas"]["UserUpdateBinding"];
           "application/*+json": components["schemas"]["UserUpdateBinding"];
         };
+      };
+      responses: {
+        /** @description Success */
+        200: never;
       };
     };
   };
@@ -4192,7 +4336,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["Vendor"];
@@ -4214,7 +4358,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["VendorPagedView"];
@@ -4233,12 +4377,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": unknown[];
-            "application/json": unknown[];
-            "text/json": unknown[];
+            "text/plain": (Record<string, never>)[];
+            "application/json": (Record<string, never>)[];
+            "text/json": (Record<string, never>)[];
           };
         };
       };
@@ -4258,12 +4402,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["WebTime"][];
-            "application/json": components["schemas"]["WebTime"][];
-            "text/json": components["schemas"]["WebTime"][];
+            "text/plain": (components["schemas"]["WebTime"])[];
+            "application/json": (components["schemas"]["WebTime"])[];
+            "text/json": (components["schemas"]["WebTime"])[];
           };
         };
       };
@@ -4283,7 +4427,7 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": number;
@@ -4308,12 +4452,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["TimeByDay"][];
-            "application/json": components["schemas"]["TimeByDay"][];
-            "text/json": components["schemas"]["TimeByDay"][];
+            "text/plain": (components["schemas"]["TimeByDay"])[];
+            "application/json": (components["schemas"]["TimeByDay"])[];
+            "text/json": (components["schemas"]["TimeByDay"])[];
           };
         };
       };
@@ -4333,12 +4477,12 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Int32GroupedByMonth"][];
-            "application/json": components["schemas"]["Int32GroupedByMonth"][];
-            "text/json": components["schemas"]["Int32GroupedByMonth"][];
+            "text/plain": (components["schemas"]["Int32GroupedByMonth"])[];
+            "application/json": (components["schemas"]["Int32GroupedByMonth"])[];
+            "text/json": (components["schemas"]["Int32GroupedByMonth"])[];
           };
         };
       };
@@ -4358,15 +4502,23 @@ export interface paths {
         };
       };
       responses: {
-        /** Success */
-        200: unknown;
+        /** @description Success */
+        200: never;
       };
     };
   };
   "/Webhook/Dialogflow": {
     post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
+          "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
+          "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
+          "application/*+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
+        };
+      };
       responses: {
-        /** Success */
+        /** @description Success */
         200: {
           content: {
             "text/plain": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
@@ -4375,17 +4527,11 @@ export interface paths {
           };
         };
       };
-      requestBody: {
-        content: {
-          "application/json-patch+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-          "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-          "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-          "application/*+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-        };
-      };
     };
   };
 }
+
+export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
@@ -4397,7 +4543,7 @@ export interface components {
     AirportPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Airport"][] | null;
+      items?: (components["schemas"]["Airport"])[] | null;
     };
     Artist: {
       name?: string | null;
@@ -4453,7 +4599,7 @@ export interface components {
     BrowserLogPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["BrowserLog"][] | null;
+      items?: (components["schemas"]["BrowserLog"])[] | null;
     };
     CallBinding: {
       number?: string | null;
@@ -4468,8 +4614,8 @@ export interface components {
       model?: components["schemas"]["CarModel"];
       /** Format: int32 */
       productionYear?: number;
-      services?: components["schemas"]["CarService"][] | null;
-      serviceDue?: components["schemas"]["CarServiceDue"][] | null;
+      services?: (components["schemas"]["CarService"])[] | null;
+      serviceDue?: (components["schemas"]["CarServiceDue"])[] | null;
     };
     CarBinding: {
       model?: string | null;
@@ -4573,7 +4719,7 @@ export interface components {
     CityPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["City"][] | null;
+      items?: (components["schemas"]["City"])[] | null;
     };
     Consumation: {
       beer?: components["schemas"]["Beer"];
@@ -4596,7 +4742,7 @@ export interface components {
     ConsumationPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Consumation"][] | null;
+      items?: (components["schemas"]["Consumation"])[] | null;
     };
     Country: {
       id?: string | null;
@@ -4606,12 +4752,12 @@ export interface components {
     };
     CountryBoundaries: {
       country?: components["schemas"]["Country"];
-      polygons?: components["schemas"]["Location"][][] | null;
+      polygons?: ((components["schemas"]["Location"])[])[] | null;
     };
     CountryPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Country"][] | null;
+      items?: (components["schemas"]["Country"])[] | null;
     };
     Currency: {
       id?: string | null;
@@ -4620,14 +4766,7 @@ export interface components {
       symbol?: string | null;
     };
     /** @enum {string} */
-    DayOfWeek:
-      | "Sunday"
-      | "Monday"
-      | "Tuesday"
-      | "Wednesday"
-      | "Thursday"
-      | "Friday"
-      | "Saturday";
+    DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
     Domain: {
       id?: string | null;
     };
@@ -4639,7 +4778,7 @@ export interface components {
       comment?: string | null;
       card?: components["schemas"]["Card"];
       currency?: components["schemas"]["Currency"];
-      files?: components["schemas"]["ExpenseFile"][] | null;
+      files?: (components["schemas"]["ExpenseFile"])[] | null;
       /** Format: double */
       parentAmount?: number | null;
       parentCurrency?: components["schemas"]["Currency"];
@@ -4699,7 +4838,7 @@ export interface components {
     ExpensePagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Expense"][] | null;
+      items?: (components["schemas"]["Expense"])[] | null;
     };
     /** @enum {string} */
     ExpenseSort: "Date" | "Created" | "Modified" | "Amount";
@@ -4709,7 +4848,7 @@ export interface components {
     };
     ExpenseTypeNode: {
       this?: components["schemas"]["ExpenseType"];
-      children?: components["schemas"]["ExpenseTypeNode"][] | null;
+      children?: (components["schemas"]["ExpenseTypeNode"])[] | null;
     };
     File: {
       id?: string | null;
@@ -4738,51 +4877,45 @@ export interface components {
       /** Format: int32 */
       lifespanCount?: number | null;
       name?: string | null;
-      parameters?: { [key: string]: unknown } | null;
+      parameters?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2EntityTypeEntity: {
-      synonyms?: string[] | null;
+      synonyms?: (string)[] | null;
       value?: string | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2EventInput: {
       languageCode?: string | null;
       name?: string | null;
-      parameters?: { [key: string]: unknown } | null;
+      parameters?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2Intent: {
       action?: string | null;
-      defaultResponsePlatforms?: string[] | null;
+      defaultResponsePlatforms?: (string)[] | null;
       displayName?: string | null;
       endInteraction?: boolean | null;
-      events?: string[] | null;
-      followupIntentInfo?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentFollowupIntentInfo"][]
-        | null;
-      inputContextNames?: string[] | null;
+      events?: (string)[] | null;
+      followupIntentInfo?: (components["schemas"]["GoogleCloudDialogflowV2IntentFollowupIntentInfo"])[] | null;
+      inputContextNames?: (string)[] | null;
       isFallback?: boolean | null;
       liveAgentHandoff?: boolean | null;
-      messages?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][]
-        | null;
+      messages?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessage"])[] | null;
       mlDisabled?: boolean | null;
       name?: string | null;
-      outputContexts?:
-        | components["schemas"]["GoogleCloudDialogflowV2Context"][]
-        | null;
-      parameters?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentParameter"][]
-        | null;
+      outputContexts?: (components["schemas"]["GoogleCloudDialogflowV2Context"])[] | null;
+      parameters?: (components["schemas"]["GoogleCloudDialogflowV2IntentParameter"])[] | null;
       parentFollowupIntentName?: string | null;
       /** Format: int32 */
       priority?: number | null;
       resetContexts?: boolean | null;
       rootFollowupIntentName?: string | null;
-      trainingPhrases?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrase"][]
-        | null;
+      trainingPhrases?: (components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrase"])[] | null;
       webhookState?: string | null;
       eTag?: string | null;
     };
@@ -4800,7 +4933,9 @@ export interface components {
       linkOutSuggestion?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageLinkOutSuggestion"];
       listSelect?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelect"];
       mediaContent?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContent"];
-      payload?: { [key: string]: unknown } | null;
+      payload?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       platform?: string | null;
       quickReplies?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageQuickReplies"];
       simpleResponses?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponses"];
@@ -4810,9 +4945,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageBasicCard: {
-      buttons?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"][]
-        | null;
+      buttons?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"])[] | null;
       formattedText?: string | null;
       image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
       subtitle?: string | null;
@@ -4830,9 +4963,7 @@ export interface components {
     };
     GoogleCloudDialogflowV2IntentMessageBrowseCarouselCard: {
       imageDisplayOptions?: string | null;
-      items?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem"][]
-        | null;
+      items?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem"])[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem: {
@@ -4849,9 +4980,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageCard: {
-      buttons?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageCardButton"][]
-        | null;
+      buttons?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageCardButton"])[] | null;
       imageUri?: string | null;
       subtitle?: string | null;
       title?: string | null;
@@ -4863,9 +4992,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageCarouselSelect: {
-      items?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageCarouselSelectItem"][]
-        | null;
+      items?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageCarouselSelectItem"])[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageCarouselSelectItem: {
@@ -4891,9 +5018,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageListSelect: {
-      items?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelectItem"][]
-        | null;
+      items?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelectItem"])[] | null;
       subtitle?: string | null;
       title?: string | null;
       eTag?: string | null;
@@ -4906,9 +5031,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageMediaContent: {
-      mediaObjects?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContentResponseMediaObject"][]
-        | null;
+      mediaObjects?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContentResponseMediaObject"])[] | null;
       mediaType?: string | null;
       eTag?: string | null;
     };
@@ -4921,13 +5044,13 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageQuickReplies: {
-      quickReplies?: string[] | null;
+      quickReplies?: (string)[] | null;
       title?: string | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageSelectItemInfo: {
       key?: string | null;
-      synonyms?: string[] | null;
+      synonyms?: (string)[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageSimpleResponse: {
@@ -4937,9 +5060,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageSimpleResponses: {
-      simpleResponses?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponse"][]
-        | null;
+      simpleResponses?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponse"])[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageSuggestion: {
@@ -4947,22 +5068,14 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageSuggestions: {
-      suggestions?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageSuggestion"][]
-        | null;
+      suggestions?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageSuggestion"])[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageTableCard: {
-      buttons?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"][]
-        | null;
-      columnProperties?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageColumnProperties"][]
-        | null;
+      buttons?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"])[] | null;
+      columnProperties?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageColumnProperties"])[] | null;
       image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-      rows?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardRow"][]
-        | null;
+      rows?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardRow"])[] | null;
       subtitle?: string | null;
       title?: string | null;
       eTag?: string | null;
@@ -4972,14 +5085,12 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageTableCardRow: {
-      cells?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardCell"][]
-        | null;
+      cells?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardCell"])[] | null;
       dividerAfter?: boolean | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentMessageText: {
-      text?: string[] | null;
+      text?: (string)[] | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentParameter: {
@@ -4989,15 +5100,13 @@ export interface components {
       isList?: boolean | null;
       mandatory?: boolean | null;
       name?: string | null;
-      prompts?: string[] | null;
+      prompts?: (string)[] | null;
       value?: string | null;
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2IntentTrainingPhrase: {
       name?: string | null;
-      parts?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrasePart"][]
-        | null;
+      parts?: (components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrasePart"])[] | null;
       /** Format: int32 */
       timesAddedCount?: number | null;
       type?: string | null;
@@ -5011,7 +5120,9 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2OriginalDetectIntentRequest: {
-      payload?: { [key: string]: unknown } | null;
+      payload?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       source?: string | null;
       version?: string | null;
       eTag?: string | null;
@@ -5020,24 +5131,26 @@ export interface components {
       action?: string | null;
       allRequiredParamsPresent?: boolean | null;
       cancelsSlotFilling?: boolean | null;
-      diagnosticInfo?: { [key: string]: unknown } | null;
-      fulfillmentMessages?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][]
-        | null;
+      diagnosticInfo?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
+      fulfillmentMessages?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessage"])[] | null;
       fulfillmentText?: string | null;
       intent?: components["schemas"]["GoogleCloudDialogflowV2Intent"];
       /** Format: float */
       intentDetectionConfidence?: number | null;
       languageCode?: string | null;
-      outputContexts?:
-        | components["schemas"]["GoogleCloudDialogflowV2Context"][]
-        | null;
-      parameters?: { [key: string]: unknown } | null;
+      outputContexts?: (components["schemas"]["GoogleCloudDialogflowV2Context"])[] | null;
+      parameters?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       queryText?: string | null;
       sentimentAnalysisResult?: components["schemas"]["GoogleCloudDialogflowV2SentimentAnalysisResult"];
       /** Format: float */
       speechRecognitionConfidence?: number | null;
-      webhookPayload?: { [key: string]: unknown } | null;
+      webhookPayload?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
       webhookSource?: string | null;
       eTag?: string | null;
     };
@@ -5053,9 +5166,7 @@ export interface components {
       eTag?: string | null;
     };
     GoogleCloudDialogflowV2SessionEntityType: {
-      entities?:
-        | components["schemas"]["GoogleCloudDialogflowV2EntityTypeEntity"][]
-        | null;
+      entities?: (components["schemas"]["GoogleCloudDialogflowV2EntityTypeEntity"])[] | null;
       entityOverrideMode?: string | null;
       name?: string | null;
       eTag?: string | null;
@@ -5069,17 +5180,13 @@ export interface components {
     };
     GoogleCloudDialogflowV2WebhookResponse: {
       followupEventInput?: components["schemas"]["GoogleCloudDialogflowV2EventInput"];
-      fulfillmentMessages?:
-        | components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][]
-        | null;
+      fulfillmentMessages?: (components["schemas"]["GoogleCloudDialogflowV2IntentMessage"])[] | null;
       fulfillmentText?: string | null;
-      outputContexts?:
-        | components["schemas"]["GoogleCloudDialogflowV2Context"][]
-        | null;
-      payload?: { [key: string]: unknown } | null;
-      sessionEntityTypes?:
-        | components["schemas"]["GoogleCloudDialogflowV2SessionEntityType"][]
-        | null;
+      outputContexts?: (components["schemas"]["GoogleCloudDialogflowV2Context"])[] | null;
+      payload?: ({
+        [key: string]: unknown | undefined;
+      }) | null;
+      sessionEntityTypes?: (components["schemas"]["GoogleCloudDialogflowV2SessionEntityType"])[] | null;
       source?: string | null;
       eTag?: string | null;
     };
@@ -5112,7 +5219,7 @@ export interface components {
     IncomePagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Income"][] | null;
+      items?: (components["schemas"]["Income"])[] | null;
     };
     /** @enum {string} */
     IncomeSort: "Date" | "Amount";
@@ -5165,17 +5272,10 @@ export interface components {
     MoviePagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Movie"][] | null;
+      items?: (components["schemas"]["Movie"])[] | null;
     };
     /** @enum {string} */
-    MovieSort:
-      | "Watched"
-      | "Rating"
-      | "Runtime"
-      | "MyRating"
-      | "MyRatingDifference"
-      | "Title"
-      | "Year";
+    MovieSort: "Watched" | "Rating" | "Runtime" | "MyRating" | "MyRatingDifference" | "Title" | "Year";
     PaymentType: {
       id?: string | null;
       name?: string | null;
@@ -5203,7 +5303,7 @@ export interface components {
     PoiPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Poi"][] | null;
+      items?: (components["schemas"]["Poi"])[] | null;
     };
     RideBinding: {
       destinationCityId?: string | null;
@@ -5289,11 +5389,11 @@ export interface components {
       timestampStart?: string;
       /** Format: int32 */
       distance?: number;
-      countries?: components["schemas"]["Country"][] | null;
-      cities?: components["schemas"]["City"][] | null;
-      files?: components["schemas"]["File"][] | null;
-      expenses?: components["schemas"]["Expense"][] | null;
-      pois?: components["schemas"]["Poi"][] | null;
+      countries?: (components["schemas"]["Country"])[] | null;
+      cities?: (components["schemas"]["City"])[] | null;
+      files?: (components["schemas"]["File"])[] | null;
+      expenses?: (components["schemas"]["Expense"])[] | null;
+      pois?: (components["schemas"]["Poi"])[] | null;
       /** Format: double */
       totalSpent?: number;
     };
@@ -5303,12 +5403,12 @@ export interface components {
       timestampEnd?: string;
       /** Format: date-time */
       timestampStart?: string;
-      cityIds?: string[] | null;
+      cityIds?: (string)[] | null;
     };
     TripPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Trip"][] | null;
+      items?: (components["schemas"]["Trip"])[] | null;
     };
     /** @enum {string} */
     TripSort: "Date" | "Duration";
@@ -5319,7 +5419,7 @@ export interface components {
       lastName?: string | null;
       email?: string | null;
       username?: string | null;
-      modules?: string[] | null;
+      modules?: (string)[] | null;
     };
     UserUpdateBinding: {
       defaultCarId?: string | null;
@@ -5334,7 +5434,7 @@ export interface components {
     VendorPagedView: {
       /** Format: int64 */
       count?: number;
-      items?: components["schemas"]["Vendor"][] | null;
+      items?: (components["schemas"]["Vendor"])[] | null;
     };
     Web: {
       id?: string | null;
@@ -5346,8 +5446,13 @@ export interface components {
       webId?: string | null;
     };
   };
+  responses: never;
+  parameters: never;
+  requestBodies: never;
+  headers: never;
+  pathItems: never;
 }
 
-export interface operations {}
+export type external = Record<string, never>;
 
-export interface external {}
+export type operations = Record<string, never>;
