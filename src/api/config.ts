@@ -23,7 +23,7 @@ function handleResponse(response) {
     } else if (response.status == httpStatus.UNAUTHORIZED) {
         redirectToAuth();
     } else {
-        throw new Error(response.status);
+        //throw new Error(response.status);
     }
 }
 

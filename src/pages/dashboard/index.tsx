@@ -111,7 +111,7 @@ class DashboardPage extends React.Component {
                     {this.identity?.pif.includes(Feature.Tracking) && location &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Header>{location.location ? location.location.name : 'Last location'} @ {this.dateTimeFormat(location.tracking.timestamp)}</Card.Header>
+                                <Card.Header>{location?.location?.name ?? location?.city?.name ?? location?.country?.name ?? 'Last location'} @ {this.dateTimeFormat(location.tracking.timestamp)}</Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     {location &&
                                         <Map
