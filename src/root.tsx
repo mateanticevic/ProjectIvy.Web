@@ -26,6 +26,7 @@ import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import CountriesPage from 'pages/countries';
 import { redirectToAuth } from 'utils/redirect-helper';
+import FlightsV2Page from 'pages/flights-v2';
 
 interface State {
     error?: string,
@@ -107,6 +108,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/countries" element={<CountriesPage />} />
                                     <Route path="/expenses" element={<ExpensesPage />} />
                                     <Route path="/flights" element={<FlightsPage />} />
+                                    <Route path="/flights-v2" element={<FlightsV2Page />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
                                     <Route path="/location" element={<LocationPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />

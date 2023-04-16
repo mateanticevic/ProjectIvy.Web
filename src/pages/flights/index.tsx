@@ -193,7 +193,7 @@ class FlightsPage extends Page<{}, State> {
 
         this.setState({ filters });
 
-        api.flight.getFlights(filters).then(flights => this.setState({ flights }));
+        api.flight.get(filters).then(flights => this.setState({ flights }));
         api.flight.getCountByAirport(filters).then(countByAirport => this.setState({ countByAirport }));
     }
 }
