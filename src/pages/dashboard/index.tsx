@@ -42,8 +42,7 @@ class DashboardPage extends React.Component {
         };
 
         const todayFilters = {
-            from: moment().format('YYYY-MM-DD'),
-            to: moment().format('YYYY-MM-DD')
+            from: moment().format('YYYY-MM-DD')
         };
 
         const weekFilters = {
