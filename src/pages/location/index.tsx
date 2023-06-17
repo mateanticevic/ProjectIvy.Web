@@ -346,6 +346,7 @@ class LocationPage extends Page<{}, State> {
                                 timezone={timezone}
                                 onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
+                                onDelete={() => this.onDeleteLayer(layer)}
                                 onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
                                 onShowPointsToggle={() => this.onLayerUpdated(layer, { showPoints: !layer.showPoints })}
                                 onShowStopsToggle={() => this.onLayerUpdated(layer, { showStops: !layer.showStops })}
@@ -443,6 +444,15 @@ class LocationPage extends Page<{}, State> {
                     requestActive: false,
                 });
             });
+    }
+
+    onDeleteLayer = (layer: PolygonLayer) => {
+        console.log(layer);
+        const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
+        console.log(updatedLayers);
+        this.setState({
+            polygonLayers: updatedLayers
+        });
     }
 
     onGeohashSegmentClick = (geohash: string) => {

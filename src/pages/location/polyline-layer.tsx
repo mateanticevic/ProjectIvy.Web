@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';
 import { Range } from 'rc-slider';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import { AiOutlineScissor } from 'react-icons/ai';
+import { AiOutlineDelete, AiOutlineScissor } from 'react-icons/ai';
 import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
 import { ImRoad } from 'react-icons/im';
@@ -22,13 +22,14 @@ interface Props {
     layer: PolygonLayer,
     timezone?: string,
     onClip(): void,
+    onDelete(): void,
     onEndMarkerMoved(tracking: Tracking): void,
     onStartMarkerMoved(tracking: Tracking): void,
     onShowPointsToggle(layer: PolygonLayer, show: boolean): void,
     onShowStopsToggle(layer: PolygonLayer, show: boolean): void,
 }
 
-const PolylineLayer = ({ layer, timezone, onClip, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
+const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -65,8 +66,11 @@ const PolylineLayer = ({ layer, timezone, onClip, onEndMarkerMoved, onShowPoints
     return (
         <Card>
             <Card.Body>
-                <Button onClick={onClip}>
+            <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
+                </Button>
+                <Button onClick={onDelete}>
+                    <AiOutlineDelete /> Delete
                 </Button>
                 &nbsp;
                 <ButtonGroup size="sm">
