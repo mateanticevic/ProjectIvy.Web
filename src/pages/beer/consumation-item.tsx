@@ -16,6 +16,8 @@ const ConsumationItem = ({ consumations }: Props) => {
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
 
+    const name = beer.name?.includes(beer.brand.name) ? beer.name : `${beer.name} (${beer.brand.name})`;
+
     return (
         <Card>
             <Card.Body className="expense-item">
@@ -26,11 +28,11 @@ const ConsumationItem = ({ consumations }: Props) => {
                 />
                 <div className="expense-item-content">
                     <div className="expense-item-title">
-                        {beer.name}
+                        {name}
                     </div>
                     <div className="expense-item-date">
                         {beer.style &&
-                            `${beer.style.name}`
+                            beer.style.name
                         }
                     </div>
                 </div>

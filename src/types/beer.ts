@@ -3,6 +3,7 @@ import moment from 'moment';
 
 export interface Beer {
     abv?: number;
+    brand: Brand;
     brandId?: string;
     id?: string;
     name?: string;
