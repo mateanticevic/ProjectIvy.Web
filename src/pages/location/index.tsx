@@ -456,6 +456,12 @@ class LocationPage extends Page<{}, State> {
     }
 
     onGeohashSegmentClick = (geohash: string) => {
+
+        if (this.state.mapMode === MapMode.Select) {
+            this.onSelectGeohash(geohash);
+            return;
+        }
+
         api.geohash.getChildren(geohash)
             .then(visitedGeohashes => this.setState({
                 geohashSegments: [
@@ -535,7 +541,10 @@ class LocationPage extends Page<{}, State> {
 
     onSelectGeohash = async (id: string) => {
         const geohashItem = {
-            geohash: await api.geohash.getSingle(id)
+            geohash: {
+                ...await api.geohash.getSingle(id),
+                id,
+            }
         } as GeohashItem;
 
         this.setState({

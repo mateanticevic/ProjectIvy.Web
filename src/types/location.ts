@@ -1,4 +1,5 @@
 export interface Geohash {
+    id: string,
     dayCount: number,
     firstIn: string,
     lastIn: string,
