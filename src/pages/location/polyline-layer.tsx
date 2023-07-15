@@ -13,6 +13,7 @@ import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
 import { trackingToLatLng } from 'utils/gmap-helper';
+import { FaHashtag } from 'react-icons/fa';
 
 momentDurationFormatSetup(moment);
 
@@ -134,6 +135,10 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
                 <div>
                     <RiPinDistanceFill />
                     &nbsp;{distanceBetweenMarkersFormatted}
+                </div>
+                <div>
+                    <FaHashtag />
+                    {layer.trackings.length}
                 </div>
             </Card.Body>
         </Card>
