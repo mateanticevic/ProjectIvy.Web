@@ -20,7 +20,6 @@ import ButtonWithSpinner from 'components/button-with-spinner';
 import { GeohashItem, Layer } from 'types/location';
 import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
-import GeohashSettings from './geohash-settings';
 import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
@@ -47,6 +46,7 @@ interface State {
     newTracking: TrackingBinding,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
+    selectedGeohashes: string[],
     selectedGeohashItems: GeohashItem[],
     visitedGeohashes: string[],
     timezone?: string,
@@ -79,6 +79,12 @@ const lastNDaysMapping = {
     [LastNDays.Week]: 7,
     [LastNDays.Month]: 31,
     [LastNDays.Year]: 365,
+};
+
+const rectangleOptionsSelected: google.maps.RectangleOptions = {
+    strokeColor: '#0d6efd',
+    fillOpacity: 0.1,
+    strokeWeight: 4,
 };
 
 const rectangleOptionsVisited: google.maps.RectangleOptions = {
@@ -136,6 +142,7 @@ class LocationPage extends Page<{}, State> {
         },
         polygonLayers: [],
         requestActive: false,
+        selectedGeohashes: [],
         selectedGeohashItems: [],
         visitedGeohashes: [],
     }
@@ -150,7 +157,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -282,11 +289,15 @@ class LocationPage extends Page<{}, State> {
                                         )}
                                         {drawMode === DrawMode.Geohash && geohashSegments.map(g => {
                                             const rectangle = geohash.decode_bbox(g);
+                                            const isSelected = selectedGeohashes.some(s => s === g);
+
+                                            const options = isSelected ? rectangleOptionsSelected
+                                                            : (this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited);
 
                                             return (
                                                 <Rectangle
                                                     key={_.uniqueId()}
-                                                    options={this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited}
+                                                    options={options}
                                                     bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
                                                     onClick={() => this.onGeohashSegmentClick(g)}
                                                 />
@@ -540,15 +551,11 @@ class LocationPage extends Page<{}, State> {
     }
 
     onSelectGeohash = async (id: string) => {
-        const geohashItem = {
-            geohash: {
-                ...await api.geohash.getSingle(id),
-                id,
-            }
-        } as GeohashItem;
-
         this.setState({
-            selectedGeohashItems: [...this.state.selectedGeohashItems, geohashItem]
+            selectedGeohashes: [
+                ...this.state.selectedGeohashes,
+                id,
+            ]
         });
     }
 

@@ -42,3 +42,5 @@ dist
 
 .cache
 .parcel-cache
+.bsp
+target
