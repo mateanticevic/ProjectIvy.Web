@@ -133,9 +133,9 @@ class DashboardPage extends React.Component {
                             <Card>
                                 <Card.Header>Distance</Card.Header>
                                 <Card.Body className="panel-small padding-0">
-                                    <ValueLabel label="Today" unit="km" value={distance.today / 1000} />
-                                    <ValueLabel label="This week" unit="km" value={distance.week / 1000} />
-                                    <ValueLabel label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
+                                    <ValueLabel round label="Today" unit="km" value={distance.today / 1000} />
+                                    <ValueLabel round label="This week" unit="km" value={distance.week / 1000} />
+                                    <ValueLabel round label={moment().format('MMMM')} unit="km" value={distance.month / 1000} />
                                 </Card.Body>
                             </Card>
                         </div>
@@ -145,9 +145,9 @@ class DashboardPage extends React.Component {
                             <Card>
                                 <Card.Header>Spent</Card.Header>
                                 <Card.Body className="panel-small padding-0">
-                                    <ValueLabel label="Today" unit={defaultCurrency.symbol} value={spent.today} />
-                                    <ValueLabel label="This week" unit={defaultCurrency.symbol} value={spent.week} />
-                                    <ValueLabel label={moment().format('MMMM')} unit={defaultCurrency.symbol} value={spent.month} />
+                                    <ValueLabel round label="Today" unit={defaultCurrency.symbol} value={spent.today} />
+                                    <ValueLabel round label="This week" unit={defaultCurrency.symbol} value={spent.week} />
+                                    <ValueLabel round label={moment().format('MMMM')} unit={defaultCurrency.symbol} value={spent.month} />
                                 </Card.Body>
                             </Card>
                         </div>

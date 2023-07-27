@@ -3,6 +3,8 @@ import * as api from '../config';
 
 const get = (carId: string) => api.get(`car/${carId}`);
 
+const getAverageConsumption = (carId: string) => api.get(`car/${carId}/consumption/avg`);
+
 const getLogs = (carId: string, filters: CarLogFilters) => api.get(`car/${carId}/log`, filters);
 
 const getLogLatest = (carId: string) => api.get(`car/${carId}/log/latest?hasOdometer=true`);
@@ -19,6 +21,7 @@ const postService = (carId: string, carService) => api.post(`car/${carId}/servi
 
 const car = {
     get,
+    getAverageConsumption,
     getLogs,
     getLogLatest,
     getLogBySession,

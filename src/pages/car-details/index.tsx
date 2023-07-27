@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
-import { SimpleScatterChart } from 'components';
+import { SimpleScatterChart, ValueLabel } from 'components';
 import { ServiceModal } from './service-modal';
 
 interface QueryStrings {
@@ -17,6 +17,7 @@ interface Props {
 }
 
 interface State {
+    averageConsumption?: number;
     car: Car;
     logs: any;
     isServiceModalOpen: boolean;
@@ -141,6 +142,14 @@ class CarDetailsPage extends React.Component<Props, State> {
                                 </Table>
                             </Card.Body>
                         </Card>
+                        {this.state.averageConsumption &&
+                            <Card>
+                                <Card.Header>Average consumption</Card.Header>
+                                <Card.Body className="panel-small padding-0">
+                                    <ValueLabel label="Total" unit="l/km" value={this.state.averageConsumption} />
+                                </Card.Body>
+                            </Card>
+                        }
                     </Col>
                 </Row>
                 <ServiceModal
@@ -185,6 +194,9 @@ class CarDetailsPage extends React.Component<Props, State> {
             logs,
             serviceIntervals: await api.car.getServiceIntervals(car.model.id)
         });
+
+        const averageConsumption = await api.car.getAverageConsumption(carId ?? this.state.car.id);
+        this.setState({ averageConsumption });
     };
 
     saveService = async () => {
