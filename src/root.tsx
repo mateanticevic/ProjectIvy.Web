@@ -34,7 +34,7 @@ interface State {
     showToast: boolean;
     toastTitle?: string;
     toastMessage?: string;
-    user: User;
+    user?: User;
 }
 
 enum LoadingState {
@@ -91,7 +91,7 @@ export default class Root extends React.Component<{}, State> {
             }
             case LoadingState.Ready: {
                 return (
-                    <UserContext.Provider value={this.state.user}>
+                    <UserContext.Provider value={this.state.user!}>
                         <BrowserRouter>
                             <div id="main">
                                 {this.identity &&

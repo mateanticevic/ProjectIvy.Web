@@ -16,8 +16,6 @@ const DayConsumations = ({ day, consumations }: Props) => {
     const consumationsByBeer = _.groupBy(consumations, consumation => consumation.beer.id);
     const beerIds = Object.keys(consumationsByBeer);
 
-    console.log(beerIds);
-
     return (
         <React.Fragment>
             <h2>{formatDate(day)}</h2>

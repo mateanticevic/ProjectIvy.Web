@@ -9,8 +9,6 @@ interface Props {
 }
 
 const valueToClass = (value) => {
-    console.log('OK');
-
     if (!value)
         return 'background-inactive';
 

@@ -32,8 +32,6 @@ const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileType
     }, [acceptedFiles]);
 
     const onLinkFile = (fileId: string, expenseFile: ExpenseFile) => {
-        console.log(fileId);
-        console.log(JSON.stringify(uploadedFiles));
         linkFile(fileId, expenseFile);
         setUploadedFiles(uploadedFiles.filter(x => x.id != fileId));
     };

@@ -25,8 +25,6 @@ export function queryStringToJson(queryString: string) {
 function parseValue(value) {
     const decoded = decodeURIComponent(value);
 
-    console.log(`value:${value}`);
-
     return isNaN(decoded) || decoded[0] === '0' ? decoded : parseInt(value);
 }
 

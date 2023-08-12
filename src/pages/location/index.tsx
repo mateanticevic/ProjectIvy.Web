@@ -458,9 +458,7 @@ class LocationPage extends Page<{}, State> {
     }
 
     onDeleteLayer = (layer: PolygonLayer) => {
-        console.log(layer);
         const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
-        console.log(updatedLayers);
         this.setState({
             polygonLayers: updatedLayers
         });
@@ -490,7 +488,7 @@ class LocationPage extends Page<{}, State> {
         const { mapMode } = this.state;
 
         api.country.getSingle(event.latLng.lat(), event.latLng.lng())
-            .then(country => console.log(country?.name));
+            .then();
 
         this.setState({
             newLocationModalOpened: true,
@@ -510,12 +508,10 @@ class LocationPage extends Page<{}, State> {
             });
         }
         else if (mapMode === MapMode.New) {
-            console.log('newww');
         }
     }
 
     onNewLocationChanged = (changed: Partial<TrackingBinding>) => {
-        console.log(changed);
         this.setState({
             newTracking: {
                 ...this.state.newTracking,

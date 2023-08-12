@@ -13,8 +13,6 @@ interface Props {
 }
 
 const Segments = (movement: Movement) => {
-    console.log('renDR');
-
     let previous = movement.trackings[0];
     const segments: Segment[] = [];
     let segment: Segment = {

@@ -185,7 +185,6 @@ class IncomesPage extends Page<Props, State> {
     }
 
     onGroupByChanged = (groupBy?: GroupByTime) => {
-        console.log(groupBy);
         if (groupBy) {
             this.setState({ groupBy });
         }
