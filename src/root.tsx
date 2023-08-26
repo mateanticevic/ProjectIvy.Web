@@ -55,7 +55,7 @@ export default class Root extends React.Component<{}, State> {
         if (window.location.hash) {
             const params = new URLSearchParams(window.location.hash.substring(1));
             document.cookie = `IdToken=${params.get('id_token')}`;
-            document.cookie = `AccessToken=${params.get('access_token')};domain=${import.meta.env.ACCESS_TOKEN_COOKIE_DOMAIN};`;
+            document.cookie = `AccessToken=${params.get('access_token')};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
             history.replaceState(null, null, ' ');
         }
 
