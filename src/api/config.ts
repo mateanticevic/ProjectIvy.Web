@@ -46,7 +46,7 @@ function fetchWithTimeout(url, options, timeout: number) {
     ]);
 }
 
-const getBaseApiPath = () => `${process.env.API_URL}/`;
+const getBaseApiPath = () => `${import.meta.env.VITE_API_URL}/`;
 
 export function get(resource: string, parameters?: any, timeout?: number) {
 

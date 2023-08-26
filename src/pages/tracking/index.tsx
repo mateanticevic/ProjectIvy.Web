@@ -13,7 +13,7 @@ import HeatmapLayer from 'react-google-maps/lib/components/visualization/Heatmap
 import api from 'api/main';
 import { Map, RadioLabel } from 'components';
 import SimpleBarChart from 'components/simple-bar-chart';
-import SimpleLineChart from 'components/simple-line-chart';
+import { SimpleLineChart } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import MovementRow from './movement-row';

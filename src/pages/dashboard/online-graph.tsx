@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import { SimpleLineChart } from 'components/simple-line-chart';
+import { SimpleLineChart } from 'components';
 
 const OnlineGraph = (props) => {
 

@@ -6,11 +6,10 @@
     "npm": ">=3"
   },
   "scripts": {
-    "build": "NODE_ENV=production parcel build ./src/index.html",
-    "dev": "parcel ./src/index.html --log-level verbose",
-    "lint": "eslint --project ./tsconfig.json",
-    "start": "npm run dev",
-    "start-test": "NODE_ENV=test parcel --https --host local.anticevic.net --port 443 ./src/index.html --log-level info"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
   },
   "author": "Mate Antičević",
   "license": "MIT",
@@ -44,7 +43,9 @@
     "react-router-dom": "6.14.1",
     "react-select": "5.7.4",
     "react-vertical-timeline-component": "3.6.0",
-    "recharts": "2.7.2"
+    "recharts": "2.7.2",
+    "vite": "4.4.9",
+    "vite-tsconfig-paths": "4.2.0"
   },
   "devDependencies": {
     "@babel/core": "7.22.9",
@@ -52,15 +53,14 @@
     "@babel/preset-env": "7.22.9",
     "@babel/preset-react": "7.22.5",
     "@babel/preset-typescript": "7.22.5",
-    "@parcel/transformer-sass": "2.9.3",
     "@typescript-eslint/eslint-plugin": "5.59.11",
     "@typescript-eslint/parser": "5.59.11",
+    "@vitejs/plugin-react": "^4.0.4",
     "dotenv": "16.3.1",
     "eslint": "8.45.0",
     "eslint-plugin-react": "7.32.2",
     "http-proxy-middleware": "2.0.6",
     "openapi-typescript": "6.3.4",
-    "parcel": "2.9.3",
     "react-hot-loader": "4.13.1",
     "sass": "1.64.1",
     "typescript": "5.1.6"
