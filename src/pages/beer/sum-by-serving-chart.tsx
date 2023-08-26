@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 interface DataPoint {
     name: string;
@@ -13,7 +13,7 @@ interface Props {
 export const SumByServingChart = ({ data }: Props) => {
     const RADIAN = Math.PI / 180;
 
-    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
         const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
         const x = cx + radius * Math.cos(-midAngle * RADIAN);
         const y = cy + radius * Math.sin(-midAngle * RADIAN);

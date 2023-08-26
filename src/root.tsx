@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Spinner, Toast } from 'react-bootstrap';
-import _ from 'lodash';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -82,73 +81,73 @@ export default class Root extends React.Component<{}, State> {
     public render() {
 
         switch (this.state.loadingState) {
-            case LoadingState.Error: {
-                return (
-                    <div className="loading-status">
-                        <p>API failed with {this.state.error}</p>
-                    </div >
-                );
-            }
-            case LoadingState.Ready: {
-                return (
-                    <UserContext.Provider value={this.state.user!}>
-                        <BrowserRouter>
-                            <div id="main">
-                                {this.identity &&
+        case LoadingState.Error: {
+            return (
+                <div className="loading-status">
+                    <p>API failed with {this.state.error}</p>
+                </div >
+            );
+        }
+        case LoadingState.Ready: {
+            return (
+                <UserContext.Provider value={this.state.user!}>
+                    <BrowserRouter>
+                        <div id="main">
+                            {this.identity &&
                                     <NavigationBar identity={this.identity} />
-                                }
-                                <Routes>
-                                    <Route path="/" element={<DashboardPage />} />
-                                    <Route path="/account" element={<AccountPage />} />
-                                    <Route path="/accounts" element={<AccountsPage />} />
-                                    <Route path="/beer" element={<BeerPage toast={this.toast} />} />
-                                    <Route path="/beer/admin" element={<BeerAdminPage />} />
-                                    <Route path="/calls" element={<CallsPage />} />
-                                    <Route path="/car/:id" element={<CarDetailsPage />} />
-                                    <Route path="/countries" element={<CountriesPage />} />
-                                    <Route path="/expenses" element={<ExpensesPage />} />
-                                    <Route path="/flights" element={<FlightsPage />} />
-                                    <Route path="/flights-v2" element={<FlightsV2Page />} />
-                                    <Route path="/incomes" element={<IncomesPage />} />
-                                    <Route path="/location" element={<LocationPage />} />
-                                    <Route path="/movies" element={<MoviesPage />} />
-                                    <Route path="/pois" element={<PoisPage />} />
-                                    <Route path="/tracking" element={<TrackingPage />} />
-                                    <Route path="/trips" element={<TripsPage />} />
-                                    <Route path="/trips/:id" element={<TripDetailsPage />} />
-                                </Routes>
-                                <Toast
-                                    autohide
-                                    delay={5000}
-                                    onClose={() => this.setState({ showToast: false })}
-                                    show={this.state.showToast}
-                                >
-                                    <Toast.Header>{this.state.toastTitle}</Toast.Header>
-                                    <Toast.Body>{this.state.toastMessage}</Toast.Body>
-                                </Toast>
-                            </div>
-                        </BrowserRouter>
-                    </UserContext.Provider>
-                );
-            }
-            case LoadingState.Waiting: {
-                return (
-                    <div className="loading-status">
-                        <p>Connecting to the api...</p >
-                        <Spinner
-                            as="span"
-                            animation="grow"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                            variant="primary"
-                        />
-                    </div >
-                );
-            }
-            default: {
-                return "error";
-            }
+                            }
+                            <Routes>
+                                <Route path="/" element={<DashboardPage />} />
+                                <Route path="/account" element={<AccountPage />} />
+                                <Route path="/accounts" element={<AccountsPage />} />
+                                <Route path="/beer" element={<BeerPage toast={this.toast} />} />
+                                <Route path="/beer/admin" element={<BeerAdminPage />} />
+                                <Route path="/calls" element={<CallsPage />} />
+                                <Route path="/car/:id" element={<CarDetailsPage />} />
+                                <Route path="/countries" element={<CountriesPage />} />
+                                <Route path="/expenses" element={<ExpensesPage />} />
+                                <Route path="/flights" element={<FlightsPage />} />
+                                <Route path="/flights-v2" element={<FlightsV2Page />} />
+                                <Route path="/incomes" element={<IncomesPage />} />
+                                <Route path="/location" element={<LocationPage />} />
+                                <Route path="/movies" element={<MoviesPage />} />
+                                <Route path="/pois" element={<PoisPage />} />
+                                <Route path="/tracking" element={<TrackingPage />} />
+                                <Route path="/trips" element={<TripsPage />} />
+                                <Route path="/trips/:id" element={<TripDetailsPage />} />
+                            </Routes>
+                            <Toast
+                                autohide
+                                delay={5000}
+                                onClose={() => this.setState({ showToast: false })}
+                                show={this.state.showToast}
+                            >
+                                <Toast.Header>{this.state.toastTitle}</Toast.Header>
+                                <Toast.Body>{this.state.toastMessage}</Toast.Body>
+                            </Toast>
+                        </div>
+                    </BrowserRouter>
+                </UserContext.Provider>
+            );
+        }
+        case LoadingState.Waiting: {
+            return (
+                <div className="loading-status">
+                    <p>Connecting to the api...</p >
+                    <Spinner
+                        as="span"
+                        animation="grow"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        variant="primary"
+                    />
+                </div >
+            );
+        }
+        default: {
+            return 'error';
+        }
         }
     }
 
@@ -158,5 +157,5 @@ export default class Root extends React.Component<{}, State> {
             toastMessage: message,
             toastTitle: title,
         });
-    }
+    };
 }

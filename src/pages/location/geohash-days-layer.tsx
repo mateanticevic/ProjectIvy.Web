@@ -13,4 +13,4 @@ export const GeohashDaysLayer = ({}: Props) => {
             </Card.Body>
         </Card>
     );
-}
+};

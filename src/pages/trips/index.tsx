@@ -235,13 +235,13 @@ class TripsPage extends Page<{}, State> {
         this.onFiltersChanged({
             page: this.state.filters.page + 1,
         });
-    }
+    };
 
     loadVisited = () => {
         api.country
             .getListsVisited()
             .then(lists => this.setState({ lists }));
-    }
+    };
 
     onFiltersChanged = (filterValue?) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
@@ -269,7 +269,7 @@ class TripsPage extends Page<{}, State> {
         api.country
             .getVisited(filters)
             .then(countriesVisited => this.setState({ countriesVisited }));
-    }
+    };
 
     onTripChanged = (changedValue: Partial<TripBinding>) => {
         this.setState({
@@ -278,7 +278,7 @@ class TripsPage extends Page<{}, State> {
                 ...changedValue,
             },
         });
-    }
+    };
 
     onTripSave = () => {
         this.setState({ tripIsBeingAdded: true });
@@ -292,7 +292,7 @@ class TripsPage extends Page<{}, State> {
                 this.onFiltersChanged();
                 this.loadVisited();
             });
-    }
+    };
 }
 
 export default TripsPage;

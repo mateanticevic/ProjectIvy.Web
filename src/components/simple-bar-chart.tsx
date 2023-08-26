@@ -19,14 +19,14 @@ const tickFormatter = (value: number) => {
 };
 
 const colors = [
-    "#0d6efa",
-    "#9f5eeb",
-    "#de49ce",
-    "#ff3ba9",
-    "#ff4681",
-    "#ff635a",
-    "#ff8634",
-    "#ffa600",
+    '#0d6efa',
+    '#9f5eeb',
+    '#de49ce',
+    '#ff3ba9',
+    '#ff4681',
+    '#ff635a',
+    '#ff8634',
+    '#ffa600',
 ];
 
 const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>

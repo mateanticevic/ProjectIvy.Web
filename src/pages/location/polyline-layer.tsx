@@ -59,7 +59,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
             distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
         }
         return distance > 1000 ? `${Math.round(distance / 1000)}km` : `${Math.round(distance)}m`;
-    }
+    };
 
     const distanceFormatted = getDistanceBetweenTrackings(0, layer.trackings.length);
     const distanceBetweenMarkersFormatted = getDistanceBetweenTrackings(startIndex, endIndex);
@@ -67,7 +67,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
     return (
         <Card>
             <Card.Body>
-            <Button onClick={onClip}>
+                <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
                 </Button>
                 <Button onClick={onDelete}>

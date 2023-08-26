@@ -13,7 +13,7 @@ interface State {
 
 class AccountPage extends Page<{}, State> {
     state: State = {
-    }
+    };
 
     componentDidMount() {
         this.reloadSessions();
@@ -69,13 +69,13 @@ class AccountPage extends Page<{}, State> {
         api.user
             .deleteSession(sessionId)
             .then(this.reloadSessions);
-    }
+    };
 
     reloadSessions = () => {
         api.user
             .getSessions()
             .then(sessions => this.setState({ sessions }));
-    }
+    };
 }
 
 export default AccountPage;

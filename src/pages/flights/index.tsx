@@ -177,7 +177,7 @@ class FlightsPage extends Page<{}, State> {
                 ...changed,
             }
         });
-    }
+    };
 
     onSaveFlight = () => {
         api.flight.post(this.state.flight)
@@ -185,7 +185,7 @@ class FlightsPage extends Page<{}, State> {
                 this.setState({ isModalOpen: false });
                 this.onFiltersChange();
             });
-    }
+    };
 
     onFiltersChange = (changedFilters?) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
@@ -195,7 +195,7 @@ class FlightsPage extends Page<{}, State> {
 
         api.flight.get(filters).then(flights => this.setState({ flights }));
         api.flight.getCountByAirport(filters).then(countByAirport => this.setState({ countByAirport }));
-    }
+    };
 }
 
 export default FlightsPage;

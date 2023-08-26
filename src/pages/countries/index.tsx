@@ -40,7 +40,7 @@ class CountriesPage extends Page<{}, State> {
             visited: CountryVisited.All,
         },
         visitedCountries: [],
-    }
+    };
 
     componentDidMount() {
         api.city.getVisited().then(cities => this.setState({ cities }));
@@ -126,7 +126,7 @@ class CountriesPage extends Page<{}, State> {
 
     addVisitedCity = (cityId: string) => {
         api.city.postVisited(cityId);
-    }
+    };
 
     onFiltersChanged = (changed: Partial<Filters>) => {
         this.setState({
@@ -135,7 +135,7 @@ class CountriesPage extends Page<{}, State> {
                 ...changed,
             }
         });
-    }
+    };
 }
 
 export default CountriesPage;

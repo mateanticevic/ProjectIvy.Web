@@ -94,14 +94,14 @@ export default class CallsPage extends Page<{}, State> {
         api.call
             .get(this.state.filters)
             .then(calls => this.setState({ calls }));
-    }
+    };
 
     onFiltersChange = (changedFilters?) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
         this.pushHistoryState(filters);
 
         this.setState({ filters }, this.fetchCalls);
-    }
+    };
 
     renderCalls = () => {
         return this.state.calls.items.map(call => (<tr>
@@ -113,5 +113,5 @@ export default class CallsPage extends Page<{}, State> {
             </td>
         </tr>
         ));
-    }
+    };
 }

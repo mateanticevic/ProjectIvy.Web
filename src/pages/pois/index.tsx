@@ -99,13 +99,13 @@ class PoisPage extends React.Component {
     }
 
     onAddToTrip = (poiId: string) => {
-    }
+    };
 
     onFiltersChanged = (filter?) => {
         const filters = { ...this.state.filters, ...filter };
         this.setState({ filters });
         api.poi.get(filters).then((pois) => this.setState({ pois }));
-    }
+    };
 
     onMapClick = (e) => {
         this.setState({
@@ -115,32 +115,32 @@ class PoisPage extends React.Component {
                 longitude: e.latLng.lng(),
             },
         });
-    }
+    };
 
     onMapDragEnd = () => {
         // let bounds = this.map.state.map.getBounds();
 
         // let filters = { ...this.state.filters, x: { lat: bounds.f.b, lng: bounds.b.b }, y: { lat: bounds.f.f, lng: bounds.b.f } };
         // this.setState({ filters: filters });
-    }
+    };
 
     onModalClose = () => {
         this.setState({ isModalOpen: false });
-    }
+    };
 
     onNewClick = () => {
         this.setState({ isModalOpen: true });
-    }
+    };
 
     onPoiChange = (property: object) => {
         const poi = { ...this.state.poi, ...property };
         this.setState({ poi });
-    }
+    };
 
     onSave = () => {
         this.setState({ isModalOpen: false });
         this.onFiltersChanged();
-    }
+    };
 }
 
 export default PoisPage;

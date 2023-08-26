@@ -10,7 +10,6 @@ import api from 'api/main';
 import { Trip } from 'types/trips';
 import { Map, ValueLabel } from 'components';
 import ExpensePanel from '../expenses/expense-panel';
-import RideModal from './ride-modal';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
 import { Flight } from 'types/flights';
@@ -189,11 +188,11 @@ class TripDetailsPage extends React.Component<Props, State> {
 
     addCity = (cityId: string) => {
         api.trip.postCity(this.state.trip.id, cityId);
-    }
+    };
 
     deleteCity = (cityId: string) => {
         api.trip.deleteCity(this.state.trip.id, cityId);
-    }
+    };
 
     onExpensePageChange = (page) => {
         this.setState({
@@ -202,7 +201,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                 page,
             },
         });
-    }
+    };
 
     onRideChange = (changed: Partial<RideBinding>) => {
         this.setState({
@@ -211,17 +210,17 @@ class TripDetailsPage extends React.Component<Props, State> {
                 ...changed,
             }
         });
-    }
+    };
 
     onRideSave = () => {
         api.ride.post(this.state.ride);
-    }
+    };
 
     onUnlink = (expenseId) => {
         api.trip
             .deleteExpense(this.state.trip.id, expenseId)
             .then(() => { });
-    }
+    };
 }
 
 TripDetailsPage.contextType = UserContext;

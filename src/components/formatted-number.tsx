@@ -14,4 +14,4 @@ export const FormattedNumber = ({ number }: Props) => {
             {`${formatted.number}${formatted.exponent}`}
         </span>
     );
-}
+};

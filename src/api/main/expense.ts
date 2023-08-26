@@ -58,7 +58,7 @@ const getSumByMonth = (filters) => api.get('expense/sum/byMonth', filters);
 
 const getSumByMonthOfYear = (filters) => api.get('expense/sum/byMonthOfYear', filters);
 
-const getSumByMonthOfYearByType = (filters) => api.get(`expense/sum/byMonthOfYear/byType`, filters);
+const getSumByMonthOfYearByType = (filters) => api.get('expense/sum/byMonthOfYear/byType', filters);
 
 const getSumByYear = (filters) => api.get('expense/sum/byYear', filters);
 

@@ -19,16 +19,16 @@ interface Props {
 
 const renderPaymentTypeIcon = (name: Name) => {
     switch (name?.id) {
-        case PaymentType.Cash:
-            return <FaMoneyBill title={name.name} />;
-        case PaymentType.CreditCard:
-            return <FaCreditCard title={name.name} />;
-        case PaymentType.CreditCardOnline:
-            return <FaShoppingCart title={name.name} />;
-        case PaymentType.WireTransfer:
-            return <FaUniversity title={name.name} />;
-        default:
-            return null;
+    case PaymentType.Cash:
+        return <FaMoneyBill title={name.name} />;
+    case PaymentType.CreditCard:
+        return <FaCreditCard title={name.name} />;
+    case PaymentType.CreditCardOnline:
+        return <FaShoppingCart title={name.name} />;
+    case PaymentType.WireTransfer:
+        return <FaUniversity title={name.name} />;
+    default:
+        return null;
     }
 };
 

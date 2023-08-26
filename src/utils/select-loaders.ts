@@ -14,7 +14,7 @@ export const airlineLoader = (value, callback) => genericLoader(api.common.getAi
 export const beerLoader = (value, callback) => genericPagedLoader(api.beer.get, value, callback);
 
 export const cityLoader = (value, callback) =>  api.city.get({ search: value })
-                                                        .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
+    .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
 
 export const poiLoader = (value, callback) => genericPagedLoader(api.poi.get, value, callback);
 

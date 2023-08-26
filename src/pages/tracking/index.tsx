@@ -235,13 +235,13 @@ class TrackingPage extends Page<{}, State> {
                     geohashRectangles: hashes.map(hash => geohash.decode_bbox(hash))
                 });
             });
-    }
+    };
 
     drawHeatmap = (trackings) => {
         this.setState({
             heatMapData: trackings.map(x => new google.maps.LatLng(x.lat, x.lng))
         });
-    }
+    };
 
     drawMovements = (trackings) => {
         this.setState({
@@ -256,7 +256,7 @@ class TrackingPage extends Page<{}, State> {
                 }
             ],
         });
-    }
+    };
 
     loadCharts = (movementId: string) => {
         const trackings = this.state.movements.find(x => x.id === movementId)!.trackings;
@@ -264,7 +264,7 @@ class TrackingPage extends Page<{}, State> {
             altitudeChartData: trackings.map(tracking => ({ altitude: Math.ceil(tracking.altitude), time: moment(tracking.timestamp).format('HH:mm') })),
             speedChartData: trackings.map(tracking => ({ speed: Math.ceil(tracking.speed * 3.6), time: moment(tracking.timestamp).format('HH:mm') })),
         });
-    }
+    };
 
     loadDay = (day: string) => {
         const nextDay = moment(day).add(1, 'days').format('YYYY-MM-DD');
@@ -288,7 +288,7 @@ class TrackingPage extends Page<{}, State> {
         for (let year = 2014; year <= moment().year(); year++) {
             this.loadDay(moment().year(year).format('YYYY-MM-DD'));
         }
-    }
+    };
 
     onFiltersChanged = (filterValue?) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
@@ -300,38 +300,38 @@ class TrackingPage extends Page<{}, State> {
         this.pushHistoryState(filters);
         this.setState({ filters });
         this.loadDay(filters.day);
-    }
+    };
 
     onG = () => {
         let countBy;
 
         switch (this.state.groupDatesInsideRectangle) {
-            case GroupByTime.ByYear:
-                countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
-                break;
-            case GroupByTime.ByMonthOfYear:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
-                break;
-            case GroupByTime.ByMonth:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
-                break;
-            case GroupByTime.ByDayOfWeek:
-                countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
-                break;
+        case GroupByTime.ByYear:
+            countBy = _.countBy(this.state.datesInsideRectangle.map(date => moment(date).year()));
+            break;
+        case GroupByTime.ByMonthOfYear:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('YYYY-MM'))));
+            break;
+        case GroupByTime.ByMonth:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('MMMM'))));
+            break;
+        case GroupByTime.ByDayOfWeek:
+            countBy = _.countBy(_.reverse(this.state.datesInsideRectangle.map(date => moment(date).format('dddd'))));
+            break;
         }
 
         this.setState({ datesInsideRectangleChartData: Object.keys(countBy).map(key => ({ count: countBy[key], year: key })) });
-    }
+    };
 
     onGClick = (groupDatesInsideRectangle: GroupByTime) => {
         this.setState({ groupDatesInsideRectangle }, this.onG);
-    }
+    };
 
     onLastTrackingAtDate = (dateTime: string) => {
         api.tracking
             .getLast({ at: dateTime })
             .then(selectedTracking => this.setState({ selectedTracking }));
-    }
+    };
 
     onMapModeChange = (mapMode: MapMode) => {
         if (mapMode === MapMode.Geohash){
@@ -339,7 +339,7 @@ class TrackingPage extends Page<{}, State> {
         }
 
         this.setState({ mapMode });
-    }
+    };
 
     onSelectComplete = (rectangle: google.maps.Rectangle) => {
         const filters = {
@@ -374,13 +374,13 @@ class TrackingPage extends Page<{}, State> {
                     this.drawHeatmap(trackings);
                 }
             });
-    }
+    };
 
     removeTracking = (id: string) => {
         this.setState({
             movements: _.filter(this.state.movements, t => t.id !== id),
         });
-    }
+    };
 }
 
 export default TrackingPage;

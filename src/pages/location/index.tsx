@@ -145,7 +145,7 @@ class LocationPage extends Page<{}, State> {
         selectedGeohashes: [],
         selectedGeohashItems: [],
         visitedGeohashes: [],
-    }
+    };
 
     componentDidMount() {
         api.tracking.getLastLocation()
@@ -161,7 +161,7 @@ class LocationPage extends Page<{}, State> {
 
         const isMapReady = !!last;
 
-        const timezoneOptions = mtz?.tz?.names()?.map(tz => { return { value: tz, label: tz } }) ?? [];
+        const timezoneOptions = mtz?.tz?.names()?.map(tz => { return { value: tz, label: tz }; }) ?? [];
         const defaultTimezone = timezoneOptions.find(tz => tz.value == 'Europe/Zagreb');
 
         if (!this.state.timezone) {
@@ -173,7 +173,7 @@ class LocationPage extends Page<{}, State> {
 
             return {
 
-            }
+            };
         });
 
         return (
@@ -292,7 +292,7 @@ class LocationPage extends Page<{}, State> {
                                             const isSelected = selectedGeohashes.some(s => s === g);
 
                                             const options = isSelected ? rectangleOptionsSelected
-                                                            : (this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited);
+                                                : (this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited);
 
                                             return (
                                                 <Rectangle
@@ -394,14 +394,14 @@ class LocationPage extends Page<{}, State> {
         return {
 
         };
-    }
+    };
 
     deleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
         api.tracking.del(moment.utc(tracking.timestamp).format('x'))
             .then(() => {
                 this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
             });
-    }
+    };
 
     draw = () => {
         this.setState({ requestActive: true });
@@ -426,7 +426,7 @@ class LocationPage extends Page<{}, State> {
                 requestActive: false,
             });
         });
-    }
+    };
 
     drawGeohash = () => {
         const { geohashPrecision, geohashSearch } = this.state;
@@ -455,14 +455,14 @@ class LocationPage extends Page<{}, State> {
                     requestActive: false,
                 });
             });
-    }
+    };
 
     onDeleteLayer = (layer: PolygonLayer) => {
         const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
         this.setState({
             polygonLayers: updatedLayers
         });
-    }
+    };
 
     onGeohashSegmentClick = (geohash: string) => {
 
@@ -482,7 +482,7 @@ class LocationPage extends Page<{}, State> {
                     ...visitedGeohashes,
                 ]
             }));
-    }
+    };
 
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
         const { mapMode } = this.state;
@@ -509,7 +509,7 @@ class LocationPage extends Page<{}, State> {
         }
         else if (mapMode === MapMode.New) {
         }
-    }
+    };
 
     onNewLocationChanged = (changed: Partial<TrackingBinding>) => {
         this.setState({
@@ -518,12 +518,12 @@ class LocationPage extends Page<{}, State> {
                 ...changed,
             }
         });
-    }
+    };
 
     onNewLocationSave = () => {
         api.tracking.post(this.state.newTracking)
             .then(() => this.setState({ newLocationModalOpened: false }));
-    }
+    };
 
     onPolygonClip = (layer: PolygonLayer) => {
         const updatedLayer = {
@@ -532,7 +532,7 @@ class LocationPage extends Page<{}, State> {
         } as PolygonLayer;
 
         this.onLayerUpdated(layer, updatedLayer);
-    }
+    };
 
     onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {
         const updatedLayer = {
@@ -544,7 +544,7 @@ class LocationPage extends Page<{}, State> {
         polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
 
         this.setState({ polygonLayers });
-    }
+    };
 
     onSelectGeohash = async (id: string) => {
         this.setState({
@@ -553,7 +553,7 @@ class LocationPage extends Page<{}, State> {
                 id,
             ]
         });
-    }
+    };
 
     renderStops = ({ layers }: PolygonProps) =>
         <React.Fragment>
@@ -600,7 +600,7 @@ class LocationPage extends Page<{}, State> {
                 layer,
             ]
         });
-    }
+    };
 }
 
 export default LocationPage;

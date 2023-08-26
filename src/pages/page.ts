@@ -16,9 +16,9 @@ export class Page<TProps, TState> extends React.Component<TProps, TState> {
             ...filters,
             ...filterValue
         }
-        : {
-            ...filters,
-            ...(urlHelper.queryStringToJson(window.location.search))
-        };
+            : {
+                ...filters,
+                ...(urlHelper.queryStringToJson(window.location.search))
+            };
     }
 }

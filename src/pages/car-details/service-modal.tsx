@@ -12,7 +12,7 @@ interface Props {
     onSave(): void;
 }
 
-export const ServiceModal = ({ isOpen, service, types, onChange, onClose, onSave }: Props) => {
+export const ServiceModal = ({ isOpen, types, onChange, onClose, onSave }: Props) => {
     return (
         <Modal
             backdrop="static"

@@ -182,14 +182,14 @@ class IncomesPage extends Page<Props, State> {
             .then(incomes => this.setState({ incomes }));
         api.income.getSum(filters)
             .then(sum => this.setState({ sum }));
-    }
+    };
 
     onGroupByChanged = (groupBy?: GroupByTime) => {
         if (groupBy) {
             this.setState({ groupBy });
         }
         maps[groupBy ?? this.state.groupBy](this.state.filters).then(sumByTime => this.setState({ sumByTime }));
-    }
+    };
 
     onIncomeChanged = (changed: Partial<IncomeBinding>) => {
         this.setState({
@@ -198,7 +198,7 @@ class IncomesPage extends Page<Props, State> {
                 ...changed,
             }
         });
-    }
+    };
 
     onModalSave = () => api.income.post(this.state.income)
         .then(() => this.onFiltersChanged());

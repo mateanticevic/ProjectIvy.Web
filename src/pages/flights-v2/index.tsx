@@ -68,13 +68,13 @@ class FlightsV2Page extends Page<{}, State> {
         this.onFilterChanged({
             page: this.state.filter.page + 1,
         });
-    }
+    };
 
     onFilterChanged = (changedFilters?: Partial<Filter>) => {
         const filter = {
             ...this.state.filter,
             ...changedFilters,
-        }
+        };
         this.setState({ filter });
 
         api.flight.get(filter)
@@ -82,7 +82,7 @@ class FlightsV2Page extends Page<{}, State> {
                 count: result.count,
                 flights: this.state.flights.concat(result.items),
             }));
-    }
+    };
 }
 
 export default FlightsV2Page;

@@ -30,7 +30,7 @@ class BeerAdminPage extends Page<{}, State> {
         brandFilters: {},
         countries: [],
         styles: [],
-    }
+    };
 
     componentDidMount() {
         this.onBrandFiltersChange();

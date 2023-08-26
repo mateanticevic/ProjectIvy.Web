@@ -311,7 +311,7 @@ class BeerPage extends Page<Props, State> {
             .then(() => {
                 this.props.toast('Success', 'Beer addeed');
             });
-    }
+    };
 
     addBrand = () => {
         api.beer
@@ -321,7 +321,7 @@ class BeerPage extends Page<Props, State> {
                 this.setState({ brandModalOpen: false });
                 this.props.toast('Success', 'Brand addeed');
             });
-    }
+    };
 
     addConsumation = () => {
         this.setState({ callOngoing: true });
@@ -335,19 +335,19 @@ class BeerPage extends Page<Props, State> {
                 });
                 this.props.toast('Success', 'Consumation addeed');
             });
-    }
+    };
 
     getNextPage = () => {
         this.onFiltersChange({
             page: this.state.filters.page + 1
         });
-    }
+    };
 
     loadBrands = () => {
         api.beer
             .getBrands()
             .then(brands => this.setState({ brands }));
-    }
+    };
 
     onBeerChange = (beerValue: Partial<Beer>) => {
         this.setState({
@@ -356,7 +356,7 @@ class BeerPage extends Page<Props, State> {
                 ...beerValue,
             },
         });
-    }
+    };
 
     onBrandChange = (brandChanged: Partial<Brand>) => {
         this.setState({
@@ -365,7 +365,7 @@ class BeerPage extends Page<Props, State> {
                 ...brandChanged,
             },
         });
-    }
+    };
 
     onConsumationChange = (consumationValue: Partial<Consumation>) => {
         this.setState({
@@ -374,7 +374,7 @@ class BeerPage extends Page<Props, State> {
                 ...consumationValue,
             },
         });
-    }
+    };
 
     onCountByClick = (groupBy?: GroupByTime) => {
         if (groupBy) {
@@ -386,20 +386,20 @@ class BeerPage extends Page<Props, State> {
 
         let apiMethod;
         switch (groupBy) {
-            case GroupByTime.ByYear:
-                apiMethod = api.consumation.getCountByYear;
-                break;
-            case GroupByTime.ByMonth:
-                apiMethod = api.consumation.getCountByMonth;
-                break;
-            case GroupByTime.ByMonthOfYear:
-                apiMethod = api.consumation.getCountByMonthOfYear;
-                break;
+        case GroupByTime.ByYear:
+            apiMethod = api.consumation.getCountByYear;
+            break;
+        case GroupByTime.ByMonth:
+            apiMethod = api.consumation.getCountByMonth;
+            break;
+        case GroupByTime.ByMonthOfYear:
+            apiMethod = api.consumation.getCountByMonthOfYear;
+            break;
         }
 
         apiMethod(this.state.filters)
             .then(chartCountData => this.setState({ chartCountData: _.reverse(chartCountData) }));
-    }
+    };
 
     onFiltersChange = (filterValue?: Partial<ConsumationFilters>) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
@@ -470,14 +470,14 @@ class BeerPage extends Page<Props, State> {
             .then(countries => this.setState({ sumByCountry: countries.items }));
 
         this.onCountGroupByChange(this.state.sumByGrouping);
-    }
+    };
 
     onCountGroupByChange = (sumByGrouping?: GroupByTime) => {
         if (sumByGrouping) {
             this.setState({ sumByGrouping });
         }
         sumApiMapping[sumByGrouping ?? this.state.sumByGrouping](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
-    }
+    };
 }
 
 export default BeerPage;

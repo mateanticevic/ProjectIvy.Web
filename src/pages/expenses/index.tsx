@@ -297,13 +297,13 @@ class ExpensesPage extends Page<{}, State> {
 
     deleteFile = (fileId) => {
         api.file.deleteFile(fileId);
-    }
+    };
 
     getNextPage = () => {
         this.onFiltersChanged({
             page: this.state.filters.page + 1,
         });
-    }
+    };
 
     linkExpenseFile = (expenseId: string, fileId: string, expenseFile: ExpenseFile) =>
         api.expense
@@ -321,7 +321,7 @@ class ExpensesPage extends Page<{}, State> {
             expenseType: this.state.types[0],
             paymentType: this.state.paymentTypes[0],
         };
-    }
+    };
 
     onExpenseChanged = (expenseValue: ExpenseBinding) => {
         this.setState({
@@ -341,14 +341,14 @@ class ExpensesPage extends Page<{}, State> {
         if (expenseValue && expenseValue.vendorId) {
             this.onVendorChange(expenseValue.vendorId);
         }
-    }
+    };
 
     onExpenseLinkClick = (expenseId: string) => {
         this.setState({
             isLinkModalOpen: true,
             selectedExpenseId: expenseId,
         });
-    }
+    };
 
     onExpenseEdit = (expense: Expense) => {
         this.setState({
@@ -360,14 +360,14 @@ class ExpensesPage extends Page<{}, State> {
             files: expense.files,
             isModalOpen: true,
         });
-    }
+    };
 
     onExpenseNew = () => {
         this.setState({
             expense: this.newExpense(),
             isModalOpen: true,
         });
-    }
+    };
 
     onExpenseSave = (closeModal: boolean) => {
         this.setState({ isSavingExpense: true });
@@ -380,7 +380,7 @@ class ExpensesPage extends Page<{}, State> {
                 this.onFiltersChanged();
             })
             .catch(() => this.setState({ isSavingExpense: false }));
-    }
+    };
 
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
         let filters = this.resolveFilters(this.state.filters, changedFilters);
@@ -435,7 +435,7 @@ class ExpensesPage extends Page<{}, State> {
         api.expense
             .getVendorCount(filters)
             .then(vendorCount => this.setState({ stats: { ...this.state.stats, vendorCount } }));
-    }
+    };
 
     onSumGroupBy = (groupBy?: GroupByTime, groupByType?: boolean) => {
         const sumGroupByType = groupByType === undefined ? this.state.sumGroupByType : groupByType;
@@ -456,26 +456,26 @@ class ExpensesPage extends Page<{}, State> {
         else {
             groupyByApis[groupBy ?? this.state.sumGroupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
         }
-    }
+    };
 
     transformToChartData = (data) => {
         return data.map(month => {
             return Object.assign({
                 key: month.key
             },
-                ...month.value.map(type => {
-                    return {
-                        [type.key]: type.value
-                    };
-                })
+            ...month.value.map(type => {
+                return {
+                    [type.key]: type.value
+                };
+            })
             );
         });
-    }
+    };
 
     onVendorChange = (vendorId: string) => {
         api.vendor.getPois(vendorId)
             .then(vendorPois => this.setState({ vendorPois }));
-    }
+    };
 
     toExpenseBinding = (e: Expense): ExpenseBinding => {
         return {
@@ -497,11 +497,11 @@ class ExpensesPage extends Page<{}, State> {
             poiId: e.poi?.id,
             vendorId: e.vendor?.id,
         };
-    }
+    };
 
     uploadFile = (file: File) => {
         return api.file.post(file);
-    }
+    };
 }
 
 ExpensesPage.contextType = UserContext;

@@ -66,7 +66,7 @@ class MoviesPage extends Page<{}, State> {
             count: 0,
             items: [],
         }
-    }
+    };
 
     async componentDidMount() {
         this.onFiltersChanged();
@@ -97,8 +97,8 @@ class MoviesPage extends Page<{}, State> {
                                                 <td>{movie.title}</td>
                                                 <td>{movie.runtime}min</td>
                                                 <td><Badge variant="primary">{movie.myRating}</Badge></td>
-                                                <td><a target="_blank" href={`http://www.imdb.com/title/${movie.imdbId}`}><FaImdb size="20" /></a></td>
-                                                <td><a target="_blank" href={`https://plex.anticevic.net/web/index.html#!/search?query=${encodeURIComponent(movie.title)}`}><SiPlex size="20" /></a></td>
+                                                <td><a target="_blank" href={`http://www.imdb.com/title/${movie.imdbId}`} rel="noreferrer"><FaImdb size="20" /></a></td>
+                                                <td><a target="_blank" href={`https://plex.anticevic.net/web/index.html#!/search?query=${encodeURIComponent(movie.title)}`} rel="noreferrer"><SiPlex size="20" /></a></td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -139,7 +139,7 @@ class MoviesPage extends Page<{}, State> {
     onCountGroupByChange = (movieGroupBy: MovieGroupBy) => {
         this.setState({ movieGroupBy });
         maps[movieGroupBy](this.state.filters).then(countChartData => this.setState({ countChartData }));
-    }
+    };
 
     onFiltersChanged = (changedFilters?: Partial<MovieFilters>) => {
         const filters = this.resolveFilters(this.state.filters, changedFilters);
@@ -155,7 +155,7 @@ class MoviesPage extends Page<{}, State> {
         api.movie
             .getCountByDay(filters)
             .then(countByDay => this.setState({ countByDay }));
-    }
+    };
 }
 
 export default MoviesPage;

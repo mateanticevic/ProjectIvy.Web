@@ -25,7 +25,6 @@ class DashboardPage extends React.Component {
             week: 0,
         },
         movies: [],
-        onlineGraphData: [],
         spent: {
             month: 0,
             today: 0,
@@ -56,7 +55,6 @@ class DashboardPage extends React.Component {
         api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
         api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
         api.tracking.getLastLocation().then(location => this.setState({ location }));
-        api.web.getTimeTotalByDay(monthFilters).then(onlineGraphData => this.setState({ onlineGraphData }));
 
         if (this.user?.defaultCar) {
             api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carLog }));
@@ -89,7 +87,7 @@ class DashboardPage extends React.Component {
     }
 
     render() {
-        const { carLog: carLog, consumations, distance, expenses, location, movies, onlineGraphData, spent } = this.state;
+        const { carLog: carLog, consumations, distance, expenses, location, movies, spent } = this.state;
 
         const { defaultCurrency }: User = this.context;
 
@@ -101,7 +99,7 @@ class DashboardPage extends React.Component {
 
         const movieItems = movies.map(movie => {
             return <ListGroupItem key={_.uniqueId('list_item_')}>
-                {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank">{movie.title} ({movie.year})</a>
+                {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank" rel="noreferrer">{movie.title} ({movie.year})</a>
                 <span className="pull-right"><Badge variant="primary">{movie.myRating}</Badge></span>
             </ListGroupItem>;
         });
@@ -136,7 +134,7 @@ class DashboardPage extends React.Component {
                                                 icon="https://cdn.anticevic.net/icons/location-small.png"
                                                 position={{ lat: location.tracking.lat, lng: location.tracking.lng }}
                                                 title="Current location"
-                                                />
+                                            />
                                         </Map>
                                     }
                                 </Card.Body>
@@ -224,7 +222,7 @@ class DashboardPage extends React.Component {
 
     dateTimeFormat = (dateTime) => {
         return moment(dateTime).date() === moment().date() ? `Today ${moment.utc(dateTime).local().format('H:mm')}` : moment.utc(dateTime).local().format('MMMM Do H:mm');
-    }
+    };
 
     dayOfWeek = (date) => {
         const fullDate = (
@@ -240,7 +238,7 @@ class DashboardPage extends React.Component {
                 </Badge>
             </OverlayTrigger>
         );
-    }
+    };
 }
 
 DashboardPage.contextType = UserContext;

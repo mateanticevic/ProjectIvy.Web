@@ -1,6 +1,4 @@
 export function jsonToQueryString(queryObj, nesting = '') {
-    const queryString = '';
-
     const pairs = Object.entries(queryObj).map(([key, val]) => {
     // Handle a second base case where the value to encode is an array
         if (Array.isArray(val)) {
@@ -26,13 +24,6 @@ function parseValue(value) {
     const decoded = decodeURIComponent(value);
 
     return isNaN(decoded) || decoded[0] === '0' ? decoded : parseInt(value);
-}
-
-function objectToArray(parent: string, json: any) {
-    return Object.keys(json).map(function (key) {
-        return parent + '=' +
-      encodeURIComponent(json[key]);
-    }).join('&');
 }
 
 export function getResourceFromUrl() {

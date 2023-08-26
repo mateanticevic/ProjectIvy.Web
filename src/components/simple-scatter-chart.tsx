@@ -17,7 +17,7 @@ export const SimpleScatterChart = ({ data, unit }) =>
                 dataKey='odometer'
                 name='Value'
                 unit={unit ?? ''}
-                />
+            />
 
             <Scatter
                 data={data}
