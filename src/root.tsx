@@ -60,7 +60,6 @@ export default class Root extends React.Component<{}, State> {
         }
 
         if (this.identity) {
-            console.log(api);
             api.user.get()
                 .then(user => {
                     this.setState({

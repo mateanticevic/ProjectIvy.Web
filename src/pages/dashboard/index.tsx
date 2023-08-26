@@ -34,7 +34,7 @@ class DashboardPage extends React.Component {
         spentByMonthGraphData: [],
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         this.user = this.context;
 
         const lastFiveFilters = {
@@ -64,13 +64,28 @@ class DashboardPage extends React.Component {
         }
 
         api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
-        api.expense.getSum(todayFilters).then(today => this.setState({ spent: { ...this.state.spent, today } }));
-        api.expense.getSum(weekFilters).then(week => this.setState({ spent: { ...this.state.spent, week } }));
-        api.expense.getSum(monthFilters).then(month => this.setState({ spent: { ...this.state.spent, month } }));
 
-        api.tracking.getDistance(todayFilters).then(today => this.setState({ distance: { ...this.state.distance, today } }));
-        api.tracking.getDistance(weekFilters).then(week => this.setState({ distance: { ...this.state.distance, week } }));
-        api.tracking.getDistance(monthFilters).then(month => this.setState({ distance: { ...this.state.distance, month } }));
+        const spentToday = await api.expense.getSum(todayFilters);
+        const spentWeek = await api.expense.getSum(weekFilters);
+        const spentMonth = await api.expense.getSum(monthFilters);
+        this.setState({
+            spent: {
+                today: spentToday,
+                week: spentWeek,
+                month: spentMonth,
+            }
+        });
+
+        const distanceToday = await api.tracking.getDistance(todayFilters);
+        const distanceWeek = await api.tracking.getDistance(weekFilters);
+        const distanceMonth = await api.tracking.getDistance(monthFilters);
+        this.setState({
+            distance: {
+                today: distanceToday,
+                week: distanceWeek,
+                month: distanceMonth,
+            }
+        });
     }
 
     render() {
