@@ -135,7 +135,7 @@ class BeerPage extends Page<Props, State> {
 
         const sum = Math.ceil(this.state.sum / 1000);
 
-        const from = moment(filters.from);
+        const from = moment(filters.from); 
         const to = filters.to ? moment(filters.to) : moment();
 
         const perDay = (sum / (1 + to.diff(from, 'days'))).toFixed(2);

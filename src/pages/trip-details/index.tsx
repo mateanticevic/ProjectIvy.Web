@@ -105,22 +105,45 @@ class TripDetailsPage extends React.Component<Props, State> {
                             <Card.Footer>
                                 <Row>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Days" value={days} />
+                                        <ValueLabel
+                                            label="Days"
+                                            value={days}
+                                        />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Distance" unit="km" value={Number(trip.distance / 1000)} />
+                                        <ValueLabel
+                                            round
+                                            label="Distance"
+                                            unit="km"
+                                            value={Number(trip.distance / 1000)}
+                                        />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Spent" unit={defaultCurrency.symbol} value={Number(trip.totalSpent)} />
+                                        <ValueLabel
+                                            round
+                                            label="Spent"
+                                            unit={defaultCurrency.symbol}
+                                            value={Number(trip.totalSpent)}
+                                        />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Cities" value={trip.cities.length} />
+                                        <ValueLabel
+                                            label="Cities"
+                                            value={trip.cities.length}
+                                        />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Countries" value={trip.countries.length} />
+                                        <ValueLabel
+                                            label="Countries"
+                                            value={trip.countries.length}
+                                        />
                                     </Col>
                                     <Col lg={2} md={3} sm={6} xs={12}>
-                                        <ValueLabel label="Beer" unit="L" value={Math.ceil(beerSum / 1000)} />
+                                        <ValueLabel
+                                            label="Beer"
+                                            unit="L"
+                                            value={Math.ceil(beerSum / 1000)}
+                                        />
                                     </Col>
                                 </Row>
                             </Card.Footer>
