@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, FormControl, Modal, FloatingLabel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import { Brand } from 'types/beer';
 
+import { Brand } from 'types/beer';
 import Select from 'components/select';
 
 interface Props {

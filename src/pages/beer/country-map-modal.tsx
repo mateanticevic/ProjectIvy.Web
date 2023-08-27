@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Chart from 'react-google-charts';
+
 import { Country, KeyValue } from 'types/common';
 
 interface Props {

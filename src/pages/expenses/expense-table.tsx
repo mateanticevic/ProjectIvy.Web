@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+
 import ExpenseRow from './expense-row';
 import { ExpenseTableLoader } from './expense-table-loader';
 

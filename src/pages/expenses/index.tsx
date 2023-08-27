@@ -18,7 +18,6 @@ import DayExpenses from './day-expenses';
 import NumbersCard from './numbers-card';
 import { User } from 'types/users';
 import { UserContext } from 'contexts/user-context';
-import { FaThList } from 'react-icons/fa';
 
 interface State {
     cards: any[];
