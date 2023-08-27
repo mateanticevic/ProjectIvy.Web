@@ -157,7 +157,7 @@ class LocationPage extends Page<{}, State> {
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashPrecision, geohashSearch, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -167,14 +167,6 @@ class LocationPage extends Page<{}, State> {
         if (!this.state.timezone) {
             this.setState({ timezone: defaultTimezone?.value });
         }
-
-        const geohashRectangles = geohashSegments.map(g => {
-            const rectangle = geohash.decode_bbox(g);
-
-            return {
-
-            };
-        });
 
         return (
             <Container>
@@ -457,7 +449,7 @@ class LocationPage extends Page<{}, State> {
             });
     };
 
-    onDeleteLayer = (layer: PolygonLayer) => {
+    onDeleteLayer = (layer: PolygonLayer) => {
         const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
         this.setState({
             polygonLayers: updatedLayers
@@ -506,8 +498,6 @@ class LocationPage extends Page<{}, State> {
                     layer,
                 ],
             });
-        }
-        else if (mapMode === MapMode.New) {
         }
     };
 

@@ -15,9 +15,9 @@ const getServiceIntervals = (carModelId: string) => api.get(`carModel/${carModel
 
 const getServiceTypes = (carModelId: string) => api.get(`carModel/${carModelId}/serviceType`);
 
-const postLog = (carId: string, carLog) => api.post(`car/${carId}/log`, carLog);
+const postLog = (carId: string, carLog) => api.post(`car/${carId}/log`, carLog);
 
-const postService = (carId: string, carService) => api.post(`car/${carId}/service`, carService);
+const postService = (carId: string, carService) => api.post(`car/${carId}/service`, carService);
 
 const car = {
     get,

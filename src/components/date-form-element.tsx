@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment';
+import moment from 'moment';
 import React from 'react';
 import { FormLabel, FormGroup, InputGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';

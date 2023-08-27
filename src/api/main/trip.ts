@@ -15,13 +15,13 @@ function deleteExpense(tripId: string, expenseId: string) {
     return api.del(`trip/${tripId}/expense/${expenseId}`);
 }
 
-const deleteCity = (tripId: string, cityId: string) => api.del(`trip/${tripId}/city/${cityId}`);
+const deleteCity = (tripId: string, cityId: string) => api.del(`trip/${tripId}/city/${cityId}`);
 
 function post(trip: TripBinding) {
     return api.post('trip', trip);
 }
 
-const postCity = (tripId: string, cityId: string) => api.post(`trip/${tripId}/city/${cityId}`);
+const postCity = (tripId: string, cityId: string) => api.post(`trip/${tripId}/city/${cityId}`);
 
 const postExpense = (tripId: string, expenseId: string) => api.post(`trip/${tripId}/expense/${expenseId}`);
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { DropdownButton, NavItem, Dropdown } from 'react-bootstrap';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 interface Props {
     options: Array<{ name: string, value: any }>;
@@ -24,7 +24,7 @@ export const RadioLabel = ({ onSelect, options }: Props) => {
             title={title}
             size="sm"
         >
-            {options.map((option, index) =>
+            {options.map(option =>
                 <Dropdown.Item
                     key={option.value}
                     onClick={() => onClick(option)}

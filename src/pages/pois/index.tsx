@@ -98,7 +98,7 @@ class PoisPage extends React.Component {
         );
     }
 
-    onAddToTrip = (poiId: string) => {
+    onAddToTrip = () => {
     };
 
     onFiltersChanged = (filter?) => {

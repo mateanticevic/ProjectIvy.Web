@@ -5,7 +5,7 @@ const getAll = () => api.get('country?pageAll=true');
 
 const getListsVisited = () => api.get('country/list/visited');
 
-const getSingle = (latitude: number, longitude: number) => api.get('country/single', { latitude, longitude });
+const getSingle = (latitude: number, longitude: number) => api.get('country/single', { latitude, longitude });
 
 const getVisited = (filters) => api.get('country/visited', filters);
 

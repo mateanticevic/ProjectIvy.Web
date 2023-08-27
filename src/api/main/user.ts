@@ -7,7 +7,7 @@ function get(): Promise<User> {
     return api.get('user', null, 4000);
 }
 
-const getSessions = () => api.get('user/session');
+const getSessions = () => api.get('user/session');
 
 const user = {
     deleteSession,

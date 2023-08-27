@@ -182,7 +182,7 @@ class TripsPage extends Page<{}, State> {
                                     hasMore={filters.page * filters.pageSize < trips.count}
                                     loader={<h4>Loading...</h4>}
                                 >
-                                    {years.map((year, index) =>
+                                    {years.map(year =>
                                         <YearTrips
                                             key={year}
                                             year={year}

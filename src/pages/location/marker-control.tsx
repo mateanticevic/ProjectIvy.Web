@@ -42,7 +42,7 @@ const MarkerControl = ({ timezone, tracking, onNext, onPrevious, previousExists,
                 <MdSkipNext />
             </Button>
             &nbsp;
-            {timestamp.format('MMM DD HH:mm:ss.SSS')} | {speed ? `${speed} km/h` : 'n/a'} | {Math.round(tracking.altitude)}m
+            {timestamp.format('MMM DD HH:mm:ss.SSS')} | {speed ? `${speed} km/h` : 'n/a'} | {Math.round(tracking.altitude)}m
         </React.Fragment>
     );
 };

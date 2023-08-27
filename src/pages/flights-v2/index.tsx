@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import React from 'react';
-import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, FormGroup, FormLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
