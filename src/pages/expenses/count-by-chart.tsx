@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 
 interface DataPoint {
     name: string;
@@ -29,7 +29,16 @@ export const CountByChart = ({ data }: Props) => {
     return (
         <ResponsiveContainer height={320}>
             <PieChart>
-                <Pie isAnimationActive={false} data={data} cx={180} cy={150} outerRadius={150} fill="#007bff" label={renderCustomizedLabel} labelLine={false} />
+                <Pie
+                    isAnimationActive={false}
+                    data={data}
+                    cx={180}
+                    cy={150}
+                    outerRadius={150}
+                    fill="#007bff"
+                    label={renderCustomizedLabel}
+                    labelLine={false}
+                />
             </PieChart>
         </ResponsiveContainer>
     );

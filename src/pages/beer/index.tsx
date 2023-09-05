@@ -133,20 +133,6 @@ class BeerPage extends Page<Props, State> {
     render() {
         const { brands, countries, callOngoing, consumations, filters, servings, styles, sumByCountry } = this.state;
 
-        const sum = Math.ceil(this.state.sum / 1000);
-
-        const from = moment(filters.from); 
-        const to = filters.to ? moment(filters.to) : moment();
-
-        const perDay = (sum / (1 + to.diff(from, 'days'))).toFixed(2);
-
-        const pages = Math.ceil(consumations.count / filters.pageSize);
-
-        const mapData = [
-            ['Country', 'Liters'],
-            ...sumByCountry.map(x => [x.key.name, Math.ceil(x.value / 1000)]),
-        ];
-
         const consumationsByDay = _.groupBy(consumations.items, consumation => consumation.date);
         const days = Object.keys(consumationsByDay);
 

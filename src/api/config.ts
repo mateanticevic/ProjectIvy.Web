@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import * as urlHelper from 'utils/url-helper';
 import { httpContentType } from './http-content-type';
 import { httpHeader } from './http-header';
