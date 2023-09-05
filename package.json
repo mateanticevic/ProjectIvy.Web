@@ -48,14 +48,14 @@
     "vite-tsconfig-paths": "4.2.0"
   },
   "devDependencies": {
-    "@babel/core": "7.22.11",
-    "@babel/plugin-transform-runtime": "7.22.10",
-    "@typescript-eslint/eslint-plugin": "6.4.1",
-    "@typescript-eslint/parser": "6.4.1",
+    "@babel/core": "7.22.15",
+    "@babel/plugin-transform-runtime": "7.22.15",
+    "@typescript-eslint/eslint-plugin": "6.6.0",
+    "@typescript-eslint/parser": "6.6.0",
     "@vitejs/plugin-react": "^4.0.4",
     "eslint": "8.48.0",
     "eslint-plugin-react": "7.33.2",
-    "openapi-typescript": "6.5.3",
+    "openapi-typescript": "6.5.4",
     "sass": "1.66.1",
     "typescript": "5.2.2"
   },
