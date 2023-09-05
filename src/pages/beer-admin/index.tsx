@@ -16,7 +16,7 @@ interface State {
     styles: Style[];
 }
 
-class BeerAdminPage extends Page<{}, State> {
+class BeerAdminPage extends Page<unknown, State> {
     state: State = {
         beerFilters: {
             page: 1,

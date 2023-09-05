@@ -11,7 +11,7 @@ interface State {
     accounts: Account[];
 }
 
-class AccountsPage extends Page<{}, State> {
+class AccountsPage extends Page<unknown, State> {
     state: State = {
         accounts: [],
     };

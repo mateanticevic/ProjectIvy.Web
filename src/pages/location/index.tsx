@@ -123,7 +123,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     return true;
 };
 
-class LocationPage extends Page<{}, State> {
+class LocationPage extends Page<unknown, State> {
 
     map: GoogleMap;
 

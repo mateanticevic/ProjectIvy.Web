@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';

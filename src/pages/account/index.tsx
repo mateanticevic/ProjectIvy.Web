@@ -11,7 +11,7 @@ interface State {
     sessions?: UserSession[];
 }
 
-class AccountPage extends Page<{}, State> {
+class AccountPage extends Page<unknown, State> {
     state: State = {
     };
 

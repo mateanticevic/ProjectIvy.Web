@@ -32,7 +32,7 @@ interface State {
     tripsAreLoading: boolean;
 }
 
-class TripsPage extends Page<{}, State> {
+class TripsPage extends Page<unknown, State> {
 
     state: State = {
         countries: [],

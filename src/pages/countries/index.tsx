@@ -31,7 +31,7 @@ interface State {
     visitedCountries: Country[],
 }
 
-class CountriesPage extends Page<{}, State> {
+class CountriesPage extends Page<unknown, State> {
 
     state: State = {
         cities: [],

@@ -45,7 +45,7 @@ enum MapMode {
     Geohash = 'Geohash'
 }
 
-class TrackingPage extends Page<{}, State> {
+class TrackingPage extends Page<unknown, State> {
     colors = [
         '#000000',
         '#ff0000',

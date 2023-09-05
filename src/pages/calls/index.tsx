@@ -19,7 +19,7 @@ interface State {
     };
 }
 
-export default class CallsPage extends Page<{}, State> {
+export default class CallsPage extends Page<unknown, State> {
 
     state: State = {
         calls: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Badge, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 import { Consumation } from 'types/beer';
 import { ServingIcon } from './serving-icon';

@@ -27,7 +27,7 @@ interface State {
     mapMode: MapMode,
 }
 
-class FlightsPage extends Page<{}, State> {
+class FlightsPage extends Page<unknown, State> {
 
     state: State = {
         countByAirport: [],

@@ -49,7 +49,7 @@ const maps = {
     [MovieGroupBy.ByRuntime]: api.movie.getCountByRuntime,
 };
 
-class MoviesPage extends Page<{}, State> {
+class MoviesPage extends Page<unknown, State> {
     state: State = {
         countByDay: [],
         countChartData: [],

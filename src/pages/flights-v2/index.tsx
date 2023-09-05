@@ -19,7 +19,7 @@ interface State {
     flights: Flight[],
 }
 
-class FlightsV2Page extends Page<{}, State> {
+class FlightsV2Page extends Page<unknown, State> {
 
     state: State = {
         count: 0,

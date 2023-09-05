@@ -70,7 +70,7 @@ const groupyByTypeApis = {
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYearByType,
 };
 
-class ExpensesPage extends Page<{}, State> {
+class ExpensesPage extends Page<unknown, State> {
 
     user: User;
     state: State = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge, Card } from 'react-bootstrap';
-import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaShoppingCart, FaExclamation } from 'react-icons/fa';
+import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaShoppingCart } from 'react-icons/fa';
 import { RiExchangeDollarLine } from 'react-icons/ri';
 import { SiRevolut } from 'react-icons/si';
 
