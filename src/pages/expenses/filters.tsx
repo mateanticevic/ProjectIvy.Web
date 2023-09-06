@@ -1,20 +1,20 @@
-import moment from 'moment';
-import React from 'react';
-import { Col, FormLabel, FormGroup } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Datetime from 'react-datetime';
-import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
+import Datetime from 'react-datetime';
+import React from 'react';
+import ReactSelect from 'react-select';
+import Row from 'react-bootstrap/Row';
+import moment from 'moment';
+import { Col, FormLabel, FormGroup } from 'react-bootstrap';
 
-import { Currency } from 'types/expenses';
 import { ExpenseFilters } from 'types/expenses';
+import { SelectOption } from 'types/common';
 import { vendorLoader } from 'utils/select-loaders';
 
 interface Props {
-  currencies: Currency[];
-  filters: ExpenseFilters;
-  types: any;
-  onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
+    currencies: SelectOption[];
+    filters: ExpenseFilters;
+    types: SelectOption[];
+    onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }
 
 const dateFormat = 'YYYY-MM-DD';

@@ -4,38 +4,40 @@ import React from 'react';
 import { Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { RiExchangeDollarLine } from 'react-icons/ri';
 
-import { Expense } from 'types/expenses';
 import ExpenseTypeLabel from './expense-type-label';
 import VendorLabel from './vendor-label';
-import { PaymentType } from 'consts/service';
-import { Name } from 'types/common';
+import { components } from 'types/ivy-types';
+import { PaymentType as PaymentTypes } from 'consts/service';
+
+type Expense = components['schemas']['Expense'];
+type PaymentType = components['schemas']['PaymentType'];
 
 interface Props {
     expense: Expense;
-    onEdit?: () => void;
-    onLink?: () => void;
-    onUnlink?: () => void;
+    onEdit: (expense: Expense) => void;
+    onLink: (id: string) => void;
+    onUnlink: (id: string) => void;
 }
 
-const renderPaymentTypeIcon = (name: Name) => {
-    switch (name?.id) {
-    case PaymentType.Cash:
-        return <FaMoneyBill title={name.name} />;
-    case PaymentType.CreditCard:
-        return <FaCreditCard title={name.name} />;
-    case PaymentType.CreditCardOnline:
-        return <FaShoppingCart title={name.name} />;
-    case PaymentType.WireTransfer:
-        return <FaUniversity title={name.name} />;
-    default:
-        return null;
+const renderPaymentTypeIcon = (type: PaymentType) => {
+    switch (type?.id) {
+        case PaymentTypes.Cash:
+            return <FaMoneyBill title={type.name!} />;
+        case PaymentTypes.CreditCard:
+            return <FaCreditCard title={type.name!} />;
+        case PaymentTypes.CreditCardOnline:
+            return <FaShoppingCart title={type.name!} />;
+        case PaymentTypes.WireTransfer:
+            return <FaUniversity title={type.name!} />;
+        default:
+            return null;
     }
 };
 
 const ExpenseRow = ({ expense, onEdit, onLink, onUnlink }: Props) => {
     const hasFilesTooltip = (
         <Tooltip id="tooltip">
-            Has {expense.files.length} linked files
+            Has {expense!.files!.length} linked files
         </Tooltip>
     );
 
@@ -50,19 +52,19 @@ const ExpenseRow = ({ expense, onEdit, onLink, onUnlink }: Props) => {
     const formattedDate = exactDate ? moment(expense.date).format('Do MMMM YYYY') : moment(expense.date).format('dddd');
 
     return (
-        <tr className={expense.needsReview ? 'warning' : null}>
+        <tr className={expense.needsReview ? 'warning' : undefined}>
             <td>{formattedDate}</td>
             <td>
-                <ExpenseTypeLabel expenseType={expense.expenseType} />
+                <ExpenseTypeLabel type={expense.expenseType!} />
             </td>
             <td>
-                <VendorLabel expense={expense} />
+                <VendorLabel expense={expense!} />
             </td>
-            <td className="cell-no-overflow-100" title={expense.comment}>{expense.comment}</td>
-            <td><span className="pull-right">{expense.amount.toFixed(2)}</span></td>
-            <td>{expense.currency.symbol}</td>
+            <td className="cell-no-overflow-100" title={expense.comment!}>{expense.comment}</td>
+            <td><span className="pull-right">{expense.amount!.toFixed(2)}</span></td>
+            <td>{expense.currency!.symbol}</td>
             <td>
-                {renderPaymentTypeIcon(expense.paymentType)}
+                {renderPaymentTypeIcon(expense.paymentType!)}
                 {expense.files && expense.files.length > 0 &&
                     <OverlayTrigger placement="right" overlay={hasFilesTooltip}>
                         <FaFile />
@@ -83,16 +85,16 @@ const ExpenseRow = ({ expense, onEdit, onLink, onUnlink }: Props) => {
                         className="pull-right"
                         variant="primary"
                         size="sm"
-                        onClick={() => onEdit(expense)}
+                        onClick={() => onEdit(expense!)}
                     >
                         <FaPen size="10px" /> Edit
                     </Button>
                 }
                 {onLink &&
-                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onLink(expense.id)}><FaLink size="10px" /> Link</Button>
+                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onLink(expense.id!)}><FaLink size="10px" /> Link</Button>
                 }
                 {onUnlink &&
-                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id)}><FaLink size="10px" /> Unlink</Button>
+                    <Button className="pull-right" variant="primary" size="sm" onClick={() => onUnlink(expense.id!)}><FaLink size="10px" /> Unlink</Button>
                 }
             </td>
         </tr>

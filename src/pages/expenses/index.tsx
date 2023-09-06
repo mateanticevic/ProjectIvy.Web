@@ -1,53 +1,58 @@
+import InfiniteScroll from 'react-infinite-scroll-component';
+import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
-import React from 'react';
 import { Col, Container, Card, Row, Accordion, Button, Modal, Form } from 'react-bootstrap';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
+import DayExpenses from './day-expenses';
+import ExpenseLinkModal from './expense-link-modal';
+import ExpenseModal from './expense-modal';
+import Filters from './filters';
+import FiltersMore from './filters-more';
+import NumbersCard from './numbers-card';
 import api from 'api/main';
+import { ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
 import { DistributionCard } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
-import { PagedList } from 'types/common';
-import { Currency, Expense, ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
-import ExpenseModal from './expense-modal';
-import FiltersMore from './filters-more';
-import Filters from './filters';
-import ExpenseLinkModal from './expense-link-modal';
-import DayExpenses from './day-expenses';
-import NumbersCard from './numbers-card';
+import { PagedList, SelectOption } from 'types/common';
 import { User } from 'types/users';
 import { UserContext } from 'contexts/user-context';
+import { components } from 'types/ivy-types';
+
+type Card = components['schemas']['Card'];
+type Expense = components['schemas']['Expense'];
+type FileType = components['schemas']['FileType'];
+type PaymentType = components['schemas']['PaymentType'];
 
 interface State {
-    cards: any[];
-    currencies: Currency[];
+    cards: Card[];
+    currencies: SelectOption[];
     descriptionSuggestions: string[];
     expense?: Expense;
     expenses: PagedList<Expense>;
     expensesAreLoading: boolean;
+    fileTypes: FileType[];
     files: any[];
-    fileTypes: any[];
     filters: ExpenseFilters;
     graphs: any;
-    isSavingExpense: boolean;
-    isModalOpen: boolean;
     isLinkModalOpen: boolean;
+    isModalOpen: boolean;
+    isSavingExpense: boolean;
     isSumModalOpen: boolean;
     layoutMode: LayoutMode;
     orderBy: any;
-    paymentTypes: any[];
-    stats: any;
+    paymentTypes: PaymentType[];
     selectedExpenseId?: string;
     selectedTripId?: string;
+    stats: any;
     sumByCurrency: any;
     sumByType: boolean;
     sumChartData?: any;
     sumGroupBy: GroupByTime;
     sumGroupByBaseType: boolean;
     sumGroupByType: boolean;
-    types: any;
-    vendors: any;
+    types: SelectOption[];
     vendorPois: any;
 }
 
@@ -120,7 +125,6 @@ class ExpensesPage extends Page<unknown, State> {
         sumGroupByBaseType: true,
         sumGroupByType: false,
         types: [],
-        vendors: [],
         vendorPois: [],
     };
 
@@ -131,7 +135,6 @@ class ExpensesPage extends Page<unknown, State> {
         api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
         api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
         api.currency.get().then(currencies => this.setState({ currencies }));
-        api.vendor.get().then(vendors => this.setState({ vendors: vendors.items }));
         api.expenseType.get().then(types => this.setState({ types }));
     }
 
@@ -155,7 +158,6 @@ class ExpensesPage extends Page<unknown, State> {
                                     <Card.Body>
                                         <Filters
                                             currencies={this.state.currencies}
-                                            vendors={this.state.vendors}
                                             types={this.state.types}
                                             filters={this.state.filters}
                                             onChange={this.onFiltersChanged}
@@ -254,7 +256,6 @@ class ExpensesPage extends Page<unknown, State> {
                         descriptionSuggestions={this.state.descriptionSuggestions}
                         types={this.state.types}
                         vendorPois={this.state.vendorPois}
-                        vendors={this.state.vendors}
                         fileTypes={this.state.fileTypes}
                         paymentTypes={this.state.paymentTypes}
                         cards={this.state.cards}

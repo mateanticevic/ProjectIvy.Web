@@ -9,6 +9,11 @@ export interface PagedItems<Item> {
     pageSize: number;
 }
 
+export interface SelectOption {
+    id: string,
+    name: string,
+}
+
 export type FileType = {
     id: string,
     name: string,

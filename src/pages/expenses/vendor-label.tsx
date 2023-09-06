@@ -2,7 +2,9 @@ import React from 'react';
 import { Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import { Expense } from 'types/expenses';
+import { components } from 'types/ivy-types';
+
+type Expense = components['schemas']['Expense'];
 
 interface Props {
     expense: Expense;

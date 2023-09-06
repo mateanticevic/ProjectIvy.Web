@@ -1,29 +1,36 @@
+import AsyncSelect from 'react-select/async';
+import Datetime from 'react-datetime';
 import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
-import Datetime from 'react-datetime';
-import AsyncSelect from 'react-select/async';
 
-import { Expense } from 'types/expenses';
-import { DateFormElement } from 'components';
-import Select from 'components/select';
-import { vendorLoader } from 'utils/select-loaders';
 import ExpenseFormFilesTab from './expense-form-files-tab';
+import Select from 'components/select';
+import { DateFormElement } from 'components';
+import { SelectOption } from 'types/common';
+import { components } from 'types/ivy-types';
+import { vendorLoader } from 'utils/select-loaders';
+
+type Card = components['schemas']['Card'];
+type Expense = components['schemas']['Expense'];
+type ExpenseFile = components['schemas']['ExpenseFile'];
+type FileType = components['schemas']['FileType'];
+type PaymentType = components['schemas']['PaymentType'];
 
 interface Props {
-  cards: any;
-  currencies: any;
-  descriptionSuggestions: string[];
-  expense: Expense;
-  deleteFile: any;
-  fileTypes: any;
-  files: any;
-  paymentTypes: any;
-  types: any;
-  linkFile: any;
-  onChange: any;
-  onVendorChanged: any;
-  uploadFiles: any;
-  vendorPois: any;
+    cards: Card[];
+    currencies: SelectOption[];
+    descriptionSuggestions: string[];
+    expense: Expense;
+    fileTypes: FileType[];
+    files?: ExpenseFile[];
+    paymentTypes: PaymentType[];
+    types: SelectOption[];
+    deleteFile: any;
+    linkFile: any;
+    onChange: any;
+    onVendorChanged: any;
+    uploadFiles: any;
+    vendorPois: any;
 }
 
 const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
@@ -144,15 +151,15 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                         </FloatingLabel>
                         <div className="expense-form-description-suggestions">
                             {descriptionSuggestions && !descriptionSuggestions.some(x => x === expense.comment) &&
-                descriptionSuggestions.map(suggestion =>
-                    <Badge
-                        bg="secondary"
-                        className="item cursor-pointer"
-                        onClick={() => onChange({ comment: suggestion })}
-                    >
-                        {suggestion}
-                    </Badge>
-                )}
+                                descriptionSuggestions.map(suggestion =>
+                                    <Badge
+                                        bg="secondary"
+                                        className="item cursor-pointer"
+                                        onClick={() => onChange({ comment: suggestion })}
+                                    >
+                                        {suggestion}
+                                    </Badge>
+                                )}
                         </div>
                     </Col>
                 </Row>

@@ -2,18 +2,20 @@ import React from 'react';
 import { Badge } from 'react-bootstrap';
 import ExpenseTypeIcon from 'components/expense-type-icon';
 
-import { ExpenseType } from 'types/expenses';
+import { components } from 'types/ivy-types';
+
+type ExpenseType = components['schemas']['ExpenseType'];
 
 interface Props {
-    expenseType: ExpenseType;
+    type: ExpenseType;
 }
 
-const ExpenseTypeLabel = ({ expenseType }: Props) => {
+const ExpenseTypeLabel = ({ type }: Props) => {
 
     return (
         <Badge variant="primary">
-            <ExpenseTypeIcon typeId={expenseType.id} />
-            &nbsp;{expenseType.name}
+            <ExpenseTypeIcon typeId={type!.id!} />
+            &nbsp;{type.name}
         </Badge>
     );
 };
