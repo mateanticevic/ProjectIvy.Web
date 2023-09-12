@@ -149,7 +149,6 @@ class ExpensesPage extends Page<unknown, State> {
                 disabled: true,
             };
             types.splice(10, 0, optionTen);
-            console.log(types);
             this.setState({ types });
         });
     }

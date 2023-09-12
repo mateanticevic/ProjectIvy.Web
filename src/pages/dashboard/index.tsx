@@ -91,12 +91,6 @@ class DashboardPage extends React.Component {
 
         const { defaultCurrency }: User = this.context;
 
-        const expenseItems = expenses.map(expense => {
-            return <ListGroupItem key={_.uniqueId('list_item_')}>
-                {this.dayOfWeek(expense.date)} <ExpenseTypeLabel expenseType={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
-            </ListGroupItem>;
-        });
-
         const movieItems = movies.map(movie => {
             return <ListGroupItem key={_.uniqueId('list_item_')}>
                 {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank" rel="noreferrer">{movie.title} ({movie.year})</a>
@@ -171,7 +165,11 @@ class DashboardPage extends React.Component {
                                 <Card.Header><a href="/expenses">Expenses</a></Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     <ListGroup>
-                                        {expenseItems}
+                                        {expenses.map(expense =>
+                                            <ListGroupItem key={_.uniqueId('list_item_')}>
+                                                {this.dayOfWeek(expense.date)} <ExpenseTypeLabel type={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
+                                            </ListGroupItem>
+                                        )}
                                     </ListGroup>
                                 </Card.Body>
                             </Card>
