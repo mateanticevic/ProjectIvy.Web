@@ -10,27 +10,34 @@ import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/expense-type-label';
 import { getIdentity } from 'utils/cookie-helper';
 import { Feature, User } from 'types/users';
+import { components } from 'types/ivy-types';
 
-class DashboardPage extends React.Component {
+type Consumation = components['schemas']['Consumation'];
+type Expense = components['schemas']['Expense'];
+type Movie = components['schemas']['Movie'];
+type TrackingLocation = components['schemas']['TrackingLocation'];
+
+interface TodayWeekMonth {
+    month: number,
+    today: number,
+    week: number,
+}
+
+interface State {
+    carOdometer?: number,
+    consumations?: Consumation[],
+    distance?: TodayWeekMonth,
+    expenses?: Expense[],
+    location?: TrackingLocation,
+    movies?: Movie[],
+    spent?: TodayWeekMonth,
+}
+
+class DashboardPage extends React.Component<unknown, State> {
     identity = getIdentity();
     user: User;
 
-    state = {
-        carLog: { odometer: 0, timestamp: moment() },
-        consumations: [],
-        expenses: [],
-        distance: {
-            month: 0,
-            today: 0,
-            week: 0,
-        },
-        movies: [],
-        spent: {
-            month: 0,
-            today: 0,
-            week: 0,
-        },
-        spentByMonthGraphData: [],
+    state: State = {
     };
 
     async componentDidMount() {
@@ -57,7 +64,7 @@ class DashboardPage extends React.Component {
         api.tracking.getLastLocation().then(location => this.setState({ location }));
 
         if (this.user?.defaultCar) {
-            api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carLog }));
+            api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carOdometer: carLog.odometer }));
             this.setState({ car: this.user.defaultCar });
         }
 
@@ -87,29 +94,9 @@ class DashboardPage extends React.Component {
     }
 
     render() {
-        const { carLog: carLog, consumations, distance, expenses, location, movies, spent } = this.state;
+        const { carOdometer, consumations, distance, expenses, location, movies, spent } = this.state;
 
         const { defaultCurrency }: User = this.context;
-
-        const movieItems = movies.map(movie => {
-            return <ListGroupItem key={_.uniqueId('list_item_')}>
-                {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank" rel="noreferrer">{movie.title} ({movie.year})</a>
-                <span className="pull-right"><Badge variant="primary">{movie.myRating}</Badge></span>
-            </ListGroupItem>;
-        });
-
-        const consumationItems = consumations.map(consumation => {
-            const tooltip = <Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>;
-
-            return (
-                <ListGroup.Item key={_.uniqueId('list_item_')}>
-                    {this.dayOfWeek(consumation.date)} {consumation.beer.name}
-                    <OverlayTrigger placement="top" overlay={tooltip}>
-                        <span className="pull-right"><Badge variant="primary">{consumation.volume / 1000}L</Badge></span>
-                    </OverlayTrigger>
-                </ListGroup.Item>
-            );
-        });
 
         return (
             <Container>
@@ -117,11 +104,11 @@ class DashboardPage extends React.Component {
                     {this.identity?.pif.includes(Feature.Tracking) && location &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Header>{location?.location?.name ?? location?.city?.name ?? location?.country?.name ?? 'Last location'} @ {this.dateTimeFormat(location.tracking.timestamp)}</Card.Header>
+                                <Card.Header>{location?.location?.name ?? location?.city?.name ?? location?.country?.name ?? 'Last location'} @ {this.dateTimeFormat(location!.tracking!.timestamp)}</Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     {location &&
                                         <Map
-                                            defaultCenter={{ lat: location.tracking.lat, lng: location.tracking.lng }}
+                                            defaultCenter={{ lat: location!.tracking!.lat, lng: location!.tracking!.lng }}
                                             defaultZoom={15}
                                         >
                                             <Marker
@@ -135,7 +122,7 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Tracking) &&
+                    {this.identity?.pif.includes(Feature.Tracking) && distance &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>Distance</Card.Header>
@@ -147,7 +134,7 @@ class DashboardPage extends React.Component {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Finance) &&
+                    {this.identity?.pif.includes(Feature.Finance) && spent &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>Spent</Card.Header>
@@ -165,9 +152,9 @@ class DashboardPage extends React.Component {
                                 <Card.Header><a href="/expenses">Expenses</a></Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     <ListGroup>
-                                        {expenses.map(expense =>
+                                        {expenses?.map(expense =>
                                             <ListGroupItem key={_.uniqueId('list_item_')}>
-                                                {this.dayOfWeek(expense.date)} <ExpenseTypeLabel type={expense.expenseType} /><span className="pull-right">{expense.amount} {expense.currency.symbol}</span>
+                                                {this.dayOfWeek(expense.date)} <ExpenseTypeLabel type={expense.expenseType} /><span className="pull-right">{expense.amount} {expense!.currency!.symbol}</span>
                                             </ListGroupItem>
                                         )}
                                     </ListGroup>
@@ -181,7 +168,13 @@ class DashboardPage extends React.Component {
                                 <Card.Header><a href="/beer">Beer</a></Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     <ListGroup variant="flush">
-                                        {consumationItems}
+                                        {consumations?.map(consumation =>
+                                            <ListGroup.Item key={_.uniqueId('list_item_')}>
+                                                {this.dayOfWeek(consumation.date)} {consumation!.beer!.name}
+                                                <OverlayTrigger placement="top" overlay={<Tooltip id={_.uniqueId('tooltip_')}>{consumation.serving}</Tooltip>}>
+                                                    <span className="pull-right"><Badge variant="primary">{consumation.volume! / 1000}L</Badge></span>
+                                                </OverlayTrigger>
+                                            </ListGroup.Item>)}
                                     </ListGroup>
                                 </Card.Body>
                             </Card>
@@ -193,19 +186,24 @@ class DashboardPage extends React.Component {
                                 <Card.Header><a href="/movies">Movies</a></Card.Header>
                                 <Card.Body className="panel-small padding-0">
                                     <ListGroup>
-                                        {movieItems}
+                                        {movies?.map(movie =>
+                                            <ListGroupItem key={_.uniqueId('list_item_')}>
+                                                {this.dayOfWeek(movie.timestamp)} <a href={`http://www.imdb.com/title/${movie.imdbId}`} target="_blank" rel="noreferrer">{movie.title} ({movie.year})</a>
+                                                <span className="pull-right"><Badge variant="primary">{movie.myRating}</Badge></span>
+                                            </ListGroupItem>
+                                        )}
                                     </ListGroup>
                                 </Card.Body>
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Cars) && this.user?.defaultCar &&
+                    {this.identity?.pif.includes(Feature.Cars) && this.user?.defaultCar && carOdometer &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Img variant="top" src={`https://cdn.anticevic.net/cars/${this.user.defaultCar?.model?.id}.jpg`} />
                                 <Card.Body>
                                     <Card.Title>{this.user.defaultCar?.model?.name}</Card.Title>
-                                    <Card.Text>{carLog.odometer} km</Card.Text>
+                                    <Card.Text>{carOdometer} km</Card.Text>
                                 </Card.Body>
                                 <Card.Body>
                                     <Card.Link href={`/car/${this.user.defaultCar.id}`}>History</Card.Link>
@@ -218,9 +216,9 @@ class DashboardPage extends React.Component {
         );
     }
 
-    dateTimeFormat = (dateTime) => {
-        return moment(dateTime).date() === moment().date() ? `Today ${moment.utc(dateTime).local().format('H:mm')}` : moment.utc(dateTime).local().format('MMMM Do H:mm');
-    };
+    dateTimeFormat = (dateTime) => moment(dateTime).date() === moment().date()
+        ? `Today ${moment.utc(dateTime).local().format('H:mm')}`
+        : moment.utc(dateTime).local().format('MMMM Do H:mm');
 
     dayOfWeek = (date) => {
         const fullDate = (

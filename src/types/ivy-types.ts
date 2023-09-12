@@ -2814,6 +2814,7 @@ export interface paths {
           HasChildren?: boolean;
           HasParent?: boolean;
           ParentId?: string;
+          OrderBy?: components["schemas"]["ExpenseTypeSort"];
         };
       };
       responses: {
@@ -4350,7 +4351,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["TrackingLocation"];
+            "application/json": components["schemas"]["TrackingLocation"];
+            "text/json": components["schemas"]["TrackingLocation"];
+          };
         };
       };
     };
@@ -5214,6 +5219,8 @@ export interface components {
       this?: components["schemas"]["ExpenseType"];
       children?: components["schemas"]["ExpenseTypeNode"][] | null;
     };
+    /** @enum {string} */
+    ExpenseTypeSort: "Name" | "Top10";
     File: {
       id?: string | null;
       /** Format: int32 */
@@ -5625,6 +5632,10 @@ export interface components {
       /** Format: double */
       longitude?: number;
     };
+    Location: {
+      name?: string | null;
+      typeId?: string | null;
+    };
     Manufacturer: {
       name?: string | null;
     };
@@ -5747,6 +5758,12 @@ export interface components {
       timestamp?: string;
       /** Format: double */
       speed?: number | null;
+    };
+    TrackingLocation: {
+      city?: components["schemas"]["City"];
+      country?: components["schemas"]["Country"];
+      location?: components["schemas"]["Location"];
+      tracking?: components["schemas"]["Tracking"];
     };
     TransactionBinding: {
       /** Format: double */
