@@ -78,7 +78,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                         <FormLabel>Type</FormLabel>
                         <ReactSelect
                             isMulti
-                            options={types.map(x => ({ value: x.id, label: x.name }))}
+                            options={types.map(x => ({ value: x.id, label: x.name, isDisabled: !!x.disabled }))}
                             onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
                         />
                     </FormGroup>

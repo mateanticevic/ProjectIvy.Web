@@ -1,7 +1,7 @@
 import * as api from '../config';
 
-function get() {
-    return api.get('expenseType');
+function get(filters) {
+    return api.get('expenseType', filters);
 }
 
 const expenseType = {

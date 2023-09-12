@@ -11,6 +11,7 @@ export interface PagedItems<Item> {
 
 export interface SelectOption {
     id: string,
+    disabled?: boolean,
     name: string,
 }
 

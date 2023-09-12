@@ -19,7 +19,7 @@ const Select = ({ options, onChange, defaultOptionId, defaultOptionValue, select
 
     const t = options && options[0] && options[0].id ? options : options.map((item) => ({ id: item, name: item }));
 
-    const optionItems = t.map((option) => <option key={option.id} value={option.id}>{option.name}</option>);
+    const optionItems = t.map(option => <option key={option.id} value={option.id} disabled={!!option.disabled}>{option.name}</option>);
 
     return (
         <FormControl

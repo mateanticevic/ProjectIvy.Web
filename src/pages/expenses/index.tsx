@@ -135,7 +135,23 @@ class ExpensesPage extends Page<unknown, State> {
         api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
         api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
         api.currency.get().then(currencies => this.setState({ currencies }));
-        api.expenseType.get().then(types => this.setState({ types }));
+        api.expenseType.get({ orderBy: 'top10' }).then(types => {
+            const optionZero = {
+                id: 'TopTypes',
+                name: 'Top 10 types',
+                disabled: true,
+            };
+            types.splice(0, 0, optionZero);
+
+            const optionTen = {
+                id: 'OtherTypes',
+                name: 'Other types',
+                disabled: true,
+            };
+            types.splice(10, 0, optionTen);
+            console.log(types);
+            this.setState({ types });
+        });
     }
 
     render() {
@@ -318,7 +334,7 @@ class ExpensesPage extends Page<unknown, State> {
             comment: '',
             currency: this.user.defaultCurrency,
             date: moment().format('YYYY-MM-DD'),
-            expenseType: this.state.types[0],
+            expenseType: this.state.types[1],
             paymentType: this.state.paymentTypes[0],
         };
     };
@@ -463,11 +479,11 @@ class ExpensesPage extends Page<unknown, State> {
             return Object.assign({
                 key: month.key
             },
-            ...month.value.map(type => {
-                return {
-                    [type.key]: type.value
-                };
-            })
+                ...month.value.map(type => {
+                    return {
+                        [type.key]: type.value
+                    };
+                })
             );
         });
     };
