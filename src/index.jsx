@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.scss';
 import './styles/overrides.scss';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 import Root from './root';
 

@@ -8,10 +8,16 @@ import { DateFormElement, DistributionCard, FormattedNumber, Pagination, Select 
 import { GroupByTime } from 'consts/groupings';
 import { UserContext } from 'contexts/user-context';
 import { Page } from 'pages/page';
-import { Income, IncomeBinding, IncomeFilters, IncomeSource, IncomeType } from 'types/incomes';
+import { IncomeFilters, IncomeSource } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './income-modal';
+import { components } from 'types/ivy-types';
+
+type Currency = components['schemas']['Currency'];
+type Income = components['schemas']['Income'];
+type IncomeType = components['schemas']['IncomeType'];
+type IncomeBinding = components['schemas']['IncomeBinding'];
 
 const sumByOptions = [
     { value: GroupByTime.ByMonth, name: 'Month' },
@@ -23,15 +29,13 @@ const maps = {
     [GroupByTime.ByYear]: api.income.getSumByYear,
 };
 
-interface Props {
-}
-
 interface State {
     currencies: Currency[];
     filters: IncomeFilters;
     groupBy: GroupByTime;
     income: IncomeBinding;
     incomes: PagedItems<Income>;
+    isLoading: boolean;
     isModalOpen: boolean;
     sources: IncomeSource[];
     sum: number;
@@ -39,7 +43,7 @@ interface State {
     types: IncomeType[];
 }
 
-class IncomesPage extends Page<Props, State> {
+class IncomesPage extends Page<unknown, State> {
     state: State = {
         currencies: [],
         filters: {
@@ -55,6 +59,7 @@ class IncomesPage extends Page<Props, State> {
             count: 0,
             items: []
         },
+        isLoading: true,
         isModalOpen: false,
         sources: [],
         sum: 0,
@@ -63,18 +68,21 @@ class IncomesPage extends Page<Props, State> {
     };
 
     componentDidMount() {
-        api.currency.get()
-            .then(currencies => this.setState({ currencies }));
-        api.income.getSources()
-            .then(sources => this.setState({ sources }));
-        api.common.getIncomeTypes()
-            .then(types => this.setState({ types }));
         this.onFiltersChanged();
+        Promise.all(
+            [api.currency.get().then(currencies => this.setState({ currencies })),
+            api.income.getSources().then(sources => this.setState({ sources })),
+            api.common.getIncomeTypes().then(types => this.setState({ types }))]
+        ).then(() => this.setState({ isLoading: false }));
     }
 
     render() {
-        const { filters, income, incomes, sources, sum, types } = this.state;
+        const { filters, income, incomes, isLoading, sources, sum, types } = this.state;
         const user = this.context;
+
+        if (isLoading) {
+            return this.renderDefaultSkeleton();
+        }
 
         return (
             <Container>
@@ -94,7 +102,6 @@ class IncomesPage extends Page<Props, State> {
                                         value={filters.from}
                                     />
                                 </FormGroup>
-
                                 <FormGroup>
                                     <DateFormElement
                                         label="To"
