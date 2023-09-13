@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip } from 'react-bootstrap';
+import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Row } from 'react-bootstrap';
 import { Marker } from 'react-google-maps';
+import Skeleton from 'react-loading-skeleton'
 
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
@@ -28,6 +29,7 @@ interface State {
     consumations?: Consumation[],
     distance?: TodayWeekMonth,
     expenses?: Expense[],
+    isLoading: boolean,
     location?: TrackingLocation,
     movies?: Movie[],
     spent?: TodayWeekMonth,
@@ -38,6 +40,7 @@ class DashboardPage extends React.Component<unknown, State> {
     user: User;
 
     state: State = {
+        isLoading: true,
     };
 
     async componentDidMount() {
@@ -59,16 +62,18 @@ class DashboardPage extends React.Component<unknown, State> {
             from: moment().date(1).format('YYYY-MM-DD'),
         };
 
-        api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items }));
-        api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items }));
-        api.tracking.getLastLocation().then(location => this.setState({ location }));
+        const allCalls: Promise<any>[] = [];
+
+        allCalls.push(api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items })));
+        allCalls.push(api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items })));
+        allCalls.push(api.tracking.getLastLocation().then(location => this.setState({ location })));
 
         if (this.user?.defaultCar) {
-            api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carOdometer: carLog.odometer }));
+            allCalls.push(api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carOdometer: carLog.odometer })));
             this.setState({ car: this.user.defaultCar });
         }
 
-        api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items }));
+        allCalls.push(api.expense.get(lastFiveFilters).then(expenses => this.setState({ expenses: expenses.items })));
 
         const spentToday = await api.expense.getSum(todayFilters);
         const spentWeek = await api.expense.getSum(weekFilters);
@@ -91,12 +96,18 @@ class DashboardPage extends React.Component<unknown, State> {
                 month: distanceMonth,
             }
         });
+
+        Promise.all(allCalls).then(() => this.setState({ isLoading: false }));
     }
 
     render() {
-        const { carOdometer, consumations, distance, expenses, location, movies, spent } = this.state;
+        const { carOdometer, consumations, distance, expenses, isLoading, location, movies, spent } = this.state;
 
         const { defaultCurrency }: User = this.context;
+
+        if (isLoading) {
+            return this.renderSkeleton();
+        }
 
         return (
             <Container>
@@ -235,6 +246,36 @@ class DashboardPage extends React.Component<unknown, State> {
             </OverlayTrigger>
         );
     };
+
+    renderSkeleton = () => {
+        return (
+            <Container>
+                <div className="flex-grid">
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                    <div className="flex-grid-item">
+                        <Skeleton width={430} height={272} />
+                    </div>
+                </div>
+            </Container>
+        );
+    }
 }
 
 DashboardPage.contextType = UserContext;
