@@ -16,7 +16,6 @@ import { DistributionCard } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import { PagedList, SelectOption } from 'types/common';
-import { User } from 'types/users';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
 
@@ -24,6 +23,7 @@ type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
 type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
+type User = components['schemas']['User'];
 
 interface State {
     cards: Card[];
@@ -77,7 +77,7 @@ const groupyByTypeApis = {
 
 class ExpensesPage extends Page<unknown, State> {
 
-    user: User;
+    user = this.context as User;
     state: State = {
         cards: [],
         currencies: [],
@@ -129,7 +129,6 @@ class ExpensesPage extends Page<unknown, State> {
     };
 
     componentDidMount() {
-        this.user = this.context;
         this.onFiltersChanged();
         api.card.get().then(cards => this.setState({ cards }));
         api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
@@ -160,7 +159,6 @@ class ExpensesPage extends Page<unknown, State> {
         const expensesByDay = _.groupBy(expenses.items, expense => expense.date);
         const days = Object.keys(expensesByDay);
 
-        const { defaultCurrency }: User = this.context;
 
         return (
             <Container>
@@ -231,7 +229,7 @@ class ExpensesPage extends Page<unknown, State> {
                             data={this.state.sumChartData}
                             name="Sum"
                             stacked={this.state.sumGroupByType}
-                            unit={defaultCurrency.symbol}
+                            unit={this.user.defaultCurrency.symbol}
                             onClick={() => this.setState({ isSumModalOpen: true })}
                             onGroupByChange={this.onSumGroupBy}
                         />
@@ -300,7 +298,7 @@ class ExpensesPage extends Page<unknown, State> {
                             data={this.state.sumChartData}
                             name="Sum"
                             stacked={true}
-                            unit={defaultCurrency.symbol}
+                            unit={this.user.defaultCurrency.symbol}
                             countByOptions={sumByOptions}
                             onGroupByChange={this.onSumGroupBy}
                         />

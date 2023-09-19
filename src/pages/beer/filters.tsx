@@ -5,15 +5,20 @@ import AsyncSelect from 'react-select/async';
 import { DateFormElement } from 'components';
 import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
-import { Style, Brand, Serving, ConsumationFilters } from 'types/beer';
+import { ConsumationFilters } from 'types/beer';
 import { Country } from 'types/common';
+import { components } from 'types/ivy-types';
+
+type BeerBrand = components['schemas']['BeerBrand'];
+type BeerServing = components['schemas']['BeerServing'];
+type BeerStyle = components['schemas']['BeerStyle'];
 
 interface Props {
-    brands: Brand[];
+    brands: BeerBrand[];
     countries: Country[];
     filters: ConsumationFilters;
-    servings: Serving[];
-    styles: Style[];
+    servings: BeerServing[];
+    styles: BeerStyle[];
     onChange: (changed: Partial<ConsumationFilters>) => void;
 }
 

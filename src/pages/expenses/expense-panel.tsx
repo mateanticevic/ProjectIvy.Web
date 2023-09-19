@@ -2,10 +2,13 @@ import React from 'react';
 import { Button, Col, Card, Row } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import { Currency, Expense } from 'types/expenses';
 import { PagedItems, PagingFilters } from 'types/paging';
 import Pagination from 'components/pagination';
 import ExpenseTable from './expense-table';
+import { components } from 'types/ivy-types';
+
+type Currency = components['schemas']['Currency'];
+type Expense = components['schemas']['Expense'];
 
 type Props = PagingFilters & {
     expenses: PagedItems<Expense>,

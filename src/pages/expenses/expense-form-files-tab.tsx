@@ -3,9 +3,11 @@ import { Col, Row, Table } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 
 import { UploadedFile } from 'types/common';
-import { ExpenseFile } from 'types/expenses';
 import { ExpenseFileRow } from './expense-file-row';
 import { ExpenseFileUploadRow } from './expense-file-upload-row';
+import { components } from 'types/ivy-types';
+
+type ExpenseFile = components['schemas']['ExpenseFile'];
 
 const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileTypes }) => {
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone();

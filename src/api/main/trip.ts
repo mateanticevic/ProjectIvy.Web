@@ -1,5 +1,7 @@
-import { TripBinding } from 'types/trips';
 import * as api from '../config';
+import { components } from 'types/ivy-types';
+
+type TripBinding = components['schemas']['TripBinding'];
 
 function get(filters) {
     return api.get('trip', filters);

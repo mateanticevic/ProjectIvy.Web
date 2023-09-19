@@ -4,14 +4,15 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
 import { Page } from 'pages/page';
-import { Flight } from 'types/flights';
 import FlightItem from './flight-item';
+import { components } from 'types/ivy-types';
+
+type Flight = components['schemas']['Flight'];
 
 interface Filter {
     page: number,
     pageSize: number,
 }
-
 
 interface State {
     count: number,

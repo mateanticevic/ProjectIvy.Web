@@ -10,8 +10,10 @@ import api from 'api/main';
 import { DateFormElement, Map } from 'components';
 import { Page } from 'pages/page';
 import FlightModal from './flight-modal';
-import { FlightBinding } from 'types/flights';
 import { airportLoader } from 'utils/select-loaders';
+import { components } from 'types/ivy-types';
+
+type FlightBinding = components['schemas']['FlightBinding'];
 
 enum MapMode {
     Airports,

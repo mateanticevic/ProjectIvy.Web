@@ -2,8 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 import { Card } from 'react-bootstrap';
 
-import { Consumation } from 'types/beer';
 import { ServingIcon } from './serving-icon';
+import { components } from 'types/ivy-types';
+
+type Consumation = components['schemas']['Consumation'];
 
 interface Props {
     consumations: Consumation[];
@@ -16,7 +18,7 @@ const ConsumationItem = ({ consumations }: Props) => {
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
 
-    const name = beer.name?.includes(beer.brand.name) ? beer.name : `${beer.name} (${beer.brand.name})`;
+    const name = beer!.name?.includes(beer!.brand!.name!) ? beer!.name : `${beer!.name} (${beer!.brand!.name})`;
 
     return (
         <Card>
@@ -31,8 +33,8 @@ const ConsumationItem = ({ consumations }: Props) => {
                         {name}
                     </div>
                     <div className="expense-item-date">
-                        {beer.style &&
-                            beer.style.name
+                        {beer!.style &&
+                            beer!.style.name
                         }
                     </div>
                 </div>

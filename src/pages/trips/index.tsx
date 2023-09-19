@@ -7,17 +7,18 @@ import _ from 'lodash';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import TripModal from './trip-modal';
+import YearTrips from './year-trips';
 import api from 'api/main';
-import { CountryListVisited, TripBinding, TripFilters } from 'types/trips';
+import { CountryListVisited, TripFilters } from 'types/trips';
 import { DateFormElement, DistributionCard, FlagIcon } from 'components';
 import { Page } from '../page';
-import TripModal from './trip-modal';
-import { components } from 'types/ivy-types';
 import { PagedList } from 'types/common';
-import YearTrips from './year-trips';
 import { cityLoader } from 'utils/select-loaders';
+import { components } from 'types/ivy-types';
 
 type Trip = components['schemas']['Trip'];
+type TripBinding = components['schemas']['TripBinding'];
 
 interface State {
     countries: [];

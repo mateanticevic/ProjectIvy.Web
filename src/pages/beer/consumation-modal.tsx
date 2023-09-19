@@ -6,18 +6,23 @@ import AsyncSelect from 'react-select/async';
 import { FaCalendar } from 'react-icons/fa';
 import moment from 'moment';
 
-import { Beer, Brand, Consumation, Serving } from 'types/beer';
 import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
 import ButtonWithSpinner from 'components/button-with-spinner';
+import { components } from 'types/ivy-types';
+
+type Beer = components['schemas']['Beer'];
+type BeerBrand = components['schemas']['BeerBrand'];
+type BeerServing = components['schemas']['BeerServing'];
+type Consumation = components['schemas']['Consumation'];
 
 interface Props {
     beers: Beer[];
-    brands: Brand[];
+    brands: BeerBrand[];
     consumation: Consumation;
     disabled: boolean;
     isOpen: boolean;
-    servings: Serving[];
+    servings: BeerServing[];
     onChange(beerValue: Partial<Consumation>): void;
     onClose(): void;
     onSave(): void;

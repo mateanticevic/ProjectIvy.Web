@@ -8,7 +8,7 @@ import { DateFormElement, DistributionCard, FormattedNumber, Pagination, Select 
 import { GroupByTime } from 'consts/groupings';
 import { UserContext } from 'contexts/user-context';
 import { Page } from 'pages/page';
-import { IncomeFilters, IncomeSource } from 'types/incomes';
+import { IncomeFilters } from 'types/incomes';
 import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './income-modal';
@@ -16,8 +16,10 @@ import { components } from 'types/ivy-types';
 
 type Currency = components['schemas']['Currency'];
 type Income = components['schemas']['Income'];
+type IncomeSource = components['schemas']['IncomeSource'];
 type IncomeType = components['schemas']['IncomeType'];
 type IncomeBinding = components['schemas']['IncomeBinding'];
+type User = components['schemas']['User'];
 
 const sumByOptions = [
     { value: GroupByTime.ByMonth, name: 'Month' },
@@ -44,6 +46,8 @@ interface State {
 }
 
 class IncomesPage extends Page<unknown, State> {
+
+    user = this.context as User;
     state: State = {
         currencies: [],
         filters: {
@@ -54,6 +58,7 @@ class IncomesPage extends Page<unknown, State> {
         groupBy: GroupByTime.ByMonthOfYear,
         income: {
             amount: 0,
+            currencyId: this.user.defaultCurrency?.id,
         },
         incomes: {
             count: 0,
@@ -78,7 +83,7 @@ class IncomesPage extends Page<unknown, State> {
 
     render() {
         const { filters, income, incomes, isLoading, sources, sum, types } = this.state;
-        const user = this.context;
+        const user = this.context as User;
 
         if (isLoading) {
             return this.renderDefaultSkeleton();

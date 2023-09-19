@@ -9,11 +9,14 @@ import api from 'api/main';
 import { DistributionCard, Pagination } from 'components';
 import { MovieGroupBy } from 'consts/groupings';
 import { Page } from 'pages/page';
-import { Movie, MovieFilters } from 'types/movies';
+import { MovieFilters } from 'types/movies';
 import { FilterCard } from './filter-card';
 import { PagedList } from 'types/common';
 import { KeyValuePair } from 'types/grouping';
 import CalendarGrid from './calendar-grid';
+import { components } from 'types/ivy-types';
+
+type Movie = components['schemas']['Movie'];
 
 interface State {
     countByDay: KeyValuePair<number>[];

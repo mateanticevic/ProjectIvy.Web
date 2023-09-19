@@ -1,34 +1,13 @@
 import { PagingFilters, defaultPagingFilters } from './paging';
 import moment from 'moment';
 
-export interface Beer {
-    abv?: number;
-    brand: Brand;
-    brandId?: string;
-    id?: string;
-    name?: string;
-    styleId?: string;
-    style?: Style;
-}
+import { components } from 'types/ivy-types';
 
-export interface Brand {
-    id: string;
-    name: string;
-    countryId: string;
-}
+type Consumation = components['schemas']['Consumation'];
 
 export interface BrandFilters {
     hasCountry?: boolean;
     search?: string;
-}
-
-export interface Consumation {
-    date: string;
-    beer: Beer;
-    beerId: string;
-    servingId: string;
-    units: number;
-    volume: number;
 }
 
 export const defaultConsumation: Consumation = {
@@ -48,13 +27,3 @@ export type ConsumationFilters = PagingFilters & {
 export const defaultConsumationFilters: ConsumationFilters = {
     ...defaultPagingFilters
 };
-
-export interface Serving {
-    id: string;
-    name: string;
-}
-
-export interface Style {
-    id: string;
-    name: string;
-}

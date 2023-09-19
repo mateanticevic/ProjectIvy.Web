@@ -6,8 +6,10 @@ import moment from 'moment';
 import { GoCalendar } from 'react-icons/go';
 import { FaCar, FaPlaneDeparture } from 'react-icons/fa';
 
-import { Flight } from 'types/flights';
 import { Ride } from 'types/ride';
+import { components } from 'types/ivy-types';
+
+type Flight = components['schemas']['Flight'];
 
 interface Props {
     from: moment.Moment;

@@ -5,7 +5,7 @@ import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
-import { Beer, Brand, Consumation, ConsumationFilters, Serving, Style } from 'types/beer';
+import { ConsumationFilters } from 'types/beer';
 import { DistributionCard, FlagIcon } from 'components';
 import { Page } from '../page';
 import BeerModal from './beer-modal';
@@ -19,6 +19,13 @@ import { VolumeBadge } from './volume-badge';
 import { Unit } from 'consts/units';
 import DayConsumations from './day-consumations';
 import CountryMapModal from './country-map-modal';
+import { components } from 'types/ivy-types';
+
+type Beer = components['schemas']['Beer'];
+type BeerBrand = components['schemas']['BeerBrand'];
+type BeerServing = components['schemas']['BeerServing'];
+type BeerStyle = components['schemas']['BeerStyle'];
+type Consumation = components['schemas']['Consumation'];
 
 interface Props {
     toast: (title: string, message: string) => void;
@@ -29,8 +36,8 @@ interface State {
     brandCount: number;
     beers: Beer[];
     beer: Beer;
-    brand: Brand;
-    brands: Brand[];
+    brand: BeerBrand;
+    brands: BeerBrand[];
     beerModalOpen: boolean;
     brandModalOpen: boolean;
     countryMapModalOpen: boolean;
@@ -46,8 +53,8 @@ interface State {
     countries: Country[];
     filters: ConsumationFilters;
     newBeers: any;
-    servings: Serving[];
-    styles: Style[];
+    servings: BeerServing[];
+    styles: BeerStyle[];
     sum: number;
     sumChartData: any;
     sumByCountry: KeyValue<Country, number>[];

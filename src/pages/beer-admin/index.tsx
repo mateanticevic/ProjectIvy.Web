@@ -3,17 +3,22 @@ import { Container, Card, Table, ToggleButtonGroup, ToggleButton, InputGroup, Fo
 
 import { Page } from 'pages/page';
 import api from 'api/main';
-import { Brand, BrandFilters, Beer, Style } from 'types/beer';
+import { BrandFilters } from 'types/beer';
 import { Country } from 'types/common';
 import { Select, Pagination } from 'components';
+import { components } from 'types/ivy-types';
+
+type Beer = components['schemas']['Beer'];
+type BeerBrand = components['schemas']['BeerBrand'];
+type BeerStyle = components['schemas']['BeerStyle'];
 
 interface State {
     beerFilters: any;
     beers: any;
-    brands: Brand[];
+    brands: BeerBrand[];
     brandFilters: BrandFilters;
     countries: Country[];
-    styles: Style[];
+    styles: BeerStyle[];
 }
 
 class BeerAdminPage extends Page<unknown, State> {

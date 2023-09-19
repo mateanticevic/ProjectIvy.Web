@@ -3,8 +3,10 @@ import { FormLabel, FormControl } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import AsyncSelect from 'react-select/async';
 
-import { TripBinding } from 'types/trips';
 import { cityLoader } from 'utils/select-loaders';
+import { components } from 'types/ivy-types';
+
+type TripBinding = components['schemas']['TripBinding'];
 
 interface Props {
   onChange: (changedValue: Partial<TripBinding>) => void;

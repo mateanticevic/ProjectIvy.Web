@@ -1,8 +1,10 @@
 import moment from 'moment';
 import React from 'react';
 
-import { Expense } from 'types/expenses';
 import ExpenseItem from './expense-item';
+import { components } from 'types/ivy-types';
+
+type Expense = components['schemas']['Expense'];
 
 interface Props {
     day: string;

@@ -1,4 +1,3 @@
-import { CountryListVisited } from 'types/trips';
 import * as api from '../config';
 
 const getAll = () => api.get('country?pageAll=true');

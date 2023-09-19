@@ -7,14 +7,17 @@ import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';
 
 import api from 'api/main';
-import { Trip } from 'types/trips';
 import { Map, ValueLabel } from 'components';
 import ExpensePanel from '../expenses/expense-panel';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
-import { Flight } from 'types/flights';
 import { cityLoader } from 'utils/select-loaders';
 import { UserContext } from 'contexts/user-context';
+import { components } from 'types/ivy-types';
+import { User } from 'types/users';
+
+type Flight = components['schemas']['Flight'];
+type Trip = components['schemas']['Trip'];
 
 interface QueryStrings {
     id: string;
@@ -37,6 +40,7 @@ interface State {
 
 class TripDetailsPage extends React.Component<Props, State> {
 
+    user = this.context as User;
     state: State = {
         beerSum: 0,
         expenseFilters: {
@@ -76,8 +80,6 @@ class TripDetailsPage extends React.Component<Props, State> {
         const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
 
         const poiMarkers = trip.pois != null ? trip.pois.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.latitude, lng: poi.longitude }} title={poi.name} />) : null;
-
-        const { defaultCurrency }: User = this.context;
 
         return (
             <Container>
@@ -122,7 +124,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                                         <ValueLabel
                                             round
                                             label="Spent"
-                                            unit={defaultCurrency.symbol}
+                                            unit={this.user.defaultCurrency.symbol}
                                             value={Number(trip.totalSpent)}
                                         />
                                     </Col>

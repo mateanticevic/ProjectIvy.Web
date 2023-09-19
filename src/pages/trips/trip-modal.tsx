@@ -1,9 +1,11 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 
-import { TripBinding } from 'types/trips';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import TripForm from './trip-form';
+import { components } from 'types/ivy-types';
+
+type TripBinding = components['schemas']['TripBinding'];
 
 interface Props {
     buttonIsLoading: boolean;

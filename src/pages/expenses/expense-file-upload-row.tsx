@@ -4,8 +4,10 @@ import { FormControl, Button } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
 import Select from 'components/select';
-import { ExpenseFile } from 'types/expenses';
 import { UploadedFile } from 'types/common';
+import { components } from 'types/ivy-types';
+
+type ExpenseFile = components['schemas']['ExpenseFile'];
 
 interface Props {
     fileTypes: any;

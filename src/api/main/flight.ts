@@ -1,5 +1,8 @@
 import * as api from '../config';
-import { FlightBinding } from 'types/flights';
+
+import { components } from 'types/ivy-types';
+
+type FlightBinding = components['schemas']['FlightBinding'];
 
 function getCountByAirport(filters) {
     return api.get('flight/count/byairport', filters);

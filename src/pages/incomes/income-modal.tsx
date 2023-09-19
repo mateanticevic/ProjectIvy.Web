@@ -2,12 +2,16 @@ import React from 'react';
 import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 import Datetime from 'react-datetime';
-import { Currency } from 'types/expenses';
-import { IncomeBinding, IncomeSource, IncomeType } from 'types/incomes';
 import { FaCalendar } from 'react-icons/fa';
 import moment from 'moment';
 
 import Select from 'components/select';
+import { components } from 'types/ivy-types';
+
+type Currency = components['schemas']['Currency'];
+type IncomeBinding = components['schemas']['IncomeBinding'];
+type IncomeSource = components['schemas']['IncomeSource'];
+type IncomeType = components['schemas']['IncomeType'];
 
 interface Props {
     currencies: Currency[];

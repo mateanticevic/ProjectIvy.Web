@@ -4,8 +4,10 @@ import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
 
 import ButtonWithSpinner from 'components/button-with-spinner';
-import { FlightBinding } from 'types/flights';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
+import { components } from 'types/ivy-types';
+
+type FlightBinding = components['schemas']['FlightBinding'];
 
 interface Props {
     isOpen: boolean,

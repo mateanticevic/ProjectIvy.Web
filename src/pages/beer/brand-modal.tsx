@@ -2,15 +2,17 @@ import React from 'react';
 import { Button, FormControl, Modal, FloatingLabel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
 
-import { Brand } from 'types/beer';
 import Select from 'components/select';
+import { components } from 'types/ivy-types';
+
+type BeerBrand = components['schemas']['BeerBrand'];
 
 interface Props {
     countries: any,
     isOpen: boolean,
+    onChange(brandChanged: Partial<BeerBrand>): void,
     onClose: any,
     onSave: any,
-    onChange(brandChanged: Partial<Brand>): void,
 }
 
 const BrandModal = ({ countries, isOpen, onClose, onChange, onSave }: Props) =>

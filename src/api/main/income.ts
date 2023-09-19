@@ -1,4 +1,8 @@
-import { IncomeBinding, IncomeFilters } from 'types/incomes';
+import { IncomeFilters } from 'types/incomes';
+import { components } from 'types/ivy-types';
+
+type IncomeBinding = components['schemas']['IncomeBinding'];
+
 import * as api from '../config';
 
 const get = (filters: IncomeFilters) => api.get('income', filters);
