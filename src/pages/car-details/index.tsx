@@ -5,8 +5,10 @@ import { useParams } from 'react-router-dom';
 
 import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
-import { SimpleScatterChart, ValueLabel } from 'components';
+import { DistributionCard, SimpleScatterChart, ValueLabel } from 'components';
 import { ServiceModal } from './service-modal';
+import { KeyValuePair } from 'types/grouping';
+import { GroupByTime } from 'consts/groupings';
 
 interface QueryStrings {
     id: string;
@@ -16,9 +18,14 @@ interface Props {
     params: QueryStrings;
 }
 
+const sumByOptions = [
+    { value: GroupByTime.ByYear, name: 'Year' },
+];
+
 interface State {
     averageConsumption?: number;
     car: Car;
+    kilometersByYear?: KeyValuePair<number>[];
     logs: any;
     isServiceModalOpen: boolean;
     service: any;
@@ -85,6 +92,13 @@ class CarDetailsPage extends React.Component<Props, State> {
                                 </InputGroup>
                             </Card.Body>
                         </Card>
+                        {this.state.kilometersByYear &&
+                            <DistributionCard
+                                countByOptions={sumByOptions}
+                                data={this.state.kilometersByYear!}
+                                name="Sum"
+                            />
+                        }
                     </Col>
                     <Col lg={4}>
                         <Card>
@@ -187,6 +201,7 @@ class CarDetailsPage extends React.Component<Props, State> {
         if (carId) {
             const serviceTypes = await api.car.getServiceTypes(car.model.id);
             this.setState({ serviceTypes });
+            api.car.getKilometersByYear(carId).then(kilometersByYear => this.setState({ kilometersByYear }));
         }
 
         this.setState({
