@@ -8,7 +8,6 @@ import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { DistributionCard, SimpleScatterChart, ValueLabel } from 'components';
 import { ServiceModal } from './service-modal';
 import { KeyValuePair } from 'types/grouping';
-import { GroupByTime } from 'consts/groupings';
 
 interface QueryStrings {
     id: string;
@@ -18,13 +17,10 @@ interface Props {
     params: QueryStrings;
 }
 
-const sumByOptions = [
-    { value: GroupByTime.ByYear, name: 'Year' },
-];
-
 interface State {
     averageConsumption?: number;
     car: Car;
+    fuelSumByYear?: KeyValuePair<number>[];
     kilometersByYear?: KeyValuePair<number>[];
     logs: any;
     isServiceModalOpen: boolean;
@@ -94,9 +90,16 @@ class CarDetailsPage extends React.Component<Props, State> {
                         </Card>
                         {this.state.kilometersByYear &&
                             <DistributionCard
-                                countByOptions={sumByOptions}
                                 data={this.state.kilometersByYear!}
-                                name="Sum"
+                                name="Kilometers by year"
+                                unit="km"
+                            />
+                        }
+                        {this.state.fuelSumByYear &&
+                            <DistributionCard
+                                data={this.state.fuelSumByYear!}
+                                name="Fueling by year"
+                                unit="L"
                             />
                         }
                     </Col>
@@ -201,6 +204,7 @@ class CarDetailsPage extends React.Component<Props, State> {
         if (carId) {
             const serviceTypes = await api.car.getServiceTypes(car.model.id);
             this.setState({ serviceTypes });
+            api.car.getFuelSumByYear(carId).then(fuelSumByYear => this.setState({ fuelSumByYear }));
             api.car.getKilometersByYear(carId).then(kilometersByYear => this.setState({ kilometersByYear }));
         }
 

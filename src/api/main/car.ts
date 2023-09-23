@@ -5,6 +5,8 @@ const get = (carId: string) => api.get(`car/${carId}`);
 
 const getAverageConsumption = (carId: string) => api.get(`car/${carId}/consumption/avg`);
 
+const getFuelSumByYear = (carId: string) => api.get(`car/${carId}/fuel/sum/byyear`);
+
 const getKilometersByYear = (carId: string) => api.get(`car/${carId}/kilometers/byyear`);
 
 const getLogs = (carId: string, filters: CarLogFilters) => api.get(`car/${carId}/log`, filters);
@@ -24,6 +26,7 @@ const postService = (carId: string, carService) => api.post(`car/${carId}/servic
 const car = {
     get,
     getAverageConsumption,
+    getFuelSumByYear,
     getKilometersByYear,
     getLogs,
     getLogLatest,
