@@ -44,6 +44,8 @@ function getSumByCountry(filters) {
     return api.get('consumation/sum/byCountry', filters);
 }
 
+const getSumByDay = (filters) => api.get('consumation/sum/byDay', filters);
+
 const getSumByDayOfWeek = (filters) => api.get('consumation/sum/byDayOfWeek', filters);
 
 const getSumByMonthOfYear = (filters) => api.get('consumation/sum/byMonthOfYear', filters);
@@ -71,6 +73,7 @@ const consumation = {
     getSum,
     getSumByBeer,
     getSumByCountry,
+    getSumByDay,
     getSumByDayOfWeek,
     getSumByMonth: (filters) => api.get('consumation/sum/byMonth', filters),
     getSumByMonthOfYear,

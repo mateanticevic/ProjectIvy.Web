@@ -20,6 +20,8 @@ import { Unit } from 'consts/units';
 import DayConsumations from './day-consumations';
 import CountryMapModal from './country-map-modal';
 import { components } from 'types/ivy-types';
+import CalendarModal from './calendar-modal';
+import { KeyValuePair } from 'types/grouping';
 
 type Beer = components['schemas']['Beer'];
 type BeerBrand = components['schemas']['BeerBrand'];
@@ -40,6 +42,7 @@ interface State {
     brands: BeerBrand[];
     beerModalOpen: boolean;
     brandModalOpen: boolean;
+    calendarModalOpen: boolean;
     countryMapModalOpen: boolean;
     callOngoing: boolean;
     chartCountData: any;
@@ -58,6 +61,7 @@ interface State {
     sum: number;
     sumChartData: any;
     sumByCountry: KeyValue<Country, number>[];
+    sumByDay?: KeyValuePair<number>[];
     sumByGrouping: GroupByTime;
     sumByServing: any;
     topBeers: Beer[];
@@ -89,6 +93,7 @@ class BeerPage extends Page<Props, State> {
         beerModalOpen: false,
         brandModalOpen: false,
         callOngoing: false,
+        calendarModalOpen: false,
         chartCountData: [],
         consumationModalOpen: false,
         consumation: {},
@@ -138,7 +143,7 @@ class BeerPage extends Page<Props, State> {
     }
 
     render() {
-        const { brands, countries, callOngoing, consumations, filters, servings, styles, sumByCountry } = this.state;
+        const { brands, countries, callOngoing, consumations, filters, servings, styles, sumByDay, sumByCountry } = this.state;
 
         const consumationsByDay = _.groupBy(consumations.items, consumation => consumation.date);
         const days = Object.keys(consumationsByDay);
@@ -178,6 +183,12 @@ class BeerPage extends Page<Props, State> {
                                 variant="primary"
                                 onClick={() => this.setState({ beerModalOpen: true })}>
                                 Beer
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="primary"
+                                onClick={() => this.setState({ calendarModalOpen: true })}>
+                                Calendar
                             </Button>
                         </div>
                     </Col>
@@ -294,6 +305,9 @@ class BeerPage extends Page<Props, State> {
                     sumByCountry={sumByCountry}
                     onClose={() => this.setState({ countryMapModalOpen: false })}
                 />
+                {sumByDay &&
+                    <CalendarModal dates={sumByDay} isOpen={this.state.calendarModalOpen} onClose={() => this.setState({ calendarModalOpen: false })} />
+                }
             </Container>
         );
     }
@@ -379,15 +393,15 @@ class BeerPage extends Page<Props, State> {
 
         let apiMethod;
         switch (groupBy) {
-        case GroupByTime.ByYear:
-            apiMethod = api.consumation.getCountByYear;
-            break;
-        case GroupByTime.ByMonth:
-            apiMethod = api.consumation.getCountByMonth;
-            break;
-        case GroupByTime.ByMonthOfYear:
-            apiMethod = api.consumation.getCountByMonthOfYear;
-            break;
+            case GroupByTime.ByYear:
+                apiMethod = api.consumation.getCountByYear;
+                break;
+            case GroupByTime.ByMonth:
+                apiMethod = api.consumation.getCountByMonth;
+                break;
+            case GroupByTime.ByMonthOfYear:
+                apiMethod = api.consumation.getCountByMonthOfYear;
+                break;
         }
 
         apiMethod(this.state.filters)
@@ -461,6 +475,10 @@ class BeerPage extends Page<Props, State> {
         api.consumation
             .getSumByCountry(sumByCountryFilters)
             .then(countries => this.setState({ sumByCountry: countries.items }));
+
+        api.consumation
+            .getSumByDay(statsFilters)
+            .then(sumByDay => this.setState({ sumByDay }));
 
         this.onCountGroupByChange(this.state.sumByGrouping);
     };

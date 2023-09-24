@@ -8,6 +8,7 @@ import { beerLoader } from 'utils/select-loaders';
 import { ConsumationFilters } from 'types/beer';
 import { Country } from 'types/common';
 import { components } from 'types/ivy-types';
+import YearNavigator from 'components/year-navigator';
 
 type BeerBrand = components['schemas']['BeerBrand'];
 type BeerServing = components['schemas']['BeerServing'];
@@ -33,6 +34,10 @@ export const Filters = ({ brands, countries, filters, onChange, servings, styles
             label="To"
             onChange={date => onChange({ to: date })}
             value={filters.to}
+        />
+        <YearNavigator
+            year={filters?.from ? new Date(filters.from).getFullYear() : undefined}
+            onChange={year => onChange({ from: `${year}-01-01`, to: `${year}-12-31` })}
         />
         <FormGroup>
             <FormLabel>Brand</FormLabel>
