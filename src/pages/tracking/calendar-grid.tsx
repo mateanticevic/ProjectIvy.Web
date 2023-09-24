@@ -22,7 +22,7 @@ const CalendarGrid = ({ dates, onDateClick }: Props) => {
         <React.Fragment>
             <ToggleButtonGroup className="margin-bottom-30" type="radio" name="options" value={year} onChange={changeYear}>
                 {countByYears.map(([key, value]) =>
-                    <ToggleButton key={key} value={key}>{`${key} (${value.length})`}</ToggleButton>
+                    <ToggleButton id={key} key={key} value={key}>{`${key} (${value.length})`}</ToggleButton>
                 )}
             </ToggleButtonGroup>
             <CalendarHeatmap
