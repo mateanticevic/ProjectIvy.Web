@@ -22,12 +22,12 @@ type IncomeBinding = components['schemas']['IncomeBinding'];
 type User = components['schemas']['User'];
 
 const sumByOptions = [
-    { value: GroupByTime.ByMonth, name: 'Month' },
+    { value: GroupByTime.ByMonthOfYear, name: 'Month of year' },
     { value: GroupByTime.ByYear, name: 'Year' },
 ];
 
 const maps = {
-    [GroupByTime.ByMonthOfYear]: api.income.getSumByMonth,
+    [GroupByTime.ByMonthOfYear]: api.income.getSumByMonthOfYear,
     [GroupByTime.ByYear]: api.income.getSumByYear,
 };
 

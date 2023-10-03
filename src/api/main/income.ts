@@ -21,7 +21,7 @@ const income = {
     get,
     getSources,
     getSum,
-    getSumByMonth: getSumByMonthOfYear,
+    getSumByMonthOfYear,
     getSumByYear,
     post,
 };
