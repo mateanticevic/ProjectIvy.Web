@@ -6,6 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'https://api.anticevic.net',
@@ -13,7 +14,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
       '/auth': {
-        target: 'https://auth.anticevic.net',
+        target: 'http://10.0.1.6:8080',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/auth/, ''),
       },

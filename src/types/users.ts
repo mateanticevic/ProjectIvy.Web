@@ -33,5 +33,5 @@ export enum Feature {
 
 export interface Identity {
     name: string;
-    pif: Feature[]
+    pif?: Feature[]
 }

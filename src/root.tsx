@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Spinner, Toast } from 'react-bootstrap';
+import { Card, Col, Container, FloatingLabel, Form, Row, Spinner, Toast } from 'react-bootstrap';
 
-import { User } from 'types/users';
+import { Feature, User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
 import AccountPage from './pages/account';
@@ -24,20 +24,24 @@ import LocationPage from 'pages/location';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import CountriesPage from 'pages/countries';
-import { redirectToAuth } from 'utils/redirect-helper';
 import FlightsV2Page from 'pages/flights-v2';
+import ButtonWithSpinner from 'components/button-with-spinner';
 
 interface State {
     error?: string,
     loadingState: LoadingState,
+    loggingIn?: boolean;
+    password?: string;
     showToast: boolean;
     toastTitle?: string;
     toastMessage?: string;
     user?: User;
+    username?: string;
 }
 
 enum LoadingState {
     Error,
+    Login,
     Ready,
     Waiting,
 }
@@ -51,13 +55,6 @@ export default class Root extends React.Component<{}, State> {
     };
 
     componentDidMount() {
-        if (window.location.hash) {
-            const params = new URLSearchParams(window.location.hash.substring(1));
-            document.cookie = `IdToken=${params.get('id_token')}`;
-            document.cookie = `AccessToken=${params.get('access_token')};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
-            history.replaceState(null, null, ' ');
-        }
-
         if (this.identity) {
             api.user.get()
                 .then(user => {
@@ -74,80 +71,161 @@ export default class Root extends React.Component<{}, State> {
                 });
         }
         else {
-            redirectToAuth();
+            this.setState({
+                loadingState: LoadingState.Login,
+            });
         }
+    }
+
+    login = () => {
+        this.setState({
+            loggingIn: true,
+        });
+
+        const payload = { username: this.state.username, password: this.state.password, grant_type: 'password' };
+
+        var formBody: string[] = [];
+        for (var property in payload) {
+            const encodedKey = encodeURIComponent(property);
+            const encodedValue = encodeURIComponent(payload[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+
+        fetch('/auth/realms/ivy/protocol/openid-connect/token', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Basic d2ViOg==',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formBody.join("&")
+        })
+            .then(response => {
+                if (response.status === 200) {
+                    response.json().then(data => {
+                        document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
+                        location.reload();
+                    });
+                }
+                else {
+                    console.log('failed');
+                    this.setState({
+                        loggingIn: false,
+                    });
+                }
+            })
+            .catch(error => {
+                this.setState({
+                    error: error.message,
+                    loadingState: LoadingState.Error,
+                });
+            });
     }
 
     public render() {
 
         switch (this.state.loadingState) {
-        case LoadingState.Error: {
-            return (
-                <div className="loading-status">
-                    <p>API failed with {this.state.error}</p>
-                </div >
-            );
-        }
-        case LoadingState.Ready: {
-            return (
-                <UserContext.Provider value={this.state.user!}>
-                    <BrowserRouter>
-                        <div id="main">
-                            {this.identity &&
+            case LoadingState.Error: {
+                return (
+                    <div className="loading-status">
+                        <p>API failed with {this.state.error}</p>
+                    </div >
+                );
+            }
+            case LoadingState.Login: {
+                return (
+                    <Container>
+                        <Row>
+                            <Col lg={4}></Col>
+                            <Col lg={3}>
+                                <Card>
+                                    <Card.Body>
+                                        <Form>
+                                            <FloatingLabel
+                                                controlId="floatingInput"
+                                                label="User"
+                                                className="mb-3"
+                                            >
+                                                <Form.Control type="text" onChange={x => this.setState({ username: x.target.value })} />
+                                            </FloatingLabel>
+                                            <FloatingLabel
+                                                controlId="floatingInput"
+                                                label="Password"
+                                                className="mb-3"
+                                            >
+                                                <Form.Control type="password" onChange={x => this.setState({ password: x.target.value })} />
+                                            </FloatingLabel>
+                                            <ButtonWithSpinner
+                                                isLoading={!!this.state.loggingIn}
+                                                onClick={this.login}
+                                            >Log in</ButtonWithSpinner>
+                                        </Form>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Container>
+                );
+            }
+            case LoadingState.Ready: {
+                return (
+                    <UserContext.Provider value={this.state.user!}>
+                        <BrowserRouter>
+                            <div id="main">
+                                {this.identity &&
                                     <NavigationBar identity={this.identity} />
-                            }
-                            <Routes>
-                                <Route path="/" element={<DashboardPage />} />
-                                <Route path="/account" element={<AccountPage />} />
-                                <Route path="/accounts" element={<AccountsPage />} />
-                                <Route path="/beer" element={<BeerPage toast={this.toast} />} />
-                                <Route path="/beer/admin" element={<BeerAdminPage />} />
-                                <Route path="/calls" element={<CallsPage />} />
-                                <Route path="/car/:id" element={<CarDetailsPage />} />
-                                <Route path="/countries" element={<CountriesPage />} />
-                                <Route path="/expenses" element={<ExpensesPage />} />
-                                <Route path="/flights" element={<FlightsPage />} />
-                                <Route path="/flights-v2" element={<FlightsV2Page />} />
-                                <Route path="/incomes" element={<IncomesPage />} />
-                                <Route path="/location" element={<LocationPage />} />
-                                <Route path="/movies" element={<MoviesPage />} />
-                                <Route path="/pois" element={<PoisPage />} />
-                                <Route path="/tracking" element={<TrackingPage />} />
-                                <Route path="/trips" element={<TripsPage />} />
-                                <Route path="/trips/:id" element={<TripDetailsPage />} />
-                            </Routes>
-                            <Toast
-                                autohide
-                                delay={5000}
-                                onClose={() => this.setState({ showToast: false })}
-                                show={this.state.showToast}
-                            >
-                                <Toast.Header>{this.state.toastTitle}</Toast.Header>
-                                <Toast.Body>{this.state.toastMessage}</Toast.Body>
-                            </Toast>
-                        </div>
-                    </BrowserRouter>
-                </UserContext.Provider>
-            );
-        }
-        case LoadingState.Waiting: {
-            return (
-                <div className="loading-status">
-                    <p>Connecting to the api...</p >
-                    <Spinner
-                        as="span"
-                        animation="grow"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                        variant="primary"
-                    />
-                </div >
-            );
-        }
-        default: {
-            return 'error';
-        }
+                                }
+                                <Routes>
+                                    <Route path="/" element={<DashboardPage />} />
+                                    <Route path="/account" element={<AccountPage />} />
+                                    <Route path="/accounts" element={<AccountsPage />} />
+                                    <Route path="/beer" element={<BeerPage toast={this.toast} />} />
+                                    <Route path="/beer/admin" element={<BeerAdminPage />} />
+                                    <Route path="/calls" element={<CallsPage />} />
+                                    <Route path="/car/:id" element={<CarDetailsPage />} />
+                                    <Route path="/countries" element={<CountriesPage />} />
+                                    <Route path="/expenses" element={<ExpensesPage />} />
+                                    <Route path="/flights" element={<FlightsPage />} />
+                                    <Route path="/flights-v2" element={<FlightsV2Page />} />
+                                    <Route path="/incomes" element={<IncomesPage />} />
+                                    <Route path="/location" element={<LocationPage />} />
+                                    <Route path="/movies" element={<MoviesPage />} />
+                                    <Route path="/pois" element={<PoisPage />} />
+                                    <Route path="/tracking" element={<TrackingPage />} />
+                                    <Route path="/trips" element={<TripsPage />} />
+                                    <Route path="/trips/:id" element={<TripDetailsPage />} />
+                                </Routes>
+                                <Toast
+                                    autohide
+                                    delay={5000}
+                                    onClose={() => this.setState({ showToast: false })}
+                                    show={this.state.showToast}
+                                >
+                                    <Toast.Header>{this.state.toastTitle}</Toast.Header>
+                                    <Toast.Body>{this.state.toastMessage}</Toast.Body>
+                                </Toast>
+                            </div>
+                        </BrowserRouter>
+                    </UserContext.Provider>
+                );
+            }
+            case LoadingState.Waiting: {
+                return (
+                    <div className="loading-status">
+                        <p>Connecting to the api...</p >
+                        <Spinner
+                            as="span"
+                            animation="grow"
+                            size="sm"
+                            role="status"
+                            aria-hidden="true"
+                            variant="primary"
+                        />
+                    </div >
+                );
+            }
+            default: {
+                return 'error';
+            }
         }
     }
 

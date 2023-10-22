@@ -112,7 +112,7 @@ class DashboardPage extends React.Component<unknown, State> {
         return (
             <Container>
                 <div className="flex-grid">
-                    {this.identity?.pif.includes(Feature.Tracking) && location &&
+                    {this.identity?.pif?.includes(Feature.Tracking) && location &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>{location?.location?.name ?? location?.city?.name ?? location?.country?.name ?? 'Last location'} @ {this.dateTimeFormat(location!.tracking!.timestamp)}</Card.Header>
@@ -133,7 +133,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Tracking) && distance &&
+                    {this.identity?.pif?.includes(Feature.Tracking) && distance &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>Distance</Card.Header>
@@ -145,7 +145,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Finance) && spent &&
+                    {this.identity?.pif?.includes(Feature.Finance) && spent &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header>Spent</Card.Header>
@@ -157,7 +157,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Finance) &&
+                    {this.identity?.pif?.includes(Feature.Finance) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/expenses">Expenses</a></Card.Header>
@@ -173,7 +173,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Beer) &&
+                    {this.identity?.pif?.includes(Feature.Beer) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/beer">Beer</a></Card.Header>
@@ -191,7 +191,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Movies) &&
+                    {this.identity?.pif?.includes(Feature.Movies) &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Header><a href="/movies">Movies</a></Card.Header>
@@ -208,7 +208,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
-                    {this.identity?.pif.includes(Feature.Cars) && this.user?.defaultCar && carOdometer &&
+                    {this.identity?.pif?.includes(Feature.Cars) && this.user?.defaultCar && carOdometer &&
                         <div className="flex-grid-item">
                             <Card>
                                 <Card.Img variant="top" src={`https://cdn.anticevic.net/cars/${this.user.defaultCar?.model?.id}.jpg`} />

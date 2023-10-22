@@ -1,11 +1,20 @@
 import jwt_decode from 'jwt-decode';
-import { Identity } from 'types/users';
+import { Feature, Identity } from 'types/users';
 
 export const getCookieValue = (name: string) => (
     document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
 );
 
 export const getIdentity = () => {
-    const cookie = getCookieValue('IdToken');
-    return cookie ? jwt_decode<Identity>(cookie) : null;
+    const cookie = getCookieValue('AccessToken');
+    const identity = cookie ? jwt_decode<Identity>(cookie) : null;
+
+    if (identity) {
+        return {
+            ...identity,
+            pif: [Feature.Beer, Feature.Calls, Feature.Finance, Feature.Tracking, Feature.Movies, Feature.Travel, Feature.Cars]
+        }
+    }
+
+    return null;
 };

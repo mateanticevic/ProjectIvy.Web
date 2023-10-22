@@ -3,7 +3,6 @@ import { httpContentType } from './http-content-type';
 import { httpHeader } from './http-header';
 import { httpMethod } from './http-method';
 import { httpStatus } from './http-status';
-import { redirectToAuth } from 'utils/redirect-helper';
 
 const headers = new Headers();
 
@@ -19,7 +18,8 @@ function handleResponse(response) {
             return response.status;
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
-        redirectToAuth();
+        document.cookie=`AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
+        window.location = '/';
     } else {
         //throw new Error(response.status);
     }

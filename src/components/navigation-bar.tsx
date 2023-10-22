@@ -66,11 +66,16 @@ const NavigationBar = ({ identity }: Props) =>
                     <NavDropdown id="nav-dropdown-account" title={identity.name}>
                         <NavDropdown.Item><RiAccountCircleLine /> <Link to="/account">My account</Link></NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item><FiLogOut /> <Link to="/not-found">Logout</Link></NavDropdown.Item>
+                        <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
         </Container>
     </Navbar >;
+
+const logOut = () => {
+    document.cookie=`AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
+    window.location = '/';
+};
 
 export default NavigationBar;
