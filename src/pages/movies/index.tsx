@@ -130,7 +130,10 @@ class MoviesPage extends Page<unknown, State> {
                         <Card>
                             <Card.Header>Calendar</Card.Header>
                             <Card.Body>
-                                <CalendarGrid dates={countByDay} />
+                                <CalendarGrid
+                                    dates={countByDay}
+                                    renderTooltip={(date, value) => `On ${date}, watched ${value}`}
+                                />
                             </Card.Body>
                         </Card>
                     </Col>

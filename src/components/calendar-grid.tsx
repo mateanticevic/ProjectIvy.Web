@@ -7,6 +7,7 @@ import { KeyValuePair } from 'types/grouping';
 
 interface Props {
     dates: KeyValuePair<number>[] | string[];
+    renderTooltip?: (date: string, value: number) => string; 
 }
 
 const valueToClass = (value) => {
@@ -19,7 +20,7 @@ const valueToClass = (value) => {
     return `fill-count-${value.count}`;
 };
 
-const CalendarGrid = ({ dates }: Props) => {
+const CalendarGrid = ({ dates, renderTooltip }: Props) => {
 
     const keyValuePairs = dates.length > 0 && typeof dates[0] === 'string' ? dates.map(x => {
         const o: KeyValuePair<number> = {
@@ -29,13 +30,11 @@ const CalendarGrid = ({ dates }: Props) => {
         return o;
     }) : dates as KeyValuePair<number>[];
 
-    console.log(keyValuePairs);
-
     const countByYears = Object.entries(_.groupBy(keyValuePairs, x => new Date(x.key).getFullYear()));
 
-    console.log(countByYears);
+    const [year, setYear] = React.useState(countByYears[countByYears.length - 1][0]);
 
-    const [year, setYear] = React.useState(new Date().getFullYear());
+    React.useEffect(() => setYear(countByYears[countByYears.length - 1][0]), dates);
 
     return (
         <React.Fragment>
@@ -54,7 +53,7 @@ const CalendarGrid = ({ dates }: Props) => {
                     };
                 })}
                 classForValue={valueToClass}
-                titleForValue={value => value ? `On ${value.date.toDateString()}, watched ${value.count}` : undefined}
+                titleForValue={value => value ? (renderTooltip ? renderTooltip(value.date.toDateString(), value.count) : value.date.toDateString()) : undefined}
                 showMonthLabels={false}
             />
         </React.Fragment>
