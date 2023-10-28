@@ -6,7 +6,7 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 import { KeyValuePair } from 'types/grouping';
 
 interface Props {
-    dates: KeyValuePair<number>[];
+    dates: KeyValuePair<number>[] | string[];
 }
 
 const valueToClass = (value) => {
@@ -21,17 +21,25 @@ const valueToClass = (value) => {
 
 const CalendarGrid = ({ dates }: Props) => {
 
-    const countByYears = Object.entries(_.groupBy(dates, x => new Date(x.key).getFullYear()));
+    const keyValuePairs = dates.length > 0 && typeof dates[0] === 'string' ? dates.map(x => {
+        const o: KeyValuePair<number> = {
+            key: x,
+            value: 1,
+        };
+        return o;
+    }) : dates as KeyValuePair<number>[];
 
-    const [year, setYear] = React.useState(2021);
+    console.log(keyValuePairs);
 
-    const changeYear = (year: number) => {
-        setYear(year);
-    };
+    const countByYears = Object.entries(_.groupBy(keyValuePairs, x => new Date(x.key).getFullYear()));
+
+    console.log(countByYears);
+
+    const [year, setYear] = React.useState(new Date().getFullYear());
 
     return (
         <React.Fragment>
-            <ToggleButtonGroup className="margin-bottom-30" type="radio" name="options" value={year} onChange={changeYear}>
+            <ToggleButtonGroup className="margin-bottom-30" type="radio" name="options" value={year} onChange={setYear}>
                 {countByYears.map(([key]) =>
                     <ToggleButton id={key} key={key} value={key}>{key}</ToggleButton>
                 )}
@@ -39,10 +47,10 @@ const CalendarGrid = ({ dates }: Props) => {
             <CalendarHeatmap
                 startDate={new Date(`${year}-1-1`)}
                 endDate={new Date(`${year}-12-31`)}
-                values={dates.map(value => {
+                values={keyValuePairs.map(keyValuePair => {
                     return {
-                        count: value.value,
-                        date: new Date(value.key),
+                        count: keyValuePair.value,
+                        date: new Date(keyValuePair.key),
                     };
                 })}
                 classForValue={valueToClass}

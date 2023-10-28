@@ -8,11 +8,14 @@ import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import _ from 'lodash';
+import CalendarGrid from 'components/calendar-grid';
 
 type Location = components['schemas']['Location'];
 
 interface State {
     locations: Location[],
+    selectedLocation?: Location,
+    selectedLocationDays?: string[],
 }
 
 class LocationsPage extends Page<unknown, State> {
@@ -30,7 +33,7 @@ class LocationsPage extends Page<unknown, State> {
 
     render() {
 
-        const { locations } = this.state;
+        const { locations, selectedLocation, selectedLocationDays } = this.state;
 
         return (
             <Container>
@@ -53,6 +56,16 @@ class LocationsPage extends Page<unknown, State> {
                                 </Map>
                             </Card.Body>
                         </Card>
+                        {selectedLocation &&
+                            <Card>
+                                <Card.Header>Selected</Card.Header>
+                                <Card.Body>
+                                    {selectedLocationDays &&
+                                        <CalendarGrid dates={selectedLocationDays} />
+                                    }
+                                </Card.Body>
+                            </Card>
+                        }
                     </Col>
                     <Col lg={4}>
                         <Card>
@@ -61,7 +74,7 @@ class LocationsPage extends Page<unknown, State> {
                                 <Table responsive>
                                     <tbody>
                                         {locations.map(location =>
-                                            <tr><td>{location.name}</td></tr>
+                                            <tr onClick={() => this.onLocationSelect(location)}><td>{location.name}</td></tr>
                                         )}
                                     </tbody>
                                 </Table>
@@ -71,6 +84,16 @@ class LocationsPage extends Page<unknown, State> {
                 </Row>
             </Container>
         );
+    }
+
+    onLocationSelect = (location: Location) => {
+        api.location.getDays(location.id)
+            .then(selectedLocationDays => {
+                this.setState({
+                    selectedLocation: location,
+                    selectedLocationDays,
+                });
+            });
     }
 }
 

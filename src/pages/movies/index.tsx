@@ -13,8 +13,8 @@ import { MovieFilters } from 'types/movies';
 import { FilterCard } from './filter-card';
 import { PagedList } from 'types/common';
 import { KeyValuePair } from 'types/grouping';
-import CalendarGrid from './calendar-grid';
 import { components } from 'types/ivy-types';
+import CalendarGrid from 'components/calendar-grid';
 
 type Movie = components['schemas']['Movie'];
 
