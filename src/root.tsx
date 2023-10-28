@@ -26,6 +26,7 @@ import AccountsPage from 'pages/accounts';
 import CountriesPage from 'pages/countries';
 import FlightsV2Page from 'pages/flights-v2';
 import ButtonWithSpinner from 'components/button-with-spinner';
+import LocationsPage from 'pages/locations';
 
 interface State {
     error?: string,
@@ -188,6 +189,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/flights-v2" element={<FlightsV2Page />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
                                     <Route path="/location" element={<LocationPage />} />
+                                    <Route path="/locations" element={<LocationsPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
                                     <Route path="/pois" element={<PoisPage />} />
                                     <Route path="/tracking" element={<TrackingPage />} />

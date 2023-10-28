@@ -362,6 +362,21 @@ export interface paths {
       };
     };
   };
+  "/Car/{carId}/Consumption/ByYear": {
+    get: {
+      parameters: {
+        path: {
+          carId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Car/{carId}/Fuel": {
     get: {
       parameters: {
@@ -424,6 +439,25 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
+        };
+      };
+    };
+  };
+  "/Car/{carId}/Kilometers/ByYear": {
+    get: {
+      parameters: {
+        path: {
+          carId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+            "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+            "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
+          };
         };
       };
     };
@@ -1463,6 +1497,31 @@ export interface paths {
       };
     };
   };
+  "/Consumation/Sum/ByDay": {
+    get: {
+      parameters: {
+        query?: {
+          BeerId?: string;
+          BrandId?: string;
+          CountryId?: string;
+          Serving?: components["schemas"]["BeerServing"];
+          StyleId?: string;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Consumation/Sum/ByDayOfWeek": {
     get: {
       parameters: {
@@ -2066,7 +2125,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+            "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+            "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
+          };
         };
       };
     };
@@ -2175,7 +2238,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+            "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+            "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
+          };
         };
       };
     };
@@ -2210,7 +2277,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["ExpenseTypeInt32KeyValuePairPagedView"];
+            "application/json": components["schemas"]["ExpenseTypeInt32KeyValuePairPagedView"];
+            "text/json": components["schemas"]["ExpenseTypeInt32KeyValuePairPagedView"];
+          };
         };
       };
     };
@@ -2245,7 +2316,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["VendorInt32KeyValuePairPagedView"];
+            "application/json": components["schemas"]["VendorInt32KeyValuePairPagedView"];
+            "text/json": components["schemas"]["VendorInt32KeyValuePairPagedView"];
+          };
         };
       };
     };
@@ -2301,7 +2376,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": number;
+            "application/json": number;
+            "text/json": number;
+          };
         };
       };
     };
@@ -2338,7 +2417,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+            "application/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+            "text/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2375,7 +2458,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+            "application/json": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+            "text/json": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2412,7 +2499,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "application/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "text/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2449,7 +2540,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["StringDecimalKeyValuePair"][];
+            "application/json": components["schemas"]["StringDecimalKeyValuePair"][];
+            "text/json": components["schemas"]["StringDecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2486,7 +2581,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["StringStringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+            "application/json": components["schemas"]["StringStringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+            "text/json": components["schemas"]["StringStringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+          };
         };
       };
     };
@@ -2523,7 +2622,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "application/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "text/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2560,7 +2663,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int16StringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+            "application/json": components["schemas"]["Int16StringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+            "text/json": components["schemas"]["Int16StringDecimalKeyValuePairIEnumerableKeyValuePair"][];
+          };
         };
       };
     };
@@ -2597,7 +2704,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "application/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+            "text/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+          };
         };
       };
     };
@@ -2712,7 +2823,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": string[];
+            "application/json": string[];
+            "text/json": string[];
+          };
         };
       };
     };
@@ -3298,7 +3413,11 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Location"][];
+            "application/json": components["schemas"]["Location"][];
+            "text/json": components["schemas"]["Location"][];
+          };
         };
       };
     };
@@ -5134,6 +5253,17 @@ export interface components {
       name?: string | null;
       symbol?: string | null;
     };
+    CurrencyDecimalKeyValuePair: {
+      key?: components["schemas"]["Currency"];
+      /** Format: double */
+      value?: number;
+    };
+    DateTimeDecimalKeyValuePair: {
+      /** Format: date-time */
+      key?: string;
+      /** Format: double */
+      value?: number;
+    };
     /** @enum {string} */
     DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
     Domain: {
@@ -5214,6 +5344,16 @@ export interface components {
     ExpenseType: {
       id?: string | null;
       name?: string | null;
+    };
+    ExpenseTypeInt32KeyValuePair: {
+      key?: components["schemas"]["ExpenseType"];
+      /** Format: int32 */
+      value?: number;
+    };
+    ExpenseTypeInt32KeyValuePairPagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["ExpenseTypeInt32KeyValuePair"][] | null;
     };
     ExpenseTypeNode: {
       this?: components["schemas"]["ExpenseType"];
@@ -5618,6 +5758,17 @@ export interface components {
       id?: string | null;
       name?: string | null;
     };
+    Int16StringDecimalKeyValuePairIEnumerableKeyValuePair: {
+      /** Format: int32 */
+      key?: number;
+      value?: components["schemas"]["StringDecimalKeyValuePair"][] | null;
+    };
+    Int32DecimalKeyValuePair: {
+      /** Format: int32 */
+      key?: number;
+      /** Format: double */
+      value?: number;
+    };
     Int32GroupedByMonth: {
       /** Format: int32 */
       data?: number;
@@ -5626,6 +5777,16 @@ export interface components {
       /** Format: int32 */
       year?: number;
     };
+    Int32Int32KeyValuePair: {
+      /** Format: int32 */
+      key?: number;
+      /** Format: int32 */
+      value?: number;
+    };
+    KnownLocation: {
+      name?: string | null;
+      typeId?: string | null;
+    };
     LatLng: {
       /** Format: double */
       latitude?: number;
@@ -5633,8 +5794,9 @@ export interface components {
       longitude?: number;
     };
     Location: {
+      id?: string | null;
       name?: string | null;
-      typeId?: string | null;
+      geohashes?: string[] | null;
     };
     Manufacturer: {
       name?: string | null;
@@ -5712,6 +5874,10 @@ export interface components {
       /** Format: int32 */
       value?: number;
     };
+    StringStringDecimalKeyValuePairIEnumerableKeyValuePair: {
+      key?: string | null;
+      value?: components["schemas"]["StringDecimalKeyValuePair"][] | null;
+    };
     TimeByDay: {
       /** Format: date-time */
       day?: string;
@@ -5762,7 +5928,7 @@ export interface components {
     TrackingLocation: {
       city?: components["schemas"]["City"];
       country?: components["schemas"]["Country"];
-      location?: components["schemas"]["Location"];
+      location?: components["schemas"]["KnownLocation"];
       tracking?: components["schemas"]["Tracking"];
     };
     TransactionBinding: {
@@ -5822,6 +5988,16 @@ export interface components {
       id?: string | null;
       name?: string | null;
       city?: components["schemas"]["City"];
+    };
+    VendorInt32KeyValuePair: {
+      key?: components["schemas"]["Vendor"];
+      /** Format: int32 */
+      value?: number;
+    };
+    VendorInt32KeyValuePairPagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["VendorInt32KeyValuePair"][] | null;
     };
     VendorPagedView: {
       /** Format: int64 */
