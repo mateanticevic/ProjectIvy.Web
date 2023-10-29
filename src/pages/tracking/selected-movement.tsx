@@ -4,6 +4,7 @@ import { Range } from 'rc-slider';
 import moment from 'moment';
 import { MdFastRewind, MdFastForward } from 'react-icons/md';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import * as geometry from 'spherical-geometry-js';
 
 import { Movement, Segment } from './types';
 
@@ -69,7 +70,7 @@ const SelectedMovement = ({ movement, onTrackingSelected }: Props) => {
     const previousTracking = index == 0 ? null : movement.trackings[index - 1];
     const previousLatLng = previousTracking ? new google.maps.LatLng(previousTracking.latitude, previousTracking.longitude) : null;
     const currentLatLng = new google.maps.LatLng(currentTracking.latitude, currentTracking.longitude);
-    const distanceFromPrevious = previousLatLng ? google.maps.geometry.spherical.computeDistanceBetween(previousLatLng, currentLatLng) : null;
+    const distanceFromPrevious = previousLatLng ? geometry.computeDistanceBetween(previousLatLng, currentLatLng) : null;
 
     const selectedTime = moment(movement.trackings[index].timestamp);
 

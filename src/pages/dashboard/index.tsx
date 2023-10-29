@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Row } from 'react-bootstrap';
-import { Marker } from 'react-google-maps';
+import { Marker } from '@react-google-maps/api';
 import Skeleton from 'react-loading-skeleton'
 
 import api from 'api/main';

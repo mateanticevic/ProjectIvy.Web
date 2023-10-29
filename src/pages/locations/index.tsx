@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
-import { GoogleMap, Rectangle } from 'react-google-maps';
+import { Rectangle } from '@react-google-maps/api';
 import geohash from 'ngeohash';
 
 import { Page } from 'pages/page';
@@ -21,7 +21,7 @@ interface State {
 
 class LocationsPage extends Page<unknown, State> {
 
-    map: GoogleMap;
+    map?: google.maps.Map;
 
     state: State = {
         locations: [],
@@ -43,7 +43,7 @@ class LocationsPage extends Page<unknown, State> {
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-large">
-                                <Map refSet={mapRef => this.map = mapRef}>
+                                <Map defaultZoom={2} onLoad={map => this.map = map}>
                                     {selectedGeohashes?.map(g => {
                                         const rectangle = geohash.decode_bbox(g);
 
@@ -95,7 +95,6 @@ class LocationsPage extends Page<unknown, State> {
                     selectedLocation: location,
                     selectedLocationDays,
                 });
-                this.map.setZoom();
             });
     }
 }

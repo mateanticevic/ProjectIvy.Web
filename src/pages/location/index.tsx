@@ -2,14 +2,13 @@ import React from 'react';
 import { Card, Col, Container, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
-import { GoogleMap, InfoWindow, Marker, Polyline, Rectangle } from 'react-google-maps';
+import { InfoWindow, Marker, Polyline, Rectangle, MarkerClusterer, MarkerF } from '@react-google-maps/api';
 import { MdLocationOn, MdToday } from 'react-icons/md';
 import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
 import moment from 'moment';
 import mtz from 'moment-timezone';
 import _ from 'lodash';
-import MarkerClusterer from 'react-google-maps/lib/components/addons/MarkerClusterer';
 import ReactSelect from 'react-select';
 
 import { Page } from 'pages/page';
@@ -125,7 +124,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
 
 class LocationPage extends Page<unknown, State> {
 
-    map: GoogleMap;
+    map?: google.maps.Map;
 
     state: State = {
         dateMode: DateMode.Day,
@@ -231,11 +230,11 @@ class LocationPage extends Page<unknown, State> {
                             <Card.Body className="padding-0 panel-large">
                                 {isMapReady &&
                                     <Map
-                                        defaultZoom={mapZoom}
+                                        defaultZoom={15}
                                         defaultCenter={{ lat: last.latitude, lng: last.longitude }}
                                         onClick={this.onMapClick}
-                                        onZoomChanged={() => this.setState({ mapZoom: this.map.getZoom() })}
-                                        refSet={mapRef => this.map = mapRef}
+                                        onZoomChanged={() => this.map && this.setState({ mapZoom: this.map.getZoom() })}
+                                        onLoad={map => this.map = map}
                                     >
                                         {polygonLayers.map(layer =>
                                             <Polyline
@@ -315,15 +314,19 @@ class LocationPage extends Page<unknown, State> {
                                             />
                                         )} */}
                                         <MarkerClusterer>
-                                            {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
-                                                layer.path.map(point =>
-                                                    <Marker
-                                                        key={_.uniqueId()}
-                                                        icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
-                                                        position={point}
-                                                    />
-                                                )
-                                            )}
+                                            {clusterer => {
+                                                <>
+                                                    {layers.filter(layer => layer instanceof PolygonLayer).map(layer => layer as PolygonLayer).filter(layer => layer.renderAsPoints).map(layer =>
+                                                        layer.path.map(point =>
+                                                            <MarkerF
+                                                                key={_.uniqueId()}
+                                                                icon="https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png"
+                                                                position={point}
+                                                            />
+                                                        )
+                                                    )}
+                                                </>
+                                            }}
                                         </MarkerClusterer>
                                     </Map>
                                 }

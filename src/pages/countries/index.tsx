@@ -7,7 +7,7 @@ import { Map } from 'components';
 import { Page } from 'pages/page';
 import { Country } from 'types/common';
 import { components } from 'types/ivy-types';
-import { Marker } from 'react-google-maps';
+import { Marker } from '@react-google-maps/api';
 import AsyncSelect from 'react-select/async';
 import { cityLoader } from 'utils/select-loaders';
 import { iconUrl } from 'utils/cdn-helper';
@@ -68,7 +68,7 @@ class CountriesPage extends Page<unknown, State> {
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
-                                <Map>
+                                <Map defaultZoom={2}>
                                     {cities.map(city =>
                                         <Marker
                                             key={city.id}

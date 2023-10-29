@@ -4,11 +4,9 @@ import React from 'react';
 import { Button, Col, Container, Card, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
-import { Polyline, Marker, Rectangle } from 'react-google-maps';
-import DrawingManager from 'react-google-maps/lib/components/drawing/DrawingManager';
+import { Polyline, Marker, Rectangle, DrawingManager, HeatmapLayer } from '@react-google-maps/api';
 import 'rc-slider/assets/index.css';
 import geohash from 'ngeohash';
-import HeatmapLayer from 'react-google-maps/lib/components/visualization/HeatmapLayer';
 
 import api from 'api/main';
 import { Map, RadioLabel } from 'components';

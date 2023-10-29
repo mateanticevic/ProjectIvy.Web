@@ -8,6 +8,7 @@ import { MdLocationOn } from 'react-icons/md';
 import { BiStopwatch } from 'react-icons/bi';
 import { ImRoad } from 'react-icons/im';
 import { RiPinDistanceFill } from 'react-icons/ri';
+import * as geometry from 'spherical-geometry-js';
 
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
@@ -56,7 +57,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
         for (let i = from; i < (to > layer.trackings.length ? layer.trackings.length : to) - 1; i++) {
             const a = trackingToLatLng(layer.trackings[i]);
             const b = trackingToLatLng(layer.trackings[i + 1]);
-            distance += google.maps.geometry.spherical.computeDistanceBetween(a, b);
+            distance += geometry.computeDistanceBetween(a, b);
         }
         return distance > 1000 ? `${Math.round(distance / 1000)}km` : `${Math.round(distance)}m`;
     };

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
-import { Marker, Polyline } from 'react-google-maps';
+import { Marker, Polyline } from '@react-google-maps/api';
 import 'react-vertical-timeline-component/style.min.css';
 import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';

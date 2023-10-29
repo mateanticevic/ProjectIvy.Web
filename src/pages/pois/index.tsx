@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, FormLabel, FormControl, Container, Card, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import { Marker } from 'react-google-maps';
+import { Marker } from '@react-google-maps/api';
 
 import api from 'api/main';
 import Map from 'components/map';

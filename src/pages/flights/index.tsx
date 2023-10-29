@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, FormGroup, FormLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { FaArrowRight, FaPlus } from 'react-icons/fa';
-import { Marker, Polyline } from 'react-google-maps';
+import { Marker, Polyline } from '@react-google-maps/api';
 import moment from 'moment';
 import AsyncSelect from 'react-select/async';
 
@@ -78,7 +78,7 @@ class FlightsPage extends Page<unknown, State> {
                                 </Button>
                             </Card.Header>
                             <Card.Body className="padding-0 panel-large">
-                                <Map>
+                                <Map defaultZoom={2}>
                                     {mapMode === MapMode.Airports &&
                                         countByAirport.map(airport =>
                                             <Marker
