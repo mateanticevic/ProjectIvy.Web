@@ -1,10 +1,10 @@
 import React from 'react';
-import { Card, Col, Container, FormGroup, FormLabel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { GoogleMap, InfoWindow, Marker, Polyline, Rectangle } from 'react-google-maps';
+import { Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { GoogleMap, Rectangle } from 'react-google-maps';
 import geohash from 'ngeohash';
 
 import { Page } from 'pages/page';
-import { DateFormElement, Map, Select } from 'components';
+import { Map } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import _ from 'lodash';
@@ -14,6 +14,7 @@ type Location = components['schemas']['Location'];
 
 interface State {
     locations: Location[],
+    selectedGeohashes?: string[],
     selectedLocation?: Location,
     selectedLocationDays?: string[],
 }
@@ -33,7 +34,7 @@ class LocationsPage extends Page<unknown, State> {
 
     render() {
 
-        const { locations, selectedLocation, selectedLocationDays } = this.state;
+        const { locations, selectedGeohashes, selectedLocation, selectedLocationDays } = this.state;
 
         return (
             <Container>
@@ -43,7 +44,7 @@ class LocationsPage extends Page<unknown, State> {
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-large">
                                 <Map refSet={mapRef => this.map = mapRef}>
-                                    {locations.flatMap(l => l.geohashes).map(g => {
+                                    {selectedGeohashes?.map(g => {
                                         const rectangle = geohash.decode_bbox(g);
 
                                         return (
@@ -90,9 +91,11 @@ class LocationsPage extends Page<unknown, State> {
         api.location.getDays(location.id)
             .then(selectedLocationDays => {
                 this.setState({
+                    selectedGeohashes: location.geohashes!,
                     selectedLocation: location,
                     selectedLocationDays,
                 });
+                this.map.setZoom();
             });
     }
 }
