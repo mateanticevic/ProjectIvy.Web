@@ -45,7 +45,7 @@ class FlightsV2Page extends Page<unknown, State> {
                     <Col lg={9}>
                         <InfiniteScroll
                             dataLength={count}
-                            next={this.getNextPage}
+                            next={this.getNextsPage}
                             hasMore={filter.page * filter.pageSize < count}
                             loader={<h4>Loading...</h4>}
                             endMessage="no more"

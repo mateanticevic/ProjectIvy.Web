@@ -95,6 +95,9 @@ class LocationsPage extends Page<unknown, State> {
                     selectedLocation: location,
                     selectedLocationDays,
                 });
+                const bbox = geohash.decode_bbox(location.geohashes[0]!);
+                this.map?.setCenter({ lat: bbox[0], lng: bbox[1] });
+                this.map?.setZoom(16);
             });
     }
 }
