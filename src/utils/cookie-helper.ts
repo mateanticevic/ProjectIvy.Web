@@ -1,4 +1,4 @@
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { Feature, Identity } from 'types/users';
 
 export const getCookieValue = (name: string) => (
@@ -7,7 +7,7 @@ export const getCookieValue = (name: string) => (
 
 export const getIdentity = () => {
     const cookie = getCookieValue('AccessToken');
-    const identity = cookie ? jwt_decode<Identity>(cookie) : null;
+    const identity = cookie ? jwtDecode<Identity>(cookie) : null;
 
     if (identity) {
         return {
