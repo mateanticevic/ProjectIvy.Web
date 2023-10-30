@@ -10,6 +10,8 @@ interface Props {
     renderTooltip?: (date: string, value: number) => string; 
 }
 
+const booleanValueToClass = (value) => value?.count === 1 ? 'background-active' : 'background-inactive';
+
 const valueToClass = (value) => {
     if (!value)
         return 'background-inactive';
@@ -26,7 +28,9 @@ const CalendarGrid = ({ dates, renderTooltip }: Props) => {
         return <></>;
     }
 
-    const keyValuePairs = dates.length > 0 && typeof dates[0] === 'string' ? dates.map(x => {
+    const booleanValues = typeof dates[0] === 'string';
+
+    const keyValuePairs = booleanValues ? dates.map(x => {
         const o: KeyValuePair<number> = {
             key: x,
             value: 1,
@@ -57,7 +61,7 @@ const CalendarGrid = ({ dates, renderTooltip }: Props) => {
                         date: new Date(keyValuePair.key),
                     };
                 })}
-                classForValue={valueToClass}
+                classForValue={booleanValues ? booleanValueToClass : valueToClass}
                 titleForValue={value => value ? (renderTooltip ? renderTooltip(value.date.toDateString(), value.count) : value.date.toDateString()) : undefined}
                 showMonthLabels={false}
             />
