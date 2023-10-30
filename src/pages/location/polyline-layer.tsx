@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';
-import { Range } from 'rc-slider';
+import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';;
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import { AiOutlineDelete, AiOutlineScissor } from 'react-icons/ai';
@@ -9,6 +8,7 @@ import { BiStopwatch } from 'react-icons/bi';
 import { ImRoad } from 'react-icons/im';
 import { RiPinDistanceFill } from 'react-icons/ri';
 import * as geometry from 'spherical-geometry-js';
+import Slider from 'rc-slider';
 
 import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
@@ -100,10 +100,12 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
                         <BiStopwatch /> Stops
                     </ToggleButton>
                 </ButtonGroup>
-                <Range
+                <Slider
+                    allowCross={false}
                     max={layer.trackings.length - 1}
                     min={0}
                     onChange={c => onChange(c[0], c[1])}
+                    range
                     step={1}
                     value={[startIndex, endIndex]}
                 />

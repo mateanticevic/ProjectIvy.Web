@@ -1,6 +1,6 @@
 import React from 'react';
 import 'rc-slider/assets/index.css';
-import { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 import { Form, FormGroup, FormLabel } from 'react-bootstrap';
 
 interface Props {
@@ -53,7 +53,8 @@ const GeohashSettings = ({ precision, search, zoom, onPrecisionChange, onSearchC
             </FormGroup>
             <FormGroup>
                 <FormLabel>Precision</FormLabel>
-                <Range
+                <Slider
+                    allowCross={false}
                     disabled={autoEnabled}
                     max={9}
                     marks={{
@@ -63,13 +64,15 @@ const GeohashSettings = ({ precision, search, zoom, onPrecisionChange, onSearchC
                     }}
                     min={1}
                     onChange={c => onPrecisionChange(c[0])}
+                    range
                     step={1}
                     value={[precision]}
                 />
             </FormGroup>
             <FormGroup className="margin-top-30">
                 <FormLabel>Search</FormLabel>
-                <Range
+                <Slider
+                    allowCross={false}
                     disabled={autoEnabled}
                     max={6}
                     marks={{
@@ -79,6 +82,7 @@ const GeohashSettings = ({ precision, search, zoom, onPrecisionChange, onSearchC
                     }}
                     min={0}
                     onChange={c => onSearchChange(c[0])}
+                    range
                     step={1}
                     value={[search]}
                 />

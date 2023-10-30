@@ -22,6 +22,10 @@ const valueToClass = (value) => {
 
 const CalendarGrid = ({ dates, renderTooltip }: Props) => {
 
+    if (dates.length === 0) {
+        return <></>;
+    }
+
     const keyValuePairs = dates.length > 0 && typeof dates[0] === 'string' ? dates.map(x => {
         const o: KeyValuePair<number> = {
             key: x,
@@ -31,6 +35,7 @@ const CalendarGrid = ({ dates, renderTooltip }: Props) => {
     }) : dates as KeyValuePair<number>[];
 
     const countByYears = Object.entries(_.groupBy(keyValuePairs, x => new Date(x.key).getFullYear()));
+    console.log(countByYears);
 
     const [year, setYear] = React.useState(countByYears[countByYears.length - 1][0]);
 

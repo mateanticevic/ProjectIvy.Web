@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 import moment from 'moment';
 import { MdFastRewind, MdFastForward } from 'react-icons/md';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
@@ -79,10 +79,11 @@ const SelectedMovement = ({ movement, onTrackingSelected }: Props) => {
             <Card.Header>Selected movement</Card.Header>
             <Card.Body>
                 {`${selectedTime.format('HH:mm:ss.SSS')} - ${movement.trackings[index].speed * 3.6}km/h - from previous: ${distanceFromPrevious}m`}
-                <Range
+                <Slider
                     max={movement.trackings.length - 1}
                     min={0}
                     onChange={c => onChange(c[0])}
+                    range
                     step={1}
                     value={[index]}
                 />

@@ -1,7 +1,7 @@
 import React from 'react';
 import Datetime from 'react-datetime';
 import { Card, FormGroup, FormLabel } from 'react-bootstrap';
-import { Range } from 'rc-slider';
+import Slider from 'rc-slider';
 
 import { Select } from 'components';
 import { MovieFilters } from 'types/movies';
@@ -43,7 +43,7 @@ export const FilterCard = ({ filters, onFiltersChanged }: Props) =>
             </FormGroup>
             <FormGroup className="margin-bottom-30">
                 <FormLabel>Rating</FormLabel>
-                <Range
+                <Slider
                     max={10}
                     marks={{
                         1: '1',
@@ -51,13 +51,14 @@ export const FilterCard = ({ filters, onFiltersChanged }: Props) =>
                     }}
                     min={1}
                     onChange={c => onFiltersChanged({ ratingLower: c[1], ratingHigher: c[0] })}
+                    range
                     step={0.1}
                     value={[filters.ratingHigher, filters.ratingLower]}
                 />
             </FormGroup>
             <FormGroup className="margin-bottom-30">
                 <FormLabel>Runtime</FormLabel>
-                <Range
+                <Slider
                     max={300}
                     marks={{
                         1: '1m',
@@ -65,6 +66,7 @@ export const FilterCard = ({ filters, onFiltersChanged }: Props) =>
                     }}
                     min={1}
                     onChange={c => onFiltersChanged({ runtimeShorter: c[1], runtimeLonger: c[0] })}
+                    range
                     step={1}
                     value={[filters.runtimeLonger, filters.runtimeShorter]}
                 />
