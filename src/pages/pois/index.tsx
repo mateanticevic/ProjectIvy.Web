@@ -37,7 +37,7 @@ class PoisPage extends React.Component {
 
     render() {
 
-        const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map(poi => <Marker key={poi.id} defaultPosition={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
+        const poiMarkers = this.state.pois.items != null ? this.state.pois.items.map(poi => <Marker key={poi.id} position={{ lat: poi.location.latitude, lng: poi.location.longitude }} title={poi.name} />) : null;
 
         return (
             <Container>

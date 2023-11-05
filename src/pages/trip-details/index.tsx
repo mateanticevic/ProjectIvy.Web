@@ -162,7 +162,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                                         <Marker
                                             key={city.id}
                                             icon="https://cdn.anticevic.net/icons/location-small.png"
-                                            defaultPosition={{ lat: city.lat, lng: city.lng }}
+                                            position={{ lat: city.lat, lng: city.lng }}
                                             title={city.name}
                                         />
                                     )}

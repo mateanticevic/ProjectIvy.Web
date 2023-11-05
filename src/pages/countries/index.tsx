@@ -1,16 +1,18 @@
 import React from 'react';
 import { ButtonGroup, Card, Col, Container, Row, ToggleButton } from 'react-bootstrap';
 import classNames from 'classnames';
+import geohash from 'ngeohash';
 
 import api from 'api/main';
 import { Map } from 'components';
 import { Page } from 'pages/page';
 import { Country } from 'types/common';
 import { components } from 'types/ivy-types';
-import { Marker } from '@react-google-maps/api';
+import { Marker, Rectangle } from '@react-google-maps/api';
 import AsyncSelect from 'react-select/async';
 import { cityLoader } from 'utils/select-loaders';
 import { iconUrl } from 'utils/cdn-helper';
+import _ from 'lodash';
 
 type City = components['schemas']['City'];
 
@@ -28,6 +30,8 @@ interface State {
     cities: City[],
     countries: Country[],
     filters: Filters,
+    selectedGeohashes: string[],
+    selectedCountryGeohashes?: string[],
     visitedCountries: Country[],
 }
 
@@ -39,6 +43,7 @@ class CountriesPage extends Page<unknown, State> {
         filters: {
             visited: CountryVisited.All,
         },
+        selectedGeohashes: [],
         visitedCountries: [],
     };
 
@@ -49,7 +54,7 @@ class CountriesPage extends Page<unknown, State> {
     }
 
     render() {
-        const { cities, countries, filters, visitedCountries } = this.state;
+        const { cities, countries, filters, selectedGeohashes, selectedCountryGeohashes, visitedCountries } = this.state;
 
         const filteredCountries = filters.visited === CountryVisited.All ?
             countries
@@ -68,15 +73,35 @@ class CountriesPage extends Page<unknown, State> {
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
-                                <Map defaultZoom={2}>
+                                <Map defaultZoom={2} onClick={this.onMapClick}>
                                     {cities.map(city =>
                                         <Marker
                                             key={city.id}
                                             icon={iconUrl('location-small')}
-                                            defaultPosition={{ lat: city.lat, lng: city.lng }}
+                                            position={{ lat: city.lat, lng: city.lng }}
                                             title={city.name}
                                         />
                                     )}
+                                    {selectedCountryGeohashes?.map(g => {
+                                        const rectangle = geohash.decode_bbox(g);
+
+                                        return (
+                                            <Rectangle
+                                                key={_.uniqueId()}
+                                                bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                            />
+                                        );
+                                    })}
+                                    {selectedGeohashes?.map(g => {
+                                        const rectangle = geohash.decode_bbox(g);
+
+                                        return (
+                                            <Rectangle
+                                                key={_.uniqueId()}
+                                                bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                            />
+                                        );
+                                    })}
                                 </Map>
                             </Card.Body>
                         </Card>
@@ -111,7 +136,7 @@ class CountriesPage extends Page<unknown, State> {
                     </Col>
                     <Col lg={6}>
                         {filteredCountries.sort((a, b) => a.name.localeCompare(b.name)).map(country =>
-                            <Card>
+                            <Card onClick={() => this.onCountryClick(country.id)}>
                                 <Card.Body className={classNames('country-item', { 'country-item-not-visited': !visitedCountries.map(x => x.id).includes(country.id) })}>
                                     <span className={`flag-icon flag-icon-${country.id?.toLowerCase()} country-flag`} />
                                     <h2>{country.name}</h2>
@@ -122,6 +147,21 @@ class CountriesPage extends Page<unknown, State> {
                 </Row>
             </Container >
         );
+    }
+
+    onCountryClick = (countryId: string) => {
+        api.country.getGeohashes(countryId)
+            .then(selectedCountryGeohashes => this.setState({ selectedCountryGeohashes }));
+    }
+
+    onMapClick = (event: google.maps.MapMouseEvent) => {
+        const hash = geohash.encode(event.latLng?.lat()!, event.latLng?.lng()!, 5);
+        this.setState({
+            selectedGeohashes: [
+                ...this.state.selectedGeohashes,
+                hash,
+            ]
+        });
     }
 
     addVisitedCity = (cityId: string) => {
