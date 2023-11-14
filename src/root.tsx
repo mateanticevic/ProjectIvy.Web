@@ -108,7 +108,6 @@ export default class Root extends React.Component<{}, State> {
                     });
                 }
                 else {
-                    console.log('failed');
                     this.setState({
                         loggingIn: false,
                     });

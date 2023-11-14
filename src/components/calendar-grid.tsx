@@ -39,7 +39,9 @@ const CalendarGrid = ({ dates, renderTooltip }: Props) => {
     }) : dates as KeyValuePair<number>[];
 
     const countByYears = Object.entries(_.groupBy(keyValuePairs, x => new Date(x.key).getFullYear()));
-    console.log(countByYears);
+
+    if (!countByYears)
+        return <></>;
 
     const [year, setYear] = React.useState(countByYears[countByYears.length - 1][0]);
 
