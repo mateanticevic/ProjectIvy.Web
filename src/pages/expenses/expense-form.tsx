@@ -1,4 +1,4 @@
-import AsyncSelect from 'react-select/async';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 import Datetime from 'react-datetime';
 import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import { DateFormElement } from 'components';
 import { SelectOption } from 'types/common';
 import { components } from 'types/ivy-types';
 import { vendorLoader } from 'utils/select-loaders';
+import { SingleValue } from 'react-select';
 
 type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
@@ -28,12 +29,30 @@ interface Props {
     deleteFile: any;
     linkFile: any;
     onChange: any;
-    onVendorChanged: any;
+    uploadFile: any;
     uploadFiles: any;
     vendorPois: any;
 }
 
-const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, onVendorChanged, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
+const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
+
+    const onVendorChanged = (changed: SingleValue<{ value: string, label: string, __isNew__?: boolean }>) => {
+        console.log(changed);
+        if (changed?.__isNew__) {
+            onChange({
+                vendor: {
+                    name: changed.value
+                }
+            });
+        }
+        else {
+            onChange({
+                vendor: {
+                    id: changed?.value
+                }
+            });
+        }
+    };
 
     return (
         <Tabs id="expenseFormTabs" defaultActiveKey={1}>
@@ -69,9 +88,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     <Col lg={6}>
                         <FormGroup>
                             <FormLabel>Vendor</FormLabel>
-                            <AsyncSelect
+                            <AsyncCreatableSelect
                                 loadOptions={vendorLoader}
-                                onChange={vendor => onChange({ vendor: { id: vendor.value } })}
+                                onChange={onVendorChanged}
                                 defaultValue={{ value: expense.vendor?.id, label: expense.vendor?.name }}
                                 defaultOptions
                             />

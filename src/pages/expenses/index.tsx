@@ -509,6 +509,7 @@ class ExpensesPage extends Page<unknown, State> {
             paymentTypeId: e.paymentType.id,
             poiId: e.poi?.id,
             vendorId: e.vendor?.id,
+            vendorName: e.vendor?.id ? null : e.vendor?.name,
         };
     };
 
