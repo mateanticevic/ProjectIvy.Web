@@ -37,7 +37,6 @@ interface Props {
 const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
 
     const onVendorChanged = (changed: SingleValue<{ value: string, label: string, __isNew__?: boolean }>) => {
-        console.log(changed);
         if (changed?.__isNew__) {
             onChange({
                 vendor: {

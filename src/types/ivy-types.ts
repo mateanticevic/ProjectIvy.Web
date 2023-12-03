@@ -1820,6 +1820,34 @@ export interface paths {
       };
     };
   };
+  "/Country/Visited/ByYear": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
+            "application/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
+            "text/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
+  "/Country/Visited/Days": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["CountryInt32KeyValuePair"][];
+            "application/json": components["schemas"]["CountryInt32KeyValuePair"][];
+            "text/json": components["schemas"]["CountryInt32KeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
   "/Country/Visited/Count": {
     get: {
       responses: {
@@ -1829,6 +1857,20 @@ export interface paths {
             "text/plain": number;
             "application/json": number;
             "text/json": number;
+          };
+        };
+      };
+    };
+  };
+  "/Country/Visited/Count/ByYear": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+            "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+            "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
           };
         };
       };
@@ -1875,6 +1917,36 @@ export interface paths {
   };
   "/Country/List/Visited": {
     get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/Country/{countryId}/Geohash/{geohash}": {
+    post: {
+      parameters: {
+        path: {
+          countryId: string;
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+    delete: {
+      parameters: {
+        path: {
+          countryId: string;
+          geohash: string;
+        };
+      };
       responses: {
         /** @description Success */
         200: {
@@ -3023,6 +3095,32 @@ export interface paths {
       };
     };
   };
+  "/Flight/Count/ByAirline": {
+    get: {
+      parameters: {
+        query?: {
+          DestinationId?: string;
+          OriginId?: string;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["AirlineInt32KeyValuePair"][];
+            "application/json": components["schemas"]["AirlineInt32KeyValuePair"][];
+            "text/json": components["schemas"]["AirlineInt32KeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
   "/Flight/Count/ByAirport": {
     get: {
       parameters: {
@@ -3093,6 +3191,29 @@ export interface paths {
       };
     };
     post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["FlightBinding"];
+          "application/json": components["schemas"]["FlightBinding"];
+          "text/json": components["schemas"]["FlightBinding"];
+          "application/*+json": components["schemas"]["FlightBinding"];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/Flight/{id}": {
+    put: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
       requestBody?: {
         content: {
           "application/json-patch+json": components["schemas"]["FlightBinding"];
@@ -3450,6 +3571,36 @@ export interface paths {
           "application/json": string[];
           "text/json": string[];
           "application/*+json": string[];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/Location/{locationId}/Geohashes/{geohash}": {
+    post: {
+      parameters: {
+        path: {
+          locationId: string;
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+    delete: {
+      parameters: {
+        path: {
+          locationId: string;
+          geohash: string;
         };
       };
       responses: {
@@ -5001,6 +5152,11 @@ export interface components {
       id?: string | null;
       name?: string | null;
     };
+    AirlineInt32KeyValuePair: {
+      key?: components["schemas"]["Airline"];
+      /** Format: int32 */
+      value?: number;
+    };
     Airport: {
       poi?: components["schemas"]["Poi"];
       iata?: string | null;
@@ -5242,6 +5398,11 @@ export interface components {
       country?: components["schemas"]["Country"];
       polygons?: components["schemas"]["LatLng"][][] | null;
     };
+    CountryInt32KeyValuePair: {
+      key?: components["schemas"]["Country"];
+      /** Format: int32 */
+      value?: number;
+    };
     CountryPagedView: {
       /** Format: int64 */
       count?: number;
@@ -5375,25 +5536,35 @@ export interface components {
       mimeType?: string | null;
     };
     Flight: {
+      id?: string | null;
       airline?: components["schemas"]["Airline"];
       /** Format: date-time */
       arrival?: string;
       /** Format: date-time */
+      arrivalLocal?: string;
+      /** Format: date-time */
       departure?: string;
+      /** Format: date-time */
+      departureLocal?: string;
       destination?: components["schemas"]["Airport"];
       /** Format: int32 */
-      distanceInKm?: number;
+      distanceInKm?: number | null;
+      number?: string | null;
       origin?: components["schemas"]["Airport"];
     };
     FlightBinding: {
       airlineId?: string | null;
       destinationId?: string | null;
-      flightNumber?: string | null;
+      number?: string | null;
       originId?: string | null;
       /** Format: date-time */
       arrival?: string;
       /** Format: date-time */
+      arrivalLocal?: string;
+      /** Format: date-time */
       departure?: string;
+      /** Format: date-time */
+      departureLocal?: string;
     };
     FlightPagedView: {
       /** Format: int64 */
@@ -5763,6 +5934,11 @@ export interface components {
       key?: number;
       value?: components["schemas"]["StringDecimalKeyValuePair"][] | null;
     };
+    Int32CountryIEnumerableKeyValuePair: {
+      /** Format: int32 */
+      key?: number;
+      value?: components["schemas"]["Country"][] | null;
+    };
     Int32DecimalKeyValuePair: {
       /** Format: int32 */
       key?: number;
@@ -5928,6 +6104,7 @@ export interface components {
     TrackingLocation: {
       city?: components["schemas"]["City"];
       country?: components["schemas"]["Country"];
+      flight?: components["schemas"]["Flight"];
       location?: components["schemas"]["KnownLocation"];
       tracking?: components["schemas"]["Tracking"];
     };

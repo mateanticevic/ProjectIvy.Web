@@ -14,10 +14,13 @@ function get(filters) {
 
 const post = (flight: FlightBinding) => api.post('flight', flight);
 
+const put = (id: string, flight: FlightBinding) => api.put(`flight/${id}`, flight);
+
 const flight = {
     getCountByAirport,
     get,
     post,
+    put,
 };
 
 export default flight;

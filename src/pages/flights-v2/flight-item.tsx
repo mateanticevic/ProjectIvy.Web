@@ -7,13 +7,14 @@ import { components } from 'types/ivy-types';
 type Flight = components['schemas']['Flight'];
 
 interface Props {
-    flight: Flight
+    flight: Flight,
+    onClick(): void,
 }
 
-const FlightItem = ({ flight }: Props) => {
+const FlightItem = ({ flight, onClick }: Props) => {
     const { airline } = flight;
     return (
-        <Card>
+        <Card onClick={onClick}>
             <Card.Body className="flight-item">
                 <img src={`https://cdn.anticevic.net/vendors/${airline.id}.jpg`} />
 
