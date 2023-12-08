@@ -62,23 +62,33 @@ interface State {
     sumChartData: any;
     sumByCountry: KeyValue<Country, number>[];
     sumByDay?: KeyValuePair<number>[];
-    sumByGrouping: GroupByTime;
+    sumByGrouping: GroupBeerBy;
     sumByServing: any;
     topBeers: Beer[];
 }
 
+enum GroupBeerBy {
+    ByDayOfWeek = GroupByTime.ByDayOfWeek,
+    ByMonth = GroupByTime.ByMonth,
+    ByMonthOfYear = GroupByTime.ByMonthOfYear,
+    ByYear = GroupByTime.ByYear,
+    AlcoholByYear = 5,
+}
+
 const sumByOptions = [
-    { value: GroupByTime.ByMonthOfYear, name: 'Month of Year' },
-    { value: GroupByTime.ByMonth, name: 'Month' },
-    { value: GroupByTime.ByDayOfWeek, name: 'Day of Week' },
-    { value: GroupByTime.ByYear, name: 'Year' },
+    { value: GroupBeerBy.ByMonthOfYear, name: 'Month of Year' },
+    { value: GroupBeerBy.ByMonth, name: 'Month' },
+    { value: GroupBeerBy.ByDayOfWeek, name: 'Day of Week' },
+    { value: GroupBeerBy.ByYear, name: 'Year' },
+    { value: GroupBeerBy.AlcoholByYear, name: 'Alcohol by year' },
 ];
 
 const sumApiMapping = {
-    [GroupByTime.ByDayOfWeek]: api.consumation.getSumByDayOfWeek,
-    [GroupByTime.ByMonth]: api.consumation.getSumByMonth,
-    [GroupByTime.ByMonthOfYear]: api.consumation.getSumByMonthOfYear,
-    [GroupByTime.ByYear]: api.consumation.getSumByYear,
+    [GroupBeerBy.ByDayOfWeek]: api.consumation.getSumByDayOfWeek,
+    [GroupBeerBy.ByMonth]: api.consumation.getSumByMonth,
+    [GroupBeerBy.ByMonthOfYear]: api.consumation.getSumByMonthOfYear,
+    [GroupBeerBy.ByYear]: api.consumation.getSumByYear,
+    [GroupBeerBy.AlcoholByYear]: api.consumation.getAlcoholByYear,
 };
 
 class BeerPage extends Page<Props, State> {
@@ -101,7 +111,7 @@ class BeerPage extends Page<Props, State> {
             count: 0,
             items: [],
         },
-        countBy: GroupByTime.ByMonthOfYear,
+        countBy: GroupBeerBy.ByMonthOfYear,
         countries: [],
         countryMapModalOpen: false,
         filters: {
@@ -117,7 +127,7 @@ class BeerPage extends Page<Props, State> {
         sum: 0,
         sumChartData: [],
         sumByCountry: [],
-        sumByGrouping: GroupByTime.ByMonthOfYear,
+        sumByGrouping: GroupBeerBy.ByMonthOfYear,
         sumByServing: [],
         topBeers: [],
     };
@@ -483,7 +493,7 @@ class BeerPage extends Page<Props, State> {
         this.onCountGroupByChange(this.state.sumByGrouping);
     };
 
-    onCountGroupByChange = (sumByGrouping?: GroupByTime) => {
+    onCountGroupByChange = (sumByGrouping?: GroupBeerBy) => {
         if (sumByGrouping) {
             this.setState({ sumByGrouping });
         }

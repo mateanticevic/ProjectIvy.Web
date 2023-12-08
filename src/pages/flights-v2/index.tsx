@@ -7,6 +7,7 @@ import { Page } from 'pages/page';
 import FlightItem from './flight-item';
 import { components } from 'types/ivy-types';
 import FlightModal from './flight-modal';
+import { DistributionCard } from 'components';
 
 type Flight = components['schemas']['Flight'];
 type FlightBinding = components['schemas']['FlightBinding'];
@@ -18,6 +19,8 @@ interface Filter {
 
 interface State {
     count: number,
+    countBy: CountByFlights,
+    countByData: any,
     filter: Filter,
     flight: Flight,
     flightBinding: FlightBinding,
@@ -25,10 +28,26 @@ interface State {
     isModalOpen: boolean,
 }
 
+enum CountByFlights {
+    Airline,
+    Airport,
+}
+
+const countByOptions = [
+    { value: CountByFlights.Airline, name: 'Airline' },
+    { value: CountByFlights.Airport, name: 'Airport' },
+];
+
+const countApiMapping = {
+    [CountByFlights.Airline]: api.flight.getCountByAirline,
+    [CountByFlights.Airport]: api.flight.getCountByAirport,
+};
+
 class FlightsV2Page extends Page<unknown, State> {
 
     state: State = {
         count: 0,
+        countBy: CountByFlights.Airline,
         filter: {
             page: 1,
             pageSize: 200,
@@ -44,13 +63,14 @@ class FlightsV2Page extends Page<unknown, State> {
     }
 
     render() {
-        const { count, filter, flight, flightBinding, flights, isModalOpen } = this.state;
+        const { count, countByData, filter, flight, flightBinding, flights, isModalOpen } = this.state;
 
         return (
             <Container>
                 <Row>
-                    <Col lg={3}>ok</Col>
-                    <Col lg={9}>
+                    <Col lg={3}>
+                    </Col>
+                    <Col lg={6}>
                         <InfiniteScroll
                             dataLength={count}
                             next={this.getNextsPage}
@@ -67,6 +87,14 @@ class FlightsV2Page extends Page<unknown, State> {
                                 />
                             )}
                         </InfiniteScroll>
+                    </Col>
+                    <Col lg={3}>
+                        <DistributionCard
+                            countByOptions={countByOptions}
+                            data={countByData}
+                            name="Top 10"
+                            onGroupByChange={this.onCountByChange}
+                        />
                     </Col>
                 </Row>
                 <FlightModal
@@ -122,13 +150,22 @@ class FlightsV2Page extends Page<unknown, State> {
             ...this.state.filter,
             ...changedFilters,
         };
-        this.setState({ filter });
+        this.setState({ filter }, () => this.onCountByChange());
 
         api.flight.get(filter)
             .then(result => this.setState({
                 count: result.count,
                 flights: this.state.flights.concat(result.items),
             }));
+    };
+
+    onCountByChange = (countBy?: CountByFlights) => {
+        if (countBy) {
+            this.setState({ countBy });
+        }
+
+        countApiMapping[countBy ?? this.state.countBy](this.state.filter)
+            .then(countByData => this.setState({ countByData: countByData.slice(0, 10) }));
     };
 }
 

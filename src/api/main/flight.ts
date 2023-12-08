@@ -4,21 +4,20 @@ import { components } from 'types/ivy-types';
 
 type FlightBinding = components['schemas']['FlightBinding'];
 
-function getCountByAirport(filters) {
-    return api.get('flight/count/byairport', filters);
-}
+const get = (filters) => api.get('flight', filters);
 
-function get(filters) {
-    return api.get('flight', filters);
-}
+const getCountByAirline = (filters) => api.get('flight/count/byairline', filters);
+
+const getCountByAirport = (filters) => api.get('flight/count/byairport', filters);
 
 const post = (flight: FlightBinding) => api.post('flight', flight);
 
 const put = (id: string, flight: FlightBinding) => api.put(`flight/${id}`, flight);
 
 const flight = {
-    getCountByAirport,
     get,
+    getCountByAirline,
+    getCountByAirport,
     post,
     put,
 };

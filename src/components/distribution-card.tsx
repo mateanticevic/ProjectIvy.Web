@@ -41,7 +41,7 @@ interface Props {
     stacked?: boolean;
     unit?: string;
     unitType?: Unit;
-    countByOptions?(): void;
+    countByOptions?: [];
     onClick?(): void;
     onGroupByChange?(): void;
 }
@@ -64,7 +64,6 @@ const applyUnitFormatting = (data, unitType) => {
 
 export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
 
-
     const applyKeyFormatting = {
         [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format('dddd'),
         [GroupByTime.ByMonth]: (key) => moment().month(key - 1).format('MMMM'),
@@ -84,6 +83,14 @@ export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, un
             return {
                 ...x,
                 key: applyKeyFormatting[groupByOption](x.key),
+            };
+        });
+    }
+    else {
+        df = df?.map(x => {
+            return {
+                ...x,
+                key: x.key?.name ?? x.key,
             };
         });
     }

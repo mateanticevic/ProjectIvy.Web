@@ -1,48 +1,30 @@
 import * as api from '../config';
 
-function get(filters) {
-    return api.get('consumation', filters);
-}
+const get = (filters) => api.get('consumation', filters);
 
-function getCountBeer(filters) {
-    return api.get('consumation/beer/count', filters);
-}
+const getAlcoholByYear = (filters) => api.get('consumation/alcohol/byYear', filters);
 
-function getCountByMonth(filters) {
-    return api.get('consumation/count/bymonth', filters);
-}
+const getCountBeer = (filters) => api.get('consumation/beer/count', filters);
 
-function getCountByMonthOfYear(filters) {
-    return api.get('consumation/count/bymonthofyear', filters);
-}
+const getCountByMonth = (filters) => api.get('consumation/count/bymonth', filters);
 
-function getCountByYear(filters) {
-    return api.get('consumation/count/byyear', filters);
-}
+const getCountByMonthOfYear = (filters) => api.get('consumation/count/bymonthofyear', filters);
 
-function getCountBrand(filters) {
-    return api.get('consumation/brand/count', filters);
-}
+const getCountByYear = (filters) => api.get('consumation/count/byyear', filters);
+
+const getCountBrand = (filters) => api.get('consumation/brand/count', filters);
+
+const getNewBeers = (filters) => api.get('consumation/beer/new', filters);
+
+const getSum = (filters) => api.get('consumation/sum', filters);
+
+const getSumByBeer = (filters) => api.get('consumation/sum/byBeer', filters);
 
 const getCountry = (filters) => api.get('consumation/country', filters);
 
 const getCountryBoundaries = (filters) => api.get('consumation/country/boundaries', filters);
 
-function getNewBeers(filters) {
-    return api.get('consumation/beer/new', filters);
-}
-
-function getSum(filters) {
-    return api.get('consumation/sum', filters);
-}
-
-function getSumByBeer(filters) {
-    return api.get('consumation/sum/byBeer', filters);
-}
-
-function getSumByCountry(filters) {
-    return api.get('consumation/sum/byCountry', filters);
-}
+const getSumByCountry = (filters) => api.get('consumation/sum/byCountry', filters);
 
 const getSumByDay = (filters) => api.get('consumation/sum/byDay', filters);
 
@@ -52,16 +34,13 @@ const getSumByMonthOfYear = (filters) => api.get('consumation/sum/byMonthOfYear'
 
 const getSumByYear = (filters) => api.get('consumation/sum/byYear', filters);
 
-function getSumByServing(filters) {
-    return api.get('consumation/sum/byServing', filters);
-}
+const getSumByServing = (filters) => api.get('consumation/sum/byServing', filters);
 
-function post(consumation) {
-    return api.post('consumation', consumation);
-}
+const post = (consumation) => api.post('consumation', consumation);
 
 const consumation = {
     get,
+    getAlcoholByYear,
     getCountBeer,
     getCountByMonth,
     getCountByMonthOfYear,
