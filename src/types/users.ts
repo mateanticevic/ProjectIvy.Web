@@ -21,6 +21,10 @@ export interface UserSession {
     validUntil: string;
 }
 
+export enum Scopes {
+    BeerUser = 'beer:user',
+}
+
 export enum Feature {
     Beer = 'beer',
     Calls = 'calls',
@@ -32,6 +36,7 @@ export enum Feature {
 }
 
 export interface Identity {
-    name: string;
-    pif?: Feature[]
+    name: string,
+    pif?: Feature[],
+    scope: string,
 }

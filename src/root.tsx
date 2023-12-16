@@ -27,6 +27,7 @@ import CountriesPage from 'pages/countries';
 import FlightsV2Page from 'pages/flights-v2';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import LocationsPage from 'pages/locations';
+import { FaMicrosoft } from 'react-icons/fa';
 
 interface State {
     error?: string,
@@ -124,8 +125,7 @@ export default class Root extends React.Component<{}, State> {
         fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
             method: 'POST',
             headers: {
-                Authorization: 'Basic dHJhY2tlcjpxek1kRWdqREpoTW9WbGpiTUFXa29GelE2c3VrWXhQMg==',
-                //Authorization: 'Basic d2ViOg==',
+                Authorization: 'Basic d2ViOg==',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: formBody.join("&")
@@ -163,38 +163,40 @@ export default class Root extends React.Component<{}, State> {
             }
             case LoadingState.Login: {
                 return (
-                    <Container>
-                        <Row>
-                            <Col lg={4}></Col>
-                            <Col lg={3}>
-                                <Card>
-                                    <Card.Body>
-                                        <Form>
-                                            <FloatingLabel
-                                                controlId="floatingInput"
-                                                label="User"
-                                                className="mb-3"
-                                            >
-                                                <Form.Control type="text" onChange={x => this.setState({ username: x.target.value })} />
-                                            </FloatingLabel>
-                                            <FloatingLabel
-                                                controlId="floatingInput"
-                                                label="Password"
-                                                className="mb-3"
-                                            >
-                                                <Form.Control type="password" onChange={x => this.setState({ password: x.target.value })} />
-                                            </FloatingLabel>
-                                            <ButtonWithSpinner
-                                                isLoading={!!this.state.loggingIn}
-                                                onClick={this.login}
-                                            >Log in</ButtonWithSpinner>
-                                            <Button href={`https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`}>with Microsoft</Button>
-                                        </Form>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </Container>
+                    <div className="login-form">
+                        <Card>
+                            <Card.Body>
+                                <Form>
+                                    <FloatingLabel
+                                        controlId="floatingInput"
+                                        label="User"
+                                        className="mb-3"
+                                    >
+                                        <Form.Control type="text" onChange={x => this.setState({ username: x.target.value })} />
+                                    </FloatingLabel>
+                                    <FloatingLabel
+                                        controlId="floatingInput"
+                                        label="Password"
+                                        className="mb-3"
+                                    >
+                                        <Form.Control type="password" onChange={x => this.setState({ password: x.target.value })} />
+                                    </FloatingLabel>
+                                    <div className="form-grid">
+                                        <ButtonWithSpinner
+                                            isLoading={!!this.state.loggingIn}
+                                            onClick={this.login}
+                                        >Log in</ButtonWithSpinner>
+                                        <Button
+                                            variant="primary"
+                                            href={`https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`}
+                                        >
+                                            <FaMicrosoft /> Log in with Microsoft
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    </div>
                 );
             }
             case LoadingState.Ready: {

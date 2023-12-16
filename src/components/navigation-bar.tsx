@@ -9,7 +9,7 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 import { Link } from 'react-router-dom';
 
-import { Feature, Identity } from 'types/users';
+import { Feature, Identity, Scopes } from 'types/users';
 
 interface Props {
     identity: Identity;
@@ -49,7 +49,7 @@ const NavigationBar = ({ identity }: Props) =>
                             <NavDropdown.Item><MdMyLocation /> <Link to="/locations">Locations</Link></NavDropdown.Item>
                         </NavDropdown>
                     }
-                    {identity.pif?.includes(Feature.Beer) &&
+                    {identity.scope.includes(Scopes.BeerUser) &&
                         < NavDropdown id="nav-dropdown-beer" title="Beer">
                             <NavDropdown.Item><TiBeer /> <Link to="/beer">Log</Link></NavDropdown.Item>
                         </NavDropdown>

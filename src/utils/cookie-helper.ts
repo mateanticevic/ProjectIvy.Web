@@ -8,6 +8,7 @@ export const getCookieValue = (name: string) => (
 export const getIdentity = () => {
     const cookie = getCookieValue('AccessToken');
     const identity = cookie ? jwtDecode<Identity>(cookie) : null;
+    console.log(identity);
 
     if (identity) {
         return {
