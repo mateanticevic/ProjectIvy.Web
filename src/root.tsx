@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Card, Col, Container, FloatingLabel, Form, Row, Spinner, Toast } from 'react-bootstrap';
+import { Button, Card, Col, Container, FloatingLabel, Form, Row, Spinner, Toast } from 'react-bootstrap';
 
 import { Feature, User } from 'types/users';
 import api from './api/main';
@@ -56,6 +56,35 @@ export default class Root extends React.Component<{}, State> {
     };
 
     componentDidMount() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        console.log(code);
+
+        if (code) {
+            fetch('https://auth.anticevic.net/realms/ivy/protocol/openid-connect/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    grant_type: 'authorization_code',
+                    code: code,
+                    redirect_uri: import.meta.env.VITE_APP_URL,
+                    client_id: 'web',
+                }).toString()
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
+                    location = '/';
+                })
+                .catch(error => {
+                    // Handle the error
+                    console.error(error);
+                });
+        }
+
         if (this.identity) {
             api.user.get()
                 .then(user => {
@@ -83,7 +112,7 @@ export default class Root extends React.Component<{}, State> {
             loggingIn: true,
         });
 
-        const payload = { username: this.state.username, password: this.state.password, grant_type: 'password' };
+        const payload = { username: this.state.username, password: this.state.password, grant_type: 'password', scope: 'email' };
 
         var formBody: string[] = [];
         for (var property in payload) {
@@ -95,7 +124,8 @@ export default class Root extends React.Component<{}, State> {
         fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
             method: 'POST',
             headers: {
-                Authorization: 'Basic d2ViOg==',
+                Authorization: 'Basic dHJhY2tlcjpxek1kRWdqREpoTW9WbGpiTUFXa29GelE2c3VrWXhQMg==',
+                //Authorization: 'Basic d2ViOg==',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: formBody.join("&")
@@ -158,6 +188,7 @@ export default class Root extends React.Component<{}, State> {
                                                 isLoading={!!this.state.loggingIn}
                                                 onClick={this.login}
                                             >Log in</ButtonWithSpinner>
+                                            <Button href={`https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`}>with Microsoft</Button>
                                         </Form>
                                     </Card.Body>
                                 </Card>
