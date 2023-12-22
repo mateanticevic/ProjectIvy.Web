@@ -125,7 +125,7 @@ export default class Root extends React.Component<{}, State> {
         fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
             method: 'POST',
             headers: {
-                Authorization: 'Basic d2ViOg==',
+                Authorization: 'Basic d2ViOjE=',
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: formBody.join("&")

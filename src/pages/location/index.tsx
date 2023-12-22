@@ -252,16 +252,6 @@ class LocationPage extends Page<unknown, State> {
                                         )}
                                         {polygonLayers.map(layer =>
                                             <React.Fragment key={layer.id}>
-                                                <Marker
-                                                    key={`${layer.id}-end`}
-                                                    icon={iconUrl('flag')}
-                                                    position={trackingToLatLng(layer.trackings[layer.trackings.length - 1])}
-                                                />
-                                                <Marker
-                                                    key={`${layer.id}-start`}
-                                                    icon={iconUrl('go')}
-                                                    position={trackingToLatLng(layer.trackings[0])}
-                                                />
                                                 {layer.endTracking !== layer.trackings[layer.trackings.length - 1] &&
                                                     <Marker
                                                         key={`${layer.id}-trim-out`}

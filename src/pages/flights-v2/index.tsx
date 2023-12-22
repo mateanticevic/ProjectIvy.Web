@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
@@ -69,6 +69,9 @@ class FlightsV2Page extends Page<unknown, State> {
             <Container>
                 <Row>
                     <Col lg={3}>
+                        <Button onClick={() => this.setState({ isModalOpen: true })}>
+                            New
+                        </Button>
                     </Col>
                     <Col lg={6}>
                         <InfiniteScroll
@@ -141,8 +144,15 @@ class FlightsV2Page extends Page<unknown, State> {
     };
 
     onFlightSave = () => {
-        api.flight.put(this.state.flight.id, this.state.flightBinding)
-            .then(() => this.setState({ isModalOpen: false }));
+
+        if (this.state.flight.id) {
+            api.flight.put(this.state.flight.id, this.state.flightBinding)
+                .then(() => this.setState({ isModalOpen: false }));
+        }
+        else {
+            api.flight.post(this.state.flightBinding)
+                .then(() => this.setState({ isModalOpen: false }));
+        }
     };
 
     onFilterChanged = (changedFilters?: Partial<Filter>) => {
