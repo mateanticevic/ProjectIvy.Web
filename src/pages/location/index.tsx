@@ -16,7 +16,7 @@ import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/button-with-spinner';
-import { GeohashItem, Layer } from 'types/location';
+import { Geohash, GeohashItem, Layer } from 'types/location';
 import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
@@ -45,8 +45,9 @@ interface State {
     newTracking: TrackingBinding,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
+    selectedGeohashLayers: [],
     selectedGeohashes: string[],
-    selectedGeohashItems: GeohashItem[],
+    selectedGeohashItems: Geohash[],
     visitedGeohashes: string[],
     timezone?: string,
 }
@@ -141,6 +142,7 @@ class LocationPage extends Page<unknown, State> {
         },
         polygonLayers: [],
         requestActive: false,
+        selectedGeohashLayers: [],
         selectedGeohashes: [],
         selectedGeohashItems: [],
         visitedGeohashes: [],
@@ -328,6 +330,7 @@ class LocationPage extends Page<unknown, State> {
                                     value={mapMode}
                                     onChange={mapMode => this.setState({ mapMode })}
                                 >
+                                    <ToggleButton id="map-mode-drag" value={MapMode.Details}><RiDragMove2Fill /> Details</ToggleButton>
                                     <ToggleButton id="map-mode-drag" value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
                                     <ToggleButton id="map-mode-drop" value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
                                     <ToggleButton id="map-mode-select" value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
@@ -349,7 +352,11 @@ class LocationPage extends Page<unknown, State> {
                             />
                         )}
                         {selectedGeohashItems.map(geohash =>
-                            <GeohashInfo key={_.uniqueId()} geohash={geohash} />
+                            <GeohashInfo
+                                key={_.uniqueId()}
+                                geohash={geohash}
+                                onDelete={() => api.geohash.delTrackings(geohash.id)}
+                            />
                         )}
                     </Col>
                 </Row>
@@ -449,18 +456,34 @@ class LocationPage extends Page<unknown, State> {
         });
     };
 
-    onGeohashSegmentClick = (geohash: string) => {
+    onGeohashSegmentClick = (geohashId: string) => {
 
         if (this.state.mapMode === MapMode.Select) {
-            this.onSelectGeohash(geohash);
+            this.onSelectGeohash(geohashId);
             return;
         }
 
-        api.geohash.getChildren(geohash)
+        if (this.state.mapMode === MapMode.Details) {
+            api.geohash.getSingle(geohashId)
+                .then(geohash => {
+                    this.setState({
+                        selectedGeohashItems: [
+                            ...this.state.selectedGeohashItems,
+                            {
+                                ...geohash,
+                                id: geohashId
+                            }
+                        ]
+                    });
+                });
+            return;
+        }
+
+        api.geohash.getChildren(geohashId)
             .then(visitedGeohashes => this.setState({
                 geohashSegments: [
-                    ...this.state.geohashSegments.filter(g => g != geohash),
-                    ...geohashCharacters.map(g => `${geohash}${g}`),
+                    ...this.state.geohashSegments.filter(g => g != geohashId),
+                    ...geohashCharacters.map(g => `${geohashId}${g}`),
                 ],
                 visitedGeohashes: [
                     ...this.state.visitedGeohashes,

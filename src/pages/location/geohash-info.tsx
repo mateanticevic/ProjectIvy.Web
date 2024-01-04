@@ -1,42 +1,43 @@
 import moment from 'moment';
 import React from 'react';
-import { Badge, Card } from 'react-bootstrap';
+import { Badge, Button, Card } from 'react-bootstrap';
 import { BsBoxArrowInLeft } from 'react-icons/bs';
 import { MdToday } from 'react-icons/md';
 import { ImSigma } from 'react-icons/im';
 
-import { GeohashItem } from 'types/location';
+import { Geohash, GeohashItem } from 'types/location';
 import { number } from 'utils/format-helper';
 
 interface Props {
-    geohash: GeohashItem,
+    geohash: Geohash,
+    onDelete(),
 }
 
-const GeohashInfo = ({ geohash }: Props) => {
+const GeohashInfo = ({ geohash, onDelete }: Props) => {
 
-    const formattedCount = number(geohash.geohash.totalCount);
+    const formattedCount = number(geohash.totalCount);
 
     return (
         <Card>
             <Card.Body>
                 <h5>
                     <Badge bg="primary">
-                        {`#${geohash.geohash.id}`}
+                        {`#${geohash.id}`}
                     </Badge>
                 </h5>
                 <h5>
                     <Badge bg="primary">
-                        1st <BsBoxArrowInLeft /> {moment(geohash.geohash.firstIn).format('HH:mm MMM Do YYYY')}
+                        1st <BsBoxArrowInLeft /> {moment(geohash.firstIn).format('HH:mm MMM Do YYYY')}
                     </Badge>
                 </h5>
                 <h5>
                     <Badge bg="primary">
-                        last <BsBoxArrowInLeft /> {moment(geohash.geohash.lastIn).format('HH:mm MMM Do YYYY')}
+                        last <BsBoxArrowInLeft /> {moment(geohash.lastIn).format('HH:mm MMM Do YYYY')}
                     </Badge>
                 </h5>
                 <h5>
                     <Badge bg="primary">
-                        <MdToday /> {geohash.geohash.dayCount}
+                        <MdToday /> {geohash.dayCount}
                     </Badge>
                 </h5>
                 <h5>
@@ -44,6 +45,7 @@ const GeohashInfo = ({ geohash }: Props) => {
                         <ImSigma /> {`${formattedCount.number}${formattedCount.exponent}`}
                     </Badge>
                 </h5>
+                <Button onClick={onDelete}>Delete</Button>
             </Card.Body>
         </Card>
     );
