@@ -355,7 +355,7 @@ class LocationPage extends Page<unknown, State> {
                             <GeohashInfo
                                 key={_.uniqueId()}
                                 geohash={geohash}
-                                onDelete={() => api.geohash.delTrackings(geohash.id)}
+                                onDelete={() => this.onDeleteGeohashTrackings(geohash)}
                             />
                         )}
                     </Col>
@@ -454,6 +454,15 @@ class LocationPage extends Page<unknown, State> {
         this.setState({
             polygonLayers: updatedLayers
         });
+    };
+
+    onDeleteGeohashTrackings = (geohash: Geohash) => {
+        api.geohash.delTrackings(geohash.id)
+            .then(() => {
+                this.setState({
+                    selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id)
+                });
+            });
     };
 
     onGeohashSegmentClick = (geohashId: string) => {

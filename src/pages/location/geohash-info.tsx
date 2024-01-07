@@ -45,7 +45,7 @@ const GeohashInfo = ({ geohash, onDelete }: Props) => {
                         <ImSigma /> {`${formattedCount.number}${formattedCount.exponent}`}
                     </Badge>
                 </h5>
-                <Button onClick={onDelete}>Delete</Button>
+                <Button variant="danger" onClick={onDelete}>Delete {geohash.totalCount} trackings</Button>
             </Card.Body>
         </Card>
     );
