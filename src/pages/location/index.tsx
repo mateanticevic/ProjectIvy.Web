@@ -16,8 +16,8 @@ import { DateFormElement, Map, Select } from 'components';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/button-with-spinner';
-import { Geohash, GeohashItem, Layer } from 'types/location';
-import { trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
+import { Geohash, Layer } from 'types/location';
+import { pointsToLatLng, trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
 import { DrawMode, MapMode } from 'consts/location';
 import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
@@ -26,6 +26,7 @@ import GeohashInfo from './geohash-info';
 import { iconUrl } from 'utils/cdn-helper';
 import NewLocationModal from './new-location-modal';
 
+type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
 type TrackingBinding = components['schemas']['TrackingBinding'];
 
@@ -45,11 +46,19 @@ interface State {
     newTracking: TrackingBinding,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
+    routes: Route[],
+    routePoints: RoutePoints[],
+    routeLayers: google.maps.LatLng[],
     selectedGeohashLayers: [],
     selectedGeohashes: string[],
     selectedGeohashItems: Geohash[],
     visitedGeohashes: string[],
     timezone?: string,
+}
+
+interface RoutePoints {
+    route: Route,
+    points: number[][],
 }
 
 enum DateMode {
@@ -142,6 +151,8 @@ class LocationPage extends Page<unknown, State> {
         },
         polygonLayers: [],
         requestActive: false,
+        routes: [],
+        routePoints: [],
         selectedGeohashLayers: [],
         selectedGeohashes: [],
         selectedGeohashItems: [],
@@ -154,11 +165,14 @@ class LocationPage extends Page<unknown, State> {
 
         api.geohash.getChildren('root')
             .then(visitedGeohashes => this.setState({ visitedGeohashes }));
+
+        api.route.get()
+            .then(routes => this.setState({ routes }));
     }
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, mapZoom, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, routes, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
 
         const isMapReady = !!last;
 
@@ -223,6 +237,16 @@ class LocationPage extends Page<unknown, State> {
                                 >
                                     Draw
                                 </ButtonWithSpinner>
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Header>Routes</Card.Header>
+                            <Card.Body>
+                                {routes.map(route =>
+                                    <div key={route.id} onClick={() => this.onRouteClick(route)}>
+                                        <a>{route.name}</a>
+                                    </div>
+                                )}
                             </Card.Body>
                         </Card>
                     </Col>
@@ -320,6 +344,13 @@ class LocationPage extends Page<unknown, State> {
                                                 </>
                                             }}
                                         </MarkerClusterer>
+                                        {this.state.routePoints.map(routePoints =>
+                                            <Polyline
+                                                key={routePoints.route.id}
+                                                path={pointsToLatLng(routePoints.points)}
+                                                options={{ strokeColor: '#0a58ca', strokeWeight: 2 }}
+                                            />
+                                        )}
                                     </Map>
                                 }
                             </Card.Body>
@@ -547,6 +578,21 @@ class LocationPage extends Page<unknown, State> {
         } as PolygonLayer;
 
         this.onLayerUpdated(layer, updatedLayer);
+    };
+
+    onRouteClick = (route: Route) => {
+        api.route.getPoints(route.id!)
+            .then(routePoints => {
+                this.setState({
+                    routePoints: [
+                        ...this.state.routePoints,
+                        {
+                            route,
+                            points: routePoints,
+                        }
+                    ]
+                });
+            });
     };
 
     onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {

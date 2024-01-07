@@ -76,6 +76,67 @@ export interface paths {
       };
     };
   };
+  "/Tracking": {
+    get: {
+      parameters: {
+        query?: {
+          "BottomRight.Lat"?: number;
+          "BottomRight.Lng"?: number;
+          "TopLeft.Lat"?: number;
+          "TopLeft.Lng"?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["Tracking"][];
+            "application/json": components["schemas"]["Tracking"][];
+            "text/json": components["schemas"]["Tracking"][];
+          };
+        };
+      };
+    };
+    put: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["TrackingBinding"];
+          "application/json": components["schemas"]["TrackingBinding"];
+          "text/json": components["schemas"]["TrackingBinding"];
+          "application/*+json": components["schemas"]["TrackingBinding"];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": boolean;
+            "application/json": boolean;
+            "text/json": boolean;
+          };
+        };
+      };
+    };
+    post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["TrackingBinding"][];
+          "application/json": components["schemas"]["TrackingBinding"][];
+          "text/json": components["schemas"]["TrackingBinding"][];
+          "application/*+json": components["schemas"]["TrackingBinding"][];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Airport": {
     get: {
       parameters: {
@@ -1969,29 +2030,6 @@ export interface paths {
       };
     };
   };
-  "/Device/{deviceId}/browserLog": {
-    put: {
-      parameters: {
-        path: {
-          deviceId: string;
-        };
-      };
-      requestBody?: {
-        content: {
-          "application/json-patch+json": components["schemas"]["BrowserLogBinding"];
-          "application/json": components["schemas"]["BrowserLogBinding"];
-          "text/json": components["schemas"]["BrowserLogBinding"];
-          "application/*+json": components["schemas"]["BrowserLogBinding"];
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-  };
   "/Expense/{valueId}": {
     delete: {
       parameters: {
@@ -3230,6 +3268,21 @@ export interface paths {
       };
     };
   };
+  "/Geohash/{geohash}/Trackings": {
+    delete: {
+      parameters: {
+        path: {
+          geohash: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Geohash": {
     get: {
       parameters: {
@@ -3529,6 +3582,20 @@ export interface paths {
       };
     };
   };
+  "/Tracking/LastLocation": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["TrackingLocation"];
+            "application/json": components["schemas"]["TrackingLocation"];
+            "text/json": components["schemas"]["TrackingLocation"];
+          };
+        };
+      };
+    };
+  };
   "/Location": {
     get: {
       responses: {
@@ -3626,34 +3693,6 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
-        };
-      };
-    };
-  };
-  "/Log/Browser": {
-    get: {
-      parameters: {
-        query?: {
-          DeviceId?: string;
-          DomainId?: string;
-          IsSecured?: boolean;
-          WebId?: string;
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["BrowserLogPagedView"];
-            "application/json": components["schemas"]["BrowserLogPagedView"];
-            "text/json": components["schemas"]["BrowserLogPagedView"];
-          };
         };
       };
     };
@@ -4304,6 +4343,73 @@ export interface paths {
       };
     };
   };
+  "/Route": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["Route"][];
+            "application/json": components["schemas"]["Route"][];
+            "text/json": components["schemas"]["Route"][];
+          };
+        };
+      };
+    };
+    post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["RouteBinding"];
+          "application/json": components["schemas"]["RouteBinding"];
+          "text/json": components["schemas"]["RouteBinding"];
+          "application/*+json": components["schemas"]["RouteBinding"];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
+  "/Route/{id}/Points": {
+    get: {
+      parameters: {
+        path: {
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": number[][];
+            "application/json": number[][];
+            "text/json": number[][];
+          };
+        };
+      };
+    };
+  };
+  "/Route/{id}/Kml": {
+    post: {
+      parameters: {
+        query?: {
+          kmlName?: string;
+        };
+        path: {
+          id: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Service/LastFm/Track": {
     get: {
       parameters: {
@@ -4375,67 +4481,6 @@ export interface paths {
       parameters: {
         path: {
           timestamp: number;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-  };
-  "/Tracking": {
-    get: {
-      parameters: {
-        query?: {
-          "BottomRight.Lat"?: number;
-          "BottomRight.Lng"?: number;
-          "TopLeft.Lat"?: number;
-          "TopLeft.Lng"?: number;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["Tracking"][];
-            "application/json": components["schemas"]["Tracking"][];
-            "text/json": components["schemas"]["Tracking"][];
-          };
-        };
-      };
-    };
-    put: {
-      requestBody?: {
-        content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"];
-          "application/json": components["schemas"]["TrackingBinding"];
-          "text/json": components["schemas"]["TrackingBinding"];
-          "application/*+json": components["schemas"]["TrackingBinding"];
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": boolean;
-            "application/json": boolean;
-            "text/json": boolean;
-          };
-        };
-      };
-    };
-    post: {
-      requestBody?: {
-        content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"][];
-          "application/json": components["schemas"]["TrackingBinding"][];
-          "text/json": components["schemas"]["TrackingBinding"][];
-          "application/*+json": components["schemas"]["TrackingBinding"][];
         };
       };
       responses: {
@@ -4601,35 +4646,6 @@ export interface paths {
       };
     };
   };
-  "/Tracking/Last": {
-    get: {
-      parameters: {
-        query?: {
-          at?: string;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-  };
-  "/Tracking/LastLocation": {
-    get: {
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["TrackingLocation"];
-            "application/json": components["schemas"]["TrackingLocation"];
-            "text/json": components["schemas"]["TrackingLocation"];
-          };
-        };
-      };
-    };
-  };
   "/Tracking/Speed/Average": {
     get: {
       parameters: {
@@ -4668,6 +4684,21 @@ export interface paths {
             "application/json": number;
             "text/json": number;
           };
+        };
+      };
+    };
+  };
+  "/Tracking/Last": {
+    get: {
+      parameters: {
+        query?: {
+          at?: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
         };
       };
     };
@@ -4999,127 +5030,6 @@ export interface paths {
       };
     };
   };
-  "/Web/Time/Sum": {
-    get: {
-      parameters: {
-        query?: {
-          DeviceId?: string;
-          PageAll?: boolean;
-          Page?: number;
-          PageSize?: number;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["WebTime"][];
-            "application/json": components["schemas"]["WebTime"][];
-            "text/json": components["schemas"]["WebTime"][];
-          };
-        };
-      };
-    };
-  };
-  "/Web/Time/Total": {
-    get: {
-      parameters: {
-        query?: {
-          DomainId?: string;
-          DeviceId?: string;
-          IsSecured?: boolean;
-          WebId?: string;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": number;
-            "application/json": number;
-            "text/json": number;
-          };
-        };
-      };
-    };
-  };
-  "/Web/Time/Total/ByDay": {
-    get: {
-      parameters: {
-        query?: {
-          DomainId?: string;
-          DeviceId?: string;
-          IsSecured?: boolean;
-          WebId?: string;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["TimeByDay"][];
-            "application/json": components["schemas"]["TimeByDay"][];
-            "text/json": components["schemas"]["TimeByDay"][];
-          };
-        };
-      };
-    };
-  };
-  "/Web/Time/Total/ByMonth": {
-    get: {
-      parameters: {
-        query?: {
-          DomainId?: string;
-          DeviceId?: string;
-          IsSecured?: boolean;
-          WebId?: string;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["Int32GroupedByMonth"][];
-            "application/json": components["schemas"]["Int32GroupedByMonth"][];
-            "text/json": components["schemas"]["Int32GroupedByMonth"][];
-          };
-        };
-      };
-    };
-  };
-  "/Web/Time/Total/ByYear": {
-    get: {
-      parameters: {
-        query?: {
-          DomainId?: string;
-          DeviceId?: string;
-          IsSecured?: boolean;
-          WebId?: string;
-          From?: string;
-          To?: string;
-          OrderAscending?: boolean;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-  };
   "/Webhook/Dialogflow": {
     post: {
       requestBody?: {
@@ -5210,28 +5120,6 @@ export interface components {
     BrandBinding: {
       countryId?: string | null;
       name?: string | null;
-    };
-    BrowserLog: {
-      domain?: components["schemas"]["Domain"];
-      /** Format: date-time */
-      end?: string;
-      /** Format: date-time */
-      start?: string;
-      web?: components["schemas"]["Web"];
-    };
-    BrowserLogBinding: {
-      isSecured?: boolean;
-      /** Format: date-time */
-      end?: string;
-      /** Format: date-time */
-      start?: string;
-      deviceId?: string | null;
-      domain?: string | null;
-    };
-    BrowserLogPagedView: {
-      /** Format: int64 */
-      count?: number;
-      items?: components["schemas"]["BrowserLog"][] | null;
     };
     CallBinding: {
       number?: string | null;
@@ -5427,9 +5315,6 @@ export interface components {
     };
     /** @enum {string} */
     DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
-    Domain: {
-      id?: string | null;
-    };
     Expense: {
       /** Format: double */
       amount?: number;
@@ -5539,11 +5424,11 @@ export interface components {
       id?: string | null;
       airline?: components["schemas"]["Airline"];
       /** Format: date-time */
-      arrival?: string;
+      arrival?: string | null;
       /** Format: date-time */
       arrivalLocal?: string;
       /** Format: date-time */
-      departure?: string;
+      departure?: string | null;
       /** Format: date-time */
       departureLocal?: string;
       destination?: components["schemas"]["Airport"];
@@ -6038,6 +5923,13 @@ export interface components {
       departure?: string;
       typeId?: string | null;
     };
+    Route: {
+      id?: string | null;
+      name?: string | null;
+    };
+    RouteBinding: {
+      name?: string | null;
+    };
     /** @enum {string} */
     RouteTimeSort: "Date" | "Duration";
     StringDecimalKeyValuePair: {
@@ -6053,14 +5945,6 @@ export interface components {
     StringStringDecimalKeyValuePairIEnumerableKeyValuePair: {
       key?: string | null;
       value?: components["schemas"]["StringDecimalKeyValuePair"][] | null;
-    };
-    TimeByDay: {
-      /** Format: date-time */
-      day?: string;
-      /** Format: int32 */
-      seconds?: number;
-      /** Format: int32 */
-      sessions?: number;
     };
     Track: {
       artist?: components["schemas"]["Artist"];
@@ -6180,15 +6064,6 @@ export interface components {
       /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Vendor"][] | null;
-    };
-    Web: {
-      id?: string | null;
-      name?: string | null;
-    };
-    WebTime: {
-      /** Format: int32 */
-      seconds?: number;
-      webId?: string | null;
     };
   };
   responses: never;

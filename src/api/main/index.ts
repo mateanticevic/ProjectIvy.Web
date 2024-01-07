@@ -19,6 +19,7 @@ import location from './location';
 import movie from './movie';
 import poi from './poi';
 import ride from './ride';
+import route from './route';
 import todo from './todo';
 import token from './token';
 import tracking from './tracking';
@@ -26,7 +27,6 @@ import trip from './trip';
 import user from './user';
 import vendor from './vendor';
 import web from './web';
-
 const api = {
     account,
     airport,
@@ -49,6 +49,7 @@ const api = {
     movie,
     poi,
     ride,
+    route,
     todo,
     token,
     tracking,

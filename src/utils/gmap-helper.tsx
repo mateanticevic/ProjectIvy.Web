@@ -18,3 +18,8 @@ export const trackingsToLatLng = (trackings: Tracking[]): LatLng[] =>
     trackings.map(tracking => {
         return new google.maps.LatLng(tracking.latitude, tracking.longitude);
     });
+
+export const pointsToLatLng = (points: number[][]): LatLng[] =>
+    points.map(point => {
+        return new google.maps.LatLng(point[0], point[1]);
+    });
