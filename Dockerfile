@@ -14,7 +14,7 @@ COPY . .
 # Build the project and copy the files
 RUN npm run build
 
-FROM nginx:1.25.2
+FROM nginx:1.25.3
 
 #!/bin/sh
 
