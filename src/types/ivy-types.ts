@@ -2087,6 +2087,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2146,6 +2147,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2185,6 +2187,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2224,6 +2227,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2263,6 +2267,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2298,6 +2303,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2337,6 +2343,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2376,6 +2383,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2415,6 +2423,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2475,6 +2484,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2516,6 +2526,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2557,6 +2568,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2598,6 +2610,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2639,6 +2652,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2680,6 +2694,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2721,6 +2736,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2762,6 +2778,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2803,6 +2820,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2844,6 +2862,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2883,6 +2902,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2922,6 +2942,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -2961,6 +2982,7 @@ export interface paths {
           TypeId?: string[];
           VendorId?: string[];
           ExcludeId?: string[];
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -3299,6 +3321,52 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
+        };
+      };
+    };
+  };
+  "/Geohash/Unique": {
+    get: {
+      parameters: {
+        query?: {
+          OnlyNew?: boolean;
+          Precision?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": string[];
+            "application/json": string[];
+            "text/json": string[];
+          };
+        };
+      };
+    };
+  };
+  "/Geohash/Unique/Count": {
+    get: {
+      parameters: {
+        query?: {
+          OnlyNew?: boolean;
+          Precision?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": number;
+            "application/json": number;
+            "text/json": number;
+          };
         };
       };
     };
@@ -4345,6 +4413,14 @@ export interface paths {
   };
   "/Route": {
     get: {
+      parameters: {
+        query?: {
+          Search?: string;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+        };
+      };
       responses: {
         /** @description Success */
         200: {

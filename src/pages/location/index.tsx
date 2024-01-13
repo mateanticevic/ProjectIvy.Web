@@ -25,6 +25,9 @@ import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
 import { iconUrl } from 'utils/cdn-helper';
 import NewLocationModal from './new-location-modal';
+import AsyncSelect from 'react-select/async';
+import { routeLoader } from 'utils/select-loaders';
+import { Form } from 'react-router-dom';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -165,9 +168,6 @@ class LocationPage extends Page<unknown, State> {
 
         api.geohash.getChildren('root')
             .then(visitedGeohashes => this.setState({ visitedGeohashes }));
-
-        api.route.get()
-            .then(routes => this.setState({ routes }));
     }
 
     render() {
@@ -240,13 +240,16 @@ class LocationPage extends Page<unknown, State> {
                             </Card.Body>
                         </Card>
                         <Card>
-                            <Card.Header>Routes</Card.Header>
+                            <Card.Header>Layers</Card.Header>
                             <Card.Body>
-                                {routes.map(route =>
-                                    <div key={route.id} onClick={() => this.onRouteClick(route)}>
-                                        <a>{route.name}</a>
-                                    </div>
-                                )}
+                                <FormGroup>
+                                    <FormLabel>Routes</FormLabel>
+                                    <AsyncSelect
+                                        loadOptions={routeLoader}
+                                        onChange={route => this.onRouteClick(route.value, route.label)}
+                                        defaultOptions
+                                    />
+                                </FormGroup>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -580,14 +583,17 @@ class LocationPage extends Page<unknown, State> {
         this.onLayerUpdated(layer, updatedLayer);
     };
 
-    onRouteClick = (route: Route) => {
-        api.route.getPoints(route.id!)
+    onRouteClick = (id: string, routeName: string) => {
+        api.route.getPoints(id)
             .then(routePoints => {
                 this.setState({
                     routePoints: [
                         ...this.state.routePoints,
                         {
-                            route,
+                            route: {
+                                id,
+                                name: routeName,
+                            },
                             points: routePoints,
                         }
                     ]

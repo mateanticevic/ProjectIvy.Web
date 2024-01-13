@@ -16,6 +16,8 @@ export const beerLoader = (value, callback) => genericPagedLoader(api.beer.get, 
 export const cityLoader = (value, callback) =>  api.city.get({ search: value })
     .then(cities => callback(cities.items.map(city => ({ value: city.id, label: `${city.name}, ${city.country.name}` }))));
 
+export const routeLoader = (value, callback) => genericPagedLoader(api.route.get, value, callback);
+
 export const poiLoader = (value, callback) => genericPagedLoader(api.poi.get, value, callback);
 
 export const tripLoader = (value, callback) => genericPagedLoader(api.trip.get, value, callback);

@@ -1,6 +1,10 @@
 import * as api from '../config';
 
-const get = () => api.get('route');
+import { paths } from 'types/ivy-types';
+
+type Filter = paths['/Route']['get']['parameters'];
+
+const get = (filter: Filter) => api.get('route', filter);
 
 const getPoints = (id: string) => api.get(`route/${id}/points`);
 
