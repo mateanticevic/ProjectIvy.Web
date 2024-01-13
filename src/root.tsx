@@ -59,7 +59,6 @@ export default class Root extends React.Component<{}, State> {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        console.log(code);
 
         if (code) {
             fetch('https://auth.anticevic.net/realms/ivy/protocol/openid-connect/token', {
@@ -76,7 +75,6 @@ export default class Root extends React.Component<{}, State> {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
                     location = '/';
                 })

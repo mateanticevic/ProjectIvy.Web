@@ -29,44 +29,44 @@ const NavigationBar = ({ identity }: Props) =>
                 <Nav>
                     {identity.pif?.includes(Feature.Beer) &&
                         <NavDropdown id="nav-dropdown-finance" title="Finance">
-                            <NavDropdown.Item><MdAccountBalance /> <Link to="/accounts">Accounts</Link></NavDropdown.Item>
-                            <NavDropdown.Item><GiPayMoney /> <Link to="/expenses">Expenses</Link></NavDropdown.Item>
-                            <NavDropdown.Item><GiReceiveMoney /> <Link to="/incomes">Incomes</Link></NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/accounts"><MdAccountBalance /> Accounts</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/expenses"><GiPayMoney /> Expenses</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/incomes"><GiReceiveMoney /> Incomes</NavDropdown.Item>
                         </NavDropdown>
                     }
                     {identity.pif?.includes(Feature.Tracking) &&
                         <NavDropdown id="nav-dropdown-travel" title="Travel">
-                            <NavDropdown.Item><BiWorld /> <Link to="/countries">Countries</Link></NavDropdown.Item>
-                            <NavDropdown.Item><GiAirplaneDeparture /> <Link to="/flights">Flights</Link></NavDropdown.Item>
-                            <NavDropdown.Item><TiLocation /> <Link to="/pois">Pois</Link></NavDropdown.Item>
-                            <NavDropdown.Item><MdCardTravel /> <Link to="/trips">Trips</Link></NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/countries"><BiWorld /> Countries</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
                         </NavDropdown>
                     }
                     {identity.pif?.includes(Feature.Tracking) &&
                         <NavDropdown id="nav-dropdown-travel" title="Tracking">
-                            <NavDropdown.Item><FaRoute /> <Link to="/tracking">Tracking (old)</Link></NavDropdown.Item>
-                            <NavDropdown.Item><FaRoute /> <Link to="/location">Tracking</Link></NavDropdown.Item>
-                            <NavDropdown.Item><MdMyLocation /> <Link to="/locations">Locations</Link></NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking (old)</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/location"><FaRoute /> Tracking</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/locations"><MdMyLocation /> Locations</NavDropdown.Item>
                         </NavDropdown>
                     }
                     {identity.scope.includes(Scopes.BeerUser) &&
                         < NavDropdown id="nav-dropdown-beer" title="Beer">
-                            <NavDropdown.Item><TiBeer /> <Link to="/beer">Log</Link></NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/beer"><TiBeer /> Log</NavDropdown.Item>
                         </NavDropdown>
                     }
                     {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies)) &&
                         <NavDropdown id="nav-dropdown-other" title="Other">
                             {identity.pif?.includes(Feature.Calls) &&
-                                <NavDropdown.Item><MdCall /> <Link to="/calls">Calls</Link></NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
 
                             }
                             {identity.pif?.includes(Feature.Movies) &&
-                                <NavDropdown.Item><MdLocalMovies /> <Link to="/movies">Movies</Link></NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
                             }
                         </NavDropdown>
                     }
                     <NavDropdown id="nav-dropdown-account" title={identity.name}>
-                        <NavDropdown.Item><RiAccountCircleLine /> <Link to="/account">My account</Link></NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/account"><RiAccountCircleLine /> My account</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
                     </NavDropdown>
