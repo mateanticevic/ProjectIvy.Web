@@ -28,8 +28,8 @@ class LocationsPage extends Page<unknown, State> {
     };
 
     componentDidMount() {
-        api.location.get()
-            .then(locations => this.setState({ locations }));
+        api.location.get({ PageSize: 1000 })
+            .then(response => this.setState({ locations: response.items }));
     }
 
     render() {

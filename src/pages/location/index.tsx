@@ -18,19 +18,22 @@ import api from 'api/main';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { Geohash, Layer } from 'types/location';
 import { pointsToLatLng, trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
-import { DrawMode, MapMode } from 'consts/location';
+import { DrawMode, MapMode, NewType } from 'consts/location';
 import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
 import { GeohashFilters } from 'types/geohash';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
 import { iconUrl } from 'utils/cdn-helper';
-import NewLocationModal from './new-location-modal';
+import NewTrackingModal from './new-tracking-modal';
 import AsyncSelect from 'react-select/async';
-import { routeLoader } from 'utils/select-loaders';
-import { Form } from 'react-router-dom';
+import { locationLoader, routeLoader } from 'utils/select-loaders';
+import { FaLocationCrosshairs } from 'react-icons/fa6';
+import NewLocationModal from './new-location-modal';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
+type LocationType = components['schemas']['LocationType'];
+type LocationBinding = components['schemas']['LocationBinding'];
 type TrackingBinding = components['schemas']['TrackingBinding'];
 
 interface State {
@@ -43,10 +46,14 @@ interface State {
     last?: Tracking,
     lastNDays: LastNDays,
     layers: Layer[],
+    locationTypes: LocationType[],
     mapMode: MapMode,
     mapZoom: number,
     newLocationModalOpened: boolean,
+    newTrackingModalOpened: boolean,
+    newLocation: LocationBinding,
     newTracking: TrackingBinding,
+    newType: NewType,
     polygonLayers: PolygonLayer[],
     requestActive: boolean,
     routes: Route[],
@@ -147,11 +154,16 @@ class LocationPage extends Page<unknown, State> {
         geohashSegments: geohashCharacters,
         lastNDays: LastNDays.One,
         layers: [],
+        locationTypes: [],
         mapMode: MapMode.Drag,
         mapZoom: 0,
         newLocationModalOpened: false,
+        newTrackingModalOpened: false,
+        newLocation: {
+        },
         newTracking: {
         },
+        newType: NewType.Location,
         polygonLayers: [],
         requestActive: false,
         routes: [],
@@ -168,11 +180,15 @@ class LocationPage extends Page<unknown, State> {
 
         api.geohash.getChildren('root')
             .then(visitedGeohashes => this.setState({ visitedGeohashes }));
+
+        api.location.getTypes()
+            .then(locationTypes => this.setState({ locationTypes }));
     }
 
     render() {
 
-        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, routes, newLocationModalOpened, newTracking, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { newLocation, newTracking, newLocationModalOpened, newTrackingModalOpened } = this.state;
 
         const isMapReady = !!last;
 
@@ -242,6 +258,14 @@ class LocationPage extends Page<unknown, State> {
                         <Card>
                             <Card.Header>Layers</Card.Header>
                             <Card.Body>
+                                <FormGroup>
+                                    <FormLabel>Locations</FormLabel>
+                                    <AsyncSelect
+                                        loadOptions={locationLoader}
+                                        onChange={route => this.onRouteClick(route.value, route.label)}
+                                        defaultOptions
+                                    />
+                                </FormGroup>
                                 <FormGroup>
                                     <FormLabel>Routes</FormLabel>
                                     <AsyncSelect
@@ -364,12 +388,23 @@ class LocationPage extends Page<unknown, State> {
                                     value={mapMode}
                                     onChange={mapMode => this.setState({ mapMode })}
                                 >
-                                    <ToggleButton id="map-mode-drag" value={MapMode.Details}><RiDragMove2Fill /> Details</ToggleButton>
+                                    <ToggleButton id="map-mode-details" value={MapMode.Details}><RiDragMove2Fill /> Details</ToggleButton>
                                     <ToggleButton id="map-mode-drag" value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
                                     <ToggleButton id="map-mode-drop" value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
                                     <ToggleButton id="map-mode-select" value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
-                                    <ToggleButton id="map-mode-select" value={MapMode.New}><MdLocationOn /> New</ToggleButton>
+                                    <ToggleButton id="map-mode-new" value={MapMode.New}><MdLocationOn /> New</ToggleButton>
                                 </ToggleButtonGroup>
+                                {mapMode === MapMode.New &&
+                                    <ToggleButtonGroup
+                                        type="radio"
+                                        name="options"
+                                        value={mapMode}
+                                        onChange={newType => this.setState({ newType })}
+                                    >
+                                        <ToggleButton id="new-type-location" value={NewType.Location}><MdLocationOn /> Location</ToggleButton>
+                                        <ToggleButton id="new-type-tracking" value={NewType.Tracking}><FaLocationCrosshairs /> Tracking</ToggleButton>
+                                    </ToggleButtonGroup>
+                                }
                             </Card.Footer>
                         </Card>
                         {polygonLayers.map(layer =>
@@ -394,9 +429,17 @@ class LocationPage extends Page<unknown, State> {
                         )}
                     </Col>
                 </Row>
+                <NewTrackingModal
+                    isOpen={newTrackingModalOpened}
+                    tracking={newTracking}
+                    onChange={this.onNewTrackingChanged}
+                    onClose={() => this.setState({ newTrackingModalOpened: false })}
+                    onSave={this.onNewTrackingSave}
+                />
                 <NewLocationModal
                     isOpen={newLocationModalOpened}
-                    tracking={newTracking}
+                    location={newLocation}
+                    types={locationTypes}
                     onChange={this.onNewLocationChanged}
                     onClose={() => this.setState({ newLocationModalOpened: false })}
                     onSave={this.onNewLocationSave}
@@ -536,18 +579,30 @@ class LocationPage extends Page<unknown, State> {
     };
 
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
-        const { mapMode } = this.state;
+        const { mapMode, newType } = this.state;
 
         api.country.getSingle(event.latLng.lat(), event.latLng.lng())
             .then();
 
-        this.setState({
-            newLocationModalOpened: true,
-            newTracking: {
-                latitude: event.latLng.lat(),
-                longitude: event.latLng.lng(),
+        if (mapMode === MapMode.New) {
+            if (newType === NewType.Location) {
+                this.setState({
+                    newLocationModalOpened: true,
+                    newLocation: {
+                        latitude: event.latLng.lat(),
+                        longitude: event.latLng.lng(),
+                    }
+                });
+            } else if (newType === NewType.Tracking) {
+                this.setState({
+                    newTrackingModalOpened: true,
+                    newTracking: {
+                        latitude: event.latLng.lat(),
+                        longitude: event.latLng.lng(),
+                    }
+                });
             }
-        });
+        }
 
         if (mapMode === MapMode.Drop) {
             const layer = new PointLayer(event.latLng);
@@ -560,7 +615,16 @@ class LocationPage extends Page<unknown, State> {
         }
     };
 
-    onNewLocationChanged = (changed: Partial<TrackingBinding>) => {
+    onNewLocationChanged = (changed: Partial<LocationBinding>) => {
+        this.setState({
+            newLocation: {
+                ...this.state.newLocation,
+                ...changed,
+            }
+        });
+    };
+
+    onNewTrackingChanged = (changed: Partial<TrackingBinding>) => {
         this.setState({
             newTracking: {
                 ...this.state.newTracking,
@@ -570,8 +634,13 @@ class LocationPage extends Page<unknown, State> {
     };
 
     onNewLocationSave = () => {
-        api.tracking.post(this.state.newTracking)
+        api.location.post(this.state.newLocation)
             .then(() => this.setState({ newLocationModalOpened: false }));
+    };
+
+    onNewTrackingSave = () => {
+        api.tracking.post(this.state.newTracking)
+            .then(() => this.setState({ newTrackingModalOpened: false }));
     };
 
     onPolygonClip = (layer: PolygonLayer) => {

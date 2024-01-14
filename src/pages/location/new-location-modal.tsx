@@ -1,21 +1,23 @@
 import React from 'react';
-import { Button, FormControl, Modal, FloatingLabel, FormGroup, FormLabel } from 'react-bootstrap';
+import { Button, FormControl, Modal, FloatingLabel, FormGroup, FormLabel, Form } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import Datetime from 'react-datetime';
 
+import { Select } from 'components';
 import { components } from 'types/ivy-types';
 
-type TrackingBinding = components['schemas']['TrackingBinding'];
+type LocationType = components['schemas']['LocationType'];
+type LocationBinding = components['schemas']['LocationBinding'];
 
 interface Props {
     isOpen: boolean,
-    tracking: TrackingBinding,
-    onChange(changed: Partial<TrackingBinding>): void,
+    location: LocationBinding,
+    types: LocationType[],
+    onChange(changed: Partial<LocationBinding>): void,
     onClose(): void,
     onSave(): void,
 }
 
-const NewLocationModal = ({ isOpen, tracking, onChange, onClose, onSave }: Props) =>
+const NewLocationModal = ({ isOpen, location, types, onChange, onClose, onSave }: Props) =>
     <Modal
         backdrop="static"
         show={isOpen}
@@ -27,26 +29,28 @@ const NewLocationModal = ({ isOpen, tracking, onChange, onClose, onSave }: Props
         </Modal.Header>
         <Modal.Body>
             <div className="form-grid">
-                <FormGroup>
-                    <FormLabel>Departure</FormLabel>
-                    <Datetime
-                        dateFormat="YYYY-MM-DD"
-                        timeFormat="HH:mm:ss"
-                        onChange={x => onChange({ timestamp: x.format('YYYY-MM-DD HH:mm:ss') })}
+                <FloatingLabel label="Name">
+                    <Form.Control
+                        type="text"
+                        placeholder="Name"
+                        onChange={x => onChange({ name: x.target.value })}
                     />
-                </FormGroup>
+                </FloatingLabel>
+                <FloatingLabel label="Type">
+                    <Select options={types} onChange={typeId => onChange({ typeId })} />
+                </FloatingLabel>
                 <FloatingLabel label="Latitude">
                     <FormControl
-                        defaultValue={tracking.latitude}
+                        defaultValue={location.latitude}
                         type="number"
-                        onChange={x => onChange({ latitude: x })}
+                        onChange={latitude => onChange({ latitude })}
                     />
                 </FloatingLabel>
                 <FloatingLabel label="Longitude">
                     <FormControl
-                        defaultValue={tracking.longitude}
+                        defaultValue={location.longitude}
                         type="number"
-                        onChange={x => onChange({ longitude: x })}
+                        onChange={longitude => onChange({ longitude })}
                     />
                 </FloatingLabel>
             </div>

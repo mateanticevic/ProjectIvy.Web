@@ -80,10 +80,14 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          "BottomRight.Lat"?: number;
-          "BottomRight.Lng"?: number;
-          "TopLeft.Lat"?: number;
-          "TopLeft.Lng"?: number;
+          "BottomRight.Name"?: string;
+          "BottomRight.TypeId"?: string;
+          "BottomRight.Latitude"?: number;
+          "BottomRight.Longitude"?: number;
+          "TopLeft.Name"?: string;
+          "TopLeft.TypeId"?: string;
+          "TopLeft.Latitude"?: number;
+          "TopLeft.Longitude"?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
@@ -3666,14 +3670,38 @@ export interface paths {
   };
   "/Location": {
     get: {
+      parameters: {
+        query?: {
+          Search?: string;
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+        };
+      };
       responses: {
         /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Location"][];
-            "application/json": components["schemas"]["Location"][];
-            "text/json": components["schemas"]["Location"][];
+            "text/plain": components["schemas"]["LocationPagedView"];
+            "application/json": components["schemas"]["LocationPagedView"];
+            "text/json": components["schemas"]["LocationPagedView"];
           };
+        };
+      };
+    };
+    post: {
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["LocationBinding"];
+          "application/json": components["schemas"]["LocationBinding"];
+          "text/json": components["schemas"]["LocationBinding"];
+          "application/*+json": components["schemas"]["LocationBinding"];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
         };
       };
     };
@@ -3689,6 +3717,20 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
+        };
+      };
+    };
+  };
+  "/Location/Types": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["LocationType"][];
+            "application/json": components["schemas"]["LocationType"][];
+            "text/json": components["schemas"]["LocationType"][];
+          };
         };
       };
     };
@@ -4340,10 +4382,14 @@ export interface paths {
           CategoryId?: string;
           Name?: string;
           VendorId?: string;
-          "X.Lat"?: number;
-          "X.Lng"?: number;
-          "Y.Lat"?: number;
-          "Y.Lng"?: number;
+          "X.Name"?: string;
+          "X.TypeId"?: string;
+          "X.Latitude"?: number;
+          "X.Longitude"?: number;
+          "Y.Name"?: string;
+          "Y.TypeId"?: string;
+          "Y.Latitude"?: number;
+          "Y.Longitude"?: number;
           Search?: string;
           PageAll?: boolean;
           Page?: number;
@@ -4425,9 +4471,9 @@ export interface paths {
         /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["Route"][];
-            "application/json": components["schemas"]["Route"][];
-            "text/json": components["schemas"]["Route"][];
+            "text/plain": components["schemas"]["RoutePagedView"];
+            "application/json": components["schemas"]["RoutePagedView"];
+            "text/json": components["schemas"]["RoutePagedView"];
           };
         };
       };
@@ -4571,10 +4617,14 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          "BottomRight.Lat"?: number;
-          "BottomRight.Lng"?: number;
-          "TopLeft.Lat"?: number;
-          "TopLeft.Lng"?: number;
+          "BottomRight.Name"?: string;
+          "BottomRight.TypeId"?: string;
+          "BottomRight.Latitude"?: number;
+          "BottomRight.Longitude"?: number;
+          "TopLeft.Name"?: string;
+          "TopLeft.TypeId"?: string;
+          "TopLeft.Latitude"?: number;
+          "TopLeft.Longitude"?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
@@ -4684,10 +4734,14 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          "BottomRight.Lat"?: number;
-          "BottomRight.Lng"?: number;
-          "TopLeft.Lat"?: number;
-          "TopLeft.Lng"?: number;
+          "BottomRight.Name"?: string;
+          "BottomRight.TypeId"?: string;
+          "BottomRight.Latitude"?: number;
+          "BottomRight.Longitude"?: number;
+          "TopLeft.Name"?: string;
+          "TopLeft.TypeId"?: string;
+          "TopLeft.Latitude"?: number;
+          "TopLeft.Longitude"?: number;
           From?: string;
           To?: string;
           OrderAscending?: boolean;
@@ -5418,6 +5472,7 @@ export interface components {
       needsReview?: boolean;
       paymentType?: components["schemas"]["PaymentType"];
       vendor?: components["schemas"]["Vendor"];
+      name?: string | null;
     };
     ExpenseBinding: {
       /** Format: double */
@@ -5935,6 +5990,23 @@ export interface components {
       name?: string | null;
       geohashes?: string[] | null;
     };
+    LocationBinding: {
+      name?: string | null;
+      typeId?: string | null;
+      /** Format: double */
+      latitude?: number;
+      /** Format: double */
+      longitude?: number;
+    };
+    LocationPagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["Location"][] | null;
+    };
+    LocationType: {
+      id?: string | null;
+      name?: string | null;
+    };
     Manufacturer: {
       name?: string | null;
     };
@@ -6005,6 +6077,11 @@ export interface components {
     };
     RouteBinding: {
       name?: string | null;
+    };
+    RoutePagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["Route"][] | null;
     };
     /** @enum {string} */
     RouteTimeSort: "Date" | "Duration";

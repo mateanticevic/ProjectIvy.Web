@@ -10,3 +10,8 @@ export enum MapMode {
     Select,
     New
 }
+
+export enum NewType {
+    Location,
+    Tracking,
+}

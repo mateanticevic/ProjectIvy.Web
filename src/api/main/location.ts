@@ -1,12 +1,24 @@
 import * as api from '../config';
 
-const get = () => api.get('location');
+import { components } from 'types/ivy-types';
+import { paths } from 'types/ivy-types';
+
+type LocationBinding = components['schemas']['LocationBinding'];
+type Filter = paths['/Location']['get']['parameters']['query'];
+
+const get = (filter: Filter) => api.get('location', filter);
 
 const getDays = (locationId) => api.get(`location/${locationId}/days`);
+
+const getTypes = () => api.get('location/types');
+
+const post = (location: LocationBinding) => api.post('location', location);
 
 const location = {
     get,
     getDays,
+    getTypes,
+    post,
 };
 
 export default location;

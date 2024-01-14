@@ -18,6 +18,8 @@ export const cityLoader = (value, callback) => api.city.get({ search: value })
 
 export const expenseLoader = (value, callback) => genericPagedLoader(api.expense.get, value, callback);
 
+export const locationLoader = (value, callback) => genericPagedLoader(api.location.get, value, callback);
+
 export const routeLoader = (value, callback) => genericPagedLoader(api.route.get, value, callback);
 
 export const poiLoader = (value, callback) => genericPagedLoader(api.poi.get, value, callback);
