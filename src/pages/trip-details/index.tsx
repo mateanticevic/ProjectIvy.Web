@@ -11,7 +11,7 @@ import { Map, ValueLabel } from 'components';
 import ExpensePanel from '../expenses/expense-panel';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
-import { cityLoader } from 'utils/select-loaders';
+import { cityLoader, expenseLoader } from 'utils/select-loaders';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
 import { User } from 'types/users';
@@ -179,6 +179,11 @@ class TripDetailsPage extends React.Component<Props, State> {
                             onChange={city => this.addCity(city.value)}
                             defaultOptions
                         />
+                        <AsyncSelect
+                            loadOptions={expenseLoader}
+                            onChange={expense => this.addExpense(expense.value)}
+                            defaultOptions
+                        />
                     </Col>
                 </Row>
                 <Row>
@@ -212,11 +217,15 @@ class TripDetailsPage extends React.Component<Props, State> {
     }
 
     addCity = (cityId: string) => {
-        api.trip.postCity(this.state.trip.id, cityId);
+        api.trip.postCity(this.state.trip.id!, cityId);
     };
 
+    addExpense = (expenseId: string) => {
+        api.trip.postExpense(this.state.trip.id!, expenseId);
+    }
+
     deleteCity = (cityId: string) => {
-        api.trip.deleteCity(this.state.trip.id, cityId);
+        api.trip.deleteCity(this.state.trip.id!, cityId);
     };
 
     onExpensePageChange = (page) => {
