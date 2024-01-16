@@ -183,7 +183,7 @@ class LocationPage extends Page<unknown, State> {
 
         api.location.getTypes()
             .then(locationTypes => this.setState({ locationTypes }));
-    }
+    };
 
     render() {
 
@@ -412,12 +412,13 @@ class LocationPage extends Page<unknown, State> {
                                 key={layer.id}
                                 layer={layer}
                                 timezone={timezone}
+                                showTrackings={layer.showPoints}
                                 onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
-                                onDelete={() => this.onDeleteLayer(layer)}
+                                onRemove={() => this.onRemoveLayer(layer)}
                                 onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
-                                onShowPointsToggle={() => this.onLayerUpdated(layer, { showPoints: !layer.showPoints })}
                                 onShowStopsToggle={() => this.onLayerUpdated(layer, { showStops: !layer.showStops })}
+                                onShowTrackingsToggle={() => this.onLayerUpdated(layer, { showPoints: !layer.showPoints })}
                             />
                         )}
                         {selectedGeohashItems.map(geohash =>
@@ -446,7 +447,7 @@ class LocationPage extends Page<unknown, State> {
                 />
             </Container>
         );
-    }
+    };
 
     dateFilter = () => {
         const { dateMode, filterDay, lastNDays } = this.state;
@@ -463,13 +464,6 @@ class LocationPage extends Page<unknown, State> {
         return {
 
         };
-    };
-
-    deleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
-        api.tracking.del(moment.utc(tracking.timestamp).format('x'))
-            .then(() => {
-                this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
-            });
     };
 
     draw = () => {
@@ -526,19 +520,19 @@ class LocationPage extends Page<unknown, State> {
             });
     };
 
-    onDeleteLayer = (layer: PolygonLayer) => {
-        const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
-        this.setState({
-            polygonLayers: updatedLayers
-        });
-    };
-
     onDeleteGeohashTrackings = (geohash: Geohash) => {
         api.geohash.delTrackings(geohash.id)
             .then(() => {
                 this.setState({
                     selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id)
                 });
+            });
+    };
+
+    onDeleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
+        api.tracking.del(moment.utc(tracking.timestamp).format('x'))
+            .then(() => {
+                this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
             });
     };
 
@@ -576,6 +570,18 @@ class LocationPage extends Page<unknown, State> {
                     ...visitedGeohashes,
                 ]
             }));
+    };
+
+    onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {
+        const updatedLayer = {
+            ...layer,
+            ...updated,
+        } as PolygonLayer;
+
+        const polygonLayers = [...this.state.polygonLayers];
+        polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
+
+        this.setState({ polygonLayers });
     };
 
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
@@ -624,6 +630,11 @@ class LocationPage extends Page<unknown, State> {
         });
     };
 
+    onNewLocationSave = () => {
+        api.location.post(this.state.newLocation)
+            .then(() => this.setState({ newLocationModalOpened: false }));
+    };
+
     onNewTrackingChanged = (changed: Partial<TrackingBinding>) => {
         this.setState({
             newTracking: {
@@ -631,11 +642,6 @@ class LocationPage extends Page<unknown, State> {
                 ...changed,
             }
         });
-    };
-
-    onNewLocationSave = () => {
-        api.location.post(this.state.newLocation)
-            .then(() => this.setState({ newLocationModalOpened: false }));
     };
 
     onNewTrackingSave = () => {
@@ -650,6 +656,13 @@ class LocationPage extends Page<unknown, State> {
         } as PolygonLayer;
 
         this.onLayerUpdated(layer, updatedLayer);
+    };
+
+    onRemoveLayer = (layer: PolygonLayer) => {
+        const updatedLayers = this.state.polygonLayers.filter(x => x.id != layer.id);
+        this.setState({
+            polygonLayers: updatedLayers
+        });
     };
 
     onRouteClick = (id: string, routeName: string) => {
@@ -670,23 +683,21 @@ class LocationPage extends Page<unknown, State> {
             });
     };
 
-    onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {
-        const updatedLayer = {
-            ...layer,
-            ...updated,
-        } as PolygonLayer;
-
-        const polygonLayers = [...this.state.polygonLayers];
-        polygonLayers.splice(polygonLayers.indexOf(layer), 1, updatedLayer);
-
-        this.setState({ polygonLayers });
-    };
-
     onSelectGeohash = async (id: string) => {
         this.setState({
             selectedGeohashes: [
                 ...this.state.selectedGeohashes,
                 id,
+            ]
+        });
+    };
+
+    onSelectTracking = (tracking: Tracking) => {
+        const layer = new TrackingLayer(tracking);
+        this.setState({
+            layers: [
+                ...this.state.layers,
+                layer,
             ]
         });
     };
@@ -720,23 +731,13 @@ class LocationPage extends Page<unknown, State> {
                             key={_.uniqueId()}
                             icon="https://cdn.anticevic.net/icons/location.png"
                             position={trackingToLatLng(tracking)}
-                            onClick={() => this.deleteTracking(layer, tracking)}
+                            onClick={() => this.onDeleteTracking(layer, tracking)}
                         />
                     );
                 })}
         </React.Fragment>;
 
     renderPointsMemoized = React.memo(this.renderPoints, areLayersEqual);
-
-    selectTracking = (tracking: Tracking) => {
-        const layer = new TrackingLayer(tracking);
-        this.setState({
-            layers: [
-                ...this.state.layers,
-                layer,
-            ]
-        });
-    };
 }
 
 export default LocationPage;

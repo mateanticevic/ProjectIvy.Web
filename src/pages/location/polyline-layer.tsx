@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap';;
+import { Button, ButtonGroup, Card, Form, ToggleButton } from 'react-bootstrap';;
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
-import { AiOutlineDelete, AiOutlineScissor } from 'react-icons/ai';
-import { MdLocationOn } from 'react-icons/md';
+import { AiOutlineScissor } from 'react-icons/ai';
+import { IoMdClose } from 'react-icons/io';
 import { BiStopwatch } from 'react-icons/bi';
 import { ImRoad } from 'react-icons/im';
 import { RiPinDistanceFill } from 'react-icons/ri';
@@ -22,16 +22,17 @@ type Tracking = components['schemas']['Tracking'];
 
 interface Props {
     layer: PolygonLayer,
+    showTrackings: boolean,
     timezone?: string,
     onClip(): void,
-    onDelete(): void,
     onEndMarkerMoved(tracking: Tracking): void,
+    onRemove(): void,
     onStartMarkerMoved(tracking: Tracking): void,
-    onShowPointsToggle(layer: PolygonLayer, show: boolean): void,
-    onShowStopsToggle(layer: PolygonLayer, show: boolean): void,
+    onShowStopsToggle(): void,
+    onShowTrackingsToggle(): void,
 }
 
-const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, onShowPointsToggle, onShowStopsToggle, onStartMarkerMoved }: Props) => {
+const PolylineLayer = ({ layer, showTrackings, timezone, onClip, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -71,35 +72,20 @@ const PolylineLayer = ({ layer, timezone, onClip, onDelete, onEndMarkerMoved, on
                 <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
                 </Button>
-                <Button onClick={onDelete}>
-                    <AiOutlineDelete /> Delete
+                <Button onClick={onRemove}>
+                    <IoMdClose /> Remove
                 </Button>
                 &nbsp;
-                <ButtonGroup size="sm">
-                    <ToggleButton
-                        id={`toggle-points-${layer.id}`}
-                        type="checkbox"
-                        variant="secondary"
-                        checked={layer.showPoints}
-                        value="1"
-                        onChange={e => onShowPointsToggle(layer, e.currentTarget.checked)}
-                    >
-                        <MdLocationOn /> Points
-                    </ToggleButton>
-                </ButtonGroup>
-                &nbsp;
-                <ButtonGroup size="sm">
-                    <ToggleButton
-                        id={`toggle-stops-${layer.id}`}
-                        type="checkbox"
-                        variant="secondary"
-                        checked={layer.showStops}
-                        value="2"
-                        onChange={e => onShowStopsToggle(layer, e.currentTarget.checked)}
-                    >
-                        <BiStopwatch /> Stops
-                    </ToggleButton>
-                </ButtonGroup>
+                <Form.Check
+                    checked={showTrackings}
+                    onChange={e => onShowStopsToggle(layer, e.currentTarget.checked)}
+                    label="Show stops"
+                />
+                <Form.Check
+                    checked={showTrackings}
+                    onChange={e => onShowTrackingsToggle(layer, e.currentTarget.checked)}
+                    label="Show trackings"
+                />
                 <Slider
                     allowCross={false}
                     max={layer.trackings.length - 1}

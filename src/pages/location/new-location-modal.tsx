@@ -39,20 +39,6 @@ const NewLocationModal = ({ isOpen, location, types, onChange, onClose, onSave }
                 <FloatingLabel label="Type">
                     <Select options={types} onChange={typeId => onChange({ typeId })} />
                 </FloatingLabel>
-                <FloatingLabel label="Latitude">
-                    <FormControl
-                        defaultValue={location.latitude}
-                        type="number"
-                        onChange={latitude => onChange({ latitude })}
-                    />
-                </FloatingLabel>
-                <FloatingLabel label="Longitude">
-                    <FormControl
-                        defaultValue={location.longitude}
-                        type="number"
-                        onChange={longitude => onChange({ longitude })}
-                    />
-                </FloatingLabel>
             </div>
         </Modal.Body>
         <Modal.Footer>
