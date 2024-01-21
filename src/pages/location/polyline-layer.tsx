@@ -22,7 +22,6 @@ type Tracking = components['schemas']['Tracking'];
 
 interface Props {
     layer: PolygonLayer,
-    showTrackings: boolean,
     timezone?: string,
     onClip(): void,
     onEndMarkerMoved(tracking: Tracking): void,
@@ -32,7 +31,7 @@ interface Props {
     onShowTrackingsToggle(): void,
 }
 
-const PolylineLayer = ({ layer, showTrackings, timezone, onClip, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
+const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -72,17 +71,18 @@ const PolylineLayer = ({ layer, showTrackings, timezone, onClip, onRemove, onEnd
                 <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
                 </Button>
+                &nbsp;
                 <Button onClick={onRemove}>
                     <IoMdClose /> Remove
                 </Button>
                 &nbsp;
                 <Form.Check
-                    checked={showTrackings}
+                    checked={layer.showStops}
                     onChange={e => onShowStopsToggle(layer, e.currentTarget.checked)}
                     label="Show stops"
                 />
                 <Form.Check
-                    checked={showTrackings}
+                    checked={layer.showTrackings}
                     onChange={e => onShowTrackingsToggle(layer, e.currentTarget.checked)}
                     label="Show trackings"
                 />

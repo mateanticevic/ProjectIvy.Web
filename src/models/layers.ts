@@ -31,8 +31,8 @@ export class GeohashLayer implements Layer {
 export class PolygonLayer implements Layer {
     id: string;
     endTracking: Tracking;
-    showPoints = false;
     showStops = false;
+    showTrackings = false;
     startTracking: Tracking;
     stops: Stop[];
     trackings: Tracking[];

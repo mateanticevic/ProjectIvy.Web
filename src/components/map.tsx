@@ -37,7 +37,6 @@ const Map = ({ onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, ch
     }, []);
 
     const options: google.maps.MapOptions = {
-        fullscreenControl: false,
         mapTypeControl: false,
         streetViewControl: false,
         zoomControl: false,

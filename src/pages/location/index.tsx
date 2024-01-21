@@ -3,8 +3,8 @@ import { Card, Col, Container, FormGroup, FormLabel, Row, ToggleButton, ToggleBu
 import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
 import { InfoWindow, Marker, Polyline, Rectangle, MarkerClusterer, MarkerF } from '@react-google-maps/api';
-import { MdLocationOn, MdToday } from 'react-icons/md';
-import { FaDrawPolygon, FaHashtag, FaRegCalendarAlt } from 'react-icons/fa';
+import { MdDelete, MdLocationOn, MdToday } from 'react-icons/md';
+import { FaDrawPolygon, FaHashtag, FaPlus, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
 import moment from 'moment';
 import mtz from 'moment-timezone';
@@ -29,6 +29,7 @@ import AsyncSelect from 'react-select/async';
 import { locationLoader, routeLoader } from 'utils/select-loaders';
 import { FaLocationCrosshairs } from 'react-icons/fa6';
 import NewLocationModal from './new-location-modal';
+import { CgDetailsMore } from 'react-icons/cg';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -133,7 +134,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     for (let i = 0; i < oldLayers.length; i++) {
         const oldPolygonLayer = oldLayers[i];
         const newPolygonLayer = newLayers[i];
-        if (oldPolygonLayer.showPoints !== newPolygonLayer.showPoints
+        if (oldPolygonLayer.showTrackings !== newPolygonLayer.showTrackings
             || oldPolygonLayer.showStops !== newPolygonLayer.showStops
             || oldPolygonLayer.trackings.length !== newPolygonLayer.trackings.length) {
             return false;
@@ -388,11 +389,12 @@ class LocationPage extends Page<unknown, State> {
                                     value={mapMode}
                                     onChange={mapMode => this.setState({ mapMode })}
                                 >
-                                    <ToggleButton id="map-mode-details" value={MapMode.Details}><RiDragMove2Fill /> Details</ToggleButton>
                                     <ToggleButton id="map-mode-drag" value={MapMode.Drag}><RiDragMove2Fill /> Drag</ToggleButton>
                                     <ToggleButton id="map-mode-drop" value={MapMode.Drop}><MdLocationOn /> Drop</ToggleButton>
                                     <ToggleButton id="map-mode-select" value={MapMode.Select}><BiRectangle /> Select</ToggleButton>
-                                    <ToggleButton id="map-mode-new" value={MapMode.New}><MdLocationOn /> New</ToggleButton>
+                                    <ToggleButton id="map-mode-details" value={MapMode.Details}><CgDetailsMore /> Details</ToggleButton>
+                                    <ToggleButton id="map-mode-new" value={MapMode.New}><FaPlus /> New</ToggleButton>
+                                    <ToggleButton id="map-mode-delete" value={MapMode.Delete} variant="danger"><MdDelete /> Delete</ToggleButton>
                                 </ToggleButtonGroup>
                                 {mapMode === MapMode.New &&
                                     <ToggleButtonGroup
@@ -412,13 +414,12 @@ class LocationPage extends Page<unknown, State> {
                                 key={layer.id}
                                 layer={layer}
                                 timezone={timezone}
-                                showTrackings={layer.showPoints}
                                 onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
                                 onRemove={() => this.onRemoveLayer(layer)}
                                 onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
                                 onShowStopsToggle={() => this.onLayerUpdated(layer, { showStops: !layer.showStops })}
-                                onShowTrackingsToggle={() => this.onLayerUpdated(layer, { showPoints: !layer.showPoints })}
+                                onShowTrackingsToggle={() => this.onLayerUpdated(layer, { showTrackings: !layer.showTrackings })}
                             />
                         )}
                         {selectedGeohashItems.map(geohash =>
@@ -529,13 +530,6 @@ class LocationPage extends Page<unknown, State> {
             });
     };
 
-    onDeleteTracking = (layer: PolygonLayer, tracking: Tracking) => {
-        api.tracking.del(moment.utc(tracking.timestamp).format('x'))
-            .then(() => {
-                this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
-            });
-    };
-
     onGeohashSegmentClick = (geohashId: string) => {
 
         if (this.state.mapMode === MapMode.Select) {
@@ -619,6 +613,17 @@ class LocationPage extends Page<unknown, State> {
                 ],
             });
         }
+    };
+
+    onMarkerClick = (layer: PolygonLayer, tracking: Tracking) => {
+        if (this.state.mapMode !== MapMode.Delete) {
+            return;
+        }
+
+        api.tracking.del(moment.utc(tracking.timestamp).format('x'))
+            .then(() => {
+                this.onLayerUpdated(layer, { trackings: layer.trackings.filter(x => x != tracking) });
+            });
     };
 
     onNewLocationChanged = (changed: Partial<LocationBinding>) => {
@@ -724,14 +729,14 @@ class LocationPage extends Page<unknown, State> {
 
     renderPoints = ({ layers }: PolygonProps) =>
         <React.Fragment>
-            {layers.filter(layer => layer.showPoints)
+            {layers.filter(layer => layer.showTrackings)
                 .map(layer => {
                     return layer.trackings.map(tracking =>
                         <Marker
                             key={_.uniqueId()}
                             icon="https://cdn.anticevic.net/icons/location.png"
                             position={trackingToLatLng(tracking)}
-                            onClick={() => this.onDeleteTracking(layer, tracking)}
+                            onClick={() => this.onMarkerClick(layer, tracking)}
                         />
                     );
                 })}
