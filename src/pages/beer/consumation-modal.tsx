@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
@@ -10,6 +10,8 @@ import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { components } from 'types/ivy-types';
+import { SelectOption } from 'types/common';
+import { Unit } from 'consts/units';
 
 type Beer = components['schemas']['Beer'];
 type BeerBrand = components['schemas']['BeerBrand'];
@@ -28,7 +30,52 @@ interface Props {
     onSave(): void;
 }
 
+enum unit {
+    ml = 'ml',
+    oz = 'oz',
+    imperialPint = 'imperialPint',
+    usPint = 'usPint',
+    auPint = 'auPint',
+};
+
+const units: SelectOption[] = [
+    { name: 'ml', id: unit.ml },
+    { name: 'oz', id: unit.oz },
+    { name: 'pint (UK)', id: unit.imperialPint },
+    { name: 'pint (AU)', id: unit.auPint },
+    { name: 'pint (US)', id: unit.usPint },
+];
+
+const convertToMl = (volume: number, selectedUnit: unit) => {
+    switch (selectedUnit) {
+        case unit.ml:
+            return volume;
+        case unit.oz:
+            return volume * 29.5735;
+        case unit.imperialPint:
+            return volume * 568.261;
+        case unit.auPint:
+            return volume * 570;
+        case unit.usPint:
+            return volume * 473.176;
+    }
+}
+
 const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, onSave, servings }: Props) => {
+
+    const [ selectedUnit, setUnit ] = useState(unit.ml);
+    const [ volume, setVolume ] = useState(0);
+
+    const setConsumationVolume = (newVolume?: number, unit?: unit) => {
+        if (newVolume) {
+            onChange({ volume: Math.round(convertToMl(newVolume, selectedUnit)) });
+            setVolume(newVolume);
+        }
+        else if (unit && consumation.volume) {
+            setUnit(unit);
+            onChange({ volume: Math.round(convertToMl(volume, unit)) });
+        }
+    };
 
     return (
         <Modal
@@ -76,9 +123,13 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                         <FormControl
                             disabled={disabled}
                             type="number"
-                            onChange={x => onChange({ volume: parseInt(x.target.value) })}
+                            onChange={x => setConsumationVolume(parseInt(x.target.value), undefined)}
                         />
-                        <InputGroup.Text>ml</InputGroup.Text>
+                        <InputGroup.Text><Select
+                            options={units}
+                            hideDefaultOption={true}
+                            onChange={selectedUnit => setConsumationVolume(undefined, selectedUnit as unit)}
+                        /></InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
                 <FormGroup>
