@@ -11,7 +11,6 @@ import { beerLoader } from 'utils/select-loaders';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { components } from 'types/ivy-types';
 import { SelectOption } from 'types/common';
-import { Unit } from 'consts/units';
 
 type Beer = components['schemas']['Beer'];
 type BeerBrand = components['schemas']['BeerBrand'];

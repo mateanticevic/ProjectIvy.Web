@@ -1,6 +1,7 @@
 import account from './account';
 import airport from './airport';
 import beer from './beer';
+import calendar from './calendar';
 import call from './call';
 import car from './car';
 import card from './card';
@@ -27,10 +28,12 @@ import trip from './trip';
 import user from './user';
 import vendor from './vendor';
 import web from './web';
+
 const api = {
     account,
     airport,
     beer,
+    calendar,
     call,
     car,
     card,

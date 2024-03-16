@@ -342,6 +342,49 @@ export interface paths {
       };
     };
   };
+  "/Calendar/Section": {
+    get: {
+      parameters: {
+        query?: {
+          from?: string;
+          to?: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["CalendarSection"];
+            "application/json": components["schemas"]["CalendarSection"];
+            "text/json": components["schemas"]["CalendarSection"];
+          };
+        };
+      };
+    };
+  };
+  "/Calendar/{date}": {
+    patch: {
+      parameters: {
+        path: {
+          date: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": components["schemas"]["CalendarDayUpdateBinding"];
+          "application/json": components["schemas"]["CalendarDayUpdateBinding"];
+          "text/json": components["schemas"]["CalendarDayUpdateBinding"];
+          "application/*+json": components["schemas"]["CalendarDayUpdateBinding"];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Call": {
     get: {
       parameters: {
@@ -5251,6 +5294,18 @@ export interface components {
       countryId?: string | null;
       name?: string | null;
     };
+    CalendarDay: {
+      isHoliday?: boolean;
+      /** Format: date-time */
+      date?: string;
+      workDayType?: components["schemas"]["WorkDayType"];
+    };
+    CalendarDayUpdateBinding: {
+      workDayTypeId?: string | null;
+    };
+    CalendarSection: {
+      days?: components["schemas"]["CalendarDay"][] | null;
+    };
     CallBinding: {
       number?: string | null;
       /** Format: date-time */
@@ -6217,6 +6272,10 @@ export interface components {
       /** Format: int64 */
       count?: number;
       items?: components["schemas"]["Vendor"][] | null;
+    };
+    WorkDayType: {
+      id?: string | null;
+      name?: string | null;
     };
   };
   responses: never;

@@ -8,11 +8,12 @@ interface Props {
     defaultOptionValue?: string;
     hideDefaultOption?: boolean;
     options: SelectOption[];
+    defaultSelected?: string;
     selected?: string;
     onChange: (id: string) => void;
 }
 
-const Select = ({ options, onChange, defaultOptionId, defaultOptionValue, selected, hideDefaultOption }: Props) => {
+const Select = ({ defaultSelected, options, onChange, defaultOptionId, defaultOptionValue, selected, hideDefaultOption }: Props) => {
 
     defaultOptionId = defaultOptionId ? defaultOptionId : undefined;
     defaultOptionValue = defaultOptionValue ? defaultOptionValue : 'Any';
@@ -27,6 +28,7 @@ const Select = ({ options, onChange, defaultOptionId, defaultOptionValue, select
             onChange={(e) => onChange((e.target as HTMLInputElement).value)}
             placeholder="select"
             value={selected}
+            defaultValue={defaultSelected}
         >
             {!hideDefaultOption &&
                 <option value={defaultOptionId}>{defaultOptionValue}</option>

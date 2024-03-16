@@ -71,6 +71,22 @@ export function del(resource: string, parameters?: string) {
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
+export function patch(resource: string, json?: object, parameters?: string) {
+
+    headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
+
+    const init: RequestInit = {
+        body: JSON.stringify(json),
+        cache: 'default',
+        credentials: 'include',
+        headers,
+        method: httpMethod.PATCH,
+        mode: 'cors',
+    };
+
+    return fetch(apiPath(resource, parameters), init).then(handleResponse);
+}
+
 export function post(resource: string, json?: object, parameters?: string) {
 
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
