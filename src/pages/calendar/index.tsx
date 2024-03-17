@@ -19,7 +19,7 @@ class CalendarPage extends Page<unknown, State> {
     }
 
     componentDidMount() {
-        api.calendar.getSection('2024-4-1', '2024-5-1')
+        api.calendar.getSection('2024-2-1', '2024-3-1')
             .then(calendarSection => {
                 this.setState({ calendarSection });
             });
@@ -29,14 +29,17 @@ class CalendarPage extends Page<unknown, State> {
         const { calendarSection } = this.state;
         return (
             <Container>
-                {calendarSection?.days?.map(day =>
-                    <CalendarDay
-                        key={moment(day.date).format('YYYY-MM-dd')}
-                        day={day}
-                        onWorkDayTypeChange={workDayTypeId => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayTypeId)}
-                    />
-                )}
-            </Container>
+                <div className="calendar-container">
+                    {calendarSection?.days?.reverse().map((day, i) =>
+                        <CalendarDay
+                            key={moment(day.date).format('YYYY-MM-dd')}
+                            day={day}
+                            offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
+                            onWorkDayTypeChange={workDayTypeId => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayTypeId)}
+                        />
+                    )}
+                </div>
+            </Container >
         );
     }
 

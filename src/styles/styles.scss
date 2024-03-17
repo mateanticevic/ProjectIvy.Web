@@ -408,3 +408,15 @@ body #app {
     width: 400px;
   }
 }
+
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.calendar-item {
+  &:first-child {
+    grid-column-start: var(--offset);
+  }
+}

@@ -9,6 +9,7 @@ type CalendarDay = components['schemas']['CalendarDay'];
 
 interface Props {
     day: CalendarDay;
+    offset?: number;
     onWorkDayTypeChange(workDayTypeId: string): void;
 }
 
@@ -18,12 +19,16 @@ const workDayTypes = [
     { id: 'vacation', name: 'Vacation' },
 ];
 
-export const CalendarDay = ({ day, onWorkDayTypeChange }: Props) => {
+export const CalendarDay = ({ day, offset, onWorkDayTypeChange }: Props) => {
 
     const momentDay = moment(day.date);
 
+    const style = {
+        '--offset': offset,
+    };
+
     return (
-        <Card>
+        <Card className="calendar-item" style={style}>
             <Card.Header>{momentDay.format('Do ddd')}</Card.Header>
             <Card.Body>
                 {day.isHoliday && 'Holiday'}
