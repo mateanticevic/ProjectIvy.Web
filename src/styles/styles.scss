@@ -420,3 +420,15 @@ body #app {
     grid-column-start: var(--offset);
   }
 }
+
+.calendar-item.holiday {
+  background: #f8ffcdf1;
+}
+
+.calendar-item.vacation {
+  background: #c9f9d8f1;
+}
+
+.calendar-item.weekend {
+  background: #cfe4f5f1;
+}

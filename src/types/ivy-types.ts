@@ -342,7 +342,7 @@ export interface paths {
       };
     };
   };
-  "/Calendar/Section": {
+  "/Calendar/Days": {
     get: {
       parameters: {
         query?: {
@@ -5295,6 +5295,7 @@ export interface components {
       name?: string | null;
     };
     CalendarDay: {
+      countries?: components["schemas"]["Country"][] | null;
       isHoliday?: boolean;
       /** Format: date-time */
       date?: string;

@@ -51,7 +51,7 @@ class CalendarPage extends Page<unknown, State> {
     }
 
     onMonthChanged = (month: Moment) => {
-        api.calendar.getSection(month.startOf('month').format('YYYY-MM-DD'), month.clone().endOf('month').format('YYYY-MM-DD'))
+        api.calendar.getDays(month.startOf('month').format('YYYY-MM-DD'), month.clone().endOf('month').format('YYYY-MM-DD'))
             .then(calendarSection => {
                 this.setState({
                     calendarSection,
