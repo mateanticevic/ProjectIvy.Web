@@ -18,6 +18,7 @@ const workDayTypes = [
     { id: 'office', name: 'Office' },
     { id: 'remote', name: 'Remote' },
     { id: 'vacation', name: 'Vacation' },
+    { id: 'sick-leave', name: 'Sick leave' },
 ];
 
 export const CalendarDay = ({ day, offset, onWorkDayTypeChange }: Props) => {
@@ -29,9 +30,10 @@ export const CalendarDay = ({ day, offset, onWorkDayTypeChange }: Props) => {
     };
 
     const classes = classNames('calendar-item', {
-        'weekend': (momentDay.day() === 0 || momentDay.day() === 6) && !day.isHoliday,
         'holiday': day.isHoliday,
+        'today': momentDay.isSame(moment(), 'day'),
         'vacation': day.workDayType?.id === 'vacation' && !day.isHoliday,
+        'weekend': (momentDay.day() === 0 || momentDay.day() === 6) && !day.isHoliday,
     });
 
     return (

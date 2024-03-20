@@ -432,3 +432,7 @@ body #app {
 .calendar-item.weekend {
   background: #cfe4f5f1;
 }
+
+.calendar-item.today {
+  border: solid;
+}
