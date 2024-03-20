@@ -7,18 +7,28 @@ import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
 import moment, { Moment } from 'moment';
+import { useParams } from 'react-router-dom';
 
 type CalendarSection = components['schemas']['CalendarSection'];
+
+interface PagePath {
+    year: string;
+    month: string;
+}
+
+interface Props {
+    params: PagePath;
+}
 
 interface State {
     calendarSection?: CalendarSection;
     startDay: Moment;
 }
 
-class CalendarPage extends Page<unknown, State> {
+class CalendarPage extends Page<Props, State> {
 
     state: State = {
-        startDay: moment().startOf('month')
+        startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month')
     }
 
     componentDidMount() {
@@ -65,4 +75,4 @@ class CalendarPage extends Page<unknown, State> {
     }
 }
 
-export default CalendarPage;
+export default () => <CalendarPage params={useParams() as PagePath} />;
