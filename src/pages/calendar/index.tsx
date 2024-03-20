@@ -8,6 +8,7 @@ import api from 'api/main';
 import { CalendarDay } from './calendar-day';
 import moment, { Moment } from 'moment';
 import { useParams } from 'react-router-dom';
+import { SelectOption } from 'types/common';
 
 type CalendarSection = components['schemas']['CalendarSection'];
 
@@ -44,6 +45,7 @@ class CalendarPage extends Page<Props, State> {
                     inputProps={{ readOnly: true }}
                     dateFormat="MMMM YYYY"
                     timeFormat={false}
+                    value={this.state.startDay}
                     onChange={month => this.onMonthChanged(month as Moment)}
                 />
                 <div className="calendar-container">
@@ -52,7 +54,7 @@ class CalendarPage extends Page<Props, State> {
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
-                            onWorkDayTypeChange={workDayTypeId => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayTypeId)}
+                            onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
                         />
                     )}
                 </div>
@@ -70,8 +72,30 @@ class CalendarPage extends Page<Props, State> {
             });
     }
 
-    onWorkDayTypeChange = (date: string, workDayTypeId: string) => {
-        api.calendar.patch(date, workDayTypeId);
+    onWorkDayTypeChange = (date: string, workDayType: SelectOption) => {
+        const { calendarSection } = this.state;
+        if (calendarSection) {
+            const updatedDays = calendarSection.days.map(day => {
+                console.log(moment(day.date).format('YYYY-MM-DD'));
+                if (moment(day.date).format('YYYY-MM-DD') === date) {
+                    return {
+                        ...day,
+                        workDayType: {
+                            id: workDayType.id,
+                            name: workDayType.name
+                        }
+                    };
+                }
+                return day;
+            }).reverse();
+            this.setState({
+                calendarSection: {
+                    ...calendarSection,
+                    days: updatedDays
+                }
+            });
+        }
+        api.calendar.patch(date, workDayType.id);
     }
 }
 
