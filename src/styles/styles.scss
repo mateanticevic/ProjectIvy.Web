@@ -411,13 +411,19 @@ body #app {
 
 .calendar-container {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+  grid-template-columns: repeat(7, 1fr);
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .calendar-item {
   &:first-child {
-    grid-column-start: var(--offset);
+    @media (min-width: 1200px) {
+      grid-column-start: var(--offset);
+    }
   }
 }
 

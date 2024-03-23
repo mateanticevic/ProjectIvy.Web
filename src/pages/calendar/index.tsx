@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { SelectOption } from 'types/common';
 import MapModal from './map-modal';
 import { KeyValuePair } from 'types/grouping';
+import _ from 'lodash';
 
 type CalendarSection = components['schemas']['CalendarSection'];
 type Location = components['schemas']['Location'];
@@ -59,6 +60,8 @@ class CalendarPage extends Page<Props, State> {
                     value={this.state.startDay}
                     onChange={month => this.onMonthChanged(month as Moment)}
                 />
+                {/* {Object.entries(_.groupBy(calendarSection?.days, d => d.workDayType)).map((days, key) => days.length )} */}
+                {calendarSection?.days?.filter(d => d.workDayType?.id === 'remote').length}
                 <div className="calendar-container">
                     {calendarSection?.days?.slice().reverse().map((day, i) =>
                         <CalendarDay
