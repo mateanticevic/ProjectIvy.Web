@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
+import { IoCalendarNumber } from "react-icons/io5";
 
 import Select from 'components/select';
 import { components } from 'types/ivy-types';
@@ -37,6 +38,7 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
     const momentDay = moment(day.date);
 
     const isWeekend = momentDay.day() === 0 || momentDay.day() === 6;
+    const isWorkingDay = !isWeekend && !day.isHoliday && day.workDayType?.id !== 'vacation' && day.workDayType?.id !== 'sick-leave' && day.workDayType?.id !== 'business-trip';
 
     const style = {
         '--offset': offset,
@@ -47,6 +49,7 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
         'today': momentDay.isSame(moment(), 'day'),
         'vacation': day.workDayType?.id === 'vacation' && !day.isHoliday,
         'weekend': isWeekend && !day.isHoliday,
+        'working-day': isWorkingDay,
     });
 
     const places = locations.concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
@@ -60,7 +63,18 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
         >
             <Card.Header onClick={onShowMap}>{momentDay.format('Do ddd')}</Card.Header>
             <Card.Body>
-                {day.isHoliday && 'Holiday'}
+                <ListGroup>
+                    {places.filter(c => c.id !== 'HR').map(place =>
+                        <ListGroup.Item key={place.id}>
+                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />} {place.name}
+                        </ListGroup.Item>
+                    )}
+                </ListGroup>
+            </Card.Body>
+            <Card.Footer>
+                {day.isHoliday &&
+                    <IoCalendarNumber />
+                }
                 {isEdit && !day.isHoliday && !isWeekend &&
                     <Select
                         hideDefaultOption
@@ -74,14 +88,7 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
                         <WorkDayTypeIcon id={day.workDayType?.id} />
                     </span>
                 }
-                <ListGroup>
-                    {places.filter(c => c.id !== 'HR').map(place =>
-                        <ListGroup.Item key={place.id}>
-                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />} {place.name}
-                        </ListGroup.Item>
-                    )}
-                </ListGroup>
-            </Card.Body>
+            </Card.Footer>
         </Card>
     );
 }

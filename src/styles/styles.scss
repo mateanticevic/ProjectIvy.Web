@@ -430,7 +430,11 @@ body #app {
 }
 
 .calendar-item.weekend {
-  background: #cfe4f5f1;
+  background: #98caf4f1;
+}
+
+.calendar-item.working-day {
+  background: #c9e0f4f1;
 }
 
 .calendar-item.today {

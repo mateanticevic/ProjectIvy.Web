@@ -1,8 +1,7 @@
 import React from 'react';
-import { FaLaptop } from 'react-icons/fa';
+import { FaBusinessTime, FaLaptop } from 'react-icons/fa';
 import { FaTemperatureFull } from 'react-icons/fa6';
 import { GiPalmTree } from 'react-icons/gi';
-import { ImOffice } from 'react-icons/im';
 import { MdBusinessCenter } from 'react-icons/md';
 
 enum WorkDayType {
@@ -19,10 +18,10 @@ interface Props {
 
 export const WorkDayTypeIcon = ({ id }: Props) => {
     if (id === WorkDayType.BusinessTrip) {
-        return <MdBusinessCenter />;
+        return <FaBusinessTime />;
     }
     else if (id === WorkDayType.Office) {
-        return <ImOffice />;
+        return <MdBusinessCenter />;
     }
     else if (id === WorkDayType.Remote) {
         return <FaLaptop />;
@@ -34,8 +33,8 @@ export const WorkDayTypeIcon = ({ id }: Props) => {
         return <FaTemperatureFull />;
     }
     else if (!id) {
-        return <ImOffice />;
+        return <MdBusinessCenter />;
     }
 
-    return <ImOffice />;
+    return <MdBusinessCenter />;
 }
