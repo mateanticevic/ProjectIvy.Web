@@ -48,6 +48,8 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
         'weekend': isWeekend && !day.isHoliday,
     });
 
+    const places = locations.concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
+
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
     return (
@@ -71,12 +73,11 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
                         {day.workDayType?.name ?? workDayTypes[0].name}
                     </span>
                 }
-                {day.countries?.filter(c => c.id !== 'HR').map(country =>
-                    <span className={`flag-icon flag-icon-${country.id?.toLowerCase()} country-flag`} />
-                )}
                 <ListGroup>
-                    {locations.map(location =>
-                        <ListGroup.Item>{location.name}</ListGroup.Item>
+                    {places.filter(c => c.id !== 'HR').map(place =>
+                        <ListGroup.Item key={place.id}>
+                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />} {place.name}
+                        </ListGroup.Item>
                     )}
                 </ListGroup>
             </Card.Body>
