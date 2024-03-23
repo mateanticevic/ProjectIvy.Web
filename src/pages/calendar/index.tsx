@@ -15,6 +15,7 @@ import { KeyValuePair } from 'types/grouping';
 import _ from 'lodash';
 
 type CalendarSection = components['schemas']['CalendarSection'];
+type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
 type Tracking = components['schemas']['Tracking'];
 
@@ -29,6 +30,7 @@ interface Props {
 
 interface State {
     calendarSection?: CalendarSection;
+    flights: Flight[];
     isMapModalOpen: boolean;
     locationsByDay: KeyValuePair<Location[]>[];
     startDay: Moment;
@@ -38,6 +40,7 @@ interface State {
 class CalendarPage extends Page<Props, State> {
 
     state: State = {
+        flights: [],
         locationsByDay: [],
         isMapModalOpen: false,
         startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month'),
@@ -50,7 +53,7 @@ class CalendarPage extends Page<Props, State> {
     }
 
     render() {
-        const { calendarSection } = this.state;
+        const { calendarSection, flights, locationsByDay } = this.state;
         return (
             <Container>
                 <Datetime
@@ -67,7 +70,8 @@ class CalendarPage extends Page<Props, State> {
                         <CalendarDay
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
-                            locations={this.state.locationsByDay.filter(l => moment(l.key).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))[0]?.value || []}
+                            flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
+                            locations={locationsByDay.filter(l => moment(l.key).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))[0]?.value || []}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
                             onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
                             onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
@@ -95,17 +99,26 @@ class CalendarPage extends Page<Props, State> {
     }
 
     onMonthChanged = (month: Moment) => {
-        api.calendar.getDays(month.startOf('month').format('YYYY-MM-DD'), month.clone().endOf('month').format('YYYY-MM-DD'))
+        const from = month.startOf('month').format('YYYY-MM-DD');
+        const to = month.clone().endOf('month').format('YYYY-MM-DD');
+
+        api.calendar.getDays(from, to)
             .then(calendarSection => {
                 this.setState({
                     calendarSection,
                     startDay: month.startOf('month')
                 });
             });
-        api.location.getByDay(month.startOf('month').format('YYYY-MM-DD'), month.clone().endOf('month').format('YYYY-MM-DD'))
+        api.location.getByDay(from, to)
             .then(locationsByDay => {
                 this.setState({
                     locationsByDay,
+                });
+            });
+        api.flight.get({ from, to })
+            .then(data => {
+                this.setState({
+                    flights: data.items,
                 });
             });
     }

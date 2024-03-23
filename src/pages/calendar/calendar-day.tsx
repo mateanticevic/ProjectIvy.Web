@@ -1,19 +1,22 @@
 import moment from 'moment';
 import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
-import { IoCalendarNumber } from "react-icons/io5";
 
 import Select from 'components/select';
 import { components } from 'types/ivy-types';
 import classNames from 'classnames';
 import { SelectOption } from 'types/common';
 import { WorkDayTypeIcon } from './work-day-type-icon';
+import { MdOutlineAirplanemodeActive } from 'react-icons/md';
+import { IoMdHome } from 'react-icons/io';
 
 type CalendarDay = components['schemas']['CalendarDay'];
+type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
 
 interface Props {
     day: CalendarDay;
+    flights: Flight[];
     locations: Location[];
     offset?: number;
     onShowMap?(): void;
@@ -28,7 +31,7 @@ const workDayTypes = [
     { id: 'business-trip', name: 'Business trip' },
 ];
 
-export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onShowMap }: Props) => {
+export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -52,7 +55,8 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
         'working-day': isWorkingDay,
     });
 
-    const places = locations.concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
+    const places = locations.concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
+                            .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
@@ -66,15 +70,14 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
                 <ListGroup>
                     {places.filter(c => c.id !== 'HR').map(place =>
                         <ListGroup.Item key={place.id}>
-                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />} {place.name}
+                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />}
+                            {place.id?.length === 3 && <MdOutlineAirplanemodeActive />}
+                            {place.id?.length > 3 && <IoMdHome />} {place.name}
                         </ListGroup.Item>
                     )}
                 </ListGroup>
             </Card.Body>
             <Card.Footer>
-                {day.isHoliday &&
-                    <IoCalendarNumber />
-                }
                 {isEdit && !day.isHoliday && !isWeekend &&
                     <Select
                         hideDefaultOption
