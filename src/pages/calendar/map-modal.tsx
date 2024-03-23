@@ -20,7 +20,6 @@ const MapModal = ({ isOpen, onClose, trackings }: Props) => {
 
     React.useEffect(() => {
         if (map && polyline) {
-            console.log('fitting bounds');
             const bounds = new google.maps.LatLngBounds();
             polyline.getPath().forEach((location) => {
                 bounds.extend(location);
@@ -33,7 +32,7 @@ const MapModal = ({ isOpen, onClose, trackings }: Props) => {
         <Modal
             show={isOpen}
             onHide={onClose}
-            size="lg"
+            size="xl"
         >
             <Modal.Body className="map-modal-body">
                 <Map onLoad={map => setMap(map)}>
@@ -41,6 +40,7 @@ const MapModal = ({ isOpen, onClose, trackings }: Props) => {
                         <Polyline
                             onLoad={polyline => setPolyline(polyline)}
                             path={trackingsToLatLng(trackings)}
+                            options={{ strokeColor: '#0000FF', strokeWeight: 5 }}
                         />
                     )}
                 </Map>

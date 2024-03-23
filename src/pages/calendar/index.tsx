@@ -11,8 +11,10 @@ import moment, { Moment } from 'moment';
 import { useParams } from 'react-router-dom';
 import { SelectOption } from 'types/common';
 import MapModal from './map-modal';
+import { KeyValuePair } from 'types/grouping';
 
 type CalendarSection = components['schemas']['CalendarSection'];
+type Location = components['schemas']['Location'];
 type Tracking = components['schemas']['Tracking'];
 
 interface PagePath {
@@ -27,6 +29,7 @@ interface Props {
 interface State {
     calendarSection?: CalendarSection;
     isMapModalOpen: boolean;
+    locationsByDay: KeyValuePair<Location[]>[];
     startDay: Moment;
     trackings: Tracking[];
 }
@@ -34,6 +37,7 @@ interface State {
 class CalendarPage extends Page<Props, State> {
 
     state: State = {
+        locationsByDay: [],
         isMapModalOpen: false,
         startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month'),
         trackings: [],
@@ -46,7 +50,6 @@ class CalendarPage extends Page<Props, State> {
 
     render() {
         const { calendarSection } = this.state;
-        console.log(calendarSection);
         return (
             <Container>
                 <Datetime
@@ -61,6 +64,7 @@ class CalendarPage extends Page<Props, State> {
                         <CalendarDay
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
+                            locations={this.state.locationsByDay.filter(l => moment(l.key).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))[0]?.value || []}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
                             onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
                             onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
@@ -95,13 +99,18 @@ class CalendarPage extends Page<Props, State> {
                     startDay: month.startOf('month')
                 });
             });
+        api.location.getByDay(month.startOf('month').format('YYYY-MM-DD'), month.clone().endOf('month').format('YYYY-MM-DD'))
+            .then(locationsByDay => {
+                this.setState({
+                    locationsByDay,
+                });
+            });
     }
 
     onWorkDayTypeChange = (date: string, workDayType: SelectOption) => {
         const { calendarSection } = this.state;
         if (calendarSection) {
             const updatedDays = calendarSection.days.map(day => {
-                console.log(moment(day.date).format('YYYY-MM-DD'));
                 if (moment(day.date).format('YYYY-MM-DD') === date) {
                     return {
                         ...day,
@@ -112,7 +121,7 @@ class CalendarPage extends Page<Props, State> {
                     };
                 }
                 return day;
-            }).slice().reverse();
+            });
             this.setState({
                 calendarSection: {
                     ...calendarSection,

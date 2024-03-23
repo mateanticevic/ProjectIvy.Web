@@ -3749,6 +3749,27 @@ export interface paths {
       };
     };
   };
+  "/Location/ByDay": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+            "application/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+            "text/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
   "/Location/{locationId}/Days": {
     get: {
       parameters: {
@@ -5498,6 +5519,11 @@ export interface components {
       key?: string;
       /** Format: double */
       value?: number;
+    };
+    DateTimeLocationIEnumerableKeyValuePair: {
+      /** Format: date-time */
+      key?: string;
+      value?: components["schemas"]["Location"][] | null;
     };
     /** @enum {string} */
     DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
