@@ -6,6 +6,7 @@ import Select from 'components/select';
 import { components } from 'types/ivy-types';
 import classNames from 'classnames';
 import { SelectOption } from 'types/common';
+import { WorkDayTypeIcon } from './work-day-type-icon';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Location = components['schemas']['Location'];
@@ -70,7 +71,7 @@ export const CalendarDay = ({ day, locations, offset, onWorkDayTypeChange, onSho
                 }
                 {!isEdit && !day.isHoliday && !isWeekend &&
                     <span onClick={() => setIsEdit(true)}>
-                        {day.workDayType?.name ?? workDayTypes[0].name}
+                        <WorkDayTypeIcon id={day.workDayType?.id} />
                     </span>
                 }
                 <ListGroup>
