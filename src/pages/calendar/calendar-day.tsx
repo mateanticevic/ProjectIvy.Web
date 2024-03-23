@@ -12,6 +12,7 @@ type CalendarDay = components['schemas']['CalendarDay'];
 interface Props {
     day: CalendarDay;
     offset?: number;
+    onShowMap?(): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
 }
 
@@ -22,7 +23,7 @@ const workDayTypes = [
     { id: 'sick-leave', name: 'Sick leave' },
 ];
 
-export const CalendarDay = ({ day, offset, onWorkDayTypeChange }: Props) => {
+export const CalendarDay = ({ day, offset, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -41,13 +42,17 @@ export const CalendarDay = ({ day, offset, onWorkDayTypeChange }: Props) => {
         'holiday': day.isHoliday,
         'today': momentDay.isSame(moment(), 'day'),
         'vacation': day.workDayType?.id === 'vacation' && !day.isHoliday,
-        'weekend': (momentDay.day() === 0 || momentDay.day() === 6) && !day.isHoliday,
+        'weekend': isWeekend && !day.isHoliday,
     });
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
     return (
-        <Card className={classes} style={style}>
+        <Card
+            className={classes}
+            style={style}
+            onClick={onShowMap}
+        >
             <Card.Header>{momentDay.format('Do ddd')}</Card.Header>
             <Card.Body>
                 {day.isHoliday && 'Holiday'}

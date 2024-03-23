@@ -3,14 +3,17 @@ import Datetime from 'react-datetime';
 
 import { Page } from 'pages/page';
 import { Container } from 'react-bootstrap';
+
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
 import moment, { Moment } from 'moment';
 import { useParams } from 'react-router-dom';
 import { SelectOption } from 'types/common';
+import MapModal from './map-modal';
 
 type CalendarSection = components['schemas']['CalendarSection'];
+type Tracking = components['schemas']['Tracking'];
 
 interface PagePath {
     year: string;
@@ -23,13 +26,17 @@ interface Props {
 
 interface State {
     calendarSection?: CalendarSection;
+    isMapModalOpen: boolean;
     startDay: Moment;
+    trackings: Tracking[];
 }
 
 class CalendarPage extends Page<Props, State> {
 
     state: State = {
-        startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month')
+        isMapModalOpen: false,
+        startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month'),
+        trackings: [],
     }
 
     componentDidMount() {
@@ -39,6 +46,7 @@ class CalendarPage extends Page<Props, State> {
 
     render() {
         const { calendarSection } = this.state;
+        console.log(calendarSection);
         return (
             <Container>
                 <Datetime
@@ -49,17 +57,34 @@ class CalendarPage extends Page<Props, State> {
                     onChange={month => this.onMonthChanged(month as Moment)}
                 />
                 <div className="calendar-container">
-                    {calendarSection?.days?.reverse().map((day, i) =>
+                    {calendarSection?.days?.slice().reverse().map((day, i) =>
                         <CalendarDay
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
+                            onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
                             onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
                         />
                     )}
                 </div>
-            </Container >
+                <MapModal
+                    isOpen={this.state.isMapModalOpen}
+                    trackings={this.state.trackings}
+                    onClose={() => this.setState({ isMapModalOpen: false })}
+                />
+            </Container>
         );
+    }
+
+    onShowMap = (date: string) => {
+        this.setState({
+            isMapModalOpen: true,
+        });
+        api.tracking.get({ from: moment(date).format('YYYY-MM-DD'), to: moment(date).add(1, 'd').format('YYYY-MM-DD') }).then(trackings => {
+            this.setState({
+                trackings,
+            });
+        });
     }
 
     onMonthChanged = (month: Moment) => {
@@ -87,7 +112,7 @@ class CalendarPage extends Page<Props, State> {
                     };
                 }
                 return day;
-            }).reverse();
+            }).slice().reverse();
             this.setState({
                 calendarSection: {
                     ...calendarSection,

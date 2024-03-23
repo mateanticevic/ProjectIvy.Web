@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { BiWorld } from 'react-icons/bi';
-import { FaRoute } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaRoute } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
 import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance } from 'react-icons/md';
@@ -66,6 +66,7 @@ const NavigationBar = ({ identity }: Props) =>
                         </NavDropdown>
                     }
                     <NavDropdown id="nav-dropdown-account" title={identity.name}>
+                        <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/account"><RiAccountCircleLine /> My account</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
