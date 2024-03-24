@@ -385,6 +385,29 @@ export interface paths {
       };
     };
   };
+  "/Calendar/{date}/Events": {
+    post: {
+      parameters: {
+        path: {
+          date: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": string;
+          "application/json": string;
+          "text/json": string;
+          "application/*+json": string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Call": {
     get: {
       parameters: {
@@ -863,6 +886,27 @@ export interface paths {
       parameters: {
         path: {
           cityId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+    post: {
+      parameters: {
+        path: {
+          cityId: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": string[];
+          "application/json": string[];
+          "text/json": string[];
+          "application/*+json": string[];
         };
       };
       responses: {
@@ -5316,7 +5360,9 @@ export interface components {
       name?: string | null;
     };
     CalendarDay: {
+      cities?: components["schemas"]["City"][] | null;
       countries?: components["schemas"]["Country"][] | null;
+      events?: components["schemas"]["Event"][] | null;
       isHoliday?: boolean;
       /** Format: date-time */
       date?: string;
@@ -5527,6 +5573,10 @@ export interface components {
     };
     /** @enum {string} */
     DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+    Event: {
+      id?: string | null;
+      name?: string | null;
+    };
     Expense: {
       /** Format: double */
       amount?: number;

@@ -9,6 +9,7 @@ import { SelectOption } from 'types/common';
 import { WorkDayTypeIcon } from './work-day-type-icon';
 import { MdOutlineAirplanemodeActive } from 'react-icons/md';
 import { IoMdHome } from 'react-icons/io';
+import CalendarDaySubitems from './calendar-day-subitems';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
@@ -29,6 +30,7 @@ const workDayTypes = [
     { id: 'vacation', name: 'Vacation' },
     { id: 'sick-leave', name: 'Sick leave' },
     { id: 'business-trip', name: 'Business trip' },
+    { id: 'conference', name: 'Conference' },
 ];
 
 export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChange, onShowMap }: Props) => {
@@ -55,7 +57,8 @@ export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChan
         'working-day': isWorkingDay,
     });
 
-    const places = locations.concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
+    const places = locations.concat(day.events?.map(e => ({ name: e.name, id: e.id })) ?? [])
+                            .concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
                             .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
@@ -68,13 +71,13 @@ export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChan
             <Card.Header onClick={onShowMap}>{momentDay.format('Do ddd')}</Card.Header>
             <Card.Body>
                 <ListGroup>
-                    {places.filter(c => c.id !== 'HR').map(place =>
-                        <ListGroup.Item key={place.id}>
-                            {place.id?.length === 2 && <span className={`flag-icon flag-icon-${place.id?.toLowerCase()}`} />}
-                            {place.id?.length === 3 && <MdOutlineAirplanemodeActive />}
-                            {place.id?.length > 3 && <IoMdHome />} {place.name}
-                        </ListGroup.Item>
-                    )}
+                    <CalendarDaySubitems
+                        cities={day.cities ?? []}
+                        countries={day.countries ?? []}
+                        events={day.events ?? []}
+                        flights={flights}
+                        locations={locations}
+                    />
                 </ListGroup>
             </Card.Body>
             <Card.Footer>
