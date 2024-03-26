@@ -1,8 +1,8 @@
 import * as api from '../config';
 
-function get(filter) {
-    return api.get('city', filter);
-}
+const get = (filter) => api.get('city', filter);
+
+const getGeohashes = (cityId: string) => api.get(`city/${cityId}/geohash`);
 
 const getVisited = () => api.get('city/visited');
 
@@ -12,6 +12,7 @@ const postVisited = (cityId: string) => api.post(`city/visited/${cityId}`);
 
 const city = {
     get,
+    getGeohashes,
     getVisited,
     postGeohashes,
     postVisited,

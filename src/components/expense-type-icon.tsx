@@ -11,6 +11,7 @@ import { MdBatteryFull, MdFlight, MdCarRepair } from 'react-icons/md';
 import { FaCouch, FaParking, FaTv, FaShoppingBasket, FaCoffee, FaGasPump, FaWarehouse, FaUsb, FaCar, FaGlasses, FaMobile, FaRoad, FaBolt, FaFire, FaBuilding, FaTooth } from 'react-icons/fa';
 import { GiCarWheel, GiFoodTruck, GiSonicShoes, GiHomeGarage, GiDeliveryDrone } from 'react-icons/gi';
 import { GoPackage } from 'react-icons/go';
+import { IoMdTrain } from 'react-icons/io';
 
 const icons = {
     ['alcoholic-beverages']: <BiDrink />,
@@ -56,6 +57,7 @@ const icons = {
     ['shoes']: <GiSonicShoes />,
     ['shirt']: <BiSolidTShirt />,
     ['taxi']: <BiTaxi />,
+    ['train']: <IoMdTrain />,
     ['toll']: <FaRoad />,
     ['traffic-fine']: <FaCar />,
     ['tv']: <FaTv />,
