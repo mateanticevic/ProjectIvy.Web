@@ -4,13 +4,12 @@ import geohash from 'ngeohash';
 
 import { Page } from 'pages/page';
 import api from 'api/main';
-import { BrandFilters } from 'types/beer';
-import { Country } from 'types/common';
-import { Select, Pagination, Map } from 'components';
-import { components } from 'types/ivy-types';
+import { Map } from 'components';
+
 import AsyncSelect from 'react-select/async';
-import { cityLoader } from 'utils/select-loaders';
+import { cityLoader, locationLoader } from 'utils/select-loaders';
 import { Rectangle } from '@react-google-maps/api';
+import { getChildrenGeohashes } from 'utils/geohash-helper';
 
 const cityRectangleOptions: google.maps.RectangleOptions = {
     strokeColor: '#007BFF',
@@ -31,33 +30,64 @@ const rectangleOptionsSelected: google.maps.RectangleOptions = {
     strokeWeight: 1,
 };
 
+enum ItemType {
+    City = 'city',
+    Country = 'country',
+    Location = 'location',
+}
+
 interface State {
     cityId?: string;
-    cityGeohashes: string[];
     geohashes: string[];
+    itemGeohashes: string[];
+    itemType: ItemType;
+    locationId?: string;
     precision: number;
     selected: string[];
 }
 
 class CitiesPage extends Page<{}, State> {
     state: State = {
-        cityGeohashes: [],
         geohashes: [],
+        itemGeohashes: [],
+        itemType: ItemType.City,
         precision: 3,
         selected: [],
     };
 
-    citySelected = async (cityId: string) => {
+    onCityGeohashClick = (cityGeohash: string) => {
+        this.setState({
+            itemGeohashes: [
+                ...this.state.itemGeohashes.filter(x => x !== cityGeohash),
+                ...getChildrenGeohashes(cityGeohash),
+            ],
+        });
+    }
+
+    onCitySelected = async (cityId: string) => {
         const cityGeohashes = await api.city.getGeohashes(cityId);
 
-        this.setState({ cityId, cityGeohashes });
+        this.setState({ cityId, itemGeohashes: cityGeohashes });
+    }
+
+    onGeohashClick = (geohash: string) => {
+        if (this.state.selected.includes(geohash)) {
+            this.setState({ selected: this.state.selected.filter(x => x !== geohash) });
+        } else {
+            this.setState({ selected: [...this.state.selected, geohash] });
+        }
+    }
+
+    onLocationSelected = async (locationId: string) => {
+        const itemGeohashes = await api.location.getGeohashes(locationId);
+
+        this.setState({ locationId, itemGeohashes });
     }
 
     onMapClick = (event: google.maps.MapMouseEvent | google.maps.IconMouseEvent) => {
         const g = geohash.encode(event.latLng?.lat() || 0, event.latLng?.lng() || 0, this.state.precision);
-        const geohashLetters = "0123456789bcdefghjkmnpqrstuvwxyz".split('');
+        const children = getChildrenGeohashes(g);
 
-        const children = geohashLetters.map(l => `${g}${l}`);
         this.setState({
             geohashes: [
                 ...this.state.geohashes,
@@ -71,25 +101,32 @@ class CitiesPage extends Page<{}, State> {
             geohashes: [],
             precision,
             selected: [],
-         });
+        });
     }
 
     save = async () => {
-        if (!this.state.cityId) {
-            return;
-        }
+        if (this.state.itemType == ItemType.City && this.state.cityId) {
+            const distinctSelected = [...new Set(this.state.selected)];
+            await api.city.postGeohashes(this.state.cityId, distinctSelected);
+            this.setState({
+                itemGeohashes: [],
+                geohashes: [],
+                selected: [],
+            });
+        } else if (this.state.itemType == ItemType.Location && this.state.locationId) {
+            const distinctSelected = [...new Set(this.state.selected)];
+            await api.location.postGeohashes(this.state.locationId, distinctSelected);
+            this.setState({
+                itemGeohashes: [],
+                geohashes: [],
+                selected: [],
+            });
 
-        const distinctSelected = [...new Set(this.state.selected)];
-        await api.city.postGeohashes(this.state.cityId, distinctSelected);
-        this.setState({
-            cityGeohashes: [],
-            geohashes: [],
-            selected: [],
-        })
+        }
     }
 
     render() {
-        const { cityGeohashes, geohashes } = this.state;
+        const { itemGeohashes: cityGeohashes, geohashes, itemType } = this.state;
 
         return (
             <Container>
@@ -112,7 +149,7 @@ class CitiesPage extends Page<{}, State> {
                                         key={g}
                                         options={options}
                                         bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
-                                        onClick={() => this.setState({ selected: [...this.state.selected, g] })}
+                                        onClick={() => this.onGeohashClick(g)}
                                     />
                                 );
                             })}
@@ -124,22 +161,36 @@ class CitiesPage extends Page<{}, State> {
                                         key={g}
                                         options={cityRectangleOptions}
                                         bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
-                                        onClick={() => this.setState({ selected: [...this.state.selected, g] })}
+                                        onClick={() => this.onCityGeohashClick(g)}
                                     />
                                 );
                             })}
                         </Map>
                     </Card.Body>
                     <Card.Footer>
-                        <AsyncSelect
-                            loadOptions={cityLoader}
-                            onChange={x => this.citySelected(x.value)}
-                            defaultOptions
-                        />
-                        <ToggleButtonGroup defaultValue={this.state.precision} type="radio" name="options" onChange={this.changePrecision}>
-                            {[3, 4, 5, 6].map(x =>
+                        {itemType === ItemType.City &&
+                            <AsyncSelect
+                                loadOptions={cityLoader}
+                                onChange={x => this.onCitySelected(x.value)}
+                                defaultOptions
+                            />
+                        }
+                        {itemType === ItemType.Location &&
+                            <AsyncSelect
+                                loadOptions={locationLoader}
+                                onChange={x => this.onLocationSelected(x.value)}
+                                defaultOptions
+                            />
+                        }
+                        <ToggleButtonGroup defaultValue={this.state.precision} type="radio" name="precisionOptions" onChange={this.changePrecision}>
+                            {[3, 4, 5, 6, 7, 8].map(x =>
                                 <ToggleButton key={x} value={x} id={x}>{x}</ToggleButton>
                             )}
+                        </ToggleButtonGroup>
+                        <ToggleButtonGroup defaultValue={ItemType.City} type="radio" name="itemTypeOptions" onChange={value => this.setState({ itemType: value as ItemType })}>
+                            <ToggleButton key={ItemType.City} value={ItemType.City} id={ItemType.City}>City</ToggleButton>
+                            <ToggleButton key={ItemType.Country} value={ItemType.Country} id={ItemType.Country}>Country</ToggleButton>
+                            <ToggleButton key={ItemType.Location} value={ItemType.Location} id={ItemType.Location}>Location</ToggleButton>
                         </ToggleButtonGroup>
                         <Button variant="primary" onClick={this.save}>Save</Button>
                     </Card.Footer>

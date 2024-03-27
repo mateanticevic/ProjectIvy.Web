@@ -3829,21 +3829,24 @@ export interface paths {
       };
     };
   };
-  "/Location/Types": {
+  "/Location/{locationId}/Geohashes": {
     get: {
+      parameters: {
+        path: {
+          locationId: string;
+        };
+      };
       responses: {
         /** @description Success */
         200: {
           content: {
-            "text/plain": components["schemas"]["LocationType"][];
-            "application/json": components["schemas"]["LocationType"][];
-            "text/json": components["schemas"]["LocationType"][];
+            "text/plain": string[];
+            "application/json": string[];
+            "text/json": string[];
           };
         };
       };
     };
-  };
-  "/Location/{locationId}/Geohashes": {
     post: {
       parameters: {
         path: {
@@ -3862,6 +3865,20 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
+        };
+      };
+    };
+  };
+  "/Location/Types": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["LocationType"][];
+            "application/json": components["schemas"]["LocationType"][];
+            "text/json": components["schemas"]["LocationType"][];
+          };
         };
       };
     };
