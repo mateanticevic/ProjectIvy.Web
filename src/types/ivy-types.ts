@@ -916,6 +916,22 @@ export interface paths {
         };
       };
     };
+    delete: {
+      parameters: {
+        query?: {
+          ids?: string[];
+        };
+        path: {
+          cityId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
   };
   "/City/{fromCityId}/To/{toCityId}/Route": {
     get: {
@@ -1828,6 +1844,7 @@ export interface paths {
     get: {
       parameters: {
         query?: {
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1876,6 +1893,7 @@ export interface paths {
     get: {
       parameters: {
         query?: {
+          Search?: string;
           PageAll?: boolean;
           Page?: number;
           PageSize?: number;
@@ -1915,6 +1933,43 @@ export interface paths {
   "/Country/{countryId}/Geohash": {
     get: {
       parameters: {
+        path: {
+          countryId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+    post: {
+      parameters: {
+        path: {
+          countryId: string;
+        };
+      };
+      requestBody?: {
+        content: {
+          "application/json-patch+json": string[];
+          "application/json": string[];
+          "text/json": string[];
+          "application/*+json": string[];
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+    delete: {
+      parameters: {
+        query?: {
+          ids?: string[];
+        };
         path: {
           countryId: string;
         };
@@ -2069,36 +2124,6 @@ export interface paths {
   };
   "/Country/List/Visited": {
     get: {
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-  };
-  "/Country/{countryId}/Geohash/{geohash}": {
-    post: {
-      parameters: {
-        path: {
-          countryId: string;
-          geohash: string;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
-    delete: {
-      parameters: {
-        path: {
-          countryId: string;
-          geohash: string;
-        };
-      };
       responses: {
         /** @description Success */
         200: {
@@ -3847,6 +3872,22 @@ export interface paths {
         };
       };
     };
+  };
+  "/Location/Types": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["LocationType"][];
+            "application/json": components["schemas"]["LocationType"][];
+            "text/json": components["schemas"]["LocationType"][];
+          };
+        };
+      };
+    };
+  };
+  "/Location/{locationId}/Geohash": {
     post: {
       parameters: {
         path: {
@@ -3868,41 +3909,13 @@ export interface paths {
         };
       };
     };
-  };
-  "/Location/Types": {
-    get: {
-      responses: {
-        /** @description Success */
-        200: {
-          content: {
-            "text/plain": components["schemas"]["LocationType"][];
-            "application/json": components["schemas"]["LocationType"][];
-            "text/json": components["schemas"]["LocationType"][];
-          };
-        };
-      };
-    };
-  };
-  "/Location/{locationId}/Geohashes/{geohash}": {
-    post: {
-      parameters: {
-        path: {
-          locationId: string;
-          geohash: string;
-        };
-      };
-      responses: {
-        /** @description Success */
-        200: {
-          content: never;
-        };
-      };
-    };
     delete: {
       parameters: {
+        query?: {
+          ids?: string[];
+        };
         path: {
           locationId: string;
-          geohash: string;
         };
       };
       responses: {

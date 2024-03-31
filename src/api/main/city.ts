@@ -1,4 +1,10 @@
+import { paths } from 'types/ivy-types';
+
 import * as api from '../config';
+
+type DeleteGeohashQuery = paths['/Country/{countryId}/Geohash']['delete']['parameters']['query'];
+
+const deleteGeohashes = (cityId: string, query: DeleteGeohashQuery) => api.del(`city/${cityId}/geohash`, query);
 
 const get = (filter) => api.get('city', filter);
 
@@ -11,6 +17,7 @@ const postGeohashes = (cityId: string, geohashes: string[]) => api.post(`city/${
 const postVisited = (cityId: string) => api.post(`city/visited/${cityId}`);
 
 const city = {
+    deleteGeohashes,
     get,
     getGeohashes,
     getVisited,

@@ -59,7 +59,7 @@ export function get(resource: string, parameters?: any, timeout?: number) {
     return fetchWithTimeout(apiPath(resource, parameters), init, timeout ?? 30000).then(handleResponse);
 }
 
-export function del(resource: string, parameters?: string) {
+export function del(resource: string, parameters?: any) {
 
     const init: RequestInit = {
         credentials: 'include',

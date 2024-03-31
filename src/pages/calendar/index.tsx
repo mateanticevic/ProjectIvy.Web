@@ -63,7 +63,6 @@ class CalendarPage extends Page<Props, State> {
                     value={this.state.startDay}
                     onChange={month => this.onMonthChanged(month as Moment)}
                 />
-                {/* {Object.entries(_.groupBy(calendarSection?.days, d => d.workDayType)).map((days, key) => days.length )} */}
                 {calendarSection?.days?.filter(d => d.workDayType?.id === 'remote').length}
                 <div className="calendar-container">
                     {calendarSection?.days?.slice().reverse().map((day, i) =>
@@ -115,7 +114,7 @@ class CalendarPage extends Page<Props, State> {
                     locationsByDay,
                 });
             });
-        api.flight.get({ from, to })
+        api.flight.get({ from, to: month.clone().endOf('month').add(1, 'day').format('YYYY-MM-DD') })
             .then(data => {
                 this.setState({
                     flights: data.items,
