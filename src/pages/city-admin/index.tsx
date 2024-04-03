@@ -1,58 +1,19 @@
 import React from 'react';
-import { Container, Card, ToggleButtonGroup, ToggleButton, Button, Form } from 'react-bootstrap';
+import { Container, Card, ToggleButtonGroup, ToggleButton, Button, Col, Row, FormGroup, FormLabel } from 'react-bootstrap';
 import geohash from 'ngeohash';
 
 import { Page } from 'pages/page';
-import api from 'api/main';
 import { Map } from 'components';
-
 import AsyncSelect from 'react-select/async';
-import { cityLoader, countryLoader, locationLoader } from 'utils/select-loaders';
 import { Rectangle } from '@react-google-maps/api';
 import { getChildrenGeohashes } from 'utils/geohash-helper';
 import { GeohashRectangle } from './geohash-rectangle';
-
-const itemGeohashRectangleOptions: google.maps.RectangleOptions = {
-    strokeColor: '#007BFF',
-    fillColor: '#007BFF',
-    fillOpacity: 0.2,
-    strokeWeight: 1,
-};
-
-const deleteRectangleOptions: google.maps.RectangleOptions = {
-    strokeColor: '#dc3545',
-    fillOpacity: 0.1,
-    strokeWeight: 1,
-};
-
-const rectangleOptions: google.maps.RectangleOptions = {
-    fillOpacity: 0,
-    strokeColor: '#0d6efd',
-    strokeWeight: 1,
-};
-
-enum ItemType {
-    City = 'city',
-    Country = 'country',
-    Location = 'location',
-}
-
-enum SelectType {
-    Divide = 'divide',
-    Select = 'select',
-}
-
-const apis = {
-    [ItemType.City]: api.city,
-    [ItemType.Country]: api.country,
-    [ItemType.Location]: api.location,
-};
-
-const loaders = {
-    [ItemType.City]: cityLoader,
-    [ItemType.Country]: countryLoader,
-    [ItemType.Location]: locationLoader,
-};
+import { ItemType, SelectType, apis, deleteRectangleOptions, itemGeohashRectangleOptions, loaders, rectangleOptions } from './constants';
+import { FaCity, FaSave } from 'react-icons/fa';
+import { BiWorld } from 'react-icons/bi';
+import { FaLocationDot, FaTableCells } from 'react-icons/fa6';
+import { GrClear } from 'react-icons/gr';
+import { MdOutlinePhotoSizeSelectSmall } from 'react-icons/md';
 
 interface State {
     geohashes: string[];
@@ -201,75 +162,89 @@ class CitiesPage extends Page<{}, State> {
 
         return (
             <Container>
-                <Card>
-                    <Card.Header>
-                        <h5>Cities</h5>
-                    </Card.Header>
-                    <Card.Body className="padding-0 panel-large">
-                        <Map
-                            defaultZoom={2}
-                            onClick={this.onMapClick}
-                            onLoad={map => this.map = map}
-                        >
-                            {geohashes.map(g => {
-                                const rectangle = geohash.decode_bbox(g);
-
-                                const options = this.state.selected.includes(g) ? itemGeohashRectangleOptions : rectangleOptions;
-
-                                return (
-                                    <Rectangle
-                                        key={g}
-                                        options={options}
-                                        bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
-                                        onClick={() => this.onGeohashClick(g)}
-                                    />
-                                );
-                            })}
-                            {itemGeohashes.map(g => {
-                                const rectangle = geohash.decode_bbox(g);
-
-                                return (
-                                    <Rectangle
-                                        key={g}
-                                        options={itemGeohashRectangleOptions}
-                                        bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
-                                        onClick={() => this.onItemGeohashClick(g)}
-                                    />
-                                );
-                            })}
-                            {selectedForDeletion.map(g =>
-                                <GeohashRectangle
-                                    geohash={g}
-                                    options={deleteRectangleOptions}
-                                    onClick={this.onSelectedForDeletionGeohashClicked}
+                <Row>
+                    <Col lg={3}>
+                        <Card>
+                            <Card.Body>
+                                <AsyncSelect
+                                    loadOptions={loaders[itemType]}
+                                    onChange={x => this.onItemSelected(x.value)}
+                                    placeholder="Search by name or id"
+                                    defaultOptions
                                 />
-                            )}
-                        </Map>
-                    </Card.Body>
-                    <Card.Footer>
-                        <AsyncSelect
-                            loadOptions={loaders[itemType]}
-                            onChange={x => this.onItemSelected(x.value)}
-                            defaultOptions
-                        />
-                        <ToggleButtonGroup defaultValue={this.state.precision} type="radio" name="precisionOptions" onChange={this.changePrecision}>
-                            {[2, 3, 4, 5, 6, 7, 8].map(x =>
-                                <ToggleButton key={x} value={x} id={x}>{x}</ToggleButton>
-                            )}
-                        </ToggleButtonGroup>
-                        <ToggleButtonGroup defaultValue={ItemType.Country} type="radio" name="itemTypeOptions" onChange={value => this.setState({ itemType: value as ItemType })}>
-                            <ToggleButton key={ItemType.Country} value={ItemType.Country} id={ItemType.Country}>Country</ToggleButton>
-                            <ToggleButton key={ItemType.City} value={ItemType.City} id={ItemType.City}>City</ToggleButton>
-                            <ToggleButton key={ItemType.Location} value={ItemType.Location} id={ItemType.Location}>Location</ToggleButton>
-                        </ToggleButtonGroup>
-                        <ToggleButtonGroup defaultValue={SelectType.Select} type="radio" name="selectTypeOptions" onChange={value => this.setState({ selectType: value as SelectType })}>
-                            <ToggleButton key={SelectType.Select} value={SelectType.Select} id={SelectType.Select}>Select</ToggleButton>
-                            <ToggleButton key={SelectType.Divide} value={SelectType.Divide} id={SelectType.Divide}>Divide</ToggleButton>
-                        </ToggleButtonGroup>
-                        <Button variant="primary" onClick={this.save}>Save</Button>
-                        <Button variant="primary" onClick={this.clearAll}>Clear</Button>
-                    </Card.Footer>
-                </Card>
+                                <ToggleButtonGroup defaultValue={this.state.precision} type="radio" name="precisionOptions" onChange={this.changePrecision}>
+                                    {[2, 3, 4, 5, 6, 7, 8].map(x =>
+                                        <ToggleButton key={x} value={x} id={x}>{x}</ToggleButton>
+                                    )}
+                                </ToggleButtonGroup>
+                                <FormGroup>
+                                    <FormLabel>Item type</FormLabel>
+                                    <ToggleButtonGroup defaultValue={ItemType.Country} type="radio" name="itemTypeOptions" onChange={value => this.setState({ itemType: value as ItemType })}>
+                                        <ToggleButton key={ItemType.Country} value={ItemType.Country} id={ItemType.Country}><BiWorld /> Country</ToggleButton>
+                                        <ToggleButton key={ItemType.City} value={ItemType.City} id={ItemType.City}><FaCity /> City</ToggleButton>
+                                        <ToggleButton key={ItemType.Location} value={ItemType.Location} id={ItemType.Location}><FaLocationDot /> Location</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Select mode</FormLabel>
+                                    <ToggleButtonGroup defaultValue={SelectType.Select} type="radio" name="selectTypeOptions" onChange={value => this.setState({ selectType: value as SelectType })}>
+                                        <ToggleButton key={SelectType.Select} value={SelectType.Select} id={SelectType.Select}><MdOutlinePhotoSizeSelectSmall />Select</ToggleButton>
+                                        <ToggleButton key={SelectType.Divide} value={SelectType.Divide} id={SelectType.Divide}><FaTableCells /> Divide</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button variant="primary" onClick={this.save}><FaSave /> Save</Button>
+                                    <Button variant="primary" onClick={this.clearAll}><GrClear /> Clear</Button>
+                                </FormGroup>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={9}>
+                        <Card>
+                            <Card.Body className="padding-0 panel-large">
+                                <Map
+                                    defaultZoom={2}
+                                    onClick={this.onMapClick}
+                                    onLoad={map => this.map = map}
+                                >
+                                    {geohashes.map(g => {
+                                        const rectangle = geohash.decode_bbox(g);
+
+                                        const options = this.state.selected.includes(g) ? itemGeohashRectangleOptions : rectangleOptions;
+
+                                        return (
+                                            <Rectangle
+                                                key={g}
+                                                options={options}
+                                                bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                                onClick={() => this.onGeohashClick(g)}
+                                            />
+                                        );
+                                    })}
+                                    {itemGeohashes.map(g => {
+                                        const rectangle = geohash.decode_bbox(g);
+
+                                        return (
+                                            <Rectangle
+                                                key={g}
+                                                options={itemGeohashRectangleOptions}
+                                                bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                                onClick={() => this.onItemGeohashClick(g)}
+                                            />
+                                        );
+                                    })}
+                                    {selectedForDeletion.map(g =>
+                                        <GeohashRectangle
+                                            geohash={g}
+                                            options={deleteRectangleOptions}
+                                            onClick={this.onSelectedForDeletionGeohashClicked}
+                                        />
+                                    )}
+                                </Map>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
             </Container>
         );
     }
