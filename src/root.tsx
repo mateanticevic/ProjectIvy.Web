@@ -29,7 +29,7 @@ import ButtonWithSpinner from 'components/button-with-spinner';
 import LocationsPage from 'pages/locations';
 import { FaMicrosoft } from 'react-icons/fa';
 import CalendarPage from 'pages/calendar';
-import CitiesPage from 'pages/city-admin';
+import PlacesPage from 'pages/places';
 
 interface State {
     error?: string,
@@ -217,7 +217,6 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/calendar/:year/:month" element={<CalendarPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
-                                    <Route path="/cities" element={<CitiesPage />} />
                                     <Route path="/countries" element={<CountriesPage />} />
                                     <Route path="/expenses" element={<ExpensesPage />} />
                                     <Route path="/flights" element={<FlightsPage />} />
@@ -226,6 +225,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/location" element={<LocationPage />} />
                                     <Route path="/locations" element={<LocationsPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
+                                    <Route path="/places" element={<PlacesPage />} />
                                     <Route path="/pois" element={<PoisPage />} />
                                     <Route path="/tracking" element={<TrackingPage />} />
                                     <Route path="/trips" element={<TripsPage />} />

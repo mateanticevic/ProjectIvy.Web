@@ -26,7 +26,7 @@ interface State {
     selectType: SelectType;
 }
 
-class CitiesPage extends Page<{}, State> {
+class PlacesPage extends Page<{}, State> {
     map?: google.maps.Map;
 
     state: State = {
@@ -250,4 +250,4 @@ class CitiesPage extends Page<{}, State> {
     }
 }
 
-export default CitiesPage;
+export default PlacesPage;

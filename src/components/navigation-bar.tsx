@@ -38,27 +38,22 @@ const NavigationBar = ({ identity }: Props) =>
                         <NavDropdown id="nav-dropdown-travel" title="Travel">
                             <NavDropdown.Item as={Link} to="/countries"><BiWorld /> Countries</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/locations"><TiLocation /> Locations</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/places"><TiLocation /> Places</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/location"><FaRoute /> Tracking</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking (old)</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
                         </NavDropdown>
                     }
-                    {identity.pif?.includes(Feature.Tracking) &&
-                        <NavDropdown id="nav-dropdown-travel" title="Tracking">
-                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking (old)</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/location"><FaRoute /> Tracking</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/locations"><MdMyLocation /> Locations</NavDropdown.Item>
-                        </NavDropdown>
-                    }
-                    {identity.scope.includes(Scopes.BeerUser) &&
-                        < NavDropdown id="nav-dropdown-beer" title="Beer">
-                            <NavDropdown.Item as={Link} to="/beer"><TiBeer /> Log</NavDropdown.Item>
-                        </NavDropdown>
-                    }
-                    {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies)) &&
+                    {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies) || identity.scope.includes(Scopes.BeerUser)) &&
                         <NavDropdown id="nav-dropdown-other" title="Other">
+                            {identity.scope.includes(Scopes.BeerUser) &&
+                                <NavDropdown.Item as={Link} to="/beer"><TiBeer /> Beer</NavDropdown.Item>
+                            }
+                            <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
                             {identity.pif?.includes(Feature.Calls) &&
                                 <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
-
                             }
                             {identity.pif?.includes(Feature.Movies) &&
                                 <NavDropdown.Item as={Link} to="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
@@ -66,7 +61,6 @@ const NavigationBar = ({ identity }: Props) =>
                         </NavDropdown>
                     }
                     <NavDropdown id="nav-dropdown-account" title={identity.name}>
-                        <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to="/account"><RiAccountCircleLine /> My account</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
@@ -77,7 +71,7 @@ const NavigationBar = ({ identity }: Props) =>
     </Navbar >;
 
 const logOut = () => {
-    document.cookie=`AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
+    document.cookie = `AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
     window.location = '/';
 };
 
