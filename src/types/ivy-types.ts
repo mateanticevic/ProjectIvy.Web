@@ -5238,6 +5238,27 @@ export interface paths {
       };
     };
   };
+  "/User/Weight": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+            "application/json": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+            "text/json": components["schemas"]["DateTimeDecimalKeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
   "/Vendor/{id}": {
     get: {
       parameters: {

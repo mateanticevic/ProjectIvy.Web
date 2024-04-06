@@ -16,10 +16,9 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
             <LineChart data={data}>
                 <XAxis
                     dataKey={name}
-                    domain={['auto', 'auto']}
                     tickFormatter={time => moment(time).format('MMM Do YY')}
                 />
-                <YAxis />
+                <YAxis min={60} max={100} domain={[85, 100]} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />

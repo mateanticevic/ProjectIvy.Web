@@ -9,10 +9,13 @@ function get(): Promise<User> {
 
 const getSessions = () => api.get('user/session');
 
+const getWeight = () => api.get('user/weight?from=2020-1-1');
+
 const user = {
     deleteSession,
     get,
     getSessions,
+    getWeight,
 };
 
 export default user;

@@ -6,12 +6,13 @@ import { Marker } from '@react-google-maps/api';
 import Skeleton from 'react-loading-skeleton'
 
 import api from 'api/main';
-import { Map, ValueLabel } from 'components';
+import { Map, SimpleLineChart, ValueLabel } from 'components';
 import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/expense-type-label';
 import { getIdentity } from 'utils/cookie-helper';
 import { Feature, User } from 'types/users';
 import { components } from 'types/ivy-types';
+import { KeyValuePair } from 'types/grouping';
 
 type Consumation = components['schemas']['Consumation'];
 type Expense = components['schemas']['Expense'];
@@ -33,6 +34,7 @@ interface State {
     location?: TrackingLocation,
     movies?: Movie[],
     spent?: TodayWeekMonth,
+    weightPerDay: KeyValuePair<number>[],
 }
 
 class DashboardPage extends React.Component<unknown, State> {
@@ -67,6 +69,7 @@ class DashboardPage extends React.Component<unknown, State> {
         allCalls.push(api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items })));
         allCalls.push(api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items })));
         allCalls.push(api.tracking.getLastLocation().then(location => this.setState({ location })));
+        allCalls.push(api.user.getWeight().then(weightPerDay => this.setState({ weightPerDay })));
 
         if (this.user?.defaultCar) {
             allCalls.push(api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carOdometer: carLog.odometer })));
@@ -222,6 +225,18 @@ class DashboardPage extends React.Component<unknown, State> {
                             </Card>
                         </div>
                     }
+                    <div className="flex-grid-item">
+                        <Card>
+                            <Card.Header>Weight</Card.Header>
+                            <Card.Body>
+                                <SimpleLineChart
+                                    data={this.state.weightPerDay.reverse()}
+                                    name="key"
+                                    value="value"
+                                />
+                            </Card.Body>
+                        </Card>
+                    </div>
                 </div>
             </Container >
         );
