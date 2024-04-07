@@ -231,8 +231,7 @@ class DashboardPage extends React.Component<unknown, State> {
                             <Card.Body>
                                 <SimpleLineChart
                                     data={this.state.weightPerDay.reverse()}
-                                    name="key"
-                                    value="value"
+                                    unit="kg"
                                 />
                             </Card.Body>
                         </Card>

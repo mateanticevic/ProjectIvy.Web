@@ -4,9 +4,9 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 
 interface Props {
     data: any;
-    name: string;
+    name?: string;
     unit?: string;
-    value: string;
+    value?: string;
 }
 
 export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
@@ -15,14 +15,14 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
         <ResponsiveContainer height={300}>
             <LineChart data={data}>
                 <XAxis
-                    dataKey={name}
+                    dataKey={name ?? 'key'}
                     tickFormatter={time => moment(time).format('MMM Do YY')}
                 />
                 <YAxis min={60} max={100} domain={[85, 100]} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey={value} stroke="#007bff" unit={unit ?? ''} />
+                <Line type="monotone" dot={false} dataKey={value ?? 'value'} stroke="#007bff" unit={unit ?? ''} />
             </LineChart>
         </ResponsiveContainer>
     );

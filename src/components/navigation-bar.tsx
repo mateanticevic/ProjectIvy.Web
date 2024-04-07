@@ -41,8 +41,8 @@ const NavigationBar = ({ identity }: Props) =>
                             <NavDropdown.Item as={Link} to="/locations"><TiLocation /> Locations</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/places"><TiLocation /> Places</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/location"><FaRoute /> Tracking</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking (old)</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/tracking-old"><FaRoute /> Tracking (old)</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
                         </NavDropdown>
                     }

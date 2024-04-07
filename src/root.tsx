@@ -13,14 +13,14 @@ import ExpensesPage from './pages/expenses';
 import FlightsPage from './pages/flights';
 import IncomesPage from './pages/incomes';
 import PoisPage from './pages/pois';
-import TrackingPage from './pages/tracking';
+import TrackingOldPage from './pages/tracking-old';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
-import LocationPage from 'pages/location';
+import TrackingPage from 'pages/tracking';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import CountriesPage from 'pages/countries';
@@ -222,12 +222,12 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/flights" element={<FlightsPage />} />
                                     <Route path="/flights-v2" element={<FlightsV2Page />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
-                                    <Route path="/location" element={<LocationPage />} />
                                     <Route path="/locations" element={<LocationsPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
                                     <Route path="/places" element={<PlacesPage />} />
                                     <Route path="/pois" element={<PoisPage />} />
                                     <Route path="/tracking" element={<TrackingPage />} />
+                                    <Route path="/tracking-old" element={<TrackingOldPage />} />
                                     <Route path="/trips" element={<TripsPage />} />
                                     <Route path="/trips/:id" element={<TripDetailsPage />} />
                                 </Routes>

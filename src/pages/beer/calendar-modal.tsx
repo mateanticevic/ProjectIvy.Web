@@ -1,4 +1,4 @@
-import CalendarGrid from 'pages/tracking/calendar-grid';
+import CalendarGrid from 'pages/tracking-old/calendar-grid';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import CalendarHeatmap from 'react-calendar-heatmap';
