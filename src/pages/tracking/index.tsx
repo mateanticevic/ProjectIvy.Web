@@ -30,6 +30,7 @@ import { locationLoader, routeLoader } from 'utils/select-loaders';
 import { FaLocationCrosshairs } from 'react-icons/fa6';
 import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
+import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -67,61 +68,7 @@ interface State {
     timezone?: string,
 }
 
-interface RoutePoints {
-    route: Route,
-    points: number[][],
-}
 
-enum DateMode {
-    Day,
-    Range,
-    Last
-}
-
-enum LastNDays {
-    One = 'one',
-    Week = 'week',
-    Month = 'month',
-    Year = 'year'
-}
-
-const geohashCharacters = ['b', 'c', 'd', 'e', 'f', 'h', 'g', 'k', 'j', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-const lastNDaysOptions = [
-    { id: LastNDays.One, name: '24 hours' },
-    { id: LastNDays.Week, name: 'Week' },
-    { id: LastNDays.Month, name: 'Month' },
-    { id: LastNDays.Year, name: 'Year' },
-];
-
-const lastNDaysMapping = {
-    [LastNDays.One]: 1,
-    [LastNDays.Week]: 7,
-    [LastNDays.Month]: 31,
-    [LastNDays.Year]: 365,
-};
-
-const rectangleOptionsSelected: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
-    fillOpacity: 0.1,
-    strokeWeight: 4,
-};
-
-const rectangleOptionsVisited: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
-    fillOpacity: 0,
-    strokeWeight: 1,
-};
-
-const rectangleOptionsNonVisited: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
-    fillOpacity: 0.4,
-    strokeWeight: 1,
-};
-
-interface PolygonProps {
-    layers: PolygonLayer[];
-}
 
 const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     const oldLayers = oldProps.layers;
@@ -208,25 +155,40 @@ class TrackingPage extends Page<unknown, State> {
                             <Card.Header>Draw</Card.Header>
                             <Card.Body>
                                 <FormGroup>
-                                    <ToggleButtonGroup type="radio" name="options" value={dateMode} onChange={dateMode => this.setState({ dateMode })}>
+                                    <FormLabel>Time</FormLabel>
+                                    {dateMode == DateMode.Day &&
+                                        <DateFormElement onChange={filterDay => this.setState({ filterDay })} />
+                                    }
+                                    {dateMode == DateMode.Last &&
+                                        <FormGroup>
+                                            <Select
+                                                options={lastNDaysOptions}
+                                                hideDefaultOption
+                                                onChange={lastNDays => this.setState({ lastNDays: lastNDays as LastNDays })}
+                                            />
+                                        </FormGroup>
+                                    }
+                                    <ToggleButtonGroup
+                                        name="time-options"
+                                        size="sm"
+                                        type="radio"
+                                        value={dateMode}
+                                        onChange={dateMode => this.setState({ dateMode })}
+                                    >
                                         <ToggleButton id="date-mode-day" value={DateMode.Day}><MdToday /> Day</ToggleButton>
                                         <ToggleButton id="date-mode-range" value={DateMode.Range}><FaRegCalendarAlt /> Range</ToggleButton>
                                         <ToggleButton id="date-mode-last" value={DateMode.Last}><Ri24HoursFill /> Last</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
-                                {dateMode == DateMode.Day &&
-                                    <DateFormElement onChange={filterDay => this.setState({ filterDay })} />
-                                }
-                                {dateMode == DateMode.Last &&
-                                    <FormGroup>
-                                        <Select
-                                            options={lastNDaysOptions}
-                                            onChange={lastNDays => this.setState({ lastNDays: lastNDays as LastNDays })}
-                                        />
-                                    </FormGroup>
-                                }
                                 <FormGroup>
-                                    <ToggleButtonGroup type="radio" name="options" value={drawMode} onChange={drawMode => this.setState({ drawMode })}>
+                                    <FormLabel>Type</FormLabel>
+                                    <ToggleButtonGroup
+                                        name="type-options"
+                                        size="sm"
+                                        type="radio"
+                                        value={drawMode}
+                                        onChange={drawMode => this.setState({ drawMode })}
+                                    >
                                         <ToggleButton id="toggle-mode-line" value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
                                         <ToggleButton id="toggle-mode-geohash" value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
                                     </ToggleButtonGroup>
@@ -280,7 +242,6 @@ class TrackingPage extends Page<unknown, State> {
                     </Col>
                     <Col lg={9}>
                         <Card>
-                            <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-large">
                                 {isMapReady &&
                                     <Map

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, ButtonProps, Spinner } from 'react-bootstrap';
 
 interface Props {
     isLoading: boolean;
+    size?: ButtonProps['size'];
     onClick: () => void;
 }
 
-const ButtonWithSpinner = ({ children, isLoading, onClick }: React.PropsWithChildren<Props>) =>
+const ButtonWithSpinner = ({ children, isLoading, size, onClick }: React.PropsWithChildren<Props>) =>
     <Button
         disabled={!!isLoading}
         type="submit"
+        size={size}
         variant="primary"
         onClick={onClick}
     >

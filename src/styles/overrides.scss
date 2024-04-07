@@ -68,8 +68,17 @@
   }
 
   .form-label {
+    display: block;
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+
+  .accordion-body .btn-group {
+    display: flex;
+  }
+
+  .card-body .btn-group {
+    display: flex;
   }
 }
 

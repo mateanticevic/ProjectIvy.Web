@@ -172,22 +172,43 @@ class PlacesPage extends Page<{}, State> {
                                     placeholder="Search by name or id"
                                     defaultOptions
                                 />
-                                <ToggleButtonGroup defaultValue={this.state.precision} type="radio" name="precisionOptions" onChange={this.changePrecision}>
-                                    {[2, 3, 4, 5, 6, 7, 8].map(x =>
-                                        <ToggleButton key={x} value={x} id={x}>{x}</ToggleButton>
-                                    )}
-                                </ToggleButtonGroup>
+                                <FormGroup>
+                                    <FormLabel>Geohash precision</FormLabel>
+                                    <ToggleButtonGroup
+                                        defaultValue={this.state.precision}
+                                        name="precisionOptions"
+                                        size="sm"
+                                        type="radio"
+                                        onChange={this.changePrecision}
+                                    >
+                                        {[2, 3, 4, 5, 6, 7, 8].map(x =>
+                                            <ToggleButton key={x} value={x} id={x}>{x}</ToggleButton>
+                                        )}
+                                    </ToggleButtonGroup>
+                                </FormGroup>
                                 <FormGroup>
                                     <FormLabel>Item type</FormLabel>
-                                    <ToggleButtonGroup defaultValue={ItemType.Country} type="radio" name="itemTypeOptions" onChange={value => this.setState({ itemType: value as ItemType })}>
+                                    <ToggleButtonGroup
+                                        defaultValue={ItemType.Country}
+                                        name="itemTypeOptions"
+                                        size="sm"
+                                        type="radio"
+                                        onChange={value => this.setState({ itemType: value as ItemType })}
+                                    >
                                         <ToggleButton key={ItemType.Country} value={ItemType.Country} id={ItemType.Country}><BiWorld /> Country</ToggleButton>
                                         <ToggleButton key={ItemType.City} value={ItemType.City} id={ItemType.City}><FaCity /> City</ToggleButton>
                                         <ToggleButton key={ItemType.Location} value={ItemType.Location} id={ItemType.Location}><FaLocationDot /> Location</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 <FormGroup>
-                                    <FormLabel>Select mode</FormLabel>
-                                    <ToggleButtonGroup defaultValue={SelectType.Select} type="radio" name="selectTypeOptions" onChange={value => this.setState({ selectType: value as SelectType })}>
+                                    <FormLabel style={{ display: 'block' }}>Select mode</FormLabel>
+                                    <ToggleButtonGroup
+                                        defaultValue={SelectType.Select}
+                                        name="selectTypeOptions"
+                                        size="sm"
+                                        type="radio"
+                                        onChange={value => this.setState({ selectType: value as SelectType })}
+                                    >
                                         <ToggleButton key={SelectType.Select} value={SelectType.Select} id={SelectType.Select}><MdOutlinePhotoSizeSelectSmall />Select</ToggleButton>
                                         <ToggleButton key={SelectType.Divide} value={SelectType.Divide} id={SelectType.Divide}><FaTableCells /> Divide</ToggleButton>
                                     </ToggleButtonGroup>
