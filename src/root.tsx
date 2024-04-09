@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Button, Card, Col, Container, FloatingLabel, Form, Row, Spinner, Toast } from 'react-bootstrap';
+import { Button, Card, FloatingLabel, Form, Spinner, Toast } from 'react-bootstrap';
 
-import { Feature, User } from 'types/users';
+import { User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
 import AccountPage from './pages/account';
@@ -61,9 +61,10 @@ export default class Root extends React.Component<{}, State> {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
+        console.log(import.meta.env);
 
         if (code) {
-            fetch('https://auth.anticevic.net/realms/ivy/protocol/openid-connect/token', {
+            fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

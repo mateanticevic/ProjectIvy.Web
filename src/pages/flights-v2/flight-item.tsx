@@ -3,6 +3,7 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 import { components } from 'types/ivy-types';
+import { vendorUrl } from 'utils/cdn-helper';
 
 type Flight = components['schemas']['Flight'];
 
@@ -16,7 +17,7 @@ const FlightItem = ({ flight, onClick }: Props) => {
     return (
         <Card onClick={onClick}>
             <Card.Body className="flight-item">
-                <img src={`https://cdn.anticevic.net/vendors/${airline.id}.jpg`} />
+                <img src={vendorUrl(airline!.id!)} />
 
                 <div className="flight-origin-destination">
                     <h3>{flight!.origin!.iata} - {flight!.destination!.iata}</h3>

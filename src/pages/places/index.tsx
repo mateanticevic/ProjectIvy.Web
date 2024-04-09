@@ -14,9 +14,11 @@ import { BiWorld } from 'react-icons/bi';
 import { FaLocationDot, FaTableCells } from 'react-icons/fa6';
 import { GrClear } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectSmall } from 'react-icons/md';
+import ButtonWithSpinner from 'components/button-with-spinner';
 
 interface State {
     geohashes: string[];
+    isSaving: boolean,
     itemGeohashes: string[];
     itemId?: string;
     itemType: ItemType;
@@ -31,6 +33,7 @@ class PlacesPage extends Page<{}, State> {
 
     state: State = {
         geohashes: [],
+        isSaving: false,
         itemGeohashes: [],
         itemType: ItemType.Country,
         precision: 3,
@@ -126,6 +129,8 @@ class PlacesPage extends Page<{}, State> {
     save = async () => {
         if (!this.state.itemId) return;
 
+        this.setState({ isSaving: true });
+
         if (this.state.selectedForDeletion.length > 0) {
             await apis[this.state.itemType].deleteGeohashes(this.state.itemId!, { ids: this.state.selectedForDeletion });
         }
@@ -137,6 +142,7 @@ class PlacesPage extends Page<{}, State> {
 
         this.setState({
             geohashes: [],
+            isSaving: false,
             itemGeohashes: [
                 ...this.state.itemGeohashes,
                 ...this.state.selected,
@@ -158,7 +164,7 @@ class PlacesPage extends Page<{}, State> {
     }
 
     render() {
-        const { itemGeohashes, geohashes, itemType, selectedForDeletion } = this.state;
+        const { itemGeohashes, geohashes, itemType, isSaving, selectedForDeletion } = this.state;
 
         return (
             <Container>
@@ -214,7 +220,11 @@ class PlacesPage extends Page<{}, State> {
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Button variant="primary" onClick={this.save}><FaSave /> Save</Button>
+                                    <ButtonWithSpinner
+                                        isLoading={isSaving}
+                                        onClick={this.save}>
+                                        <FaSave /> Save
+                                    </ButtonWithSpinner>
                                     <Button variant="primary" onClick={this.clearAll}><GrClear /> Clear</Button>
                                 </FormGroup>
                             </Card.Body>

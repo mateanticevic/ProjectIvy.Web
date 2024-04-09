@@ -15,6 +15,7 @@ import { cityLoader, expenseLoader } from 'utils/select-loaders';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
 import { User } from 'types/users';
+import { iconUrl } from 'utils/cdn-helper';
 
 type Flight = components['schemas']['Flight'];
 type Trip = components['schemas']['Trip'];
@@ -158,10 +159,10 @@ class TripDetailsPage extends React.Component<Props, State> {
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
                                 <Map>
-                                    {trip.cities.map(city =>
+                                    {trip.cities?.map(city =>
                                         <Marker
                                             key={city.id}
-                                            icon="https://cdn.anticevic.net/icons/location-small.png"
+                                            icon={iconUrl('location-small')}
                                             position={{ lat: city.lat, lng: city.lng }}
                                             title={city.name}
                                         />
@@ -171,7 +172,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                                 </Map>
                             </Card.Body>
                         </Card>
-                        {trip.cities.map(city =>
+                        {trip.cities?.map(city =>
                             <Badge onClick={() => this.deleteCity(city.id)}>{city.name}</Badge>
                         )}
                         <AsyncSelect

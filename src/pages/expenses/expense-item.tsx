@@ -8,6 +8,8 @@ import ExpenseTypeIcon from 'components/expense-type-icon';
 import { Name } from 'types/common';
 import { PaymentType } from 'consts/service';
 import { components } from 'types/ivy-types';
+import vendor from 'api/main/vendor';
+import { vendorUrl } from 'utils/cdn-helper';
 
 type Expense = components['schemas']['Expense'];
 
@@ -48,7 +50,7 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 </Badge>
                 <img
                     className="expense-item-icon"
-                    src={`https://cdn.anticevic.net/vendors/${expense.vendor?.id}.jpg`}
+                    src={vendorUrl(expense!.vendor!.id!)}
                     onError={x => x.target.src=''}
                 />
                 <div className="expense-item-content">

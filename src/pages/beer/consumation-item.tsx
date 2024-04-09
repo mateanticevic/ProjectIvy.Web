@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 
 import { ServingIcon } from './serving-icon';
 import { components } from 'types/ivy-types';
+import { beerUrl } from 'utils/cdn-helper';
 
 type Consumation = components['schemas']['Consumation'];
 
@@ -25,7 +26,7 @@ const ConsumationItem = ({ consumations }: Props) => {
             <Card.Body className="expense-item">
                 <img
                     className="consumation-item-icon"
-                    src={`https://cdn.anticevic.net/beers/${beer.id}.jpg`}
+                    src={beerUrl(beer!.id!)}
                     onError={x => x.target.src=''}
                 />
                 <div className="expense-item-content">

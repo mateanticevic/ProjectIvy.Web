@@ -676,7 +676,7 @@ class TrackingPage extends Page<unknown, State> {
                     return layer.stops.map(stop =>
                         <Marker
                             key={_.uniqueId()}
-                            icon="https://cdn.anticevic.net/icons/visit-marker.png"
+                            icon={iconUrl('visit-marker')}
                             position={stop.latLng}
                         >
                             <InfoWindow>
@@ -696,7 +696,7 @@ class TrackingPage extends Page<unknown, State> {
                     return layer.trackings.map(tracking =>
                         <Marker
                             key={_.uniqueId()}
-                            icon="https://cdn.anticevic.net/icons/location.png"
+                            icon={iconUrl('location')}
                             position={trackingToLatLng(tracking)}
                             onClick={() => this.onMarkerClick(layer, tracking)}
                         />

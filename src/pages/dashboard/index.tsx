@@ -13,6 +13,7 @@ import { getIdentity } from 'utils/cookie-helper';
 import { Feature, User } from 'types/users';
 import { components } from 'types/ivy-types';
 import { KeyValuePair } from 'types/grouping';
+import { carUrl } from 'utils/cdn-helper';
 
 type Consumation = components['schemas']['Consumation'];
 type Expense = components['schemas']['Expense'];
@@ -126,7 +127,7 @@ class DashboardPage extends React.Component<unknown, State> {
                                             defaultZoom={15}
                                         >
                                             <Marker
-                                                icon="https://cdn.anticevic.net/icons/location-small.png"
+                                                icon={`${import.meta.env.VITE_AUTH_URL}/icons/location-small.png`}
                                                 position={{ lat: location.tracking.lat, lng: location.tracking.lng }}
                                                 title="Current location"
                                             />
@@ -214,7 +215,7 @@ class DashboardPage extends React.Component<unknown, State> {
                     {this.identity?.pif?.includes(Feature.Cars) && this.user?.defaultCar && carOdometer &&
                         <div className="flex-grid-item">
                             <Card>
-                                <Card.Img variant="top" src={`https://cdn.anticevic.net/cars/${this.user.defaultCar?.model?.id}.jpg`} />
+                                <Card.Img variant="top" src={carUrl(this.user.defaultCar?.model?.id)} />
                                 <Card.Body>
                                     <Card.Title>{this.user.defaultCar?.model?.name}</Card.Title>
                                     <Card.Text>{carOdometer} km</Card.Text>
