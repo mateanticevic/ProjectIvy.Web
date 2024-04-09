@@ -38,6 +38,7 @@ const NavigationBar = ({ identity }: Props) =>
                         <NavDropdown id="nav-dropdown-travel" title="Travel">
                             <NavDropdown.Item as={Link} to="/countries"><BiWorld /> Countries</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/flights-old"><GiAirplaneDeparture /> Flights (old)</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/locations"><TiLocation /> Locations</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/places"><TiLocation /> Places</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>

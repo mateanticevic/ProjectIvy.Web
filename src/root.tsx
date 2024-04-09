@@ -61,7 +61,6 @@ export default class Root extends React.Component<{}, State> {
     componentDidMount() {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
-        console.log(import.meta.env);
 
         if (code) {
             fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
@@ -220,8 +219,8 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
                                     <Route path="/countries" element={<CountriesPage />} />
                                     <Route path="/expenses" element={<ExpensesPage />} />
-                                    <Route path="/flights" element={<FlightsPage />} />
-                                    <Route path="/flights-v2" element={<FlightsV2Page />} />
+                                    <Route path="/flights" element={<FlightsV2Page />} />
+                                    <Route path="/flights-old" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
                                     <Route path="/locations" element={<LocationsPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
