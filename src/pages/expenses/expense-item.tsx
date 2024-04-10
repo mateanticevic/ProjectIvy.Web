@@ -50,7 +50,7 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 </Badge>
                 <img
                     className="expense-item-icon"
-                    src={vendorUrl(expense!.vendor!.id!)}
+                    src={vendorUrl(expense?.vendor?.id)}
                     onError={x => x.target.src=''}
                 />
                 <div className="expense-item-content">
