@@ -14,6 +14,10 @@
     padding: 10px;
   }
 
+  .expense-type-badge {
+    font-size: 38px;
+    padding: 10px;
+  }
 
   .btn-sm {
     padding: 0px 4px 0px 4px;
@@ -28,7 +32,7 @@
     border: unset;
     font-weight: 600;
     padding: 10px 15px;
-    
+
     a {
       text-decoration: none;
     }
@@ -59,7 +63,8 @@
   th {
     font-weight: unset;
   }
-  .input-group .form-control{
+
+  .input-group .form-control {
     z-index: unset;
   }
 

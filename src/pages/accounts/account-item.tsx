@@ -9,12 +9,14 @@ interface Props {
     account: Account;
 }
 
+const iconSize = 20;
+
 const AccountIcon = ({ account }) => {
     if (account.bank?.id === 'revolut') {
-        return <SiRevolut />;
+        return <SiRevolut size={iconSize} />;
     }
 
-    return <MdAccountBalance />;
+    return <MdAccountBalance size={iconSize} />;
 };
 
 const AccountItem = ({ account }: Props) => {
@@ -27,7 +29,6 @@ const AccountItem = ({ account }: Props) => {
             <Card.Body className="expense-item">
                 <Badge
                     bg="primary"
-                    className="expense-type-badge"
                 >
                     <AccountIcon account={account} />
                 </Badge>

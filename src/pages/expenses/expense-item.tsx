@@ -40,7 +40,7 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
     return (
-        <Card onClick={() => onClick(expense)}>
+        <Card onClick={() => onClick(expense)}      >
             <Card.Body className="expense-item">
                 <Badge
                     className="expense-type-badge"
