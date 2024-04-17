@@ -15,7 +15,25 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: never;
+          content: {
+            "text/plain": components["schemas"]["Account"][];
+            "application/json": components["schemas"]["Account"][];
+            "text/json": components["schemas"]["Account"][];
+          };
+        };
+      };
+    };
+  };
+  "/Account/NetWorth": {
+    get: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": number;
+            "application/json": number;
+            "text/json": number;
+          };
         };
       };
     };
@@ -36,6 +54,31 @@ export interface paths {
     };
   };
   "/Account/{accountId}/transaction": {
+    get: {
+      parameters: {
+        query?: {
+          PageAll?: boolean;
+          Page?: number;
+          PageSize?: number;
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+        path: {
+          accountId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["TransactionPagedView"];
+            "application/json": components["schemas"]["TransactionPagedView"];
+            "text/json": components["schemas"]["TransactionPagedView"];
+          };
+        };
+      };
+    };
     post: {
       parameters: {
         path: {
@@ -5347,6 +5390,15 @@ export type webhooks = Record<string, never>;
 
 export interface components {
   schemas: {
+    Account: {
+      id?: string | null;
+      name?: string | null;
+      iban?: string | null;
+      bank?: components["schemas"]["Bank"];
+      /** Format: double */
+      balance?: number;
+      currency?: components["schemas"]["Currency"];
+    };
     Airline: {
       id?: string | null;
       name?: string | null;
@@ -6328,11 +6380,23 @@ export interface components {
       location?: components["schemas"]["KnownLocation"];
       tracking?: components["schemas"]["Tracking"];
     };
+    Transaction: {
+      /** Format: double */
+      amount?: number;
+      /** Format: date-time */
+      created?: string;
+      description?: string | null;
+    };
     TransactionBinding: {
       /** Format: double */
       amount?: number;
       /** Format: date-time */
       created?: string;
+    };
+    TransactionPagedView: {
+      /** Format: int64 */
+      count?: number;
+      items?: components["schemas"]["Transaction"][] | null;
     };
     /** @enum {string} */
     TransactionSource: "Hac" | "OtpBank" | "Revolut";
