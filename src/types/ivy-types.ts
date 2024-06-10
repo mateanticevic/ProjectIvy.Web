@@ -5467,6 +5467,7 @@ export interface components {
       countries?: components["schemas"]["Country"][] | null;
       events?: components["schemas"]["Event"][] | null;
       isHoliday?: boolean;
+      locations?: components["schemas"]["Location"][] | null;
       /** Format: date-time */
       date?: string;
       workDayType?: components["schemas"]["WorkDayType"];

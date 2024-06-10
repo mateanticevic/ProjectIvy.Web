@@ -18,7 +18,7 @@ type Location = components['schemas']['Location'];
 interface Props {
     day: CalendarDay;
     flights: Flight[];
-    locations: Location[];
+    //locations: Location[];
     offset?: number;
     onShowMap?(): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
@@ -33,7 +33,7 @@ const workDayTypes = [
     { id: 'conference', name: 'Conference' },
 ];
 
-export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChange, onShowMap }: Props) => {
+export const CalendarDay = ({ day, flights, offset, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -57,9 +57,9 @@ export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChan
         'working-day': isWorkingDay,
     });
 
-    const places = locations.concat(day.events?.map(e => ({ name: e.name, id: e.id })) ?? [])
-                            .concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
-                            .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
+    const places = (day.locations ?? []).concat(day.events?.map(e => ({ name: e.name, id: e.id })) ?? [])
+                                .concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
+                                .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
@@ -76,7 +76,7 @@ export const CalendarDay = ({ day, flights, locations, offset, onWorkDayTypeChan
                         countries={day.countries ?? []}
                         events={day.events ?? []}
                         flights={flights}
-                        locations={locations}
+                        locations={day.locations ?? []}
                     />
                 </ListGroup>
             </Card.Body>

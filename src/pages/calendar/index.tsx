@@ -70,7 +70,7 @@ class CalendarPage extends Page<Props, State> {
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
                             flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
-                            locations={locationsByDay.filter(l => moment(l.key).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))[0]?.value || []}
+                            //locations={locationsByDay.filter(l => moment(l.key).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))[0]?.value || []}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
                             onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
                             onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
@@ -108,12 +108,12 @@ class CalendarPage extends Page<Props, State> {
                     startDay: month.startOf('month')
                 });
             });
-        api.location.getByDay(from, to)
-            .then(locationsByDay => {
-                this.setState({
-                    locationsByDay,
-                });
-            });
+        // api.location.getByDay(from, to)
+        //     .then(locationsByDay => {
+        //         this.setState({
+        //             locationsByDay,
+        //         });
+        //     });
         api.flight.get({ from, to: month.clone().endOf('month').add(1, 'day').format('YYYY-MM-DD') })
             .then(data => {
                 this.setState({
