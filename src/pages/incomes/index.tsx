@@ -13,6 +13,7 @@ import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './income-modal';
 import { components } from 'types/ivy-types';
+import _ from 'lodash';
 
 type Currency = components['schemas']['Currency'];
 type Income = components['schemas']['Income'];
@@ -139,7 +140,7 @@ class IncomesPage extends Page<unknown, State> {
                                 <Table responsive>
                                     <tbody>
                                         {incomes.items.map(income =>
-                                            <tr key={income.timestamp}>
+                                            <tr key={_.uniqueId()}>
                                                 <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
                                                 <td><Badge variant="primary">{income.type.name}</Badge></td>
                                                 <td>{income.description}</td>
