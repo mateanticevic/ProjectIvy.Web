@@ -127,7 +127,7 @@ class DashboardPage extends React.Component<unknown, State> {
                                             defaultZoom={15}
                                         >
                                             <Marker
-                                                icon={`${import.meta.env.VITE_AUTH_URL}/icons/location-small.png`}
+                                                icon={`${import.meta.env.VITE_CDN_URL}/icons/location-small.png`}
                                                 position={{ lat: location.tracking.lat, lng: location.tracking.lng }}
                                                 title="Current location"
                                             />
