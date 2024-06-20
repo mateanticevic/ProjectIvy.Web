@@ -451,6 +451,12 @@ class TrackingPage extends Page<unknown, State> {
                 ],
                 requestActive: false,
             });
+
+            const bounds = new google.maps.LatLngBounds();
+            trackings.forEach(t => {
+                bounds.extend(trackingToLatLng(t));
+            });
+            this.map?.fitBounds(bounds);
         });
     };
 
