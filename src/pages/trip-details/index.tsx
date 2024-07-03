@@ -41,7 +41,10 @@ interface State {
 
 class TripDetailsPage extends React.Component<Props, State> {
 
+    map?: google.maps.Map;
+
     user = this.context as User;
+    
     state: State = {
         beerSum: 0,
         expenseFilters: {
@@ -68,10 +71,15 @@ class TripDetailsPage extends React.Component<Props, State> {
             .then(trip => {
                 this.setState({ trip });
                 const filters = { from: trip.timestampStart, to: trip.timestampEnd };
-                api.tracking.get(filters).then(trackings => this.setState({ trackings }));
                 api.consumation.getSum(filters).then(beerSum => this.setState({ beerSum }));
-                api.flight.getFlights(filters).then(flights => this.setState({ flights: flights.items }));
+                api.flight.get(filters).then(flights => this.setState({ flights: flights.items }));
                 api.ride.get(filters).then(rides => this.setState({ rides }));
+                api.tracking.get(filters).then(trackings => {
+                    this.setState({ trackings });
+                    const bounds = new google.maps.LatLngBounds();
+                    trackings.forEach(tracking => bounds.extend(tracking));
+                    this.map?.fitBounds(bounds);
+                });
             });
     }
 
@@ -158,7 +166,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="padding-0 panel-medium">
-                                <Map>
+                                <Map onLoad={map => this.map = map}>
                                     {trip.cities?.map(city =>
                                         <Marker
                                             key={city.id}
