@@ -62,36 +62,36 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
                 <FormLabel>Departure UTC</FormLabel>
                 <Datetime
                     dateFormat="YYYY-MM-DD"
-                    value={moment(flightBinding.departure)}
+                    initialValue={moment(flightBinding.departure)}
                     timeFormat="HH:mm"
-                    onChange={x => onChange({ departure: x.format('YYYY-MM-DD HH:mm') })}
+                    onChange={x => moment.isMoment(x) && onChange({ departure: x.format('YYYY-MM-DD HH:mm') })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Departure Local</FormLabel>
                 <Datetime
                     dateFormat="YYYY-MM-DD"
-                    value={moment(flightBinding.departureLocal)}
+                    initialValue={moment(flightBinding.departureLocal)}
                     timeFormat="HH:mm"
-                    onChange={x => onChange({ departureLocal: x.format('YYYY-MM-DD HH:mm') })}
+                    onChange={x => moment.isMoment(x) && onChange({ departureLocal: x.format('YYYY-MM-DD HH:mm') })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival UTC</FormLabel>
                 <Datetime
                     dateFormat="YYYY-MM-DD"
-                    value={moment(flightBinding.arrival)}
+                    initialValue={moment(flightBinding.arrival)}
                     timeFormat="HH:mm"
-                    onChange={x => onChange({ arrival: x.format('YYYY-MM-DD HH:mm') })}
+                    onChange={x => moment.isMoment(x) && onChange({ arrival: x.format('YYYY-MM-DD HH:mm') })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival Local</FormLabel>
                 <Datetime
                     dateFormat="YYYY-MM-DD"
-                    value={moment(flightBinding.arrivalLocal)}
+                    initialValue={moment(flightBinding.arrivalLocal)}
                     timeFormat="HH:mm"
-                    onChange={x => onChange({ arrivalLocal: x.format('YYYY-MM-DD HH:mm') })}
+                    onChange={x => moment.isMoment(x) && onChange({ arrivalLocal: x.format('YYYY-MM-DD HH:mm') })}
                 />
             </FormGroup>
             <FormGroup>
