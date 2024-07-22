@@ -7,18 +7,14 @@ import { components } from 'types/ivy-types';
 import classNames from 'classnames';
 import { SelectOption } from 'types/common';
 import { WorkDayTypeIcon } from './work-day-type-icon';
-import { MdOutlineAirplanemodeActive } from 'react-icons/md';
-import { IoMdHome } from 'react-icons/io';
 import CalendarDaySubitems from './calendar-day-subitems';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
-type Location = components['schemas']['Location'];
 
 interface Props {
     day: CalendarDay;
     flights: Flight[];
-    //locations: Location[];
     offset?: number;
     onShowMap?(): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
@@ -51,10 +47,11 @@ export const CalendarDay = ({ day, flights, offset, onWorkDayTypeChange, onShowM
 
     const classes = classNames('calendar-item', {
         'holiday': day.isHoliday,
+        'office': isWorkingDay && day.workDayType?.id !== 'remote',
+        'remote': day.workDayType?.id === 'remote',
         'today': momentDay.isSame(moment(), 'day'),
         'vacation': day.workDayType?.id === 'vacation' && !day.isHoliday,
         'weekend': isWeekend && !day.isHoliday,
-        'working-day': isWorkingDay,
     });
 
     const places = (day.locations ?? []).concat(day.events?.map(e => ({ name: e.name, id: e.id })) ?? [])
