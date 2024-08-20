@@ -23,8 +23,11 @@ const FlightItem = ({ flight, onClick }: Props) => {
                     <h3>{flight!.origin!.iata} - {flight!.destination!.iata}</h3>
                 </div>
                 <div className="flight-item-date">
-                    <h3>{moment(flight.departureLocal).format('MMMM D YYYY')}</h3>
+                    <h5>{moment(flight.departureLocal).format('MMMM Do YYYY')}</h5>
                 </div>
+                <div className="flight-item-distance">
+                    <h5>{flight.distanceInKm} km</h5>
+                </div>                
             </Card.Body>
         </Card>
     );

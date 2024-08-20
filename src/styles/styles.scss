@@ -348,11 +348,17 @@ body #app {
     .flight-item-date {
       flex-grow: 1;
       text-align: right;
+    }
 
-      h3 {
-        margin-bottom: 0px;
+    .flight-item-distance {
+      h5 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #4d4d4d;
+        margin-left: 10px;
       }
     }
+
   }
 
   .trip-item {
