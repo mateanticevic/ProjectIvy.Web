@@ -11,13 +11,14 @@ import Filters from './filters';
 import FiltersMore from './filters-more';
 import NumbersCard from './numbers-card';
 import api from 'api/main';
-import { ExpenseBinding, ExpenseFilters, ExpenseFile } from 'types/expenses';
+import { ExpenseFilters } from 'types/expenses';
 import { DistributionCard } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import { PagedList, SelectOption } from 'types/common';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
+import DropzoneButton from 'components/dropzone-button';
 
 type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
@@ -201,6 +202,10 @@ class ExpensesPage extends Page<unknown, State> {
                                         onClick={this.onExpenseNew}>
                                         New
                                     </Button>
+                                    <DropzoneButton
+                                        title="Create from photo"
+                                        onSelected={this.onPhotosSelected}
+                                    />
                                 </div>
                             </Col>
                         </Row>
@@ -470,6 +475,11 @@ class ExpensesPage extends Page<unknown, State> {
             groupyByApis[groupBy ?? this.state.sumGroupBy](this.state.filters).then(sumChartData => this.setState({ sumChartData }));
         }
     };
+
+    onPhotosSelected = (files: File[]) => {
+        console.log(files);
+        api.expense.postExpenseFromPhoto(files[0]);
+    }
 
     transformToChartData = (data) => {
         return data.map(month => {
