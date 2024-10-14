@@ -26,6 +26,10 @@ type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
 type User = components['schemas']['User'];
 
+interface Props {
+    toast: (title: string, message: string) => void;
+}
+
 interface State {
     cards: Card[];
     currencies: SelectOption[];
@@ -76,7 +80,7 @@ const groupyByTypeApis = {
     [GroupByTime.ByMonthOfYear]: api.expense.getSumByMonthOfYearByType,
 };
 
-class ExpensesPage extends Page<unknown, State> {
+class ExpensesPage extends Page<Props, State> {
 
     user = this.context as User;
     state: State = {
@@ -477,8 +481,9 @@ class ExpensesPage extends Page<unknown, State> {
     };
 
     onPhotosSelected = (files: File[]) => {
-        console.log(files);
-        api.expense.postExpenseFromPhoto(files[0]);
+        api.expense.postExpenseFromPhoto(files[0])
+            .then(() => this.props.toast('Success', 'Expense created from photo'))
+            .catch(response => this.props.toast('Failed', 'Expense template not recognized'));
     }
 
     transformToChartData = (data) => {

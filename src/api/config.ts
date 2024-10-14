@@ -21,7 +21,7 @@ function handleResponse(response) {
         document.cookie=`AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
         window.location = '/';
     } else {
-        //throw new Error(response.status);
+        throw new Error(response.status);
     }
 }
 
