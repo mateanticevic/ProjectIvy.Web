@@ -4,8 +4,6 @@ import { httpHeader } from './http-header';
 import { httpMethod } from './http-method';
 import { httpStatus } from './http-status';
 
-const headers = new Headers();
-
 function handleResponse(response) {
     const contentType = response.headers.get(httpHeader.CONTENT_TYPE);
 
@@ -48,6 +46,8 @@ const getBaseApiPath = () => `${import.meta.env.VITE_API_URL}/`;
 
 export function get(resource: string, parameters?: any, timeout?: number) {
 
+    const headers = new Headers();
+
     const init: RequestInit = {
         cache: 'default',
         credentials: 'include',
@@ -61,6 +61,8 @@ export function get(resource: string, parameters?: any, timeout?: number) {
 
 export function del(resource: string, parameters?: any) {
 
+    const headers = new Headers();
+
     const init: RequestInit = {
         credentials: 'include',
         headers,
@@ -73,6 +75,7 @@ export function del(resource: string, parameters?: any) {
 
 export function patch(resource: string, json?: object, parameters?: string) {
 
+    const headers = new Headers();
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
     const init: RequestInit = {
@@ -89,6 +92,7 @@ export function patch(resource: string, json?: object, parameters?: string) {
 
 export function post(resource: string, json?: object, parameters?: string) {
 
+    const headers = new Headers();
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
     const init: RequestInit = {
@@ -105,6 +109,9 @@ export function post(resource: string, json?: object, parameters?: string) {
 
 export function postFile(resource: string, file: File) {
 
+    const headers = new Headers();
+    headers.append(httpHeader.CONTENT_TYPE, file.type);
+
     const init: RequestInit = {
         body: file,
         cache: 'default',
@@ -119,6 +126,7 @@ export function postFile(resource: string, file: File) {
 
 export function put(resource: string, json: object) {
 
+    const headers = new Headers();
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
 
     const init: RequestInit = {

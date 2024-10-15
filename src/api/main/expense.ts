@@ -66,7 +66,7 @@ const getSumByYearByType = (filters) => api.get('expense/sum/byYear/byType', fil
 
 const post = (expense) => api.post('expense', expense);
 
-const postExpenseFromFile = (file) => api.postFile('expense/fromFile', file);
+const postExpenseFromFile = (file: File) => api.postFile('expense/fromFile', file);
 
 const postFile = (expenseId, fileId, payload) => api.post(`expense/${expenseId}/file/${fileId}`, payload);
 
