@@ -481,7 +481,7 @@ class ExpensesPage extends Page<Props, State> {
     };
 
     onPhotosSelected = (files: File[]) => {
-        api.expense.postExpenseFromPhoto(files[0])
+        api.expense.postExpenseFromFile(files[0])
             .then(() => this.props.toast('Success', 'Expense created from photo'))
             .catch(response => this.props.toast('Failed', 'Expense template not recognized'));
     }
