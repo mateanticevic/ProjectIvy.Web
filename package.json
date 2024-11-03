@@ -14,7 +14,7 @@
   "author": "Mate Antičević",
   "license": "MIT",
   "dependencies": {
-    "@react-google-maps/api": "2.19.2",
+    "@react-google-maps/api": "2.20.3",
     "@types/ngeohash": "^0.6.6",
     "bootstrap": "^5.3.1",
     "classnames": "^2.3.2",

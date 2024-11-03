@@ -68,8 +68,6 @@ interface State {
     timezone?: string,
 }
 
-
-
 const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
     const oldLayers = oldProps.layers;
     const newLayers = newProps.layers;

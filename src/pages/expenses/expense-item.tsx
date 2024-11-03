@@ -8,7 +8,6 @@ import ExpenseTypeIcon from 'components/expense-type-icon';
 import { Name } from 'types/common';
 import { PaymentType } from 'consts/service';
 import { components } from 'types/ivy-types';
-import vendor from 'api/main/vendor';
 import { vendorUrl } from 'utils/cdn-helper';
 
 type Expense = components['schemas']['Expense'];
@@ -51,15 +50,15 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 <img
                     className="expense-item-icon"
                     src={vendorUrl(expense?.vendor?.id)}
-                    onError={x => x.target.src=''}
+                    onError={x => (x.target as HTMLImageElement).src=''}
                 />
                 <div className="expense-item-content">
                     <div className="expense-item-title">
-                        {expense!.comment?.length > 0 ? expense.comment : expense!.expenseType!.name}
+                    {expense!.comment?.length > 0 ? expense.comment : expense!.expenseType!.name}
                     </div>
                     <div className="expense-item-date">
                         {expense.vendor &&
-                            `${expense.vendor.name}`
+                            expense.vendor.name
                         }
                     </div>
                 </div>
@@ -70,7 +69,7 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                             {expense.parentCurrency &&
                                 <RiExchangeDollarLine title={`Parent currency ${expense.parentCurrency.code}`} />
                             }
-                            {expense.files && expense.files.length > 0 &&
+                            {expense.files?.length > 0 &&
                                 <FaFile title={`Has ${expense.files.length} linked files`} />
                             }
                         </div>
