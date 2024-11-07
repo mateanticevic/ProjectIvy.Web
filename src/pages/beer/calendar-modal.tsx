@@ -29,6 +29,10 @@ const valueToClass = (value) => {
 
 const ConsumationModal = ({ dates, isOpen, onClose }: Props) => {
 
+    if (dates.length == 0){
+        return null;
+    }
+
     const year = new Date(dates[0].key).getFullYear();
 
     return (
@@ -39,7 +43,7 @@ const ConsumationModal = ({ dates, isOpen, onClose }: Props) => {
             size="xl"
         >
             <Modal.Header closeButton>
-                <Modal.Title>New consumation</Modal.Title>
+                <Modal.Title>Consumation per day</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <CalendarHeatmap
