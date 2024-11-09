@@ -18,6 +18,16 @@ import { FaHashtag } from 'react-icons/fa';
 
 momentDurationFormatSetup(moment);
 
+export enum MarkerType {
+    End,
+    Start,
+}
+
+export enum RewindDirection {
+    Forward,
+    Reverse,
+}
+
 type Tracking = components['schemas']['Tracking'];
 
 interface Props {
@@ -26,9 +36,9 @@ interface Props {
     onClip(): void,
     onEndMarkerMoved(tracking: Tracking): void,
     onRemove(): void,
-    onStartMarkerMoved(tracking: Tracking): void,
     onShowStopsToggle(): void,
     onShowTrackingsToggle(): void,
+    onStartMarkerMoved(tracking: Tracking): void,
 }
 
 const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
@@ -50,6 +60,44 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
 
         onEndMarkerMoved(layer.endTracking);
         onStartMarkerMoved(layer.startTracking);
+    };
+
+    const onStep = (markerType: MarkerType, direction: RewindDirection) => {
+        const index = markerType === MarkerType.Start ? startIndex : endIndex;
+
+        for (let i = 0; i < layer.stops.length; i++) {
+            if (layer.stops[i].endIndex >= index && index >= layer.stops[i].startIndex) {
+
+                // First stop
+                if (i === 0) {
+                    if (direction === RewindDirection.Reverse && markerType === MarkerType.Start) {
+                        onChange(0, endIndex);
+                    }
+                }
+
+                // Last stop
+                if (i === layer.stops.length - 1) {
+                    if (direction === RewindDirection.Forward && markerType === MarkerType.End) {
+                        onChange(startIndex, layer.trackings.length - 1);
+                    }
+                }
+
+                // Middle stops
+                if (direction === RewindDirection.Forward) {
+                    if (markerType === MarkerType.Start) {
+                        onChange(layer.stops[i + 1].startIndex, endIndex);
+                    } else {
+                        onChange(startIndex, layer.stops[i + 1].startIndex);
+                    }
+                } else {
+                    if (markerType === MarkerType.Start) {
+                        onChange(layer.stops[i - 1].endIndex, endIndex);
+                    } else {
+                        onChange(startIndex, layer.stops[i - 1].endIndex);
+                    }
+                }
+            }
+        }
     };
 
     const getDistanceBetweenTrackings = (from: number, to: number) => {
@@ -102,6 +150,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                     tracking={layer.startTracking}
                     onNext={() => onChange(startIndex + 1, endIndex)}
                     onPrevious={() => onChange(startIndex - 1, endIndex)}
+                    onStep={(direction: RewindDirection) => onStep(MarkerType.Start, direction)}
                 />
                 <div className="pull-right">
                     <MarkerControl
@@ -111,6 +160,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                         tracking={layer.endTracking}
                         onNext={() => onChange(startIndex, endIndex + 1)}
                         onPrevious={() => onChange(startIndex, endIndex - 1)}
+                        onStep={(direction: RewindDirection) => onStep(MarkerType.End, direction)}
                     />
                 </div>
                 <div>

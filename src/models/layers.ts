@@ -14,8 +14,10 @@ export interface GeohashElement {
 
 export interface Stop {
     end: moment.Moment,
+    endIndex: number,
     latLng: google.maps.LatLng,
     start: moment.Moment,
+    startIndex: number,
 }
 
 export class GeohashLayer implements Layer {
@@ -29,8 +31,8 @@ export class GeohashLayer implements Layer {
 }
 
 export class PolygonLayer implements Layer {
-    id: string;
     endTracking: Tracking;
+    id: string;
     showStops = false;
     showTrackings = false;
     startTracking: Tracking;
@@ -59,6 +61,7 @@ export class TrackingLayer implements Layer {
 const getStops = (trackings: Tracking[]) => {
     const stops: Stop[] = [];
 
+    let startIndex = 0;
     for (let i = 0; i < trackings.length - 1; i++) {
         const end = moment(trackings[i + 1].timestamp);
         const start = moment(trackings[i].timestamp);
@@ -66,11 +69,22 @@ const getStops = (trackings: Tracking[]) => {
         if (moment.duration(end.diff(start)).asMinutes() > 10) {
             stops.push({
                 end,
+                endIndex: i,
                 latLng: trackingToLatLng(trackings[i]),
                 start,
+                startIndex,
             });
+            startIndex = i + 1;
         }
     }
 
-    return stops;
+    stops.push({
+        end: moment(trackings[trackings.length - 1].timestamp),
+        endIndex: trackings.length - 1,
+        latLng: trackingToLatLng(trackings[trackings.length - 1]),
+        start: moment(trackings[startIndex].timestamp),
+        startIndex,
+    });
+
+    return stops.sort((a, b) => a.startIndex - b.startIndex);
 };
