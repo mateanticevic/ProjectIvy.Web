@@ -5,7 +5,6 @@ import mtz from 'moment-timezone';
 import { FaBackward, FaForward, FaStepBackward, FaStepForward } from 'react-icons/fa';
 
 import { components } from 'types/ivy-types';
-import { MarkerType } from './polyline-layer';
 import { RewindDirection } from './polyline-layer';
 
 type Tracking = components['schemas']['Tracking'];

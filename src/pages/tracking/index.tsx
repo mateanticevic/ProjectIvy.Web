@@ -441,7 +441,7 @@ class TrackingPage extends Page<unknown, State> {
         }
 
         api.tracking.get(filters).then(trackings => {
-            const layer = new PolygonLayer(trackings);
+            const layer = new PolygonLayer(trackings, this.state.timezone);
             this.setState({
                 polygonLayers: [
                     ...this.state.polygonLayers,

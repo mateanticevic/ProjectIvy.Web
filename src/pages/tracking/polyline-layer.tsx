@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, Card, Form, ToggleButton } from 'react-bootstrap';;
+import { Button, Card, Form } from 'react-bootstrap';;
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import { AiOutlineScissor } from 'react-icons/ai';
@@ -65,8 +65,8 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
     const onStep = (markerType: MarkerType, direction: RewindDirection) => {
         const index = markerType === MarkerType.Start ? startIndex : endIndex;
 
-        for (let i = 0; i < layer.stops.length; i++) {
-            if (layer.stops[i].endIndex >= index && index >= layer.stops[i].startIndex) {
+        for (let i = 0; i < layer.segments.length; i++) {
+            if (layer.segments[i].endIndex >= index && index >= layer.segments[i].startIndex) {
 
                 // First stop
                 if (i === 0) {
@@ -76,7 +76,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                 }
 
                 // Last stop
-                if (i === layer.stops.length - 1) {
+                if (i === layer.segments.length - 1) {
                     if (direction === RewindDirection.Forward && markerType === MarkerType.End) {
                         onChange(startIndex, layer.trackings.length - 1);
                     }
@@ -85,15 +85,15 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                 // Middle stops
                 if (direction === RewindDirection.Forward) {
                     if (markerType === MarkerType.Start) {
-                        onChange(layer.stops[i + 1].startIndex, endIndex);
+                        onChange(layer.segments[i + 1].startIndex, endIndex);
                     } else {
-                        onChange(startIndex, layer.stops[i + 1].startIndex);
+                        onChange(startIndex, layer.segments[i + 1].startIndex);
                     }
                 } else {
                     if (markerType === MarkerType.Start) {
-                        onChange(layer.stops[i - 1].endIndex, endIndex);
+                        onChange(layer.segments[i - 1].endIndex, endIndex);
                     } else {
-                        onChange(startIndex, layer.stops[i - 1].endIndex);
+                        onChange(startIndex, layer.segments[i - 1].endIndex);
                     }
                 }
             }
@@ -178,6 +178,11 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                 <div>
                     <FaHashtag />
                     {layer.trackings.length}
+                </div>
+                <div>
+                    {layer.segments.map((segment, i) =>
+                        <div>{`${segment.start.format('HH:mm')}-${segment.end.format('HH:mm')} ${moment.duration(segment.end.diff(segment.start)).asMinutes().toFixed(0)} min`}</div>
+                    )}
                 </div>
             </Card.Body>
         </Card>

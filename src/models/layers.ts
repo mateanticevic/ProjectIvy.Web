@@ -1,9 +1,9 @@
 import { components } from 'types/ivy-types';
 import _ from 'lodash';
+import mtz from 'moment-timezone';
 
 import { Layer } from 'types/location';
 import moment from 'moment';
-import { trackingToLatLng } from 'utils/gmap-helper';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -12,10 +12,9 @@ export interface GeohashElement {
     rectangle: number[],
 }
 
-export interface Stop {
+export interface Segment {
     end: moment.Moment,
     endIndex: number,
-    latLng: google.maps.LatLng,
     start: moment.Moment,
     startIndex: number,
 }
@@ -36,15 +35,17 @@ export class PolygonLayer implements Layer {
     showStops = false;
     showTrackings = false;
     startTracking: Tracking;
-    stops: Stop[];
+    segments: Segment[];
+    timezone?: string;
     trackings: Tracking[];
 
-    constructor(trackings: Tracking[]) {
-        this.id = _.uniqueId();
-        this.trackings = trackings;
-        this.startTracking = trackings[0];
-        this.stops = getStops(trackings);
+    constructor(trackings: Tracking[], timezone?: string) {
         this.endTracking = trackings[trackings.length - 1];
+        this.id = _.uniqueId();
+        this.segments = getSegments(trackings, timezone);
+        this.startTracking = trackings[0];
+        this.timezone = timezone;
+        this.trackings = trackings;
     }
 }
 
@@ -58,8 +59,8 @@ export class TrackingLayer implements Layer {
     }
 }
 
-const getStops = (trackings: Tracking[]) => {
-    const stops: Stop[] = [];
+const getSegments = (trackings: Tracking[], timezone?: string) => {
+    const segments: Segment[] = [];
 
     let startIndex = 0;
     for (let i = 0; i < trackings.length - 1; i++) {
@@ -67,24 +68,22 @@ const getStops = (trackings: Tracking[]) => {
         const start = moment(trackings[i].timestamp);
 
         if (moment.duration(end.diff(start)).asMinutes() > 10) {
-            stops.push({
-                end,
+            segments.push({
+                end: timezone ? mtz.utc(trackings[i].timestamp).tz(timezone) : moment(trackings[i].timestamp),
                 endIndex: i,
-                latLng: trackingToLatLng(trackings[i]),
-                start,
+                start: timezone ? mtz.utc(trackings[startIndex].timestamp).tz(timezone) : moment(trackings[startIndex].timestamp),
                 startIndex,
             });
             startIndex = i + 1;
         }
     }
 
-    stops.push({
+    segments.push({
         end: moment(trackings[trackings.length - 1].timestamp),
         endIndex: trackings.length - 1,
-        latLng: trackingToLatLng(trackings[trackings.length - 1]),
         start: moment(trackings[startIndex].timestamp),
         startIndex,
     });
 
-    return stops.sort((a, b) => a.startIndex - b.startIndex);
+    return segments.sort((a, b) => a.startIndex - b.startIndex);
 };
