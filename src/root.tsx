@@ -23,7 +23,6 @@ import { UserContext } from './contexts/user-context';
 import TrackingPage from 'pages/tracking';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
-import CountriesPage from 'pages/countries';
 import FlightsV2Page from 'pages/flights-v2';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import LocationsPage from 'pages/locations';
@@ -217,7 +216,6 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/calendar/:year/:month" element={<CalendarPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
-                                    <Route path="/countries" element={<CountriesPage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />
                                     <Route path="/flights" element={<FlightsV2Page />} />
                                     <Route path="/flights-old" element={<FlightsPage />} />
