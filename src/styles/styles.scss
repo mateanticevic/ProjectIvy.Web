@@ -437,6 +437,31 @@ body #app {
   }
 }
 
+.calendar-month-day-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-month-day-item {
+  &:first-child {
+    grid-column-start: var(--offset);
+  }
+  background: green;
+  height: 40px;
+  width: 40px;
+}
+
+.calendar-year-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .calendar-item.holiday {
   background: #91cd93d7;
 }
