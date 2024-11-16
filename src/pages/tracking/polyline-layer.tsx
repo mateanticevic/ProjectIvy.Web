@@ -181,7 +181,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                 </div>
                 <div>
                     {layer.segments.map((segment, i) =>
-                        <div>{`${segment.start.format('HH:mm')}-${segment.end.format('HH:mm')} ${moment.duration(segment.end.diff(segment.start)).asMinutes().toFixed(0)} min`}</div>
+                        <div>{`${segment.start.format('HH:mm')}-${segment.end.format('HH:mm')} ${moment.duration(segment.end.diff(segment.start)).asMinutes().toFixed(0)} min ${layer.trackings[segment.endIndex].altitude}m ${segment.endIndex-segment.startIndex}`}</div>
                     )}
                 </div>
             </Card.Body>

@@ -677,16 +677,23 @@ class TrackingPage extends Page<unknown, State> {
         <React.Fragment>
             {layers.filter(layer => layer.showStops)
                 .map(layer => {
-                    return layer.stops.map(stop =>
-                        <Marker
-                            key={_.uniqueId()}
-                            icon={iconUrl('visit-marker')}
-                            position={stop.latLng}
-                        >
-                            <InfoWindow>
-                                <div>{`${stop.start.format('HH:mm')} - ${stop.end.format('HH:mm')}`}</div>
-                            </InfoWindow>
-                        </Marker>
+                    return layer.segments.map(segment => {
+
+                        let anchor;
+
+                        return (
+                            <Marker
+                                key={_.uniqueId()}
+                                icon={iconUrl('visit-marker')}
+                                position={trackingToLatLng(layer.trackings[segment.startIndex])}
+                                ref={ref => anchor = ref}
+                            >
+                                <InfoWindow anchor={anchor}>
+                                    <h1>Window</h1>
+                                </InfoWindow>
+                            </Marker>
+                        );
+                    }
                     );
                 })}
         </React.Fragment>;
