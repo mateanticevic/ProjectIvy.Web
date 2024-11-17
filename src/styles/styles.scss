@@ -447,15 +447,19 @@ body #app {
   &:first-child {
     grid-column-start: var(--offset);
   }
-  background: green;
-  height: 40px;
-  width: 40px;
+  background: gray;
+  height: 25px;
+  width: 25px;
+}
+
+.calendar-month-day-item.highlighted {
+  background: #91cd93d7;
 }
 
 .calendar-year-container {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 
   @media (max-width: 1199px) {
     grid-template-columns: 1fr;
