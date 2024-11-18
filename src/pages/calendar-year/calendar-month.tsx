@@ -4,19 +4,16 @@ import { Card } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 import { CalendarMonthDayItem } from './clalendar-month-day-item';
-import { components } from 'types/ivy-types';
-
-type WorkDay = components['schemas']['WorkDay'];
-type WorkDayType = components['schemas']['WorkDayType'];
+import { CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarMode } from './constants';
 
 interface Props {
-    highlightedDates: string[];
+    calendarMode: CalendarMode;
+    dates: CalendarDateFlag[] | CalendarDateIntensity[] | CalendarDateStyle[];
     month: number;
-    workDays: WorkDay[];
     year: number;
 }
 
-export const CalendarMonth = ({ highlightedDates, month, workDays, year }: Props) => {
+export const CalendarMonth = ({ dates, month, year }: Props) => {
     const daysInMonth = Array.from({ length: moment().year(year).month(month - 1).daysInMonth() }, (_, i) => i + 1);
     const days = daysInMonth.map(day => moment({ year, month: month - 1, day }));
 
@@ -27,12 +24,9 @@ export const CalendarMonth = ({ highlightedDates, month, workDays, year }: Props
             </Card.Header>
             <Card.Body>
                 <div className="calendar-month-day-container">
-                    {days.map(day =>
+                    {dates && dates.length > 0 && days.map(day =>
                         <CalendarMonthDayItem
-                            day={day}
-                            //highlighted={highlightedDates.some(d => moment(d).isSame(day, 'day'))}
-                            highlighted={false}
-                            workDayType={workDays.find(d => moment(d.date).isSame(day, 'day'))?.type as WorkDayType}
+                            date={dates.find(d => moment(d.date).isSame(day, 'day'))!}
                         />
                     )}
                 </div>

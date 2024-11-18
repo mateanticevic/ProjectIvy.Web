@@ -1,6 +1,10 @@
 import * as api from '../config';
 
-const get = (filters) => api.get('workday', filters);
+import { components } from 'types/ivy-types';
+
+type WorkDay = components['schemas']['WorkDay'];
+
+const get = (filters) => api.get('workday', filters) as Promise<WorkDay[]>;
 
 const workDay = {
     get,

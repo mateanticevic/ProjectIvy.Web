@@ -452,6 +452,14 @@ body #app {
   width: 25px;
 }
 
+.calendar-month-day-item.business-trip {
+  background: rgb(52, 150, 255);
+}
+
+.calendar-month-day-item.conference {
+  background: hsla(201, 70%, 48%);
+}
+
 .calendar-month-day-item.highlighted {
   background: #91cd93d7;
 }
@@ -460,12 +468,24 @@ body #app {
   background: #91cd93d7;
 }
 
+.calendar-month-day-item.medical-check-up {
+  background: #ffc2c0d7;
+}
+
 .calendar-month-day-item.office {
   background: #aeaeae53;
 }
 
 .calendar-month-day-item.remote {
   background: #c9e0f478;
+}
+
+.calendar-month-day-item.sick-leave {
+  background: #f33f3f78;
+}
+
+.calendar-month-day-item.today {
+  border: solid;
 }
 
 .calendar-month-day-item.vacation {

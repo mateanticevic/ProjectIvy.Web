@@ -1,37 +1,28 @@
 import classNames from 'classnames';
-import moment from 'moment';
 import React from 'react';
 
-import { components } from 'types/ivy-types';
-
-type WorkDayType = components['schemas']['WorkDayType'];
+import { CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, isCalendarDateStyle } from './constants';
 
 interface Props {
-    day: moment.Moment;
-    highlighted: boolean;
-    workDayType?: WorkDayType;
+    date: CalendarDateFlag | CalendarDateIntensity | CalendarDateStyle;
 }
 
-export const CalendarMonthDayItem = ({ day, highlighted, workDayType }: Props) => {
+export const CalendarMonthDayItem = ({ date }: Props) => {
+
     const style = {
-        '--offset': (day.date() === 1 ? day.weekday() + 1 : 0)
+        '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0)
     };
 
-    const classes = classNames('calendar-month-day-item', {
-        'highlighted': highlighted,
-        'holiday': workDayType === 'holiday',
-        'office':  !workDayType || workDayType === 'office',
-        'remote': workDayType === 'remote',
-        'vacation': workDayType === 'vacation',
-        'weekend': day.weekday() >= 5
-    });
+    if (isCalendarDateStyle(date)) {
+        const classes = classNames('calendar-month-day-item', date.style);
 
-    return (
-        <div
-            key={day.format('YYYY-MM-DD')}
-            className={classes}
-            style={style}
-        >
-        </div >
-    );
+        return (
+            <div
+                key={date.date.format('YYYY-MM-DD')}
+                className={classes}
+                style={style}
+            >
+            </div >
+        );
+    }
 }
