@@ -456,6 +456,26 @@ body #app {
   background: #91cd93d7;
 }
 
+.calendar-month-day-item.holiday {
+  background: #91cd93d7;
+}
+
+.calendar-month-day-item.office {
+  background: #aeaeae53;
+}
+
+.calendar-month-day-item.remote {
+  background: #c9e0f478;
+}
+
+.calendar-month-day-item.vacation {
+  background: #c9d9537d;
+}
+
+.calendar-month-day-item.weekend {
+  background: #91cd9364;
+}
+
 .calendar-year-container {
   display: grid;
   gap: 10px;

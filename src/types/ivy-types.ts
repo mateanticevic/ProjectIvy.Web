@@ -87,7 +87,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["TransactionBinding"];
           "application/json": components["schemas"]["TransactionBinding"];
           "text/json": components["schemas"]["TransactionBinding"];
           "application/*+json": components["schemas"]["TransactionBinding"];
@@ -150,7 +149,6 @@ export interface paths {
     put: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"];
           "application/json": components["schemas"]["TrackingBinding"];
           "text/json": components["schemas"]["TrackingBinding"];
           "application/*+json": components["schemas"]["TrackingBinding"];
@@ -170,7 +168,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["TrackingBinding"][];
           "application/json": components["schemas"]["TrackingBinding"][];
           "text/json": components["schemas"]["TrackingBinding"][];
           "application/*+json": components["schemas"]["TrackingBinding"][];
@@ -302,7 +299,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["BrandBinding"];
           "application/json": components["schemas"]["BrandBinding"];
           "text/json": components["schemas"]["BrandBinding"];
           "application/*+json": components["schemas"]["BrandBinding"];
@@ -325,7 +321,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["BeerBinding"];
           "application/json": components["schemas"]["BeerBinding"];
           "text/json": components["schemas"]["BeerBinding"];
           "application/*+json": components["schemas"]["BeerBinding"];
@@ -348,7 +343,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["BeerBinding"];
           "application/json": components["schemas"]["BeerBinding"];
           "text/json": components["schemas"]["BeerBinding"];
           "application/*+json": components["schemas"]["BeerBinding"];
@@ -371,7 +365,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["BrandBinding"];
           "application/json": components["schemas"]["BrandBinding"];
           "text/json": components["schemas"]["BrandBinding"];
           "application/*+json": components["schemas"]["BrandBinding"];
@@ -414,7 +407,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CalendarDayUpdateBinding"];
           "application/json": components["schemas"]["CalendarDayUpdateBinding"];
           "text/json": components["schemas"]["CalendarDayUpdateBinding"];
           "application/*+json": components["schemas"]["CalendarDayUpdateBinding"];
@@ -437,7 +429,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": string;
           "application/json": string;
           "text/json": string;
           "application/*+json": string;
@@ -474,7 +465,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CallBinding"];
           "application/json": components["schemas"]["CallBinding"];
           "text/json": components["schemas"]["CallBinding"];
           "application/*+json": components["schemas"]["CallBinding"];
@@ -573,7 +563,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CarFuelingBinding"];
           "application/json": components["schemas"]["CarFuelingBinding"];
           "text/json": components["schemas"]["CarFuelingBinding"];
           "application/*+json": components["schemas"]["CarFuelingBinding"];
@@ -788,7 +777,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CarLogBinding"];
           "application/json": components["schemas"]["CarLogBinding"];
           "text/json": components["schemas"]["CarLogBinding"];
           "application/*+json": components["schemas"]["CarLogBinding"];
@@ -815,7 +803,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CarServiceBinding"];
           "application/json": components["schemas"]["CarServiceBinding"];
           "text/json": components["schemas"]["CarServiceBinding"];
           "application/*+json": components["schemas"]["CarServiceBinding"];
@@ -838,7 +825,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["CarBinding"];
           "application/json": components["schemas"]["CarBinding"];
           "text/json": components["schemas"]["CarBinding"];
           "application/*+json": components["schemas"]["CarBinding"];
@@ -856,6 +842,7 @@ export interface paths {
     get: {
       parameters: {
         query?: {
+          HasExpired?: boolean;
           IsActive?: boolean;
         };
       };
@@ -946,7 +933,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": string[];
           "application/json": string[];
           "text/json": string[];
           "application/*+json": string[];
@@ -1202,7 +1188,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["ConsumationBinding"];
           "application/json": components["schemas"]["ConsumationBinding"];
           "text/json": components["schemas"]["ConsumationBinding"];
           "application/*+json": components["schemas"]["ConsumationBinding"];
@@ -1995,7 +1980,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": string[];
           "application/json": string[];
           "text/json": string[];
           "application/*+json": string[];
@@ -2269,7 +2253,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
           "application/json": components["schemas"]["ExpenseBinding"];
           "text/json": components["schemas"]["ExpenseBinding"];
           "application/*+json": components["schemas"]["ExpenseBinding"];
@@ -3171,7 +3154,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["ExpenseBinding"];
           "application/json": components["schemas"]["ExpenseBinding"];
           "text/json": components["schemas"]["ExpenseBinding"];
           "application/*+json": components["schemas"]["ExpenseBinding"];
@@ -3189,6 +3171,16 @@ export interface paths {
       };
     };
   };
+  "/Expense/FromFile": {
+    post: {
+      responses: {
+        /** @description Success */
+        200: {
+          content: never;
+        };
+      };
+    };
+  };
   "/Expense/{expenseId}/File/{fileId}": {
     post: {
       parameters: {
@@ -3199,7 +3191,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["ExpenseFileBinding"];
           "application/json": components["schemas"]["ExpenseFileBinding"];
           "text/json": components["schemas"]["ExpenseFileBinding"];
           "application/*+json": components["schemas"]["ExpenseFileBinding"];
@@ -3412,7 +3403,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["FlightBinding"];
           "application/json": components["schemas"]["FlightBinding"];
           "text/json": components["schemas"]["FlightBinding"];
           "application/*+json": components["schemas"]["FlightBinding"];
@@ -3435,7 +3425,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["FlightBinding"];
           "application/json": components["schemas"]["FlightBinding"];
           "text/json": components["schemas"]["FlightBinding"];
           "application/*+json": components["schemas"]["FlightBinding"];
@@ -3581,6 +3570,11 @@ export interface paths {
   };
   "/Geohash/Root/Children": {
     get: {
+      parameters: {
+        query?: {
+          Precision?: number;
+        };
+      };
       responses: {
         /** @description Success */
         200: {
@@ -3592,6 +3586,9 @@ export interface paths {
   "/Geohash/{geohash}/Children": {
     get: {
       parameters: {
+        query?: {
+          Precision?: number;
+        };
         path: {
           geohash: string;
         };
@@ -3682,7 +3679,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["IncomeBinding"];
           "application/json": components["schemas"]["IncomeBinding"];
           "text/json": components["schemas"]["IncomeBinding"];
           "application/*+json": components["schemas"]["IncomeBinding"];
@@ -3847,7 +3843,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["LocationBinding"];
           "application/json": components["schemas"]["LocationBinding"];
           "text/json": components["schemas"]["LocationBinding"];
           "application/*+json": components["schemas"]["LocationBinding"];
@@ -3939,7 +3934,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": string[];
           "application/json": string[];
           "text/json": string[];
           "application/*+json": string[];
@@ -4591,7 +4585,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["PoiBinding"];
           "application/json": components["schemas"]["PoiBinding"];
           "text/json": components["schemas"]["PoiBinding"];
           "application/*+json": components["schemas"]["PoiBinding"];
@@ -4624,7 +4617,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["RideBinding"];
           "application/json": components["schemas"]["RideBinding"];
           "text/json": components["schemas"]["RideBinding"];
           "application/*+json": components["schemas"]["RideBinding"];
@@ -4662,7 +4654,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["RouteBinding"];
           "application/json": components["schemas"]["RouteBinding"];
           "text/json": components["schemas"]["RouteBinding"];
           "application/*+json": components["schemas"]["RouteBinding"];
@@ -4890,6 +4881,27 @@ export interface paths {
       };
     };
   };
+  "/Tracking/Details": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["TrackingDetails"];
+            "application/json": components["schemas"]["TrackingDetails"];
+            "text/json": components["schemas"]["TrackingDetails"];
+          };
+        };
+      };
+    };
+  };
   "/Tracking/Count/Unique": {
     get: {
       parameters: {
@@ -5014,11 +5026,29 @@ export interface paths {
       };
     };
   };
+  "/Tracking/Last/Days": {
+    get: {
+      parameters: {
+        query?: {
+          at?: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": string[];
+            "application/json": string[];
+            "text/json": string[];
+          };
+        };
+      };
+    };
+  };
   "/Tracking/Delete": {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": number[];
           "application/json": number[];
           "text/json": number[];
           "application/*+json": number[];
@@ -5036,7 +5066,6 @@ export interface paths {
     put: {
       requestBody?: {
         content: {
-          "application/json-patch+json": string;
           "application/json": string;
           "text/json": string;
           "application/*+json": string;
@@ -5212,7 +5241,6 @@ export interface paths {
       };
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["TripBinding"];
           "application/json": components["schemas"]["TripBinding"];
           "text/json": components["schemas"]["TripBinding"];
           "application/*+json": components["schemas"]["TripBinding"];
@@ -5267,7 +5295,6 @@ export interface paths {
     put: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["UserUpdateBinding"];
           "application/json": components["schemas"]["UserUpdateBinding"];
           "text/json": components["schemas"]["UserUpdateBinding"];
           "application/*+json": components["schemas"]["UserUpdateBinding"];
@@ -5366,7 +5393,6 @@ export interface paths {
     post: {
       requestBody?: {
         content: {
-          "application/json-patch+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
           "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
           "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
           "application/*+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
@@ -5379,6 +5405,27 @@ export interface paths {
             "text/plain": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
             "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
             "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
+          };
+        };
+      };
+    };
+  };
+  "/WorkDay": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["WorkDay"][];
+            "application/json": components["schemas"]["WorkDay"][];
+            "text/json": components["schemas"]["WorkDay"][];
           };
         };
       };
@@ -5451,9 +5498,9 @@ export interface components {
       country?: components["schemas"]["Country"];
     };
     /** @enum {string} */
-    BeerServing: "OnTap" | "Bottle" | "Can" | "Plastic";
+    BeerServing: "onTap" | "bottle" | "can" | "plastic";
     /** @enum {string} */
-    BeerSort: "Abv" | "Name";
+    BeerSort: "abv" | "name";
     BeerStyle: {
       id?: string | null;
       name?: string | null;
@@ -5470,7 +5517,7 @@ export interface components {
       locations?: components["schemas"]["Location"][] | null;
       /** Format: date-time */
       date?: string;
-      workDayType?: components["schemas"]["WorkDayType"];
+      workDayType?: components["schemas"]["WorkDayTypeOld"];
     };
     CalendarDayUpdateBinding: {
       workDayTypeId?: string | null;
@@ -5586,6 +5633,7 @@ export interface components {
       bank?: components["schemas"]["Bank"];
       type?: components["schemas"]["CardType"];
       name?: string | null;
+      hasExpired?: boolean;
       /** Format: date-time */
       expires?: string;
       /** Format: date-time */
@@ -5676,7 +5724,7 @@ export interface components {
       value?: components["schemas"]["Location"][] | null;
     };
     /** @enum {string} */
-    DayOfWeek: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+    DayOfWeek: "sunday" | "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday";
     Event: {
       id?: string | null;
       name?: string | null;
@@ -5753,7 +5801,7 @@ export interface components {
       items?: components["schemas"]["Expense"][] | null;
     };
     /** @enum {string} */
-    ExpenseSort: "Date" | "Created" | "Modified" | "Amount";
+    ExpenseSort: "date" | "created" | "modified" | "amount";
     ExpenseType: {
       id?: string | null;
       name?: string | null;
@@ -5773,7 +5821,7 @@ export interface components {
       children?: components["schemas"]["ExpenseTypeNode"][] | null;
     };
     /** @enum {string} */
-    ExpenseTypeSort: "Name" | "Top10";
+    ExpenseTypeSort: "name" | "top10";
     File: {
       id?: string | null;
       /** Format: int32 */
@@ -6172,7 +6220,7 @@ export interface components {
       items?: components["schemas"]["Income"][] | null;
     };
     /** @enum {string} */
-    IncomeSort: "Date" | "Amount";
+    IncomeSort: "date" | "amount";
     IncomeSource: {
       id?: string | null;
       name?: string | null;
@@ -6266,7 +6314,7 @@ export interface components {
       items?: components["schemas"]["Movie"][] | null;
     };
     /** @enum {string} */
-    MovieSort: "Watched" | "Rating" | "Runtime" | "MyRating" | "MyRatingDifference" | "Title" | "Year";
+    MovieSort: "watched" | "rating" | "runtime" | "myRating" | "myRatingDifference" | "title" | "year";
     PaymentType: {
       id?: string | null;
       name?: string | null;
@@ -6320,7 +6368,7 @@ export interface components {
       items?: components["schemas"]["Route"][] | null;
     };
     /** @enum {string} */
-    RouteTimeSort: "Date" | "Duration";
+    RouteTimeSort: "date" | "duration";
     StringDecimalKeyValuePair: {
       key?: string | null;
       /** Format: double */
@@ -6374,6 +6422,14 @@ export interface components {
       /** Format: double */
       speed?: number | null;
     };
+    TrackingDetails: {
+      /** Format: int32 */
+      ascentInMeters?: number;
+      /** Format: int32 */
+      descentInMeters?: number;
+      /** Format: int32 */
+      elevationGainInMeters?: number;
+    };
     TrackingLocation: {
       city?: components["schemas"]["City"];
       country?: components["schemas"]["Country"];
@@ -6400,7 +6456,7 @@ export interface components {
       items?: components["schemas"]["Transaction"][] | null;
     };
     /** @enum {string} */
-    TransactionSource: "Hac" | "OtpBank" | "Revolut";
+    TransactionSource: "hac" | "otpBank" | "revolut";
     Trip: {
       id?: string | null;
       name?: string | null;
@@ -6432,7 +6488,7 @@ export interface components {
       items?: components["schemas"]["Trip"][] | null;
     };
     /** @enum {string} */
-    TripSort: "Date" | "Duration";
+    TripSort: "date" | "duration";
     User: {
       defaultCar?: components["schemas"]["Car"];
       defaultCurrency?: components["schemas"]["Currency"];
@@ -6466,7 +6522,14 @@ export interface components {
       count?: number;
       items?: components["schemas"]["Vendor"][] | null;
     };
-    WorkDayType: {
+    WorkDay: {
+      /** Format: date-time */
+      date?: string;
+      type?: components["schemas"]["WorkDayType"];
+    };
+    /** @enum {string} */
+    WorkDayType: "holiday" | "office" | "remote" | "vacation" | "sickLeave" | "conference" | "businessTrip" | "medicalCheckUp";
+    WorkDayTypeOld: {
       id?: string | null;
       name?: string | null;
     };
