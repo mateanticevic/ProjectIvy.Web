@@ -28,6 +28,7 @@ import trip from './trip';
 import user from './user';
 import vendor from './vendor';
 import web from './web';
+import workDay from './workDay';
 
 const api = {
     account,
@@ -60,6 +61,7 @@ const api = {
     user,
     vendor,
     web,
+    workDay,
 };
 
 export default api;

@@ -6,6 +6,12 @@ import { CalendarMonth } from "./calendar-month";
 import api from "api/main";
 import AsyncSelect from "react-select/async";
 import { locationLoader } from "utils/select-loaders";
+import { components } from 'types/ivy-types';
+
+type WorkDay = {
+    date: string;
+    workDay: string;
+}
 
 export const CalendarYearPage = () => {
 
@@ -19,7 +25,7 @@ export const CalendarYearPage = () => {
             .then(highlightedDates => {
                 setHighlightedDates(highlightedDates);
             });
-    }
+    };
 
     return (
         <Container>
