@@ -19,13 +19,21 @@ export const CalendarYearPage = () => {
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.Styles);
-    const [highlightedDates, setHighlightedDates] = useState([] as string[]);
-    const [workDays, setWorkDays] = useState([] as WorkDay[]);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateFlag[] | CalendarDateIntensity[] | CalendarDateStyle[]));
 
     const onLocationSelected = (locationId: string) => {
         api.location.getDays(locationId)
-            .then(setHighlightedDates);
+            .then(dates => {
+                const momentDates = dates.map(x => moment(x));
+                const results = [] as CalendarDateFlag[];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    results.push({
+                        date: date.clone(),
+                        value: momentDates.some(x => x.isSame(date.clone(), 'day'))
+                    });
+                }
+                setCalendarDates(results.reverse());
+            });
     };
 
     useEffect(() => {
@@ -51,7 +59,7 @@ export const CalendarYearPage = () => {
                 {months.map(month =>
                     <CalendarMonth
                         calendarMode={calendarMode}
-                        dates={calendarDates}
+                        dates={calendarDates.filter(x => x.date.month() === month - 1)}
                         key={month}
                         month={month}
                         year={Number(year)}

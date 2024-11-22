@@ -452,6 +452,10 @@ body #app {
   width: 25px;
 }
 
+.calendar-month-day-item.active {
+  background: #91cd93d7;
+}
+
 .calendar-month-day-item.business-trip {
   background: rgb(52, 150, 255);
 }
