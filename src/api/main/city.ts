@@ -8,7 +8,7 @@ const deleteGeohashes = (cityId: string, query: DeleteGeohashQuery) => api.del(`
 
 const get = (filter) => api.get('city', filter);
 
-const getDays = (cityId: string, filter) => api.get(`city/${cityId}/days`, filter);
+const getDays = (cityId: string, filter) => api.get(`city/${cityId}/days`, filter) as Promise<string[]>;
 
 const getGeohashes = (cityId: string) => api.get(`city/${cityId}/geohash`);
 

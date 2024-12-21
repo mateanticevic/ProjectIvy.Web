@@ -1,6 +1,7 @@
 import { Moment } from "moment";
 
 export enum CalendarMode {
+    Cities,
     Countries,
     Locations,
     WorkDays,
