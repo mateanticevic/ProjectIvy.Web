@@ -6,7 +6,7 @@ import { CalendarMonth } from "./calendar-month";
 import api from "api/main";
 import AsyncSelect from "react-select/async";
 import { cityLoader, locationLoader } from "utils/select-loaders";
-import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarMode } from "./constants";
+import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateValue, CalendarMode } from "./constants";
 import moment from "moment";
 import { workDayTypeToStyle } from "./mappers";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
@@ -28,7 +28,7 @@ export const CalendarYearPage = () => {
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     results.push({
                         date: date.clone(),
-                        value: momentDates.some(x => x.isSame(date.clone(), 'day'))
+                        active: momentDates.some(x => x.isSame(date.clone(), 'day'))
                     });
                 }
                 setCalendarDates(results.reverse());
@@ -44,6 +44,9 @@ export const CalendarYearPage = () => {
         else if (mode === CalendarMode.WorkDays) {
             loadWorkDays();
         }
+        else if (mode === CalendarMode.Beer) {
+            loadBeer();
+        }
     };
 
     const onCitySelected = (cityId: string) => {
@@ -53,7 +56,21 @@ export const CalendarYearPage = () => {
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     results.push({
                         date: date.clone(),
-                        value: dates.some(x => x === date.format('YYYY-MM-DD 00:00:00'))
+                        active: dates.some(x => x === date.format('YYYY-MM-DD 00:00:00'))
+                    });
+                }
+                setCalendarDates(results.reverse());
+            });
+    };
+
+    const loadBeer = () => {
+        api.consumation.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
+            .then(volumeByDay => {
+                const results = [] as CalendarDateValue[];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    results.push({
+                        date: date.clone(),
+                        value: volumeByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00'))?.value ?? 0
                     });
                 }
                 setCalendarDates(results.reverse());
@@ -102,6 +119,7 @@ export const CalendarYearPage = () => {
                 }
             </h1>
             <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={onModeChange}>
+                <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
                 <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
                 <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
                 <ToggleButton value={CalendarMode.Locations} id={CalendarMode.Locations.toString()}>Locations</ToggleButton>
@@ -133,6 +151,19 @@ export const CalendarYearPage = () => {
                     />
                 )}
             </div>
+            {calendarMode === CalendarMode.WorkDays &&
+                <>
+                    <div><div className="calendar-month-day-item business-trip"></div><h6>Business trip</h6></div>
+                    <div><div className="calendar-month-day-item conference"></div><h6>Conference</h6></div>
+                    <div><div className="calendar-month-day-item holiday"></div><h6>Holiday</h6></div>
+                    <div><div className="calendar-month-day-item medical-check-up"></div><h6>Medical check-up</h6></div>
+                    <div><div className="calendar-month-day-item office"></div><h6>Office</h6></div>
+                    <div><div className="calendar-month-day-item remote"></div><h6>Remote</h6></div>
+                    <div><div className="calendar-month-day-item sick-leave"></div><h6>Sick leave</h6></div>
+                    <div><div className="calendar-month-day-item vacation"></div><h6>Vacation</h6></div>
+                    <div><div className="calendar-month-day-item weekend"></div><h6>Week-end</h6></div>
+                </>
+            }
         </Container>
     );
 }

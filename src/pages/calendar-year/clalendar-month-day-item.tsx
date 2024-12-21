@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, isCalendarDateBinary, isCalendarDateFlag, isCalendarDateStyle } from './constants';
-import { FlagIcon } from 'components/flag-icon';
+import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, isCalendarDateBinary, isCalendarDateFlag, isCalendarDateStyle, isCalendarDateValue } from './constants';
 
 interface Props {
     date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
@@ -39,6 +38,21 @@ export const CalendarMonthDayItem = ({ date }: Props) => {
         );
     }
 
+    if (isCalendarDateValue(date)) {
+        const classes = classNames('calendar-month-day-item', {
+            'active': date.value > 0
+        });
+
+        return (
+            <div
+                key={date.date.format('YYYY-MM-DD')}
+                className={classes}
+                style={style}
+            >
+            </div >
+        );
+    }
+
     if (isCalendarDateStyle(date)) {
         const classes = classNames('calendar-month-day-item', date.style);
 
@@ -54,7 +68,7 @@ export const CalendarMonthDayItem = ({ date }: Props) => {
 
     if (isCalendarDateBinary(date)) {
         const classes = classNames('calendar-month-day-item', {
-            'active': date.value
+            'active': date.active
         });
 
         return (
