@@ -1,21 +1,29 @@
 import { Moment } from "moment";
 
 export enum CalendarMode {
-    Flags,
-    Intensity,
-    Styles,
+    Countries,
+    Locations,
+    WorkDays,
 }
 
 export type CalendarDate = {
     date: Moment;
 }
 
-export interface CalendarDateFlag extends CalendarDate {
+export interface CalendarDateBinary extends CalendarDate {
     value: boolean;
 }
 
-export const isCalendarDateFlag = (date: CalendarDate): date is CalendarDateFlag => {
+export interface CalendarDateFlag extends CalendarDate {
+    countryId?: string;
+}
+
+export const isCalendarDateBinary = (date: CalendarDate): date is CalendarDateBinary => {
     return 'value' in date;
+};
+
+export const isCalendarDateFlag = (date: CalendarDate): date is CalendarDateFlag => {
+    return 'countryId' in date;
 };
 
 export interface CalendarDateStyle extends CalendarDate {

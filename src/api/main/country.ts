@@ -1,6 +1,8 @@
 import * as api from '../config';
 
-import { paths } from 'types/ivy-types';
+import { paths, components } from 'types/ivy-types';
+
+type CountriesByDay = components['schemas']['DateTimeStringIEnumerableKeyValuePair'];
 
 type DeleteGeohashQuery = paths['/Country/{countryId}/Geohash']['delete']['parameters']['query'];
 
@@ -20,6 +22,8 @@ const getVisited = (filters) => api.get('country/visited', filters);
 
 const getVisitedBoundaries = () => api.get('country/visited/boundaries');
 
+const getVisitedByDay = (filters) => api.get('country/visited/byday', filters) as Promise<CountriesByDay[]>;
+
 const postGeohashes = (countryId: string, geohashes: string[]) => api.post(`country/${countryId}/geohash`, geohashes);
 
 const country = {
@@ -31,6 +35,7 @@ const country = {
     getSingle,
     getVisited,
     getVisitedBoundaries,
+    getVisitedByDay,
     postGeohashes,
 };
 

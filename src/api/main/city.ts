@@ -8,6 +8,8 @@ const deleteGeohashes = (cityId: string, query: DeleteGeohashQuery) => api.del(`
 
 const get = (filter) => api.get('city', filter);
 
+const getDays = (cityId: string, filter) => api.get(`city/${cityId}/days`, filter);
+
 const getGeohashes = (cityId: string) => api.get(`city/${cityId}/geohash`);
 
 const getVisited = () => api.get('city/visited');
@@ -19,6 +21,7 @@ const postVisited = (cityId: string) => api.post(`city/visited/${cityId}`);
 const city = {
     deleteGeohashes,
     get,
+    getDays,
     getGeohashes,
     getVisited,
     postGeohashes,

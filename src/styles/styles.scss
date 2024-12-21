@@ -450,6 +450,11 @@ body #app {
   background: gray;
   height: 25px;
   width: 25px;
+
+  .flag-icon {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 .calendar-month-day-item.active {
@@ -462,6 +467,10 @@ body #app {
 
 .calendar-month-day-item.conference {
   background: hsla(201, 70%, 48%);
+}
+
+.calendar-month-day-item.country {
+  background: unset;
 }
 
 .calendar-month-day-item.highlighted {

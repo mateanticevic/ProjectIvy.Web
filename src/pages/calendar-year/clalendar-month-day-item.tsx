@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { CalendarDate, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, isCalendarDateFlag, isCalendarDateStyle } from './constants';
+import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, isCalendarDateBinary, isCalendarDateFlag, isCalendarDateStyle } from './constants';
+import { FlagIcon } from 'components/flag-icon';
 
 interface Props {
-    date: CalendarDateFlag | CalendarDateIntensity | CalendarDateStyle;
+    date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
 }
 
 export const CalendarMonthDayItem = ({ date }: Props) => {
@@ -14,6 +15,29 @@ export const CalendarMonthDayItem = ({ date }: Props) => {
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0)
     };
+
+    if (isCalendarDateFlag(date)) {
+        const classes = classNames('calendar-month-day-item', {
+            'country': date.countryId
+        });
+
+        return (
+            <div
+                key={date.date.format('YYYY-MM-DD')}
+                className={classes}
+                style={style}
+            >
+                {date.countryId &&
+                    <span
+                        className={`flag-icon flag-icon-${date.countryId.toLowerCase()}`}
+                        title={date.countryId}
+                        //style={{ width: '100%', height: '100%', display: 'block' }}
+                    >
+                    </span>
+                }
+            </div >
+        );
+    }
 
     if (isCalendarDateStyle(date)) {
         const classes = classNames('calendar-month-day-item', date.style);
@@ -28,7 +52,7 @@ export const CalendarMonthDayItem = ({ date }: Props) => {
         );
     }
 
-    if (isCalendarDateFlag(date)) {
+    if (isCalendarDateBinary(date)) {
         const classes = classNames('calendar-month-day-item', {
             'active': date.value
         });

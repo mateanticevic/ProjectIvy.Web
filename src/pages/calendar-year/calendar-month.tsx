@@ -4,11 +4,10 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { CalendarMonthDayItem } from './clalendar-month-day-item';
-import { CalendarDate, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarMode } from './constants';
+import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle } from './constants';
 
 interface Props {
-    calendarMode: CalendarMode;
-    dates: CalendarDateFlag[] | CalendarDateIntensity[] | CalendarDateStyle[];
+    dates: CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[];
     month: number;
     year: number;
 }

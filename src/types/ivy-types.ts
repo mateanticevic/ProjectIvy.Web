@@ -157,11 +157,7 @@ export interface paths {
       responses: {
         /** @description Success */
         200: {
-          content: {
-            "text/plain": boolean;
-            "application/json": boolean;
-            "text/json": boolean;
-          };
+          content: never;
         };
       };
     };
@@ -907,6 +903,30 @@ export interface paths {
         /** @description Success */
         200: {
           content: never;
+        };
+      };
+    };
+  };
+  "/City/{cityId}/Days": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+        path: {
+          cityId: string;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": string[];
+            "application/json": string[];
+            "text/json": string[];
+          };
         };
       };
     };
@@ -2063,6 +2083,27 @@ export interface paths {
             "text/plain": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
             "application/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
             "text/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
+          };
+        };
+      };
+    };
+  };
+  "/Country/Visited/ByDay": {
+    get: {
+      parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
+      };
+      responses: {
+        /** @description Success */
+        200: {
+          content: {
+            "text/plain": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
+            "application/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
+            "text/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
           };
         };
       };
@@ -3880,6 +3921,11 @@ export interface paths {
   "/Location/{locationId}/Days": {
     get: {
       parameters: {
+        query?: {
+          From?: string;
+          To?: string;
+          OrderAscending?: boolean;
+        };
         path: {
           locationId: string;
         };
@@ -5722,6 +5768,11 @@ export interface components {
       /** Format: date-time */
       key?: string;
       value?: components["schemas"]["Location"][] | null;
+    };
+    DateTimeStringIEnumerableKeyValuePair: {
+      /** Format: date-time */
+      key?: string;
+      value?: string[] | null;
     };
     /** @enum {string} */
     DayOfWeek: "sunday" | "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday";
