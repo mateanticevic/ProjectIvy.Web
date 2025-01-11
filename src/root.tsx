@@ -26,7 +26,7 @@ import AccountsPage from 'pages/accounts';
 import FlightsV2Page from 'pages/flights-v2';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import LocationsPage from 'pages/locations';
-import { FaMicrosoft } from 'react-icons/fa';
+import { FaGithub, FaMicrosoft } from 'react-icons/fa';
 import CalendarPage from 'pages/calendar';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
@@ -49,6 +49,8 @@ enum LoadingState {
     Ready,
     Waiting,
 }
+
+const loginWithOAuthProviderUrl = `https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`;
 
 export default class Root extends React.Component<{}, State> {
     identity = getIdentity();
@@ -188,9 +190,15 @@ export default class Root extends React.Component<{}, State> {
                                         >Log in</ButtonWithSpinner>
                                         <Button
                                             variant="primary"
-                                            href={`https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`}
+                                            href={`${loginWithOAuthProviderUrl}&kc_idp_hint=microsoft`}
                                         >
                                             <FaMicrosoft /> Log in with Microsoft
+                                        </Button>
+                                        <Button
+                                            variant="primary"
+                                            href={`${loginWithOAuthProviderUrl}&kc_idp_hint=github`}
+                                        >
+                                            <FaGithub /> Log in with GitHub
                                         </Button>
                                     </div>
                                 </Form>
