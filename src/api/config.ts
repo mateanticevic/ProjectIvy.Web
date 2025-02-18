@@ -56,7 +56,7 @@ export function get(resource: string, parameters?: any, timeout?: number) {
         mode: 'cors',
     };
 
-    return fetchWithTimeout(apiPath(resource, parameters), init, timeout ?? 30000).then(handleResponse);
+    return fetchWithTimeout(apiPath(resource, parameters), init, timeout ?? 60000).then(handleResponse);
 }
 
 export function del(resource: string, parameters?: any) {

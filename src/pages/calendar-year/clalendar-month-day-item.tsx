@@ -9,8 +9,6 @@ interface Props {
 
 export const CalendarMonthDayItem = ({ date }: Props) => {
 
-    console.log(date);
-
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0)
     };
