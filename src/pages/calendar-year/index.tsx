@@ -18,7 +18,8 @@ export const CalendarYearPage = () => {
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
-    const [year, setYear] = useState(parseInt(yearFromParam!) ?? moment().year());
+    const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
+    window.history.replaceState(null, '', `/calendar/${year}`);
 
     const onLocationSelected = (locationId: string) => {
         api.location.getDays(locationId)
