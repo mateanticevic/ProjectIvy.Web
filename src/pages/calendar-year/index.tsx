@@ -19,12 +19,14 @@ export const CalendarYearPage = () => {
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
     const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
+    const [locationId, setLocationId] = useState<string | null>(null);
     window.history.replaceState(null, '', `/calendar/${year}`);
 
     const getWorkDayTypeCount = (typeId: string) =>
         calendarDates.filter(x => (x as CalendarDateStyle).style === typeId).length;
 
-    const onLocationSelected = (locationId: string) => {
+    const onLocationSelected = (locationId: string, year: number) => {
+        setLocationId(locationId);
         api.location.getDays(locationId)
             .then(dates => {
                 const momentDates = dates.map(x => moment(x));
@@ -41,7 +43,10 @@ export const CalendarYearPage = () => {
 
     const onModeChange = (mode: CalendarMode) => {
         setCalendarMode(mode);
+        load(mode);
+    };
 
+    const load = (mode: CalendarMode) => {
         if (mode === CalendarMode.Countries) {
             loadCountries();
         }
@@ -67,6 +72,14 @@ export const CalendarYearPage = () => {
             });
     };
 
+    const onYearChange = (year: number) => {
+        setYear(year);
+
+        if (locationId && calendarMode === CalendarMode.Locations) {
+            onLocationSelected(locationId, year);
+        }
+    };
+
     const loadBeer = () => {
         api.consumation.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
             .then(volumeByDay => {
@@ -74,7 +87,7 @@ export const CalendarYearPage = () => {
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     results.push({
                         date: date.clone(),
-                        value: volumeByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00'))?.value ?? 0
+                        value: volumeByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00.000'))?.value ?? 0
                     });
                 }
                 setCalendarDates(results.reverse());
@@ -88,7 +101,7 @@ export const CalendarYearPage = () => {
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     results.push({
                         date: date.clone(),
-                        countryId: countriesByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00'))?.value?.filter(x => x !== 'HR')[0]
+                        countryId: countriesByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00.000'))?.value?.filter(x => x !== 'HR')[0]
                     });
                 }
                 setCalendarDates(results.reverse());
@@ -116,10 +129,10 @@ export const CalendarYearPage = () => {
     return (
         <Container>
             <h1>
-                <IoMdArrowDropleft onClick={() => setYear(year - 1)} />
+                <IoMdArrowDropleft onClick={() => onYearChange(year - 1)} />
                 {year}
                 {year !== moment().year() &&
-                    < IoMdArrowDropright onClick={() => setYear(year + 1)} />
+                    < IoMdArrowDropright onClick={() => onYearChange(year + 1)} />
                 }
             </h1>
             <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={onModeChange}>
@@ -142,7 +155,7 @@ export const CalendarYearPage = () => {
                     defaultOptions
                     loadOptions={locationLoader}
                     placeholder="Search location by name"
-                    onChange={x => onLocationSelected(x.value)}
+                    onChange={x => onLocationSelected(x.value, year)}
                 />
             }
             <div className="calendar-year-container">
