@@ -11,10 +11,12 @@ import CalendarDaySubitems from './calendar-day-subitems';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
+type Movie = components['schemas']['Movie'];
 
 interface Props {
     day: CalendarDay;
     flights: Flight[];
+    movies: Movie[];
     offset?: number;
     onShowMap?(): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
@@ -29,7 +31,7 @@ const workDayTypes = [
     { id: 'conference', name: 'Conference' },
 ];
 
-export const CalendarDay = ({ day, flights, offset, onWorkDayTypeChange, onShowMap }: Props) => {
+export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -73,6 +75,7 @@ export const CalendarDay = ({ day, flights, offset, onWorkDayTypeChange, onShowM
                         countries={day.countries ?? []}
                         events={day.events ?? []}
                         flights={flights}
+                        movies={movies}
                         locations={day.locations ?? []}
                     />
                 </ListGroup>

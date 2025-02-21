@@ -17,6 +17,7 @@ import _ from 'lodash';
 type CalendarSection = components['schemas']['CalendarSection'];
 type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
+type Movie = components['schemas']['Movie'];
 type Tracking = components['schemas']['Tracking'];
 
 interface PagePath {
@@ -33,6 +34,7 @@ interface State {
     flights: Flight[];
     isMapModalOpen: boolean;
     locationsByDay: KeyValuePair<Location[]>[];
+    movies: Movie[];
     startDay: Moment;
     trackings: Tracking[];
 }
@@ -43,6 +45,7 @@ class CalendarPage extends Page<Props, State> {
         flights: [],
         locationsByDay: [],
         isMapModalOpen: false,
+        movies: [],
         startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month'),
         trackings: [],
     }
@@ -53,7 +56,7 @@ class CalendarPage extends Page<Props, State> {
     }
 
     render() {
-        const { calendarSection, flights, locationsByDay } = this.state;
+        const { calendarSection, flights, locationsByDay, movies } = this.state;
         return (
             <Container>
                 <Datetime
@@ -70,6 +73,7 @@ class CalendarPage extends Page<Props, State> {
                             key={moment(day.date).format('YYYY-MM-DD')}
                             day={day}
                             flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
+                            movies={movies.filter(m => moment(m.timestamp).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
                             offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
                             onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
                             onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
@@ -107,6 +111,8 @@ class CalendarPage extends Page<Props, State> {
                     startDay: month.startOf('month')
                 });
             });
+        api.movie.get({ from, to, pageAll: true })
+            .then(response => this.setState({ movies: response.items }));
         // api.location.getByDay(from, to)
         //     .then(locationsByDay => {
         //         this.setState({

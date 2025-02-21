@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { IoMdHome } from 'react-icons/io';
-import { MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
+import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 
 import { components } from 'types/ivy-types';
 
@@ -10,6 +10,7 @@ type Country = components['schemas']['Country'];
 type Event = components['schemas']['Event'];
 type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
+type Movie = components['schemas']['Movie'];
 
 interface Props {
     cities: City[];
@@ -17,9 +18,10 @@ interface Props {
     events: Event[];
     flights: Flight[];
     locations: Location[];
+    movies: Movie[];
 }
 
-const CalendarDaySubitems = ({ cities, countries, events, flights, locations }: Props) => {
+const CalendarDaySubitems = ({ cities, countries, events, flights, locations, movies }: Props) => {
 
     const cityCountries = cities.map(c => c.country!.id!);
 
@@ -48,6 +50,11 @@ const CalendarDaySubitems = ({ cities, countries, events, flights, locations }: 
             {locations.map(l =>
                 <ListGroup.Item key={l.id}>
                     <IoMdHome /> {l.name}
+                </ListGroup.Item>
+            )}
+            {movies.map(m =>
+                <ListGroup.Item key={m.imdbId}>
+                    <MdMovieCreation /> <a target="_blank" href={`https://imdb.com/title/${m.imdbId}`}>{m.title}</a>
                 </ListGroup.Item>
             )}
         </ListGroup>
