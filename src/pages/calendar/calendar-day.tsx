@@ -6,8 +6,9 @@ import Select from 'components/select';
 import { components } from 'types/ivy-types';
 import classNames from 'classnames';
 import { SelectOption } from 'types/common';
-import { WorkDayTypeIcon } from './work-day-type-icon';
+import { WorkDayType, WorkDayTypeIcon } from './work-day-type-icon';
 import CalendarDaySubitems from './calendar-day-subitems';
+import { FaRoute } from 'react-icons/fa';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
@@ -23,12 +24,13 @@ interface Props {
 }
 
 const workDayTypes = [
-    { id: 'office', name: 'Office' },
-    { id: 'remote', name: 'Remote' },
-    { id: 'vacation', name: 'Vacation' },
-    { id: 'sick-leave', name: 'Sick leave' },
-    { id: 'business-trip', name: 'Business trip' },
-    { id: 'conference', name: 'Conference' },
+    { id: WorkDayType.BusinessTrip, name: 'Business trip' },
+    { id: WorkDayType.Conference, name: 'Conference' },
+    { id: WorkDayType.MedicalCheckUp, name: 'Medical Check-up' },
+    { id: WorkDayType.Office, name: 'Office' },
+    { id: WorkDayType.Remote, name: 'Remote' },
+    { id: WorkDayType.SickLeave, name: 'Sick leave' },
+    { id: WorkDayType.Vacation, name: 'Vacation' },
 ];
 
 export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange, onShowMap }: Props) => {
@@ -49,16 +51,17 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
 
     const classes = classNames('calendar-item', {
         'holiday': day.isHoliday,
-        'office': isWorkingDay && day.workDayType?.id !== 'remote',
-        'remote': day.workDayType?.id === 'remote',
+        'medical-check-up': day.workDayType?.id === WorkDayType.MedicalCheckUp,
+        'office': isWorkingDay && day.workDayType?.id !== WorkDayType.Remote,
+        'remote': day.workDayType?.id === WorkDayType.Remote,
         'today': momentDay.isSame(moment(), 'day'),
-        'vacation': day.workDayType?.id === 'vacation' && !day.isHoliday,
+        'vacation': day.workDayType?.id === WorkDayType.Vacation && !day.isHoliday,
         'weekend': isWeekend && !day.isHoliday,
     });
 
     const places = (day.locations ?? []).concat(day.events?.map(e => ({ name: e.name, id: e.id })) ?? [])
-                                .concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
-                                .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
+        .concat(flights.map(f => ({ name: `${f.origin?.iata} -> ${f.destination?.iata}`, id: f.destination?.iata })) ?? [])
+        .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
 
@@ -67,7 +70,12 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
             className={classes}
             style={style}
         >
-            <Card.Header onClick={onShowMap}>{momentDay.format('Do ddd')}</Card.Header>
+            <Card.Header>
+                {momentDay.format('Do ddd')}
+                {momentDay < moment() &&
+                    <a className="pull-right" onClick={onShowMap}><FaRoute /></a>
+                }
+            </Card.Header>
             <Card.Body>
                 <ListGroup>
                     <CalendarDaySubitems
@@ -86,6 +94,7 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
                         hideDefaultOption
                         options={workDayTypes}
                         defaultSelected={day.workDayType?.id ?? workDayTypes[0].id}
+                        onBlur={() => setIsEdit(false)}
                         onChange={changeWorkDayType}
                     />
                 }

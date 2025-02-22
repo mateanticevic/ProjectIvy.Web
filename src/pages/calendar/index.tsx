@@ -101,6 +101,7 @@ class CalendarPage extends Page<Props, State> {
     }
 
     onMonthChanged = (month: Moment) => {
+        window.history.replaceState(null, '', `/calendar/${month.year()}/${month.month() + 1}`);
         const from = month.startOf('month').format('YYYY-MM-DD');
         const to = month.clone().endOf('month').format('YYYY-MM-DD');
 

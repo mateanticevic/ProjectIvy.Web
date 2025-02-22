@@ -1,17 +1,18 @@
 import React from 'react';
-import { FaBusinessTime, FaLaptop } from 'react-icons/fa';
+import { FaBusinessTime, FaHospitalUser, FaLaptop } from 'react-icons/fa';
 import { FaTemperatureFull } from 'react-icons/fa6';
 import { GiPalmTree } from 'react-icons/gi';
 import { MdBusinessCenter } from 'react-icons/md';
 import { RiPresentationFill } from 'react-icons/ri';
 
-enum WorkDayType {
-    Office = 'office',
-    Remote = 'remote',
-    Vacation = 'vacation',
-    SickLeave = 'sick-leave',
+export enum WorkDayType {
     BusinessTrip = 'business-trip',
     Conference = 'conference',
+    MedicalCheckUp = 'medical-check-up',
+    Office = 'office',
+    Remote = 'remote',
+    SickLeave = 'sick-leave',
+    Vacation = 'vacation',
 }
 
 interface Props {
@@ -36,6 +37,9 @@ export const WorkDayTypeIcon = ({ id }: Props) => {
     }
     else if (id === WorkDayType.SickLeave) {
         return <FaTemperatureFull />;
+    }
+    else if (id === WorkDayType.MedicalCheckUp) {
+        return <FaHospitalUser />;
     }
     else if (!id) {
         return <MdBusinessCenter />;

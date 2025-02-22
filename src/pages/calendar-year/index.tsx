@@ -20,6 +20,7 @@ export const CalendarYearPage = () => {
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
     const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
     const [locationId, setLocationId] = useState<string | null>(null);
+    const [selectedDay, setSelectedDay] = useState<string | null>(null);
     window.history.replaceState(null, '', `/calendar/${year}`);
 
     const getWorkDayTypeCount = (typeId: string) =>
@@ -124,6 +125,12 @@ export const CalendarYearPage = () => {
 
     useEffect(() => {
         loadWorkDays();
+        document.body.addEventListener('click', e => {
+            if (e.target instanceof HTMLElement && e.target.className.includes('calendar-month-day-item')) {
+                return;
+            }
+            setSelectedDay(null);
+        });
     }, []);
 
     return (
@@ -164,7 +171,9 @@ export const CalendarYearPage = () => {
                         dates={calendarDates.filter(x => x.date.month() === month - 1)}
                         key={month}
                         month={month}
+                        selectedDay={selectedDay}
                         year={Number(year)}
+                        onDaySelect={setSelectedDay}
                     />
                 )}
             </div>

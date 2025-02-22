@@ -10,10 +10,11 @@ interface Props {
     options: SelectOption[];
     defaultSelected?: string;
     selected?: string;
+    onBlur?: () => void;
     onChange: (id: string) => void;
 }
 
-const Select = ({ defaultSelected, options, onChange, defaultOptionId, defaultOptionValue, selected, hideDefaultOption }: Props) => {
+const Select = ({ defaultSelected, options, defaultOptionId, defaultOptionValue, selected, hideDefaultOption, onBlur, onChange }: Props) => {
 
     defaultOptionId = defaultOptionId ? defaultOptionId : undefined;
     defaultOptionValue = defaultOptionValue ? defaultOptionValue : 'Any';
@@ -25,10 +26,11 @@ const Select = ({ defaultSelected, options, onChange, defaultOptionId, defaultOp
     return (
         <FormControl
             as="select"
-            onChange={(e) => onChange((e.target as HTMLInputElement).value)}
+            defaultValue={defaultSelected}
             placeholder="select"
             value={selected}
-            defaultValue={defaultSelected}
+            onBlur={onBlur}
+            onChange={(e) => onChange((e.target as HTMLInputElement).value)}
         >
             {!hideDefaultOption &&
                 <option value={defaultOptionId}>{defaultOptionValue}</option>

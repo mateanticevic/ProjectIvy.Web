@@ -444,6 +444,7 @@ body #app {
 }
 
 .calendar-month-day-item {
+  cursor: pointer;
   &:first-child {
     grid-column-start: var(--offset);
   }
@@ -525,6 +526,10 @@ body #app {
 
 .calendar-item.office {
   background: #aeaeae53;
+}
+
+.calendar-item.medical-check-up {
+  background: #f6afaf;
 }
 
 .calendar-item.remote {
