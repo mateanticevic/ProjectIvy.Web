@@ -26,7 +26,7 @@ export const CalendarMonth = ({ dates, month, selectedDay, year, onDaySelect }: 
                     {dates && dates.reverse().map(date =>
                         <CalendarMonthDayItem
                             date={date}
-                            selectedDay={(date as CalendarDate).date.format('YYYY-MM-DD') === (selectedDay ?? '')}
+                            isSelected={(date as CalendarDate).date.format('YYYY-MM-DD') === (selectedDay ?? '')}
                             onClick={() => onDaySelect((date as CalendarDate).date.format('YYYY-MM-DD'))}
                         />
                     )}
