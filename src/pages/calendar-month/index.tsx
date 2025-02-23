@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Datetime from 'react-datetime';
-
-import { Page } from 'pages/page';
 import { Container } from 'react-bootstrap';
-
+import { useParams } from 'react-router-dom';
+import moment, { Moment } from 'moment';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
-import moment, { Moment } from 'moment';
-import { useParams } from 'react-router-dom';
-import { SelectOption } from 'types/common';
 import MapModal from './map-modal';
 import { KeyValuePair } from 'types/grouping';
-import _ from 'lodash';
 
 type CalendarSection = components['schemas']['CalendarSection'];
 type Flight = components['schemas']['Flight'];
@@ -25,111 +20,50 @@ interface PagePath {
     month: string;
 }
 
-interface Props {
-    params: PagePath;
-}
+const CalendarMonthPage: React.FC = () => {
+    const params = useParams<PagePath>();
+    const [calendarSection, setCalendarSection] = useState<CalendarSection | undefined>(undefined);
+    const [flights, setFlights] = useState<Flight[]>([]);
+    const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+    const [locationsByDay, setLocationsByDay] = useState<KeyValuePair<Location[]>[]>([]);
+    const [movies, setMovies] = useState<Movie[]>([]);
+    const [startDay, setStartDay] = useState<Moment>(
+        params.year && params.month ? moment(`${params.year}-${params.month}-01`) : moment().startOf('month')
+    );
+    const [trackings, setTrackings] = useState<Tracking[]>([]);
 
-interface State {
-    calendarSection?: CalendarSection;
-    flights: Flight[];
-    isMapModalOpen: boolean;
-    locationsByDay: KeyValuePair<Location[]>[];
-    movies: Movie[];
-    startDay: Moment;
-    trackings: Tracking[];
-}
+    useEffect(() => {
+        onMonthChanged(startDay);
+    }, [startDay]);
 
-class CalendarMonthPage extends Page<Props, State> {
-
-    state: State = {
-        flights: [],
-        locationsByDay: [],
-        isMapModalOpen: false,
-        movies: [],
-        startDay: this.props.params.year && this.props.params.month ? moment(`${this.props.params.year}-${this.props.params.month}-01`) : moment().startOf('month'),
-        trackings: [],
-    }
-
-    componentDidMount() {
-        const { startDay } = this.state;
-        this.onMonthChanged(startDay);
-    }
-
-    render() {
-        const { calendarSection, flights, locationsByDay, movies } = this.state;
-        return (
-            <Container>
-                <Datetime
-                    inputProps={{ readOnly: true }}
-                    dateFormat="MMMM YYYY"
-                    timeFormat={false}
-                    value={this.state.startDay}
-                    onChange={month => this.onMonthChanged(month as Moment)}
-                />
-                {calendarSection?.days?.filter(d => d.workDayType?.id === 'remote').length}
-                <div className="calendar-container">
-                    {calendarSection?.days?.slice().reverse().map((day, i) =>
-                        <CalendarDay
-                            key={moment(day.date).format('YYYY-MM-DD')}
-                            day={day}
-                            flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
-                            movies={movies.filter(m => moment(m.timestamp).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
-                            offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
-                            onShowMap={() => this.onShowMap(moment(day.date).format('YYYY-MM-DD'))}
-                            onWorkDayTypeChange={workDayType => this.onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
-                        />
-                    )}
-                </div>
-                <MapModal
-                    isOpen={this.state.isMapModalOpen}
-                    trackings={this.state.trackings}
-                    onClose={() => this.setState({ isMapModalOpen: false })}
-                />
-            </Container>
-        );
-    }
-
-    onShowMap = (date: string) => {
-        this.setState({
-            isMapModalOpen: true,
-        });
+    const onShowMap = (date: string) => {
+        setIsMapModalOpen(true);
         api.tracking.get({ from: moment(date).format('YYYY-MM-DD'), to: moment(date).add(1, 'd').format('YYYY-MM-DD') }).then(trackings => {
-            this.setState({
-                trackings,
-            });
+            setTrackings(trackings);
         });
-    }
+    };
 
-    onMonthChanged = (month: Moment) => {
+    const onMonthChanged = (month: Moment) => {
         window.history.replaceState(null, '', `/calendar/${month.year()}/${month.month() + 1}`);
         const from = month.startOf('month').format('YYYY-MM-DD');
         const to = month.clone().endOf('month').format('YYYY-MM-DD');
 
         api.calendar.getDays(from, to)
             .then(calendarSection => {
-                this.setState({
-                    calendarSection,
-                    startDay: month.startOf('month')
-                });
+                setCalendarSection(calendarSection);
+                setStartDay(month.startOf('month'));
             });
         api.movie.get({ from, to, pageAll: true })
-            .then(response => this.setState({ movies: response.items }));
+            .then(response => setMovies(response.items));
         // api.location.getByDay(from, to)
         //     .then(locationsByDay => {
-        //         this.setState({
-        //             locationsByDay,
-        //         });
+        //         setLocationsByDay(locationsByDay);
         //     });
         api.flight.get({ from, to: month.clone().endOf('month').add(1, 'day').format('YYYY-MM-DD') })
-            .then(data => {
-                this.setState({
-                    flights: data.items,
-                });
-            });
-    }
+            .then(data => setFlights(data.items));
+    };
 
-    onWorkDayTypeChange = (date: string, workDayType: SelectOption) => {
-        const { calendarSection } = this.state;
+    const onWorkDayTypeChange = (date: string, workDayType: SelectOption) => {
         if (calendarSection) {
             const updatedDays = calendarSection.days.map(day => {
                 if (moment(day.date).format('YYYY-MM-DD') === date) {
@@ -143,15 +77,44 @@ class CalendarMonthPage extends Page<Props, State> {
                 }
                 return day;
             });
-            this.setState({
-                calendarSection: {
-                    ...calendarSection,
-                    days: updatedDays
-                }
+            setCalendarSection({
+                ...calendarSection,
+                days: updatedDays
             });
         }
         api.calendar.patch(date, workDayType.id);
-    }
-}
+    };
 
-export default () => <CalendarMonthPage params={useParams() as PagePath} />;
+    return (
+        <Container>
+            <Datetime
+                inputProps={{ readOnly: true }}
+                dateFormat="MMMM YYYY"
+                timeFormat={false}
+                value={startDay}
+                onChange={month => onMonthChanged(month as Moment)}
+            />
+            {calendarSection?.days?.filter(d => d.workDayType?.id === 'remote').length}
+            <div className="calendar-container">
+                {calendarSection?.days?.slice().reverse().map((day, i) =>
+                    <CalendarDay
+                        key={moment(day.date).format('YYYY-MM-DD')}
+                        day={day}
+                        flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
+                        movies={movies.filter(m => moment(m.timestamp).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
+                        offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
+                        onShowMap={() => onShowMap(moment(day.date).format('YYYY-MM-DD'))}
+                        onWorkDayTypeChange={workDayType => onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
+                    />
+                )}
+            </div>
+            <MapModal
+                isOpen={isMapModalOpen}
+                trackings={trackings}
+                onClose={() => setIsMapModalOpen(false)}
+            />
+        </Container>
+    );
+};
+
+export default CalendarMonthPage;
