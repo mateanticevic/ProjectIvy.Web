@@ -27,7 +27,7 @@ import FlightsV2Page from 'pages/flights-v2';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import LocationsPage from 'pages/locations';
 import { FaGithub, FaMicrosoft } from 'react-icons/fa';
-import CalendarPage from 'pages/calendar';
+import CalendarMonthPage from 'pages/calendar-month';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
 
@@ -223,7 +223,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
                                     <Route path="/calendar" element={<CalendarYearPage />} />
                                     <Route path="/calendar/:year" element={<CalendarYearPage />} />
-                                    <Route path="/calendar/:year/:month" element={<CalendarPage />} />
+                                    <Route path="/calendar/:year/:month" element={<CalendarMonthPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />

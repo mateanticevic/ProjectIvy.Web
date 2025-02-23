@@ -39,7 +39,7 @@ interface State {
     trackings: Tracking[];
 }
 
-class CalendarPage extends Page<Props, State> {
+class CalendarMonthPage extends Page<Props, State> {
 
     state: State = {
         flights: [],
@@ -154,4 +154,4 @@ class CalendarPage extends Page<Props, State> {
     }
 }
 
-export default () => <CalendarPage params={useParams() as PagePath} />;
+export default () => <CalendarMonthPage params={useParams() as PagePath} />;
