@@ -62,7 +62,7 @@ const applyUnitFormatting = (data, unitType) => {
     return data;
 };
 
-export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
+const DistributionCard = React.memo(({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
 
     const applyKeyFormatting = {
         [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format('dddd'),
@@ -132,4 +132,6 @@ export const DistributionCard = ({ dontRenderCard, data, name, stacked, unit, un
             </Card.Footer>
         </Card>
     );
-};
+});
+
+export default DistributionCard;

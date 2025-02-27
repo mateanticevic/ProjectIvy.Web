@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import api from 'api/main';
@@ -88,14 +88,14 @@ const FlightsV2Page: React.FC = () => {
         }
     };
 
-    const onCountByChange = (newCountBy?: CountByFlights) => {
+    const onCountByChange = useCallback((newCountBy?: CountByFlights) => {
         if (newCountBy !== undefined) {
             setCountBy(newCountBy);
         }
 
         countApiMapping[newCountBy ?? countBy](filter)
             .then(data => setCountByData(data.slice(0, 10)));
-    };
+    }, [countBy, filter]);
 
     return (
         <Container>
