@@ -502,6 +502,21 @@ body #app {
   border: solid;
 }
 
+.calendar-month-day-item.loading {
+  background: linear-gradient(90deg, #aeaeae53 0%, #d1d1d1 50%, #aeaeae53 100%);
+  background-size: 200% 100%;
+  animation: loading-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes loading-pulse {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
 .calendar-month-day-item.vacation {
   background: #c9d9537d;
 }
@@ -514,6 +529,7 @@ body #app {
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(4, 1fr);
+  margin-top: 20px;
 
   @media (max-width: 1199px) {
     grid-template-columns: 1fr;

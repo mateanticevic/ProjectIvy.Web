@@ -8,13 +8,14 @@ import { CalendarDate, CalendarDateBinary, CalendarDateFlag, CalendarDateIntensi
 
 interface Props {
     dates: CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[];
+    isLoading: boolean;
     month: number;
     selectedDay: string | null;
     year: number;
     onDaySelect: (date: string) => void;
 }
 
-export const CalendarMonth = ({ dates, month, selectedDay, year, onDaySelect }: Props) => {
+export const CalendarMonth = ({ dates, isLoading, month, selectedDay, year, onDaySelect }: Props) => {
 
     return (
         <Card>
@@ -26,6 +27,7 @@ export const CalendarMonth = ({ dates, month, selectedDay, year, onDaySelect }: 
                     {dates && dates.reverse().map(date =>
                         <CalendarMonthDayItem
                             date={date}
+                            isLoading={isLoading}
                             isSelected={(date as CalendarDate).date.format('YYYY-MM-DD') === (selectedDay ?? '')}
                             onClick={() => onDaySelect((date as CalendarDate).date.format('YYYY-MM-DD'))}
                         />

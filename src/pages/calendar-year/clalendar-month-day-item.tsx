@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import moment from 'moment';
 import { Dropdown } from 'react-bootstrap';
 import {
     CalendarDateBinary,
@@ -14,19 +15,22 @@ import {
 
 interface Props {
     date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
+    isLoading: boolean;
     isSelected: boolean;
     onClick: () => void;
 }
 
-export const CalendarMonthDayItem = ({ date, isSelected, onClick }: Props) => {
+export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: Props) => {
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0)
     };
 
     const classes = classNames('calendar-month-day-item', {
-        'country': isCalendarDateFlag(date) && date.countryId,
         'active': (isCalendarDateValue(date) && date.value > 0) || (isCalendarDateBinary(date) && date.active),
-        [date.style]: isCalendarDateStyle(date)
+        'country': isCalendarDateFlag(date) && date.countryId,
+        'loading': isLoading,
+        'today': moment().isSame(date.date, 'day'),
+        [date.style]: !isLoading && isCalendarDateStyle(date)
     });
 
     return (

@@ -15,7 +15,6 @@ export const workDayTypeToStyle = (day: Moment, type: WorkDayType) =>
         'office': !type || type === 'office',
         'remote': type === 'remote',
         'sick-leave': type === 'sickLeave',
-        'today': moment().isSame(day, 'day'),
         'vacation': type === 'vacation',
         'weekend': type !== 'holiday' && day.weekday() >= 5,
     });

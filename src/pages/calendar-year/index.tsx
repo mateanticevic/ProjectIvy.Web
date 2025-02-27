@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Container, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 import { CalendarMonth } from "./calendar-month";
 import api from "api/main";
 import AsyncSelect from "react-select/async";
 import { cityLoader, locationLoader } from "utils/select-loaders";
 import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateValue, CalendarMode } from "./constants";
-import moment from "moment";
 import { workDayTypeToStyle } from "./mappers";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 
@@ -18,9 +18,10 @@ export const CalendarYearPage = () => {
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
-    const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
+    const [isLoading, setIsLoading] = useState(true);
     const [locationId, setLocationId] = useState<string | null>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
+    const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
     window.history.replaceState(null, '', `/calendar/${year}`);
 
     const getWorkDayTypeCount = (typeId: string) =>
@@ -28,6 +29,7 @@ export const CalendarYearPage = () => {
 
     const onLocationSelected = (locationId: string, year: number) => {
         setLocationId(locationId);
+        setIsLoading(true);
         api.location.getDays(locationId)
             .then(dates => {
                 const momentDates = dates.map(x => moment(x));
@@ -39,6 +41,7 @@ export const CalendarYearPage = () => {
                     });
                 }
                 setCalendarDates(results.reverse());
+                setIsLoading(false);
             });
     };
 
@@ -82,6 +85,7 @@ export const CalendarYearPage = () => {
     };
 
     const loadBeer = () => {
+        setIsLoading(true);
         api.consumation.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
             .then(volumeByDay => {
                 const results = [] as CalendarDateValue[];
@@ -92,10 +96,12 @@ export const CalendarYearPage = () => {
                     });
                 }
                 setCalendarDates(results.reverse());
+                setIsLoading(false);
             });
     };
 
     const loadCountries = () => {
+        setIsLoading(true);
         api.country.getVisitedByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
             .then(countriesByDay => {
                 const results = [] as CalendarDateFlag[];
@@ -106,6 +112,7 @@ export const CalendarYearPage = () => {
                     });
                 }
                 setCalendarDates(results.reverse());
+                setIsLoading(false);
             });
     };
 
@@ -116,6 +123,7 @@ export const CalendarYearPage = () => {
                     date: moment(x.date),
                     style: workDayTypeToStyle(moment(x.date), x.type!)
                 })) as CalendarDateStyle[]);
+                setIsLoading(false);
             });
     };
 
@@ -169,6 +177,7 @@ export const CalendarYearPage = () => {
                 {months.map(month =>
                     <CalendarMonth
                         dates={calendarDates.filter(x => x.date.month() === month - 1)}
+                        isLoading={isLoading}
                         key={month}
                         month={month}
                         selectedDay={selectedDay}
