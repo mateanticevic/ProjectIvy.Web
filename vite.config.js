@@ -6,6 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
+    allowedHosts: ["local.anticevic.net"],
     host: '0.0.0.0',
     proxy: {
       '/api': {
