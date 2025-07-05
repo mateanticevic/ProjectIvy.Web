@@ -42,8 +42,8 @@
     "react-vertical-timeline-component": "^3.5.3",
     "recharts": "^3.0.2",
     "spherical-geometry-js": "^3.0.0",
-    "vite": "^5.0.13",
-    "vite-tsconfig-paths": "^4.2.0"
+    "vite": "^7.0.2",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.22.15",
