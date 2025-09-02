@@ -1,5 +1,16 @@
 @import '../../node_modules/react-datetime/css/react-datetime.css';
 
+// Calendar color variables
+$calendar-business-trip: #90c3fa;
+$calendar-conference: #bdcafa;
+$calendar-holiday: #91cd93d7;
+$calendar-medical-check-up: #ffc2c0d7;
+$calendar-office: #aeaeae53;
+$calendar-remote: #c9e0f478;
+$calendar-sick-leave: #f33f3f78;
+$calendar-vacation: #e2eb9f;
+$calendar-weekend: #91cd9364;
+
 body #app {
   font: 14px Inter, -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.4em;
@@ -463,11 +474,11 @@ body #app {
 }
 
 .calendar-month-day-item.business-trip {
-  background: rgb(52, 150, 255);
+  background: $calendar-business-trip;
 }
 
 .calendar-month-day-item.conference {
-  background: hsla(201, 70%, 48%);
+  background: $calendar-conference;
 }
 
 .calendar-month-day-item.country {
@@ -479,23 +490,23 @@ body #app {
 }
 
 .calendar-month-day-item.holiday {
-  background: #91cd93d7;
+  background: $calendar-holiday;
 }
 
 .calendar-month-day-item.medical-check-up {
-  background: #ffc2c0d7;
+  background: $calendar-medical-check-up;
 }
 
 .calendar-month-day-item.office {
-  background: #aeaeae53;
+  background: $calendar-office;
 }
 
 .calendar-month-day-item.remote {
-  background: #c9e0f478;
+  background: $calendar-remote;
 }
 
 .calendar-month-day-item.sick-leave {
-  background: #f33f3f78;
+  background: $calendar-sick-leave;
 }
 
 .calendar-month-day-item.today {
@@ -518,11 +529,11 @@ body #app {
 }
 
 .calendar-month-day-item.vacation {
-  background: #c9d9537d;
+  background: $calendar-vacation;
 }
 
 .calendar-month-day-item.weekend {
-  background: #91cd9364;
+  background: $calendar-weekend;
 }
 
 .calendar-year-container {
@@ -544,28 +555,40 @@ body #app {
   }
 }
 
+.calendar-item.business-trip {
+  background: $calendar-business-trip;
+}
+
+.calendar-item.conference {
+  background: $calendar-conference;
+}
+
 .calendar-item.holiday {
-  background: #91cd93d7;
+  background: $calendar-holiday;
 }
 
 .calendar-item.office {
-  background: #aeaeae53;
+  background: $calendar-office;
 }
 
 .calendar-item.medical-check-up {
-  background: #f6afaf;
+  background: $calendar-medical-check-up;
 }
 
 .calendar-item.remote {
-  background: #c9e0f478;
+  background: $calendar-remote;
 }
 
 .calendar-item.vacation {
-  background: #c9d9537d;
+  background: $calendar-vacation;
 }
 
 .calendar-item.weekend {
-  background: #91cd9364;
+  background: $calendar-weekend;
+}
+
+.calendar-item.sick-leave {
+  background: $calendar-sick-leave;
 }
 
 .calendar-item.today {

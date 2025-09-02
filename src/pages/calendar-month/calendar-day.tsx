@@ -50,9 +50,11 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
     };
 
     const classes = classNames('calendar-item', {
+        'business-trip': day.workDayType?.id === WorkDayType.BusinessTrip,
+        'conference': day.workDayType?.id === WorkDayType.Conference,
         'holiday': day.isHoliday,
         'medical-check-up': day.workDayType?.id === WorkDayType.MedicalCheckUp,
-        'office': isWorkingDay && day.workDayType?.id !== WorkDayType.Remote,
+        'office': isWorkingDay && ![WorkDayType.Conference, WorkDayType.Remote, WorkDayType.BusinessTrip].includes(day.workDayType?.id as WorkDayType),
         'remote': day.workDayType?.id === WorkDayType.Remote,
         'today': momentDay.isSame(moment(), 'day'),
         'vacation': day.workDayType?.id === WorkDayType.Vacation && !day.isHoliday,
