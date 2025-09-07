@@ -9,6 +9,7 @@ import {
     CalendarDateStyle,
     isCalendarDateBinary,
     isCalendarDateFlag,
+    isCalendarDateIntensity,
     isCalendarDateStyle,
     isCalendarDateValue
 } from './constants';
@@ -22,7 +23,11 @@ interface Props {
 
 export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: Props) => {
     const style = {
-        '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0)
+        '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0),
+        // Pass intensity as a CSS variable if present
+        ...(isCalendarDateIntensity(date) && date.intensity > 0
+            ? { '--intensity': date.intensity }
+            : {})
     };
 
     const classes = classNames('calendar-month-day-item', {
@@ -30,7 +35,8 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: P
         'country': isCalendarDateFlag(date) && date.countryId,
         'loading': isLoading,
         'today': moment().isSame(date.date, 'day'),
-        [date.style]: !isLoading && isCalendarDateStyle(date)
+        [date.style]: !isLoading && isCalendarDateStyle(date),
+        'intensity-blue': isCalendarDateIntensity(date) && date.intensity === 1
     });
 
     return (

@@ -1,11 +1,12 @@
 import { Moment } from "moment";
 
 export enum CalendarMode {
-    Beer,
-    Cities,
-    Countries,
-    Locations,
-    WorkDays,
+    Beer = "beer",
+    Cities = "cities",
+    Countries = "countries",
+    Locations = "locations",
+    WorkDays = "workdays",
+    Expenses = "expenses"
 }
 
 export type CalendarDate = {
@@ -46,4 +47,8 @@ export const isCalendarDateStyle = (date: CalendarDate): date is CalendarDateSty
 
 export interface CalendarDateIntensity extends CalendarDate {
     intensity: number;
+}
+
+export const isCalendarDateIntensity = (date: CalendarDate): date is CalendarDateIntensity => {
+    return 'intensity' in date;
 }

@@ -52,6 +52,8 @@ function getVendorCount(filters) {
 
 const getSumByCurrency = (filters) => api.get('expense/sum/byCurrency', filters);
 
+const getSumByDay = (filters) => api.get('expense/sum/byDay', filters);
+
 const getSumByDayOfWeek = (filters) => api.get('expense/sum/byDayOfWeek', filters);
 
 const getSumByMonth = (filters) => api.get('expense/sum/byMonth', filters);
@@ -87,6 +89,7 @@ const expense = {
     getVendorCount,
     getSum,
     getSumByCurrency,
+    getSumByDay,
     getSumByDayOfWeek,
     getSumByMonth,
     getSumByMonthOfYear,

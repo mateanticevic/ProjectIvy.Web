@@ -60,6 +60,9 @@ export const CalendarYearPage = () => {
         else if (mode === CalendarMode.Beer) {
             loadBeer();
         }
+        else if (mode === CalendarMode.Expenses) {
+            loadExpenses();
+        }
     };
 
     const onCitySelected = (cityId: string) => {
@@ -127,6 +130,27 @@ export const CalendarYearPage = () => {
             });
     };
 
+    const loadExpenses = () => {
+        setIsLoading(true);
+        api.expense.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
+            .then(expenseByDay => {
+                const results = [] as CalendarDateIntensity[];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    const value = expenseByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00.000'))?.value ?? 0;
+                    let intensity = 0;
+                    if (value > 0) {
+                        intensity = Math.min(value / 300, 1); // 0 < intensity <= 1
+                    }
+                    results.push({
+                        date: date.clone(),
+                        intensity
+                    });
+                }
+                setCalendarDates(results.reverse());
+                setIsLoading(false);
+            });
+    };
+
     useEffect(() => {
         onModeChange(calendarMode);
     }, [year]);
@@ -154,6 +178,7 @@ export const CalendarYearPage = () => {
                 <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
                 <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
                 <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
+                <ToggleButton value={CalendarMode.Expenses} id={CalendarMode.Expenses.toString()}>Expenses</ToggleButton>
                 <ToggleButton value={CalendarMode.Locations} id={CalendarMode.Locations.toString()}>Locations</ToggleButton>
                 <ToggleButton value={CalendarMode.WorkDays} id={CalendarMode.WorkDays.toString()}>Work days</ToggleButton>
             </ToggleButtonGroup>
