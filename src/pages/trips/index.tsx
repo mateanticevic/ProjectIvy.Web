@@ -8,6 +8,7 @@ import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import TripModal from './trip-modal';
+import StayModal from './stay-modal';
 import YearTrips from './year-trips';
 import api from 'api/main';
 import { CountryListVisited, TripFilters } from 'types/trips';
@@ -19,6 +20,7 @@ import { components } from 'types/ivy-types';
 
 type Trip = components['schemas']['Trip'];
 type TripBinding = components['schemas']['TripBinding'];
+type StayBinding = components['schemas']['StayBinding'];
 
 interface State {
     countries: [];
@@ -26,10 +28,13 @@ interface State {
     daysByYear: any;
     filters: TripFilters;
     isModalOpen: boolean;
+    isStayModalOpen: boolean;
     lists: CountryListVisited[];
     trip: TripBinding;
+    stay: StayBinding;
     trips: PagedList<Trip>;
     tripIsBeingAdded: boolean;
+    stayIsBeingAdded: boolean;
     tripsAreLoading: boolean;
 }
 
@@ -46,12 +51,19 @@ class TripsPage extends Page<unknown, State> {
             countryId: [],
         },
         isModalOpen: false,
+        isStayModalOpen: false,
         lists: [],
         trip: {
             cityIds: [],
         },
+        stay: {
+            date: null,
+            countryId: null,
+            cityId: null,
+        },
         trips: { count: 0, items: [] },
         tripIsBeingAdded: false,
+        stayIsBeingAdded: false,
         tripsAreLoading: true,
     };
 
@@ -68,7 +80,7 @@ class TripsPage extends Page<unknown, State> {
     }
 
     render() {
-        const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded } = this.state;
+        const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded, stayIsBeingAdded } = this.state;
 
         const chartData = countriesVisited.map(x => [x.name]);
 
@@ -136,6 +148,12 @@ class TripsPage extends Page<unknown, State> {
                                 variant="primary"
                                 onClick={() => this.setState({ isModalOpen: true })}>
                                 New
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="secondary"
+                                onClick={() => this.setState({ isStayModalOpen: true })}>
+                                Add Stay
                             </Button>
                         </div>
                     </Col>
@@ -228,6 +246,14 @@ class TripsPage extends Page<unknown, State> {
                     onSave={this.onTripSave}
                     isOpen={this.state.isModalOpen}
                 />
+                <StayModal
+                    buttonIsLoading={stayIsBeingAdded}
+                    onClose={() => this.setState({ isStayModalOpen: false })}
+                    onChange={this.onStayChanged}
+                    onSave={this.onStaySave}
+                    isOpen={this.state.isStayModalOpen}
+                    countries={countries}
+                />
             </Container>
         );
     }
@@ -289,6 +315,34 @@ class TripsPage extends Page<unknown, State> {
                 this.setState({
                     isModalOpen: false,
                     tripIsBeingAdded: false,
+                });
+                this.onFiltersChanged();
+                this.loadVisited();
+            });
+    };
+
+    onStayChanged = (changedValue: Partial<StayBinding>) => {
+        this.setState({
+            stay: {
+                ...this.state.stay,
+                ...changedValue,
+            },
+        });
+    };
+
+    onStaySave = () => {
+        this.setState({ stayIsBeingAdded: true });
+        api.stay
+            .post(moment(this.state.stay.date).format('YYYY-MM-DD'), this.state.stay)
+            .then(() => {
+                this.setState({
+                    isStayModalOpen: false,
+                    stayIsBeingAdded: false,
+                    stay: {
+                        date: null,
+                        countryId: null,
+                        cityId: null,
+                    },
                 });
                 this.onFiltersChanged();
                 this.loadVisited();

@@ -4286,11 +4286,7 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content: {
-                        "text/plain": boolean;
-                        "application/json": boolean;
-                        "text/json": boolean;
-                    };
+                    content?: never;
                 };
             };
         };
@@ -4363,6 +4359,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4450,6 +4447,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4510,6 +4508,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4570,6 +4569,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4630,6 +4630,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4686,6 +4687,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4746,6 +4748,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4806,6 +4809,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4866,6 +4870,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -4967,6 +4972,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5029,6 +5035,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5091,6 +5098,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5153,6 +5161,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5215,6 +5224,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5277,6 +5287,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5339,6 +5350,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5401,6 +5413,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5463,6 +5476,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5525,6 +5539,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5585,6 +5600,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5645,6 +5661,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -5705,6 +5722,7 @@ export interface paths {
                     TypeId?: string[];
                     VendorId?: string[];
                     ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
@@ -6263,6 +6281,43 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Flight/Distance/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -8629,6 +8684,94 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Stay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    CityId?: string[];
+                    CountryId?: string[];
+                    OrderBy?: components["schemas"]["StaySort"];
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["StayPagedView"];
+                        "application/json": components["schemas"]["StayPagedView"];
+                        "text/json": components["schemas"]["StayPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Stay/{date}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    date: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["StayBinding"];
+                    "text/json": components["schemas"]["StayBinding"];
+                    "application/*+json": components["schemas"]["StayBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Service/LastFm/Track": {
         parameters: {
             query?: never;
@@ -9680,9 +9823,7 @@ export interface paths {
         put?: never;
         post: {
             parameters: {
-                query?: {
-                    tripId?: string;
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -10821,10 +10962,10 @@ export interface components {
             eTag?: string | null;
         };
         Images: {
-            small?: string | null;
-            medium?: string | null;
-            large?: string | null;
             extraLarge?: string | null;
+            large?: string | null;
+            medium?: string | null;
+            small?: string | null;
         };
         Income: {
             /** Format: double */
@@ -11001,6 +11142,27 @@ export interface components {
         };
         /** @enum {string} */
         RouteTimeSort: "date" | "duration";
+        Stay: {
+            /** Format: int32 */
+            id?: number;
+            /** Format: date-time */
+            date?: string;
+            city?: components["schemas"]["City"];
+            country?: components["schemas"]["Country"];
+        };
+        StayBinding: {
+            /** Format: date-time */
+            date?: string;
+            cityId?: string | null;
+            countryId?: string | null;
+        };
+        StayPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Stay"][] | null;
+        };
+        /** @enum {string} */
+        StaySort: "date";
         StringDecimalKeyValuePair: {
             key?: string | null;
             /** Format: double */
@@ -11103,6 +11265,7 @@ export interface components {
             files?: components["schemas"]["File"][] | null;
             expenses?: components["schemas"]["Expense"][] | null;
             pois?: components["schemas"]["Poi"][] | null;
+            stays?: components["schemas"]["Stay"][] | null;
             /** Format: double */
             totalSpent?: number;
         };

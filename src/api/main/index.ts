@@ -21,6 +21,7 @@ import movie from './movie';
 import poi from './poi';
 import ride from './ride';
 import route from './route';
+import stay from './stay';
 import todo from './todo';
 import token from './token';
 import tracking from './tracking';
@@ -54,6 +55,7 @@ const api = {
     poi,
     ride,
     route,
+    stay,
     todo,
     token,
     tracking,

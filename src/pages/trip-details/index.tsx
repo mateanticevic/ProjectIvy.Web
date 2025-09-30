@@ -35,6 +35,7 @@ interface State {
     isRideModalOpen: boolean;
     ride: RideBinding;
     rides: Ride[];
+    stays: any[]; // Add stays to state
     trackings: any[];
     trip: Trip;
 }
@@ -62,6 +63,7 @@ class TripDetailsPage extends React.Component<Props, State> {
             countries: [],
             expenses: [],
             id: '',
+            stays: [],
         },
         trackings: [],
     };
@@ -203,6 +205,31 @@ class TripDetailsPage extends React.Component<Props, State> {
                             pageSize={this.state.expenseFilters.pageSize}
                             onPageChange={this.onExpensePageChange}
                             onUnlink={this.onUnlink} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={12}>
+                        <Card>
+                            <Card.Header>Stays</Card.Header>
+                            <Card.Body>
+                                {trip.stays!.length > 0 ? (
+                                    <div>
+                                        {trip.stays!.map((stay, index) => (
+                                            <div key={stay.id || index} className="mb-3 p-3 border rounded">
+                                                <Row>
+                                                    <Col md={4}>
+                                                        <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
+                                                        <div className="text-muted small">{moment(stay.date).format('MMM DD')}</div>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className="text-muted">No stays recorded for this trip.</p>
+                                )}
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
                 <Row>

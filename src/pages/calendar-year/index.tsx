@@ -132,7 +132,7 @@ export const CalendarYearPage = () => {
 
     const loadExpenses = () => {
         setIsLoading(true);
-        api.expense.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31` })
+        api.expense.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31`, excludeTypeId: 'utilities' })
             .then(expenseByDay => {
                 const results = [] as CalendarDateIntensity[];
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
