@@ -219,7 +219,7 @@ class TripDetailsPage extends React.Component<Props, State> {
                                                 <Row>
                                                     <Col md={4}>
                                                         <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
-                                                        <div className="text-muted small">{moment(stay.date).format('MMM DD')}</div>
+                                                        <div className="text-muted small">{moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights</div>
                                                     </Col>
                                                 </Row>
                                             </div>

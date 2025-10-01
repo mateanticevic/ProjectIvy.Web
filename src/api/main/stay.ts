@@ -3,7 +3,7 @@ import { components } from 'types/ivy-types';
 
 type StayBinding = components['schemas']['StayBinding'];
 
-const post = (date: string, stay: StayBinding) => api.post(`stay/${date}`, stay);
+const post = (stay: StayBinding) => api.post('stay', stay);
 
 const stay = {
     post,

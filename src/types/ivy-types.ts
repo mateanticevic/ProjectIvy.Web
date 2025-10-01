@@ -8724,29 +8724,11 @@ export interface paths {
             };
         };
         put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Stay/{date}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
         post: {
             parameters: {
                 query?: never;
                 header?: never;
-                path: {
-                    date: string;
-                };
+                path?: never;
                 cookie?: never;
             };
             requestBody?: {
@@ -11146,13 +11128,17 @@ export interface components {
             /** Format: int32 */
             id?: number;
             /** Format: date-time */
-            date?: string;
+            from?: string;
+            /** Format: date-time */
+            to?: string;
             city?: components["schemas"]["City"];
             country?: components["schemas"]["Country"];
         };
         StayBinding: {
             /** Format: date-time */
-            date?: string;
+            from?: string;
+            /** Format: date-time */
+            to?: string;
             cityId?: string | null;
             countryId?: string | null;
         };

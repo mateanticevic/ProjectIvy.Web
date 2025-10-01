@@ -333,13 +333,14 @@ class TripsPage extends Page<unknown, State> {
     onStaySave = () => {
         this.setState({ stayIsBeingAdded: true });
         api.stay
-            .post(moment(this.state.stay.date).format('YYYY-MM-DD'), this.state.stay)
+            .post(this.state.stay)
             .then(() => {
                 this.setState({
                     isStayModalOpen: false,
                     stayIsBeingAdded: false,
                     stay: {
-                        date: null,
+                        from: null,
+                        to: null,
                         countryId: null,
                         cityId: null,
                     },

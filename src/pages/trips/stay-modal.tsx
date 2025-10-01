@@ -25,8 +25,12 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, onClose, onChange
             </Modal.Header>
             <Modal.Body>
                 <DateFormElement
-                    label="Date"
-                    onChange={date => onChange({ date })}
+                    label="From"
+                    onChange={from => onChange({ from })}
+                />
+                <DateFormElement
+                    label="To"
+                    onChange={to => onChange({ to })}
                 />
                 <FormGroup>
                     <FormLabel>Country</FormLabel>
@@ -48,8 +52,8 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, onClose, onChange
                 <Button variant="secondary" onClick={onClose}>
                     Cancel
                 </Button>
-                <Button 
-                    variant="primary" 
+                <Button
+                    variant="primary"
                     onClick={onSave}
                     disabled={buttonIsLoading}
                 >
