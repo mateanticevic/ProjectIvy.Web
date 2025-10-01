@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
 import { Marker, Polyline } from '@react-google-maps/api';
 import 'react-vertical-timeline-component/style.min.css';
+import './styles.scss';
 import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';
 
@@ -213,15 +214,11 @@ class TripDetailsPage extends React.Component<Props, State> {
                             <Card.Header>Stays</Card.Header>
                             <Card.Body>
                                 {trip.stays!.length > 0 ? (
-                                    <div>
+                                    <div className="stays-container">
                                         {trip.stays!.map((stay, index) => (
-                                            <div key={stay.id || index} className="mb-3 p-3 border rounded">
-                                                <Row>
-                                                    <Col md={4}>
-                                                        <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
-                                                        <div className="text-muted small">{moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights</div>
-                                                    </Col>
-                                                </Row>
+                                            <div key={stay.id || index} className="stay-item">
+                                                <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
+                                                <div className="text-muted small">{moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights</div>
                                             </div>
                                         ))}
                                     </div>

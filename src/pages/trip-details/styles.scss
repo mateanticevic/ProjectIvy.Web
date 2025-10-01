@@ -1,0 +1,14 @@
+.stays-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stay-item {
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: #f8f9fa;
+  flex: 0 0 auto;
+  min-width: 150px;
+}
