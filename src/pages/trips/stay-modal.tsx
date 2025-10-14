@@ -36,7 +36,7 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, on
                 />
                 <DateFormElement
                     label="To"
-                    value={(stay?.to ? moment(stay.to) : moment()).add(1, 'days').format('YYYY-MM-DD')}
+                    value={(stay?.to ? moment(stay.to) : moment().add(1, 'days')).format('YYYY-MM-DD')}
                     onChange={to => onChange({ to })}
                 />
                 <FormGroup>

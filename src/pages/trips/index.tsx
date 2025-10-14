@@ -21,6 +21,7 @@ import { components } from 'types/ivy-types';
 type Trip = components['schemas']['Trip'];
 type TripBinding = components['schemas']['TripBinding'];
 type StayBinding = components['schemas']['StayBinding'];
+type Stay = components['schemas']['Stay'];
 
 interface State {
     countries: [];
@@ -31,7 +32,7 @@ interface State {
     isStayModalOpen: boolean;
     lists: CountryListVisited[];
     trip: TripBinding;
-    stay: StayBinding;
+    stay: Stay;
     trips: PagedList<Trip>;
     tripIsBeingAdded: boolean;
     stayIsBeingAdded: boolean;
@@ -333,8 +334,15 @@ class TripsPage extends Page<unknown, State> {
 
     onStaySave = () => {
         this.setState({ stayIsBeingAdded: true });
+        const { stay } = this.state;
+        const stayBinding = {
+            from: stay.from,
+            to: stay.to,
+            cityId: stay.city?.id,
+            countryId: stay.city?.country?.id,
+        };
         api.stay
-            .post(this.state.stay)
+            .post(stayBinding)
             .then(() => {
                 this.setState({
                     isStayModalOpen: false,

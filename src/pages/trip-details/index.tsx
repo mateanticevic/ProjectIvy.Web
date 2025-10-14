@@ -337,12 +337,11 @@ class TripDetailsPage extends React.Component<Props, State> {
         const { selectedStay, trip } = this.state;
         if (!selectedStay || !selectedStay.id) return;
 
-        // Create StayBinding with only IDs, not full objects
         const stayBinding = {
             from: selectedStay.from,
             to: selectedStay.to,
-            cityId: selectedStay.city?.id || null,
-            countryId: selectedStay.city?.country?.id || null,
+            cityId: selectedStay.city?.id,
+            countryId: selectedStay.city?.country?.id,
         };
 
         api.stay.put(String(selectedStay.id), stayBinding)
