@@ -6,12 +6,14 @@ import 'react-vertical-timeline-component/style.min.css';
 import './styles.scss';
 import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';
+import { FaPencilAlt } from 'react-icons/fa';
 
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
 import ExpensePanel from '../expenses/expense-panel';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
+import StayModal from '../trips/stay-modal';
 import { cityLoader, expenseLoader } from 'utils/select-loaders';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
@@ -20,6 +22,7 @@ import { iconUrl } from 'utils/cdn-helper';
 
 type Flight = components['schemas']['Flight'];
 type Trip = components['schemas']['Trip'];
+type Stay = components['schemas']['Stay'];
 
 interface QueryStrings {
     id: string;
@@ -34,9 +37,11 @@ interface State {
     expenseFilters: any;
     flights: Flight[];
     isRideModalOpen: boolean;
+    isStayModalOpen: boolean;
     ride: RideBinding;
     rides: Ride[];
-    stays: any[]; // Add stays to state
+    selectedStay: Stay | null;
+    stays: any[];
     trackings: any[];
     trip: Trip;
 }
@@ -55,10 +60,13 @@ class TripDetailsPage extends React.Component<Props, State> {
         },
         flights: [],
         isRideModalOpen: true,
+        isStayModalOpen: false,
         ride: {
             typeId: 'car'
         },
         rides: [],
+        selectedStay: null,
+        stays: [],
         trip: {
             cities: [],
             countries: [],
@@ -217,8 +225,19 @@ class TripDetailsPage extends React.Component<Props, State> {
                                     <div className="stays-container">
                                         {trip.stays!.map((stay, index) => (
                                             <div key={stay.id || index} className="stay-item">
-                                                <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
-                                                <div className="text-muted small">{moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights</div>
+                                                <div className="stay-content">
+                                                    <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
+                                                    <div className="text-muted small">
+                                                        {moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    className="btn btn-sm btn-link stay-edit-btn"
+                                                    onClick={() => this.onEditStay(stay)}
+                                                    title="Edit stay"
+                                                >
+                                                    <FaPencilAlt />
+                                                </button>
                                             </div>
                                         ))}
                                     </div>
@@ -239,6 +258,15 @@ class TripDetailsPage extends React.Component<Props, State> {
                         />
                     </Col>
                 </Row>
+                <StayModal
+                    buttonIsLoading={false}
+                    isOpen={this.state.isStayModalOpen}
+                    stay={this.state.selectedStay}
+                    onClose={() => this.setState({ isStayModalOpen: false, selectedStay: null })}
+                    onChange={this.onStayChange}
+                    onSave={this.onStaySave}
+                    countries={trip.countries || []}
+                />
                 {/* <RideModal
                     isOpen={this.state.isRideModalOpen}
                     onChange={this.onRideChange}
@@ -287,6 +315,47 @@ class TripDetailsPage extends React.Component<Props, State> {
         api.trip
             .deleteExpense(this.state.trip.id, expenseId)
             .then(() => { });
+    };
+
+    onEditStay = (stay: Stay) => {
+        this.setState({
+            selectedStay: stay,
+            isStayModalOpen: true,
+        });
+    };
+
+    onStayChange = (changed: Partial<Stay>) => {
+        this.setState({
+            selectedStay: {
+                ...this.state.selectedStay,
+                ...changed,
+            } as Stay,
+        });
+    };
+
+    onStaySave = () => {
+        const { selectedStay, trip } = this.state;
+        if (!selectedStay || !selectedStay.id) return;
+
+        // Create StayBinding with only IDs, not full objects
+        const stayBinding = {
+            from: selectedStay.from,
+            to: selectedStay.to,
+            cityId: selectedStay.city?.id || null,
+            countryId: selectedStay.city?.country?.id || null,
+        };
+
+        api.stay.put(String(selectedStay.id), stayBinding)
+            .then(() => {
+                // Refresh trip data
+                api.trip.getById(trip.id!).then(updatedTrip => {
+                    this.setState({
+                        trip: updatedTrip,
+                        isStayModalOpen: false,
+                        selectedStay: null,
+                    });
+                });
+            });
     };
 }
 

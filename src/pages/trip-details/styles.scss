@@ -11,4 +11,24 @@
   background-color: #f8f9fa;
   flex: 0 0 auto;
   min-width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+}
+
+.stay-content {
+  flex: 1;
+}
+
+.stay-edit-btn {
+  color: #6c757d;
+  padding: 0.25rem 0.5rem;
+  
+  &:hover {
+    color: #007bff;
+  }
 }

@@ -253,6 +253,7 @@ class TripsPage extends Page<unknown, State> {
                     onSave={this.onStaySave}
                     isOpen={this.state.isStayModalOpen}
                     countries={countries}
+                    stay={this.state.stay}
                 />
             </Container>
         );

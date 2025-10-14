@@ -23,7 +23,7 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                     dateFormat="YYYY-MM-DD"
                     timeFormat={false}
                     locale={moment.locale('hr')}
-                    onChange={x => onChange(x.format('YYYY-MM-DD'))}
+                    onChange={x => onChange((x as moment.Moment).format('YYYY-MM-DD'))}
                     value={value}
                 />
                 <InputGroup.Text>
