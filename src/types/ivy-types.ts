@@ -11069,6 +11069,7 @@ export interface components {
             id?: string | null;
             name?: string | null;
             geohashes?: string[] | null;
+            type?: components["schemas"]["LocationType"];
         };
         LocationBinding: {
             name?: string | null;

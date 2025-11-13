@@ -1,8 +1,8 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
-import { IoMdHome } from 'react-icons/io';
 import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 
+import LocationTypeIcon from 'components/location-type-icon';
 import { components } from 'types/ivy-types';
 
 type City = components['schemas']['City'];
@@ -49,7 +49,7 @@ const CalendarDaySubitems = ({ cities, countries, events, flights, locations, mo
             )}
             {locations.map(l =>
                 <ListGroup.Item key={l.id}>
-                    <IoMdHome /> {l.name}
+                    <LocationTypeIcon typeId={l.type?.id} /> {l.name}
                 </ListGroup.Item>
             )}
             {movies.map(m =>
