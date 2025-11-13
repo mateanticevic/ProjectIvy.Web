@@ -10304,6 +10304,7 @@ export interface components {
             cities?: components["schemas"]["City"][] | null;
             countries?: components["schemas"]["Country"][] | null;
             events?: components["schemas"]["Event"][] | null;
+            externalEvents?: components["schemas"]["IcsCalendarEvent"][] | null;
             isHoliday?: boolean;
             locations?: components["schemas"]["Location"][] | null;
             /** Format: date-time */
@@ -10983,6 +10984,16 @@ export interface components {
             sessionEntityTypes?: components["schemas"]["GoogleCloudDialogflowV2SessionEntityType"][] | null;
             source?: string | null;
             eTag?: string | null;
+        };
+        IcsCalendarEvent: {
+            summary?: string | null;
+            /** Format: date-time */
+            start?: string;
+            /** Format: date-time */
+            end?: string | null;
+            description?: string | null;
+            location?: string | null;
+            uid?: string | null;
         };
         Images: {
             extraLarge?: string | null;

@@ -84,6 +84,7 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
                         cities={day.cities ?? []}
                         countries={day.countries ?? []}
                         events={day.events ?? []}
+                        externalEvents={day.externalEvents ?? []}
                         flights={flights}
                         movies={movies}
                         locations={day.locations ?? []}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
+import moment from 'moment';
 
 import LocationTypeIcon from 'components/location-type-icon';
 import { components } from 'types/ivy-types';
@@ -8,6 +9,7 @@ import { components } from 'types/ivy-types';
 type City = components['schemas']['City'];
 type Country = components['schemas']['Country'];
 type Event = components['schemas']['Event'];
+type IcsCalendarEvent = components['schemas']['IcsCalendarEvent'];
 type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
 type Movie = components['schemas']['Movie'];
@@ -16,12 +18,13 @@ interface Props {
     cities: City[];
     countries: Country[];
     events: Event[];
+    externalEvents: IcsCalendarEvent[];
     flights: Flight[];
     locations: Location[];
     movies: Movie[];
 }
 
-const CalendarDaySubitems = ({ cities, countries, events, flights, locations, movies }: Props) => {
+const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies }: Props) => {
 
     const cityCountries = cities.map(c => c.country!.id!);
 
@@ -45,6 +48,12 @@ const CalendarDaySubitems = ({ cities, countries, events, flights, locations, mo
             {events.map(e =>
                 <ListGroup.Item key={e.id}>
                     <MdOutlineEvent /> {e.name}
+                </ListGroup.Item>
+            )}
+            {externalEvents.map(e =>
+                <ListGroup.Item key={e.uid}>
+                    <div><MdOutlineEvent /> {e.start && moment(e.start).format('HH:mm')}</div>
+                    <div>{e.summary}</div>
                 </ListGroup.Item>
             )}
             {locations.map(l =>
