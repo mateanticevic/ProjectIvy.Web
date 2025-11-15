@@ -29,50 +29,63 @@ interface Props {
     onSave(): void;
 }
 
-enum unit {
-    ml = 'ml',
-    oz = 'oz',
-    imperialPint = 'imperialPint',
-    usPint = 'usPint',
-    auPint = 'auPint',
+enum Unit {
+    Ml = 'ml',
+    Oz = 'oz',
+    ImperialPint = 'imperialPint',
+    UsPint = 'usPint',
+    AuPint = 'auPint',
 };
 
 const units: SelectOption[] = [
-    { name: 'ml', id: unit.ml },
-    { name: 'oz', id: unit.oz },
-    { name: 'pint (UK)', id: unit.imperialPint },
-    { name: 'pint (AU)', id: unit.auPint },
-    { name: 'pint (US)', id: unit.usPint },
+    { name: 'ml', id: Unit.Ml },
+    { name: 'oz', id: Unit.Oz },
+    { name: 'pint (UK)', id: Unit.ImperialPint },
+    { name: 'pint (AU)', id: Unit.AuPint },
+    { name: 'pint (US)', id: Unit.UsPint },
 ];
 
-const convertToMl = (volume: number, selectedUnit: unit) => {
+const convertToMl = (volume: number, selectedUnit: Unit) => {
     switch (selectedUnit) {
-        case unit.ml:
+        case Unit.Ml:
             return volume;
-        case unit.oz:
+        case Unit.Oz:
             return volume * 29.5735;
-        case unit.imperialPint:
+        case Unit.ImperialPint:
             return volume * 568.261;
-        case unit.auPint:
+        case Unit.AuPint:
             return volume * 570;
-        case unit.usPint:
+        case Unit.UsPint:
             return volume * 473.176;
     }
 }
 
 const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, onSave, servings }: Props) => {
 
-    const [ selectedUnit, setUnit ] = useState(unit.ml);
+    const [ selectedUnit, setUnit ] = useState(Unit.Ml);
     const [ volume, setVolume ] = useState(0);
 
-    const setConsumationVolume = (newVolume?: number, unit?: unit) => {
-        if (newVolume) {
-            onChange({ volume: Math.round(convertToMl(newVolume, selectedUnit)) });
+    const isPintSelected = selectedUnit === Unit.ImperialPint || selectedUnit === Unit.UsPint || selectedUnit === Unit.AuPint;
+
+    const setConsumationVolume = (newVolume?: number, newUnit?: Unit) => {
+        if (newVolume !== undefined) {
+            const unitToUse = newUnit || selectedUnit;
+            onChange({ volume: Math.round(convertToMl(newVolume, unitToUse)) });
             setVolume(newVolume);
+            if (newUnit) {
+                setUnit(newUnit);
+            }
         }
-        else if (unit && consumation.volume) {
-            setUnit(unit);
-            onChange({ volume: Math.round(convertToMl(volume, unit)) });
+        else if (newUnit) {
+            setUnit(newUnit);
+            const isPint = newUnit === Unit.ImperialPint || newUnit === Unit.UsPint || newUnit === Unit.AuPint;
+            const volumeToUse = isPint ? 1 : volume;
+            if (isPint || volume > 0) {
+                onChange({ volume: Math.round(convertToMl(volumeToUse, newUnit)) });
+                if (isPint) {
+                    setVolume(1);
+                }
+            }
         }
     };
 
@@ -120,14 +133,15 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                     <FormLabel>Volume</FormLabel>
                     <InputGroup>
                         <FormControl
-                            disabled={disabled}
+                            disabled={disabled || isPintSelected}
                             type="number"
+                            value={isPintSelected ? 1 : volume || ''}
                             onChange={x => setConsumationVolume(parseInt(x.target.value), undefined)}
                         />
                         <InputGroup.Text><Select
                             options={units}
                             hideDefaultOption={true}
-                            onChange={selectedUnit => setConsumationVolume(undefined, selectedUnit as unit)}
+                            onChange={selectedUnit => setConsumationVolume(undefined, selectedUnit as Unit)}
                         /></InputGroup.Text>
                     </InputGroup>
                 </FormGroup>
