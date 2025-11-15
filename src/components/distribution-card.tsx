@@ -37,7 +37,9 @@ const unitMapping = {
 };
 
 interface Props {
+    data: any;
     dontRenderCard?: boolean;
+    name: string;
     stacked?: boolean;
     unit?: string;
     unitType?: Unit;
@@ -132,6 +134,8 @@ const DistributionCard = React.memo(({ dontRenderCard, data, name, stacked, unit
             </Card.Footer>
         </Card>
     );
+}, (prevProps, nextProps) => {
+    return JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data);
 });
 
 export default DistributionCard;

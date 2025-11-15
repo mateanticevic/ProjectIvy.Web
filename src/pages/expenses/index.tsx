@@ -332,7 +332,7 @@ class ExpensesPage extends Page<Props, State> {
             .postFile(expenseId, fileId, expenseFile)
             .then(() => {
                 this.onFiltersChanged(undefined, true);
-            });
+    });
 
     newExpense = (): Partial<Expense> => {
         return {
