@@ -14,6 +14,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: #e9ecef;
@@ -27,8 +29,19 @@
 .stay-edit-btn {
   color: #6c757d;
   padding: 0.25rem 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
   
-  &:hover {
-    color: #007bff;
+  // Show on hover for desktop only
+  @media (min-width: 768px) {
+    .stay-item:hover & {
+      opacity: 1;
+    }
+  }
+  
+  // Never show on mobile
+  @media (max-width: 767px) {
+    display: none;
   }
 }
