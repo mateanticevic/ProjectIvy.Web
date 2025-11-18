@@ -10,6 +10,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
+import { StayItem } from 'components/stay-item';
 import ExpensePanel from '../expenses/expense-panel';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
@@ -224,21 +225,11 @@ class TripDetailsPage extends React.Component<Props, State> {
                                 {trip.stays!.length > 0 ? (
                                     <div className="stays-container">
                                         {trip.stays!.map((stay, index) => (
-                                            <div key={stay.id || index} className="stay-item">
-                                                <div className="stay-content">
-                                                    <strong>{stay.city?.name || 'Unnamed Stay'}</strong>
-                                                    <div className="text-muted small">
-                                                        {moment(stay.from).format('MMM DD')} - {moment(stay.to).diff(moment(stay.from), 'days')} nights
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className="btn btn-sm btn-link stay-edit-btn"
-                                                    onClick={() => this.onEditStay(stay)}
-                                                    title="Edit stay"
-                                                >
-                                                    <FaPencilAlt />
-                                                </button>
-                                            </div>
+                                            <StayItem
+                                                key={stay.id || index}
+                                                stay={stay}
+                                                onEdit={this.onEditStay}
+                                            />
                                         ))}
                                     </div>
                                 ) : (

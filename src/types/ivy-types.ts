@@ -11180,6 +11180,7 @@ export interface components {
         Stay: {
             /** Format: int32 */
             id?: number;
+            isBooked?: boolean;
             /** Format: date-time */
             from?: string;
             /** Format: date-time */
