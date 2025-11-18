@@ -16,32 +16,48 @@
   align-items: center;
   cursor: pointer;
   transition: background-color 0.2s;
+  position: relative;
 
   &:hover {
     background-color: #e9ecef;
   }
 }
 
-.stay-content {
-  flex: 1;
+.stay-booked-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #28a745;
+  font-size: 1rem;
 }
 
-.stay-edit-btn {
-  color: #6c757d;
-  padding: 0.25rem 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-  
-  // Show on hover for desktop only
-  @media (min-width: 768px) {
-    .stay-item:hover & {
-      opacity: 1;
-    }
+.stay-item {
+  padding: 0.75rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: #f8f9fa;
+  flex: 0 0 auto;
+  min-width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+
+  &:hover {
+    background-color: #e9ecef;
   }
-  
-  // Never show on mobile
-  @media (max-width: 767px) {
-    display: none;
-  }
+}
+
+.stay-booked-indicator {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #28a745;
+  font-size: 1rem;
+}
+
+.stay-content {
+  flex: 1;
 }
