@@ -1,36 +1,54 @@
 import React from 'react';
 import _ from 'lodash';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
 import api from 'api/main';
 import { Page } from 'pages/page';
 import BankAccounts from './bank-accounts';
+import AccountModal from './account-modal';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
 
 type Account = components['schemas']['Account'];
 type Transaction = components['schemas']['Transaction'];
+type Currency = components['schemas']['Currency'];
+
+type AccountBinding = {
+    name: string;
+    iban?: string;
+    bankId?: string;
+    currencyId?: string;
+};
 
 interface State {
     accounts: Account[];
     selectedAccount?: Account;
     transactions: Transaction[];
+    isModalOpen: boolean;
+    newAccount: AccountBinding;
+    currencies: Currency[];
 }
 
 class AccountsPage extends Page<unknown, State> {
     state: State = {
         accounts: [],
         transactions: [],
+        isModalOpen: false,
+        newAccount: {
+            name: '',
+        },
+        currencies: [],
     };
 
     async componentDidMount() {
         this.setState({
-            accounts: await api.account.get({ isActive: true })
+            accounts: await api.account.get({ isActive: true }),
+            currencies: await api.currency.get()
         });
     }
 
     render() {
-        const { accounts, transactions } = this.state;
+        const { accounts, transactions, isModalOpen, newAccount, currencies } = this.state;
 
         const accountsByBank = _.groupBy(accounts, a => a.bank?.id);
         const bankIds = Object.keys(accountsByBank);
@@ -39,6 +57,14 @@ class AccountsPage extends Page<unknown, State> {
             <Container>
                 <Row>
                     <Col lg={4}>
+                        <Button
+                            variant="primary"
+                            size="sm"
+                            className="mb-3"
+                            onClick={() => this.setState({ isModalOpen: true })}
+                        >
+                            Add Account
+                        </Button>
                         {bankIds.map(bankId =>
                             <BankAccounts
                                 key={bankId}
@@ -57,6 +83,14 @@ class AccountsPage extends Page<unknown, State> {
                         )}
                     </Col>
                 </Row>
+                <AccountModal
+                    account={newAccount}
+                    currencies={currencies}
+                    isOpen={isModalOpen}
+                    onChange={this.onAccountChange}
+                    onClose={this.onModalClose}
+                    onSave={this.onAccountSave}
+                />
             </Container >
         );
     }
@@ -66,6 +100,33 @@ class AccountsPage extends Page<unknown, State> {
             selectedAccount: account,
             transactions: (await api.account.getTransactions(account.id!)).items
         });
+    }
+
+    onAccountChange = (changed: Partial<AccountBinding>) => {
+        this.setState({
+            newAccount: { ...this.state.newAccount, ...changed }
+        });
+    }
+
+    onModalClose = () => {
+        this.setState({
+            isModalOpen: false,
+            newAccount: { name: '' }
+        });
+    }
+
+    onAccountSave = async () => {
+        try {
+            await api.account.post(this.state.newAccount);
+            const accounts = await api.account.get({ isActive: true });
+            this.setState({
+                accounts,
+                isModalOpen: false,
+                newAccount: { name: '' }
+            });
+        } catch (error) {
+            console.error('Failed to create account:', error);
+        }
     }
 }
 
