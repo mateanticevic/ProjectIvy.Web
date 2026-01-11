@@ -16,30 +16,40 @@ import { GrClear } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectSmall } from 'react-icons/md';
 import ButtonWithSpinner from 'components/button-with-spinner';
 
+enum DisplayMode {
+    City = 'city-only',
+    Visited = 'visited',
+    OnlyVisited = 'only-visited',
+}
+
 interface State {
+    displayMode: DisplayMode;
     geohashes: string[];
     isSaving: boolean,
     itemGeohashes: string[];
     itemId?: string;
     itemType: ItemType;
     precision: number;
+    selectType: SelectType;
     selected: string[];
     selectedForDeletion: string[];
-    selectType: SelectType;
+    visitedGeohashes: string[];
 }
 
 class PlacesPage extends Page<{}, State> {
     map?: google.maps.Map;
 
     state: State = {
+        displayMode: DisplayMode.City,
         geohashes: [],
         isSaving: false,
         itemGeohashes: [],
         itemType: ItemType.Country,
         precision: 3,
+        selectType: SelectType.Select,
         selected: [],
         selectedForDeletion: [],
-        selectType: SelectType.Select,
+        visitedGeohashes: [],
     };
 
     changePrecision = (precision: number) => {
@@ -56,7 +66,21 @@ class PlacesPage extends Page<{}, State> {
             itemGeohashes: [],
             selected: [],
             selectedForDeletion: [],
+            visitedGeohashes: [],
         });
+    }
+
+    onDisplayModeChange = async (mode: DisplayMode) => {
+        if ((mode === DisplayMode.Visited || mode === DisplayMode.OnlyVisited) && this.state.itemId) {
+            if (this.state.visitedGeohashes.length === 0) {
+                const visitedGeohashes = await apis[ItemType.City].getGeohashesVisited(this.state.itemId, { Precision: 6 });
+                this.setState({ displayMode: mode, visitedGeohashes });
+            } else {
+                this.setState({ displayMode: mode });
+            }
+        } else {
+            this.setState({ displayMode: mode, visitedGeohashes: [] });
+        }
     }
 
     onDeleteGeohash = async () => {
@@ -164,7 +188,7 @@ class PlacesPage extends Page<{}, State> {
     }
 
     render() {
-        const { itemGeohashes, geohashes, itemType, isSaving, selectedForDeletion } = this.state;
+        const { displayMode, itemGeohashes, geohashes, itemType, isSaving, selectedForDeletion } = this.state;
 
         return (
             <Container>
@@ -195,11 +219,11 @@ class PlacesPage extends Page<{}, State> {
                                 <FormGroup>
                                     <FormLabel>Item type</FormLabel>
                                     <ToggleButtonGroup
-                                        defaultValue={ItemType.Country}
+                                        value={itemType}
                                         name="itemTypeOptions"
                                         size="sm"
                                         type="radio"
-                                        onChange={value => this.setState({ itemType: value as ItemType })}
+                                        onChange={value => this.setState({ itemType: value as ItemType, visitedGeohashes: [] })}
                                     >
                                         <ToggleButton key={ItemType.Country} value={ItemType.Country} id={ItemType.Country}><BiWorld /> Country</ToggleButton>
                                         <ToggleButton key={ItemType.City} value={ItemType.City} id={ItemType.City}><FaCity /> City</ToggleButton>
@@ -219,6 +243,22 @@ class PlacesPage extends Page<{}, State> {
                                         <ToggleButton key={SelectType.Divide} value={SelectType.Divide} id={SelectType.Divide}><FaTableCells /> Divide</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
+                                {itemType === ItemType.City &&
+                                    <FormGroup>
+                                        <FormLabel style={{ display: 'block' }}>Display mode</FormLabel>
+                                        <ToggleButtonGroup
+                                            defaultValue={displayMode}
+                                            name="displayModeOptions"
+                                            size="sm"
+                                            type="radio"
+                                            onChange={value => this.onDisplayModeChange(value as DisplayMode)}
+                                        >
+                                            <ToggleButton key={DisplayMode.City} value={DisplayMode.City} id={DisplayMode.City}>City</ToggleButton>
+                                            <ToggleButton key={DisplayMode.Visited} value={DisplayMode.Visited} id={DisplayMode.Visited}>Visited</ToggleButton>
+                                            <ToggleButton key={DisplayMode.OnlyVisited} value={DisplayMode.OnlyVisited} id={DisplayMode.OnlyVisited}>Only Visited</ToggleButton>
+                                        </ToggleButtonGroup>
+                                    </FormGroup>
+                                }
                                 <FormGroup>
                                     <ButtonWithSpinner
                                         isLoading={isSaving}
@@ -252,7 +292,7 @@ class PlacesPage extends Page<{}, State> {
                                             />
                                         );
                                     })}
-                                    {itemGeohashes.map(g => {
+                                    {(displayMode === DisplayMode.City || displayMode === DisplayMode.Visited) && itemGeohashes.map(g => {
                                         const rectangle = geohash.decode_bbox(g);
 
                                         return (
@@ -271,6 +311,22 @@ class PlacesPage extends Page<{}, State> {
                                             onClick={this.onSelectedForDeletionGeohashClicked}
                                         />
                                     )}
+                                    {(displayMode === DisplayMode.Visited || displayMode === DisplayMode.OnlyVisited) && this.state.visitedGeohashes.map(g => {
+                                        const rectangle = geohash.decode_bbox(g);
+
+                                        return (
+                                            <Rectangle
+                                                key={`visited-${g}`}
+                                                options={{
+                                                    strokeColor: '#28a745',
+                                                    fillColor: '#28a745',
+                                                    fillOpacity: 0.3,
+                                                    strokeWeight: 2,
+                                                }}
+                                                bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
+                                            />
+                                        );
+                                    })}
                                 </Map>
                             </Card.Body>
                         </Card>

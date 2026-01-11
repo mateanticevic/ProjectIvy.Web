@@ -36,7 +36,30 @@ export interface paths {
             };
         };
         put?: never;
-        post?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["AccountBinding"];
+                    "text/json": components["schemas"]["AccountBinding"];
+                    "application/*+json": components["schemas"]["AccountBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1842,6 +1865,43 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/City/{cityId}/Geohash/Visited": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Precision?: number;
+                };
+                header?: never;
+                path: {
+                    cityId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -10236,6 +10296,13 @@ export interface components {
             /** Format: double */
             balance?: number;
             currency?: components["schemas"]["Currency"];
+        };
+        AccountBinding: {
+            name?: string | null;
+            iban?: string | null;
+            bankId?: string | null;
+            currencyId?: string | null;
+            active?: boolean;
         };
         Airline: {
             id?: string | null;
