@@ -73,7 +73,8 @@ class PlacesPage extends Page<{}, State> {
     onDisplayModeChange = async (mode: DisplayMode) => {
         if ((mode === DisplayMode.Visited || mode === DisplayMode.OnlyVisited) && this.state.itemId) {
             if (this.state.visitedGeohashes.length === 0) {
-                const visitedGeohashes = await apis[ItemType.City].getGeohashesVisited(this.state.itemId, { Precision: 6 });
+                const precision = this.state.itemType === ItemType.Country ? 4 : 6;
+                const visitedGeohashes = await apis[this.state.itemType].getGeohashesVisited(this.state.itemId, { Precision: precision });
                 this.setState({ displayMode: mode, visitedGeohashes });
             } else {
                 this.setState({ displayMode: mode });
@@ -122,6 +123,11 @@ class PlacesPage extends Page<{}, State> {
         this.setState({
             itemId,
             itemGeohashes,
+            visitedGeohashes: [],
+        }, () => {
+            if (this.state.itemType !== ItemType.Location) {
+                this.onDisplayModeChange(this.state.displayMode);
+            }
         });
         if (itemGeohashes.length > 0) {
             this.setMapBounds(itemGeohashes);
@@ -243,7 +249,7 @@ class PlacesPage extends Page<{}, State> {
                                         <ToggleButton key={SelectType.Divide} value={SelectType.Divide} id={SelectType.Divide}><FaTableCells /> Divide</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormGroup>
-                                {itemType === ItemType.City &&
+                                {(itemType === ItemType.City || itemType === ItemType.Country) &&
                                     <FormGroup>
                                         <FormLabel style={{ display: 'block' }}>Display mode</FormLabel>
                                         <ToggleButtonGroup
@@ -259,7 +265,7 @@ class PlacesPage extends Page<{}, State> {
                                         </ToggleButtonGroup>
                                     </FormGroup>
                                 }
-                                <FormGroup>
+                                <FormGroup style={{ marginTop: '20px' }}>
                                     <ButtonWithSpinner
                                         isLoading={isSaving}
                                         onClick={this.save}>

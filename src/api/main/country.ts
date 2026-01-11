@@ -6,6 +6,8 @@ type CountriesByDay = components['schemas']['DateTimeStringIEnumerableKeyValuePa
 
 type DeleteGeohashQuery = paths['/Country/{countryId}/Geohash']['delete']['parameters']['query'];
 
+type GetGeohashVisitedQuery = paths['/Country/{countryId}/Geohash/Visited']['get']['parameters']['query'];
+
 const deleteGeohashes = (countryId: string, query: DeleteGeohashQuery) => api.del(`country/${countryId}/geohash`, query);
 
 const get = (filter) => api.get('country', filter);
@@ -13,6 +15,8 @@ const get = (filter) => api.get('country', filter);
 const getAll = () => api.get('country?pageAll=true');
 
 const getGeohashes = (countryId) => api.get(`country/${countryId}/geohash`);
+
+const getGeohashesVisited = (countryId: string, query: GetGeohashVisitedQuery) => api.get(`country/${countryId}/geohash/visited`, query);
 
 const getListsVisited = () => api.get('country/list/visited');
 
@@ -31,6 +35,7 @@ const country = {
     get,
     getAll,
     getGeohashes,
+    getGeohashesVisited,
     getListsVisited,
     getSingle,
     getVisited,
