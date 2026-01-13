@@ -3,6 +3,7 @@
   "version": "1.16.0",
   "description": "",
   "engines": {
+    "node": ">=24",
     "npm": ">=3"
   },
   "scripts": {

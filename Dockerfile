@@ -1,5 +1,5 @@
 # stage1 as builder
-FROM node:20 AS builder
+FROM node:24 AS builder
 
 WORKDIR /build
 
@@ -7,7 +7,7 @@ WORKDIR /build
 COPY package.json package-lock.json ./
 
 # Install the dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy source files
 COPY . .
