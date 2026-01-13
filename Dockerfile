@@ -1,5 +1,5 @@
 # stage1 as builder
-FROM node:20 as builder
+FROM node:20 AS builder
 
 WORKDIR /build
 
@@ -12,8 +12,8 @@ RUN npm install --legacy-peer-deps
 # Copy source files
 COPY . .
 
-# Build the project
-RUN npm run build
+# Build the project with increased memory
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 FROM nginx:1.25.3
 
