@@ -1,17 +1,18 @@
 # stage1 as builder
 FROM node:20 as builder
 
+WORKDIR /build
+
 # copy the package.json to install dependencies
 COPY package.json package-lock.json ./
 
-# Install the dependencies and make the folder
-RUN npm install --legacy-peer-deps && mkdir /build && mv ./node_modules ./build
+# Install the dependencies
+RUN npm install --legacy-peer-deps
 
-WORKDIR /build
-
+# Copy source files
 COPY . .
 
-# Build the project and copy the files
+# Build the project
 RUN npm run build
 
 FROM nginx:1.25.3
