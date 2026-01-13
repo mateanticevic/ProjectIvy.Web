@@ -10332,6 +10332,8 @@ export interface components {
             bank?: components["schemas"]["Bank"];
             /** Format: double */
             balance?: number;
+            /** Format: double */
+            balanceInDefaultCurrency?: number;
             currency?: components["schemas"]["Currency"];
         };
         AccountBinding: {

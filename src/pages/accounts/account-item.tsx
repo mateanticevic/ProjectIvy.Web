@@ -27,12 +27,14 @@ const AccountItem = ({ account, onAccountSelected }: Props) => {
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
 
+    const defaultAmountFormatted = account.balanceInDefaultCurrency!.toFixed(2).toString();
+    const defaultAmountWholePart = defaultAmountFormatted.substring(0, defaultAmountFormatted.indexOf('.'));
+    const defaultAmountDecimalPart = defaultAmountFormatted.substring(defaultAmountFormatted.indexOf('.'));
+
     return (
         <Card>
             <Card.Body className="expense-item" onClick={() => onAccountSelected(account)}>
-                <Badge
-                    bg="primary"
-                >
+                <Badge bg="primary">
                     <AccountIcon account={account} />
                 </Badge>
                 <div className="expense-item-content">
@@ -45,8 +47,16 @@ const AccountItem = ({ account, onAccountSelected }: Props) => {
                 <div className="expense-item-payment">
                     <div className="expense-item-payment-type">
                     </div>
-                    <span className="expense-item-amount">{amountWholePart}</span>
-                    <span className="expense-item-amount-decimal">{amountDecimalPart}  {account.currency!.symbol}</span>
+                    <div>
+                        <span className="expense-item-amount">{amountWholePart}</span>
+                        <span className="expense-item-amount-decimal">{amountDecimalPart}  {account.currency!.symbol}</span>
+                    </div>
+                    {account.balance !== account.balanceInDefaultCurrency &&
+                        <div className="expense-item-date">
+                            <span className="expense-item-amount-default">{defaultAmountWholePart}</span>
+                            <span className="expense-item-amount-default-decimal">{defaultAmountDecimalPart} €</span>
+                        </div>
+                    }
                 </div>
             </Card.Body>
         </Card>

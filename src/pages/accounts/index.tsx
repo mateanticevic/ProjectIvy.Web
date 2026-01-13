@@ -6,6 +6,7 @@ import api from 'api/main';
 import { Page } from 'pages/page';
 import BankAccounts from './bank-accounts';
 import AccountModal from './account-modal';
+import TransactionModal from './transaction-modal';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
 
@@ -20,12 +21,19 @@ type AccountBinding = {
     currencyId?: string;
 };
 
+type TransactionBinding = {
+    amount: string;
+    date: string;
+};
+
 interface State {
     accounts: Account[];
     selectedAccount?: Account;
     transactions: Transaction[];
     isModalOpen: boolean;
+    isTransactionModalOpen: boolean;
     newAccount: AccountBinding;
+    newTransaction: TransactionBinding;
     currencies: Currency[];
 }
 
@@ -34,8 +42,13 @@ class AccountsPage extends Page<unknown, State> {
         accounts: [],
         transactions: [],
         isModalOpen: false,
+        isTransactionModalOpen: false,
         newAccount: {
             name: '',
+        },
+        newTransaction: {
+            amount: '',
+            date: moment().format('YYYY-MM-DD'),
         },
         currencies: [],
     };
@@ -48,7 +61,7 @@ class AccountsPage extends Page<unknown, State> {
     }
 
     render() {
-        const { accounts, transactions, isModalOpen, newAccount, currencies } = this.state;
+        const { accounts, transactions, isModalOpen, isTransactionModalOpen, newAccount, newTransaction, currencies, selectedAccount } = this.state;
 
         const accountsByBank = _.groupBy(accounts, a => a.bank?.id);
         const bankIds = Object.keys(accountsByBank);
@@ -65,6 +78,16 @@ class AccountsPage extends Page<unknown, State> {
                         >
                             Add Account
                         </Button>
+                        {selectedAccount && (
+                            <Button
+                                variant="success"
+                                size="sm"
+                                className="mb-3 ms-2"
+                                onClick={() => this.setState({ isTransactionModalOpen: true })}
+                            >
+                                New Transaction
+                            </Button>
+                        )}
                         {bankIds.map(bankId =>
                             <BankAccounts
                                 key={bankId}
@@ -90,6 +113,13 @@ class AccountsPage extends Page<unknown, State> {
                     onChange={this.onAccountChange}
                     onClose={this.onModalClose}
                     onSave={this.onAccountSave}
+                />
+                <TransactionModal
+                    transaction={newTransaction}
+                    isOpen={isTransactionModalOpen}
+                    onChange={this.onTransactionChange}
+                    onClose={this.onTransactionModalClose}
+                    onSave={this.onTransactionSave}
                 />
             </Container >
         );
@@ -126,6 +156,47 @@ class AccountsPage extends Page<unknown, State> {
             });
         } catch (error) {
             console.error('Failed to create account:', error);
+        }
+    }
+
+    onTransactionChange = (changed: Partial<TransactionBinding>) => {
+        this.setState({
+            newTransaction: { ...this.state.newTransaction, ...changed }
+        });
+    }
+
+    onTransactionModalClose = () => {
+        this.setState({
+            isTransactionModalOpen: false,
+            newTransaction: {
+                amount: '',
+                date: moment().format('YYYY-MM-DD')
+            }
+        });
+    }
+
+    onTransactionSave = async () => {
+        try {
+            const { selectedAccount, newTransaction } = this.state;
+            if (!selectedAccount?.id) return;
+
+            await api.account.postTransaction(selectedAccount.id, {
+                amount: parseFloat(newTransaction.amount),
+                created: newTransaction.date
+            } as Transaction);
+
+            // Refresh transactions after saving
+            const transactions = (await api.account.getTransactions(selectedAccount.id)).items;
+            this.setState({
+                transactions,
+                isTransactionModalOpen: false,
+                newTransaction: {
+                    amount: '',
+                    date: moment().format('YYYY-MM-DD')
+                }
+            });
+        } catch (error) {
+            console.error('Failed to create transaction:', error);
         }
     }
 }

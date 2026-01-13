@@ -276,8 +276,18 @@ body #app {
     font-weight: 600;
   }
 
+  .expense-item-amount-default {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
   .expense-item-amount-decimal {
     font-size: 15px;
+    font-weight: 400;
+  }
+
+  .expense-item-amount-default-decimal {
+    font-size: 12px;
     font-weight: 400;
   }
 
