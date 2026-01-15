@@ -10,6 +10,7 @@ import { SelectOption } from 'types/common';
 import { components } from 'types/ivy-types';
 import { vendorLoader } from 'utils/select-loaders';
 import { SingleValue } from 'react-select';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
@@ -35,6 +36,7 @@ interface Props {
 }
 
 const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
 
     const onVendorChanged = (changed: SingleValue<{ value: string, label: string, __isNew__?: boolean }>) => {
         if (changed?.__isNew__) {
@@ -92,6 +94,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                                 onChange={onVendorChanged}
                                 defaultValue={{ value: expense.vendor?.id, label: expense.vendor?.name }}
                                 defaultOptions
+                                styles={reactSelectStyles}
                             />
                         </FormGroup>
                     </Col>

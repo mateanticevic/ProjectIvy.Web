@@ -9,6 +9,7 @@ import { Col, FormLabel, FormGroup } from 'react-bootstrap';
 import { ExpenseFilters } from 'types/expenses';
 import { SelectOption } from 'types/common';
 import { vendorLoader } from 'utils/select-loaders';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 interface Props {
     currencies: SelectOption[];
@@ -28,6 +29,7 @@ const parseDate = (value: string | moment.Moment) => {
 };
 
 const Filters = ({ currencies, filters, onChange, types }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
 
     return (
         <div>
@@ -63,6 +65,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                             isMulti
                             options={currencies.map(x => ({ value: x.id, label: x.name }))}
                             onChange={currencies => onChange({ currencyId: currencies ? currencies.map(x => x.value) : [] })}
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -72,6 +75,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                             isMulti
                             onChange={vendors => onChange({ vendorId: vendors ? vendors.map(x => x.value) : [] })}
                             defaultOptions
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -80,6 +84,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                             isMulti
                             options={types.map(x => ({ value: x.id, label: x.name, isDisabled: !!x.disabled }))}
                             onChange={types => onChange({ typeId: types ? types.map(x => x.value) : [] })}
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                 </Col>

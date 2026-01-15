@@ -6,6 +6,7 @@ import { DateFormElement } from 'components';
 import { cityLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type StayBinding = components['schemas']['StayBinding'];
 type Stay = components['schemas']['Stay'];
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, onChange, onSave, countries }) => {
+    const reactSelectStyles = useReactSelectStyles();
     const isEditing = !!stay;
 
     return (
@@ -46,6 +48,7 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, on
                         options={countries.map(x => ({ value: x.id, label: x.name }))}
                         value={stay?.country ? { value: stay.country.id, label: stay.country.name } : null}
                         onChange={country => onChange({ country: { id: country?.value, name: country?.label } })}
+                        styles={reactSelectStyles}
                     />
                 </FormGroup>
                 <FormGroup>
@@ -55,6 +58,7 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, on
                         loadOptions={cityLoader}
                         value={stay?.city ? { value: stay.city.id, label: stay.city.name } : null}
                         onChange={city => onChange({ city: { id: city?.value, name: city?.label } })}
+                        styles={reactSelectStyles}
                     />
                 </FormGroup>
             </Modal.Body>

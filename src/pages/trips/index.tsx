@@ -17,6 +17,7 @@ import { Page } from '../page';
 import { PagedList } from 'types/common';
 import { cityLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
+import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 type Trip = components['schemas']['Trip'];
 type TripBinding = components['schemas']['TripBinding'];
@@ -40,6 +41,8 @@ interface State {
 }
 
 class TripsPage extends Page<unknown, State> {
+
+    reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     state: State = {
         countries: [],
@@ -130,6 +133,7 @@ class TripsPage extends Page<unknown, State> {
                                         options={countries.map(x => ({ value: x.id, label: x.name }))}
                                         onChange={countries => this.onFiltersChanged({ countryId: countries ? countries.map(x => x.value) : [] })}
                                         value={countries.filter(c => this.state.filters.countryId.filter(y => y === c.id).length > 0).map(x => ({ value: x.id, label: x.name }))}
+                                        styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -139,6 +143,7 @@ class TripsPage extends Page<unknown, State> {
                                         isMulti
                                         loadOptions={cityLoader}
                                         onChange={cities => this.onFiltersChanged({ cityId: cities ? cities.map(x => x.value) : [] })}
+                                        styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
                             </Card.Body>

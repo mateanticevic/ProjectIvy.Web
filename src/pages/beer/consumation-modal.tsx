@@ -11,6 +11,7 @@ import { beerLoader } from 'utils/select-loaders';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { components } from 'types/ivy-types';
 import { SelectOption } from 'types/common';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type Beer = components['schemas']['Beer'];
 type BeerBrand = components['schemas']['BeerBrand'];
@@ -64,6 +65,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
 
     const [ selectedUnit, setUnit ] = useState(Unit.Ml);
     const [ volume, setVolume ] = useState(0);
+    const reactSelectStyles = useReactSelectStyles();
 
     const isPintSelected = selectedUnit === Unit.ImperialPint || selectedUnit === Unit.UsPint || selectedUnit === Unit.AuPint;
 
@@ -119,6 +121,7 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                         loadOptions={beerLoader}
                         onChange={x => onChange({ beerId: x.value })}
                         defaultOptions
+                        styles={reactSelectStyles}
                     />
                 </FormGroup>
                 <FormGroup>

@@ -20,6 +20,7 @@ import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
 import { User } from 'types/users';
 import { iconUrl } from 'utils/cdn-helper';
+import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 type Flight = components['schemas']['Flight'];
 type Trip = components['schemas']['Trip'];
@@ -50,6 +51,7 @@ interface State {
 class TripDetailsPage extends React.Component<Props, State> {
 
     map?: google.maps.Map;
+    reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     user = this.context as User;
     
@@ -199,11 +201,13 @@ class TripDetailsPage extends React.Component<Props, State> {
                             loadOptions={cityLoader}
                             onChange={city => this.addCity(city.value)}
                             defaultOptions
+                            styles={this.reactSelectStyles}
                         />
                         <AsyncSelect
                             loadOptions={expenseLoader}
                             onChange={expense => this.addExpense(expense.value)}
                             defaultOptions
+                            styles={this.reactSelectStyles}
                         />
                     </Col>
                 </Row>

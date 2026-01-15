@@ -4,6 +4,7 @@ import AsyncSelect from 'react-select/async';
 
 import { Select } from 'components';
 import { components } from 'types/ivy-types';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type AccountBinding = {
     name: string;
@@ -28,6 +29,7 @@ const bankLoader = (value: string, callback: (options: any[]) => void) => {
 };
 
 const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
     const currencyOptions = currencies.map(c => ({
         id: c.id!,
         name: c.name!
@@ -68,6 +70,7 @@ const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }
                             loadOptions={bankLoader}
                             onChange={x => onChange({ bankId: x?.value })}
                             isClearable
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>

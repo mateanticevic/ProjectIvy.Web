@@ -7,6 +7,7 @@ import { CalendarMonth } from "./calendar-month";
 import api from "api/main";
 import AsyncSelect from "react-select/async";
 import { cityLoader, locationLoader } from "utils/select-loaders";
+import { useReactSelectStyles } from "utils/react-select-dark-theme";
 import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateValue, CalendarMode } from "./constants";
 import { workDayTypeToStyle } from "./mappers";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
@@ -15,6 +16,7 @@ export const CalendarYearPage = () => {
 
     const { year: yearFromParam } = useParams<{ year: string }>();
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const reactSelectStyles = useReactSelectStyles();
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
@@ -188,6 +190,7 @@ export const CalendarYearPage = () => {
                     loadOptions={cityLoader}
                     placeholder="Search city by name"
                     onChange={x => onCitySelected(x.value)}
+                    styles={reactSelectStyles}
                 />
             }
             {calendarMode === CalendarMode.Locations &&
@@ -196,6 +199,7 @@ export const CalendarYearPage = () => {
                     loadOptions={locationLoader}
                     placeholder="Search location by name"
                     onChange={x => onLocationSelected(x.value, year)}
+                    styles={reactSelectStyles}
                 />
             }
             <div className="calendar-year-container">

@@ -4,8 +4,10 @@ import { FaLink } from 'react-icons/fa';
 import AsyncSelect from 'react-select/async';
 
 import { tripLoader } from 'utils/select-loaders';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 const ExpenseLinkModal = ({ isOpen, onClose, onLink, onTripChange }) => {
+    const reactSelectStyles = useReactSelectStyles();
 
     const onLinkClick = () => onLink().then(onClose);
 
@@ -26,6 +28,7 @@ const ExpenseLinkModal = ({ isOpen, onClose, onLink, onTripChange }) => {
                         defaultOptions
                         loadOptions={tripLoader}
                         onChange={onTripChange}
+                        styles={reactSelectStyles}
                     />
                 </FormGroup>
             </Modal.Body>

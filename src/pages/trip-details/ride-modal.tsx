@@ -6,6 +6,7 @@ import Datetime from 'react-datetime';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { cityLoader, poiLoader } from 'utils/select-loaders';
 import { RideBinding } from 'types/ride';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 interface Props {
     isOpen: boolean,
@@ -14,8 +15,9 @@ interface Props {
     onSave(): void,
 }
 
-const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
-    <Modal
+const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
+    return <Modal
         backdrop="static"
         show={isOpen}
         onHide={onClose}
@@ -32,6 +34,7 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
                         defaultOptions
                         loadOptions={cityLoader}
                         onChange={x => onChange({ originCityId: x.value })}
+                        styles={reactSelectStyles}
                     />
                 </Form.Group>
                 <Form.Group as={Col}>
@@ -40,6 +43,7 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
                         defaultOptions
                         loadOptions={poiLoader}
                         onChange={x => onChange({ originPoiId: x.value })}
+                        styles={reactSelectStyles}
                     />
                 </Form.Group>
             </Form.Row>
@@ -50,6 +54,7 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
                         defaultOptions
                         loadOptions={cityLoader}
                         onChange={x => onChange({ destinationCityId: x.value })}
+                        styles={reactSelectStyles}
                     />
                 </Form.Group>
                 <Form.Group as={Col}>
@@ -58,6 +63,7 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
                         defaultOptions
                         loadOptions={poiLoader}
                         onChange={x => onChange({ destinationPoiId: x.value })}
+                        styles={reactSelectStyles}
                     />
                 </Form.Group>
             </Form.Row>
@@ -79,5 +85,6 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
             </ButtonWithSpinner>
         </Modal.Footer>
     </Modal>;
+};
 
 export default RideModal;

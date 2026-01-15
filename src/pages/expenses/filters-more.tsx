@@ -4,6 +4,7 @@ import ReactSelect from 'react-select';
 
 import { ExpenseFilters } from 'types/expenses';
 import Select from 'components/select';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 interface Props {
     cards: any;
@@ -25,6 +26,7 @@ const daysofWeek = [
 ];
 
 const FiltersMore = (props: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
     return (
         <React.Fragment>
             <Row>
@@ -67,6 +69,7 @@ const FiltersMore = (props: Props) => {
                             isMulti
                             options={daysofWeek}
                             onChange={days => props.onChange({ day: days ? days.map(x => x.value) : [] })}
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -75,6 +78,7 @@ const FiltersMore = (props: Props) => {
                             isMulti
                             options={props.paymentTypes.map(x => ({ value: x.id, label: x.name }))}
                             onChange={paymentTypes => props.onChange({ paymentTypeId: paymentTypes ? paymentTypes.map(x => x.value) : [] })}
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>
@@ -83,6 +87,7 @@ const FiltersMore = (props: Props) => {
                             isMulti
                             options={props.cards.map(x => ({ value: x.id, label: x.name }))}
                             onChange={cards => props.onChange({ cardId: cards ? cards.map(x => x.value) : [] })}
+                            styles={reactSelectStyles}
                         />
                     </FormGroup>
                     <FormGroup>

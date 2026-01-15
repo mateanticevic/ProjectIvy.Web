@@ -9,6 +9,7 @@ import { ConsumationFilters } from 'types/beer';
 import { Country } from 'types/common';
 import { components } from 'types/ivy-types';
 import YearNavigator from 'components/year-navigator';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type BeerBrand = components['schemas']['BeerBrand'];
 type BeerServing = components['schemas']['BeerServing'];
@@ -23,8 +24,9 @@ interface Props {
     onChange: (changed: Partial<ConsumationFilters>) => void;
 }
 
-export const Filters = ({ brands, countries, filters, onChange, servings, styles }: Props) =>
-    <React.Fragment>
+export const Filters = ({ brands, countries, filters, onChange, servings, styles }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
+    return <React.Fragment>
         <DateFormElement
             label="From"
             onChange={date => onChange({ from: date })}
@@ -53,6 +55,7 @@ export const Filters = ({ brands, countries, filters, onChange, servings, styles
                 defaultOptions
                 loadOptions={beerLoader}
                 onChange={x => onChange({ beerId: x.value })}
+                styles={reactSelectStyles}
             />
         </FormGroup>
         <FormGroup>
@@ -80,3 +83,4 @@ export const Filters = ({ brands, countries, filters, onChange, servings, styles
             />
         </FormGroup>
     </React.Fragment>;
+};

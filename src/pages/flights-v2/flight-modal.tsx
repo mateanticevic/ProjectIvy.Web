@@ -7,6 +7,7 @@ import ButtonWithSpinner from 'components/button-with-spinner';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type Flight = components['schemas']['Flight'];
 type FlightBinding = components['schemas']['FlightBinding'];
@@ -20,8 +21,9 @@ interface Props {
     onSave(): void,
 }
 
-const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave }: Props) =>
-    <Modal
+const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
+    return <Modal
         backdrop="static"
         show={isOpen}
         onHide={onClose}
@@ -38,6 +40,7 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
                     defaultValue={{ value: flight.airline?.id, label: flight.airline?.name }}
                     loadOptions={airlineLoader}
                     onChange={x => onChange({ airlineId: x.value })}
+                    styles={reactSelectStyles}
                 />
             </FormGroup>
             <FormGroup>
@@ -47,6 +50,7 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
                     defaultValue={{ value: flight.origin?.iata, label: flight.origin?.name }}
                     loadOptions={airportLoader}
                     onChange={x => onChange({ originId: x.value })}
+                    styles={reactSelectStyles}
                 />
             </FormGroup>
             <FormGroup>
@@ -56,6 +60,7 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
                     defaultValue={{ value: flight.destination?.iata, label: flight.destination?.name }}
                     loadOptions={airportLoader}
                     onChange={x => onChange({ destinationId: x.value })}
+                    styles={reactSelectStyles}
                 />
             </FormGroup>
             <FormGroup>
@@ -112,5 +117,6 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
             </ButtonWithSpinner>
         </Modal.Footer>
     </Modal>;
+};
 
 export default FlightModal;

@@ -31,6 +31,7 @@ import { FaLocationCrosshairs } from 'react-icons/fa6';
 import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
 import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
+import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -91,6 +92,7 @@ const areLayersEqual = (oldProps: PolygonProps, newProps: PolygonProps) => {
 class TrackingPage extends Page<unknown, State> {
 
     map?: google.maps.Map;
+    reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     state: State = {
         dateMode: DateMode.Day,
@@ -206,6 +208,7 @@ class TrackingPage extends Page<unknown, State> {
                                         options={timezoneOptions}
                                         onChange={option => this.setState({ timezone: option.value })}
                                         value={defaultTimezone}
+                                        styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
                                 <ButtonWithSpinner
@@ -225,6 +228,7 @@ class TrackingPage extends Page<unknown, State> {
                                         loadOptions={locationLoader}
                                         onChange={route => this.onRouteClick(route.value, route.label)}
                                         defaultOptions
+                                        styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -233,6 +237,7 @@ class TrackingPage extends Page<unknown, State> {
                                         loadOptions={routeLoader}
                                         onChange={route => this.onRouteClick(route.value, route.label)}
                                         defaultOptions
+                                        styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
                             </Card.Body>

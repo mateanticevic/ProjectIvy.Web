@@ -5,6 +5,7 @@ import AsyncSelect from 'react-select/async';
 
 import { cityLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type TripBinding = components['schemas']['TripBinding'];
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const TripForm = ({ onChange }: Props) => {
+    const reactSelectStyles = useReactSelectStyles();
     return (
         <div>
             <FormLabel>Name</FormLabel>
@@ -27,6 +29,7 @@ const TripForm = ({ onChange }: Props) => {
                 isMulti
                 onChange={cities => onChange({ cityIds: cities.map(x => x.value) })}
                 defaultOptions
+                styles={reactSelectStyles}
             />
         </div>
     );

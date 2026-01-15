@@ -15,6 +15,7 @@ import { FaLocationDot, FaTableCells } from 'react-icons/fa6';
 import { GrClear } from 'react-icons/gr';
 import { MdOutlinePhotoSizeSelectSmall } from 'react-icons/md';
 import ButtonWithSpinner from 'components/button-with-spinner';
+import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 enum DisplayMode {
     City = 'city-only',
@@ -38,6 +39,7 @@ interface State {
 
 class PlacesPage extends Page<{}, State> {
     map?: google.maps.Map;
+    reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     state: State = {
         displayMode: DisplayMode.City,
@@ -207,6 +209,7 @@ class PlacesPage extends Page<{}, State> {
                                     onChange={x => this.onItemSelected(x.value)}
                                     placeholder="Search by name or id"
                                     defaultOptions
+                                    styles={this.reactSelectStyles}
                                 />
                                 <FormGroup>
                                     <FormLabel>Geohash precision</FormLabel>
