@@ -37,6 +37,7 @@ interface State {
     loggingIn?: boolean;
     password?: string;
     showToast: boolean;
+    theme: 'light' | 'dark';
     toastTitle?: string;
     toastMessage?: string;
     user?: User;
@@ -58,9 +59,13 @@ export default class Root extends React.Component<{}, State> {
     public state: State = {
         loadingState: LoadingState.Waiting,
         showToast: false,
+        theme: (localStorage.getItem('theme') as 'light' | 'dark') || 'light',
     };
 
     componentDidMount() {
+        // Apply theme to html element
+        document.documentElement.setAttribute('data-bs-theme', this.state.theme);
+        
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
@@ -213,7 +218,11 @@ export default class Root extends React.Component<{}, State> {
                         <BrowserRouter>
                             <div id="main">
                                 {this.identity &&
-                                    <NavigationBar identity={this.identity} />
+                                    <NavigationBar 
+                                        identity={this.identity} 
+                                        theme={this.state.theme}
+                                        onThemeToggle={this.toggleTheme}
+                                    />
                                 }
                                 <Routes>
                                     <Route path="/" element={<DashboardPage />} />
@@ -280,5 +289,12 @@ export default class Root extends React.Component<{}, State> {
             toastMessage: message,
             toastTitle: title,
         });
+    };
+
+    toggleTheme = () => {
+        const newTheme = this.state.theme === 'light' ? 'dark' : 'light';
+        this.setState({ theme: newTheme });
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.setAttribute('data-bs-theme', newTheme);
     };
 }

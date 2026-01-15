@@ -7,17 +7,19 @@ import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi'
 import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
+import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { Feature, Identity, Scopes } from 'types/users';
 
 interface Props {
     identity: Identity;
+    theme?: 'light' | 'dark';
+    onThemeToggle?: () => void;
 }
 
-const NavigationBar = ({ identity }: Props) =>
+const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
     <Navbar
-        bg="white"
         collapseOnSelect
         expand="lg"
         fixed="top"
@@ -65,6 +67,13 @@ const NavigationBar = ({ identity }: Props) =>
                         <NavDropdown.Divider />
                         <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
                     </NavDropdown>
+                </Nav>
+                <Nav className="ms-auto">
+                    {onThemeToggle && (
+                        <Nav.Link onClick={onThemeToggle}>
+                            {theme === 'light' ? <BsMoonStarsFill /> : <BsSunFill />}
+                        </Nav.Link>
+                    )}
                 </Nav>
             </Navbar.Collapse>
         </Container>

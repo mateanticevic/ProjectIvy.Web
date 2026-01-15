@@ -1,6 +1,6 @@
 // Primary colors
-$color-primary: #007bff;
-$color-primary-variant: #0d6efd;
+$color-primary: #742554;
+$color-primary-variant: #3d938d;
 
 // Text colors
 $color-text-primary: #4d4d4d;
@@ -35,3 +35,28 @@ $color-fill-5: #007bffff;
 
 // Misc
 $color-transparent: transparent;
+
+// Override Bootstrap CSS variables to use our primary color
+:root,
+[data-bs-theme="light"] {
+  --bs-primary: #{$color-primary};
+  --bs-primary-rgb: 116, 37, 84;
+  --bs-btn-bg: #{$color-primary};
+  --bs-btn-border-color: #{$color-primary};
+  --bs-btn-hover-bg: #5a1d42;
+  --bs-btn-hover-border-color: #4d1838;
+  --bs-btn-active-bg: #4d1838;
+  --bs-btn-active-border-color: #3f132e;
+}
+
+// Dark theme overrides
+[data-bs-theme="dark"] {
+  --bs-primary: #{$color-primary};
+  --bs-primary-rgb: 116, 37, 84;
+  --bs-btn-bg: #{$color-primary};
+  --bs-btn-border-color: #{$color-primary};
+  --bs-btn-hover-bg: #8b2d64;
+  --bs-btn-hover-border-color: #9a3270;
+  --bs-btn-active-bg: #9a3270;
+  --bs-btn-active-border-color: #a9387c;
+}
