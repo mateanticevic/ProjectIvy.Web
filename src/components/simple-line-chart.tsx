@@ -22,7 +22,7 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dot={false} dataKey={value ?? 'value'} stroke="#007bff" unit={unit ?? ''} />
+                <Line type="monotone" dot={false} dataKey={value ?? 'value'} stroke="var(--bs-primary)" unit={unit ?? ''} />
             </LineChart>
         </ResponsiveContainer>
     );

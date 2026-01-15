@@ -48,7 +48,7 @@ const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
                 />
             )}
             {!stacked &&
-                <Bar type="monotone" dataKey={value} fill="#007bff" unit={unit} />
+                <Bar type="monotone" dataKey={value} fill="var(--bs-primary)" unit={unit} />
             }
         </BarChart>
     </ResponsiveContainer>;
