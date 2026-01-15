@@ -25,6 +25,9 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
                     locale={moment.locale('hr')}
                     onChange={x => onChange((x as moment.Moment).format('YYYY-MM-DD'))}
                     value={value}
+                    inputProps={{
+                        className: 'form-control'
+                    }}
                 />
                 <InputGroup.Text>
                     <FaCalendar />

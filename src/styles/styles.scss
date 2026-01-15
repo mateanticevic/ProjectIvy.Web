@@ -601,3 +601,81 @@ body #app {
   height: 700px;
   padding: 0px;
 }
+
+// React-datetime primary color overrides (both themes)
+.rdt {
+  .rdtPicker {
+    td {
+      &.rdtActive,
+      &.rdtActive:hover {
+        background-color: $color-primary;
+        color: #fff;
+      }
+      
+      &.rdtToday:before {
+        border-bottom-color: $color-primary;
+      }
+    }
+  }
+}
+
+// React-datetime dark theme overrides
+[data-bs-theme="dark"] {
+  .rdt {
+    .form-control {
+      background-color: var(--bs-body-bg);
+      color: var(--bs-body-color);
+      border-color: var(--bs-border-color);
+      
+      &:focus {
+        background-color: var(--bs-body-bg);
+        color: var(--bs-body-color);
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      }
+    }
+
+    .rdtPicker {
+      background: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+      
+      th {
+        color: var(--bs-body-color);
+        border-bottom-color: var(--bs-border-color);
+      }
+      
+      td {
+        color: var(--bs-body-color);
+        
+        &.rdtDay:hover,
+        &.rdtMonth:hover,
+        &.rdtYear:hover {
+          background: var(--bs-secondary-bg);
+          cursor: pointer;
+        }
+        
+        &.rdtOld,
+        &.rdtNew {
+          color: var(--bs-secondary-color);
+        }
+        
+        &.rdtDisabled,
+        &.rdtDisabled:hover {
+          color: var(--bs-tertiary-color);
+          background: transparent;
+          cursor: not-allowed;
+        }
+      }
+      
+      .dow {
+        color: var(--bs-secondary-color);
+        border-bottom-color: var(--bs-border-color);
+      }
+      
+      tfoot {
+        border-top-color: var(--bs-border-color);
+      }
+    }
+  }
+}

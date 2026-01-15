@@ -34,7 +34,7 @@ export const SumByServingChart = ({ data }: Props) => {
                     cx={120}
                     cy={90}
                     outerRadius={70}
-                    fill="#007bff"
+                    fill='var(--bs-primary)'
                     label={renderCustomizedLabel}
                     labelLine={false}
                 />

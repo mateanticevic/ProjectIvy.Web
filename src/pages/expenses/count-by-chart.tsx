@@ -35,7 +35,7 @@ export const CountByChart = ({ data }: Props) => {
                     cx={180}
                     cy={150}
                     outerRadius={150}
-                    fill="#007bff"
+                    fill='var(--bs-primary)'
                     label={renderCustomizedLabel}
                     labelLine={false}
                 />
