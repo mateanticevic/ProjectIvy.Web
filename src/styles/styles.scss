@@ -1,20 +1,10 @@
 @import '../../node_modules/react-datetime/css/react-datetime.css';
-
-// Calendar color variables
-$calendar-business-trip: #90c3fa;
-$calendar-conference: #bdcafa;
-$calendar-holiday: #91cd93d7;
-$calendar-medical-check-up: #ffc2c0d7;
-$calendar-office: #aeaeae53;
-$calendar-remote: #c9e0f478;
-$calendar-sick-leave: #f33f3f78;
-$calendar-vacation: #e2eb9f;
-$calendar-weekend: #91cd9364;
+@import './colors';
 
 body #app {
   font: 14px Inter, -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.4em;
-  color: #4d4d4d;
+  color: $color-text-primary;
   min-width: 230px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
@@ -24,7 +14,7 @@ body #app {
 #app {
 
   a:not(.btn) {
-    color: #4d4d4d;
+    color: $color-text-primary;
     text-decoration: unset;
   }
 
@@ -33,7 +23,7 @@ body #app {
   }
 
   .badge {
-    color: #ffffff;
+    color: $color-text-white;
   }
 
   .cursor-pointer {
@@ -164,7 +154,7 @@ body #app {
   }
 
   .loader-bar {
-    background-color: #00000015;
+    background-color: $color-bg-loader;
     height: 20px;
   }
 
@@ -174,7 +164,7 @@ body #app {
   @each $height in $heights {
     @each $width in $widths {
       .loader-bar-#{$height}-#{$width} {
-        background-color: #00000015;
+        background-color: $color-bg-loader;
         height: $height + px;
         min-width: $width + px;
       }
@@ -224,20 +214,20 @@ body #app {
   td {
     >svg {
       margin-left: 5px;
-      color: #007bff;
+      color: $color-primary;
     }
   }
 
   .dropzone {
     padding: 40px;
-    background: #007bff20;
+    background: $color-bg-dropzone;
     border-style: dashed;
     border-radius: 3px;
     text-align: center;
   }
 
   .warning {
-    background-color: #f8d7da;
+    background-color: $color-bg-warning;
   }
 
   .progress {
@@ -327,7 +317,7 @@ body #app {
   }
 
   .expense-item-date {
-    color: gray;
+    color: $color-text-gray;
     font-size: 14px;
     margin-left: 20px;
   }
@@ -376,7 +366,7 @@ body #app {
       h5 {
         font-size: 18px;
         font-weight: 600;
-        color: #4d4d4d;
+        color: $color-text-primary;
         margin-left: 10px;
       }
     }
@@ -404,31 +394,31 @@ body #app {
 }
 
 .background-active {
-  fill: #007bff;
+  fill: $color-primary;
 }
 
 .background-inactive {
-  fill: #cccccc;
+  fill: $color-fill-inactive;
 }
 
 .fill-count-1 {
-  fill: #007bff40;
+  fill: $color-fill-1;
 }
 
 .fill-count-2 {
-  fill: #007bff60;
+  fill: $color-fill-2;
 }
 
 .fill-count-3 {
-  fill: #007bff80;
+  fill: $color-fill-3;
 }
 
 .fill-count-4 {
-  fill: #007bffa0;
+  fill: $color-fill-4;
 }
 
 .fill-count-5 {
-  fill: #007bffff;
+  fill: $color-fill-5;
 }
 
 .login-form {
@@ -472,8 +462,8 @@ body #app {
   }
   //background: gray;
   background: 
-    linear-gradient(to top, #0d6efd calc(var(--intensity, 0) * 100%), transparent 0%),
-    #aeaeae53;
+    linear-gradient(to top, $color-primary-variant calc(var(--intensity, 0) * 100%), $color-transparent 0%),
+    $color-bg-office;
   height: 25px;
   width: 25px;
 
@@ -484,15 +474,15 @@ body #app {
 }
 
 .calendar-month-day-item.active {
-  background: #91cd93d7;
+  background: $color-calendar-holiday;
 }
 
 .calendar-month-day-item.business-trip {
-  background: $calendar-business-trip;
+  background: $color-calendar-business-trip;
 }
 
 .calendar-month-day-item.conference {
-  background: $calendar-conference;
+  background: $color-calendar-conference;
 }
 
 .calendar-month-day-item.country {
@@ -500,27 +490,27 @@ body #app {
 }
 
 .calendar-month-day-item.highlighted {
-  background: #91cd93d7;
+  background: $color-calendar-holiday;
 }
 
 .calendar-month-day-item.holiday {
-  background: $calendar-holiday;
+  background: $color-calendar-holiday;
 }
 
 .calendar-month-day-item.medical-check-up {
-  background: $calendar-medical-check-up;
+  background: $color-calendar-medical-check-up;
 }
 
 .calendar-month-day-item.office {
-  background: $calendar-office;
+  background: $color-calendar-office;
 }
 
 .calendar-month-day-item.remote {
-  background: $calendar-remote;
+  background: $color-calendar-remote;
 }
 
 .calendar-month-day-item.sick-leave {
-  background: $calendar-sick-leave;
+  background: $color-calendar-sick-leave;
 }
 
 .calendar-month-day-item.today {
@@ -528,7 +518,7 @@ body #app {
 }
 
 .calendar-month-day-item.loading {
-  background: linear-gradient(90deg, #aeaeae53 0%, #d1d1d1 50%, #aeaeae53 100%);
+  background: linear-gradient(90deg, $color-bg-office 0%, $color-bg-loading-mid 50%, $color-bg-office 100%);
   background-size: 200% 100%;
   animation: loading-pulse 1.5s infinite ease-in-out;
 }
@@ -543,11 +533,11 @@ body #app {
 }
 
 .calendar-month-day-item.vacation {
-  background: $calendar-vacation;
+  background: $color-calendar-vacation;
 }
 
 .calendar-month-day-item.weekend {
-  background: $calendar-weekend;
+  background: $color-calendar-weekend;
 }
 
 .calendar-year-container {
@@ -570,39 +560,39 @@ body #app {
 }
 
 .calendar-item.business-trip {
-  background: $calendar-business-trip;
+  background: $color-calendar-business-trip;
 }
 
 .calendar-item.conference {
-  background: $calendar-conference;
+  background: $color-calendar-conference;
 }
 
 .calendar-item.holiday {
-  background: $calendar-holiday;
+  background: $color-calendar-holiday;
 }
 
 .calendar-item.office {
-  background: $calendar-office;
+  background: $color-calendar-office;
 }
 
 .calendar-item.medical-check-up {
-  background: $calendar-medical-check-up;
+  background: $color-calendar-medical-check-up;
 }
 
 .calendar-item.remote {
-  background: $calendar-remote;
+  background: $color-calendar-remote;
 }
 
 .calendar-item.vacation {
-  background: $calendar-vacation;
+  background: $color-calendar-vacation;
 }
 
 .calendar-item.weekend {
-  background: $calendar-weekend;
+  background: $color-calendar-weekend;
 }
 
 .calendar-item.sick-leave {
-  background: $calendar-sick-leave;
+  background: $color-calendar-sick-leave;
 }
 
 .calendar-item.today {
