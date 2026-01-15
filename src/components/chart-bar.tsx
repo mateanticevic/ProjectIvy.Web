@@ -11,7 +11,7 @@ const ChartBar = (props) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Bar type="monotone" dataKey="value" fill="#337ab7" unit={props.unit} />
+                <Bar type="monotone" dataKey="value" fill="var(--bs-primary)" unit={props.unit} />
             </BarChart>
         </ResponsiveContainer>
     );

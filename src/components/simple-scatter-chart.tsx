@@ -20,7 +20,8 @@ export const SimpleScatterChart = ({ data, unit }) =>
 
             <Scatter
                 data={data}
-                line={{ stroke: '#eee', strokeWidth: 5 }}
+                fill="var(--bs-primary)"
+                line={{ stroke: 'var(--bs-primary)', strokeWidth: 5 }}
                 lineJointType='monotoneX'
                 lineType="joint"
                 name='Values'

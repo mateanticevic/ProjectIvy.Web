@@ -36,17 +36,25 @@ $color-fill-5: #007bffff;
 // Misc
 $color-transparent: transparent;
 
+// Export colors for use in JavaScript/TypeScript
+:export {
+  colorPrimary: $color-primary;
+  colorPrimaryVariant: $color-primary-variant;
+}
+
 // Override Bootstrap CSS variables to use our primary color
 :root,
 [data-bs-theme="light"] {
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
+  --bs-link-color-rgb: 0, 0, 0;
 }
 
 // Dark theme overrides
 [data-bs-theme="dark"] {
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
+  --bs-link-color-rgb: 255, 255, 255;
 }
 
 // Button primary variant overrides for both themes
@@ -70,6 +78,10 @@ $color-transparent: transparent;
   --bs-btn-hover-border-color: #9a3270;
   --bs-btn-active-bg: #9a3270;
   --bs-btn-active-border-color: #a9387c;
+}
+
+.progress {
+    --bs-progress-bar-bg: #{$color-primary};
 }
 
 // Badge primary variant overrides
