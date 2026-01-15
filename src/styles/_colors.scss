@@ -41,22 +41,51 @@ $color-transparent: transparent;
 [data-bs-theme="light"] {
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
-  --bs-btn-bg: #{$color-primary};
-  --bs-btn-border-color: #{$color-primary};
-  --bs-btn-hover-bg: #5a1d42;
-  --bs-btn-hover-border-color: #4d1838;
-  --bs-btn-active-bg: #4d1838;
-  --bs-btn-active-border-color: #3f132e;
 }
 
 // Dark theme overrides
 [data-bs-theme="dark"] {
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
+}
+
+// Button primary variant overrides for both themes
+.btn-primary {
+  --bs-btn-color: #fff;
   --bs-btn-bg: #{$color-primary};
   --bs-btn-border-color: #{$color-primary};
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #5a1d42;
+  --bs-btn-hover-border-color: #4d1838;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #4d1838;
+  --bs-btn-active-border-color: #3f132e;
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #{$color-primary};
+  --bs-btn-disabled-border-color: #{$color-primary};
+}
+
+[data-bs-theme="dark"] .btn-primary {
   --bs-btn-hover-bg: #8b2d64;
   --bs-btn-hover-border-color: #9a3270;
   --bs-btn-active-bg: #9a3270;
   --bs-btn-active-border-color: #a9387c;
+}
+
+// Badge primary variant overrides
+.badge.bg-primary {
+  background-color: #{$color-primary} !important;
+}
+
+// Other primary color applications
+.text-primary {
+  color: #{$color-primary} !important;
+}
+
+.bg-primary {
+  background-color: #{$color-primary} !important;
+}
+
+.border-primary {
+  border-color: #{$color-primary} !important;
 }

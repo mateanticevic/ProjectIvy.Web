@@ -202,7 +202,6 @@ class ExpensesPage extends Page<Props, State> {
                                 <div className="form-grid">
                                     <Button
                                         size="sm"
-                                        variant="primary"
                                         onClick={this.onExpenseNew}>
                                         New
                                     </Button>
