@@ -70,7 +70,7 @@ class DashboardPage extends React.Component<unknown, State> {
         allCalls.push(api.consumation.get(lastFiveFilters).then(consumations => this.setState({ consumations: consumations.items })));
         allCalls.push(api.movie.get(lastFiveFilters).then(movies => this.setState({ movies: movies.items })));
         allCalls.push(api.tracking.getLastLocation().then(location => this.setState({ location })));
-        allCalls.push(api.user.getWeight().then(weightPerDay => this.setState({ weightPerDay })));
+        allCalls.push(api.user.getWeight({ From: moment().date(1).month(0).format('YYYY-MM-DD') }).then(weightPerDay => this.setState({ weightPerDay })));
 
         if (this.user?.defaultCar) {
             allCalls.push(api.car.getLogLatest(this.user.defaultCar.id).then(carLog => this.setState({ carOdometer: carLog.odometer })));
