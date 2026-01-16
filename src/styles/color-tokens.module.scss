@@ -1,0 +1,5 @@
+@use './_colors.scss' as colors;
+
+:export {
+  colorPrimary: colors.$color-primary;
+}

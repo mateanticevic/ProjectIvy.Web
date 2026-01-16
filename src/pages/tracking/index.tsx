@@ -32,6 +32,7 @@ import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
 import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
+import colorTokens from 'styles/color-tokens.module.scss';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -134,7 +135,6 @@ class TrackingPage extends Page<unknown, State> {
     };
 
     render() {
-
         const { dateMode, drawMode, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
         const { newLocation, newTracking, newLocationModalOpened, newTrackingModalOpened } = this.state;
 
@@ -258,7 +258,7 @@ class TrackingPage extends Page<unknown, State> {
                                             <Polyline
                                                 key={layer.id}
                                                 path={trackingsToLatLng(layer.trackings)}
-                                                options={{ strokeColor: '#0000FF', strokeWeight: 5 }}
+                                                options={{ strokeColor: colorTokens.colorPrimary, strokeWeight: 5 }}
                                             />
                                         )}
                                         <this.renderPointsMemoized layers={polygonLayers} />

@@ -602,6 +602,43 @@ body #app {
   padding: 0px;
 }
 
+// Align rc-slider accents with the Ivy primary palette
+.rc-slider {
+  &-rail {
+    background-color: rgba($color-primary, 0.15);
+  }
+
+  &-track,
+  &-track-1 {
+    background-color: $color-primary !important;
+  }
+
+  &-handle {
+    border-color: $color-primary !important;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+
+    &:hover,
+    &:focus,
+    &:active,
+    &.rc-slider-handle-dragging {
+      border-color: lighten($color-primary, 5%) !important;
+      box-shadow: 0 0 0 5px rgba($color-primary, 0.25);
+    }
+  }
+
+  &-dot {
+    border-color: rgba($color-primary, 0.35);
+
+    &-active {
+      border-color: $color-primary;
+    }
+  }
+
+  &-mark-text-active {
+    color: $color-primary;
+  }
+}
+
 // React-datetime primary color overrides (both themes)
 .rdt {
   .rdtPicker {
