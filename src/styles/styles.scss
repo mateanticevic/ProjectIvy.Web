@@ -557,6 +557,36 @@ body #app {
   }
 }
 
+.work-day-legend {
+  margin-top: 24px;
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .calendar-month-day-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
 .calendar-item.business-trip {
   background: $color-calendar-business-trip;
 }

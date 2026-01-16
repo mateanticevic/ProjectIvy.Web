@@ -10,6 +10,7 @@ import { cityLoader, locationLoader } from "utils/select-loaders";
 import { useReactSelectStyles } from "utils/react-select-dark-theme";
 import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateValue, CalendarMode } from "./constants";
 import { workDayTypeToStyle } from "./mappers";
+import { WorkDayLegend } from "./work-day-legend";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 
 export const CalendarYearPage = () => {
@@ -216,17 +217,7 @@ export const CalendarYearPage = () => {
                 )}
             </div>
             {calendarMode === CalendarMode.WorkDays &&
-                <>
-                    <div><div className="calendar-month-day-item business-trip">{getWorkDayTypeCount('business-trip')}</div><h6>Business trip</h6></div>
-                    <div><div className="calendar-month-day-item conference">{getWorkDayTypeCount('conference')}</div><h6>Conference</h6></div>
-                    <div><div className="calendar-month-day-item holiday">{getWorkDayTypeCount('holiday')}</div><h6>Holiday</h6></div>
-                    <div><div className="calendar-month-day-item medical-check-up">{getWorkDayTypeCount('medical-check-up')}</div><h6>Medical check-up</h6></div>
-                    <div><div className="calendar-month-day-item office">{getWorkDayTypeCount('office')}</div><h6>Office</h6></div>
-                    <div><div className="calendar-month-day-item remote">{getWorkDayTypeCount('remote')}</div><h6>Remote</h6></div>
-                    <div><div className="calendar-month-day-item sick-leave">{getWorkDayTypeCount('sick-leave')}</div><h6>Sick leave</h6></div>
-                    <div><div className="calendar-month-day-item vacation">{getWorkDayTypeCount('vacation')}</div><h6>Vacation</h6></div>
-                    <div><div className="calendar-month-day-item weekend">{getWorkDayTypeCount('weekend')}</div><h6>Week-end</h6></div>
-                </>
+                <WorkDayLegend getCount={getWorkDayTypeCount} />
             }
         </Container>
     );

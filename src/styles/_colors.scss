@@ -14,16 +14,16 @@ $color-bg-dropzone: #007bff20;
 $color-bg-office: #aeaeae53;
 $color-bg-loading-mid: #d1d1d1;
 
-// Calendar colors
-$color-calendar-business-trip: #90c3fa;
-$color-calendar-conference: #bdcafa;
-$color-calendar-holiday: #91cd93d7;
-$color-calendar-medical-check-up: #ffc2c0d7;
-$color-calendar-office: #aeaeae53;
-$color-calendar-remote: #c9e0f478;
-$color-calendar-sick-leave: #f33f3f78;
-$color-calendar-vacation: #e2eb9f;
-$color-calendar-weekend: #91cd9364;
+// Calendar colors (optimized for light/dark contrast + semantic pairing)
+$color-calendar-business-trip: #3a78c0; // professional blue
+$color-calendar-conference: #7a5ad1; // collaborative violet
+$color-calendar-holiday: #5fb077; // fresh green
+$color-calendar-medical-check-up: #36b0b3; // clinical teal
+$color-calendar-office: #8e97aa; // neutral gray-blue
+$color-calendar-remote: #f0a35e; // warm home office amber
+$color-calendar-sick-leave: #d35f5f; // muted caution red
+$color-calendar-vacation: #f4d35e; // sunny yellow
+$color-calendar-weekend: #82b7e0; // relaxed blue
 
 // Fill colors (chart/visualization)
 $color-fill-inactive: #cccccc;
