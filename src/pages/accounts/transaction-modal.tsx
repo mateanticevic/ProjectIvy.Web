@@ -55,9 +55,6 @@ const TransactionModal = ({ transaction, isOpen, onChange, onClose, onSave }: Pr
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>
-                    Cancel
-                </Button>
                 <Button variant="primary" onClick={onSave}>
                     Save
                 </Button>

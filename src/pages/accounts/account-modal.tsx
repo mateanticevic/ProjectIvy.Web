@@ -83,9 +83,6 @@ const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={onClose}>
-                    Cancel
-                </Button>
                 <Button variant="primary" onClick={onSave}>
                     Save
                 </Button>

@@ -18,6 +18,7 @@ import { PagedList } from 'types/common';
 import { cityLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
+import colorTokens from 'styles/color-tokens.module.scss';
 
 type Trip = components['schemas']['Trip'];
 type TripBinding = components['schemas']['TripBinding'];
@@ -105,7 +106,7 @@ class TripsPage extends Page<unknown, State> {
                                     height="360px"
                                     chartType="GeoChart"
                                     data={chartData}
-                                    options={{ defaultColor: '#a5cefa' }}
+                                    options={{ backgroundColor: colorTokens.colorBackground, defaultColor: colorTokens.colorPrimary }}
                                 />
                             </Card.Body>
                         </Card>
