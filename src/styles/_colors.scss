@@ -48,6 +48,10 @@ $color-transparent: transparent;
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
   --bs-link-color-rgb: 0, 0, 0;
+  --bs-accordion-active-bg: #{$color-primary} !important;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-btn-focus-border-color: #{$color-primary};
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.25);
 }
 
 // Dark theme overrides
@@ -55,6 +59,11 @@ $color-transparent: transparent;
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
   --bs-link-color-rgb: 255, 255, 255;
+  --bs-accordion-active-bg: #{$color-primary} !important;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-active-color: #fff;
+  --bs-accordion-btn-focus-border-color: #{$color-primary};
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.25);
 }
 
 // Button primary variant overrides for both themes

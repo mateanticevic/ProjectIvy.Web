@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use './colors' as *;
 @import '../../node_modules/react-datetime/css/react-datetime.css';
 
@@ -455,13 +456,14 @@ body #app {
 
 .calendar-month-day-item {
   cursor: pointer;
+
   &:first-child {
     grid-column-start: var(--offset);
   }
+
   //background: gray;
-  background: 
-    linear-gradient(to top, $color-primary-variant calc(var(--intensity, 0) * 100%), $color-transparent 0%),
-    $color-bg-office;
+  background: linear-gradient(to top, $color-primary-variant calc(var(--intensity, 0) * 100%), $color-transparent 0%),
+  $color-bg-office;
   height: 25px;
   width: 25px;
 
@@ -525,6 +527,7 @@ body #app {
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: 200% 50%;
   }
@@ -651,7 +654,7 @@ body #app {
     &:focus,
     &:active,
     &.rc-slider-handle-dragging {
-      border-color: lighten($color-primary, 5%) !important;
+      border-color: color.adjust($color-primary, $lightness: 5%) !important;
       box-shadow: 0 0 0 5px rgba($color-primary, 0.25);
     }
   }
@@ -673,12 +676,13 @@ body #app {
 .rdt {
   .rdtPicker {
     td {
+
       &.rdtActive,
       &.rdtActive:hover {
         background-color: $color-primary;
         color: #fff;
       }
-      
+
       &.rdtToday:before {
         border-bottom-color: $color-primary;
       }
@@ -693,7 +697,7 @@ body #app {
       background-color: var(--bs-body-bg);
       color: var(--bs-body-color);
       border-color: var(--bs-border-color);
-      
+
       &:focus {
         background-color: var(--bs-body-bg);
         color: var(--bs-body-color);
@@ -706,27 +710,27 @@ body #app {
       background: var(--bs-body-bg);
       border: 1px solid var(--bs-border-color);
       box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
-      
+
       th {
         color: var(--bs-body-color);
         border-bottom-color: var(--bs-border-color);
       }
-      
+
       td {
         color: var(--bs-body-color);
-        
+
         &.rdtDay:hover,
         &.rdtMonth:hover,
         &.rdtYear:hover {
           background: var(--bs-secondary-bg);
           cursor: pointer;
         }
-        
+
         &.rdtOld,
         &.rdtNew {
           color: var(--bs-secondary-color);
         }
-        
+
         &.rdtDisabled,
         &.rdtDisabled:hover {
           color: var(--bs-tertiary-color);
@@ -734,15 +738,23 @@ body #app {
           cursor: not-allowed;
         }
       }
-      
+
       .dow {
         color: var(--bs-secondary-color);
         border-bottom-color: var(--bs-border-color);
       }
-      
+
       tfoot {
         border-top-color: var(--bs-border-color);
       }
     }
+  }
+
+  .accordion {
+    --bs-accordion-active-bg: transparent;
+  }
+
+  .accordion-button {
+    color: unset;
   }
 }
