@@ -1,6 +1,7 @@
 import account from './account';
 import airport from './airport';
 import beer from './beer';
+import brand from './brand';
 import calendar from './calendar';
 import call from './call';
 import car from './car';
@@ -16,6 +17,7 @@ import file from './file';
 import flight from './flight';
 import geohash from './geohash';
 import income from './income';
+import inventory from './inventory';
 import location from './location';
 import movie from './movie';
 import poi from './poi';
@@ -35,6 +37,7 @@ const api = {
     account,
     airport,
     beer,
+    brand,
     calendar,
     call,
     car,
@@ -50,6 +53,7 @@ const api = {
     flight,
     geohash,
     income,
+    inventory,
     location,
     movie,
     poi,

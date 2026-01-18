@@ -13,6 +13,8 @@ export const airlineLoader = (value, callback) => genericLoader(api.common.getAi
 
 export const beerLoader = (value, callback) => genericPagedLoader(api.beer.get, value, callback);
 
+export const brandLoader = (value, callback) => genericPagedLoader(api.brand.get, value, callback);
+
 export const countryLoader = (value, callback) => genericPagedLoader(api.country.get, value, callback);
 
 export const cityLoader = (value, callback) => api.city.get({ search: value })

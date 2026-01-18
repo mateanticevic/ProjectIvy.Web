@@ -726,6 +726,87 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Brand/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Brand"];
+                        "application/json": components["schemas"]["Brand"];
+                        "text/json": components["schemas"]["Brand"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Brand": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["BrandPagedView"];
+                        "application/json": components["schemas"]["BrandPagedView"];
+                        "text/json": components["schemas"]["BrandPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Calendar/Days": {
         parameters: {
             query?: never;
@@ -7198,6 +7279,117 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Inventory/item": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BrandId?: string[];
+                    Search?: string;
+                    OrderBy?: components["schemas"]["InventoryItemSort"];
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["InventoryItemPagedView"];
+                        "application/json": components["schemas"]["InventoryItemPagedView"];
+                        "text/json": components["schemas"]["InventoryItemPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["InventoryItemBinding"];
+                    "text/json": components["schemas"]["InventoryItemBinding"];
+                    "application/*+json": components["schemas"]["InventoryItemBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Inventory/item/{valueId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    valueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["InventoryItemBinding"];
+                    "text/json": components["schemas"]["InventoryItemBinding"];
+                    "application/*+json": components["schemas"]["InventoryItemBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Tracking/LastLocation": {
         parameters: {
             query?: never;
@@ -10402,9 +10594,18 @@ export interface components {
             id?: string | null;
             name?: string | null;
         };
+        Brand: {
+            id?: string | null;
+            name?: string | null;
+        };
         BrandBinding: {
             countryId?: string | null;
             name?: string | null;
+        };
+        BrandPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Brand"][] | null;
         };
         CalendarDay: {
             cities?: components["schemas"]["City"][] | null;
@@ -11172,6 +11373,22 @@ export interface components {
             /** Format: int32 */
             value?: number;
         };
+        InventoryItem: {
+            id?: string | null;
+            name?: string | null;
+            brand?: components["schemas"]["Brand"];
+        };
+        InventoryItemBinding: {
+            name?: string | null;
+            brandId?: string | null;
+        };
+        InventoryItemPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["InventoryItem"][] | null;
+        };
+        /** @enum {string} */
+        InventoryItemSort: "name";
         KnownLocation: {
             name?: string | null;
             typeId?: string | null;

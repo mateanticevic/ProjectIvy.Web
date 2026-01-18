@@ -4,7 +4,7 @@ import { BiWorld } from 'react-icons/bi';
 import { FaRegCalendarAlt, FaRoute } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
-import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance } from 'react-icons/md';
+import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance, MdInventory } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
@@ -54,6 +54,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                                 <NavDropdown.Item as={Link} to="/beer"><TiBeer /> Beer</NavDropdown.Item>
                             }
                             <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/inventory"><MdInventory /> Inventory</NavDropdown.Item>
                             {identity.pif?.includes(Feature.Calls) &&
                                 <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
                             }

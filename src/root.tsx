@@ -30,6 +30,7 @@ import { FaGithub, FaMicrosoft } from 'react-icons/fa';
 import CalendarMonthPage from 'pages/calendar-month';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
+import InventoryPage from 'pages/inventory';
 
 interface State {
     error?: string,
@@ -239,6 +240,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/flights" element={<FlightsV2Page />} />
                                     <Route path="/flights-old" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
+                                    <Route path="/inventory" element={<InventoryPage />} />
                                     <Route path="/locations" element={<LocationsPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
                                     <Route path="/places" element={<PlacesPage />} />
