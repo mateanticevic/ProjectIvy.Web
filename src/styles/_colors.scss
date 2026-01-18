@@ -1,6 +1,6 @@
 // Primary colors
 $color-primary: #590839;
-$color-primary-variant: #3d938d;
+$color-primary-variant: #b0b0b0;
 
 // Text colors
 $color-text-primary: #4d4d4d;
@@ -22,16 +22,17 @@ $color-calendar-medical-check-up: #36b0b3; // clinical teal
 $color-calendar-office: #8e97aa; // neutral gray-blue
 $color-calendar-remote: #f0a35e; // warm home office amber
 $color-calendar-sick-leave: #d35f5f; // muted caution red
+$color-calendar-unemployed: #b0b0b0; // subdued gray
 $color-calendar-vacation: #f4d35e; // sunny yellow
 $color-calendar-weekend: #82b7e0; // relaxed blue
 
 // Fill colors (chart/visualization)
-$color-fill-inactive: #cccccc;
-$color-fill-1: #007bff40;
-$color-fill-2: #007bff60;
-$color-fill-3: #007bff80;
-$color-fill-4: #007bffa0;
-$color-fill-5: #007bffff;
+$color-fill-inactive: rgba($color-primary-variant, 0.1);
+$color-fill-1: rgba($color-primary, 0.25);
+$color-fill-2: rgba($color-primary, 0.38);
+$color-fill-3: rgba($color-primary, 0.5);
+$color-fill-4: rgba($color-primary, 0.63);
+$color-fill-5: rgba($color-primary, 1);
 
 // Misc
 $color-transparent: transparent;

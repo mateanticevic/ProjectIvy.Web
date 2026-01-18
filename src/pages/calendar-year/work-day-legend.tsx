@@ -9,6 +9,7 @@ const WORK_DAY_TYPES = [
     { id: "office", label: "Office" },
     { id: "remote", label: "Remote" },
     { id: "sick-leave", label: "Sick leave" },
+    { id: "unemployed", label: "Unemployed" },
     { id: "vacation", label: "Vacation" },
     { id: "weekend", label: "Week-end" }
 ];
@@ -21,14 +22,22 @@ export const WorkDayLegend: React.FC<WorkDayLegendProps> = ({ getCount }) => (
     <Card className="work-day-legend">
         <Card.Body>
             <div className="work-day-legend__items">
-                {WORK_DAY_TYPES.map(type => (
-                    <div key={type.id} className="work-day-legend__item">
-                        <div className={`calendar-month-day-item ${type.id}`}>
-                            {getCount(type.id)}
+                {WORK_DAY_TYPES.map(type => {
+                    const count = getCount(type.id);
+
+                    if (count === 0) {
+                        return null;
+                    }
+
+                    return (
+                        <div key={type.id} className="work-day-legend__item">
+                            <div className={`calendar-month-day-item ${type.id}`}>
+                                {count}
+                            </div>
+                            <span className="work-day-legend__label">{type.label}</span>
                         </div>
-                        <span className="work-day-legend__label">{type.label}</span>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </Card.Body>
     </Card>

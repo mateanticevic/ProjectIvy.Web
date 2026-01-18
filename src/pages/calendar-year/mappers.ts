@@ -12,9 +12,10 @@ export const workDayTypeToStyle = (day: Moment, type: WorkDayType) =>
         'conference': type === 'conference',
         'holiday': type === 'holiday',
         'medical-check-up': type === 'medicalCheckUp',
-        'office': !type || type === 'office',
+        'office': type === 'office',
         'remote': type === 'remote',
         'sick-leave': type === 'sickLeave',
+        'unemployed': !type,
         'vacation': type === 'vacation',
         'weekend': type !== 'holiday' && day.weekday() >= 5,
     });

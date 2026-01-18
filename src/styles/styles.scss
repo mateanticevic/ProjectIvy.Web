@@ -462,10 +462,10 @@ body #app {
   }
 
   //background: gray;
-  background: linear-gradient(to top, $color-primary-variant calc(var(--intensity, 0) * 100%), $color-transparent 0%),
+  background: linear-gradient(to top, $color-primary calc(var(--intensity, 0) * 100%), $color-transparent 0%),
   $color-bg-office;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
 
   .flag-icon {
     height: 100%;
@@ -613,6 +613,11 @@ body #app {
 .calendar-item.remote {
   background: $color-calendar-remote;
 }
+
+.calendar-item.unemployed {
+  background: $color-calendar-unemployed;
+}
+
 
 .calendar-item.vacation {
   background: $color-calendar-vacation;
