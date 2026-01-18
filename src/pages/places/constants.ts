@@ -1,11 +1,12 @@
 import api from "api/main";
+
 import { cityLoader, countryLoader, locationLoader } from "utils/select-loaders";
+import colorTokens from 'styles/color-tokens.module.scss';
 
 export const itemGeohashRectangleOptions: google.maps.RectangleOptions = {
-    strokeColor: '#007BFF',
-    fillColor: '#007BFF',
-    fillOpacity: 0.2,
-    strokeWeight: 1,
+    fillColor: colorTokens.colorPrimary,
+    fillOpacity: 0.3,
+    strokeWeight: 0,
 };
 
 export const deleteRectangleOptions: google.maps.RectangleOptions = {

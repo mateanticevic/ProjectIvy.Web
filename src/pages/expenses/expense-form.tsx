@@ -12,14 +12,13 @@ import { vendorLoader } from 'utils/select-loaders';
 import { SingleValue } from 'react-select';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
-type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
 type ExpenseFile = components['schemas']['ExpenseFile'];
 type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
 
 interface Props {
-    cards: Card[];
+    cards: SelectOption[];
     currencies: SelectOption[];
     descriptionSuggestions: string[];
     expense: Expense;

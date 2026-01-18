@@ -3,11 +3,12 @@ import { Col, FormLabel, FormControl, FormGroup, Row, ToggleButton, ToggleButton
 import ReactSelect from 'react-select';
 
 import { ExpenseFilters } from 'types/expenses';
+import { SelectOption } from 'types/common';
 import Select from 'components/select';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 interface Props {
-    cards: any;
+    cards: SelectOption[];
     filters: ExpenseFilters;
     order: any;
     orderBy: any;
@@ -85,7 +86,7 @@ const FiltersMore = (props: Props) => {
                         <FormLabel>Card</FormLabel>
                         <ReactSelect
                             isMulti
-                            options={props.cards.map(x => ({ value: x.id, label: x.name }))}
+                            options={props.cards.map(x => ({ value: x.id, label: x.name, isDisabled: x.disabled }))}
                             onChange={cards => props.onChange({ cardId: cards ? cards.map(x => x.value) : [] })}
                             styles={reactSelectStyles}
                         />

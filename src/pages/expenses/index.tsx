@@ -20,7 +20,7 @@ import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
 import DropzoneButton from 'components/dropzone-button';
 
-type Card = components['schemas']['Card'];
+type ApiCard = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
 type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
@@ -31,7 +31,7 @@ interface Props {
 }
 
 interface State {
-    cards: Card[];
+    cards: SelectOption[];
     currencies: SelectOption[];
     descriptionSuggestions: string[];
     expense?: Expense;
@@ -135,7 +135,7 @@ class ExpensesPage extends Page<Props, State> {
 
     componentDidMount() {
         this.onFiltersChanged();
-        api.card.get().then(cards => this.setState({ cards }));
+        api.card.get().then((cards: ApiCard[]) => this.setState({ cards: this.buildCardOptions(cards) }));
         api.common.getExpenseFileTypes().then(fileTypes => this.setState({ fileTypes }));
         api.common.getPaymentTypes().then(paymentTypes => this.setState({ paymentTypes }));
         api.currency.get().then(currencies => this.setState({ currencies }));
@@ -315,6 +315,41 @@ class ExpensesPage extends Page<Props, State> {
             </Container>
         );
     }
+
+    private buildCardOptions = (cards: ApiCard[]): SelectOption[] => {
+        const now = moment();
+        const grouped = cards
+            .filter(card => !!card?.id)
+            .reduce((acc, card) => {
+                const expiresOn = card.expires ? moment(card.expires) : undefined;
+                const isExpired = expiresOn?.isValid() ? expiresOn.endOf('day').isBefore(now) : false;
+                const option: SelectOption = {
+                    id: card.id!,
+                    name: this.getCardDisplayName(card),
+                };
+                (isExpired ? acc.inactive : acc.active).push(option);
+                return acc;
+            }, { active: [] as SelectOption[], inactive: [] as SelectOption[] });
+
+        const options: SelectOption[] = [];
+
+        if (grouped.active.length) {
+            options.push({ id: '__activeCards__', name: 'Active cards', disabled: true });
+            options.push(...grouped.active);
+        }
+
+        if (grouped.inactive.length) {
+            options.push({ id: '__inactiveCards__', name: 'Inactive cards', disabled: true });
+            options.push(...grouped.inactive);
+        }
+
+        return options;
+    };
+
+    private getCardDisplayName = (card: ApiCard): string => {
+        const baseName = card.name ?? 'Card';
+        return card.lastFourDigits ? `${baseName} ****${card.lastFourDigits}` : baseName;
+    };
 
     deleteFile = (fileId) => {
         api.file.deleteFile(fileId);

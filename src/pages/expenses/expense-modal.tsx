@@ -7,12 +7,11 @@ import ExpenseForm from './expense-form';
 import { components } from 'types/ivy-types';
 import { SelectOption } from 'types/common';
 
-type Card = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
 type FileType = components['schemas']['FileType'];
 
 interface Props {
-    cards: Card[],
+    cards: SelectOption[],
     currencies: SelectOption[],
     descriptionSuggestions: string[],
     expense: Expense,

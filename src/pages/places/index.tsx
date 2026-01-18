@@ -327,10 +327,9 @@ class PlacesPage extends Page<{}, State> {
                                             <Rectangle
                                                 key={`visited-${g}`}
                                                 options={{
-                                                    strokeColor: '#28a745',
                                                     fillColor: '#28a745',
                                                     fillOpacity: 0.3,
-                                                    strokeWeight: 2,
+                                                    strokeWeight: 0,
                                                 }}
                                                 bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
                                             />
