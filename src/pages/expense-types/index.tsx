@@ -10,23 +10,67 @@ type ExpenseTypeNode = components['schemas']['ExpenseTypeNode'];
 interface TreeNodeProps {
     node: ExpenseTypeNode;
     level?: number;
+    onDrop?: (draggedNode: ExpenseTypeNode, targetNode: ExpenseTypeNode) => void;
 }
 
-const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0 }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, onDrop }) => {
     const [isExpanded, setIsExpanded] = useState(true);
+    const [isDragOver, setIsDragOver] = useState(false);
     const hasChildren = node.children && node.children.length > 0;
     const paddingLeft = level * 32;
+
+    const handleDragStart = (e: React.DragEvent) => {
+        e.stopPropagation();
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('application/json', JSON.stringify(node));
+    };
+
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.dataTransfer.dropEffect = 'move';
+        setIsDragOver(true);
+    };
+
+    const handleDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragOver(false);
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragOver(false);
+
+        try {
+            const draggedNode = JSON.parse(e.dataTransfer.getData('application/json')) as ExpenseTypeNode;
+            if (draggedNode.this?.id !== node.this?.id && onDrop) {
+                onDrop(draggedNode, node);
+            }
+        } catch (error) {
+            console.error('Error parsing dragged data:', error);
+        }
+    };
 
     return (
         <div>
             <div
+                draggable
+                onDragStart={handleDragStart}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
                 className="py-2 border-bottom"
                 style={{
                     paddingLeft: `${paddingLeft + 16}px`,
                     paddingRight: '16px',
                     cursor: hasChildren ? 'pointer' : 'default',
-                    backgroundColor: level % 2 === 0 ? 'var(--bs-body-bg)' : 'rgba(var(--bs-emphasis-color-rgb), 0.02)',
+                    backgroundColor: isDragOver 
+                        ? 'rgba(var(--bs-primary-rgb), 0.1)' 
+                        : level % 2 === 0 ? 'var(--bs-body-bg)' : 'rgba(var(--bs-emphasis-color-rgb), 0.02)',
                     borderLeft: level > 0 ? '2px solid rgba(var(--bs-emphasis-color-rgb), 0.1)' : 'none',
+                    transition: 'background-color 0.2s',
                 }}
                 onClick={() => hasChildren && setIsExpanded(!isExpanded)}
             >
@@ -54,6 +98,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0 }) => {
                             key={child.this?.id || `child-${level}-${index}`}
                             node={child}
                             level={level + 1}
+                            onDrop={onDrop}
                         />
                     ))}
                 </div>
@@ -79,6 +124,19 @@ const ExpenseTypesPage: React.FC = () => {
                 ...node,
                 children: node.children ? sortTree(node.children) : node.children,
             }));
+    };
+
+    const handleDrop = (draggedNode: ExpenseTypeNode, targetNode: ExpenseTypeNode) => {
+        console.log('Dropped item:', {
+            draggedItem: {
+                id: draggedNode.this?.id,
+                name: draggedNode.this?.name,
+            },
+            targetItem: {
+                id: targetNode.this?.id,
+                name: targetNode.this?.name,
+            }
+        });
     };
 
     useEffect(() => {
@@ -128,6 +186,7 @@ const ExpenseTypesPage: React.FC = () => {
                                         <TreeNode
                                             key={node.this?.id || `root-${index}`}
                                             node={node}
+                                            onDrop={handleDrop}
                                         />
                                     ))}
                                 </div>
