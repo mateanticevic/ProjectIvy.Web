@@ -144,17 +144,32 @@ const ExpenseTypesPage: React.FC = () => {
             }));
     };
 
-    const handleDrop = (draggedNode: ExpenseTypeNode, targetNode: ExpenseTypeNode) => {
-        console.log('Dropped item:', {
-            draggedItem: {
-                id: draggedNode.this?.id,
-                name: draggedNode.this?.name,
-            },
-            targetItem: {
-                id: targetNode.this?.id,
-                name: targetNode.this?.name,
-            }
-        });
+    const handleDrop = async (draggedNode: ExpenseTypeNode, targetNode: ExpenseTypeNode) => {
+        const draggedId = draggedNode.this?.id;
+        const targetId = targetNode.this?.id;
+
+        if (!draggedId || !targetId) {
+            console.error('Missing node IDs');
+            return;
+        }
+
+        try {
+            // Move the dragged node to be a child of the target node
+            await api.expenseType.postExpenseType(targetId, draggedId);
+            
+            // Refresh the tree
+            const data = await api.expenseType.getTree();
+            const sortedData = sortTree(data ?? []);
+            setTree(sortedData);
+            const countNodes = (nodes: ExpenseTypeNode[]): number => {
+                return nodes.reduce((acc, node) => {
+                    return acc + 1 + (node.children ? countNodes(node.children) : 0);
+                }, 0);
+            };
+            setTotalCount(countNodes(sortedData));
+        } catch (error) {
+            console.error('Error moving expense type:', error);
+        }
     };
 
     const handleAddChild = (parentNode: ExpenseTypeNode) => {
