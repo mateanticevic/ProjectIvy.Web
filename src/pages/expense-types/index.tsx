@@ -16,7 +16,7 @@ interface TreeNodeProps {
 }
 
 const TreeNode: React.FC<TreeNodeProps> = ({ node, level = 0, onDrop, onAddChild }) => {
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
     const hasChildren = node.children && node.children.length > 0;
     const paddingLeft = level * 32;
