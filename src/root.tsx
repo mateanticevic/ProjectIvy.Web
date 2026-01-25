@@ -31,6 +31,7 @@ import CalendarMonthPage from 'pages/calendar-month';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
 import InventoryPage from 'pages/inventory';
+import ExpenseTypesPage from 'pages/expense-types';
 
 interface State {
     error?: string,
@@ -237,6 +238,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />
+                                    <Route path="/expense-types" element={<ExpenseTypesPage />} />
                                     <Route path="/flights" element={<FlightsV2Page />} />
                                     <Route path="/flights-old" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
