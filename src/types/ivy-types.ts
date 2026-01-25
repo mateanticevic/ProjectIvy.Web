@@ -6091,7 +6091,30 @@ export interface paths {
             };
         };
         put?: never;
-        post?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ExpenseTypeBinding"];
+                    "text/json": components["schemas"]["ExpenseTypeBinding"];
+                    "application/*+json": components["schemas"]["ExpenseTypeBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -6129,6 +6152,42 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ExpenseType/{parentValueId}/ExpenseType/{childValueId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    parentValueId: string;
+                    childValueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -10909,6 +10968,10 @@ export interface components {
         ExpenseType: {
             id?: string | null;
             name?: string | null;
+        };
+        ExpenseTypeBinding: {
+            name?: string | null;
+            parentId?: string | null;
         };
         ExpenseTypeInt32KeyValuePair: {
             key?: components["schemas"]["ExpenseType"];
