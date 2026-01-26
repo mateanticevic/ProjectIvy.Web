@@ -555,7 +555,7 @@ class ExpensesPage extends Page<Props, State> {
             modified: e.modified,
             id: e.id,
             installmentRef: e.installmentRef,
-            paymentTypeId: e.paymentType.id,
+            paymentTypeId: e.paymentType?.id,
             poiId: e.poi?.id,
             vendorId: e.vendor?.id,
             vendorName: e.vendor?.id ? null : e.vendor?.name,

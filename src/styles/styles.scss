@@ -697,6 +697,17 @@ body #app {
 
 // React-datetime dark theme overrides
 [data-bs-theme="dark"] {
+
+  .navbar-brand {
+    a {
+      color: unset;
+    }
+  }
+
+  .rdtPicker thead tr:first-of-type th:hover {
+    background: unset;
+  }
+
   .rdt {
     .form-control {
       background-color: var(--bs-body-bg);
@@ -763,3 +774,12 @@ body #app {
     color: unset;
   }
 }
+
+[data-bs-theme="light"] {
+
+  .navbar-brand {
+    a:hover {
+      color: #{$color-primary}
+    }
+  }
+} 
