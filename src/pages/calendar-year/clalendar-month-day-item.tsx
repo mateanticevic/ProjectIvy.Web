@@ -20,9 +20,10 @@ interface Props {
     isSelected: boolean;
     showDate?: boolean;
     onClick: () => void;
+    showTrackings: () => void;
 }
 
-export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, onClick }: Props) => {
+export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, onClick, showTrackings }: Props) => {
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0),
         // Pass intensity as a CSS variable if present
@@ -49,7 +50,7 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
             style={style}
             onClick={onClick}
         >
-            {isCalendarDateFlag(date) && date.countryId && (
+            {!isLoading && isCalendarDateFlag(date) && date.countryId && (
                 <span
                     className={`flag-icon flag-icon-${date.countryId.toLowerCase()}`}
                     title={date.countryId}
@@ -61,7 +62,7 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
             <Dropdown.Menu show={isSelected}>
                 <Dropdown.Header>{date.date.format('dddd Do')}</Dropdown.Header>
                 <Dropdown.Item eventKey="2">Details</Dropdown.Item>
-                <Dropdown.Item eventKey="3">Movement</Dropdown.Item>
+                <Dropdown.Item eventKey="3" onClick={showTrackings}>Tracking</Dropdown.Item>
             </Dropdown.Menu>
         </div>
     );

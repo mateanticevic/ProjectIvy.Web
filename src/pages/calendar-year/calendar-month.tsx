@@ -13,9 +13,10 @@ interface Props {
     selectedDay: string | null;
     year: number;
     onDaySelect: (date: string) => void;
+    showTrackings: (date: string) => void;
 }
 
-export const CalendarMonth = ({ dates, isLoading, month, selectedDay, year, onDaySelect }: Props) => {
+export const CalendarMonth = ({ dates, isLoading, month, selectedDay, year, onDaySelect, showTrackings }: Props) => {
 
     return (
         <Card>
@@ -30,6 +31,7 @@ export const CalendarMonth = ({ dates, isLoading, month, selectedDay, year, onDa
                             isLoading={isLoading}
                             isSelected={(date as CalendarDate).date.format('YYYY-MM-DD') === (selectedDay ?? '')}
                             onClick={() => onDaySelect((date as CalendarDate).date.format('YYYY-MM-DD'))}
+                            showTrackings={() => showTrackings((date as CalendarDate).date.format('YYYY-MM-DD'))}
                         />
                     )}
                 </div>

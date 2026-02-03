@@ -12,6 +12,7 @@ import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDa
 import { workDayTypeToStyle } from "./mappers";
 import { WorkDayLegend } from "./work-day-legend";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import TrackingModal from "widgets/tracking-modal";
 
 export const CalendarYearPage = () => {
 
@@ -23,8 +24,10 @@ export const CalendarYearPage = () => {
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
     const [cityId, setCityId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isMapModalOpen, setIsMapModalOpen] = useState(false);
     const [locationId, setLocationId] = useState<string | null>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
+    const [trackingDate, setTrackingDate] = useState<string | null>(null);
     const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
     window.history.replaceState(null, '', `/calendar/${year}`);
 
@@ -155,6 +158,11 @@ export const CalendarYearPage = () => {
             });
     };
 
+    const onShowTrackings = (date: string) => {
+        setTrackingDate(date);
+        setIsMapModalOpen(true);
+    }
+
     useEffect(() => {
         load();
     }, [year]);
@@ -222,12 +230,19 @@ export const CalendarYearPage = () => {
                         selectedDay={selectedDay}
                         year={Number(year)}
                         onDaySelect={setSelectedDay}
+                        showTrackings={onShowTrackings}
                     />
                 )}
             </div>
             {calendarMode === CalendarMode.WorkDays &&
                 <WorkDayLegend getCount={getWorkDayTypeCount} />
             }
+            <TrackingModal
+                isOpen={isMapModalOpen}
+                from={trackingDate ?? undefined}
+                to={trackingDate ? moment(trackingDate).add(1, 'day').format('YYYY-MM-DD') : undefined}
+                onClose={() => setIsMapModalOpen(false)}
+            />
         </Container>
     );
 }
