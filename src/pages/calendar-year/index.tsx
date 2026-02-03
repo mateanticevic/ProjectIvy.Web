@@ -12,6 +12,7 @@ import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDa
 import { workDayTypeToStyle } from "./mappers";
 import { WorkDayLegend } from "./work-day-legend";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { set } from "lodash";
 
 export const CalendarYearPage = () => {
 
@@ -21,6 +22,7 @@ export const CalendarYearPage = () => {
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
     const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
+    const [cityId, setCityId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [locationId, setLocationId] = useState<string | null>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -68,17 +70,20 @@ export const CalendarYearPage = () => {
         }
     };
 
-    const onCitySelected = (cityId: string) => {
+    const onCitySelected = (cityId: string, year: number) => {
+        setCityId(cityId);
+        setIsLoading(true);
         api.city.getDays(cityId, { from: `${year}-01-01`, to: `${year}-12-31` })
             .then(dates => {
                 const results = [] as CalendarDateBinary[];
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     results.push({
                         date: date.clone(),
-                        active: dates.some(x => x === date.format('YYYY-MM-DD 00:00:00'))
+                        active: dates.some(x => moment(x).isSame(date, 'day'))
                     });
                 }
                 setCalendarDates(results.reverse());
+                setIsLoading(false);
             });
     };
 
@@ -87,6 +92,9 @@ export const CalendarYearPage = () => {
 
         if (locationId && calendarMode === CalendarMode.Locations) {
             onLocationSelected(locationId, year);
+        }
+        if (calendarMode === CalendarMode.Cities && cityId) {
+            onCitySelected(cityId, year);
         }
     };
 
@@ -174,7 +182,7 @@ export const CalendarYearPage = () => {
                 <IoMdArrowDropleft onClick={() => onYearChange(year - 1)} />
                 {year}
                 {year !== moment().year() &&
-                    < IoMdArrowDropright onClick={() => onYearChange(year + 1)} />
+                    <IoMdArrowDropright onClick={() => onYearChange(year + 1)} />
                 }
             </h1>
             <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={onModeChange}>
@@ -190,7 +198,7 @@ export const CalendarYearPage = () => {
                     defaultOptions
                     loadOptions={cityLoader}
                     placeholder="Search city by name"
-                    onChange={x => onCitySelected(x.value)}
+                    onChange={x => onCitySelected(x.value, year)}
                     styles={reactSelectStyles}
                 />
             }

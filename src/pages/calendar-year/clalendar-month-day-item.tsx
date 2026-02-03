@@ -18,10 +18,11 @@ interface Props {
     date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
     isLoading: boolean;
     isSelected: boolean;
+    showDate?: boolean;
     onClick: () => void;
 }
 
-export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: Props) => {
+export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, onClick }: Props) => {
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0),
         // Pass intensity as a CSS variable if present
@@ -39,6 +40,8 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: P
         'intensity-blue': isCalendarDateIntensity(date) && date.intensity === 1
     });
 
+    const day = date.date.date();
+
     return (
         <div
             key={date.date.format('YYYY-MM-DD')}
@@ -52,6 +55,9 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, onClick }: P
                     title={date.countryId}
                 />
             )}
+            {showDate &&
+                <span className="day-number">{day}</span>
+            }
             <Dropdown.Menu show={isSelected}>
                 <Dropdown.Header>{date.date.format('dddd Do')}</Dropdown.Header>
                 <Dropdown.Item eventKey="2">Details</Dropdown.Item>

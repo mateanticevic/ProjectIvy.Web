@@ -775,6 +775,10 @@ body #app {
   }
 }
 
+a:hover {
+  color: #{$color-primary-variant};
+}
+
 [data-bs-theme="light"] {
 
   .navbar-brand {
@@ -782,4 +786,4 @@ body #app {
       color: #{$color-primary}
     }
   }
-} 
+}

@@ -64,7 +64,7 @@ $color-transparent: transparent;
 [data-bs-theme="dark"] {
   --bs-primary: #{$color-primary};
   --bs-primary-rgb: 116, 37, 84;
-  --bs-link-color-rgb: 255, 255, 255;
+  --bs-link-color-rgb: white;
   --bs-accordion-active-bg: #{$color-primary} !important;
   --bs-accordion-active-color: #fff;
   --bs-accordion-active-color: #fff;
