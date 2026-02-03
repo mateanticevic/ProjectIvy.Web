@@ -12,7 +12,6 @@ import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDa
 import { workDayTypeToStyle } from "./mappers";
 import { WorkDayLegend } from "./work-day-legend";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
-import { set } from "lodash";
 
 export const CalendarYearPage = () => {
 
@@ -32,46 +31,31 @@ export const CalendarYearPage = () => {
     const getWorkDayTypeCount = (typeId: string) =>
         calendarDates.filter(x => (x as CalendarDateStyle).style === typeId).length;
 
-    const onLocationSelected = (locationId: string, year: number) => {
-        setLocationId(locationId);
-        setIsLoading(true);
-        api.location.getDays(locationId)
-            .then(dates => {
-                const momentDates = dates.map(x => moment(x));
-                const results = [] as CalendarDateBinary[];
-                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
-                    results.push({
-                        date: date.clone(),
-                        active: momentDates.some(x => x.isSame(date.clone(), 'day'))
-                    });
-                }
-                setCalendarDates(results.reverse());
-                setIsLoading(false);
-            });
-    };
-
-    const onModeChange = (mode: CalendarMode) => {
-        setCalendarMode(mode);
-        load(mode);
-    };
-
-    const load = (mode: CalendarMode) => {
-        if (mode === CalendarMode.Countries) {
+    const load = () => {
+        if (calendarMode === CalendarMode.Countries) {
             loadCountries();
         }
-        else if (mode === CalendarMode.WorkDays) {
+        else if (calendarMode === CalendarMode.WorkDays) {
             loadWorkDays();
         }
-        else if (mode === CalendarMode.Beer) {
+        else if (calendarMode === CalendarMode.Beer) {
             loadBeer();
         }
-        else if (mode === CalendarMode.Expenses) {
+        else if (calendarMode === CalendarMode.Expenses) {
             loadExpenses();
+        }
+        else if (calendarMode === CalendarMode.Cities) {
+            onCitySelected();
+        }
+        else if (calendarMode === CalendarMode.Locations) {
+            onLocationSelected();
         }
     };
 
-    const onCitySelected = (cityId: string, year: number) => {
-        setCityId(cityId);
+    const onCitySelected = () => {
+        if (!cityId) {
+            return;
+        }
         setIsLoading(true);
         api.city.getDays(cityId, { from: `${year}-01-01`, to: `${year}-12-31` })
             .then(dates => {
@@ -87,15 +71,24 @@ export const CalendarYearPage = () => {
             });
     };
 
-    const onYearChange = (year: number) => {
-        setYear(year);
-
-        if (locationId && calendarMode === CalendarMode.Locations) {
-            onLocationSelected(locationId, year);
+    const onLocationSelected = () => {
+        if (!locationId) {
+            return;
         }
-        if (calendarMode === CalendarMode.Cities && cityId) {
-            onCitySelected(cityId, year);
-        }
+        setIsLoading(true);
+        api.location.getDays(locationId)
+            .then(dates => {
+                const momentDates = dates.map(x => moment(x));
+                const results = [] as CalendarDateBinary[];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    results.push({
+                        date: date.clone(),
+                        active: momentDates.some(x => x.isSame(date.clone(), 'day'))
+                    });
+                }
+                setCalendarDates(results.reverse());
+                setIsLoading(false);
+            });
     };
 
     const loadBeer = () => {
@@ -163,8 +156,16 @@ export const CalendarYearPage = () => {
     };
 
     useEffect(() => {
-        onModeChange(calendarMode);
+        load();
     }, [year]);
+
+    useEffect(() => {
+        load();
+    }, [calendarMode]);
+
+    useEffect(() => {
+        load();
+    }, [cityId, locationId]);
 
     useEffect(() => {
         loadWorkDays();
@@ -179,13 +180,13 @@ export const CalendarYearPage = () => {
     return (
         <Container>
             <h1>
-                <IoMdArrowDropleft onClick={() => onYearChange(year - 1)} />
+                <IoMdArrowDropleft onClick={() => setYear(year - 1)} />
                 {year}
                 {year !== moment().year() &&
-                    <IoMdArrowDropright onClick={() => onYearChange(year + 1)} />
+                    <IoMdArrowDropright onClick={() => setYear(year + 1)} />
                 }
             </h1>
-            <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={onModeChange}>
+            <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={mode => setCalendarMode(mode as CalendarMode)}>
                 <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
                 <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
                 <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
@@ -198,7 +199,7 @@ export const CalendarYearPage = () => {
                     defaultOptions
                     loadOptions={cityLoader}
                     placeholder="Search city by name"
-                    onChange={x => onCitySelected(x.value, year)}
+                    onChange={x => setCityId(x.value as string)}
                     styles={reactSelectStyles}
                 />
             }
@@ -207,7 +208,7 @@ export const CalendarYearPage = () => {
                     defaultOptions
                     loadOptions={locationLoader}
                     placeholder="Search location by name"
-                    onChange={x => onLocationSelected(x.value, year)}
+                    onChange={x => setLocationId(x.value as string)}
                     styles={reactSelectStyles}
                 />
             }
