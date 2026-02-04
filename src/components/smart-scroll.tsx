@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button } from 'react-bootstrap';
+import ButtonWithSpinner from './button-with-spinner';
 
 interface Props {
     children: ReactNode;
@@ -41,13 +41,14 @@ class SmartScroll extends Component<Props, State> {
                 <>
                     {children}
                     {hasMore && (
-                        <Button 
-                            onClick={onLoadMore} 
-                            className="w-100 mb-3"
-                            disabled={isLoading}
-                        >
-                            {isLoading ? 'Loading...' : 'Load More'}
-                        </Button>
+                        <div className="d-grid mb-3">
+                            <ButtonWithSpinner
+                                onClick={onLoadMore}
+                                isLoading={isLoading}
+                            >
+                                Load More
+                            </ButtonWithSpinner>
+                        </div>
                     )}
                 </>
             );
