@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import api from 'api/main';
 import FlightItem from './flight-item';
 import { components } from 'types/ivy-types';
 import FlightModal from './flight-modal';
-import { DistributionCard } from 'components';
+import { DistributionCard, SmartScroll } from 'components';
 
 type Flight = components['schemas']['Flight'];
 type FlightBinding = components['schemas']['FlightBinding'];
@@ -34,7 +33,7 @@ const FlightsV2Page: React.FC = () => {
     const [count, setCount] = useState(0);
     const [countBy, setCountBy] = useState(CountByFlights.Airline);
     const [countByData, setCountByData] = useState<any>([]);
-    const [filter, setFilter] = useState<Filter>({ page: 1, pageSize: 200 });
+    const [filter, setFilter] = useState<Filter>({ page: 1, pageSize: 10 });
     const [flight, setFlight] = useState<Flight>({} as Flight);
     const [flightBinding, setFlightBinding] = useState<FlightBinding>({} as FlightBinding);
     const [flights, setFlights] = useState<Flight[]>([]);
@@ -106,12 +105,10 @@ const FlightsV2Page: React.FC = () => {
                     </Button>
                 </Col>
                 <Col lg={6}>
-                    <InfiniteScroll
-                        dataLength={count}
-                        next={getNextPage}
+                    <SmartScroll
+                        dataLength={flights.length}
                         hasMore={filter.page * filter.pageSize < count}
-                        loader={<h4>Loading...</h4>}
-                        endMessage="no more"
+                        onLoadMore={getNextPage}
                     >
                         {flights.map(flight =>
                             <FlightItem
@@ -120,7 +117,7 @@ const FlightsV2Page: React.FC = () => {
                                 onClick={() => onFlightClick(flight)}
                             />
                         )}
-                    </InfiniteScroll>
+                    </SmartScroll>
                 </Col>
                 <Col lg={3}>
                     <DistributionCard
