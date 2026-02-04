@@ -2,11 +2,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import api from 'api/main';
 import { ConsumationFilters } from 'types/beer';
-import { DistributionCard, FlagIcon } from 'components';
+import { DistributionCard, FlagIcon, SmartScroll } from 'components';
 import { Page } from '../page';
 import BeerModal from './beer-modal';
 import BrandModal from './brand-modal';
@@ -205,16 +204,10 @@ class BeerPage extends Page<Props, State> {
                     <Col lg={6}>
                         <Row>
                             <Col lg={12}>
-                                <InfiniteScroll
+                                <SmartScroll
                                     dataLength={consumations.items.length}
-                                    next={this.getNextPage}
-                                    hasMore={true}
-                                    loader={<h4>Loading...</h4>}
-                                    endMessage={
-                                        <p style={{ textAlign: 'center' }}>
-                                            <b>Yay! You have seen it all</b>
-                                        </p>
-                                    }
+                                    hasMore={consumations.items.length < consumations.count}
+                                    onLoadMore={this.getNextPage}
                                 >
                                     {days.map(day =>
                                         <DayConsumations
@@ -223,7 +216,7 @@ class BeerPage extends Page<Props, State> {
                                             consumations={consumationsByDay[day]}
                                         />
                                     )}
-                                </InfiniteScroll>
+                                </SmartScroll>
                             </Col>
                         </Row>
                     </Col>
