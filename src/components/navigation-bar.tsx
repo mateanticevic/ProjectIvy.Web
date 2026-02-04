@@ -23,6 +23,8 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
         collapseOnSelect
         expand="lg"
         fixed="top"
+        bg={theme === 'dark' ? 'dark' : 'light'}
+        variant={theme === 'dark' ? 'dark' : 'light'}
     >
         <Container fluid>
             <Navbar.Brand><Link to="/">Project Ivy</Link></Navbar.Brand>
