@@ -1,4 +1,3 @@
-import InfiniteScroll from 'react-infinite-scroll-component';
 import React from 'react';
 import _ from 'lodash';
 import moment from 'moment';
@@ -12,7 +11,7 @@ import FiltersMore from './filters-more';
 import NumbersCard from './numbers-card';
 import api from 'api/main';
 import { ExpenseFilters } from 'types/expenses';
-import { DistributionCard } from 'components';
+import { DistributionCard, SmartScroll } from 'components';
 import { GroupByTime } from 'consts/groupings';
 import { Page } from 'pages/page';
 import { PagedList, SelectOption } from 'types/common';
@@ -214,11 +213,11 @@ class ExpensesPage extends Page<Props, State> {
                         </Row>
                     </Col>
                     <Col lg={6}>
-                        <InfiniteScroll
+                        <SmartScroll
                             dataLength={expenses.items.length}
-                            next={this.getNextPage}
                             hasMore={filters.page * filters.pageSize < expenses.count}
-                            loader={<h4>Loading...</h4>}
+                            isLoading={this.state.expensesAreLoading}
+                            onLoadMore={this.getNextPage}
                         >
                             {days.map((day, index) =>
                                 <DayExpenses
@@ -229,7 +228,7 @@ class ExpensesPage extends Page<Props, State> {
                                     onExpenseClick={this.onExpenseEdit}
                                 />
                             )}
-                        </InfiniteScroll>
+                        </SmartScroll>
                     </Col>
                     <Col lg={3}>
                         <DistributionCard

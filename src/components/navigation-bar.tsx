@@ -1,10 +1,9 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { BiWorld } from 'react-icons/bi';
 import { FaRegCalendarAlt, FaRoute, FaShapes } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
-import { MdCall, MdMyLocation, MdLocalMovies, MdCardTravel, MdAccountBalance, MdInventory } from 'react-icons/md';
+import { MdCall, MdLocalMovies, MdCardTravel, MdAccountBalance, MdInventory } from 'react-icons/md';
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';

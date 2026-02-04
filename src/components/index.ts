@@ -8,6 +8,7 @@ export { RadioLabel } from './radio-label';
 export { default as SimpleBarChart } from './simple-bar-chart';
 export { SimpleLineChart } from './simple-line-chart';
 export { SimpleScatterChart } from './simple-scatter-chart';
+export { default as SmartScroll } from './smart-scroll';
 export { default as Map } from './map';
 export { default as NavigationBar } from './navigation-bar';
 export { default as Select } from './select';
