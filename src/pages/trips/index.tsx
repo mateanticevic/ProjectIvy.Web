@@ -5,14 +5,13 @@ import AsyncSelect from 'react-select/async';
 import { Chart } from 'react-google-charts';
 import _ from 'lodash';
 import moment from 'moment';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import TripModal from './trip-modal';
 import StayModal from './stay-modal';
 import YearTrips from './year-trips';
 import api from 'api/main';
 import { CountryListVisited, TripFilters } from 'types/trips';
-import { DateFormElement, DistributionCard, FlagIcon } from 'components';
+import { DateFormElement, DistributionCard, FlagIcon, SmartScroll } from 'components';
 import { Page } from '../page';
 import { PagedList } from 'types/common';
 import { cityLoader } from 'utils/select-loaders';
@@ -202,11 +201,11 @@ class TripsPage extends Page<unknown, State> {
                                         </Row>
                                     </Card.Body>
                                 </Card> */}
-                                <InfiniteScroll
+                                <SmartScroll
                                     dataLength={trips.items.length}
-                                    next={this.getNextPage}
                                     hasMore={filters.page * filters.pageSize < trips.count}
-                                    loader={<h4>Loading...</h4>}
+                                    isLoading={this.state.tripsAreLoading}
+                                    onLoadMore={this.getNextPage}
                                 >
                                     {years.map(year =>
                                         <YearTrips
@@ -215,7 +214,7 @@ class TripsPage extends Page<unknown, State> {
                                             trips={tripsByYear[year]}
                                         />
                                     )}
-                                </InfiniteScroll>
+                                </SmartScroll>
                             </Col>
                         </Row>
                     </Col>
