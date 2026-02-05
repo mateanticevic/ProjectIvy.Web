@@ -17,7 +17,7 @@ import { Page } from 'pages/page';
 import { PagedList, SelectOption } from 'types/common';
 import { UserContext } from 'contexts/user-context';
 import { components } from 'types/ivy-types';
-import DropzoneButton from 'components/dropzone-button';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 type ApiCard = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
@@ -171,8 +171,13 @@ class ExpensesPage extends Page<Props, State> {
                         <Row>
                             <Col lg={12}>
                                 <Card>
-                                    <Card.Header>Filters</Card.Header>
                                     <Card.Body>
+                                        <div className="form-grid">
+                                            <Button
+                                                onClick={this.onExpenseNew}>
+                                                <RiPlayListAddLine /> New expense
+                                            </Button>
+                                        </div>
                                         <Filters
                                             currencies={this.state.currencies}
                                             types={this.state.types}
@@ -198,17 +203,6 @@ class ExpensesPage extends Page<Props, State> {
                                         </Accordion.Body>
                                     </Accordion.Item>
                                 </Accordion>
-                                <div className="form-grid">
-                                    <Button
-                                        size="sm"
-                                        onClick={this.onExpenseNew}>
-                                        New
-                                    </Button>
-                                    <DropzoneButton
-                                        title="Create from photo"
-                                        onSelected={this.onPhotosSelected}
-                                    />
-                                </div>
                             </Col>
                         </Row>
                     </Col>
@@ -365,7 +359,7 @@ class ExpensesPage extends Page<Props, State> {
             .postFile(expenseId, fileId, expenseFile)
             .then(() => {
                 this.onFiltersChanged(undefined, true);
-    });
+            });
 
     newExpense = (): Partial<Expense> => {
         return {
