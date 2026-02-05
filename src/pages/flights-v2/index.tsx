@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import api from 'api/main';
 import FlightItem from './flight-item';
 import { components } from 'types/ivy-types';
 import FlightModal from './flight-modal';
 import { DistributionCard, SmartScroll } from 'components';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 type Flight = components['schemas']['Flight'];
 type FlightBinding = components['schemas']['FlightBinding'];
@@ -100,9 +101,15 @@ const FlightsV2Page: React.FC = () => {
         <Container>
             <Row>
                 <Col lg={3}>
-                    <Button onClick={() => setIsModalOpen(true)}>
-                        New
-                    </Button>
+                    <Card>
+                        <Card.Body>
+                            <div className="form-grid">
+                                <Button onClick={() => setIsModalOpen(true)}>
+                                    <RiPlayListAddLine /> New flight
+                                </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
                 </Col>
                 <Col lg={6}>
                     <SmartScroll

@@ -30,7 +30,7 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
         size="sm"
     >
         <Modal.Header closeButton>
-            <Modal.Title>{flight.id}</Modal.Title>
+            <Modal.Title>{flight.id ?? 'New flight'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <FormGroup>

@@ -21,6 +21,7 @@ import CountryMapModal from './country-map-modal';
 import { components } from 'types/ivy-types';
 import CalendarModal from './calendar-modal';
 import { KeyValuePair } from 'types/grouping';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 type Beer = components['schemas']['Beer'];
 type BeerBrand = components['schemas']['BeerBrand'];
@@ -162,8 +163,14 @@ class BeerPage extends Page<Props, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Filters</Card.Header>
                             <Card.Body>
+                                <div className="form-grid">
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => this.setState({ consumationModalOpen: true })}>
+                                        <RiPlayListAddLine /> New consumation
+                                    </Button>
+                                </div>
                                 <Filters
                                     brands={brands}
                                     countries={countries}
@@ -175,12 +182,6 @@ class BeerPage extends Page<Props, State> {
                             </Card.Body>
                         </Card>
                         <div className="form-grid">
-                            <Button
-                                size="sm"
-                                variant="primary"
-                                onClick={() => this.setState({ consumationModalOpen: true })}>
-                                Consumation
-                            </Button>
                             <Button
                                 size="sm"
                                 variant="primary"

@@ -14,6 +14,7 @@ import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './income-modal';
 import { components } from 'types/ivy-types';
 import _ from 'lodash';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 type Currency = components['schemas']['Currency'];
 type Income = components['schemas']['Income'];
@@ -95,8 +96,12 @@ class IncomesPage extends Page<unknown, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Filters</Card.Header>
                             <Card.Body>
+                                <div className="form-grid">
+                                    <Button onClick={() => this.setState({ isModalOpen: true })}>
+                                        <RiPlayListAddLine /> New income
+                                    </Button>
+                                </div>
                                 <FormGroup>
                                     <FormLabel>Type</FormLabel>
                                     <Select options={types} onChange={typeId => this.onFiltersChanged({ typeId })} />
@@ -120,22 +125,7 @@ class IncomesPage extends Page<unknown, State> {
                     </Col>
                     <Col lg={6}>
                         <Card>
-                            <Card.Header>
-                                <Row>
-                                    <Col xs={10}>
-                                        Incomes ({incomes.count})
-                                    </Col>
-                                    <Col xs={2}>
-                                        <Button
-                                            className="pull-right"
-                                            variant="primary"
-                                            size="sm"
-                                            onClick={() => this.setState({ isModalOpen: true })}
-                                        >
-                                            <FontAwesome name="plus" /> New
-                                        </Button>
-                                    </Col>
-                                </Row></Card.Header>
+                            <Card.Header>Incomes ({incomes.count})</Card.Header>
                             <Card.Body>
                                 <Table responsive>
                                     <tbody>
