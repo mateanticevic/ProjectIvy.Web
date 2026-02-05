@@ -1,6 +1,5 @@
 import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { LatLng } from 'spherical-geometry-js';
 
 interface Props {
     children?: any[];
@@ -12,6 +11,10 @@ interface Props {
     onLoad?: (map: google.maps.Map) => void;
     onZoomChanged?(): void;
 }
+
+const isDarkTheme = (): boolean => {
+    return document.documentElement.getAttribute('data-bs-theme') === 'dark';
+};
 
 const Map = ({ onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, children, onLoad: childrenOnload }: Props) => {
     const { isLoaded } = useJsApiLoader({
@@ -25,6 +28,20 @@ const Map = ({ onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, ch
     };
 
     const [map, setMap] = React.useState(null);
+    const [isDark, setIsDark] = React.useState(isDarkTheme());
+
+    React.useEffect(() => {
+        const observer = new MutationObserver(() => {
+            setIsDark(isDarkTheme());
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-bs-theme'],
+        });
+
+        return () => observer.disconnect();
+    }, []);
 
     const onLoad = React.useCallback((map: google.maps.Map) => {
         childrenOnload?.(map);
@@ -40,6 +57,7 @@ const Map = ({ onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, ch
         mapTypeControl: false,
         streetViewControl: false,
         zoomControl: false,
+        colorScheme: isDark ? 'DARK' : 'LIGHT'
     };
 
     return isLoaded ?
