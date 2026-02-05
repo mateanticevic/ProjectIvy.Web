@@ -19,7 +19,7 @@ interface Props {
     flights: Flight[];
     movies: Movie[];
     offset?: number;
-    onShowMap?(): void;
+    onShowMap?(timeZone?: string): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
 }
 
@@ -43,7 +43,6 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
     const momentDay = moment(day.date);
 
     const isWeekend = momentDay.day() === 0 || momentDay.day() === 6;
-    const isWorkingDay = !isWeekend && !day.isHoliday && day.workDayType?.id !== 'vacation' && day.workDayType?.id !== 'sick-leave' && day.workDayType?.id !== 'business-trip';
 
     const style = {
         '--offset': offset,
@@ -75,7 +74,7 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
             <Card.Header>
                 {momentDay.format('Do ddd')}
                 {momentDay < moment() &&
-                    <a className="pull-right" onClick={onShowMap}><FaRoute /></a>
+                    <a className="pull-right" onClick={() => onShowMap?.(day.cities?.[0]?.timeZone)}><FaRoute /></a>
                 }
             </Card.Header>
             <Card.Body>

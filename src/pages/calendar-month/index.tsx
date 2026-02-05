@@ -3,11 +3,13 @@ import Datetime from 'react-datetime';
 import { Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import moment, { Moment } from 'moment';
+import 'moment-timezone';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
 import MapModal from './map-modal';
 import { KeyValuePair } from 'types/grouping';
+import { SelectOption } from 'types/common';
 
 type CalendarSection = components['schemas']['CalendarSection'];
 type Flight = components['schemas']['Flight'];
@@ -36,9 +38,24 @@ const CalendarMonthPage: React.FC = () => {
         onMonthChanged(startDay);
     }, [startDay]);
 
-    const onShowMap = (date: string) => {
+    const onShowMap = (date: string, timezone?: string) => {
         setIsMapModalOpen(true);
-        api.tracking.get({ from: moment(date).format('YYYY-MM-DD'), to: moment(date).add(1, 'd').format('YYYY-MM-DD') }).then(trackings => {
+        let from: string;
+        let to: string;
+        
+        if (timezone) {
+            // Use the provided timezone to adjust the start and end times
+            const startOfDay = moment.tz(date, timezone).startOf('day');
+            const endOfDay = moment.tz(date, timezone).endOf('day');
+            from = startOfDay.utc().format('YYYY-MM-DDTHH:mm:ss');
+            to = endOfDay.utc().format('YYYY-MM-DDTHH:mm:ss');
+        } else {
+            // Fallback to the original behavior
+            from = moment(date).format('YYYY-MM-DD');
+            to = moment(date).add(1, 'd').format('YYYY-MM-DD');
+        }
+        
+        api.tracking.get({ from, to }).then(trackings => {
             setTrackings(trackings);
         });
     };
@@ -103,7 +120,7 @@ const CalendarMonthPage: React.FC = () => {
                         flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
                         movies={movies.filter(m => moment(m.timestamp).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
                         offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
-                        onShowMap={() => onShowMap(moment(day.date).format('YYYY-MM-DD'))}
+                        onShowMap={(timezone) => onShowMap(moment(day.date).format('YYYY-MM-DD'), timezone)}
                         onWorkDayTypeChange={workDayType => onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}
                     />
                 )}

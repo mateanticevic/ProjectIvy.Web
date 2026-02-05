@@ -10810,6 +10810,7 @@ export interface components {
             /** Format: double */
             lng?: number | null;
             country?: components["schemas"]["Country"];
+            timeZone?: string | null;
         };
         CityPagedView: {
             /** Format: int64 */
