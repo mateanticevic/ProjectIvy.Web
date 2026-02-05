@@ -13,6 +13,7 @@ import {
     isCalendarDateStyle,
     isCalendarDateValue
 } from './constants';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 interface Props {
     date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
@@ -50,20 +51,23 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
             style={style}
             onClick={onClick}
         >
+            <Dropdown.Menu show={isSelected}>
+                <Dropdown.Header>{date.date.format('dddd Do')}</Dropdown.Header>
+                <Dropdown.Item eventKey="2">Details</Dropdown.Item>
+                {date.date.isBefore(moment()) && (
+                    <Dropdown.Item eventKey="3" onClick={showTrackings}><FaMagnifyingGlass /> Tracking preview</Dropdown.Item>
+                )}
+            </Dropdown.Menu>
             {!isLoading && isCalendarDateFlag(date) && date.countryId && (
                 <span
                     className={`flag-icon flag-icon-${date.countryId.toLowerCase()}`}
                     title={date.countryId}
+                    style={{ pointerEvents: 'none' }}
                 />
             )}
             {showDate &&
                 <span className="day-number">{day}</span>
             }
-            <Dropdown.Menu show={isSelected}>
-                <Dropdown.Header>{date.date.format('dddd Do')}</Dropdown.Header>
-                <Dropdown.Item eventKey="2">Details</Dropdown.Item>
-                <Dropdown.Item eventKey="3" onClick={showTrackings}>Tracking</Dropdown.Item>
-            </Dropdown.Menu>
         </div>
     );
 };
