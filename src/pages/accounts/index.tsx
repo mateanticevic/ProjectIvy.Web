@@ -35,6 +35,7 @@ interface State {
     newAccount: AccountBinding;
     newTransaction: TransactionBinding;
     currencies: Currency[];
+    editingAccountId?: string;
 }
 
 class AccountsPage extends Page<unknown, State> {
@@ -93,6 +94,7 @@ class AccountsPage extends Page<unknown, State> {
                                 key={bankId}
                                 accounts={accountsByBank[bankId]}
                                 onAccountSelected={this.onAccountSelected}
+                                onAccountEdit={this.onAccountEdit}
                             />
                         )}
                     </Col>
@@ -113,6 +115,7 @@ class AccountsPage extends Page<unknown, State> {
                     onChange={this.onAccountChange}
                     onClose={this.onModalClose}
                     onSave={this.onAccountSave}
+                    isEditing={!!this.state.editingAccountId}
                 />
                 <TransactionModal
                     transaction={newTransaction}
@@ -141,21 +144,43 @@ class AccountsPage extends Page<unknown, State> {
     onModalClose = () => {
         this.setState({
             isModalOpen: false,
-            newAccount: { name: '' }
+            newAccount: { name: '' },
+            editingAccountId: undefined
+        });
+    }
+
+    onAccountEdit = (account: Account) => {
+        this.setState({
+            isModalOpen: true,
+            editingAccountId: account.id ?? undefined,
+            newAccount: {
+                name: account.name!,
+                iban: account.iban ?? undefined,
+                bankId: account.bank?.id ?? undefined,
+                currencyId: account.currency?.id ?? undefined
+            }
         });
     }
 
     onAccountSave = async () => {
         try {
-            await api.account.post(this.state.newAccount);
+            const { editingAccountId, newAccount } = this.state;
+            
+            if (editingAccountId) {
+                await api.account.put(editingAccountId, newAccount);
+            } else {
+                await api.account.post(newAccount);
+            }
+            
             const accounts = await api.account.get({ isActive: true });
             this.setState({
                 accounts,
                 isModalOpen: false,
-                newAccount: { name: '' }
+                newAccount: { name: '' },
+                editingAccountId: undefined
             });
         } catch (error) {
-            console.error('Failed to create account:', error);
+            console.error('Failed to save account:', error);
         }
     }
 

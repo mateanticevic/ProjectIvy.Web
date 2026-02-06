@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge, Card } from 'react-bootstrap';
-import { MdAccountBalance } from 'react-icons/md';
+import { Badge, Card, Button } from 'react-bootstrap';
+import { MdAccountBalance, MdEdit } from 'react-icons/md';
 import { SiRevolut } from 'react-icons/si';
 
 import { components } from 'types/ivy-types';
@@ -10,6 +10,7 @@ type Account = components['schemas']['Account'];
 interface Props {
     account: Account;
     onAccountSelected: (account: Account) => void;
+    onAccountEdit: (account: Account) => void;
 }
 
 const iconSize = 20;
@@ -22,7 +23,7 @@ const AccountIcon = ({ account }) => {
     return <MdAccountBalance size={iconSize} />;
 };
 
-const AccountItem = ({ account, onAccountSelected }: Props) => {
+const AccountItem = ({ account, onAccountSelected, onAccountEdit }: Props) => {
     const amountFormatted = account.balance!.toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
@@ -46,6 +47,17 @@ const AccountItem = ({ account, onAccountSelected }: Props) => {
                 </div>
                 <div className="expense-item-payment">
                     <div className="expense-item-payment-type">
+                        <Button 
+                            variant="link" 
+                            size="sm" 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onAccountEdit(account);
+                            }}
+                            style={{ padding: '0 8px' }}
+                        >
+                            <MdEdit size={18} />
+                        </Button>
                     </div>
                     <div>
                         <span className="expense-item-amount">{amountWholePart}</span>

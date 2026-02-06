@@ -8,15 +8,21 @@ type Account = components['schemas']['Account'];
 interface Props {
     accounts: Account[],
     onAccountSelected: (account: Account) => void;
+    onAccountEdit: (account: Account) => void;
 }
 
-const BankAccounts = ({ accounts, onAccountSelected }: Props) => {
+const BankAccounts = ({ accounts, onAccountSelected, onAccountEdit }: Props) => {
 
     return (
         <React.Fragment>
             <h2>{accounts[0].bank?.name ?? 'Wallets'}</h2>
             {accounts.map(account =>
-                <AccountItem account={account} onAccountSelected={onAccountSelected} />
+                <AccountItem 
+                    key={account.id}
+                    account={account} 
+                    onAccountSelected={onAccountSelected}
+                    onAccountEdit={onAccountEdit}
+                />
             )}
         </React.Fragment>
     );

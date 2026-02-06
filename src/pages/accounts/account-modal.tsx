@@ -20,6 +20,7 @@ interface Props {
     onChange: (changed: Partial<AccountBinding>) => void;
     onClose: () => void;
     onSave: () => Promise<void>;
+    isEditing?: boolean;
 }
 
 const bankLoader = (value: string, callback: (options: any[]) => void) => {
@@ -28,7 +29,7 @@ const bankLoader = (value: string, callback: (options: any[]) => void) => {
     callback([]);
 };
 
-const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }: Props) => {
+const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave, isEditing = false }: Props) => {
     const reactSelectStyles = useReactSelectStyles();
     const currencyOptions = currencies.map(c => ({
         id: c.id!,
@@ -43,7 +44,7 @@ const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }
             size="sm"
         >
             <Modal.Header closeButton>
-                <Modal.Title>New Account</Modal.Title>
+                <Modal.Title>{isEditing ? 'Edit Account' : 'New Account'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="form-grid">
@@ -77,6 +78,7 @@ const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave }
                         <FormLabel>Currency</FormLabel>
                         <Select
                             options={currencyOptions}
+                            selected={account.currencyId}
                             onChange={currencyId => onChange({ currencyId })}
                         />
                     </FormGroup>
