@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormControl, FormGroup, FormLabel, Modal, FloatingLabel } from 'react-bootstrap';
+import { Button, FormControl, FormGroup, FormLabel, Modal, FloatingLabel, Form } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
 import { Select } from 'components';
@@ -11,6 +11,7 @@ type AccountBinding = {
     iban?: string;
     bankId?: string;
     currencyId?: string;
+    active?: boolean;
 };
 
 interface Props {
@@ -80,6 +81,15 @@ const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave, 
                             options={currencyOptions}
                             selected={account.currencyId}
                             onChange={currencyId => onChange({ currencyId })}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Check
+                            type="switch"
+                            id="account-active-switch"
+                            label="Active"
+                            checked={account.active ?? true}
+                            onChange={e => onChange({ active: e.target.checked })}
                         />
                     </FormGroup>
                 </div>

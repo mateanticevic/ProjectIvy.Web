@@ -19,6 +19,7 @@ type AccountBinding = {
     iban?: string;
     bankId?: string;
     currencyId?: string;
+    active?: boolean;
 };
 
 type TransactionBinding = {
@@ -46,6 +47,7 @@ class AccountsPage extends Page<unknown, State> {
         isTransactionModalOpen: false,
         newAccount: {
             name: '',
+            active: true,
         },
         newTransaction: {
             amount: '',
@@ -144,7 +146,7 @@ class AccountsPage extends Page<unknown, State> {
     onModalClose = () => {
         this.setState({
             isModalOpen: false,
-            newAccount: { name: '' },
+            newAccount: { name: '', active: true },
             editingAccountId: undefined
         });
     }
@@ -157,7 +159,8 @@ class AccountsPage extends Page<unknown, State> {
                 name: account.name!,
                 iban: account.iban ?? undefined,
                 bankId: account.bank?.id ?? undefined,
-                currencyId: account.currency?.id ?? undefined
+                currencyId: account.currency?.id ?? undefined,
+                active: true // Default to true since Account schema doesn't have active property
             }
         });
     }
@@ -176,7 +179,7 @@ class AccountsPage extends Page<unknown, State> {
             this.setState({
                 accounts,
                 isModalOpen: false,
-                newAccount: { name: '' },
+                newAccount: { name: '', active: true },
                 editingAccountId: undefined
             });
         } catch (error) {
