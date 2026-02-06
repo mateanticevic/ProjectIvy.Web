@@ -168,6 +168,9 @@ class TrackingPage extends Page<unknown, State> {
                                             />
                                         </FormGroup>
                                     }
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Mode</FormLabel>
                                     <ToggleButtonGroup
                                         name="time-options"
                                         size="sm"
@@ -211,12 +214,14 @@ class TrackingPage extends Page<unknown, State> {
                                         styles={this.reactSelectStyles}
                                     />
                                 </FormGroup>
-                                <ButtonWithSpinner
-                                    isLoading={requestActive}
-                                    onClick={this.draw}
-                                >
-                                    Draw
-                                </ButtonWithSpinner>
+                                <div className="form-grid">
+                                    <ButtonWithSpinner
+                                        isLoading={requestActive}
+                                        onClick={this.draw}
+                                    >
+                                        Draw
+                                    </ButtonWithSpinner>
+                                </div>
                             </Card.Body>
                         </Card>
                         <Card>
