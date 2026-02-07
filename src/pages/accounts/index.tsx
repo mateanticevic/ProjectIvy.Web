@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Button, ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
 
 import api from 'api/main';
 import { SmartScroll } from 'components';
-import { Page } from 'pages/page';
 import BankAccounts from './bank-accounts';
 import AccountModal from './account-modal';
 import TransactionModal from './transaction-modal';
@@ -34,299 +33,144 @@ type TransactionBinding = {
     date: string;
 };
 
-interface State {
-    accounts: {
-        count: number;
-        items: Account[];
-    };
-    accountsPage: number;
-    selectedAccount?: Account;
-    transactions: {
-        count: number;
-        items: Transaction[];
-    };
-    transactionsPage: number;
-    isModalOpen: boolean;
-    isTransactionModalOpen: boolean;
-    newAccount: AccountBinding;
-    newTransaction: TransactionBinding;
-    currencies: Currency[];
-    editingAccountId?: string;
-    accountFilter: AccountFilter;
-}
+const AccountsPage: React.FC = () => {
+    const [accounts, setAccounts] = useState<{ count: number; items: Account[] }>({
+        count: 0,
+        items: [],
+    });
+    const [accountsPage, setAccountsPage] = useState(1);
+    const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
+    const [transactions, setTransactions] = useState<{ count: number; items: Transaction[] }>({
+        count: 0,
+        items: [],
+    });
+    const [transactionsPage, setTransactionsPage] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+    const [newAccount, setNewAccount] = useState<AccountBinding>({
+        name: '',
+        active: true,
+    });
+    const [newTransaction, setNewTransaction] = useState<TransactionBinding>({
+        amount: '',
+        date: moment().format('YYYY-MM-DD'),
+    });
+    const [currencies, setCurrencies] = useState<Currency[]>([]);
+    const [editingAccountId, setEditingAccountId] = useState<string | undefined>();
+    const [accountFilter, setAccountFilter] = useState<AccountFilter>(AccountFilter.Active);
 
-class AccountsPage extends Page<unknown, State> {
-    state: State = {
-        accounts: {
-            count: 0,
-            items: [],
-        },
-        accountsPage: 1,
-        transactions: {
-            count: 0,
-            items: [],
-        },
-        transactionsPage: 1,
-        isModalOpen: false,
-        isTransactionModalOpen: false,
-        newAccount: {
-            name: '',
-            active: true,
-        },
-        newTransaction: {
-            amount: '',
-            date: moment().format('YYYY-MM-DD'),
-        },
-        currencies: [],
-        accountFilter: AccountFilter.Active,
-    };
-
-    async componentDidMount() {
-        await this.loadAccounts();
-        this.setState({
-            currencies: await api.currency.get()
-        });
-    }
-
-    loadAccounts = async () => {
-        const { accountFilter } = this.state;
+    const loadAccounts = async () => {
         const params = accountFilter === AccountFilter.All ? {} : { IsActive: accountFilter === AccountFilter.Active };
         const accountsResponse = await api.account.get(params);
-        this.setState({
-            accounts: {
-                count: accountsResponse?.count ?? 0,
-                items: accountsResponse?.items ?? []
-            },
-            accountsPage: 1
+        setAccounts({
+            count: accountsResponse?.count ?? 0,
+            items: accountsResponse?.items ?? []
         });
-    }
+        setAccountsPage(1);
+    };
 
-    render() {
-        const { accounts, transactions, isModalOpen, isTransactionModalOpen, newAccount, newTransaction, currencies, selectedAccount } = this.state;
+    useEffect(() => {
+        const loadData = async () => {
+            await loadAccounts();
+            setCurrencies(await api.currency.get());
+        };
+        loadData();
+    }, []);
 
-        const accountsByBank = _.groupBy(accounts.items, a => a.bank?.id);
-        const bankIds = Object.keys(accountsByBank);
+    useEffect(() => {
+        loadAccounts();
+    }, [accountFilter]);
 
-        return (
-            <Container>
-                <Row>
-                    <Col lg={3}>
-                        <Card>
-                            <Card.Body>
-                                <div className="form-grid">
-                                    <Button
-                                        variant="primary"
-                                        size="sm"
-                                        className="mb-3"
-                                        onClick={() => this.setState({ isModalOpen: true })}
-                                    >
-                                        Add Account
-                                    </Button>
-                                    <ButtonGroup className="d-flex">
-                                        <Button
-                                            size="sm"
-                                            active={this.state.accountFilter === AccountFilter.Active}
-                                            onClick={() => this.onFilterChange(AccountFilter.Active)}
-                                        >
-                                            Active
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            active={this.state.accountFilter === AccountFilter.Inactive}
-                                            onClick={() => this.onFilterChange(AccountFilter.Inactive)}
-                                        >
-                                            Inactive
-                                        </Button>
-                                        <Button
-                                            size="sm"
-                                            active={this.state.accountFilter === AccountFilter.All}
-                                            onClick={() => this.onFilterChange(AccountFilter.All)}
-                                        >
-                                            All
-                                        </Button>
-                                    </ButtonGroup>
-                                </div>
-
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col lg={4}>
-                        {selectedAccount && (
-                            <Button
-                                variant="success"
-                                size="sm"
-                                className="mb-3 ms-2"
-                                onClick={() => this.setState({ isTransactionModalOpen: true })}
-                            >
-                                New Transaction
-                            </Button>
-                        )}
-                        <SmartScroll
-                            dataLength={accounts.items.length}
-                            hasMore={accounts.items.length < accounts.count}
-                            onLoadMore={this.getNextAccountsPage}
-                        >
-                            {bankIds.map(bankId =>
-                                <BankAccounts
-                                    key={bankId}
-                                    accounts={accountsByBank[bankId]}
-                                    onAccountSelected={this.onAccountSelected}
-                                    onAccountEdit={this.onAccountEdit}
-                                />
-                            )}
-                        </SmartScroll>
-                    </Col>
-                    <Col lg={5}>
-                        <SmartScroll
-                            dataLength={transactions.items.length}
-                            hasMore={transactions.items.length < transactions.count}
-                            onLoadMore={this.getNextPage}
-                        >
-                            {transactions.items.map(transaction =>
-                                <Card key={transaction.id}>
-                                    <Card.Body>
-                                        {moment(transaction.created).format('D MMM YYYY')} {transaction.description} {transaction.amount}
-                                    </Card.Body>
-                                </Card>
-                            )}
-                        </SmartScroll>
-                    </Col>
-                </Row>
-                <AccountModal
-                    account={newAccount}
-                    currencies={currencies}
-                    isOpen={isModalOpen}
-                    onChange={this.onAccountChange}
-                    onClose={this.onModalClose}
-                    onSave={this.onAccountSave}
-                    isEditing={!!this.state.editingAccountId}
-                />
-                <TransactionModal
-                    transaction={newTransaction}
-                    isOpen={isTransactionModalOpen}
-                    onChange={this.onTransactionChange}
-                    onClose={this.onTransactionModalClose}
-                    onSave={this.onTransactionSave}
-                />
-            </Container >
-        );
-    }
-
-    onAccountSelected = async (account: Account) => {
+    const onAccountSelected = async (account: Account) => {
         const response = await api.account.getTransactions(account.id!);
-        this.setState({
-            selectedAccount: account,
-            transactions: {
-                count: response.count,
-                items: response.items
-            },
-            transactionsPage: 1
+        setSelectedAccount(account);
+        setTransactions({
+            count: response.count ?? 0,
+            items: response.items ?? []
         });
-    }
+        setTransactionsPage(1);
+    };
 
-    getNextPage = async () => {
-        const { selectedAccount, transactionsPage, transactions } = this.state;
+    const getNextPage = async () => {
         if (!selectedAccount?.id) return;
 
         const nextPage = transactionsPage + 1;
-        const response = await api.account.getTransactions(selectedAccount.id!, { page: nextPage });
-        this.setState({
-            transactionsPage: nextPage,
-            transactions: {
-                count: response.count,
-                items: [...transactions.items, ...response.items]
-            }
+        const response = await api.account.getTransactions(selectedAccount.id!, { Page: nextPage });
+        setTransactionsPage(nextPage);
+        setTransactions({
+            count: response.count ?? 0,
+            items: [...transactions.items, ...(response.items ?? [])]
         });
-    }
+    };
 
-    getNextAccountsPage = async () => {
-        const { accountsPage, accounts, accountFilter } = this.state;
+    const getNextAccountsPage = async () => {
         const nextPage = accountsPage + 1;
-        const params = accountFilter === AccountFilter.All ? { page: nextPage } : { IsActive: accountFilter === AccountFilter.Active, page: nextPage };
+        const params = accountFilter === AccountFilter.All ? { Page: nextPage } : { IsActive: accountFilter === AccountFilter.Active, Page: nextPage };
         const response = await api.account.get(params);
-        this.setState({
-            accountsPage: nextPage,
-            accounts: {
-                count: response.count,
-                items: [...accounts.items, ...response.items]
-            }
+        setAccountsPage(nextPage);
+        setAccounts({
+            count: response.count ?? 0,
+            items: [...accounts.items, ...(response.items ?? [])]
         });
-    }
+    };
 
-    onFilterChange = async (filter: AccountFilter) => {
-        this.setState({ accountFilter: filter }, () => {
-            this.loadAccounts();
+    const onFilterChange = async (filter: AccountFilter) => {
+        setAccountFilter(filter);
+    };
+
+    const onAccountChange = (changed: Partial<AccountBinding>) => {
+        setNewAccount({ ...newAccount, ...changed });
+    };
+
+    const onModalClose = () => {
+        setIsModalOpen(false);
+        setNewAccount({ name: '', active: true });
+        setEditingAccountId(undefined);
+    };
+
+    const onAccountEdit = (account: Account) => {
+        setIsModalOpen(true);
+        setEditingAccountId(account.id ?? undefined);
+        setNewAccount({
+            name: account.name!,
+            iban: account.iban ?? undefined,
+            bankId: account.bank?.id ?? undefined,
+            currencyId: account.currency?.id ?? undefined,
+            active: true
         });
-    }
+    };
 
-    onAccountChange = (changed: Partial<AccountBinding>) => {
-        this.setState({
-            newAccount: { ...this.state.newAccount, ...changed }
-        });
-    }
-
-    onModalClose = () => {
-        this.setState({
-            isModalOpen: false,
-            newAccount: { name: '', active: true },
-            editingAccountId: undefined
-        });
-    }
-
-    onAccountEdit = (account: Account) => {
-        this.setState({
-            isModalOpen: true,
-            editingAccountId: account.id ?? undefined,
-            newAccount: {
-                name: account.name!,
-                iban: account.iban ?? undefined,
-                bankId: account.bank?.id ?? undefined,
-                currencyId: account.currency?.id ?? undefined,
-                active: true // Default to true since Account schema doesn't have active property
-            }
-        });
-    }
-
-    onAccountSave = async () => {
+    const onAccountSave = async () => {
         try {
-            const { editingAccountId, newAccount } = this.state;
-
             if (editingAccountId) {
                 await api.account.put(editingAccountId, newAccount);
             } else {
                 await api.account.post(newAccount);
             }
 
-            await this.loadAccounts();
-            this.setState({
-                isModalOpen: false,
-                newAccount: { name: '', active: true },
-                editingAccountId: undefined
-            });
+            await loadAccounts();
+            setIsModalOpen(false);
+            setNewAccount({ name: '', active: true });
+            setEditingAccountId(undefined);
         } catch (error) {
             console.error('Failed to save account:', error);
         }
-    }
+    };
 
-    onTransactionChange = (changed: Partial<TransactionBinding>) => {
-        this.setState({
-            newTransaction: { ...this.state.newTransaction, ...changed }
+    const onTransactionChange = (changed: Partial<TransactionBinding>) => {
+        setNewTransaction({ ...newTransaction, ...changed });
+    };
+
+    const onTransactionModalClose = () => {
+        setIsTransactionModalOpen(false);
+        setNewTransaction({
+            amount: '',
+            date: moment().format('YYYY-MM-DD')
         });
-    }
+    };
 
-    onTransactionModalClose = () => {
-        this.setState({
-            isTransactionModalOpen: false,
-            newTransaction: {
-                amount: '',
-                date: moment().format('YYYY-MM-DD')
-            }
-        });
-    }
-
-    onTransactionSave = async () => {
+    const onTransactionSave = async () => {
         try {
-            const { selectedAccount, newTransaction } = this.state;
             if (!selectedAccount?.id) return;
 
             await api.account.postTransaction(selectedAccount.id, {
@@ -336,22 +180,127 @@ class AccountsPage extends Page<unknown, State> {
 
             // Refresh transactions after saving
             const response = await api.account.getTransactions(selectedAccount.id);
-            this.setState({
-                transactions: {
-                    count: response.count,
-                    items: response.items
-                },
-                transactionsPage: 1,
-                isTransactionModalOpen: false,
-                newTransaction: {
-                    amount: '',
-                    date: moment().format('YYYY-MM-DD')
-                }
+            setTransactions({
+                count: response.count ?? 0,
+                items: response.items ?? []
+            });
+            setTransactionsPage(1);
+            setIsTransactionModalOpen(false);
+            setNewTransaction({
+                amount: '',
+                date: moment().format('YYYY-MM-DD')
             });
         } catch (error) {
             console.error('Failed to create transaction:', error);
         }
-    }
-}
+    };
+
+    const accountsByBank = _.groupBy(accounts.items, a => a.bank?.id);
+    const bankIds = Object.keys(accountsByBank);
+
+    return (
+        <Container>
+            <Row>
+                <Col lg={3}>
+                    <Card>
+                        <Card.Body>
+                            <div className="form-grid">
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    className="mb-3"
+                                    onClick={() => setIsModalOpen(true)}
+                                >
+                                    Add Account
+                                </Button>
+                                <ButtonGroup className="d-flex">
+                                    <Button
+                                        size="sm"
+                                        active={accountFilter === AccountFilter.Active}
+                                        onClick={() => onFilterChange(AccountFilter.Active)}
+                                    >
+                                        Active
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        active={accountFilter === AccountFilter.Inactive}
+                                        onClick={() => onFilterChange(AccountFilter.Inactive)}
+                                    >
+                                        Inactive
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        active={accountFilter === AccountFilter.All}
+                                        onClick={() => onFilterChange(AccountFilter.All)}
+                                    >
+                                        All
+                                    </Button>
+                                </ButtonGroup>
+                            </div>
+
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col lg={4}>
+                    {selectedAccount && (
+                        <Button
+                            variant="success"
+                            size="sm"
+                            className="mb-3 ms-2"
+                            onClick={() => setIsTransactionModalOpen(true)}
+                        >
+                            New Transaction
+                        </Button>
+                    )}
+                    <SmartScroll
+                        dataLength={accounts.items.length}
+                        hasMore={accounts.items.length < accounts.count}
+                        onLoadMore={getNextAccountsPage}
+                    >
+                        {bankIds.map(bankId =>
+                            <BankAccounts
+                                key={bankId}
+                                accounts={accountsByBank[bankId]}
+                                onAccountSelected={onAccountSelected}
+                                onAccountEdit={onAccountEdit}
+                            />
+                        )}
+                    </SmartScroll>
+                </Col>
+                <Col lg={5}>
+                    <SmartScroll
+                        dataLength={transactions.items.length}
+                        hasMore={transactions.items.length < transactions.count}
+                        onLoadMore={getNextPage}
+                    >
+                        {transactions.items.map((transaction, index) =>
+                            <Card key={index}>
+                                <Card.Body>
+                                    {moment(transaction.created).format('D MMM YYYY')} {transaction.description} {transaction.amount}
+                                </Card.Body>
+                            </Card>
+                        )}
+                    </SmartScroll>
+                </Col>
+            </Row>
+            <AccountModal
+                account={newAccount}
+                currencies={currencies}
+                isOpen={isModalOpen}
+                onChange={onAccountChange}
+                onClose={onModalClose}
+                onSave={onAccountSave}
+                isEditing={!!editingAccountId}
+            />
+            <TransactionModal
+                transaction={newTransaction}
+                isOpen={isTransactionModalOpen}
+                onChange={onTransactionChange}
+                onClose={onTransactionModalClose}
+                onSave={onTransactionSave}
+            />
+        </Container>
+    );
+};
 
 export default AccountsPage;
