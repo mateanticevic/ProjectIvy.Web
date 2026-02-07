@@ -15,6 +15,12 @@ export interface paths {
             parameters: {
                 query?: {
                     IsActive?: boolean;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -28,9 +34,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["Account"][];
-                        "application/json": components["schemas"]["Account"][];
-                        "text/json": components["schemas"]["Account"][];
+                        "text/plain": components["schemas"]["AccountPagedView"];
+                        "application/json": components["schemas"]["AccountPagedView"];
+                        "text/json": components["schemas"]["AccountPagedView"];
                     };
                 };
             };
@@ -10656,6 +10662,7 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         Account: {
+            active?: boolean;
             id?: string | null;
             name?: string | null;
             iban?: string | null;
@@ -10672,6 +10679,11 @@ export interface components {
             bankId?: string | null;
             currencyId?: string | null;
             active?: boolean;
+        };
+        AccountPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Account"][] | null;
         };
         Airline: {
             id?: string | null;

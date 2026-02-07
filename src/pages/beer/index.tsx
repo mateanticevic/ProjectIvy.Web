@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
-import { Col, Container, ListGroup, Card, Row, Button } from 'react-bootstrap';
+import { Col, Container, ListGroup, Card, Row, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 
 import api from 'api/main';
 import { ConsumationFilters } from 'types/beer';
@@ -165,11 +165,21 @@ class BeerPage extends Page<Props, State> {
                         <Card>
                             <Card.Body>
                                 <div className="form-grid">
-                                    <Button
-                                        variant="primary"
-                                        onClick={() => this.setState({ consumationModalOpen: true })}>
-                                        <RiPlayListAddLine /> New consumation
-                                    </Button>
+                                    <Dropdown as={ButtonGroup}>
+                                        <Button
+                                            variant="primary"
+                                            onClick={() => this.setState({ consumationModalOpen: true })}>
+                                            <RiPlayListAddLine /> New consumation
+                                        </Button>
+
+                                        <Dropdown.Toggle split id="dropdown-split-basic" />
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item onClick={() => this.setState({ brandModalOpen: true })}>New brand</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => this.setState({ beerModalOpen: true })}>New beer</Dropdown.Item>
+                                            <Dropdown.Item onClick={() => this.setState({ calendarModalOpen: true })}>Calendar</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </div>
                                 <Filters
                                     brands={brands}
@@ -181,26 +191,6 @@ class BeerPage extends Page<Props, State> {
                                 />
                             </Card.Body>
                         </Card>
-                        <div className="form-grid">
-                            <Button
-                                size="sm"
-                                variant="primary"
-                                onClick={() => this.setState({ brandModalOpen: true })}>
-                                Brand
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="primary"
-                                onClick={() => this.setState({ beerModalOpen: true })}>
-                                Beer
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="primary"
-                                onClick={() => this.setState({ calendarModalOpen: true })}>
-                                Calendar
-                            </Button>
-                        </div>
                     </Col>
                     <Col lg={6}>
                         <Row>

@@ -1,13 +1,14 @@
-import { components } from 'types/ivy-types';
+import { components, paths } from 'types/ivy-types';
 
 import * as api from '../config';
 
-type Account = components['schemas']['Account'];
+type AccountPagedView = components['schemas']['AccountPagedView'];
 type AccountBinding = components['schemas']['AccountBinding'];
+type GetAccountQuery = paths['/Account']['get']['parameters']['query'];
 type TransactionBinding = components['schemas']['TransactionBinding'];
 type TransactionPagedView = components['schemas']['TransactionPagedView'];
 
-const get = (filters?: { IsActive?: boolean }): Promise<Account[]> => api.get('account', filters);
+const get = (filters: GetAccountQuery): Promise<AccountPagedView> => api.get('account', filters);
 
 const getTransactions = (
     accountId: string,
