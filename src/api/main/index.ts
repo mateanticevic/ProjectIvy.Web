@@ -60,7 +60,6 @@ const api = {
     route,
     stay,
     todo,
-    token,
     tracking,
     trip,
     user,

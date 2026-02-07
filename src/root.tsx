@@ -5,7 +5,6 @@ import { Button, Card, FloatingLabel, Form, Spinner, Toast } from 'react-bootstr
 import { User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
-import AccountPage from './pages/account';
 import BeerPage from './pages/beer';
 import CallsPage from './pages/calls';
 import DashboardPage from './pages/dashboard';
@@ -227,7 +226,6 @@ export default class Root extends React.Component<{}, State> {
                                 }
                                 <Routes>
                                     <Route path="/" element={<DashboardPage />} />
-                                    <Route path="/account" element={<AccountPage />} />
                                     <Route path="/accounts" element={<AccountsPage />} />
                                     <Route path="/beer" element={<BeerPage toast={this.toast} />} />
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
