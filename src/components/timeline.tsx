@@ -20,13 +20,14 @@ interface TimelineProps<T = any> {
     valueType?: TimelineValueType;
     renderItem?: (item: TimelineItem<T>, index: number) => React.ReactNode;
     formatValue?: (value: Date | number) => string;
+    unit?: string;
 }
 
-const defaultFormatValue = (value: Date | number, valueType: TimelineValueType): string => {
+const defaultFormatValue = (value: Date | number, valueType: TimelineValueType, unit?: string): string => {
     if (valueType === 'date') {
         return moment(value).format('MMM D, YYYY');
     }
-    return String(value);
+    return unit ? `${value} ${unit}` : String(value);
 };
 
 export const Timeline = <T,>({
@@ -35,6 +36,7 @@ export const Timeline = <T,>({
     valueType = 'date',
     renderItem,
     formatValue,
+    unit,
 }: TimelineProps<T>) => {
     const timelineWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -82,7 +84,7 @@ export const Timeline = <T,>({
         return acc;
     }, [] as Array<{ position: number; numericValue: number; items: TimelineItem<T>[] }>);
 
-    const formatter = formatValue || ((val) => defaultFormatValue(val, valueType));
+    const formatter = formatValue || ((val) => defaultFormatValue(val, valueType, unit));
 
     return (
         <div className={`timeline timeline-${orientation}`}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, ButtonGroup, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 import api from 'api/main';
@@ -7,16 +7,18 @@ import { Timeline } from 'components';
 import { components } from 'types/ivy-types';
 
 type Car = components['schemas']['Car'];
+type ViewMode = 'time' | 'km';
 
 const CarTimelinePage = () => {
     const { id } = useParams();
     const [car, setCar] = useState<Car | null>(null);
     const [loading, setLoading] = useState(true);
+    const [viewMode, setViewMode] = useState<ViewMode>('time');
 
     useEffect(() => {
         const loadTimeline = async () => {
             if (!id) return;
-            
+
             try {
                 setLoading(true);
                 const data = await api.car.get(id);
@@ -48,19 +50,42 @@ const CarTimelinePage = () => {
     }
 
     const timelineItems = car.services
-        .filter(service => service.date && service.serviceType)
+        .filter(service => {
+            if (viewMode === 'time') {
+                return service.date && service.serviceType;
+            } else {
+                return service.odometer && service.serviceType;
+            }
+        })
         .map(service => ({
-            value: new Date(service.date!),
+            value: viewMode === 'time' ? new Date(service.date!) : service.odometer!,
             label: service.serviceType!.name || undefined,
             data: service
         }));
 
     return (
         <div className="mt-4" style={{ width: '100%', maxWidth: '100%' }}>
+            <div className="d-flex justify-content-center mb-3">
+                <ButtonGroup>
+                    <Button
+                        active={viewMode === 'time'}
+                        onClick={() => setViewMode('time')}
+                    >
+                        Time
+                    </Button>
+                    <Button
+                        active={viewMode === 'km'}
+                        onClick={() => setViewMode('km')}
+                    >
+                        Km
+                    </Button>
+                </ButtonGroup>
+            </div>
             <Timeline
                 items={timelineItems}
                 orientation="horizontal"
-                valueType="date"
+                valueType={viewMode === 'time' ? 'date' : 'number'}
+                unit={viewMode === 'km' ? 'km' : undefined}
             />
         </div>
     );
