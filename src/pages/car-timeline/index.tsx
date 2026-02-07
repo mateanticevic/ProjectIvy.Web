@@ -61,8 +61,6 @@ const CarTimelinePage = () => {
                 items={timelineItems}
                 orientation="horizontal"
                 valueType="date"
-                leftPadding={true}
-                rightPadding={true}
             />
         </div>
     );

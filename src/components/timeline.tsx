@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 import './timeline.scss';
+
+const MIN_POSITION = 5;
+const MAX_POSITION = 95;
 
 export type TimelineOrientation = 'horizontal' | 'vertical';
 export type TimelineValueType = 'date' | 'number';
@@ -17,8 +20,6 @@ interface TimelineProps<T = any> {
     valueType?: TimelineValueType;
     renderItem?: (item: TimelineItem<T>, index: number) => React.ReactNode;
     formatValue?: (value: Date | number) => string;
-    leftPadding?: boolean;
-    rightPadding?: boolean;
 }
 
 const defaultFormatValue = (value: Date | number, valueType: TimelineValueType): string => {
@@ -34,9 +35,16 @@ export const Timeline = <T,>({
     valueType = 'date',
     renderItem,
     formatValue,
-    leftPadding = false,
-    rightPadding = false,
 }: TimelineProps<T>) => {
+    const timelineWrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (orientation === 'horizontal' && timelineWrapperRef.current) {
+            // Scroll to the far right
+            timelineWrapperRef.current.scrollLeft = timelineWrapperRef.current.scrollWidth;
+        }
+    }, [items, orientation]);
+
     if (!items || items.length === 0) {
         return <div className="timeline-empty">No items to display</div>;
     }
@@ -55,10 +63,11 @@ export const Timeline = <T,>({
     const minValue = Math.min(...numericValues);
     const maxValue = Math.max(...numericValues);
     const range = maxValue - minValue;
+    const positionRange = MAX_POSITION - MIN_POSITION;
 
-    // Calculate position percentage for each item
+    // Calculate position percentage for each item (using adjustable position range)
     const itemsWithPositions = sortedItems.map((item, index) => {
-        const position = range === 0 ? 0 : ((numericValues[index] - minValue) / range) * 100;
+        const position = range === 0 ? (MIN_POSITION + MAX_POSITION) / 2 : MIN_POSITION + ((numericValues[index] - minValue) / range) * positionRange;
         return { item, position, numericValue: numericValues[index] };
     });
 
@@ -75,20 +84,17 @@ export const Timeline = <T,>({
 
     const formatter = formatValue || ((val) => defaultFormatValue(val, valueType));
 
-    const paddingLeft = leftPadding ? (typeof window !== 'undefined' ? window.innerWidth / 2 : 0) : 0;
-    const paddingRight = rightPadding ? (typeof window !== 'undefined' ? window.innerWidth / 2 : 0) : 0;
-
     return (
         <div className={`timeline timeline-${orientation}`}>
             {orientation === 'horizontal' ? (
-                <div className="timeline-wrapper">
+                <div className="timeline-wrapper" ref={timelineWrapperRef}>
                     <div className="timeline-line" />
                     <div className="timeline-items">
                         {groupedItems.map((group, groupIndex) => (
                             <div 
                                 key={groupIndex} 
                                 className="timeline-item"
-                                style={{ left: `calc(${group.position}% + ${paddingLeft}px - ${paddingRight}px)` }}
+                                style={{ left: `${group.position}%` }}
                             >
                                 <div className="timeline-point" />
                                 <div className="timeline-content">
