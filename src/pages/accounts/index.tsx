@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
 
 import api from 'api/main';
 import { SmartScroll } from 'components';
@@ -10,6 +10,12 @@ import AccountModal from './account-modal';
 import TransactionModal from './transaction-modal';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
+
+enum AccountFilter {
+    Active = 'active',
+    Inactive = 'inactive',
+    All = 'all'
+}
 
 type Account = components['schemas']['Account'];
 type Transaction = components['schemas']['Transaction'];
@@ -46,6 +52,7 @@ interface State {
     newTransaction: TransactionBinding;
     currencies: Currency[];
     editingAccountId?: string;
+    accountFilter: AccountFilter;
 }
 
 class AccountsPage extends Page<unknown, State> {
@@ -71,16 +78,26 @@ class AccountsPage extends Page<unknown, State> {
             date: moment().format('YYYY-MM-DD'),
         },
         currencies: [],
+        accountFilter: AccountFilter.Active,
     };
 
     async componentDidMount() {
-        const accountsResponse = await api.account.get({ IsActive: true });
+        await this.loadAccounts();
+        this.setState({
+            currencies: await api.currency.get()
+        });
+    }
+
+    loadAccounts = async () => {
+        const { accountFilter } = this.state;
+        const params = accountFilter === AccountFilter.All ? {} : { IsActive: accountFilter === AccountFilter.Active };
+        const accountsResponse = await api.account.get(params);
         this.setState({
             accounts: {
                 count: accountsResponse?.count ?? 0,
                 items: accountsResponse?.items ?? []
             },
-            currencies: await api.currency.get()
+            accountsPage: 1
         });
     }
 
@@ -93,15 +110,47 @@ class AccountsPage extends Page<unknown, State> {
         return (
             <Container>
                 <Row>
+                    <Col lg={3}>
+                        <Card>
+                            <Card.Body>
+                                <div className="form-grid">
+                                    <Button
+                                        variant="primary"
+                                        size="sm"
+                                        className="mb-3"
+                                        onClick={() => this.setState({ isModalOpen: true })}
+                                    >
+                                        Add Account
+                                    </Button>
+                                    <ButtonGroup className="d-flex">
+                                        <Button
+                                            size="sm"
+                                            active={this.state.accountFilter === AccountFilter.Active}
+                                            onClick={() => this.onFilterChange(AccountFilter.Active)}
+                                        >
+                                            Active
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            active={this.state.accountFilter === AccountFilter.Inactive}
+                                            onClick={() => this.onFilterChange(AccountFilter.Inactive)}
+                                        >
+                                            Inactive
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            active={this.state.accountFilter === AccountFilter.All}
+                                            onClick={() => this.onFilterChange(AccountFilter.All)}
+                                        >
+                                            All
+                                        </Button>
+                                    </ButtonGroup>
+                                </div>
+
+                            </Card.Body>
+                        </Card>
+                    </Col>
                     <Col lg={4}>
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            className="mb-3"
-                            onClick={() => this.setState({ isModalOpen: true })}
-                        >
-                            Add Account
-                        </Button>
                         {selectedAccount && (
                             <Button
                                 variant="success"
@@ -127,7 +176,7 @@ class AccountsPage extends Page<unknown, State> {
                             )}
                         </SmartScroll>
                     </Col>
-                    <Col lg={8}>
+                    <Col lg={5}>
                         <SmartScroll
                             dataLength={transactions.items.length}
                             hasMore={transactions.items.length < transactions.count}
@@ -191,15 +240,22 @@ class AccountsPage extends Page<unknown, State> {
     }
 
     getNextAccountsPage = async () => {
-        const { accountsPage, accounts } = this.state;
+        const { accountsPage, accounts, accountFilter } = this.state;
         const nextPage = accountsPage + 1;
-        const response = await api.account.get({ IsActive: true, page: nextPage });
+        const params = accountFilter === AccountFilter.All ? { page: nextPage } : { IsActive: accountFilter === AccountFilter.Active, page: nextPage };
+        const response = await api.account.get(params);
         this.setState({
             accountsPage: nextPage,
             accounts: {
                 count: response.count,
                 items: [...accounts.items, ...response.items]
             }
+        });
+    }
+
+    onFilterChange = async (filter: AccountFilter) => {
+        this.setState({ accountFilter: filter }, () => {
+            this.loadAccounts();
         });
     }
 
@@ -234,20 +290,15 @@ class AccountsPage extends Page<unknown, State> {
     onAccountSave = async () => {
         try {
             const { editingAccountId, newAccount } = this.state;
-            
+
             if (editingAccountId) {
                 await api.account.put(editingAccountId, newAccount);
             } else {
                 await api.account.post(newAccount);
             }
-            
-            const accountsResponse = await api.account.get({ isActive: true });
+
+            await this.loadAccounts();
             this.setState({
-                accounts: {
-                    count: accountsResponse.count,
-                    items: accountsResponse.items
-                },
-                accountsPage: 1,
                 isModalOpen: false,
                 newAccount: { name: '', active: true },
                 editingAccountId: undefined
