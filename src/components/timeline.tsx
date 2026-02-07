@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
-import './timeline.scss';
+import '../styles/timeline.scss';
 
 const MIN_POSITION = 5;
 const MAX_POSITION = 95;
