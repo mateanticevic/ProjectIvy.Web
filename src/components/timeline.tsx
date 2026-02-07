@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import moment from 'moment';
 import '../styles/timeline.scss';
+import { Card } from 'react-bootstrap';
 
 const MIN_POSITION = 5;
 const MAX_POSITION = 95;
@@ -58,7 +59,7 @@ export const Timeline = <T,>({
     });
 
     // Calculate numeric values for positioning
-    const numericValues = sortedItems.map(item => 
+    const numericValues = sortedItems.map(item =>
         valueType === 'date' ? new Date(item.value).getTime() : Number(item.value)
     );
 
@@ -93,13 +94,15 @@ export const Timeline = <T,>({
                     <div className="timeline-line" />
                     <div className="timeline-items">
                         {groupedItems.map((group, groupIndex) => (
-                            <div 
-                                key={groupIndex} 
+                            <div
+                                key={groupIndex}
                                 className="timeline-item"
                                 style={{ left: `${group.position}%` }}
                             >
                                 <div className="timeline-point" />
-                                <div className="timeline-content">
+                                <div className="timeline-connector" />
+                                <Card className="timeline-content">
+                                <Card.Body>
                                     <div className="timeline-value">{formatter(group.items[0].value)}</div>
                                     {group.items.map((item, itemIndex) => (
                                         <div key={itemIndex} className="timeline-item-group">
@@ -107,36 +110,38 @@ export const Timeline = <T,>({
                                             {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
                                         </div>
                                     ))}
-                                </div>
+                                </Card.Body>
+                            </Card>
                             </div>
                         ))}
-                    </div>
                 </div>
-            ) : (
-                <>
-                    <div className="timeline-line" />
-                    <div className="timeline-items">
-                        {groupedItems.map((group, groupIndex) => (
-                            <div 
-                                key={groupIndex} 
-                                className="timeline-item"
-                                style={{ top: `${group.position}%` }}
-                            >
-                                <div className="timeline-point" />
-                                <div className="timeline-content">
-                                    <div className="timeline-value">{formatter(group.items[0].value)}</div>
-                                    {group.items.map((item, itemIndex) => (
-                                        <div key={itemIndex} className="timeline-item-group">
-                                            {item.label && <div className="timeline-label">{item.label}</div>}
-                                            {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
-                                        </div>
-                                    ))}
+                </div>
+    ) : (
+        <>
+            <div className="timeline-line" />
+            <div className="timeline-items">
+                {groupedItems.map((group, groupIndex) => (
+                    <div
+                        key={groupIndex}
+                        className="timeline-item"
+                        style={{ top: `${group.position}%` }}
+                    >
+                        <div className="timeline-point" />
+                        <div className="timeline-content">
+                            <div className="timeline-value">{formatter(group.items[0].value)}</div>
+                            {group.items.map((item, itemIndex) => (
+                                <div key={itemIndex} className="timeline-item-group">
+                                    {item.label && <div className="timeline-label">{item.label}</div>}
+                                    {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </>
-            )}
-        </div>
+                ))}
+            </div>
+        </>
+    )
+}
+        </div >
     );
 };

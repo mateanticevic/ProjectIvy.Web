@@ -51,6 +51,11 @@
         margin-top: 5px;
     }
 
+    &-connector {
+        background-color: $color-primary;
+        opacity: 0.5;
+    }
+
     &-content {
         display: flex;
         flex-direction: column;
@@ -116,11 +121,21 @@
         left: 50%;
     }
 
+    .timeline-connector {
+        width: 2px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 7px;
+        height: 33px;
+        z-index: 1;
+    }
+
     .timeline-content {
         text-align: center;
         align-items: center;
         padding: 0 8px;
-        margin-top: 20px;
+        margin-top: 40px;
     }
 }
 
