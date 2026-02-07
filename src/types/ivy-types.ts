@@ -10848,6 +10848,8 @@ export interface components {
             /** Format: date-time */
             date?: string;
             description?: string | null;
+            /** Format: int32 */
+            odometer?: number;
         };
         CarServiceBinding: {
             /** Format: date-time */

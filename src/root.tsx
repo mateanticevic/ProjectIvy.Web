@@ -16,6 +16,7 @@ import TrackingOldPage from './pages/tracking-old';
 import TripDetailsPage from './pages/trip-details';
 import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
+import CarTimelinePage from './pages/car-timeline';
 import BeerAdminPage from './pages/beer-admin';
 import MoviesPage from './pages/movies';
 import { UserContext } from './contexts/user-context';
@@ -234,6 +235,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/calendar/:year/:month" element={<CalendarMonthPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
+                                    <Route path="/car/:id/timeline" element={<CarTimelinePage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />
                                     <Route path="/expense-types" element={<ExpenseTypesPage />} />
                                     <Route path="/flights" element={<FlightsV2Page />} />

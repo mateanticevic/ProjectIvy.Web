@@ -66,7 +66,7 @@ const AccountsPage: React.FC = () => {
             count: accountsResponse?.count ?? 0,
             items: accountsResponse?.items ?? []
         });
-        setAccountsPage(1);
+        setAccountsPage(0);
     };
 
     useEffect(() => {
