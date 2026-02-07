@@ -4,7 +4,7 @@ function post(file): Promise<string> {
     return api.postFile('file?imageResize=0.4', file);
 }
 
-function deleteFile(file) {
+function deleteFile(file: string): Promise<number> {
     return api.del(`file/${file}`);
 }
 

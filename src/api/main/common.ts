@@ -1,6 +1,13 @@
 import * as api from '../config';
 
-const getAirlines = (filters) => api.get('common/airline', filters);
+interface CommonFilters {
+    Search?: string;
+    PageAll?: boolean;
+    Page?: number;
+    PageSize?: number;
+}
+
+const getAirlines = (filters?: CommonFilters) => api.get('common/airline', filters);
 
 function getExpenseFileTypes() {
     return api.get('common/expenseFileType');

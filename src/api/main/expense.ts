@@ -1,6 +1,12 @@
 import * as api from '../config';
+import { components, paths } from 'types/ivy-types';
 
-function get(filters) {
+type Expense = components['schemas']['Expense'];
+type ExpenseBinding = components['schemas']['ExpenseBinding'];
+type ExpensePagedView = components['schemas']['ExpensePagedView'];
+type GetExpenseQuery = paths['/Expense']['get']['parameters']['query'];
+
+function get(filters?: GetExpenseQuery): Promise<ExpensePagedView> {
     return api.get('expense', filters);
 }
 
@@ -66,13 +72,13 @@ const getSumByYear = (filters) => api.get('expense/sum/byYear', filters);
 
 const getSumByYearByType = (filters) => api.get('expense/sum/byYear/byType', filters);
 
-const post = (expense) => api.post('expense', expense);
+const post = (expense: ExpenseBinding): Promise<string> => api.post('expense', expense);
 
-const postExpenseFromFile = (file: File) => api.postFile('expense/fromFile', file);
+const postExpenseFromFile = (file: File): Promise<string> => api.postFile('expense/fromFile', file);
 
-const postFile = (expenseId, fileId, payload) => api.post(`expense/${expenseId}/file/${fileId}`, payload);
+const postFile = (expenseId: string, fileId: string, payload: any): Promise<number> => api.post(`expense/${expenseId}/file/${fileId}`, payload);
 
-const put = (expense) => api.put(`expense/${expense.id}`, expense);
+const put = (expense: Expense): Promise<number> => api.put(`expense/${expense.id}`, expense);
 
 const expense = {
     get,

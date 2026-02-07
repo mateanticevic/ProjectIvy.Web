@@ -25,7 +25,6 @@ import ride from './ride';
 import route from './route';
 import stay from './stay';
 import todo from './todo';
-import token from './token';
 import tracking from './tracking';
 import trip from './trip';
 import user from './user';

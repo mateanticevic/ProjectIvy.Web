@@ -1,10 +1,15 @@
 import * as api from '../config';
+import { components, paths } from 'types/ivy-types';
 
-function get(filters) {
+type VendorPagedView = components['schemas']['VendorPagedView'];
+type PoiPagedView = components['schemas']['PoiPagedView'];
+type GetVendorQuery = paths['/Vendor']['get']['parameters']['query'];
+
+function get(filters?: GetVendorQuery): Promise<VendorPagedView> {
     return api.get('vendor', filters);
 }
 
-function getPois(vendorId: string) {
+function getPois(vendorId: string): Promise<PoiPagedView> {
     return api.get(`vendor/${vendorId}/poi`);
 }
 

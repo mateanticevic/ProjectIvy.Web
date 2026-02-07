@@ -1,7 +1,10 @@
 import * as api from '../config';
+import { paths } from 'types/ivy-types';
 
-function get() {
-    return api.get('card');
+type GetCardQuery = paths['/Card']['get']['parameters']['query'];
+
+function get(filters?: GetCardQuery) {
+    return api.get('card', filters);
 }
 
 const card = {

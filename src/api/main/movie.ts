@@ -1,7 +1,11 @@
 import { MovieFilters } from 'types/movies';
+import { components, paths } from 'types/ivy-types';
 import * as api from '../config';
 
-const get = (filters: MovieFilters) => api.get('movie', filters);
+type MoviePagedView = components['schemas']['MoviePagedView'];
+type GetMovieQuery = paths['/Movie']['get']['parameters']['query'];
+
+const get = (filters: MovieFilters): Promise<MoviePagedView> => api.get('movie', filters);
 
 const getCountByDay = (filters: MovieFilters) => api.get('movie/count/byDay', filters);
 

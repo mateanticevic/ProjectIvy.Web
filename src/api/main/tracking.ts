@@ -1,11 +1,13 @@
-import { components } from 'types/ivy-types';
+import { components, paths } from 'types/ivy-types';
 import * as api from '../config';
 
+type Tracking = components['schemas']['Tracking'];
 type TrackingBinding = components['schemas']['TrackingBinding'];
+type GetTrackingQuery = paths['/Tracking']['get']['parameters']['query'];
 
-const del = (timestamp: string) => api.del(`tracking/${timestamp}`);
+const del = (timestamp: string): Promise<number> => api.del(`tracking/${timestamp}`);
 
-function get(filters) {
+function get(filters?: GetTrackingQuery): Promise<Tracking[]> {
     return api.get('tracking', filters);
 }
 
@@ -27,7 +29,7 @@ function getLast(filters?: LastParameters) {
     return api.get('tracking/last', filters);
 }
 
-const post = (tracking: TrackingBinding) => api.put('tracking', tracking);
+const post = (tracking: TrackingBinding): Promise<number> => api.put('tracking', tracking);
 
 const tracking = {
     del,

@@ -1,6 +1,9 @@
 import * as api from '../config';
+import { components } from 'types/ivy-types';
 
-function get() {
+type Currency = components['schemas']['Currency'];
+
+function get(): Promise<Currency[]> {
     return api.get('currency');
 }
 

@@ -1,6 +1,12 @@
 import * as api from '../config';
 
-const getTimeTotalByDay = (filters) => api.get('web/time/total/byday', filters);
+interface WebFilters {
+    From?: string;
+    To?: string;
+    OrderAscending?: boolean;
+}
+
+const getTimeTotalByDay = (filters?: WebFilters) => api.get('web/time/total/byday', filters);
 
 const web = {
     getTimeTotalByDay,
