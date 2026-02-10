@@ -7,16 +7,18 @@ import {
     CalendarDateFlag,
     CalendarDateIntensity,
     CalendarDateStyle,
+    CalendarDateText,
     isCalendarDateBinary,
     isCalendarDateFlag,
     isCalendarDateIntensity,
     isCalendarDateStyle,
+    isCalendarDateText,
     isCalendarDateValue
 } from './constants';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 interface Props {
-    date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag;
+    date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag | CalendarDateText;
     isLoading: boolean;
     isSelected: boolean;
     showDate?: boolean;
@@ -64,6 +66,9 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
                     title={date.countryId}
                     style={{ pointerEvents: 'none' }}
                 />
+            )}
+            {!isLoading && isCalendarDateText(date) && date.label && (
+                <span className="text-label">{date.label}</span>
             )}
             {showDate &&
                 <span className="day-number">{day}</span>

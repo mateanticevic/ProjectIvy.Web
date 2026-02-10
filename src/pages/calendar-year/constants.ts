@@ -53,3 +53,12 @@ export interface CalendarDateIntensity extends CalendarDate {
 export const isCalendarDateIntensity = (date: CalendarDate): date is CalendarDateIntensity => {
     return 'intensity' in date;
 }
+
+export interface CalendarDateText extends CalendarDate {
+    label: string;
+    description: string;
+}
+
+export const isCalendarDateText = (date: CalendarDate): date is CalendarDateText => {
+    return 'label' in date && 'description' in date;
+}

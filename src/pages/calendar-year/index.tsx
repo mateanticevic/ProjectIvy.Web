@@ -8,7 +8,7 @@ import api from "api/main";
 import AsyncSelect from "react-select/async";
 import { cityLoader, locationLoader } from "utils/select-loaders";
 import { useReactSelectStyles } from "utils/react-select-dark-theme";
-import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateValue, CalendarMode } from "./constants";
+import { CalendarDateBinary, CalendarDateFlag, CalendarDateIntensity, CalendarDateStyle, CalendarDateText, CalendarDateValue, CalendarMode } from "./constants";
 import { workDayTypeToStyle } from "./mappers";
 import { WorkDayLegend } from "./work-day-legend";
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
@@ -21,7 +21,7 @@ export const CalendarYearPage = () => {
     const reactSelectStyles = useReactSelectStyles();
 
     const [calendarMode, setCalendarMode] = useState<CalendarMode>(CalendarMode.WorkDays);
-    const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[]));
+    const [calendarDates, setCalendarDates] = useState([] as (CalendarDateBinary[] | CalendarDateIntensity[] | CalendarDateStyle[] | CalendarDateFlag[] | CalendarDateText[]));
     const [cityId, setCityId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isMapModalOpen, setIsMapModalOpen] = useState(false);
@@ -115,17 +115,37 @@ export const CalendarYearPage = () => {
 
     const loadBirthdays = () => {
         setIsLoading(true);
-        api.person.getByDateOfBirth({ from: `${year}-01-01`, to: `${year}-12-31` })
+        api.person.getByDateOfBirth()
             .then(birthdaysByDay => {
-                const results = [] as CalendarDateBinary[];
+                const results = [] as CalendarDateText[];
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
-                    const hasBirthday = birthdaysByDay.some(x => 
+                    const birthdayMatches = birthdaysByDay.filter(x => 
                         moment(x.dateOfBirth).format('MM-DD') === date.format('MM-DD') && 
                         x.people && x.people.length > 0
                     );
+                    const people = birthdayMatches.flatMap(x => x.people || []);
+                    
+                    let label = '';
+                    let description = '';
+                    
+                    if (people.length === 1) {
+                        const person = people[0];
+                        const firstInitial = person.firstName?.charAt(0)?.toUpperCase() || '';
+                        const lastInitial = person.lastName?.charAt(0)?.toUpperCase() || '';
+                        label = firstInitial + lastInitial;
+                    } else if (people.length > 1) {
+                        label = people.length.toString();
+                    }
+                    
+                    description = people
+                        .map(p => `${p.firstName || ''} ${p.lastName || ''}`.trim())
+                        .filter(name => name.length > 0)
+                        .join(', ');
+                    
                     results.push({
                         date: date.clone(),
-                        active: hasBirthday
+                        label,
+                        description
                     });
                 }
                 setCalendarDates(results.reverse());

@@ -471,6 +471,18 @@ body #app {
     height: 100%;
     width: 100%;
   }
+
+  .text-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: $color-text-white;
+    background: $color-primary;
+    font-weight: 600;
+    font-size: 0.75rem;
+  }
 }
 
 .calendar-month-day-item.active {
