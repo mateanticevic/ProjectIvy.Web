@@ -2,6 +2,7 @@ import { Moment } from "moment";
 
 export enum CalendarMode {
     Beer = "beer",
+    Birthdays = "birthdays",
     Cities = "cities",
     Countries = "countries",
     Locations = "locations",

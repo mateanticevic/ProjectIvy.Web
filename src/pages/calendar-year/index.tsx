@@ -44,6 +44,9 @@ export const CalendarYearPage = () => {
         else if (calendarMode === CalendarMode.Beer) {
             loadBeer();
         }
+        else if (calendarMode === CalendarMode.Birthdays) {
+            loadBirthdays();
+        }
         else if (calendarMode === CalendarMode.Expenses) {
             loadExpenses();
         }
@@ -103,6 +106,26 @@ export const CalendarYearPage = () => {
                     results.push({
                         date: date.clone(),
                         value: volumeByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00.000'))?.value ?? 0
+                    });
+                }
+                setCalendarDates(results.reverse());
+                setIsLoading(false);
+            });
+    };
+
+    const loadBirthdays = () => {
+        setIsLoading(true);
+        api.person.getByDateOfBirth({ from: `${year}-01-01`, to: `${year}-12-31` })
+            .then(birthdaysByDay => {
+                const results = [] as CalendarDateBinary[];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    const hasBirthday = birthdaysByDay.some(x => 
+                        moment(x.dateOfBirth).format('MM-DD') === date.format('MM-DD') && 
+                        x.people && x.people.length > 0
+                    );
+                    results.push({
+                        date: date.clone(),
+                        active: hasBirthday
                     });
                 }
                 setCalendarDates(results.reverse());
@@ -196,6 +219,7 @@ export const CalendarYearPage = () => {
             </h1>
             <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={mode => setCalendarMode(mode as CalendarMode)}>
                 <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
+                <ToggleButton value={CalendarMode.Birthdays} id={CalendarMode.Birthdays.toString()}>Birthdays</ToggleButton>
                 <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
                 <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
                 <ToggleButton value={CalendarMode.Expenses} id={CalendarMode.Expenses.toString()}>Expenses</ToggleButton>
