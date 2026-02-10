@@ -54,11 +54,16 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
             onClick={onClick}
         >
             <Dropdown.Menu show={isSelected}>
-                <Dropdown.Header>{date.date.format('dddd Do')}</Dropdown.Header>
+                <Dropdown.Header>
+                    {date.date.format('dddd Do')}
+                    {isCalendarDateText(date) && date.description && (
+                        <div>{date.description}</div>
+                    )}
+                </Dropdown.Header>
                 <Dropdown.Item eventKey="2">Details</Dropdown.Item>
-                {date.date.isBefore(moment()) && (
+                {date.date.isBefore(moment()) &&
                     <Dropdown.Item eventKey="3" onClick={showTrackings}><FaMagnifyingGlass /> Tracking preview</Dropdown.Item>
-                )}
+                }
             </Dropdown.Menu>
             {!isLoading && isCalendarDateFlag(date) && date.countryId && (
                 <span
