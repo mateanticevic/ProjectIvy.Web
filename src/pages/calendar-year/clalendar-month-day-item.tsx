@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import moment from 'moment';
 import { Dropdown } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import {
     CalendarDateBinary,
     CalendarDateFlag,
@@ -16,6 +17,7 @@ import {
     isCalendarDateValue
 } from './constants';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { GiPayMoney } from 'react-icons/gi';
 
 interface Props {
     date: CalendarDateBinary | CalendarDateIntensity | CalendarDateStyle | CalendarDateFlag | CalendarDateText;
@@ -27,6 +29,8 @@ interface Props {
 }
 
 export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, onClick, showTrackings }: Props) => {
+    const navigate = useNavigate();
+    
     const style = {
         '--offset': (date.date.date() === 1 ? date.date.weekday() + 1 : 0),
         // Pass intensity as a CSS variable if present
@@ -61,6 +65,11 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
                     )}
                 </Dropdown.Header>
                 <Dropdown.Item eventKey="2">Details</Dropdown.Item>
+                <Dropdown.Item eventKey="4" onClick={(e) => {
+                    e.stopPropagation();
+                    const formattedDate = date.date.format('YYYY-MM-DD');
+                    navigate(`/expenses?from=${formattedDate}&to=${formattedDate}`);
+                }}><GiPayMoney /> Expenses</Dropdown.Item>
                 {date.date.isBefore(moment()) &&
                     <Dropdown.Item eventKey="3" onClick={showTrackings}><FaMagnifyingGlass /> Tracking preview</Dropdown.Item>
                 }
