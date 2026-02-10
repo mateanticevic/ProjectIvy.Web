@@ -184,16 +184,23 @@ export const CalendarYearPage = () => {
         setIsLoading(true);
         api.expense.getSumByDay({ from: `${year}-01-01`, to: `${year}-12-31`, excludeTypeId: 'utilities' })
             .then(expenseByDay => {
-                const results = [] as CalendarDateIntensity[];
+                const results = [] as CalendarDateText[];
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
                     const value = expenseByDay.find(x => x.key === date.format('YYYY-MM-DD 00:00:00.000'))?.value ?? 0;
-                    let intensity = 0;
+                    let label = '';
                     if (value > 0) {
-                        intensity = Math.min(value / 300, 1); // 0 < intensity <= 1
+                        if (value < 1000) {
+                            label = Math.ceil(value).toString();
+                        } else if (value < 10000) {
+                            label = (Math.round(value / 100) / 10).toString() + 'k';
+                        } else {
+                            label = Math.round(value / 1000).toString() + 'k';
+                        }
                     }
                     results.push({
                         date: date.clone(),
-                        intensity
+                        label,
+                        description: value > 0 ? value.toString() : ''
                     });
                 }
                 setCalendarDates(results.reverse());
