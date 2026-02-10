@@ -8840,6 +8840,85 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Person": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["PersonPagedView"];
+                        "application/json": components["schemas"]["PersonPagedView"];
+                        "text/json": components["schemas"]["PersonPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Person/ByDateOfBirth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["PersonByDateOfBirth"][];
+                        "application/json": components["schemas"]["PersonByDateOfBirth"][];
+                        "text/json": components["schemas"]["PersonByDateOfBirth"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Poi": {
         parameters: {
             query?: never;
@@ -11606,6 +11685,23 @@ export interface components {
         PaymentType: {
             id?: string | null;
             name?: string | null;
+        };
+        Person: {
+            id?: string | null;
+            firstName?: string | null;
+            lastName?: string | null;
+            /** Format: date-time */
+            dateOfBirth?: string;
+        };
+        PersonByDateOfBirth: {
+            /** Format: date-time */
+            dateOfBirth?: string;
+            people?: components["schemas"]["Person"][] | null;
+        };
+        PersonPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Person"][] | null;
         };
         Poi: {
             id?: string | null;

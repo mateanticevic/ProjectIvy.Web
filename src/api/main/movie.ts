@@ -1,9 +1,8 @@
 import { MovieFilters } from 'types/movies';
-import { components, paths } from 'types/ivy-types';
+import { components } from 'types/ivy-types';
 import * as api from '../config';
 
 type MoviePagedView = components['schemas']['MoviePagedView'];
-type GetMovieQuery = paths['/Movie']['get']['parameters']['query'];
 
 const get = (filters: MovieFilters): Promise<MoviePagedView> => api.get('movie', filters);
 

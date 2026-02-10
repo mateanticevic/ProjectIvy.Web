@@ -20,6 +20,7 @@ import income from './income';
 import inventory from './inventory';
 import location from './location';
 import movie from './movie';
+import person from './person';
 import poi from './poi';
 import ride from './ride';
 import route from './route';
@@ -55,6 +56,7 @@ const api = {
     inventory,
     location,
     movie,
+    person,
     poi,
     ride,
     route,
