@@ -93,16 +93,44 @@ export const Timeline = <T,>({
                 <div className="timeline-wrapper" ref={timelineWrapperRef}>
                     <div className="timeline-line" />
                     <div className="timeline-items">
+                        {groupedItems.map((group, groupIndex) => {
+                            const isAbove = groupIndex % 2 === 1;
+                            return (
+                                <div
+                                    key={groupIndex}
+                                    className={`timeline-item ${isAbove ? 'timeline-item-above' : 'timeline-item-below'}`}
+                                    style={{ left: `${group.position}%` }}
+                                >
+                                    <div className="timeline-point" />
+                                    <div className="timeline-connector" />
+                                    <Card className="timeline-content">
+                                        <Card.Body>
+                                            <div className="timeline-value">{formatter(group.items[0].value)}</div>
+                                            {group.items.map((item, itemIndex) => (
+                                                <div key={itemIndex} className="timeline-item-group">
+                                                    {item.label && <div className="timeline-label">{item.label}</div>}
+                                                    {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
+                                                </div>
+                                            ))}
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div className="timeline-line" />
+                    <div className="timeline-items">
                         {groupedItems.map((group, groupIndex) => (
                             <div
                                 key={groupIndex}
                                 className="timeline-item"
-                                style={{ left: `${group.position}%` }}
+                                style={{ top: `${group.position}%` }}
                             >
                                 <div className="timeline-point" />
-                                <div className="timeline-connector" />
-                                <Card className="timeline-content">
-                                <Card.Body>
+                                <div className="timeline-content">
                                     <div className="timeline-value">{formatter(group.items[0].value)}</div>
                                     {group.items.map((item, itemIndex) => (
                                         <div key={itemIndex} className="timeline-item-group">
@@ -110,38 +138,13 @@ export const Timeline = <T,>({
                                             {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
                                         </div>
                                     ))}
-                                </Card.Body>
-                            </Card>
+                                </div>
                             </div>
                         ))}
-                </div>
-                </div>
-    ) : (
-        <>
-            <div className="timeline-line" />
-            <div className="timeline-items">
-                {groupedItems.map((group, groupIndex) => (
-                    <div
-                        key={groupIndex}
-                        className="timeline-item"
-                        style={{ top: `${group.position}%` }}
-                    >
-                        <div className="timeline-point" />
-                        <div className="timeline-content">
-                            <div className="timeline-value">{formatter(group.items[0].value)}</div>
-                            {group.items.map((item, itemIndex) => (
-                                <div key={itemIndex} className="timeline-item-group">
-                                    {item.label && <div className="timeline-label">{item.label}</div>}
-                                    {renderItem && <div className="timeline-custom">{renderItem(item, itemIndex)}</div>}
-                                </div>
-                            ))}
-                        </div>
                     </div>
-                ))}
-            </div>
-        </>
-    )
-}
+                </>
+            )
+            }
         </div >
     );
 };

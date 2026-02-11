@@ -110,13 +110,12 @@
         flex-direction: column;
         align-items: center;
         position: absolute;
-        top: 50%;
     }
 
     .timeline-point {
         width: 14px;
         height: 14px;
-        transform: translate(-50%, -50%);
+        transform: translateX(-50%);
         position: absolute;
         left: 50%;
     }
@@ -126,8 +125,6 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        top: 7px;
-        height: 33px;
         z-index: 1;
     }
 
@@ -135,7 +132,40 @@
         text-align: center;
         align-items: center;
         padding: 0 8px;
-        margin-top: 40px;
+    }
+
+    .timeline-item-below {
+        top: 50%;
+
+        .timeline-point {
+            top: -7px;
+        }
+
+        .timeline-connector {
+            top: 7px;
+            height: 33px;
+        }
+
+        .timeline-content {
+            margin-top: 40px;
+        }
+    }
+
+    .timeline-item-above {
+        bottom: 50%;
+
+        .timeline-point {
+            bottom: -7px;
+        }
+
+        .timeline-connector {
+            bottom: 7px;
+            height: 33px;
+        }
+
+        .timeline-content {
+            margin-bottom: 40px;
+        }
     }
 }
 
