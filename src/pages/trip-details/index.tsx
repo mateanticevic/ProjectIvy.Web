@@ -19,10 +19,12 @@ import { components } from 'types/ivy-types';
 import { User } from 'types/users';
 import { iconUrl } from 'utils/cdn-helper';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
+import { PagingFilters } from 'types/paging';
 
 type Flight = components['schemas']['Flight'];
 type Trip = components['schemas']['Trip'];
 type Stay = components['schemas']['Stay'];
+type Tracking = components['schemas']['Tracking'];
 
 interface QueryStrings {
     id: string;
@@ -34,15 +36,15 @@ interface Props {
 
 interface State {
     beerSum: number;
-    expenseFilters: any;
+    expenseFilters: PagingFilters;
     flights: Flight[];
     isRideModalOpen: boolean;
     isStayModalOpen: boolean;
     ride: RideBinding;
     rides: Ride[];
     selectedStay: Stay | null;
-    stays: any[];
-    trackings: any[];
+    stays: Stay[];
+    trackings: Tracking[];
     trip: Trip;
 }
 
