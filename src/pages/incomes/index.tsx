@@ -1,7 +1,6 @@
 import React from 'react';
 import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
 import moment from 'moment';
-import FontAwesome from 'react-fontawesome';
 
 import api from 'api/main';
 import { DateFormElement, DistributionCard, FormattedNumber, Pagination, Select } from 'components';
