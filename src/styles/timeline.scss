@@ -101,7 +101,7 @@
         flex-direction: row;
         align-items: center;
         position: relative;
-        min-width: 10000px;
+        min-width: 12000px;
         min-height: 600px;
         padding-bottom: 40px;
     }
@@ -131,7 +131,6 @@
     .timeline-content {
         text-align: center;
         align-items: center;
-        padding: 0 8px;
     }
 
     .timeline-item-below {
@@ -160,7 +159,7 @@
 
         .timeline-connector {
             bottom: 7px;
-            height: 33px;
+            height: 13px;
         }
 
         .timeline-content {

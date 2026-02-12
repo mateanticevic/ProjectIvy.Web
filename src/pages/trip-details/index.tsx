@@ -6,7 +6,6 @@ import 'react-vertical-timeline-component/style.min.css';
 import './styles.scss';
 import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';
-import { FaPencilAlt } from 'react-icons/fa';
 
 import api from 'api/main';
 import { Map, ValueLabel } from 'components';
