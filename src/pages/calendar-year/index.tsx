@@ -119,15 +119,15 @@ export const CalendarYearPage = () => {
             .then(birthdaysByDay => {
                 const results = [] as CalendarDateText[];
                 for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
-                    const birthdayMatches = birthdaysByDay.filter(x => 
-                        moment(x.dateOfBirth).format('MM-DD') === date.format('MM-DD') && 
+                    const birthdayMatches = birthdaysByDay.filter(x =>
+                        moment(x.dateOfBirth).format('MM-DD') === date.format('MM-DD') &&
                         x.people && x.people.length > 0
                     );
                     const people = birthdayMatches.flatMap(x => x.people || []);
-                    
+
                     let label = '';
                     let description = '';
-                    
+
                     if (people.length === 1) {
                         const person = people[0];
                         const firstInitial = person.firstName?.charAt(0)?.toUpperCase() || '';
@@ -136,12 +136,12 @@ export const CalendarYearPage = () => {
                     } else if (people.length > 1) {
                         label = people.length.toString();
                     }
-                    
+
                     description = people
                         .map(p => `${p.firstName || ''} ${p.lastName || ''}`.trim())
                         .filter(name => name.length > 0)
                         .join(', ');
-                    
+
                     results.push({
                         date: date.clone(),
                         label,
@@ -244,7 +244,13 @@ export const CalendarYearPage = () => {
                     <IoMdArrowDropright onClick={() => setYear(year + 1)} />
                 }
             </h1>
-            <ToggleButtonGroup name="options" type="radio" value={calendarMode} onChange={mode => setCalendarMode(mode as CalendarMode)}>
+            <ToggleButtonGroup
+                className="calendar-mode-toggle"
+                name="options"
+                type="radio"
+                value={calendarMode}
+                onChange={mode => setCalendarMode(mode as CalendarMode)}
+            >
                 <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
                 <ToggleButton value={CalendarMode.Birthdays} id={CalendarMode.Birthdays.toString()}>Birthdays</ToggleButton>
                 <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>

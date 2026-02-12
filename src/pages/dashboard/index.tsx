@@ -10,7 +10,7 @@ import { Map, SimpleLineChart, ValueLabel } from 'components';
 import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/expense-type-label';
 import { getIdentity } from 'utils/cookie-helper';
-import { Feature, User } from 'types/users';
+import { Feature } from 'types/users';
 import { components } from 'types/ivy-types';
 import { KeyValuePair } from 'types/grouping';
 import { carUrl } from 'utils/cdn-helper';
