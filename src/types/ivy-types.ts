@@ -10525,7 +10525,30 @@ export interface paths {
             };
         };
         put?: never;
-        post?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["WeightBinding"];
+                    "text/json": components["schemas"]["WeightBinding"];
+                    "application/*+json": components["schemas"]["WeightBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -11932,6 +11955,12 @@ export interface components {
             /** Format: int64 */
             count?: number;
             items?: components["schemas"]["Vendor"][] | null;
+        };
+        WeightBinding: {
+            /** Format: date-time */
+            date?: string;
+            /** Format: double */
+            weight?: number;
         };
         WorkDay: {
             /** Format: date-time */

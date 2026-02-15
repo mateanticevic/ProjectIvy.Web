@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Row } from 'react-bootstrap';
+import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Button, Modal, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { Marker } from '@react-google-maps/api';
+import Datetime from 'react-datetime';
 import Skeleton from 'react-loading-skeleton'
 
 import api from 'api/main';
@@ -39,6 +40,10 @@ const DashboardPage: React.FC = () => {
     const [movies, setMovies] = useState<Movie[]>();
     const [spent, setSpent] = useState<TodayWeekMonth>();
     const [weightPerDay, setWeightPerDay] = useState<KeyValuePair<number>[]>([]);
+    const [isWeightModalOpen, setIsWeightModalOpen] = useState(false);
+    const [newWeightDate, setNewWeightDate] = useState(moment().format('YYYY-MM-DD'));
+    const [newWeightValue, setNewWeightValue] = useState('');
+    const [isSavingWeight, setIsSavingWeight] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,7 +68,7 @@ const DashboardPage: React.FC = () => {
             allCalls.push(api.consumation.get(lastFiveFilters).then(consumations => setConsumations(consumations.items)));
             allCalls.push(api.movie.get(lastFiveFilters).then(movies => setMovies(movies.items)));
             allCalls.push(api.tracking.getLastLocation().then(location => setLocation(location)));
-            allCalls.push(api.user.getWeight({ From: moment().date(1).month(0).format('YYYY-MM-DD') }).then(weightPerDay => setWeightPerDay(weightPerDay)));
+            allCalls.push(loadWeightPerDay());
 
             if (user?.defaultCar) {
                 allCalls.push(api.car.getLogLatest(user.defaultCar.id).then(carLog => setCarOdometer(carLog.odometer)));
@@ -99,6 +104,42 @@ const DashboardPage: React.FC = () => {
         ? `Today ${moment.utc(dateTime).local().format('H:mm')}`
         : moment.utc(dateTime).local().format('MMMM Do H:mm');
 
+    const loadWeightPerDay = () =>
+        api.user.getWeight({ From: moment().date(1).month(0).format('YYYY-MM-DD') }).then(weightPerDay => setWeightPerDay((weightPerDay ?? [])));
+
+    const openWeightModal = () => {
+        setNewWeightDate(moment().format('YYYY-MM-DD'));
+        setNewWeightValue('');
+        setIsWeightModalOpen(true);
+    };
+
+    const closeWeightModal = () => {
+        if (!isSavingWeight) {
+            setIsWeightModalOpen(false);
+        }
+    };
+
+    const saveWeight = async () => {
+        const weight = Number.parseFloat(newWeightValue);
+
+        if (Number.isNaN(weight)) {
+            return;
+        }
+
+        setIsSavingWeight(true);
+
+        try {
+            await api.user.postWeight({
+                date: newWeightDate,
+                weight,
+            });
+            await loadWeightPerDay();
+            setIsWeightModalOpen(false);
+        } finally {
+            setIsSavingWeight(false);
+        }
+    };
+
     const dayOfWeek = (date: string) => {
         const fullDate = (
             <Tooltip id="tooltip">
@@ -108,7 +149,7 @@ const DashboardPage: React.FC = () => {
 
         return (
             <OverlayTrigger placement="top" overlay={fullDate}>
-                <Badge variant="primary">
+                <Badge>
                     {moment(date).format('ddd')}
                 </Badge>
             </OverlayTrigger>
@@ -266,7 +307,12 @@ const DashboardPage: React.FC = () => {
                 }
                 <div className="flex-grid-item">
                     <Card>
-                        <Card.Header>Weight</Card.Header>
+                        <Card.Header>
+                            Weight
+                            <Button className="btn-sm pull-right" type="button" onClick={openWeightModal}>
+                                Add
+                            </Button>
+                        </Card.Header>
                         <Card.Body>
                             <SimpleLineChart
                                 data={[...weightPerDay].reverse()}
@@ -276,6 +322,40 @@ const DashboardPage: React.FC = () => {
                     </Card>
                 </div>
             </div>
+            <Modal show={isWeightModalOpen} onHide={closeWeightModal} size="sm">
+                <Modal.Header closeButton>
+                    <Modal.Title>Add weight</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormGroup>
+                        <FormLabel>Date</FormLabel>
+                        <Datetime
+                            dateFormat="YYYY-MM-DD"
+                            value={newWeightDate}
+                            onChange={x => setNewWeightDate(moment(x).format('YYYY-MM-DD'))}
+                            timeFormat={false}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <FormLabel>Weight</FormLabel>
+                        <FormControl
+                            type="number"
+                            step="0.01"
+                            value={newWeightValue}
+                            onChange={x => setNewWeightValue(x.target.value)}
+                        />
+                    </FormGroup>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="primary"
+                        onClick={saveWeight}
+                        disabled={isSavingWeight || Number.isNaN(Number.parseFloat(newWeightValue))}
+                    >
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container >
     );
 };
