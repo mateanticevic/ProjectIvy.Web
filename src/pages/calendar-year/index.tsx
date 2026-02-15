@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
+import { Card, Container, Form, ToggleButton, ToggleButtonGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 
@@ -27,6 +27,7 @@ export const CalendarYearPage = () => {
     const [isMapModalOpen, setIsMapModalOpen] = useState(false);
     const [locationId, setLocationId] = useState<string | null>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null);
+    const [showDate, setShowDate] = useState<boolean>(false);
     const [trackingDate, setTrackingDate] = useState<string | null>(null);
     const [year, setYear] = useState(parseInt(yearFromParam ?? moment().year().toString()));
     window.history.replaceState(null, '', `/calendar/${year}`);
@@ -237,46 +238,58 @@ export const CalendarYearPage = () => {
 
     return (
         <Container>
-            <h1>
-                <IoMdArrowDropleft onClick={() => setYear(year - 1)} />
-                {year}
-                {year !== moment().year() &&
-                    <IoMdArrowDropright onClick={() => setYear(year + 1)} />
-                }
-            </h1>
-            <ToggleButtonGroup
-                className="calendar-mode-toggle"
-                name="options"
-                type="radio"
-                value={calendarMode}
-                onChange={mode => setCalendarMode(mode as CalendarMode)}
-            >
-                <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
-                <ToggleButton value={CalendarMode.Birthdays} id={CalendarMode.Birthdays.toString()}>Birthdays</ToggleButton>
-                <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
-                <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
-                <ToggleButton value={CalendarMode.Expenses} id={CalendarMode.Expenses.toString()}>Expenses</ToggleButton>
-                <ToggleButton value={CalendarMode.Locations} id={CalendarMode.Locations.toString()}>Locations</ToggleButton>
-                <ToggleButton value={CalendarMode.WorkDays} id={CalendarMode.WorkDays.toString()}>Work days</ToggleButton>
-            </ToggleButtonGroup>
-            {calendarMode === CalendarMode.Cities &&
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={cityLoader}
-                    placeholder="Search city by name"
-                    onChange={x => setCityId(x.value as string)}
-                    styles={reactSelectStyles}
-                />
-            }
-            {calendarMode === CalendarMode.Locations &&
-                <AsyncSelect
-                    defaultOptions
-                    loadOptions={locationLoader}
-                    placeholder="Search location by name"
-                    onChange={x => setLocationId(x.value as string)}
-                    styles={reactSelectStyles}
-                />
-            }
+            <Card>
+                <Card.Body>
+                    <h1>
+                        <IoMdArrowDropleft onClick={() => setYear(year - 1)} />
+                        {year}
+                        {year !== moment().year() &&
+                            <IoMdArrowDropright onClick={() => setYear(year + 1)} />
+                        }
+                    </h1>
+                    <ToggleButtonGroup
+                        className="calendar-mode-toggle"
+                        name="options"
+                        type="radio"
+                        value={calendarMode}
+                        onChange={mode => setCalendarMode(mode as CalendarMode)}
+                    >
+                        <ToggleButton value={CalendarMode.Beer} id={CalendarMode.Beer.toString()}>Beer</ToggleButton>
+                        <ToggleButton value={CalendarMode.Birthdays} id={CalendarMode.Birthdays.toString()}>Birthdays</ToggleButton>
+                        <ToggleButton value={CalendarMode.Cities} id={CalendarMode.Cities.toString()}>Cities</ToggleButton>
+                        <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
+                        <ToggleButton value={CalendarMode.Expenses} id={CalendarMode.Expenses.toString()}>Expenses</ToggleButton>
+                        <ToggleButton value={CalendarMode.Locations} id={CalendarMode.Locations.toString()}>Locations</ToggleButton>
+                        <ToggleButton value={CalendarMode.WorkDays} id={CalendarMode.WorkDays.toString()}>Work days</ToggleButton>
+                    </ToggleButtonGroup>
+                    <Form.Check
+                        className="mt-2"
+                        type="checkbox"
+                        id="show-date-checkbox"
+                        label="Show date"
+                        checked={showDate}
+                        onChange={e => setShowDate(e.target.checked)}
+                    />
+                    {calendarMode === CalendarMode.Cities &&
+                        <AsyncSelect
+                            defaultOptions
+                            loadOptions={cityLoader}
+                            placeholder="Search city by name"
+                            onChange={x => setCityId(x.value as string)}
+                            styles={reactSelectStyles}
+                        />
+                    }
+                    {calendarMode === CalendarMode.Locations &&
+                        <AsyncSelect
+                            defaultOptions
+                            loadOptions={locationLoader}
+                            placeholder="Search location by name"
+                            onChange={x => setLocationId(x.value as string)}
+                            styles={reactSelectStyles}
+                        />
+                    }
+                </Card.Body>
+            </Card>
             <div className="calendar-year-container">
                 {months.map(month =>
                     <CalendarMonth
@@ -285,6 +298,7 @@ export const CalendarYearPage = () => {
                         key={month}
                         month={month}
                         selectedDay={selectedDay}
+                        showDate={showDate}
                         year={Number(year)}
                         onDaySelect={setSelectedDay}
                         showTrackings={onShowTrackings}

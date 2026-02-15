@@ -484,6 +484,18 @@ body #app {
     font-size: 0.75rem;
     pointer-events: none;
   }
+
+  .date-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: $color-text-white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    pointer-events: none;
+  }
 }
 
 .calendar-month-day-item.active {

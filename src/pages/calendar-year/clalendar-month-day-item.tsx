@@ -86,8 +86,8 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
             {!isLoading && isCalendarDateText(date) && date.label && (
                 <span className="text-label">{date.label}</span>
             )}
-            {showDate &&
-                <span className="day-number">{day}</span>
+            {showDate && !isCalendarDateText(date) && !isCalendarDateFlag(date) &&
+                <span className="date-number">{day}</span>
             }
         </div>
     );
