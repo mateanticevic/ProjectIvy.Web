@@ -51,6 +51,9 @@ export const CalendarYearPage = () => {
         else if (calendarMode === CalendarMode.Expenses) {
             loadExpenses();
         }
+        else if (calendarMode === CalendarMode.Trips) {
+            loadTrips();
+        }
         else if (calendarMode === CalendarMode.Cities) {
             onCitySelected();
         }
@@ -209,6 +212,27 @@ export const CalendarYearPage = () => {
             });
     };
 
+    const loadTrips = () => {
+        setIsLoading(true);
+        api.trips.get({ From: `${year}-01-01`, To: `${year}-12-31`, Page: 1, PageSize: 1000 })
+            .then(trips => {
+                const results = [] as CalendarDateBinary[];
+                const tripItems = trips.items ?? [];
+                for (let date = moment(`${year}-01-01`); !date.isSame(moment(`${year}-12-31`), 'day'); date = date.add(1, 'day')) {
+                    results.push({
+                        date: date.clone(),
+                        active: tripItems.some(trip => {
+                            const from = moment(trip.timestampStart);
+                            const to = moment(trip.timestampEnd ?? trip.timestampStart);
+                            return date.isBetween(from, to, 'day', '[]');
+                        })
+                    });
+                }
+                setCalendarDates(results.reverse());
+                setIsLoading(false);
+            });
+    };
+
     const onShowTrackings = (date: string) => {
         setTrackingDate(date);
         setIsMapModalOpen(true);
@@ -260,6 +284,7 @@ export const CalendarYearPage = () => {
                         <ToggleButton value={CalendarMode.Countries} id={CalendarMode.Countries.toString()}>Countries</ToggleButton>
                         <ToggleButton value={CalendarMode.Expenses} id={CalendarMode.Expenses.toString()}>Expenses</ToggleButton>
                         <ToggleButton value={CalendarMode.Locations} id={CalendarMode.Locations.toString()}>Locations</ToggleButton>
+                        <ToggleButton value={CalendarMode.Trips} id={CalendarMode.Trips.toString()}>Trips</ToggleButton>
                         <ToggleButton value={CalendarMode.WorkDays} id={CalendarMode.WorkDays.toString()}>Work days</ToggleButton>
                     </ToggleButtonGroup>
                     <Form.Check

@@ -64,6 +64,7 @@ const api = {
     todo,
     tracking,
     trip,
+    trips: trip,
     user,
     vendor,
     web,

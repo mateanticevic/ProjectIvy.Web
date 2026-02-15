@@ -5,6 +5,7 @@ export enum CalendarMode {
     Birthdays = "birthdays",
     Cities = "cities",
     Countries = "countries",
+    Trips = "trips",
     Locations = "locations",
     WorkDays = "workdays",
     Expenses = "expenses"
