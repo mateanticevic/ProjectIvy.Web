@@ -104,13 +104,29 @@ const CalendarMonthPage: React.FC = () => {
     return (
         <Container>
             <Datetime
-                inputProps={{ readOnly: true }}
                 dateFormat="MMMM YYYY"
                 timeFormat={false}
                 value={startDay}
                 onChange={month => onMonthChanged(month as Moment)}
+                renderInput={(_props, openCalendar) => (
+                    <h1
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => openCalendar()}
+                        onKeyDown={event => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                                event.preventDefault();
+                                openCalendar();
+                            }
+                        }}
+                        className="m-0"
+                        style={{ cursor: 'pointer' }}
+                        aria-label="Select month"
+                    >
+                        {startDay.format('MMMM YYYY')}
+                    </h1>
+                )}
             />
-            {calendarSection?.days?.filter(d => d.workDayType?.id === 'remote').length}
             <div className="calendar-container">
                 {calendarSection?.days?.slice().reverse().map((day, i) =>
                     <CalendarDay
