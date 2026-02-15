@@ -64,7 +64,6 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
                         <div>{date.description}</div>
                     )}
                 </Dropdown.Header>
-                <Dropdown.Item eventKey="2">Details</Dropdown.Item>
                 {date.date.isBefore(moment()) &&
                     <Dropdown.Item eventKey="4" onClick={(e) => {
                         e.stopPropagation();

@@ -7,7 +7,7 @@ import 'moment-timezone';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
-import MapModal from './map-modal';
+import TrackingModal from 'widgets/tracking-modal';
 import { KeyValuePair } from 'types/grouping';
 import { SelectOption } from 'types/common';
 
@@ -15,7 +15,6 @@ type CalendarSection = components['schemas']['CalendarSection'];
 type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
 type Movie = components['schemas']['Movie'];
-type Tracking = components['schemas']['Tracking'];
 
 interface PagePath {
     year: string;
@@ -27,12 +26,13 @@ const CalendarMonthPage: React.FC = () => {
     const [calendarSection, setCalendarSection] = useState<CalendarSection | undefined>(undefined);
     const [flights, setFlights] = useState<Flight[]>([]);
     const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+    const [mapModalFrom, setMapModalFrom] = useState<string | undefined>(undefined);
+    const [mapModalTo, setMapModalTo] = useState<string | undefined>(undefined);
     const [locationsByDay, setLocationsByDay] = useState<KeyValuePair<Location[]>[]>([]);
     const [movies, setMovies] = useState<Movie[]>([]);
     const [startDay, setStartDay] = useState<Moment>(
         params.year && params.month ? moment(`${params.year}-${params.month}-01`) : moment().startOf('month')
     );
-    const [trackings, setTrackings] = useState<Tracking[]>([]);
 
     useEffect(() => {
         onMonthChanged(startDay);
@@ -54,10 +54,9 @@ const CalendarMonthPage: React.FC = () => {
             from = moment(date).format('YYYY-MM-DD');
             to = moment(date).add(1, 'd').format('YYYY-MM-DD');
         }
-        
-        api.tracking.get({ from, to }).then(trackings => {
-            setTrackings(trackings);
-        });
+
+        setMapModalFrom(from);
+        setMapModalTo(to);
     };
 
     const onMonthChanged = (month: Moment) => {
@@ -125,9 +124,10 @@ const CalendarMonthPage: React.FC = () => {
                     />
                 )}
             </div>
-            <MapModal
+            <TrackingModal
                 isOpen={isMapModalOpen}
-                trackings={trackings}
+                from={mapModalFrom}
+                to={mapModalTo}
                 onClose={() => setIsMapModalOpen(false)}
             />
         </Container>
