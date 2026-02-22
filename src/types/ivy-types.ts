@@ -7423,7 +7423,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Inventory/item": {
+    "/Inventory/Item": {
         parameters: {
             query?: never;
             header?: never;
@@ -7493,7 +7493,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Inventory/item/{valueId}": {
+    "/Inventory/Ownership": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Ownership"][];
+                        "application/json": components["schemas"]["Ownership"][];
+                        "text/json": components["schemas"]["Ownership"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Inventory/Item/{valueId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -7529,6 +7566,62 @@ export interface paths {
         };
         post?: never;
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Inventory/item/{itemValueId}/Expense/{expenseValueId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    itemValueId: string;
+                    expenseValueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    itemValueId: string;
+                    expenseValueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         patch?: never;
@@ -11636,10 +11729,12 @@ export interface components {
             id?: string | null;
             name?: string | null;
             brand?: components["schemas"]["Brand"];
+            ownership?: components["schemas"]["Ownership"];
         };
         InventoryItemBinding: {
             name?: string | null;
             brandId?: string | null;
+            owershipId?: string | null;
         };
         InventoryItemPagedView: {
             /** Format: int64 */
@@ -11705,6 +11800,10 @@ export interface components {
         };
         /** @enum {string} */
         MovieSort: "watched" | "rating" | "runtime" | "myRating" | "myRatingDifference" | "title" | "year";
+        Ownership: {
+            id?: string | null;
+            name?: string | null;
+        };
         PaymentType: {
             id?: string | null;
             name?: string | null;

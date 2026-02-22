@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Form, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
 
 import api from 'api/main';
 import Pagination from 'components/pagination';
@@ -120,17 +120,10 @@ const InventoryPage: React.FC = () => {
     const totalPages = Math.max(1, Math.ceil((count || 0) / filter.pageSize));
 
     return (
-        <Container fluid>
+        <Container>
             <Row>
-                <Col>
+                <Col lg={3}>
                     <Card>
-                        <Card.Header className="d-flex justify-content-between align-items-center">
-                            <div>
-                                <div className="fw-semibold">Inventory</div>
-                                <small className="text-muted">{count} items</small>
-                            </div>
-                            <Button onClick={openNewModal}>New item</Button>
-                        </Card.Header>
                         <Card.Body>
                             <Form className="mb-3" onSubmit={onSearchSubmit}>
                                 <InputGroup>
@@ -140,16 +133,21 @@ const InventoryPage: React.FC = () => {
                                         onChange={x => setSearchText(x.target.value)}
                                     />
                                     <Button type="submit" variant="primary">Search</Button>
-                                    <Button
-                                        type="button"
-                                        variant="outline-secondary"
-                                        onClick={onSearchClear}
-                                        disabled={!filter.search && !searchText}
-                                    >
-                                        Reset
-                                    </Button>
                                 </InputGroup>
                             </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col lg={9}>
+                    <Card>
+                        <Card.Header className="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div className="fw-semibold">Inventory</div>
+                                <small className="text-muted">{count} items</small>
+                            </div>
+                            <Button onClick={openNewModal}>New item</Button>
+                        </Card.Header>
+                        <Card.Body>
                             {isLoading ? (
                                 <div className="text-center py-4">
                                     <Spinner size="2x" />
@@ -161,6 +159,7 @@ const InventoryPage: React.FC = () => {
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Brand</th>
+                                                <th>Ownership</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -180,6 +179,11 @@ const InventoryPage: React.FC = () => {
                                                 >
                                                     <td>{item.name}</td>
                                                     <td>{item.brand?.name ?? '—'}</td>
+                                                    <td>
+                                                        {item.ownership &&
+                                                            <Badge>{item.ownership.name}</Badge>
+                                                        }
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>
