@@ -1,5 +1,4 @@
 import AsyncCreatableSelect from 'react-select/async-creatable';
-import Datetime from 'react-datetime';
 import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
 
@@ -237,7 +236,11 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                         <FormGroup>
                             <FormLabel>Created</FormLabel>
                             <InputGroup>
-                                <Datetime value={expense.timestamp} inputProps={{ readOnly: true }} />
+                                <FormControl
+                                    value={expense.timestamp || ''}
+                                    type="text"
+                                    readOnly
+                                />
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -245,7 +248,11 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                         <FormGroup>
                             <FormLabel>Modified</FormLabel>
                             <InputGroup>
-                                <Datetime value={expense.modified} inputProps={{ readOnly: true }} />
+                                <FormControl
+                                    value={expense.modified || ''}
+                                    type="text"
+                                    readOnly
+                                />
                             </InputGroup>
                         </FormGroup>
                     </Col>
