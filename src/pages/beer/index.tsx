@@ -464,7 +464,12 @@ class BeerPage extends Page<Props, State> {
 
         api.consumation
             .getSumByServing(filters)
-            .then(data => this.setState({ sumByServing: data.map(x => ({ name: x.key.name, value: x.value })) }));
+            .then(data => this.setState({
+                sumByServing: data.map(x => ({
+                    name: x.key?.name ?? 'Unknown',
+                    value: x.value,
+                }))
+            }));
 
         api.consumation
             .getSumByCountry(sumByCountryFilters)
