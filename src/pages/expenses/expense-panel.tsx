@@ -75,7 +75,8 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
             {stats &&
                 <Card.Footer>
                     Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
-                </Card.Footer>}
+                </Card.Footer>
+            }
         </Card>
     );
 };

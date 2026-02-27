@@ -1,5 +1,6 @@
 import { PolygonLayer } from "models/layers";
 import { components } from "types/ivy-types";
+import colorTokens from 'styles/color-tokens.module.scss';
 
 type Route = components['schemas']['Route'];
 
@@ -38,21 +39,21 @@ export const lastNDaysMapping = {
 };
 
 export const rectangleOptionsSelected: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
+    fillColor: colorTokens.colorPrimary,
     fillOpacity: 0.1,
-    strokeWeight: 4,
+    strokeWeight: 0,
 };
 
 export const rectangleOptionsVisited: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
+    fillColor: colorTokens.colorPrimary,
     fillOpacity: 0,
-    strokeWeight: 1,
+    strokeWeight: 0,
 };
 
 export const rectangleOptionsNonVisited: google.maps.RectangleOptions = {
-    strokeColor: '#0d6efd',
+    fillColor: colorTokens.colorPrimary,
     fillOpacity: 0.4,
-    strokeWeight: 1,
+    strokeWeight: 0,
 };
 
 export interface PolygonProps {

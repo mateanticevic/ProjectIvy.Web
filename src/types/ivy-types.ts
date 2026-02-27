@@ -1771,6 +1771,7 @@ export interface paths {
                 query?: {
                     HasExpired?: boolean;
                     IsActive?: boolean;
+                    LastFourDigits?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4621,6 +4622,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -4709,6 +4711,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -4770,6 +4773,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -4831,6 +4835,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -4892,6 +4897,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -4949,6 +4955,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5010,6 +5017,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5071,6 +5079,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5132,6 +5141,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5234,6 +5244,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5297,6 +5308,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5360,6 +5372,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5423,6 +5436,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5486,6 +5500,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5549,6 +5564,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5612,6 +5628,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5675,6 +5692,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5738,6 +5756,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5801,6 +5820,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5862,6 +5882,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5923,6 +5944,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -5984,6 +6006,7 @@ export interface paths {
                     PaymentTypeId?: string[];
                     TypeId?: string[];
                     VendorId?: string[];
+                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
                     Search?: string;
@@ -11182,6 +11205,7 @@ export interface components {
             name?: string | null;
         };
         Expense: {
+            externalId?: string | null;
             /** Format: double */
             amount?: number;
             /** Format: double */
@@ -11211,6 +11235,7 @@ export interface components {
             readonly name?: string | null;
         };
         ExpenseBinding: {
+            externalId?: string | null;
             /** Format: double */
             amount?: number;
             /** Format: double */
@@ -11729,6 +11754,8 @@ export interface components {
             id?: string | null;
             name?: string | null;
             brand?: components["schemas"]["Brand"];
+            /** Format: date-time */
+            acquired?: string | null;
             ownership?: components["schemas"]["Ownership"];
         };
         InventoryItemBinding: {

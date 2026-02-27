@@ -250,6 +250,18 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                         </FormGroup>
                     </Col>
                 </Row>
+                <Row>
+                    <Col lg={6}>
+                        <FormGroup>
+                            <FormLabel>External ID</FormLabel>
+                            <FormControl
+                                value={expense.externalId || ''}
+                                type="text"
+                                readOnly
+                            />
+                        </FormGroup>
+                    </Col>
+                </Row>
             </Tab>
         </Tabs>
     );
