@@ -1,34 +1,23 @@
+import { components, paths } from 'types/ivy-types';
 import * as api from '../config';
 
-interface TodoFilters {
-    From?: string;
-    To?: string;
-    OrderAscending?: boolean;
-}
+type ToDoBinding = components['schemas']['ToDoBinding'];
+type ToDoPagedView = components['schemas']['ToDoPagedView'];
+type GetToDoQuery = paths['/ToDo']['get']['parameters']['query'];
 
-interface Todo {
-    id?: string;
-    description?: string;
-    created?: string;
-    done?: boolean;
-}
+const get = (filters?: GetToDoQuery): Promise<ToDoPagedView> => api.get('todo', filters);
 
-function get(filters?: TodoFilters): Promise<Todo[]> {
-    return api.get('todo', filters);
-}
+const post = (todo: ToDoBinding): Promise<number> => api.post('todo', todo);
 
-function post(todo: Todo): Promise<number> {
-    return api.post('todo', todo);
-}
+const postTag = (id: string, tagId: string): Promise<number> => api.post(`todo/${id}/tag/${tagId}`);
 
-function postDone(id: string): Promise<number> {
-    return api.post(`todo/${id}/done`);
-}
+const deleteTag = (id: string, tagId: string): Promise<number> => api.del(`todo/${id}/tag/${tagId}`);
 
 const todo = {
     get,
     post,
-    postDone,
+    postTag,
+    deleteTag,
 };
 
 export default todo;

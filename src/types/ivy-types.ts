@@ -2674,6 +2674,11 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
                     PageAll?: boolean;
                     Page?: number;
                     PageSize?: number;
@@ -9423,6 +9428,128 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ToDo": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    TagId?: string[];
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ToDoPagedView"];
+                        "application/json": components["schemas"]["ToDoPagedView"];
+                        "text/json": components["schemas"]["ToDoPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ToDoBinding"];
+                    "text/json": components["schemas"]["ToDoBinding"];
+                    "application/*+json": components["schemas"]["ToDoBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/{id}/tag/{tagId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                    tagId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                    tagId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Service/LastFm/Track": {
         parameters: {
             query?: never;
@@ -11941,6 +12068,27 @@ export interface components {
         StringStringDecimalKeyValuePairIEnumerableKeyValuePair: {
             key?: string | null;
             value?: components["schemas"]["StringDecimalKeyValuePair"][] | null;
+        };
+        Tag: {
+            id?: string | null;
+            name?: string | null;
+        };
+        ToDo: {
+            id?: string | null;
+            /** Format: date-time */
+            created?: string;
+            name?: string | null;
+            description?: string | null;
+            tags?: components["schemas"]["Tag"][] | null;
+        };
+        ToDoBinding: {
+            name?: string | null;
+            description?: string | null;
+        };
+        ToDoPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["ToDo"][] | null;
         };
         Track: {
             artist?: components["schemas"]["Artist"];
