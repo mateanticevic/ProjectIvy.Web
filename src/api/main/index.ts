@@ -25,6 +25,7 @@ import poi from './poi';
 import ride from './ride';
 import route from './route';
 import stay from './stay';
+import tag from './tag';
 import todo from './todo';
 import tracking from './tracking';
 import trip from './trip';
@@ -61,6 +62,7 @@ const api = {
     ride,
     route,
     stay,
+    tag,
     todo,
     tracking,
     trip,

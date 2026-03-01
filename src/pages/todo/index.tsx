@@ -1,17 +1,43 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Badge, Button, Card, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
+import AsyncCreatableSelect from 'react-select/async-creatable';
+import { SingleValue, StylesConfig } from 'react-select';
+import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row } from 'react-bootstrap';
 
 import api from 'api/main';
 import Spinner from 'components/spinner';
 import { components } from 'types/ivy-types';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type ToDo = components['schemas']['ToDo'];
+type Tag = components['schemas']['Tag'];
+type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 
 const TodoPage: React.FC = () => {
     const [items, setItems] = useState<ToDo[]>([]);
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
+    const [assigningTagFor, setAssigningTagFor] = useState<string | null>(null);
+    const reactSelectStyles = useReactSelectStyles();
+    const tagSelectStyles = reactSelectStyles as StylesConfig<SelectTagOption, false>;
+
+    const getItemKey = useCallback((item: ToDo) => item.id ?? item.name ?? '', []);
+
+    const loadTagOptions = useCallback((search: string, callback: (options: SelectTagOption[]) => void) => {
+        api.tag.get({ Search: search, PageSize: 10 })
+            .then(data => {
+                const options = (data.items ?? []).reduce<SelectTagOption[]>((result, tag) => {
+                    if (tag.id && tag.name) {
+                        result.push({ value: tag.id, label: tag.name });
+                    }
+
+                    return result;
+                }, []);
+                callback(options);
+            })
+            .catch(() => callback([]));
+    }, []);
 
     const loadTodos = useCallback(() => {
         setIsLoading(true);
@@ -40,6 +66,61 @@ const TodoPage: React.FC = () => {
                 loadTodos();
             })
             .finally(() => setIsSaving(false));
+    };
+
+    const onTagSelected = (item: ToDo, selected: SingleValue<SelectTagOption>) => {
+        if (!item.id || !selected) {
+            return;
+        }
+
+        const itemKey = getItemKey(item);
+        if (!itemKey) {
+            return;
+        }
+
+        setAssigningTagFor(itemKey);
+
+        const selectedLabel = (selected.label ?? '').trim().toLocaleLowerCase();
+        const isAlreadyAssigned = (item.tags ?? []).some(tag =>
+            (tag.id && tag.id === selected.value)
+            || ((tag.name ?? '').trim().toLocaleLowerCase() === selectedLabel)
+        );
+
+        if (isAlreadyAssigned) {
+            setAssigningTagFor(null);
+            setOpenTagDropdownFor(null);
+            return;
+        }
+
+        const assignTag = async () => {
+            let tagId = selected.value;
+
+            if (selected.__isNew__) {
+                const tagName = selected.label?.trim();
+                if (!tagName) {
+                    return;
+                }
+
+                await api.tag.post({ name: tagName });
+
+                const tagData = await api.tag.get({ Search: tagName, PageSize: 20 });
+                const createdTag = (tagData.items ?? []).find((tag: Tag) =>
+                    (tag.name ?? '').trim().toLocaleLowerCase() === tagName.toLocaleLowerCase()
+                );
+
+                if (!createdTag?.id) {
+                    return;
+                }
+
+                tagId = createdTag.id;
+            }
+
+            await api.todo.postTag(item.id as string, tagId);
+            setOpenTagDropdownFor(null);
+            loadTodos();
+        };
+
+        assignTag().finally(() => setAssigningTagFor(null));
     };
 
     return (
@@ -77,7 +158,7 @@ const TodoPage: React.FC = () => {
                                         <Card key={item.id ?? item.name}>
                                             <Card.Body className="d-flex justify-content-between align-items-center py-2">
                                                 <div className="fw-semibold">{item.name}</div>
-                                                <div className="d-flex gap-1 flex-wrap justify-content-end">
+                                                <div className="d-flex gap-1 flex-wrap justify-content-end align-items-center">
                                                     {(item.tags ?? []).length > 0 ? (
                                                         (item.tags ?? []).map(tag => (
                                                             <Badge key={tag.id ?? tag.name} bg="secondary">
@@ -87,6 +168,35 @@ const TodoPage: React.FC = () => {
                                                     ) : (
                                                         <Badge bg="light" text="dark">No labels</Badge>
                                                     )}
+                                                    <Dropdown
+                                                        align="end"
+                                                        autoClose="outside"
+                                                        show={openTagDropdownFor === getItemKey(item)}
+                                                        onToggle={isOpen => setOpenTagDropdownFor(isOpen ? getItemKey(item) : null)}
+                                                    >
+                                                        <Dropdown.Toggle
+                                                            size="sm"
+                                                            variant="outline-secondary"
+                                                            className="py-0 px-2"
+                                                            id={`todo-tag-toggle-${getItemKey(item)}`}
+                                                            disabled={!item.id || assigningTagFor === getItemKey(item)}
+                                                        >
+                                                            +
+                                                        </Dropdown.Toggle>
+                                                        <Dropdown.Menu className="p-2" style={{ minWidth: 260 }}>
+                                                            <AsyncCreatableSelect<SelectTagOption, false>
+                                                                loadOptions={loadTagOptions}
+                                                                defaultOptions
+                                                                isClearable
+                                                                styles={tagSelectStyles}
+                                                                isDisabled={assigningTagFor === getItemKey(item)}
+                                                                placeholder="Search or create tag"
+                                                                onChange={option => onTagSelected(item, option)}
+                                                                formatCreateLabel={value => `Create \"${value}\"`}
+                                                                noOptionsMessage={({ inputValue }) => inputValue ? 'No tags found' : 'Type to search tags'}
+                                                            />
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
                                                 </div>
                                             </Card.Body>
                                         </Card>

@@ -9428,6 +9428,71 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Tag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagPagedView"];
+                        "application/json": components["schemas"]["TagPagedView"];
+                        "text/json": components["schemas"]["TagPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["TagBinding"];
+                    "text/json": components["schemas"]["TagBinding"];
+                    "application/*+json": components["schemas"]["TagBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ToDo": {
         parameters: {
             query?: never;
@@ -12072,6 +12137,14 @@ export interface components {
         Tag: {
             id?: string | null;
             name?: string | null;
+        };
+        TagBinding: {
+            name?: string | null;
+        };
+        TagPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Tag"][] | null;
         };
         ToDo: {
             id?: string | null;
