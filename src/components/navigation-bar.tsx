@@ -10,6 +10,7 @@ import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 
 import { Feature, Identity, Scopes } from 'types/users';
+import { LuListTodo } from 'react-icons/lu';
 
 interface Props {
     identity: Identity;
@@ -55,6 +56,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                             }
                             <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/inventory"><MdInventory /> Inventory</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/todo"><LuListTodo /> Todo</NavDropdown.Item>
                             {identity.pif?.includes(Feature.Calls) &&
                                 <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
                             }
