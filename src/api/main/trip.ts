@@ -20,6 +20,8 @@ function deleteExpense(tripId: string, expenseId: string): Promise<number> {
     return api.del(`trip/${tripId}/expense/${expenseId}`);
 }
 
+const deleteToDo = (tripId: string, toDoId: string): Promise<number> => api.del(`trip/${tripId}/todo/${toDoId}`);
+
 const deleteCity = (tripId: string, cityId: string): Promise<number> => api.del(`trip/${tripId}/city/${cityId}`);
 
 function post(trip: TripBinding): Promise<number> {
@@ -30,12 +32,15 @@ const postCity = (tripId: string, cityId: string): Promise<number> => api.post(`
 
 const postExpense = (tripId: string, expenseId: string): Promise<number> => api.post(`trip/${tripId}/expense/${expenseId}`);
 
+const postToDo = (tripId: string, toDoId: string): Promise<number> => api.post(`trip/${tripId}/todo/${toDoId}`);
+
 function postPoi(tripId: string, poiId: string): Promise<number> {
     return api.post(`trip/${tripId}/poi/${poiId}`);
 }
 
 const trip = {
     deleteExpense,
+    deleteToDo,
     deleteCity,
     get,
     getById,
@@ -43,6 +48,7 @@ const trip = {
     post,
     postCity,
     postExpense,
+    postToDo,
     postPoi,
 };
 

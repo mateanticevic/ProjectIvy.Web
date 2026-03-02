@@ -9560,6 +9560,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ToDo/Count/ByTag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["TagInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["TagInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ToDo/{id}": {
         parameters: {
             query?: never;
@@ -10645,6 +10682,62 @@ export interface paths {
                 path: {
                     tripId: string;
                     poiId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Trip/{tripId}/ToDo/{toDoId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    tripId: string;
+                    toDoId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    tripId: string;
+                    toDoId: string;
                 };
                 cookie?: never;
             };
@@ -12182,6 +12275,11 @@ export interface components {
         };
         TagBinding: {
             name?: string | null;
+        };
+        TagInt32KeyValuePair: {
+            key?: components["schemas"]["Tag"];
+            /** Format: int32 */
+            value?: number;
         };
         TagPagedView: {
             /** Format: int64 */

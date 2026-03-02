@@ -3,10 +3,13 @@ import * as api from '../config';
 
 type ToDoBinding = components['schemas']['ToDoBinding'];
 type ToDoPagedView = components['schemas']['ToDoPagedView'];
+type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
 type GetToDoQuery = paths['/ToDo']['get']['parameters']['query'];
 type PutToDoPath = paths['/ToDo/{id}']['put']['parameters']['path'];
 
 const get = (filters?: GetToDoQuery): Promise<ToDoPagedView> => api.get('todo', filters);
+
+const getCountByTag = (): Promise<TagInt32KeyValuePair[]> => api.get('todo/count/bytag');
 
 const post = (todo: ToDoBinding): Promise<number> => api.post('todo', todo);
 
@@ -18,6 +21,7 @@ const deleteTag = (id: string, tagId: string): Promise<number> => api.del(`todo/
 
 const todo = {
     get,
+    getCountByTag,
     post,
     put,
     postTag,

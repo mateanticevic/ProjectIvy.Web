@@ -10,11 +10,13 @@ import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type ToDo = components['schemas']['ToDo'];
 type Tag = components['schemas']['Tag'];
+type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
 type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 
 const TodoPage: React.FC = () => {
     const [todoItems, setTodoItems] = useState<ToDo[]>([]);
     const [completedItems, setCompletedItems] = useState<ToDo[]>([]);
+    const [tagCounts, setTagCounts] = useState<TagInt32KeyValuePair[]>([]);
     const [activeTab, setActiveTab] = useState<'todo' | 'completed'>('todo');
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -46,15 +48,18 @@ const TodoPage: React.FC = () => {
         setIsLoading(true);
         Promise.all([
             api.todo.get({ IsCompleted: false }),
-            api.todo.get({ IsCompleted: true })
+            api.todo.get({ IsCompleted: true }),
+            api.todo.getCountByTag()
         ])
-            .then(([todoData, completedData]) => {
+            .then(([todoData, completedData, countsData]) => {
                 setTodoItems(todoData.items ?? []);
                 setCompletedItems(completedData.items ?? []);
+                setTagCounts(countsData ?? []);
             })
             .catch(() => {
                 setTodoItems([]);
                 setCompletedItems([]);
+                setTagCounts([]);
             })
             .finally(() => setIsLoading(false));
     }, []);
@@ -247,6 +252,16 @@ const TodoPage: React.FC = () => {
                                     </Button>
                                 </InputGroup>
                             </Form>
+
+                            {tagCounts.length > 0 && (
+                                <div className="d-flex gap-1 flex-wrap mb-3">
+                                    {tagCounts.map(tagCount => (
+                                        <Badge key={tagCount.key?.id ?? tagCount.key?.name} bg="secondary">
+                                            {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            )}
 
                             {isLoading ? (
                                 <div className="text-center py-4">
