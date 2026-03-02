@@ -9503,6 +9503,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    IsCompleted?: boolean;
                     TagId?: string[];
                     Search?: string;
                     PageAll?: boolean;
@@ -9553,6 +9554,47 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ToDoBinding"];
+                    "text/json": components["schemas"]["ToDoBinding"];
+                    "application/*+json": components["schemas"]["ToDoBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -12157,6 +12199,7 @@ export interface components {
         ToDoBinding: {
             name?: string | null;
             description?: string | null;
+            isCompleted?: boolean;
         };
         ToDoPagedView: {
             /** Format: int64 */
