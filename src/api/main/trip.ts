@@ -34,6 +34,8 @@ const postExpense = (tripId: string, expenseId: string): Promise<number> => api.
 
 const postToDo = (tripId: string, toDoId: string): Promise<number> => api.post(`trip/${tripId}/todo/${toDoId}`);
 
+const addToDo = (tripId: string, toDoId: string): Promise<number> => api.post(`trip/${tripId}/todo/${toDoId}`);
+
 function postPoi(tripId: string, poiId: string): Promise<number> {
     return api.post(`trip/${tripId}/poi/${poiId}`);
 }
@@ -49,6 +51,7 @@ const trip = {
     postCity,
     postExpense,
     postToDo,
+    addToDo,
     postPoi,
 };
 

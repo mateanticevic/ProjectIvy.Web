@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
+import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
 import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row, Tab, Tabs } from 'react-bootstrap';
 
@@ -7,11 +8,15 @@ import api from 'api/main';
 import Spinner from 'components/spinner';
 import { components } from 'types/ivy-types';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
+import { IoPricetag } from 'react-icons/io5';
+import { FaRoute } from 'react-icons/fa';
 
 type ToDo = components['schemas']['ToDo'];
 type Tag = components['schemas']['Tag'];
+type Trip = components['schemas']['Trip'];
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
 type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
+type SelectTripOption = { value: string; label: string };
 
 const TodoPage: React.FC = () => {
     const [todoItems, setTodoItems] = useState<ToDo[]>([]);
@@ -24,9 +29,12 @@ const TodoPage: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [updatingItemFor, setUpdatingItemFor] = useState<string | null>(null);
     const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
+    const [openTripDropdownFor, setOpenTripDropdownFor] = useState<string | null>(null);
     const [assigningTagFor, setAssigningTagFor] = useState<string | null>(null);
+    const [assigningTripFor, setAssigningTripFor] = useState<string | null>(null);
     const reactSelectStyles = useReactSelectStyles();
     const tagSelectStyles = reactSelectStyles as StylesConfig<SelectTagOption, false>;
+    const tripSelectStyles = reactSelectStyles as StylesConfig<SelectTripOption, false>;
 
     const getItemKey = useCallback((item: ToDo) => item.id ?? item.name ?? '', []);
 
@@ -36,6 +44,21 @@ const TodoPage: React.FC = () => {
                 const options = (data.items ?? []).reduce<SelectTagOption[]>((result, tag) => {
                     if (tag.id && tag.name) {
                         result.push({ value: tag.id, label: tag.name });
+                    }
+
+                    return result;
+                }, []);
+                callback(options);
+            })
+            .catch(() => callback([]));
+    }, []);
+
+    const loadTripOptions = useCallback((search: string, callback: (options: SelectTripOption[]) => void) => {
+        api.trip.get({ Search: search, PageSize: 10 })
+            .then(data => {
+                const options = (data.items ?? []).reduce<SelectTripOption[]>((result, trip: Trip) => {
+                    if (trip.id && trip.name) {
+                        result.push({ value: trip.id, label: trip.name });
                     }
 
                     return result;
@@ -164,6 +187,26 @@ const TodoPage: React.FC = () => {
             .finally(() => setUpdatingItemFor(null));
     };
 
+    const onTripSelected = (item: ToDo, selected: SingleValue<SelectTripOption>) => {
+        if (!item.id || !selected?.value) {
+            return;
+        }
+
+        const itemKey = getItemKey(item);
+        if (!itemKey) {
+            return;
+        }
+
+        setAssigningTripFor(itemKey);
+
+        api.trip.addToDo(selected.value, item.id)
+            .then(() => {
+                setOpenTripDropdownFor(null);
+                loadTodos();
+            })
+            .finally(() => setAssigningTripFor(null));
+    };
+
     const toggleTagSelection = (tag?: Tag | null) => {
         const tagId = tag?.id;
         if (!tagId) {
@@ -220,7 +263,7 @@ const TodoPage: React.FC = () => {
                                         id={`todo-tag-toggle-${getItemKey(item)}`}
                                         disabled={!item.id || assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
                                     >
-                                        +
+                                        <IoPricetag />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu className="p-2" style={{ minWidth: 260 }}>
                                         <AsyncCreatableSelect<SelectTagOption, false>
@@ -233,6 +276,34 @@ const TodoPage: React.FC = () => {
                                             onChange={option => onTagSelected(item, option)}
                                             formatCreateLabel={value => `Create \"${value}\"`}
                                             noOptionsMessage={({ inputValue }) => inputValue ? 'No tags found' : 'Type to search tags'}
+                                        />
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                                <Dropdown
+                                    align="end"
+                                    autoClose="outside"
+                                    show={openTripDropdownFor === getItemKey(item)}
+                                    onToggle={isOpen => setOpenTripDropdownFor(isOpen ? getItemKey(item) : null)}
+                                >
+                                    <Dropdown.Toggle
+                                        size="sm"
+                                        variant="outline-secondary"
+                                        className="py-0 px-2"
+                                        id={`todo-trip-toggle-${getItemKey(item)}`}
+                                        disabled={!item.id || assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                    >
+                                        <FaRoute />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="p-2" style={{ minWidth: 260 }}>
+                                        <AsyncSelect<SelectTripOption, false>
+                                            loadOptions={loadTripOptions}
+                                            defaultOptions
+                                            isClearable
+                                            styles={tripSelectStyles}
+                                            isDisabled={assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                            placeholder="Search trip"
+                                            onChange={option => onTripSelected(item, option)}
+                                            noOptionsMessage={({ inputValue }) => inputValue ? 'No trips found' : 'Type to search trips'}
                                         />
                                     </Dropdown.Menu>
                                 </Dropdown>
