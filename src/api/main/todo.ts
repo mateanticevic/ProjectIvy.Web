@@ -5,11 +5,12 @@ type ToDoBinding = components['schemas']['ToDoBinding'];
 type ToDoPagedView = components['schemas']['ToDoPagedView'];
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
 type GetToDoQuery = paths['/ToDo']['get']['parameters']['query'];
+type GetToDoCountByTagQuery = paths['/ToDo/Count/ByTag']['get']['parameters']['query'];
 type PutToDoPath = paths['/ToDo/{id}']['put']['parameters']['path'];
 
 const get = (filters?: GetToDoQuery): Promise<ToDoPagedView> => api.get('todo', filters);
 
-const getCountByTag = (): Promise<TagInt32KeyValuePair[]> => api.get('todo/count/bytag');
+const getCountByTag = (filters?: GetToDoCountByTagQuery): Promise<TagInt32KeyValuePair[]> => api.get('todo/count/bytag', filters);
 
 const post = (todo: ToDoBinding): Promise<number> => api.post('todo', todo);
 

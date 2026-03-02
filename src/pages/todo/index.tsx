@@ -72,11 +72,15 @@ const TodoPage: React.FC = () => {
     const loadTodos = useCallback(() => {
         setIsLoading(true);
         const filters = selectedTagIds.length > 0 ? { TagId: selectedTagIds } : undefined;
+        const countFilters = {
+            ...filters,
+            IsCompleted: activeTab === 'completed'
+        };
 
         Promise.all([
             api.todo.get({ IsCompleted: false, ...filters }),
             api.todo.get({ IsCompleted: true, ...filters }),
-            api.todo.getCountByTag()
+            api.todo.getCountByTag(countFilters)
         ])
             .then(([todoData, completedData, countsData]) => {
                 setTodoItems(todoData.items ?? []);
@@ -89,7 +93,7 @@ const TodoPage: React.FC = () => {
                 setTagCounts([]);
             })
             .finally(() => setIsLoading(false));
-    }, [selectedTagIds]);
+    }, [activeTab, selectedTagIds]);
 
     useEffect(() => {
         loadTodos();
@@ -381,7 +385,10 @@ const TodoPage: React.FC = () => {
                             ) : (
                                 <Tabs
                                     activeKey={activeTab}
-                                    onSelect={key => setActiveTab((key as 'todo' | 'completed') || 'todo')}
+                                    onSelect={key => {
+                                        setSelectedTagIds([]);
+                                        setActiveTab((key as 'todo' | 'completed') || 'todo');
+                                    }}
                                     className="mb-3"
                                 >
                                     <Tab eventKey="todo" title="To do">
