@@ -14,6 +14,7 @@ import { FaRoute } from 'react-icons/fa';
 type ToDo = components['schemas']['ToDo'];
 type Tag = components['schemas']['Tag'];
 type Trip = components['schemas']['Trip'];
+type ToDoWithTrips = ToDo & { trips?: Trip[] | null };
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
 type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 type SelectTripOption = { value: string; label: string };
@@ -241,6 +242,13 @@ const TodoPage: React.FC = () => {
                                 <div className="fw-semibold">{item.name}</div>
                             </div>
                             <div className="d-flex gap-1 flex-wrap justify-content-end align-items-center">
+                                {((item as ToDoWithTrips).trips ?? []).length > 0 && (
+                                    ((item as ToDoWithTrips).trips ?? []).map(trip => (
+                                        <Badge key={`trip-${trip.id ?? trip.name}`} bg="secondary">
+                                            {trip.name}
+                                        </Badge>
+                                    ))
+                                )}
                                 {(item.tags ?? []).length > 0 ? (
                                     (item.tags ?? []).map(tag => (
                                         <Badge key={tag.id ?? tag.name} bg="secondary">

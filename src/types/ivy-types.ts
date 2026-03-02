@@ -9569,7 +9569,14 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    IsCompleted?: boolean;
+                    TagId?: string[];
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -12293,6 +12300,7 @@ export interface components {
             name?: string | null;
             description?: string | null;
             tags?: components["schemas"]["Tag"][] | null;
+            trips?: components["schemas"]["Trip"][] | null;
         };
         ToDoBinding: {
             name?: string | null;
