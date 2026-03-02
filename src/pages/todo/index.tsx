@@ -17,6 +17,7 @@ const TodoPage: React.FC = () => {
     const [todoItems, setTodoItems] = useState<ToDo[]>([]);
     const [completedItems, setCompletedItems] = useState<ToDo[]>([]);
     const [tagCounts, setTagCounts] = useState<TagInt32KeyValuePair[]>([]);
+    const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
     const [activeTab, setActiveTab] = useState<'todo' | 'completed'>('todo');
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -46,9 +47,11 @@ const TodoPage: React.FC = () => {
 
     const loadTodos = useCallback(() => {
         setIsLoading(true);
+        const filters = selectedTagIds.length > 0 ? { TagId: selectedTagIds } : undefined;
+
         Promise.all([
-            api.todo.get({ IsCompleted: false }),
-            api.todo.get({ IsCompleted: true }),
+            api.todo.get({ IsCompleted: false, ...filters }),
+            api.todo.get({ IsCompleted: true, ...filters }),
             api.todo.getCountByTag()
         ])
             .then(([todoData, completedData, countsData]) => {
@@ -62,7 +65,7 @@ const TodoPage: React.FC = () => {
                 setTagCounts([]);
             })
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [selectedTagIds]);
 
     useEffect(() => {
         loadTodos();
@@ -161,6 +164,19 @@ const TodoPage: React.FC = () => {
             .finally(() => setUpdatingItemFor(null));
     };
 
+    const toggleTagSelection = (tag?: Tag | null) => {
+        const tagId = tag?.id;
+        if (!tagId) {
+            return;
+        }
+
+        setSelectedTagIds(current =>
+            current.includes(tagId)
+                ? current.filter(x => x !== tagId)
+                : [...current, tagId]
+        );
+    };
+
     const renderTodoList = (items: ToDo[], emptyLabel: string, isCompletedList: boolean) => {
         if (items.length === 0) {
             return <div className="text-center text-muted py-3">{emptyLabel}</div>;
@@ -228,6 +244,32 @@ const TodoPage: React.FC = () => {
         );
     };
 
+    const renderTagFilters = () => {
+        if (tagCounts.length === 0) {
+            return null;
+        }
+
+        return (
+            <div className="d-flex gap-1 flex-wrap mb-3">
+                {tagCounts.map(tagCount => {
+                    const tagId = tagCount.key?.id;
+                    const isSelected = tagId ? selectedTagIds.includes(tagId) : false;
+
+                    return (
+                        <Badge
+                            key={tagCount.key?.id ?? tagCount.key?.name}
+                            bg={isSelected ? 'primary' : 'secondary'}
+                            className="cursor-pointer"
+                            onClick={() => toggleTagSelection(tagCount.key)}
+                        >
+                            {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
+                        </Badge>
+                    );
+                })}
+            </div>
+        );
+    };
+
     const activeItemCount = activeTab === 'todo' ? todoItems.length : completedItems.length;
 
     return (
@@ -253,16 +295,6 @@ const TodoPage: React.FC = () => {
                                 </InputGroup>
                             </Form>
 
-                            {tagCounts.length > 0 && (
-                                <div className="d-flex gap-1 flex-wrap mb-3">
-                                    {tagCounts.map(tagCount => (
-                                        <Badge key={tagCount.key?.id ?? tagCount.key?.name} bg="secondary">
-                                            {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
-                                        </Badge>
-                                    ))}
-                                </div>
-                            )}
-
                             {isLoading ? (
                                 <div className="text-center py-4">
                                     <Spinner size="2x" />
@@ -274,9 +306,11 @@ const TodoPage: React.FC = () => {
                                     className="mb-3"
                                 >
                                     <Tab eventKey="todo" title="To do">
+                                        {renderTagFilters()}
                                         {renderTodoList(todoItems, 'No todo items found', false)}
                                     </Tab>
                                     <Tab eventKey="completed" title="Completed">
+                                        {renderTagFilters()}
                                         {renderTodoList(completedItems, 'No completed items found', true)}
                                     </Tab>
                                 </Tabs>
