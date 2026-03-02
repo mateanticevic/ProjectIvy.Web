@@ -19,6 +19,7 @@ const TodoPage: React.FC = () => {
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [updatingItemFor, setUpdatingItemFor] = useState<string | null>(null);
     const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
     const [assigningTagFor, setAssigningTagFor] = useState<string | null>(null);
     const reactSelectStyles = useReactSelectStyles();
@@ -134,7 +135,28 @@ const TodoPage: React.FC = () => {
         assignTag().finally(() => setAssigningTagFor(null));
     };
 
-    const renderTodoList = (items: ToDo[], emptyLabel: string) => {
+    const onToggleCompleted = (item: ToDo, isCompleted: boolean) => {
+        if (!item.id) {
+            return;
+        }
+
+        const itemKey = getItemKey(item);
+        if (!itemKey || updatingItemFor === itemKey) {
+            return;
+        }
+
+        setUpdatingItemFor(itemKey);
+
+        api.todo.put(item.id, {
+            name: item.name,
+            description: item.description,
+            isCompleted,
+        })
+            .then(() => loadTodos())
+            .finally(() => setUpdatingItemFor(null));
+    };
+
+    const renderTodoList = (items: ToDo[], emptyLabel: string, isCompletedList: boolean) => {
         if (items.length === 0) {
             return <div className="text-center text-muted py-3">{emptyLabel}</div>;
         }
@@ -144,7 +166,16 @@ const TodoPage: React.FC = () => {
                 {items.map(item => (
                     <Card key={item.id ?? item.name}>
                         <Card.Body className="d-flex justify-content-between align-items-center py-2">
-                            <div className="fw-semibold">{item.name}</div>
+                            <div className="d-flex align-items-center gap-2">
+                                <Form.Check
+                                    type="checkbox"
+                                    checked={isCompletedList}
+                                    disabled={!item.id || updatingItemFor === getItemKey(item)}
+                                    onChange={x => onToggleCompleted(item, x.currentTarget.checked)}
+                                    aria-label={`Mark ${item.name ?? 'todo item'} as completed`}
+                                />
+                                <div className="fw-semibold">{item.name}</div>
+                            </div>
                             <div className="d-flex gap-1 flex-wrap justify-content-end align-items-center">
                                 {(item.tags ?? []).length > 0 ? (
                                     (item.tags ?? []).map(tag => (
@@ -166,7 +197,7 @@ const TodoPage: React.FC = () => {
                                         variant="outline-secondary"
                                         className="py-0 px-2"
                                         id={`todo-tag-toggle-${getItemKey(item)}`}
-                                        disabled={!item.id || assigningTagFor === getItemKey(item)}
+                                        disabled={!item.id || assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
                                     >
                                         +
                                     </Dropdown.Toggle>
@@ -176,7 +207,7 @@ const TodoPage: React.FC = () => {
                                             defaultOptions
                                             isClearable
                                             styles={tagSelectStyles}
-                                            isDisabled={assigningTagFor === getItemKey(item)}
+                                            isDisabled={assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
                                             placeholder="Search or create tag"
                                             onChange={option => onTagSelected(item, option)}
                                             formatCreateLabel={value => `Create \"${value}\"`}
@@ -228,10 +259,10 @@ const TodoPage: React.FC = () => {
                                     className="mb-3"
                                 >
                                     <Tab eventKey="todo" title="To do">
-                                        {renderTodoList(todoItems, 'No todo items found')}
+                                        {renderTodoList(todoItems, 'No todo items found', false)}
                                     </Tab>
                                     <Tab eventKey="completed" title="Completed">
-                                        {renderTodoList(completedItems, 'No completed items found')}
+                                        {renderTodoList(completedItems, 'No completed items found', true)}
                                     </Tab>
                                 </Tabs>
                             )}
