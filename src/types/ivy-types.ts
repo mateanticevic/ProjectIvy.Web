@@ -9505,10 +9505,14 @@ export interface paths {
                 query?: {
                     IsCompleted?: boolean;
                     TagId?: string[];
+                    TripId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
                     PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -9572,10 +9576,14 @@ export interface paths {
                 query?: {
                     IsCompleted?: boolean;
                     TagId?: string[];
+                    TripId?: string[];
                     Search?: string;
                     PageAll?: boolean;
                     Page?: number;
                     PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -9592,6 +9600,54 @@ export interface paths {
                         "text/plain": components["schemas"]["TagInt32KeyValuePair"][];
                         "application/json": components["schemas"]["TagInt32KeyValuePair"][];
                         "text/json": components["schemas"]["TagInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Count/ByTrip": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    IsCompleted?: boolean;
+                    TagId?: string[];
+                    TripId?: string[];
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TripInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["TripInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["TripInt32KeyValuePair"][];
                     };
                 };
             };
@@ -12411,6 +12467,11 @@ export interface components {
             /** Format: date-time */
             timestampStart?: string;
             cityIds?: string[] | null;
+        };
+        TripInt32KeyValuePair: {
+            key?: components["schemas"]["Trip"];
+            /** Format: int32 */
+            value?: number;
         };
         TripPagedView: {
             /** Format: int64 */

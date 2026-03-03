@@ -3,6 +3,8 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
 import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row, Tab, Tabs } from 'react-bootstrap';
+import Datetime from 'react-datetime';
+import moment from 'moment';
 
 import api from 'api/main';
 import { SmartScroll } from 'components';
@@ -17,6 +19,7 @@ type Tag = components['schemas']['Tag'];
 type Trip = components['schemas']['Trip'];
 type ToDoWithTrips = ToDo & { trips?: Trip[] | null };
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
+type TripInt32KeyValuePair = components['schemas']['TripInt32KeyValuePair'];
 type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 type SelectTripOption = { value: string; label: string };
 const TODO_PAGE_SIZE = 20;
@@ -27,7 +30,11 @@ const TodoPage: React.FC = () => {
     const [todoCount, setTodoCount] = useState(0);
     const [completedCount, setCompletedCount] = useState(0);
     const [tagCounts, setTagCounts] = useState<TagInt32KeyValuePair[]>([]);
+    const [tripCounts, setTripCounts] = useState<TripInt32KeyValuePair[]>([]);
     const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+    const [selectedTripIds, setSelectedTripIds] = useState<string[]>([]);
+    const [from, setFrom] = useState<string | null>(null);
+    const [to, setTo] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'todo' | 'completed'>('todo');
     const [todoPage, setTodoPage] = useState(1);
     const [completedPage, setCompletedPage] = useState(1);
@@ -81,23 +88,31 @@ const TodoPage: React.FC = () => {
         setIsLoading(true);
         setTodoPage(1);
         setCompletedPage(1);
-        const filters = selectedTagIds.length > 0 ? { TagId: selectedTagIds } : undefined;
+        const filters = {
+            ...(selectedTagIds.length > 0 ? { TagId: selectedTagIds } : {}),
+            ...(selectedTripIds.length > 0 ? { TripId: selectedTripIds } : {}),
+            ...(from ? { From: from } : {}),
+            ...(to ? { To: to } : {}),
+        };
+        const hasFilters = selectedTagIds.length > 0 || selectedTripIds.length > 0 || !!from || !!to;
         const countFilters = {
-            ...filters,
+            ...(hasFilters ? filters : {}),
             IsCompleted: activeTab === 'completed'
         };
 
         Promise.all([
-            api.todo.get({ IsCompleted: false, Page: 1, PageSize: TODO_PAGE_SIZE, ...filters }),
-            api.todo.get({ IsCompleted: true, Page: 1, PageSize: TODO_PAGE_SIZE, ...filters }),
-            api.todo.getCountByTag(countFilters)
+            api.todo.get({ IsCompleted: false, Page: 1, PageSize: TODO_PAGE_SIZE, ...(hasFilters ? filters : {}) }),
+            api.todo.get({ IsCompleted: true, Page: 1, PageSize: TODO_PAGE_SIZE, ...(hasFilters ? filters : {}) }),
+            api.todo.getCountByTag(countFilters),
+            api.todo.getCountByTrip(countFilters)
         ])
-            .then(([todoData, completedData, countsData]) => {
+            .then(([todoData, completedData, tagCountsData, tripCountsData]) => {
                 setTodoItems(todoData.items ?? []);
                 setCompletedItems(completedData.items ?? []);
                 setTodoCount(todoData.count ?? 0);
                 setCompletedCount(completedData.count ?? 0);
-                setTagCounts(countsData ?? []);
+                setTagCounts(tagCountsData ?? []);
+                setTripCounts(tripCountsData ?? []);
             })
             .catch(() => {
                 setTodoItems([]);
@@ -105,9 +120,10 @@ const TodoPage: React.FC = () => {
                 setTodoCount(0);
                 setCompletedCount(0);
                 setTagCounts([]);
+                setTripCounts([]);
             })
             .finally(() => setIsLoading(false));
-    }, [activeTab, selectedTagIds]);
+            }, [activeTab, selectedTagIds, selectedTripIds, from, to]);
 
     useEffect(() => {
         loadTodos();
@@ -245,7 +261,12 @@ const TodoPage: React.FC = () => {
         }
 
         const nextPage = todoPage + 1;
-        const filters = selectedTagIds.length > 0 ? { TagId: selectedTagIds } : undefined;
+        const filters = {
+            ...(selectedTagIds.length > 0 ? { TagId: selectedTagIds } : {}),
+            ...(selectedTripIds.length > 0 ? { TripId: selectedTripIds } : {}),
+            ...(from ? { From: from } : {}),
+            ...(to ? { To: to } : {}),
+        };
 
         setIsLoadingMoreTodo(true);
         api.todo.get({ IsCompleted: false, Page: nextPage, PageSize: TODO_PAGE_SIZE, ...filters })
@@ -264,7 +285,12 @@ const TodoPage: React.FC = () => {
         }
 
         const nextPage = completedPage + 1;
-        const filters = selectedTagIds.length > 0 ? { TagId: selectedTagIds } : undefined;
+        const filters = {
+            ...(selectedTagIds.length > 0 ? { TagId: selectedTagIds } : {}),
+            ...(selectedTripIds.length > 0 ? { TripId: selectedTripIds } : {}),
+            ...(from ? { From: from } : {}),
+            ...(to ? { To: to } : {}),
+        };
 
         setIsLoadingMoreCompleted(true);
         api.todo.get({ IsCompleted: true, Page: nextPage, PageSize: TODO_PAGE_SIZE, ...filters })
@@ -399,22 +425,67 @@ const TodoPage: React.FC = () => {
         }
 
         return (
-            <div className="d-flex gap-1 flex-wrap mb-3">
-                {tagCounts.map(tagCount => {
-                    const tagId = tagCount.key?.id;
-                    const isSelected = tagId ? selectedTagIds.includes(tagId) : false;
+            <div className="mb-3">
+                <div className="small text-muted fw-semibold mb-1">Filter by tags</div>
+                <div className="d-flex gap-1 flex-wrap">
+                    {tagCounts.map(tagCount => {
+                        const tagId = tagCount.key?.id;
+                        const isSelected = tagId ? selectedTagIds.includes(tagId) : false;
 
-                    return (
-                        <Badge
-                            key={tagCount.key?.id ?? tagCount.key?.name}
-                            bg={isSelected ? 'primary' : 'secondary'}
-                            className="cursor-pointer"
-                            onClick={() => toggleTagSelection(tagCount.key)}
-                        >
-                            {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
-                        </Badge>
-                    );
-                })}
+                        return (
+                            <Badge
+                                key={tagCount.key?.id ?? tagCount.key?.name}
+                                bg={isSelected ? 'primary' : 'secondary'}
+                                className="cursor-pointer476"
+                                onClick={() => toggleTagSelection(tagCount.key)}
+                            >
+                                {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
+                            </Badge>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    };
+
+    const toggleTripSelection = (trip?: Trip | null) => {
+        const tripId = trip?.id;
+        if (!tripId) {
+            return;
+        }
+
+        setSelectedTripIds(current =>
+            current.includes(tripId)
+                ? current.filter(x => x !== tripId)
+                : [...current, tripId]
+        );
+    };
+
+    const renderTripFilters = () => {
+        if (tripCounts.length === 0) {
+            return null;
+        }
+
+        return (
+            <div className="mb-3">
+                <div className="small text-muted fw-semibold mb-1">Filter by trips</div>
+                <div className="d-flex gap-1 flex-wrap">
+                    {tripCounts.map(tripCount => {
+                        const tripId = tripCount.key?.id;
+                        const isSelected = tripId ? selectedTripIds.includes(tripId) : false;
+
+                        return (
+                            <Badge
+                                key={tripCount.key?.id ?? tripCount.key?.name}
+                                bg={isSelected ? 'primary' : 'secondary'}
+                                className="cursor-pointer46"
+                                onClick={() => toggleTripSelection(tripCount.key)}
+                            >
+                                {`${tripCount.key?.name ?? 'Unknown'} (${tripCount.value ?? 0})`}
+                            </Badge>
+                        );
+                    })}
+                </div>
             </div>
         );
     };
@@ -443,6 +514,30 @@ const TodoPage: React.FC = () => {
                                     </Button>
                                 </InputGroup>
                             </Form>
+                            <Row className="g-2 mb-3">
+                                <Col md={6}>
+                                    <Form.Group>
+                                        <Form.Label className="small text-muted mb-1">From</Form.Label>
+                                        <Datetime
+                                            dateFormat="YYYY-MM-DD"
+                                            timeFormat={false}
+                                            value={from ?? ''}
+                                            onChange={value => setFrom(moment.isMoment(value) ? value.format('YYYY-MM-DD') : null)}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Group>
+                                        <Form.Label className="small text-muted mb-1">To</Form.Label>
+                                        <Datetime
+                                            dateFormat="YYYY-MM-DD"
+                                            timeFormat={false}
+                                            value={to ?? ''}
+                                            onChange={value => setTo(moment.isMoment(value) ? value.format('YYYY-MM-DD') : null)}
+                                        />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -458,16 +553,19 @@ const TodoPage: React.FC = () => {
                             activeKey={activeTab}
                             onSelect={key => {
                                 setSelectedTagIds([]);
+                                setSelectedTripIds([]);
                                 setActiveTab((key as 'todo' | 'completed') || 'todo');
                             }}
                             className="mb-3"
                         >
                             <Tab eventKey="todo" title="To do">
                                 {renderTagFilters()}
+                                {renderTripFilters()}
                                 {renderTodoList(todoItems, 'No todo items found', false, todoCount, isLoadingMoreTodo, loadMoreTodo)}
                             </Tab>
                             <Tab eventKey="completed" title="Completed">
                                 {renderTagFilters()}
+                                {renderTripFilters()}
                                 {renderTodoList(completedItems, 'No completed items found', true, completedCount, isLoadingMoreCompleted, loadMoreCompleted)}
                             </Tab>
                         </Tabs>

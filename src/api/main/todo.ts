@@ -4,13 +4,21 @@ import * as api from '../config';
 type ToDoBinding = components['schemas']['ToDoBinding'];
 type ToDoPagedView = components['schemas']['ToDoPagedView'];
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
+type TripInt32KeyValuePair = components['schemas']['TripInt32KeyValuePair'];
 type GetToDoQuery = paths['/ToDo']['get']['parameters']['query'];
 type GetToDoCountByTagQuery = paths['/ToDo/Count/ByTag']['get']['parameters']['query'];
+type GetToDoCountByTripQuery = paths['/ToDo/Count/ByTrip']['get']['parameters']['query'];
 type PutToDoPath = paths['/ToDo/{id}']['put']['parameters']['path'];
 
-const get = (filters?: GetToDoQuery): Promise<ToDoPagedView> => api.get('todo', filters);
+type ToDoQueryWithTrip = NonNullable<GetToDoQuery> & { TripId?: string[] };
+type GetToDoCountByTagQueryWithTrip = NonNullable<GetToDoCountByTagQuery> & { TripId?: string[] };
+type GetToDoCountByTripQueryWithTrip = NonNullable<GetToDoCountByTripQuery> & { TripId?: string[] };
 
-const getCountByTag = (filters?: GetToDoCountByTagQuery): Promise<TagInt32KeyValuePair[]> => api.get('todo/count/bytag', filters);
+const get = (filters?: ToDoQueryWithTrip): Promise<ToDoPagedView> => api.get('todo', filters as GetToDoQuery);
+
+const getCountByTag = (filters?: GetToDoCountByTagQueryWithTrip): Promise<TagInt32KeyValuePair[]> => api.get('todo/count/bytag', filters as GetToDoCountByTagQuery);
+
+const getCountByTrip = (filters?: GetToDoCountByTripQueryWithTrip): Promise<TripInt32KeyValuePair[]> => api.get('todo/count/bytrip', filters as GetToDoCountByTripQuery);
 
 const post = (todo: ToDoBinding): Promise<number> => api.post('todo', todo);
 
@@ -23,6 +31,7 @@ const deleteTag = (id: string, tagId: string): Promise<number> => api.del(`todo/
 const todo = {
     get,
     getCountByTag,
+    getCountByTrip,
     post,
     put,
     postTag,
