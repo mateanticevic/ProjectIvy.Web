@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Form } from 'react-bootstrap';;
+import { Badge, Button, Card, Col, Form, ListGroup, Row, Stack } from 'react-bootstrap';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import { AiOutlineScissor } from 'react-icons/ai';
@@ -14,7 +14,7 @@ import { components } from 'types/ivy-types';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
 import { trackingToLatLng } from 'utils/gmap-helper';
-import { FaHashtag } from 'react-icons/fa';
+import { FaHashtag, FaMountain } from 'react-icons/fa';
 
 momentDurationFormatSetup(moment);
 
@@ -143,47 +143,79 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                     step={1}
                     value={[startIndex, endIndex]}
                 />
-                <MarkerControl
-                    nextExists={endIndex - startIndex > 1}
-                    previousExists={startIndex > 0}
-                    timezone={timezone}
-                    tracking={layer.startTracking}
-                    onNext={() => onChange(startIndex + 1, endIndex)}
-                    onPrevious={() => onChange(startIndex - 1, endIndex)}
-                    onStep={(direction: RewindDirection) => onStep(MarkerType.Start, direction)}
-                />
-                <div className="pull-right">
-                    <MarkerControl
-                        nextExists={layer.trackings.length > endIndex + 1}
-                        previousExists={endIndex - startIndex > 1}
-                        timezone={timezone}
-                        tracking={layer.endTracking}
-                        onNext={() => onChange(startIndex, endIndex + 1)}
-                        onPrevious={() => onChange(startIndex, endIndex - 1)}
-                        onStep={(direction: RewindDirection) => onStep(MarkerType.End, direction)}
-                    />
-                </div>
-                <div>
-                    <BiStopwatch title="Time between trackings" />
-                    &nbsp;{moment.duration(moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp))).format()}
-                </div>
-                <div>
-                    <ImRoad />
-                    &nbsp;{distanceFormatted}
-                </div>
-                <div>
-                    <RiPinDistanceFill />
-                    &nbsp;{distanceBetweenMarkersFormatted}
-                </div>
-                <div>
-                    <FaHashtag />
-                    {layer.trackings.length}
-                </div>
-                <div>
-                    {layer.segments.map((segment, i) =>
-                        <div>{`${segment.start.format('HH:mm')}-${segment.end.format('HH:mm')} ${moment.duration(segment.end.diff(segment.start)).asMinutes().toFixed(0)} min ${layer.trackings[segment.endIndex]?.altitude}m ${segment.endIndex-segment.startIndex}`}</div>
-                    )}
-                </div>
+                <Row className="mt-3">
+                    <Col md={6}>
+                        <MarkerControl
+                            nextExists={endIndex - startIndex > 1}
+                            previousExists={startIndex > 0}
+                            timezone={timezone}
+                            tracking={layer.startTracking}
+                            onNext={() => onChange(startIndex + 1, endIndex)}
+                            onPrevious={() => onChange(startIndex - 1, endIndex)}
+                            onStep={(direction: RewindDirection) => onStep(MarkerType.Start, direction)}
+                        />
+                    </Col>
+                    <Col md={6} className="mt-3 mt-md-0 d-flex justify-content-md-end">
+                        <div className="ms-md-auto">
+                            <MarkerControl
+                                nextExists={layer.trackings.length > endIndex + 1}
+                                previousExists={endIndex - startIndex > 1}
+                                timezone={timezone}
+                                tracking={layer.endTracking}
+                                onNext={() => onChange(startIndex, endIndex + 1)}
+                                onPrevious={() => onChange(startIndex, endIndex - 1)}
+                                onStep={(direction: RewindDirection) => onStep(MarkerType.End, direction)}
+                            />
+                        </div>
+                    </Col>
+                </Row>
+                <Stack gap={2} className="mt-3">
+                    <div>
+                        <BiStopwatch title="Time between trackings" />
+                        &nbsp;{moment.duration(moment(layer.endTracking.timestamp).diff(moment(layer.startTracking.timestamp))).format()}
+                    </div>
+                    <div>
+                        <ImRoad />
+                        &nbsp;{distanceFormatted}
+                    </div>
+                    <div>
+                        <RiPinDistanceFill />
+                        &nbsp;{distanceBetweenMarkersFormatted}
+                    </div>
+                    <div>
+                        <FaHashtag />
+                        &nbsp;{layer.trackings.length}
+                    </div>
+                </Stack>
+                <ListGroup className="mt-3">
+                    {layer.segments.map((segment, i) => {
+                        const durationMinutes = moment.duration(segment.end.diff(segment.start)).asMinutes().toFixed(0);
+                        const altitude = layer.trackings[segment.endIndex]?.altitude;
+                        const roundedAltitude = altitude != null ? Math.round(altitude) : null;
+
+                        return (
+                            <ListGroup.Item key={`${segment.startIndex}-${segment.endIndex}-${i}`}>
+                                <div className="d-flex align-items-center flex-wrap gap-2">
+                                    <span className="fw-semibold">{`${segment.start.format('HH:mm')} - ${segment.end.format('HH:mm')}`}</span>
+                                    <Stack direction="horizontal" gap={2} className="flex-wrap align-items-center">
+                                        <Badge bg="secondary">
+                                            <BiStopwatch className="me-1" />
+                                            {`${durationMinutes} min`}
+                                        </Badge>
+                                        <Badge bg="secondary">
+                                            <FaMountain className="me-1" />
+                                            {roundedAltitude != null ? `${roundedAltitude} m` : '-'}
+                                        </Badge>
+                                        <Badge bg="secondary">
+                                            <FaHashtag className="me-1" />
+                                            {`${segment.endIndex - segment.startIndex} pts`}
+                                        </Badge>
+                                    </Stack>
+                                </div>
+                            </ListGroup.Item>
+                        );
+                    })}
+                </ListGroup>
             </Card.Body>
         </Card>
     );
