@@ -12355,6 +12355,9 @@ export interface components {
             created?: string;
             name?: string | null;
             description?: string | null;
+            /** Format: int32 */
+            estimatedPrice?: number | null;
+            currency?: components["schemas"]["Currency"];
             tags?: components["schemas"]["Tag"][] | null;
             trips?: components["schemas"]["Trip"][] | null;
         };
@@ -12362,6 +12365,9 @@ export interface components {
             name?: string | null;
             description?: string | null;
             isCompleted?: boolean;
+            /** Format: int32 */
+            estimatedPrice?: number | null;
+            currencyId?: string | null;
         };
         ToDoPagedView: {
             /** Format: int64 */

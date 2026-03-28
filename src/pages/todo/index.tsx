@@ -24,6 +24,21 @@ type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 type SelectTripOption = { value: string; label: string };
 const TODO_PAGE_SIZE = 20;
 
+const formatEstimatedPrice = (item: ToDo) => {
+    const amount = item.estimatedPrice;
+    if (amount === null || amount === undefined) {
+        return '';
+    }
+
+    const symbol = item.currency?.symbol?.trim();
+
+    if (symbol) {
+        return `${amount}${symbol}`;
+    }
+
+    return `${amount}`;
+};
+
 const TodoPage: React.FC = () => {
     const [todoItems, setTodoItems] = useState<ToDo[]>([]);
     const [completedItems, setCompletedItems] = useState<ToDo[]>([]);
@@ -39,6 +54,7 @@ const TodoPage: React.FC = () => {
     const [todoPage, setTodoPage] = useState(1);
     const [completedPage, setCompletedPage] = useState(1);
     const [name, setName] = useState('');
+    const [estimatedPrice, setEstimatedPrice] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMoreTodo, setIsLoadingMoreTodo] = useState(false);
     const [isLoadingMoreCompleted, setIsLoadingMoreCompleted] = useState(false);
@@ -133,14 +149,25 @@ const TodoPage: React.FC = () => {
         event.preventDefault();
 
         const trimmedName = name.trim();
+        const trimmedEstimatedPrice = estimatedPrice.trim();
+        const parsedEstimatedPrice = trimmedEstimatedPrice === '' ? null : Number(trimmedEstimatedPrice);
+
+        if (Number.isNaN(parsedEstimatedPrice)) {
+            return;
+        }
+
         if (!trimmedName || isSaving) {
             return;
         }
 
         setIsSaving(true);
-        api.todo.post({ name: trimmedName })
+        api.todo.post({
+            name: trimmedName,
+            estimatedPrice: parsedEstimatedPrice,
+        })
             .then(() => {
                 setName('');
+                setEstimatedPrice('');
                 loadTodos();
             })
             .finally(() => setIsSaving(false));
@@ -334,7 +361,14 @@ const TodoPage: React.FC = () => {
                                         onChange={x => onToggleCompleted(item, x.currentTarget.checked)}
                                         aria-label={`Mark ${item.name ?? 'todo item'} as completed`}
                                     />
-                                    <div className="fw-semibold">{item.name}</div>
+                                    <div className="d-flex align-items-center gap-2">
+                                        <div className="fw-semibold">{item.name}</div>
+                                        {item.estimatedPrice !== null && item.estimatedPrice !== undefined && (
+                                            <Badge bg="info" text="dark">
+                                                {formatEstimatedPrice(item)}
+                                            </Badge>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="d-flex gap-1 flex-wrap justify-content-end align-items-center">
                                     {((item as ToDoWithTrips).trips ?? []).length > 0 && (
@@ -508,6 +542,14 @@ const TodoPage: React.FC = () => {
                                         placeholder="Todo name"
                                         value={name}
                                         onChange={x => setName(x.target.value)}
+                                    />
+                                    <Form.Control
+                                        type="number"
+                                        min={0}
+                                        step={1}
+                                        placeholder="Estimated price"
+                                        value={estimatedPrice}
+                                        onChange={x => setEstimatedPrice(x.target.value)}
                                     />
                                     <Button type="submit" disabled={isSaving || !name.trim()}>
                                         Add
