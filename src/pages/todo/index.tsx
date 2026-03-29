@@ -87,9 +87,6 @@ const TodoPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'todo' | 'completed'>('todo');
     const [todoPage, setTodoPage] = useState(1);
     const [completedPage, setCompletedPage] = useState(1);
-    const [name, setName] = useState('');
-    const [estimatedPrice, setEstimatedPrice] = useState('');
-    const [dueDate, setDueDate] = useState('');
     const [selectedTodoForEdit, setSelectedTodoForEdit] = useState<ToDo | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDescriptionEditMode, setIsDescriptionEditMode] = useState(false);
@@ -100,7 +97,6 @@ const TodoPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMoreTodo, setIsLoadingMoreTodo] = useState(false);
     const [isLoadingMoreCompleted, setIsLoadingMoreCompleted] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
     const [isUpdatingTodoInModal, setIsUpdatingTodoInModal] = useState(false);
     const [updatingItemFor, setUpdatingItemFor] = useState<string | null>(null);
     const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
@@ -191,35 +187,14 @@ const TodoPage: React.FC = () => {
         loadTodos();
     }, [loadTodos]);
 
-    const onAddTodo = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        const trimmedName = name.trim();
-        const trimmedEstimatedPrice = estimatedPrice.trim();
-        const trimmedDueDate = dueDate.trim();
-        const parsedEstimatedPrice = trimmedEstimatedPrice === '' ? null : Number(trimmedEstimatedPrice);
-
-        if (Number.isNaN(parsedEstimatedPrice)) {
-            return;
-        }
-
-        if (!trimmedName || isSaving) {
-            return;
-        }
-
-        setIsSaving(true);
-        api.todo.post({
-            name: trimmedName,
-            estimatedPrice: parsedEstimatedPrice,
-            dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
-        })
-            .then(() => {
-                setName('');
-                setEstimatedPrice('');
-                setDueDate('');
-                loadTodos();
-            })
-            .finally(() => setIsSaving(false));
+    const onOpenCreateModal = () => {
+        setSelectedTodoForEdit(null);
+        setEditName('');
+        setEditDescription('');
+        setEditEstimatedPrice('');
+        setEditDueDate('');
+        setIsDescriptionEditMode(false);
+        setIsEditModalOpen(true);
     };
 
     const onOpenEditModal = (item: ToDo) => {
@@ -250,8 +225,8 @@ const TodoPage: React.FC = () => {
         setEditDueDate('');
     };
 
-    const onUpdateTodo = () => {
-        if (!selectedTodoForEdit?.id || isUpdatingTodoInModal) {
+    const onSaveTodo = () => {
+        if (isUpdatingTodoInModal) {
             return;
         }
 
@@ -266,12 +241,21 @@ const TodoPage: React.FC = () => {
         }
 
         setIsUpdatingTodoInModal(true);
-        api.todo.put(selectedTodoForEdit.id, {
-            name: trimmedName,
-            description: trimmedDescription === '' ? undefined : trimmedDescription,
-            estimatedPrice: parsedEstimatedPrice,
-            dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
-        })
+        const saveTodoPromise = selectedTodoForEdit?.id
+            ? api.todo.put(selectedTodoForEdit.id, {
+                name: trimmedName,
+                description: trimmedDescription === '' ? undefined : trimmedDescription,
+                estimatedPrice: parsedEstimatedPrice,
+                dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
+            })
+            : api.todo.post({
+                name: trimmedName,
+                description: trimmedDescription === '' ? undefined : trimmedDescription,
+                estimatedPrice: parsedEstimatedPrice,
+                dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
+            });
+
+        saveTodoPromise
             .then(() => {
                 onCloseEditModal();
                 loadTodos();
@@ -680,7 +664,8 @@ const TodoPage: React.FC = () => {
     const activeItemCount = activeTab === 'todo' ? todoCount : completedCount;
     const trimmedEditEstimatedPrice = editEstimatedPrice.trim();
     const isEditEstimatedPriceInvalid = trimmedEditEstimatedPrice !== '' && Number.isNaN(Number(trimmedEditEstimatedPrice));
-    const isUpdateDisabled = !selectedTodoForEdit?.id || !editName.trim() || isEditEstimatedPriceInvalid || isUpdatingTodoInModal;
+    const isCreateMode = !selectedTodoForEdit?.id;
+    const isSaveDisabled = !editName.trim() || isEditEstimatedPriceInvalid || isUpdatingTodoInModal;
 
     return (
         <Container>
@@ -692,41 +677,11 @@ const TodoPage: React.FC = () => {
                             <small className="text-muted">{activeItemCount} items</small>
                         </Card.Header>
                         <Card.Body>
-                            <Form onSubmit={onAddTodo} className="mb-3">
-                                <Row className="g-2 align-items-end">
-                                    <Col lg={5} md={12}>
-                                        <Form.Control
-                                            placeholder="Todo name"
-                                            value={name}
-                                            onChange={x => setName(x.target.value)}
-                                        />
-                                    </Col>
-                                    <Col lg={3} md={4}>
-                                        <Form.Control
-                                            type="number"
-                                            min={0}
-                                            step={1}
-                                            placeholder="Estimated price"
-                                            value={estimatedPrice}
-                                            onChange={x => setEstimatedPrice(x.target.value)}
-                                        />
-                                    </Col>
-                                    <Col lg={3} md={5}>
-                                        <Datetime
-                                            dateFormat="YYYY-MM-DD"
-                                            timeFormat={false}
-                                            value={dueDate}
-                                            inputProps={{ placeholder: 'Due date' }}
-                                            onChange={value => setDueDate(moment.isMoment(value) ? value.format('YYYY-MM-DD') : '')}
-                                        />
-                                    </Col>
-                                    <Col lg={1} md={3} className="d-grid">
-                                        <Button type="submit" disabled={isSaving || !name.trim()}>
-                                            Add
-                                        </Button>
-                                    </Col>
-                                </Row>
-                            </Form>
+                            <div className="d-grid mb-3">
+                                <Button onClick={onOpenCreateModal}>
+                                    Add new todo
+                                </Button>
+                            </div>
                             <Row className="g-2 mb-3">
                                 <Col md={6}>
                                     <Form.Group>
@@ -786,7 +741,7 @@ const TodoPage: React.FC = () => {
 
             <Modal show={isEditModalOpen} onHide={onCloseEditModal} backdrop="static" centered>
                 <Modal.Header closeButton={!isUpdatingTodoInModal}>
-                    <Modal.Title>Update todo item</Modal.Title>
+                    <Modal.Title>{isCreateMode ? 'Add todo item' : 'Update todo item'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group className="mb-3">
@@ -871,8 +826,8 @@ const TodoPage: React.FC = () => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={onUpdateTodo} disabled={isUpdateDisabled}>
-                        Update
+                    <Button onClick={onSaveTodo} disabled={isSaveDisabled}>
+                        {isCreateMode ? 'Add' : 'Update'}
                     </Button>
                 </Modal.Footer>
             </Modal>
