@@ -10,6 +10,7 @@ export { SimpleLineChart } from './simple-line-chart';
 export { SimpleScatterChart } from './simple-scatter-chart';
 export { default as SmartScroll } from './smart-scroll';
 export { default as Map } from './map';
+export { default as MarkdownPreview } from './markdown-preview';
 export { default as NavigationBar } from './navigation-bar';
 export { default as Select } from './select';
 export { default as ValueLabel } from './value-label';

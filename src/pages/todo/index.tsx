@@ -2,12 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
-import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Modal, Row, Tab, Tabs } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Modal, Row, Tab, Tabs, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import moment from 'moment';
 
 import api from 'api/main';
-import { SmartScroll } from 'components';
+import { MarkdownPreview, SmartScroll } from 'components';
 import Spinner from 'components/spinner';
 import { components } from 'types/ivy-types';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
@@ -57,6 +57,7 @@ const TodoPage: React.FC = () => {
     const [estimatedPrice, setEstimatedPrice] = useState('');
     const [selectedTodoForEdit, setSelectedTodoForEdit] = useState<ToDo | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDescriptionEditMode, setIsDescriptionEditMode] = useState(false);
     const [editName, setEditName] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editEstimatedPrice, setEditEstimatedPrice] = useState('');
@@ -188,6 +189,7 @@ const TodoPage: React.FC = () => {
         setEditName(item.name ?? '');
         setEditDescription(item.description ?? '');
         setEditEstimatedPrice(item.estimatedPrice === null || item.estimatedPrice === undefined ? '' : `${item.estimatedPrice}`);
+        setIsDescriptionEditMode(false);
         setIsEditModalOpen(true);
     };
 
@@ -198,6 +200,7 @@ const TodoPage: React.FC = () => {
 
         setIsEditModalOpen(false);
         setSelectedTodoForEdit(null);
+        setIsDescriptionEditMode(false);
         setEditName('');
         setEditDescription('');
         setEditEstimatedPrice('');
@@ -707,15 +710,53 @@ const TodoPage: React.FC = () => {
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            value={editDescription}
-                            onChange={x => setEditDescription(x.target.value)}
-                            placeholder="Description"
-                            disabled={isUpdatingTodoInModal}
-                        />
+                        <div className="d-flex justify-content-between align-items-center mb-2">
+                            <Form.Label className="mb-0">Description</Form.Label>
+                            <ToggleButtonGroup
+                                type="radio"
+                                name="todo-description-mode"
+                                size="sm"
+                                value={isDescriptionEditMode ? 'edit' : 'preview'}
+                                onChange={(value: string) => setIsDescriptionEditMode(value === 'edit')}
+                            >
+                                <ToggleButton
+                                    id="todo-description-mode-preview"
+                                    type="radio"
+                                    variant={isDescriptionEditMode ? 'outline-secondary' : 'secondary'}
+                                    checked={!isDescriptionEditMode}
+                                    value="preview"
+                                    disabled={isUpdatingTodoInModal}
+                                    onChange={() => setIsDescriptionEditMode(false)}
+                                >
+                                    Preview
+                                </ToggleButton>
+                                <ToggleButton
+                                    id="todo-description-mode-edit"
+                                    type="radio"
+                                    variant={isDescriptionEditMode ? 'secondary' : 'outline-secondary'}
+                                    checked={isDescriptionEditMode}
+                                    value="edit"
+                                    disabled={isUpdatingTodoInModal}
+                                    onChange={() => setIsDescriptionEditMode(true)}
+                                >
+                                    Edit
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+                        </div>
+                        {isDescriptionEditMode ? (
+                            <Form.Control
+                                as="textarea"
+                                rows={4}
+                                value={editDescription}
+                                onChange={x => setEditDescription(x.target.value)}
+                                placeholder="Description"
+                                disabled={isUpdatingTodoInModal}
+                            />
+                        ) : (
+                            <div className="border rounded p-2" style={{ maxHeight: 200, overflow: 'auto' }}>
+                                <MarkdownPreview content={editDescription} />
+                            </div>
+                        )}
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Estimated price</Form.Label>
