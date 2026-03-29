@@ -684,8 +684,8 @@ const TodoPage: React.FC = () => {
 
     return (
         <Container>
-            <Row>
-                <Col lg={12}>
+            <Row className="g-3">
+                <Col lg={3} md={12}>
                     <Card>
                         <Card.Header>
                             <div className="fw-semibold">Todo</div>
@@ -754,9 +754,7 @@ const TodoPage: React.FC = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-            </Row>
-            <Row>
-                <Col lg={12}>
+                <Col lg={9} md={12}>
                     {isLoading ? (
                         <div className="text-center py-4">
                             <Spinner size="2x" />
