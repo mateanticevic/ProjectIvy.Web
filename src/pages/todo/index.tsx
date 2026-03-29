@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
-import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Row, Tab, Tabs } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Modal, Row, Tab, Tabs } from 'react-bootstrap';
 import Datetime from 'react-datetime';
 import moment from 'moment';
 
@@ -55,10 +55,16 @@ const TodoPage: React.FC = () => {
     const [completedPage, setCompletedPage] = useState(1);
     const [name, setName] = useState('');
     const [estimatedPrice, setEstimatedPrice] = useState('');
+    const [selectedTodoForEdit, setSelectedTodoForEdit] = useState<ToDo | null>(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editName, setEditName] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [editEstimatedPrice, setEditEstimatedPrice] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMoreTodo, setIsLoadingMoreTodo] = useState(false);
     const [isLoadingMoreCompleted, setIsLoadingMoreCompleted] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [isUpdatingTodoInModal, setIsUpdatingTodoInModal] = useState(false);
     const [updatingItemFor, setUpdatingItemFor] = useState<string | null>(null);
     const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
     const [openTripDropdownFor, setOpenTripDropdownFor] = useState<string | null>(null);
@@ -171,6 +177,57 @@ const TodoPage: React.FC = () => {
                 loadTodos();
             })
             .finally(() => setIsSaving(false));
+    };
+
+    const onOpenEditModal = (item: ToDo) => {
+        if (!item.id) {
+            return;
+        }
+
+        setSelectedTodoForEdit(item);
+        setEditName(item.name ?? '');
+        setEditDescription(item.description ?? '');
+        setEditEstimatedPrice(item.estimatedPrice === null || item.estimatedPrice === undefined ? '' : `${item.estimatedPrice}`);
+        setIsEditModalOpen(true);
+    };
+
+    const onCloseEditModal = () => {
+        if (isUpdatingTodoInModal) {
+            return;
+        }
+
+        setIsEditModalOpen(false);
+        setSelectedTodoForEdit(null);
+        setEditName('');
+        setEditDescription('');
+        setEditEstimatedPrice('');
+    };
+
+    const onUpdateTodo = () => {
+        if (!selectedTodoForEdit?.id || isUpdatingTodoInModal) {
+            return;
+        }
+
+        const trimmedName = editName.trim();
+        const trimmedDescription = editDescription.trim();
+        const trimmedEstimatedPrice = editEstimatedPrice.trim();
+        const parsedEstimatedPrice = trimmedEstimatedPrice === '' ? null : Number(trimmedEstimatedPrice);
+
+        if (!trimmedName || Number.isNaN(parsedEstimatedPrice)) {
+            return;
+        }
+
+        setIsUpdatingTodoInModal(true);
+        api.todo.put(selectedTodoForEdit.id, {
+            name: trimmedName,
+            description: trimmedDescription === '' ? undefined : trimmedDescription,
+            estimatedPrice: parsedEstimatedPrice,
+        })
+            .then(() => {
+                onCloseEditModal();
+                loadTodos();
+            })
+            .finally(() => setIsUpdatingTodoInModal(false));
     };
 
     const onTagSelected = (item: ToDo, selected: SingleValue<SelectTagOption>) => {
@@ -362,7 +419,24 @@ const TodoPage: React.FC = () => {
                                         aria-label={`Mark ${item.name ?? 'todo item'} as completed`}
                                     />
                                     <div className="d-flex align-items-center gap-2">
-                                        <div className="fw-semibold">{item.name}</div>
+                                        <div
+                                            className="fw-semibold"
+                                            role={item.id ? 'button' : undefined}
+                                            tabIndex={item.id ? 0 : undefined}
+                                            onClick={() => item.id && onOpenEditModal(item)}
+                                            onKeyDown={event => {
+                                                if (!item.id) {
+                                                    return;
+                                                }
+
+                                                if (event.key === 'Enter' || event.key === ' ') {
+                                                    event.preventDefault();
+                                                    onOpenEditModal(item);
+                                                }
+                                            }}
+                                        >
+                                            {item.name}
+                                        </div>
                                         {item.estimatedPrice !== null && item.estimatedPrice !== undefined && (
                                             <Badge bg="info" text="dark">
                                                 {formatEstimatedPrice(item)}
@@ -525,6 +599,9 @@ const TodoPage: React.FC = () => {
     };
 
     const activeItemCount = activeTab === 'todo' ? todoCount : completedCount;
+    const trimmedEditEstimatedPrice = editEstimatedPrice.trim();
+    const isEditEstimatedPriceInvalid = trimmedEditEstimatedPrice !== '' && Number.isNaN(Number(trimmedEditEstimatedPrice));
+    const isUpdateDisabled = !selectedTodoForEdit?.id || !editName.trim() || isEditEstimatedPriceInvalid || isUpdatingTodoInModal;
 
     return (
         <Container>
@@ -614,6 +691,51 @@ const TodoPage: React.FC = () => {
                     )}
                 </Col>
             </Row>
+
+            <Modal show={isEditModalOpen} onHide={onCloseEditModal} backdrop="static" centered>
+                <Modal.Header closeButton={!isUpdatingTodoInModal}>
+                    <Modal.Title>Update todo item</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            value={editName}
+                            onChange={x => setEditName(x.target.value)}
+                            placeholder="Todo name"
+                            disabled={isUpdatingTodoInModal}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            value={editDescription}
+                            onChange={x => setEditDescription(x.target.value)}
+                            placeholder="Description"
+                            disabled={isUpdatingTodoInModal}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Estimated price</Form.Label>
+                        <Form.Control
+                            type="number"
+                            min={0}
+                            step={1}
+                            value={editEstimatedPrice}
+                            onChange={x => setEditEstimatedPrice(x.target.value)}
+                            placeholder="Estimated price"
+                            disabled={isUpdatingTodoInModal}
+                        />
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={onUpdateTodo} disabled={isUpdateDisabled}>
+                        Update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </Container>
     );
 };
