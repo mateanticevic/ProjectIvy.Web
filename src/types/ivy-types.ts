@@ -12472,6 +12472,7 @@ export interface components {
             /** Format: int32 */
             estimatedPrice?: number | null;
             currencyId?: string | null;
+            tagIds?: string[] | null;
         };
         ToDoPagedView: {
             /** Format: int64 */

@@ -92,6 +92,8 @@ const TodoPage: React.FC = () => {
     const [isDescriptionEditMode, setIsDescriptionEditMode] = useState(false);
     const [editName, setEditName] = useState('');
     const [editDescription, setEditDescription] = useState('');
+    const [editTags, setEditTags] = useState<SelectTagOption[]>([]);
+    const [editTagSelectKey, setEditTagSelectKey] = useState(0);
     const [editEstimatedPrice, setEditEstimatedPrice] = useState('');
     const [editDueDate, setEditDueDate] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -191,6 +193,8 @@ const TodoPage: React.FC = () => {
         setSelectedTodoForEdit(null);
         setEditName('');
         setEditDescription('');
+        setEditTags([]);
+        setEditTagSelectKey(0);
         setEditEstimatedPrice('');
         setEditDueDate('');
         setIsDescriptionEditMode(false);
@@ -205,6 +209,14 @@ const TodoPage: React.FC = () => {
         setSelectedTodoForEdit(item);
         setEditName(item.name ?? '');
         setEditDescription(item.description ?? '');
+        setEditTags((item.tags ?? []).reduce<SelectTagOption[]>((result, tag) => {
+            if (tag.id && tag.name) {
+                result.push({ value: tag.id, label: tag.name });
+            }
+
+            return result;
+        }, []));
+        setEditTagSelectKey(0);
         setEditEstimatedPrice(item.estimatedPrice === null || item.estimatedPrice === undefined ? '' : `${item.estimatedPrice}`);
         setEditDueDate(item.dueDate && moment(item.dueDate).isValid() ? moment(item.dueDate).format('YYYY-MM-DD') : '');
         setIsDescriptionEditMode(false);
@@ -221,8 +233,34 @@ const TodoPage: React.FC = () => {
         setIsDescriptionEditMode(false);
         setEditName('');
         setEditDescription('');
+        setEditTags([]);
+        setEditTagSelectKey(0);
         setEditEstimatedPrice('');
         setEditDueDate('');
+    };
+
+    const resolveTagFromSelectedOption = async (selected: SelectTagOption) => {
+        if (!selected.__isNew__) {
+            return selected.value ? { id: selected.value, name: selected.label } : null;
+        }
+
+        const tagName = selected.label?.trim();
+        if (!tagName) {
+            return null;
+        }
+
+        await api.tag.post({ name: tagName });
+
+        const tagData = await api.tag.get({ Search: tagName, PageSize: 20 });
+        const createdTag = (tagData.items ?? []).find((tag: Tag) =>
+            (tag.name ?? '').trim().toLocaleLowerCase() === tagName.toLocaleLowerCase()
+        );
+
+        if (!createdTag?.id || !createdTag.name) {
+            return null;
+        }
+
+        return { id: createdTag.id, name: createdTag.name };
     };
 
     const onSaveTodo = () => {
@@ -241,18 +279,23 @@ const TodoPage: React.FC = () => {
         }
 
         setIsUpdatingTodoInModal(true);
+        const tagIds = editTags
+            .map(tag => tag.value)
+            .filter(tagId => !!tagId);
         const saveTodoPromise = selectedTodoForEdit?.id
             ? api.todo.put(selectedTodoForEdit.id, {
                 name: trimmedName,
                 description: trimmedDescription === '' ? undefined : trimmedDescription,
                 estimatedPrice: parsedEstimatedPrice,
                 dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
+                tagIds,
             })
             : api.todo.post({
                 name: trimmedName,
                 description: trimmedDescription === '' ? undefined : trimmedDescription,
                 estimatedPrice: parsedEstimatedPrice,
                 dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
+                tagIds,
             });
 
         saveTodoPromise
@@ -291,23 +334,12 @@ const TodoPage: React.FC = () => {
             let tagId = selected.value;
 
             if (selected.__isNew__) {
-                const tagName = selected.label?.trim();
-                if (!tagName) {
+                const resolvedTag = await resolveTagFromSelectedOption(selected);
+                if (!resolvedTag?.id) {
                     return;
                 }
 
-                await api.tag.post({ name: tagName });
-
-                const tagData = await api.tag.get({ Search: tagName, PageSize: 20 });
-                const createdTag = (tagData.items ?? []).find((tag: Tag) =>
-                    (tag.name ?? '').trim().toLocaleLowerCase() === tagName.toLocaleLowerCase()
-                );
-
-                if (!createdTag?.id) {
-                    return;
-                }
-
-                tagId = createdTag.id;
+                tagId = resolvedTag.id;
             }
 
             await api.todo.postTag(item.id as string, tagId);
@@ -316,6 +348,38 @@ const TodoPage: React.FC = () => {
         };
 
         assignTag().finally(() => setAssigningTagFor(null));
+    };
+
+    const onModalTagSelected = (selected: SingleValue<SelectTagOption>) => {
+        if (!selected) {
+            return;
+        }
+
+        resolveTagFromSelectedOption(selected)
+            .then(resolvedTag => {
+                if (!resolvedTag) {
+                    setEditTagSelectKey(current => current + 1);
+                    return;
+                }
+
+                setEditTags(current => {
+                    const isAlreadyAdded = current.some(tag => tag.value === resolvedTag.id);
+                    if (isAlreadyAdded) {
+                        return current;
+                    }
+
+                    return [...current, { value: resolvedTag.id, label: resolvedTag.name }];
+                });
+                setEditTagSelectKey(current => current + 1);
+            });
+    };
+
+    const onRemoveModalTag = (tagId: string) => {
+        if (!tagId) {
+            return;
+        }
+
+        setEditTags(current => current.filter(tag => tag.value !== tagId));
     };
 
     const onToggleCompleted = (item: ToDo, isCompleted: boolean) => {
@@ -801,6 +865,41 @@ const TodoPage: React.FC = () => {
                                 <MarkdownPreview content={editDescription} />
                             </div>
                         )}
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Tags</Form.Label>
+                        <div className="d-flex gap-1 flex-wrap mb-2">
+                            {editTags.length > 0 ? (
+                                editTags.map(tag => (
+                                    <Badge key={tag.value} bg="secondary" className="d-inline-flex align-items-center gap-1">
+                                        {tag.label}
+                                        <Button
+                                            size="sm"
+                                            variant="link"
+                                            className="p-0 text-white text-decoration-none"
+                                            disabled={isUpdatingTodoInModal}
+                                            onClick={() => onRemoveModalTag(tag.value)}
+                                        >
+                                            x
+                                        </Button>
+                                    </Badge>
+                                ))
+                            ) : (
+                                <Badge bg="light" text="dark">No tags selected</Badge>
+                            )}
+                        </div>
+                        <AsyncCreatableSelect<SelectTagOption, false>
+                            key={editTagSelectKey}
+                            loadOptions={loadTagOptions}
+                            defaultOptions
+                            isClearable
+                            styles={tagSelectStyles}
+                            isDisabled={isUpdatingTodoInModal}
+                            placeholder="Search or create tag"
+                            onChange={onModalTagSelected}
+                            formatCreateLabel={value => `Create \"${value}\"`}
+                            noOptionsMessage={({ inputValue }) => inputValue ? 'No tags found' : 'Type to search tags'}
+                        />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Estimated price</Form.Label>
