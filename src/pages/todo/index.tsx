@@ -19,9 +19,16 @@ type Tag = components['schemas']['Tag'];
 type Trip = components['schemas']['Trip'];
 type ToDoWithTrips = ToDo & { trips?: Trip[] | null };
 type TagInt32KeyValuePair = components['schemas']['TagInt32KeyValuePair'];
+type CurrencyDecimalKeyValuePair = components['schemas']['CurrencyDecimalKeyValuePair'];
+type TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair = components['schemas']['TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair'];
 type TripInt32KeyValuePair = components['schemas']['TripInt32KeyValuePair'];
 type SelectTagOption = { value: string; label: string; __isNew__?: boolean };
 type SelectTripOption = { value: string; label: string };
+type TagFilterMetricMode = 'count' | 'sum';
+type TagFilterBadgeValue = {
+    key?: Tag;
+    value: string;
+};
 const TODO_PAGE_SIZE = 20;
 
 const formatEstimatedPrice = (item: ToDo) => {
@@ -39,12 +46,39 @@ const formatEstimatedPrice = (item: ToDo) => {
     return `${amount}`;
 };
 
+const formatTagSum = (value?: CurrencyDecimalKeyValuePair[] | null) => {
+    const firstValue = value?.[0];
+    const amount = firstValue?.value;
+
+    if (amount === null || amount === undefined) {
+        return '0';
+    }
+
+    const symbol = firstValue?.key?.symbol?.trim();
+    if (symbol) {
+        return `${symbol}${amount}`;
+    }
+
+    return `${amount}€`;
+};
+
+const toTagFilterBadgeFromCount = (tagCount: TagInt32KeyValuePair): TagFilterBadgeValue => ({
+    key: tagCount.key,
+    value: `${tagCount.value ?? 0}`,
+});
+
+const toTagFilterBadgeFromSum = (tagSum: TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair): TagFilterBadgeValue => ({
+    key: tagSum.key,
+    value: formatTagSum(tagSum.value),
+});
+
 const TodoPage: React.FC = () => {
     const [todoItems, setTodoItems] = useState<ToDo[]>([]);
     const [completedItems, setCompletedItems] = useState<ToDo[]>([]);
     const [todoCount, setTodoCount] = useState(0);
     const [completedCount, setCompletedCount] = useState(0);
-    const [tagCounts, setTagCounts] = useState<TagInt32KeyValuePair[]>([]);
+    const [tagFilterMode, setTagFilterMode] = useState<TagFilterMetricMode>('count');
+    const [tagBadges, setTagBadges] = useState<TagFilterBadgeValue[]>([]);
     const [tripCounts, setTripCounts] = useState<TripInt32KeyValuePair[]>([]);
     const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
     const [selectedTripIds, setSelectedTripIds] = useState<string[]>([]);
@@ -55,12 +89,14 @@ const TodoPage: React.FC = () => {
     const [completedPage, setCompletedPage] = useState(1);
     const [name, setName] = useState('');
     const [estimatedPrice, setEstimatedPrice] = useState('');
+    const [dueDate, setDueDate] = useState('');
     const [selectedTodoForEdit, setSelectedTodoForEdit] = useState<ToDo | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDescriptionEditMode, setIsDescriptionEditMode] = useState(false);
     const [editName, setEditName] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editEstimatedPrice, setEditEstimatedPrice] = useState('');
+    const [editDueDate, setEditDueDate] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMoreTodo, setIsLoadingMoreTodo] = useState(false);
     const [isLoadingMoreCompleted, setIsLoadingMoreCompleted] = useState(false);
@@ -122,19 +158,22 @@ const TodoPage: React.FC = () => {
             ...(hasFilters ? filters : {}),
             IsCompleted: activeTab === 'completed'
         };
+        const tagBadgesPromise: Promise<TagFilterBadgeValue[]> = tagFilterMode === 'count'
+            ? api.todo.getCountByTag(countFilters).then(data => (data ?? []).map(toTagFilterBadgeFromCount))
+            : api.todo.getSumByTag(countFilters).then(data => (data ?? []).map(toTagFilterBadgeFromSum));
 
         Promise.all([
             api.todo.get({ IsCompleted: false, Page: 1, PageSize: TODO_PAGE_SIZE, ...(hasFilters ? filters : {}) }),
             api.todo.get({ IsCompleted: true, Page: 1, PageSize: TODO_PAGE_SIZE, ...(hasFilters ? filters : {}) }),
-            api.todo.getCountByTag(countFilters),
+            tagBadgesPromise,
             api.todo.getCountByTrip(countFilters)
         ])
-            .then(([todoData, completedData, tagCountsData, tripCountsData]) => {
+            .then(([todoData, completedData, tagBadgesData, tripCountsData]) => {
                 setTodoItems(todoData.items ?? []);
                 setCompletedItems(completedData.items ?? []);
                 setTodoCount(todoData.count ?? 0);
                 setCompletedCount(completedData.count ?? 0);
-                setTagCounts(tagCountsData ?? []);
+                setTagBadges(tagBadgesData ?? []);
                 setTripCounts(tripCountsData ?? []);
             })
             .catch(() => {
@@ -142,11 +181,11 @@ const TodoPage: React.FC = () => {
                 setCompletedItems([]);
                 setTodoCount(0);
                 setCompletedCount(0);
-                setTagCounts([]);
+                setTagBadges([]);
                 setTripCounts([]);
             })
             .finally(() => setIsLoading(false));
-            }, [activeTab, selectedTagIds, selectedTripIds, from, to]);
+            }, [activeTab, selectedTagIds, selectedTripIds, from, to, tagFilterMode]);
 
     useEffect(() => {
         loadTodos();
@@ -157,6 +196,7 @@ const TodoPage: React.FC = () => {
 
         const trimmedName = name.trim();
         const trimmedEstimatedPrice = estimatedPrice.trim();
+        const trimmedDueDate = dueDate.trim();
         const parsedEstimatedPrice = trimmedEstimatedPrice === '' ? null : Number(trimmedEstimatedPrice);
 
         if (Number.isNaN(parsedEstimatedPrice)) {
@@ -171,10 +211,12 @@ const TodoPage: React.FC = () => {
         api.todo.post({
             name: trimmedName,
             estimatedPrice: parsedEstimatedPrice,
+            dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
         })
             .then(() => {
                 setName('');
                 setEstimatedPrice('');
+                setDueDate('');
                 loadTodos();
             })
             .finally(() => setIsSaving(false));
@@ -189,6 +231,7 @@ const TodoPage: React.FC = () => {
         setEditName(item.name ?? '');
         setEditDescription(item.description ?? '');
         setEditEstimatedPrice(item.estimatedPrice === null || item.estimatedPrice === undefined ? '' : `${item.estimatedPrice}`);
+        setEditDueDate(item.dueDate && moment(item.dueDate).isValid() ? moment(item.dueDate).format('YYYY-MM-DD') : '');
         setIsDescriptionEditMode(false);
         setIsEditModalOpen(true);
     };
@@ -204,6 +247,7 @@ const TodoPage: React.FC = () => {
         setEditName('');
         setEditDescription('');
         setEditEstimatedPrice('');
+        setEditDueDate('');
     };
 
     const onUpdateTodo = () => {
@@ -214,6 +258,7 @@ const TodoPage: React.FC = () => {
         const trimmedName = editName.trim();
         const trimmedDescription = editDescription.trim();
         const trimmedEstimatedPrice = editEstimatedPrice.trim();
+        const trimmedDueDate = editDueDate.trim();
         const parsedEstimatedPrice = trimmedEstimatedPrice === '' ? null : Number(trimmedEstimatedPrice);
 
         if (!trimmedName || Number.isNaN(parsedEstimatedPrice)) {
@@ -225,6 +270,7 @@ const TodoPage: React.FC = () => {
             name: trimmedName,
             description: trimmedDescription === '' ? undefined : trimmedDescription,
             estimatedPrice: parsedEstimatedPrice,
+            dueDate: trimmedDueDate === '' ? null : trimmedDueDate,
         })
             .then(() => {
                 onCloseEditModal();
@@ -531,26 +577,56 @@ const TodoPage: React.FC = () => {
     };
 
     const renderTagFilters = () => {
-        if (tagCounts.length === 0) {
+        if (tagBadges.length === 0) {
             return null;
         }
 
         return (
             <div className="mb-3">
-                <div className="small text-muted fw-semibold mb-1">Filter by tags</div>
+                <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
+                    <div className="small text-muted fw-semibold">Filter by tags</div>
+                    <ToggleButtonGroup
+                        type="radio"
+                        name="todo-tag-filter-mode"
+                        size="sm"
+                        value={tagFilterMode}
+                        onChange={(value: string) => setTagFilterMode(value as TagFilterMetricMode)}
+                    >
+                        <ToggleButton
+                            id="todo-tag-filter-mode-count"
+                            type="radio"
+                            variant={tagFilterMode === 'count' ? 'secondary' : 'outline-secondary'}
+                            checked={tagFilterMode === 'count'}
+                            value="count"
+                            onChange={() => setTagFilterMode('count')}
+                        >
+                            Count
+                        </ToggleButton>
+                        <ToggleButton
+                            id="todo-tag-filter-mode-sum"
+                            type="radio"
+                            variant={tagFilterMode === 'sum' ? 'secondary' : 'outline-secondary'}
+                            checked={tagFilterMode === 'sum'}
+                            value="sum"
+                            onChange={() => setTagFilterMode('sum')}
+                        >
+                            Sum
+                        </ToggleButton>
+                    </ToggleButtonGroup>
+                </div>
                 <div className="d-flex gap-1 flex-wrap">
-                    {tagCounts.map(tagCount => {
-                        const tagId = tagCount.key?.id;
+                    {tagBadges.map(tagBadge => {
+                        const tagId = tagBadge.key?.id;
                         const isSelected = tagId ? selectedTagIds.includes(tagId) : false;
 
                         return (
                             <Badge
-                                key={tagCount.key?.id ?? tagCount.key?.name}
+                                key={tagBadge.key?.id ?? tagBadge.key?.name}
                                 bg={isSelected ? 'primary' : 'secondary'}
                                 className="cursor-pointer476"
-                                onClick={() => toggleTagSelection(tagCount.key)}
+                                onClick={() => toggleTagSelection(tagBadge.key)}
                             >
-                                {`${tagCount.key?.name ?? 'Unknown'} (${tagCount.value ?? 0})`}
+                                {`${tagBadge.key?.name ?? 'Unknown'} (${tagBadge.value})`}
                             </Badge>
                         );
                     })}
@@ -617,24 +693,39 @@ const TodoPage: React.FC = () => {
                         </Card.Header>
                         <Card.Body>
                             <Form onSubmit={onAddTodo} className="mb-3">
-                                <InputGroup>
-                                    <Form.Control
-                                        placeholder="Todo name"
-                                        value={name}
-                                        onChange={x => setName(x.target.value)}
-                                    />
-                                    <Form.Control
-                                        type="number"
-                                        min={0}
-                                        step={1}
-                                        placeholder="Estimated price"
-                                        value={estimatedPrice}
-                                        onChange={x => setEstimatedPrice(x.target.value)}
-                                    />
-                                    <Button type="submit" disabled={isSaving || !name.trim()}>
-                                        Add
-                                    </Button>
-                                </InputGroup>
+                                <Row className="g-2 align-items-end">
+                                    <Col lg={5} md={12}>
+                                        <Form.Control
+                                            placeholder="Todo name"
+                                            value={name}
+                                            onChange={x => setName(x.target.value)}
+                                        />
+                                    </Col>
+                                    <Col lg={3} md={4}>
+                                        <Form.Control
+                                            type="number"
+                                            min={0}
+                                            step={1}
+                                            placeholder="Estimated price"
+                                            value={estimatedPrice}
+                                            onChange={x => setEstimatedPrice(x.target.value)}
+                                        />
+                                    </Col>
+                                    <Col lg={3} md={5}>
+                                        <Datetime
+                                            dateFormat="YYYY-MM-DD"
+                                            timeFormat={false}
+                                            value={dueDate}
+                                            inputProps={{ placeholder: 'Due date' }}
+                                            onChange={value => setDueDate(moment.isMoment(value) ? value.format('YYYY-MM-DD') : '')}
+                                        />
+                                    </Col>
+                                    <Col lg={1} md={3} className="d-grid">
+                                        <Button type="submit" disabled={isSaving || !name.trim()}>
+                                            Add
+                                        </Button>
+                                    </Col>
+                                </Row>
                             </Form>
                             <Row className="g-2 mb-3">
                                 <Col md={6}>
@@ -758,7 +849,7 @@ const TodoPage: React.FC = () => {
                             </div>
                         )}
                     </Form.Group>
-                    <Form.Group>
+                    <Form.Group className="mb-3">
                         <Form.Label>Estimated price</Form.Label>
                         <Form.Control
                             type="number"
@@ -768,6 +859,16 @@ const TodoPage: React.FC = () => {
                             onChange={x => setEditEstimatedPrice(x.target.value)}
                             placeholder="Estimated price"
                             disabled={isUpdatingTodoInModal}
+                        />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Due date</Form.Label>
+                        <Datetime
+                            dateFormat="YYYY-MM-DD"
+                            timeFormat={false}
+                            value={editDueDate}
+                            inputProps={{ placeholder: 'Due date' }}
+                            onChange={value => setEditDueDate(moment.isMoment(value) ? value.format('YYYY-MM-DD') : '')}
                         />
                     </Form.Group>
                 </Modal.Body>

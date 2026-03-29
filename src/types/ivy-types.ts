@@ -9660,6 +9660,102 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/ToDo/Sum/ByCurrency": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    IsCompleted?: boolean;
+                    TagId?: string[];
+                    TripId?: string[];
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                        "application/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                        "text/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Sum/ByTag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    IsCompleted?: boolean;
+                    TagId?: string[];
+                    TripId?: string[];
+                    Search?: string;
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
+                        "application/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
+                        "text/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/ToDo/{id}": {
         parameters: {
             query?: never;
@@ -12339,6 +12435,10 @@ export interface components {
         TagBinding: {
             name?: string | null;
         };
+        TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair: {
+            key?: components["schemas"]["Tag"];
+            value?: components["schemas"]["CurrencyDecimalKeyValuePair"][] | null;
+        };
         TagInt32KeyValuePair: {
             key?: components["schemas"]["Tag"];
             /** Format: int32 */
@@ -12355,6 +12455,8 @@ export interface components {
             created?: string;
             name?: string | null;
             description?: string | null;
+            /** Format: date-time */
+            dueDate?: string | null;
             /** Format: int32 */
             estimatedPrice?: number | null;
             currency?: components["schemas"]["Currency"];
@@ -12364,6 +12466,8 @@ export interface components {
         ToDoBinding: {
             name?: string | null;
             description?: string | null;
+            /** Format: date-time */
+            dueDate?: string | null;
             isCompleted?: boolean;
             /** Format: int32 */
             estimatedPrice?: number | null;
