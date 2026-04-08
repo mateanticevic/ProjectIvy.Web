@@ -62,6 +62,14 @@ const formatTagSum = (value?: CurrencyDecimalKeyValuePair[] | null) => {
     return `${amount}€`;
 };
 
+const formatDueDate = (dueDate?: string | null) => {
+    if (!dueDate || !moment(dueDate).isValid()) {
+        return '';
+    }
+
+    return moment(dueDate).format('Do MMMM YYYY');
+};
+
 const toTagFilterBadgeFromCount = (tagCount: TagInt32KeyValuePair): TagFilterBadgeValue => ({
     key: tagCount.key,
     value: `${tagCount.value ?? 0}`,
@@ -184,7 +192,7 @@ const TodoPage: React.FC = () => {
                 setTripCounts([]);
             })
             .finally(() => setIsLoading(false));
-            }, [activeTab, selectedTagIds, selectedTripIds, from, to, tagFilterMode]);
+    }, [activeTab, selectedTagIds, selectedTripIds, from, to, tagFilterMode]);
 
     useEffect(() => {
         loadTodos();
@@ -560,6 +568,13 @@ const TodoPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="d-flex gap-1 flex-wrap justify-content-end align-items-center">
+                                    {item.dueDate && (
+                                        formatDueDate(item.dueDate) && (
+                                            <Badge bg="warning" text="dark">
+                                                {formatDueDate(item.dueDate)}
+                                            </Badge>
+                                        )
+                                    )}
                                     {((item as ToDoWithTrips).trips ?? []).length > 0 && (
                                         ((item as ToDoWithTrips).trips ?? []).map(trip => (
                                             <Badge key={`trip-${trip.id ?? trip.name}`} bg="secondary">
