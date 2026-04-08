@@ -101,6 +101,7 @@ const TodoPage: React.FC = () => {
     const [isLoadingMoreCompleted, setIsLoadingMoreCompleted] = useState(false);
     const [isUpdatingTodoInModal, setIsUpdatingTodoInModal] = useState(false);
     const [updatingItemFor, setUpdatingItemFor] = useState<string | null>(null);
+    const [deletingItemFor, setDeletingItemFor] = useState<string | null>(null);
     const [openTagDropdownFor, setOpenTagDropdownFor] = useState<string | null>(null);
     const [openTripDropdownFor, setOpenTripDropdownFor] = useState<string | null>(null);
     const [assigningTagFor, setAssigningTagFor] = useState<string | null>(null);
@@ -423,6 +424,23 @@ const TodoPage: React.FC = () => {
             .finally(() => setAssigningTripFor(null));
     };
 
+    const onDeleteTodo = (item: ToDo) => {
+        if (!item.id) {
+            return;
+        }
+
+        const itemKey = getItemKey(item);
+        if (!itemKey || deletingItemFor === itemKey || updatingItemFor === itemKey) {
+            return;
+        }
+
+        setDeletingItemFor(itemKey);
+
+        api.todo.deleteToDo(item.id)
+            .then(() => loadTodos())
+            .finally(() => setDeletingItemFor(null));
+    };
+
     const toggleTagSelection = (tag?: Tag | null) => {
         const tagId = tag?.id;
         if (!tagId) {
@@ -511,7 +529,7 @@ const TodoPage: React.FC = () => {
                                     <Form.Check
                                         type="checkbox"
                                         checked={isCompletedList}
-                                        disabled={!item.id || updatingItemFor === getItemKey(item)}
+                                        disabled={!item.id || updatingItemFor === getItemKey(item) || deletingItemFor === getItemKey(item)}
                                         onChange={x => onToggleCompleted(item, x.currentTarget.checked)}
                                         aria-label={`Mark ${item.name ?? 'todo item'} as completed`}
                                     />
@@ -569,7 +587,7 @@ const TodoPage: React.FC = () => {
                                             variant="outline-secondary"
                                             className="py-0 px-2"
                                             id={`todo-tag-toggle-${getItemKey(item)}`}
-                                            disabled={!item.id || assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                            disabled={!item.id || assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item) || deletingItemFor === getItemKey(item)}
                                         >
                                             <IoPricetag />
                                         </Dropdown.Toggle>
@@ -579,7 +597,7 @@ const TodoPage: React.FC = () => {
                                                 defaultOptions
                                                 isClearable
                                                 styles={tagSelectStyles}
-                                                isDisabled={assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                                isDisabled={assigningTagFor === getItemKey(item) || updatingItemFor === getItemKey(item) || deletingItemFor === getItemKey(item)}
                                                 placeholder="Search or create tag"
                                                 onChange={option => onTagSelected(item, option)}
                                                 formatCreateLabel={value => `Create \"${value}\"`}
@@ -598,7 +616,7 @@ const TodoPage: React.FC = () => {
                                             variant="outline-secondary"
                                             className="py-0 px-2"
                                             id={`todo-trip-toggle-${getItemKey(item)}`}
-                                            disabled={!item.id || assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                            disabled={!item.id || assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item) || deletingItemFor === getItemKey(item)}
                                         >
                                             <FaRoute />
                                         </Dropdown.Toggle>
@@ -608,13 +626,22 @@ const TodoPage: React.FC = () => {
                                                 defaultOptions
                                                 isClearable
                                                 styles={tripSelectStyles}
-                                                isDisabled={assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                                isDisabled={assigningTripFor === getItemKey(item) || updatingItemFor === getItemKey(item) || deletingItemFor === getItemKey(item)}
                                                 placeholder="Search trip"
                                                 onChange={option => onTripSelected(item, option)}
                                                 noOptionsMessage={({ inputValue }) => inputValue ? 'No trips found' : 'Type to search trips'}
                                             />
                                         </Dropdown.Menu>
                                     </Dropdown>
+                                    <Button
+                                        size="sm"
+                                        variant="outline-danger"
+                                        className="py-0 px-2"
+                                        disabled={!item.id || deletingItemFor === getItemKey(item) || updatingItemFor === getItemKey(item)}
+                                        onClick={() => onDeleteTodo(item)}
+                                    >
+                                        Delete
+                                    </Button>
                                 </div>
                             </Card.Body>
                         </Card>

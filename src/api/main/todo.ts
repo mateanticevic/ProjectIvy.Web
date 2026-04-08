@@ -11,6 +11,7 @@ type GetToDoCountByTagQuery = paths['/ToDo/Count/ByTag']['get']['parameters']['q
 type GetToDoCountByTripQuery = paths['/ToDo/Count/ByTrip']['get']['parameters']['query'];
 type GetToDoSumByTagQuery = paths['/ToDo/Sum/ByTag']['get']['parameters']['query'];
 type PutToDoPath = paths['/ToDo/{id}']['put']['parameters']['path'];
+type DeleteToDoPath = paths['/ToDo/{id}']['delete']['parameters']['path'];
 
 type ToDoQueryWithTrip = NonNullable<GetToDoQuery> & { TripId?: string[] };
 type GetToDoCountByTagQueryWithTrip = NonNullable<GetToDoCountByTagQuery> & { TripId?: string[] };
@@ -29,6 +30,8 @@ const post = (todo: ToDoBinding): Promise<number> => api.post('todo', todo);
 
 const put = (id: PutToDoPath['id'], todo: ToDoBinding): Promise<number> => api.put(`todo/${id}`, todo);
 
+const deleteToDo = (id: DeleteToDoPath['id']): Promise<number> => api.del(`todo/${id}`);
+
 const postTag = (id: string, tagId: string): Promise<number> => api.post(`todo/${id}/tag/${tagId}`);
 
 const deleteTag = (id: string, tagId: string): Promise<number> => api.del(`todo/${id}/tag/${tagId}`);
@@ -40,6 +43,7 @@ const todo = {
     getSumByTag,
     post,
     put,
+    deleteToDo,
     postTag,
     deleteTag,
 };
