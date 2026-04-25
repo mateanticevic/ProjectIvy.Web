@@ -12484,6 +12484,7 @@ export interface components {
             created?: string;
             name?: string | null;
             description?: string | null;
+            isCompleted?: boolean;
             /** Format: date-time */
             dueDate?: string | null;
             /** Format: int32 */

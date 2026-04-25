@@ -22,6 +22,7 @@ interface Props {
     todos: ToDo[];
     offset?: number;
     onShowMap?(timeZone?: string): void;
+    onToggleCompleted?(todo: ToDo, isCompleted: boolean): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
 }
 
@@ -35,7 +36,7 @@ const workDayTypes = [
     { id: WorkDayType.Vacation, name: 'Vacation' },
 ];
 
-export const CalendarDay = ({ day, flights, movies, todos, offset, onWorkDayTypeChange, onShowMap }: Props) => {
+export const CalendarDay = ({ day, flights, movies, todos, offset, onToggleCompleted, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -89,6 +90,7 @@ export const CalendarDay = ({ day, flights, movies, todos, offset, onWorkDayType
                         flights={flights}
                         movies={movies}
                         todos={todos}
+                        onToggleCompleted={onToggleCompleted}
                         locations={day.locations ?? []}
                     />
                 </ListGroup>

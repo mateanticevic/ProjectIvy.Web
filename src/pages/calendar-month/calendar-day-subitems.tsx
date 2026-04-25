@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
-import { MdCheckBoxOutlineBlank, MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
+import { Form, ListGroup } from 'react-bootstrap';
+import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 import moment from 'moment';
 
 import LocationTypeIcon from 'components/location-type-icon';
@@ -24,9 +24,10 @@ interface Props {
     locations: Location[];
     movies: Movie[];
     todos: ToDo[];
+    onToggleCompleted?(todo: ToDo, isCompleted: boolean): void;
 }
 
-const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies, todos }: Props) => {
+const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies, todos, onToggleCompleted }: Props) => {
 
     const cityCountries = cities.map(c => c.country!.id!);
 
@@ -69,8 +70,15 @@ const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flight
                 </ListGroup.Item>
             )}
             {todos.map(t =>
-                <ListGroup.Item key={t.id}>
-                    <MdCheckBoxOutlineBlank /> {t.name}
+                <ListGroup.Item key={t.id} className="d-flex align-items-center gap-2">
+                    <Form.Check
+                        type="checkbox"
+                        checked={t.isCompleted}
+                        disabled={!t.id}
+                        onChange={e => onToggleCompleted?.(t, e.currentTarget.checked)}
+                        aria-label={`Mark ${t.name ?? 'todo'} as completed`}
+                    />
+                    {t.name}
                 </ListGroup.Item>
             )}
         </ListGroup>
