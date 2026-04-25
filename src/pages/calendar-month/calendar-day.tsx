@@ -13,11 +13,13 @@ import { FaRoute } from 'react-icons/fa';
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
 type Movie = components['schemas']['Movie'];
+type ToDo = components['schemas']['ToDo'];
 
 interface Props {
     day: CalendarDay;
     flights: Flight[];
     movies: Movie[];
+    todos: ToDo[];
     offset?: number;
     onShowMap?(timeZone?: string): void;
     onWorkDayTypeChange(workDayType: SelectOption): void;
@@ -33,7 +35,7 @@ const workDayTypes = [
     { id: WorkDayType.Vacation, name: 'Vacation' },
 ];
 
-export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange, onShowMap }: Props) => {
+export const CalendarDay = ({ day, flights, movies, todos, offset, onWorkDayTypeChange, onShowMap }: Props) => {
 
     const changeWorkDayType = (workDayTypeId: string) => {
         setIsEdit(false);
@@ -86,6 +88,7 @@ export const CalendarDay = ({ day, flights, movies, offset, onWorkDayTypeChange,
                         externalEvents={day.externalEvents ?? []}
                         flights={flights}
                         movies={movies}
+                        todos={todos}
                         locations={day.locations ?? []}
                     />
                 </ListGroup>

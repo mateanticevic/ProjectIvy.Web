@@ -57,7 +57,7 @@ const Map = ({ onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, ch
         mapTypeControl: false,
         streetViewControl: false,
         zoomControl: false,
-        colorScheme: isDark ? 'DARK' : 'LIGHT'
+        colorScheme: 'LIGHT'
     };
 
     return isLoaded ?

@@ -8,13 +8,12 @@ import { components } from 'types/ivy-types';
 import api from 'api/main';
 import { CalendarDay } from './calendar-day';
 import TrackingModal from 'widgets/tracking-modal';
-import { KeyValuePair } from 'types/grouping';
 import { SelectOption } from 'types/common';
 
 type CalendarSection = components['schemas']['CalendarSection'];
 type Flight = components['schemas']['Flight'];
-type Location = components['schemas']['Location'];
 type Movie = components['schemas']['Movie'];
+type ToDo = components['schemas']['ToDo'];
 
 interface PagePath {
     year: string;
@@ -28,8 +27,8 @@ const CalendarMonthPage: React.FC = () => {
     const [isMapModalOpen, setIsMapModalOpen] = useState(false);
     const [mapModalFrom, setMapModalFrom] = useState<string | undefined>(undefined);
     const [mapModalTo, setMapModalTo] = useState<string | undefined>(undefined);
-    const [locationsByDay, setLocationsByDay] = useState<KeyValuePair<Location[]>[]>([]);
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [todos, setTodos] = useState<ToDo[]>([]);
     const [startDay, setStartDay] = useState<Moment>(
         params.year && params.month ? moment(`${params.year}-${params.month}-01`) : moment().startOf('month')
     );
@@ -71,12 +70,16 @@ const CalendarMonthPage: React.FC = () => {
             });
         api.movie.get({ from, to, pageAll: true })
             .then(response => setMovies(response.items));
-        // api.location.getByDay(from, to)
-        //     .then(locationsByDay => {
-        //         setLocationsByDay(locationsByDay);
-        //     });
         api.flight.get({ from, to: month.clone().endOf('month').add(1, 'day').format('YYYY-MM-DD') })
             .then(data => setFlights(data.items));
+        const today = moment().startOf('day');
+        if (today.isAfter(month.clone().endOf('month'))) {
+            setTodos([]);
+        } else {
+            const todoFrom = moment.max(month.clone(), today).format('YYYY-MM-DD');
+            api.todo.get({ FromDueDate: todoFrom, ToDueDate: to, PageAll: true })
+                .then(response => setTodos(response.items ?? []));
+        }
     };
 
     const onWorkDayTypeChange = (date: string, workDayType: SelectOption) => {
@@ -134,6 +137,7 @@ const CalendarMonthPage: React.FC = () => {
                         day={day}
                         flights={flights.filter(f => moment(f.departureLocal).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
                         movies={movies.filter(m => moment(m.timestamp).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD')) ?? []}
+                        todos={todos.filter(t => !!t.dueDate && moment(t.dueDate).format('YYYY-MM-DD') === moment(day.date).format('YYYY-MM-DD'))}
                         offset={i === 0 ? moment(day.date).weekday() + 1 : 0}
                         onShowMap={(timezone) => onShowMap(moment(day.date).format('YYYY-MM-DD'), timezone)}
                         onWorkDayTypeChange={workDayType => onWorkDayTypeChange(moment(day.date).format('YYYY-MM-DD'), workDayType)}

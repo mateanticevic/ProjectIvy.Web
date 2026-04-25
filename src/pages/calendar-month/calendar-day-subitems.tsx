@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
-import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
+import { MdCheckBoxOutlineBlank, MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 import moment from 'moment';
 
 import LocationTypeIcon from 'components/location-type-icon';
@@ -13,6 +13,7 @@ type IcsCalendarEvent = components['schemas']['IcsCalendarEvent'];
 type Flight = components['schemas']['Flight'];
 type Location = components['schemas']['Location'];
 type Movie = components['schemas']['Movie'];
+type ToDo = components['schemas']['ToDo'];
 
 interface Props {
     cities: City[];
@@ -22,9 +23,10 @@ interface Props {
     flights: Flight[];
     locations: Location[];
     movies: Movie[];
+    todos: ToDo[];
 }
 
-const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies }: Props) => {
+const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies, todos }: Props) => {
 
     const cityCountries = cities.map(c => c.country!.id!);
 
@@ -64,6 +66,11 @@ const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flight
             {movies.map(m =>
                 <ListGroup.Item key={m.imdbId}>
                     <MdMovieCreation /> <a target="_blank" href={`https://imdb.com/title/${m.imdbId}`}>{m.title}</a>
+                </ListGroup.Item>
+            )}
+            {todos.map(t =>
+                <ListGroup.Item key={t.id}>
+                    <MdCheckBoxOutlineBlank /> {t.name}
                 </ListGroup.Item>
             )}
         </ListGroup>

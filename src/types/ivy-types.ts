@@ -9504,6 +9504,8 @@ export interface paths {
             parameters: {
                 query?: {
                     IsCompleted?: boolean;
+                    FromDueDate?: string;
+                    ToDueDate?: string;
                     TagId?: string[];
                     TripId?: string[];
                     Search?: string;
@@ -9575,6 +9577,8 @@ export interface paths {
             parameters: {
                 query?: {
                     IsCompleted?: boolean;
+                    FromDueDate?: string;
+                    ToDueDate?: string;
                     TagId?: string[];
                     TripId?: string[];
                     Search?: string;
@@ -9623,6 +9627,8 @@ export interface paths {
             parameters: {
                 query?: {
                     IsCompleted?: boolean;
+                    FromDueDate?: string;
+                    ToDueDate?: string;
                     TagId?: string[];
                     TripId?: string[];
                     Search?: string;
@@ -9671,6 +9677,8 @@ export interface paths {
             parameters: {
                 query?: {
                     IsCompleted?: boolean;
+                    FromDueDate?: string;
+                    ToDueDate?: string;
                     TagId?: string[];
                     TripId?: string[];
                     Search?: string;
@@ -9719,6 +9727,8 @@ export interface paths {
             parameters: {
                 query?: {
                     IsCompleted?: boolean;
+                    FromDueDate?: string;
+                    ToDueDate?: string;
                     TagId?: string[];
                     TripId?: string[];
                     Search?: string;
