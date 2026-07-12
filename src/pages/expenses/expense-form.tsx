@@ -8,13 +8,14 @@ import { DateFormElement } from 'components';
 import { SelectOption } from 'types/common';
 import { components } from 'types/ivy-types';
 import { vendorLoader } from 'utils/select-loaders';
-import { SingleValue } from 'react-select';
+import { SingleValue, StylesConfig } from 'react-select';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type Expense = components['schemas']['Expense'];
 type ExpenseFile = components['schemas']['ExpenseFile'];
 type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
+type VendorOption = { value: string, label: string, __isNew__?: boolean };
 
 interface Props {
     cards: SelectOption[];
@@ -35,9 +36,15 @@ interface Props {
 
 const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, expense, fileTypes, files, types, onChange, paymentTypes, uploadFile, vendorPois, linkFile }: Props) => {
     const reactSelectStyles = useReactSelectStyles();
+    const selectedVendor = expense.vendor
+        ? { value: expense.vendor.id ?? '', label: expense.vendor.name ?? '' }
+        : null;
 
-    const onVendorChanged = (changed: SingleValue<{ value: string, label: string, __isNew__?: boolean }>) => {
-        if (changed?.__isNew__) {
+    const onVendorChanged = (changed: SingleValue<VendorOption>) => {
+        if (!changed) {
+            onChange({ vendor: null });
+        }
+        else if (changed.__isNew__) {
             onChange({
                 vendor: {
                     name: changed.value
@@ -87,12 +94,13 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     <Col lg={6}>
                         <FormGroup>
                             <FormLabel>Vendor</FormLabel>
-                            <AsyncCreatableSelect
+                            <AsyncCreatableSelect<VendorOption, false>
                                 loadOptions={vendorLoader}
                                 onChange={onVendorChanged}
-                                defaultValue={{ value: expense.vendor?.id, label: expense.vendor?.name }}
+                                defaultValue={selectedVendor}
                                 defaultOptions
-                                styles={reactSelectStyles}
+                                isClearable
+                                styles={reactSelectStyles as StylesConfig<VendorOption, false>}
                             />
                         </FormGroup>
                     </Col>
