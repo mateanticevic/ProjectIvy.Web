@@ -32,6 +32,7 @@ import { CalendarYearPage } from 'pages/calendar-year';
 import InventoryPage from 'pages/inventory';
 import ExpenseTypesPage from 'pages/expense-types';
 import TodoPage from 'pages/todo';
+import JournalPage from 'pages/journal';
 
 interface State {
     error?: string,
@@ -249,6 +250,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/tracking" element={<TrackingPage />} />
                                     <Route path="/tracking-old" element={<TrackingOldPage />} />
                                     <Route path="/todo" element={<TodoPage />} />
+                                    <Route path="/journal" element={<JournalPage />} />
                                     <Route path="/trips" element={<TripsPage />} />
                                     <Route path="/trips/:id" element={<TripDetailsPage />} />
                                 </Routes>

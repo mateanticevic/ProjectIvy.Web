@@ -18,6 +18,7 @@ import flight from './flight';
 import geohash from './geohash';
 import income from './income';
 import inventory from './inventory';
+import journal from './journal';
 import location from './location';
 import movie from './movie';
 import person from './person';
@@ -55,6 +56,7 @@ const api = {
     geohash,
     income,
     inventory,
+    journal,
     location,
     movie,
     person,

@@ -7655,6 +7655,133 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/journal/entry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                    From?: string;
+                    To?: string;
+                    OrderAscending?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["JournalEntryPagedView"];
+                        "application/json": components["schemas"]["JournalEntryPagedView"];
+                        "text/json": components["schemas"]["JournalEntryPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["JournalEntryBinding"];
+                    "text/json": components["schemas"]["JournalEntryBinding"];
+                    "application/*+json": components["schemas"]["JournalEntryBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/journal/entry/{date}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    date: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["JournalEntryBinding"];
+                    "text/json": components["schemas"]["JournalEntryBinding"];
+                    "application/*+json": components["schemas"]["JournalEntryBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    date: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Tracking/LastLocation": {
         parameters: {
             query?: never;
@@ -7681,6 +7808,43 @@ export interface paths {
                         "application/json": components["schemas"]["TrackingLocation"];
                         "text/json": components["schemas"]["TrackingLocation"];
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Loan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    PageAll?: boolean;
+                    Page?: number;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -12285,6 +12449,25 @@ export interface components {
         };
         /** @enum {string} */
         InventoryItemSort: "name";
+        JournalEntry: {
+            /** Format: date */
+            date?: string;
+            entry?: string | null;
+            /** Format: date-time */
+            created?: string;
+            /** Format: date-time */
+            modified?: string;
+        };
+        JournalEntryBinding: {
+            /** Format: date */
+            date?: string;
+            entry?: string | null;
+        };
+        JournalEntryPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["JournalEntry"][] | null;
+        };
         KnownLocation: {
             name?: string | null;
             typeId?: string | null;

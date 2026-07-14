@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { FaRegCalendarAlt, FaRoute, FaShapes } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaRoute, FaShapes, FaBook } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
 import { MdCall, MdLocalMovies, MdCardTravel, MdAccountBalance, MdInventory } from 'react-icons/md';
@@ -56,6 +56,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                             }
                             <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/inventory"><MdInventory /> Inventory</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/journal"><FaBook /> Journal</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/todo"><LuListTodo /> Todo</NavDropdown.Item>
                             {identity.pif?.includes(Feature.Calls) &&
                                 <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
