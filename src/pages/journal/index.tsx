@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Modal, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import Datetime from 'react-datetime';
 import moment from 'moment';
 
 import api from 'api/main';
@@ -141,11 +142,12 @@ const JournalPage: React.FC = () => {
                 <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Date</Form.Label>
-                        <Form.Control
-                            type="date"
+                        <Datetime
+                            dateFormat="YYYY-MM-DD"
+                            timeFormat={false}
                             value={binding.date ?? ''}
-                            onChange={e => setBinding(prev => ({ ...prev, date: e.target.value }))}
-                            disabled={!!selectedEntry || isSaving}
+                            inputProps={{ placeholder: 'Date', disabled: !!selectedEntry || isSaving }}
+                            onChange={value => setBinding(prev => ({ ...prev, date: moment.isMoment(value) ? value.format('YYYY-MM-DD') : '' }))}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
