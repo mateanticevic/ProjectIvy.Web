@@ -52,13 +52,15 @@ export const CalendarDay = ({ day, flights, movies, todos, offset, onToggleCompl
     };
 
     const classes = classNames('calendar-item', {
-        'business-trip': day.workDayType?.id === WorkDayType.BusinessTrip,
-        'conference': day.workDayType?.id === WorkDayType.Conference,
+        'business-trip': day.workDayType?.id === WorkDayType.BusinessTrip && !day.isHoliday,
+        'conference': day.workDayType?.id === WorkDayType.Conference && !day.isHoliday,
         'holiday': day.isHoliday,
-        'medical-check-up': day.workDayType?.id === WorkDayType.MedicalCheckUp,
-        'office': day.workDayType?.id === WorkDayType.Office,
-        'remote': day.workDayType?.id === WorkDayType.Remote,
+        'medical-check-up': day.workDayType?.id === WorkDayType.MedicalCheckUp && !day.isHoliday,
+        'office': day.workDayType?.id === WorkDayType.Office && !day.isHoliday,
+        'remote': day.workDayType?.id === WorkDayType.Remote && !day.isHoliday,
+        'sick-leave': day.workDayType?.id === WorkDayType.SickLeave && !day.isHoliday,
         'today': momentDay.isSame(moment(), 'day'),
+        'unemployed': !day.workDayType && !day.isHoliday && !isWeekend,
         'vacation': day.workDayType?.id === WorkDayType.Vacation && !day.isHoliday,
         'weekend': isWeekend && !day.isHoliday,
     });
