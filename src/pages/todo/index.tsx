@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
@@ -117,6 +117,8 @@ const TodoPage: React.FC = () => {
     const reactSelectStyles = useReactSelectStyles();
     const tagSelectStyles = reactSelectStyles as StylesConfig<SelectTagOption, false>;
     const tripSelectStyles = reactSelectStyles as StylesConfig<SelectTripOption, false>;
+    const modalTagSelectRef = useRef<any>(null);
+    const shouldFocusModalTagSelect = useRef(false);
 
     const getItemKey = useCallback((item: ToDo) => item.id ?? item.name ?? '', []);
 
@@ -197,6 +199,13 @@ const TodoPage: React.FC = () => {
     useEffect(() => {
         loadTodos();
     }, [loadTodos]);
+
+    useEffect(() => {
+        if (shouldFocusModalTagSelect.current) {
+            shouldFocusModalTagSelect.current = false;
+            modalTagSelectRef.current?.focus();
+        }
+    }, [editTagSelectKey]);
 
     const onOpenCreateModal = () => {
         setSelectedTodoForEdit(null);
@@ -366,6 +375,7 @@ const TodoPage: React.FC = () => {
 
         resolveTagFromSelectedOption(selected)
             .then(resolvedTag => {
+                shouldFocusModalTagSelect.current = true;
                 if (!resolvedTag) {
                     setEditTagSelectKey(current => current + 1);
                     return;
@@ -932,6 +942,7 @@ const TodoPage: React.FC = () => {
                         </div>
                         <AsyncCreatableSelect<SelectTagOption, false>
                             key={editTagSelectKey}
+                            ref={modalTagSelectRef}
                             loadOptions={loadTagOptions}
                             defaultOptions
                             isClearable
