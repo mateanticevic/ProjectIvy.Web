@@ -10,6 +10,10 @@ interface Props {
 }
 
 export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
+    const lineValueKey = value ?? 'value';
+    const legendFormatter = (legendValue: string) => (
+        <span style={legendValue === lineValueKey ? { color: 'var(--bs-body-color)' } : undefined}>{legendValue}</span>
+    );
 
     return (
         <ResponsiveContainer height={300}>
@@ -18,14 +22,14 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
                     dataKey={name ?? 'key'}
                     tickFormatter={time => moment(time).format('MMM Do YY')}
                 />
-                <YAxis min={60} max={100} domain={[85, 100]} />
+                <YAxis domain={['auto', 'auto']} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
-                <Legend />
+                <Legend formatter={legendFormatter} />
                 <Line
                     type="monotone"
                     dot={false}
-                    dataKey={value ?? 'value'}
+                    dataKey={lineValueKey}
                     stroke="var(--bs-primary)"
                     strokeWidth={3}
                     unit={unit ?? ''}
