@@ -49,6 +49,7 @@ const AccountItem = ({ account, onAccountSelected, onAccountEdit }: Props) => {
                     <div className="expense-item-payment-type">
                         <Button 
                             variant="link" 
+                            className="text-primary"
                             size="sm" 
                             onClick={(e) => {
                                 e.stopPropagation();
