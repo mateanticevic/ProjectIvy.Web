@@ -824,6 +824,13 @@ body #app {
   .accordion-button {
     color: unset;
   }
+
+}
+
+.more-filters-accordion .accordion-button:focus {
+  border-color: var(--bs-accordion-border-color);
+  box-shadow: none;
+  outline: none;
 }
 
 a:hover {

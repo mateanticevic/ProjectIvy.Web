@@ -186,7 +186,7 @@ class ExpensesPage extends Page<Props, State> {
                                         />
                                     </Card.Body>
                                 </Card>
-                                <Accordion>
+                                <Accordion className="more-filters-accordion">
                                     <Accordion.Item eventKey="0">
                                         <Accordion.Header>
                                             More filters
