@@ -28,7 +28,12 @@ const colors = [
     '#ffa600',
 ];
 
-const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
+const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) => {
+    const legendFormatter = (legendValue: string) => (
+        <span style={legendValue === value ? { color: 'var(--bs-body-color)' } : undefined}>{legendValue}</span>
+    );
+
+    return (
     <ResponsiveContainer height={250}>
         <BarChart
             data={data}
@@ -37,7 +42,7 @@ const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
             <XAxis dataKey={name} />
             <YAxis tickFormatter={tickFormatter} />
             <Tooltip />
-            <Legend />
+            <Legend formatter={legendFormatter} />
             {stacked && [...new Set(data.map(x => Object.keys(x)).flatMap(x => x))].filter(x => x !== 'key').map((x, i) =>
                 <Bar
                     type="monotone"
@@ -51,6 +56,8 @@ const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
                 <Bar type="monotone" dataKey={value} fill="var(--bs-primary)" unit={unit} />
             }
         </BarChart>
-    </ResponsiveContainer>;
+    </ResponsiveContainer>
+    );
+};
 
 export default SimpleBarChart;
