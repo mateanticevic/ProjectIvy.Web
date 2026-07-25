@@ -298,7 +298,7 @@ class ExpensesPage extends Page<Props, State> {
                             dontRenderCard
                             data={this.state.sumChartData}
                             name="Sum"
-                            stacked={true}
+                            stacked={this.state.sumGroupByType}
                             unit={this.user.defaultCurrency.symbol}
                             countByOptions={sumByOptions}
                             onGroupByChange={this.onSumGroupBy}
