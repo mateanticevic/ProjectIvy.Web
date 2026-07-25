@@ -11,6 +11,7 @@ interface Props {
 
 export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
     const lineValueKey = value ?? 'value';
+    const axisTickColor = 'var(--bs-body-color)';
     const legendFormatter = (legendValue: string) => (
         <span style={legendValue === lineValueKey ? { color: 'var(--bs-body-color)' } : undefined}>{legendValue}</span>
     );
@@ -21,8 +22,9 @@ export const SimpleLineChart = ({ data, name, unit, value }: Props) => {
                 <XAxis
                     dataKey={name ?? 'key'}
                     tickFormatter={time => moment(time).format('MMM Do YY')}
+                    tick={{ fill: axisTickColor }}
                 />
-                <YAxis domain={['auto', 'auto']} />
+                <YAxis domain={['auto', 'auto']} tick={{ fill: axisTickColor }} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend formatter={legendFormatter} />
