@@ -41,7 +41,7 @@ const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
         >
             <XAxis dataKey={name} />
             <YAxis tickFormatter={tickFormatter} />
-            <Tooltip />
+            <Tooltip labelStyle={{ color: '#000' }} />
             <Legend formatter={legendFormatter} />
             {stacked && [...new Set(data.map(x => Object.keys(x)).flatMap(x => x))].filter(x => x !== 'key').map((x, i) =>
                 <Bar
