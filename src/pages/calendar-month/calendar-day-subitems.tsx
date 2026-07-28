@@ -27,6 +27,9 @@ interface Props {
     onToggleCompleted?(todo: ToDo, isCompleted: boolean): void;
 }
 
+const isAllDayEvent = (event: IcsCalendarEvent) =>
+    moment(event.start).format('HH:mm') === '00:00' && (!event.end || moment(event.end).format('HH:mm') === '00:00');
+
 const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flights, locations, movies, todos, onToggleCompleted }: Props) => {
 
     const cityCountries = cities.map(c => c.country!.id!);
@@ -55,8 +58,8 @@ const CalendarDaySubitems = ({ cities, countries, events, externalEvents, flight
             )}
             {externalEvents.map(e =>
                 <ListGroup.Item key={e.uid}>
-                    <div><MdOutlineEvent /> {e.start && moment(e.start).format('HH:mm')}</div>
-                    <div>{e.summary}</div>
+                    <div><MdOutlineEvent /> {e.summary}</div>
+                    {e.start && !isAllDayEvent(e) && <div>{moment(e.start).format('HH:mm')}</div>}
                 </ListGroup.Item>
             )}
             {locations.map(l =>
