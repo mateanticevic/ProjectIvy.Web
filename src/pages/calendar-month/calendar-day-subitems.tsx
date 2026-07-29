@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
 import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 import moment from 'moment';
+import mtz from 'moment-timezone';
 
 import { VerticalNodes } from 'components/vertical-nodes';
 import { components } from 'types/ivy-types';
@@ -14,6 +15,8 @@ type Flight = components['schemas']['Flight'];
 type LocationVisited = components['schemas']['LocationVisited'];
 type Movie = components['schemas']['Movie'];
 type ToDo = components['schemas']['ToDo'];
+
+const DISPLAY_TIMEZONE = 'Europe/Zagreb';
 
 interface Props {
     cities: City[];
@@ -28,7 +31,7 @@ interface Props {
 }
 
 const formatClockTime = (time?: string) =>
-    time ? moment(time).format('HH:mm') : '–';
+    time ? mtz.utc(time).tz(DISPLAY_TIMEZONE).format('HH:mm') : '–';
 
 const formatTimeSpent = (enterTime?: string, exitTime?: string) => {
     if (!enterTime || !exitTime) {
