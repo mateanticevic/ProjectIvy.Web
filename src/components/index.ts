@@ -17,3 +17,5 @@ export { default as ValueLabel } from './value-label';
 export { default as Widget } from './widget';
 export { default as Pagination } from './pagination';
 export { Timeline } from './timeline';
+export { VerticalNodes } from './vertical-nodes';
+

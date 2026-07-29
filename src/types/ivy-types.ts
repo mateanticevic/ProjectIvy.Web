@@ -11660,7 +11660,7 @@ export interface components {
             events?: components["schemas"]["Event"][] | null;
             externalEvents?: components["schemas"]["IcsCalendarEvent"][] | null;
             isHoliday?: boolean;
-            locations?: components["schemas"]["Location"][] | null;
+            locations?: components["schemas"]["LocationVisited"][] | null;
             /** Format: date-time */
             date?: string;
             workDayType?: components["schemas"]["WorkDayTypeOld"];
@@ -12500,6 +12500,16 @@ export interface components {
         LocationType: {
             id?: string | null;
             name?: string | null;
+        };
+        LocationVisited: {
+            id?: string | null;
+            name?: string | null;
+            geohashes?: string[] | null;
+            type?: components["schemas"]["LocationType"];
+            /** Format: date-time */
+            enterTime?: string;
+            /** Format: date-time */
+            exitTime?: string;
         };
         Manufacturer: {
             name?: string | null;
