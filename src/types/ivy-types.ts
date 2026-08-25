@@ -11656,11 +11656,13 @@ export interface components {
         };
         CalendarDay: {
             cities?: components["schemas"]["City"][] | null;
+            cityVisits?: components["schemas"]["CityVisited"][] | null;
             countries?: components["schemas"]["Country"][] | null;
             events?: components["schemas"]["Event"][] | null;
             externalEvents?: components["schemas"]["IcsCalendarEvent"][] | null;
             isHoliday?: boolean;
             locations?: components["schemas"]["LocationVisited"][] | null;
+            timeline?: components["schemas"]["TimelineItem"][] | null;
             /** Format: date-time */
             date?: string;
             workDayType?: components["schemas"]["WorkDayTypeOld"];
@@ -11806,6 +11808,20 @@ export interface components {
             /** Format: int64 */
             count?: number;
             items?: components["schemas"]["City"][] | null;
+        };
+        CityVisited: {
+            id?: string | null;
+            name?: string | null;
+            /** Format: double */
+            lat?: number | null;
+            /** Format: double */
+            lng?: number | null;
+            country?: components["schemas"]["Country"];
+            timeZone?: string | null;
+            /** Format: date-time */
+            enterTime?: string | null;
+            /** Format: date-time */
+            exitTime?: string | null;
         };
         Consumation: {
             beer?: components["schemas"]["Beer"];
@@ -12509,7 +12525,7 @@ export interface components {
             /** Format: date-time */
             enterTime?: string;
             /** Format: date-time */
-            exitTime?: string;
+            exitTime?: string | null;
         };
         Manufacturer: {
             name?: string | null;
@@ -12670,6 +12686,14 @@ export interface components {
             /** Format: int64 */
             count?: number;
             items?: components["schemas"]["Tag"][] | null;
+        };
+        TimelineItem: {
+            city?: components["schemas"]["City"];
+            location?: components["schemas"]["Location"];
+            /** Format: date-time */
+            enterTime?: string | null;
+            /** Format: date-time */
+            exitTime?: string | null;
         };
         ToDo: {
             id?: string | null;

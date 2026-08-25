@@ -93,7 +93,7 @@ export const CalendarDay = ({ day, flights, movies, todos, offset, onToggleCompl
                         movies={movies}
                         todos={todos}
                         onToggleCompleted={onToggleCompleted}
-                        locations={day.locations ?? []}
+                        timeline={day.timeline ?? []}
                     />
                 </ListGroup>
             </Card.Body>
