@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, ListGroup } from 'react-bootstrap';
-import { MdLogin, MdLogout, MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
+import { MdMovieCreation, MdOutlineAirplanemodeActive, MdOutlineEvent } from 'react-icons/md';
 import moment from 'moment';
 import mtz from 'moment-timezone';
 
@@ -47,19 +47,7 @@ const formatTimeSpent = (enterTime?: string | null, exitTime?: string | null) =>
     return `${Math.round(minutes / 60)}h`;
 };
 
-const formatDurationHHmm = (from?: string | null, to?: string | null) => {
-    if (!from || !to) {
-        return '–';
-    }
-
-    const minutes = Math.max(0, Math.round(moment(to).diff(moment(from), 'minutes', true)));
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-
-    return `${String(hours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}`;
-};
-
-const formatLocationNode = (item: TimelineItem, index: number, total: number) => {
+const formatStayNode = (item: TimelineItem, index: number, total: number) => {
     if (index === 0 && total > 1) {
         return formatClockTime(item.exitTime);
     }
@@ -71,28 +59,54 @@ const formatLocationNode = (item: TimelineItem, index: number, total: number) =>
     return formatTimeSpent(item.enterTime, item.exitTime);
 };
 
-const cityEventLabel = (city: City, type: 'enter' | 'exit') => (
-    <span className="d-inline-flex align-items-center gap-1">
-        {type === 'enter' ? <MdLogin title="Entry" /> : <MdLogout title="Exit" />}
-        {city.name}
-    </span>
-);
+const coalesceCityStays = (timeline: TimelineItem[]): TimelineItem[] => {
+    const skip = new Set<number>();
+    const result: TimelineItem[] = [];
+
+    for (let i = 0; i < timeline.length; i++) {
+        if (skip.has(i)) {
+            continue;
+        }
+
+        const item = timeline[i];
+        if (item.city && item.enterTime && !item.exitTime) {
+            const exitIndex = timeline.findIndex((other, j) =>
+                j > i
+                && !skip.has(j)
+                && other.city?.id === item.city?.id
+                && other.exitTime
+                && !other.enterTime
+            );
+
+            if (exitIndex !== -1) {
+                skip.add(exitIndex);
+                result.push({ ...item, exitTime: timeline[exitIndex].exitTime });
+                continue;
+            }
+        }
+
+        result.push(item);
+    }
+
+    return result;
+};
 
 const toTimelineNodes = (timeline: TimelineItem[]): VerticalNodeItem[] => {
+    const items = coalesceCityStays(timeline);
     const nodes: VerticalNodeItem[] = [];
-    const locationCount = timeline.filter(item => item.location).length;
+    const locationCount = items.filter(item => item.location).length;
+    const cityCount = items.filter(item => item.city).length;
     let locationIndex = 0;
-    let skipEnter = false;
+    let cityIndex = 0;
 
-    for (let index = 0; index < timeline.length; index++) {
-        const item = timeline[index];
-        const next = timeline[index + 1];
+    for (let index = 0; index < items.length; index++) {
+        const item = items[index];
+        const next = items[index + 1];
 
         if (item.location) {
-            skipEnter = false;
             nodes.push({
                 key: `${item.location.id ?? item.location.name}-${item.enterTime ?? index}`,
-                node: formatLocationNode(item, locationIndex, locationCount),
+                node: formatStayNode(item, locationIndex, locationCount),
                 label: item.location.name,
             });
             locationIndex += 1;
@@ -100,29 +114,20 @@ const toTimelineNodes = (timeline: TimelineItem[]): VerticalNodeItem[] => {
         }
 
         if (!item.city) {
-            skipEnter = false;
             continue;
         }
 
-        const mergesWithNext = Boolean(
-            item.exitTime
-            && next?.city
-            && next.enterTime
-            && next.city.id !== item.city.id
-        );
+        nodes.push({
+            key: `${item.city.id}-${item.enterTime ?? item.exitTime ?? index}`,
+            node: formatStayNode(item, cityIndex, cityCount),
+            label: item.city.name,
+        });
+        cityIndex += 1;
 
-        if (item.enterTime && !skipEnter) {
-            nodes.push({
-                key: `${item.city.id}-enter-${item.enterTime}`,
-                node: formatClockTime(item.enterTime),
-                label: cityEventLabel(item.city, 'enter'),
-            });
-        }
-
-        if (mergesWithNext && next?.city) {
+        if (item.exitTime && next?.city && next.enterTime && next.city.id !== item.city.id) {
             nodes.push({
                 key: `${item.city.id}-to-${next.city.id}-${item.exitTime}`,
-                node: formatDurationHHmm(item.exitTime, next.enterTime),
+                node: formatTimeSpent(item.exitTime, next.enterTime),
                 label: (
                     <span className="d-inline-flex align-items-center gap-1">
                         {item.city.name}
@@ -131,19 +136,7 @@ const toTimelineNodes = (timeline: TimelineItem[]): VerticalNodeItem[] => {
                     </span>
                 ),
             });
-            skipEnter = true;
-            continue;
         }
-
-        if (item.exitTime) {
-            nodes.push({
-                key: `${item.city.id}-exit-${item.exitTime}`,
-                node: formatClockTime(item.exitTime),
-                label: cityEventLabel(item.city, 'exit'),
-            });
-        }
-
-        skipEnter = false;
     }
 
     return nodes;
