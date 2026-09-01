@@ -1,5 +1,5 @@
 # stage1 as builder
-FROM node:24 AS builder
+FROM node:26 AS builder
 
 WORKDIR /build
 
