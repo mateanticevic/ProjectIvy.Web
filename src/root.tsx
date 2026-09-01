@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Button, Card, FloatingLabel, Form, Spinner, Toast } from 'react-bootstrap';
+import { Spinner, Toast } from 'react-bootstrap';
 
 import { User } from 'types/users';
 import api from './api/main';
@@ -24,8 +24,6 @@ import TrackingPage from 'pages/tracking';
 import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import FlightsV2Page from 'pages/flights-v2';
-import ButtonWithSpinner from 'components/button-with-spinner';
-import { FaGithub, FaMicrosoft } from 'react-icons/fa';
 import CalendarMonthPage from 'pages/calendar-month';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
@@ -37,24 +35,20 @@ import JournalPage from 'pages/journal';
 interface State {
     error?: string,
     loadingState: LoadingState,
-    loggingIn?: boolean;
-    password?: string;
     showToast: boolean;
     theme: 'light' | 'dark';
     toastTitle?: string;
     toastMessage?: string;
     user?: User;
-    username?: string;
 }
 
 enum LoadingState {
     Error,
-    Login,
     Ready,
     Waiting,
 }
 
-const loginWithOAuthProviderUrl = `https://auth.anticevic.net/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`;
+const loginWithOAuthProviderUrl = `${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`;
 
 export default class Root extends React.Component<{}, State> {
     identity = getIdentity();
@@ -111,54 +105,9 @@ export default class Root extends React.Component<{}, State> {
                     });
                 });
         }
-        else {
-            this.setState({
-                loadingState: LoadingState.Login,
-            });
+        else if (!code) {
+            window.location.assign(loginWithOAuthProviderUrl);
         }
-    }
-
-    login = () => {
-        this.setState({
-            loggingIn: true,
-        });
-
-        const payload = { username: this.state.username, password: this.state.password, grant_type: 'password', scope: 'email' };
-
-        var formBody: string[] = [];
-        for (var property in payload) {
-            const encodedKey = encodeURIComponent(property);
-            const encodedValue = encodeURIComponent(payload[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-
-        fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
-            method: 'POST',
-            headers: {
-                Authorization: 'Basic d2ViOg==',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formBody.join("&")
-        })
-            .then(response => {
-                if (response.status === 200) {
-                    response.json().then(data => {
-                        document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
-                        location.reload();
-                    });
-                }
-                else {
-                    this.setState({
-                        loggingIn: false,
-                    });
-                }
-            })
-            .catch(error => {
-                this.setState({
-                    error: error.message,
-                    loadingState: LoadingState.Error,
-                });
-            });
     }
 
     public render() {
@@ -169,50 +118,6 @@ export default class Root extends React.Component<{}, State> {
                     <div className="loading-status">
                         <p>API failed with {this.state.error}</p>
                     </div >
-                );
-            }
-            case LoadingState.Login: {
-                return (
-                    <div className="login-form">
-                        <Card>
-                            <Card.Body>
-                                <Form>
-                                    <FloatingLabel
-                                        controlId="floatingInput"
-                                        label="User"
-                                        className="mb-3"
-                                    >
-                                        <Form.Control type="text" onChange={x => this.setState({ username: x.target.value })} />
-                                    </FloatingLabel>
-                                    <FloatingLabel
-                                        controlId="floatingInput"
-                                        label="Password"
-                                        className="mb-3"
-                                    >
-                                        <Form.Control type="password" onChange={x => this.setState({ password: x.target.value })} />
-                                    </FloatingLabel>
-                                    <div className="form-grid">
-                                        <ButtonWithSpinner
-                                            isLoading={!!this.state.loggingIn}
-                                            onClick={this.login}
-                                        >Log in</ButtonWithSpinner>
-                                        <Button
-                                            variant="primary"
-                                            href={`${loginWithOAuthProviderUrl}&kc_idp_hint=microsoft`}
-                                        >
-                                            <FaMicrosoft /> Log in with Microsoft
-                                        </Button>
-                                        <Button
-                                            variant="primary"
-                                            href={`${loginWithOAuthProviderUrl}&kc_idp_hint=github`}
-                                        >
-                                            <FaGithub /> Log in with GitHub
-                                        </Button>
-                                    </div>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </div>
                 );
             }
             case LoadingState.Ready: {
