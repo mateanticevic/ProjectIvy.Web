@@ -107,7 +107,7 @@ class TripsPage extends Page<unknown, State> {
         return (
             <Container>
                 <Row>
-                    <Col lg={12}>
+                    <Col lg={8}>
                         <Card>
                             <Card.Header>Map</Card.Header>
                             <Card.Body className="panel-medium">
@@ -117,6 +117,21 @@ class TripsPage extends Page<unknown, State> {
                                     data={chartData}
                                     options={{ backgroundColor: colorTokens.colorBackground, defaultColor: colorTokens.colorPrimary }}
                                 />
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                    <Col lg={4}>
+                        <Card>
+                            <Card.Header>Countries ({countriesVisited.length})</Card.Header>
+                            <Card.Body>
+                                <div className="panel-countries">
+                                    {countriesVisited.map((country, index) => <FlagIcon
+                                        code={country.id}
+                                        country={country.name}
+                                        className="country-flag"
+                                        title={`#${index + 1} ${country.name}`}
+                                    />)}
+                                </div>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -229,31 +244,20 @@ class TripsPage extends Page<unknown, State> {
                         </Row>
                     </Col>
                     <Col lg={3}>
-                        <Card>
-                            <Card.Header>Countries ({countriesVisited.length})</Card.Header>
-                            <Card.Body>
-                                <div className="panel-countries">
-                                    {countriesVisited.map((country, index) => <FlagIcon
-                                        code={country.id}
-                                        country={country.name}
-                                        className="country-flag"
-                                        title={`#${index + 1} ${country.name}`}
-                                    />)}
-                                </div>
-                                {lists.length > 0 &&
-                                    <div>
-                                        <small>Groups</small>
-                                        {lists.map(list =>
-                                            <ProgressBar
-                                                key={list.id}
-                                                now={list.countriesVisited.length * 100 / (list.countriesVisited.length + list.countriesNotVisited.length)}
-                                                label={`${list.name} (${list.countriesVisited.length}/${list.countriesVisited.length + list.countriesNotVisited.length})`}
-                                            />
-                                        )}
-                                    </div>
-                                }
-                            </Card.Body>
-                        </Card>
+                        {lists.length > 0 &&
+                            <Card>
+                                <Card.Header>Groups</Card.Header>
+                                <Card.Body>
+                                    {lists.map(list =>
+                                        <ProgressBar
+                                            key={list.id}
+                                            now={list.countriesVisited.length * 100 / (list.countriesVisited.length + list.countriesNotVisited.length)}
+                                            label={`${list.name} (${list.countriesVisited.length}/${list.countriesVisited.length + list.countriesNotVisited.length})`}
+                                        />
+                                    )}
+                                </Card.Body>
+                            </Card>
+                        }
                         <Card>
                             <Card.Header>Geohash</Card.Header>
                             <Card.Body>
