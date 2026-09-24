@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar, Button } from 'react-bootstrap';
+import { Col, FormLabel, FormGroup, Container, Card, Row, ProgressBar, Button, Badge } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Chart } from 'react-google-charts';
@@ -24,11 +24,19 @@ type TripBinding = components['schemas']['TripBinding'];
 type StayBinding = components['schemas']['StayBinding'];
 type Stay = components['schemas']['Stay'];
 
+const GEOHASH_PRECISIONS = [1, 2, 3, 4, 5, 6, 7];
+
+interface GeohashCoverage {
+    precision: number;
+    visited: number;
+}
+
 interface State {
     countries: [];
     countriesVisited: [];
     daysByYear: any;
     filters: TripFilters;
+    geohashCoverage: GeohashCoverage[] | null;
     isModalOpen: boolean;
     isStayModalOpen: boolean;
     lists: CountryListVisited[];
@@ -54,6 +62,7 @@ class TripsPage extends Page<unknown, State> {
             cityId: [],
             countryId: [],
         },
+        geohashCoverage: null,
         isModalOpen: false,
         isStayModalOpen: false,
         lists: [],
@@ -81,10 +90,11 @@ class TripsPage extends Page<unknown, State> {
             .then(daysByYear => this.setState({ daysByYear }));
 
         this.loadVisited();
+        this.loadGeohashCoverage();
     }
 
     render() {
-        const { countries, countriesVisited, filters, lists, trips, tripIsBeingAdded, stayIsBeingAdded } = this.state;
+        const { countries, countriesVisited, filters, geohashCoverage, lists, trips, tripIsBeingAdded, stayIsBeingAdded } = this.state;
 
         const chartData = countriesVisited.map(x => [x.name]);
 
@@ -230,12 +240,45 @@ class TripsPage extends Page<unknown, State> {
                                         title={`#${index + 1} ${country.name}`}
                                     />)}
                                 </div>
-                                {lists.map(list =>
-                                    <ProgressBar
-                                        now={list.countriesVisited.length * 100 / (list.countriesVisited.length + list.countriesNotVisited.length)}
-                                        label={`${list.name} (${list.countriesVisited.length}/${list.countriesVisited.length + list.countriesNotVisited.length})`}
-                                    />
-                                )}
+                                {lists.length > 0 &&
+                                    <div>
+                                        <small>Groups</small>
+                                        {lists.map(list =>
+                                            <ProgressBar
+                                                key={list.id}
+                                                now={list.countriesVisited.length * 100 / (list.countriesVisited.length + list.countriesNotVisited.length)}
+                                                label={`${list.name} (${list.countriesVisited.length}/${list.countriesVisited.length + list.countriesNotVisited.length})`}
+                                            />
+                                        )}
+                                    </div>
+                                }
+                            </Card.Body>
+                        </Card>
+                        <Card>
+                            <Card.Header>Geohash</Card.Header>
+                            <Card.Body>
+                                {geohashCoverage?.filter(({ precision }) => precision <= 2).map(({ precision, visited }) => {
+                                    const percent = Math.round(visited * 100 / 32 ** precision);
+                                    return (
+                                        <div key={precision}>
+                                            <small>P{precision}</small>
+                                            <ProgressBar
+                                                now={percent}
+                                                label={`${percent}%`}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                                {geohashCoverage &&
+                                    <div className="d-flex flex-wrap gap-1 mt-2">
+                                        {geohashCoverage.filter(({ precision }) => precision >= 3).map(({ precision, visited }) =>
+                                            <div key={precision} className="d-inline-flex flex-column align-items-center">
+                                                <small>P{precision}</small>
+                                                <Badge bg="primary">{visited.toLocaleString()}</Badge>
+                                            </div>
+                                        )}
+                                    </div>
+                                }
                             </Card.Body>
                         </Card>
                         <DistributionCard
@@ -269,6 +312,13 @@ class TripsPage extends Page<unknown, State> {
         this.onFiltersChanged({
             page: this.state.filters.page + 1,
         });
+    };
+
+    loadGeohashCoverage = () => {
+        Promise.all(GEOHASH_PRECISIONS.map(precision =>
+            api.geohash.getUniqueCount({ Precision: precision })
+                .then(visited => ({ precision, visited: Number(visited) }))
+        )).then(geohashCoverage => this.setState({ geohashCoverage }));
     };
 
     loadVisited = () => {
