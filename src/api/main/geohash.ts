@@ -4,6 +4,7 @@ import { paths } from 'types/ivy-types';
 
 type GetGeohashChildrenQuery = paths['/Geohash/{geohash}/Children']['get']['parameters']['query'];
 type GetUniqueGeohashQuery = paths['/Geohash/Unique']['get']['parameters']['query'];
+type GetUniqueGeohashCountQuery = paths['/Geohash/Unique/Count']['get']['parameters']['query'];
 
 const delTrackings = (id: string): Promise<number> => api.del(`geohash/${id}/trackings`);
 
@@ -13,6 +14,8 @@ const getChildren = (geohash: string, filters?: GetGeohashChildrenQuery) => api.
 
 const getUnique = (filters?: GetUniqueGeohashQuery) => api.get('geohash/unique', filters);
 
+const getUniqueCount = (filters?: GetUniqueGeohashCountQuery) => api.get('geohash/unique/count', filters);
+
 const getSingle = (id: string) => api.get(`geohash/${id}`);
 
 const geohash = {
@@ -21,6 +24,7 @@ const geohash = {
     getChildren,
     getSingle,
     getUnique,
+    getUniqueCount,
 };
 
 export default geohash;
