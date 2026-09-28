@@ -4,6 +4,7 @@ import { components, paths } from 'types/ivy-types';
 
 type DateTimeLocationIEnumerableKeyValuePair = components['schemas']['DateTimeLocationIEnumerableKeyValuePair'];
 type DeleteGeohashQuery = paths['/Location/{locationId}/Geohash']['delete']['parameters']['query'];
+type GetFromToQuery = paths['/Location/{fromLocationId}/To/{toLocationId}']['get']['parameters']['query'];
 type GetQuery = paths['/Location']['get']['parameters']['query'];
 type LocationBinding = components['schemas']['LocationBinding'];
 type LocationPagedView = components['schemas']['LocationPagedView'];
@@ -14,6 +15,8 @@ const deleteGeohashes = (locationId: string, query: DeleteGeohashQuery): Promise
 const get = (filter?: GetQuery): Promise<LocationPagedView> => api.get('location', filter);
 
 const getByDay = (from: string, to: string): Promise<DateTimeLocationIEnumerableKeyValuePair[]> => api.get('location/byday', { from, to });
+
+const getFromTo = (from: string, to: string, query?: GetFromToQuery) => api.get(`location/${from}/to/${to}`, query);
 
 const getGeohashes = (locationId: string): Promise<string[]> => api.get(`location/${locationId}/geohashes`);
 
@@ -29,6 +32,7 @@ const location = {
     deleteGeohashes,
     get,
     getByDay,
+    getFromTo,
     getGeohashes,
     getDays,
     getTypes,

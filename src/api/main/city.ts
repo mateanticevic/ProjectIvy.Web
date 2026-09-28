@@ -6,12 +6,15 @@ type DeleteGeohashQuery = paths['/Country/{countryId}/Geohash']['delete']['param
 type GetCityGeohashVisitedQuery = paths['/City/{cityId}/Geohash/Visited']['get']['parameters']['query'];
 type GetCityQuery = paths['/City']['get']['parameters']['query'];
 type GetCityDaysQuery = paths['/City/{cityId}/Days']['get']['parameters']['query'];
+type GetFromToRouteQuery = paths['/City/{fromCityId}/To/{toCityId}/Route']['get']['parameters']['query'];
 
 const deleteGeohashes = (cityId: string, query: DeleteGeohashQuery): Promise<number> => api.del(`city/${cityId}/geohash`, query);
 
 const get = (filter?: GetCityQuery) => api.get('city', filter);
 
 const getDays = (cityId: string, filter?: GetCityDaysQuery): Promise<string[]> => api.get(`city/${cityId}/days`, filter) as Promise<string[]>;
+
+const getFromToRoute = (from: string, to: string, query?: GetFromToRouteQuery) => api.get(`city/${from}/to/${to}/route`, query);
 
 const getGeohashes = (cityId: string) => api.get(`city/${cityId}/geohash`);
 
@@ -27,6 +30,7 @@ const city = {
     deleteGeohashes,
     get,
     getDays,
+    getFromToRoute,
     getGeohashes,
     getGeohashesVisited,
     getVisited,
