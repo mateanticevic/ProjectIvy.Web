@@ -16,7 +16,7 @@ const get = (filter?: GetQuery): Promise<LocationPagedView> => api.get('location
 
 const getByDay = (from: string, to: string): Promise<DateTimeLocationIEnumerableKeyValuePair[]> => api.get('location/byday', { from, to });
 
-const getFromTo = (from: string, to: string, query?: GetFromToQuery) => api.get(`location/${from}/to/${to}`, query);
+const getFromTo = (from: string, to: string, query?: GetFromToQuery) => api.get(`location/${from}/to/${to}`, query, 120000);
 
 const getGeohashes = (locationId: string): Promise<string[]> => api.get(`location/${locationId}/geohashes`);
 

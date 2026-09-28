@@ -14,7 +14,7 @@ const get = (filter?: GetCityQuery) => api.get('city', filter);
 
 const getDays = (cityId: string, filter?: GetCityDaysQuery): Promise<string[]> => api.get(`city/${cityId}/days`, filter) as Promise<string[]>;
 
-const getFromToRoute = (from: string, to: string, query?: GetFromToRouteQuery) => api.get(`city/${from}/to/${to}/route`, query);
+const getFromToRoute = (from: string, to: string, query?: GetFromToRouteQuery) => api.get(`city/${from}/to/${to}/route`, query, 120000);
 
 const getGeohashes = (cityId: string) => api.get(`city/${cityId}/geohash`);
 
