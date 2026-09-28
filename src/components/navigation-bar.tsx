@@ -46,6 +46,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                             <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/tracking-old"><FaRoute /> Tracking (old)</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/routes"><FaRoute /> Routes</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
                         </NavDropdown>
                     }
