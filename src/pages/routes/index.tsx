@@ -5,6 +5,7 @@ import { MdSwapVert } from 'react-icons/md';
 import moment from 'moment';
 
 import api from 'api/main';
+import { SimpleLineChart } from 'components';
 import Spinner from 'components/spinner';
 import { cityLoader, locationLoader } from 'utils/select-loaders';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
@@ -49,6 +50,15 @@ const parseTimeSpanSeconds = (value?: string | null) => {
     const fraction = match[6] ? Number(`0.${match[6]}`) : 0;
 
     return sign * (days * 86400 + hours * 3600 + minutes * 60 + seconds + fraction);
+};
+
+const medianSeconds = (values: number[]) => {
+    const sorted = [...values].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+
+    return sorted.length % 2 === 0
+        ? (sorted[mid - 1] + sorted[mid]) / 2
+        : sorted[mid];
 };
 
 const formatDuration = (totalSeconds: number) => {
@@ -143,19 +153,32 @@ const RoutesPage: React.FC = () => {
         }
 
         const seconds = routes.map(route => route.seconds);
-        const sorted = [...seconds].sort((a, b) => a - b);
-        const mid = Math.floor(sorted.length / 2);
-        const median = sorted.length % 2 === 0
-            ? (sorted[mid - 1] + sorted[mid]) / 2
-            : sorted[mid];
 
         return {
             count: routes.length,
             fastest: Math.min(...seconds),
             slowest: Math.max(...seconds),
-            median,
+            median: medianSeconds(seconds),
             longest: Math.max(...seconds),
         };
+    }, [routes]);
+
+    const monthlyMedian = useMemo(() => {
+        const byMonth = new Map<string, number[]>();
+
+        routes.forEach(route => {
+            const month = moment(route.from).startOf('month').format('YYYY-MM-DD');
+            const durations = byMonth.get(month) ?? [];
+            durations.push(route.seconds);
+            byMonth.set(month, durations);
+        });
+
+        return [...byMonth.entries()]
+            .sort(([left], [right]) => left.localeCompare(right))
+            .map(([month, durations]) => ({
+                key: month,
+                Median: Math.round((medianSeconds(durations) / 60) * 10) / 10,
+            }));
     }, [routes]);
 
     const onSourceChange = (next: RouteSource) => {
@@ -308,6 +331,17 @@ const RoutesPage: React.FC = () => {
                                     </Card>
                                 </Col>
                             </Row>
+                            <Card>
+                                <Card.Header>Median by month</Card.Header>
+                                <Card.Body>
+                                    <SimpleLineChart
+                                        data={monthlyMedian}
+                                        tickFormat="MMMM YYYY"
+                                        unit=" min"
+                                        value="Median"
+                                    />
+                                </Card.Body>
+                            </Card>
                             <Card>
                                 <Card.Header>{from.label} → {to.label}</Card.Header>
                                 <Card.Body>
