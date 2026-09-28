@@ -396,6 +396,16 @@ body #app {
   gap: 10px;
 }
 
+#app .routes-search {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+}
+
 .background-active {
   fill: $color-primary;
 }

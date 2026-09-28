@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Badge, Card, Col, Container, FormGroup, FormLabel, ProgressBar, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, ProgressBar, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
+import { MdSwapVert } from 'react-icons/md';
 import moment from 'moment';
 
 import api from 'api/main';
@@ -163,6 +164,11 @@ const RoutesPage: React.FC = () => {
         setTo(null);
     };
 
+    const switchEnds = () => {
+        setFrom(to);
+        setTo(from);
+    };
+
     const loadOptions = source === 'location' ? locationLoader : cityLoader;
 
     return (
@@ -171,7 +177,7 @@ const RoutesPage: React.FC = () => {
                 <Col lg={4}>
                     <Card>
                         <Card.Header>Search</Card.Header>
-                        <Card.Body>
+                        <Card.Body className="routes-search">
                             <FormGroup>
                                 <FormLabel>Between</FormLabel>
                                 <ToggleButtonGroup
@@ -216,7 +222,18 @@ const RoutesPage: React.FC = () => {
                                     value={to}
                                 />
                             </FormGroup>
-                            <FormGroup className="mb-0">
+                            <FormGroup>
+                                <Button
+                                    aria-label="Switch from and to"
+                                    className="w-100"
+                                    disabled={!from && !to}
+                                    variant="primary"
+                                    onClick={switchEnds}
+                                >
+                                    <MdSwapVert /> Switch
+                                </Button>
+                            </FormGroup>
+                            <FormGroup>
                                 <FormLabel>Order by</FormLabel>
                                 <ToggleButtonGroup
                                     name="route-order"
