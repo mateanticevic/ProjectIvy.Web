@@ -15,6 +15,7 @@
   "author": "Mate Antičević",
   "license": "MIT",
   "dependencies": {
+    "@microsoft/signalr": "^10.0.11",
     "@react-google-maps/api": "^2.20.3",
     "@types/ngeohash": "^0.6.6",
     "bootstrap": "^5.3.1",
