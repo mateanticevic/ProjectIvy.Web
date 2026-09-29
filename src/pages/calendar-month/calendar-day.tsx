@@ -1,14 +1,15 @@
 import moment from 'moment';
 import React from 'react';
 import { Card, ListGroup } from 'react-bootstrap';
+import { FaRoute, FaSync } from 'react-icons/fa';
 
+import hub from 'api/hub';
 import Select from 'components/select';
 import { components } from 'types/ivy-types';
 import classNames from 'classnames';
 import { SelectOption } from 'types/common';
 import { WorkDayType, WorkDayTypeIcon } from './work-day-type-icon';
 import CalendarDaySubitems from './calendar-day-subitems';
-import { FaRoute } from 'react-icons/fa';
 
 type CalendarDay = components['schemas']['CalendarDay'];
 type Flight = components['schemas']['Flight'];
@@ -70,6 +71,23 @@ export const CalendarDay = ({ day, flights, movies, todos, offset, onToggleCompl
         .concat(day.countries?.map(c => ({ name: c.name, id: c.id })) ?? []).reverse();
 
     const [isEdit, setIsEdit] = React.useState<boolean>(false);
+    const [progress, setProgress] = React.useState<number | null>(null);
+
+    const canReprocess = !!day.date && !momentDay.isAfter(moment(), 'day');
+
+    const reprocessDay = () => {
+        if (progress !== null || !day.date) {
+            return;
+        }
+
+        setProgress(0);
+        const from = momentDay.clone().startOf('day').toDate();
+        const to = momentDay.clone().add(1, 'day').startOf('day').toDate();
+
+        hub.job.processDay(from, to, true, setProgress)
+            .catch(() => undefined)
+            .finally(() => setProgress(null));
+    };
 
     return (
         <Card
@@ -97,20 +115,37 @@ export const CalendarDay = ({ day, flights, movies, todos, offset, onToggleCompl
                     />
                 </ListGroup>
             </Card.Body>
-            <Card.Footer>
-                {isEdit && !day.isHoliday && !isWeekend &&
-                    <Select
-                        hideDefaultOption
-                        options={workDayTypes}
-                        defaultSelected={day.workDayType?.id ?? workDayTypes[0].id}
-                        onBlur={() => setIsEdit(false)}
-                        onChange={changeWorkDayType}
-                    />
-                }
-                {!isEdit && !day.isHoliday && !isWeekend &&
-                    <span onClick={() => setIsEdit(true)}>
-                        <WorkDayTypeIcon id={day.workDayType?.id} />
-                    </span>
+            <Card.Footer className="d-flex align-items-center">
+                <div>
+                    {isEdit && !day.isHoliday && !isWeekend &&
+                        <Select
+                            hideDefaultOption
+                            options={workDayTypes}
+                            defaultSelected={day.workDayType?.id ?? workDayTypes[0].id}
+                            onBlur={() => setIsEdit(false)}
+                            onChange={changeWorkDayType}
+                        />
+                    }
+                    {!isEdit && !day.isHoliday && !isWeekend &&
+                        <span onClick={() => setIsEdit(true)}>
+                            <WorkDayTypeIcon id={day.workDayType?.id} />
+                        </span>
+                    }
+                </div>
+                {canReprocess &&
+                    <div className="ms-auto">
+                        {progress === null
+                            ? <button
+                                type="button"
+                                className="calendar-day-reprocess"
+                                aria-label={`Reprocess ${momentDay.format('MMMM D')}`}
+                                onClick={reprocessDay}
+                            >
+                                <FaSync />
+                            </button>
+                            : <span className="calendar-day-reprocess-progress" aria-live="polite">{progress}%</span>
+                        }
+                    </div>
                 }
             </Card.Footer>
         </Card>

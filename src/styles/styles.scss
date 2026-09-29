@@ -460,6 +460,15 @@ body #app {
       grid-column-start: var(--offset);
     }
   }
+
+  .calendar-day-reprocess {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+  }
 }
 
 .calendar-month-day-container {
