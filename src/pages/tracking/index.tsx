@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col, Container, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Card, Col, Container, Form, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
 import { InfoWindow, Marker, Polyline, Rectangle, MarkerClusterer, MarkerF } from '@react-google-maps/api';
@@ -13,6 +13,8 @@ import ReactSelect from 'react-select';
 
 import { Page } from 'pages/page';
 import { DateFormElement, Map, Select } from 'components';
+import { UserContext } from 'contexts/user-context';
+import { User } from 'types/users';
 import { components } from 'types/ivy-types';
 import api from 'api/main';
 import ButtonWithSpinner from 'components/button-with-spinner';
@@ -40,6 +42,7 @@ type LocationBinding = components['schemas']['LocationBinding'];
 type TrackingBinding = components['schemas']['TrackingBinding'];
 
 interface State {
+    allYearsOnDate: boolean,
     dateMode: DateMode,
     drawMode: DrawMode,
     filterDay?: string,
@@ -95,6 +98,7 @@ class TrackingPage extends Page<unknown, State> {
     reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     state: State = {
+        allYearsOnDate: false,
         dateMode: DateMode.Day,
         drawMode: DrawMode.Line,
         geohashPrecision: 7,
@@ -134,7 +138,7 @@ class TrackingPage extends Page<unknown, State> {
     };
 
     render() {
-        const { dateMode, drawMode, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { allYearsOnDate, dateMode, drawMode, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
         const { newLocation, newTracking, newLocationModalOpened, newTrackingModalOpened } = this.state;
 
         const isMapReady = !!last;
@@ -211,6 +215,15 @@ class TrackingPage extends Page<unknown, State> {
                                         onChange={option => this.setState({ timezone: option.value })}
                                         value={defaultTimezone}
                                         styles={this.reactSelectStyles}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Form.Check
+                                        id="all-years-on-date"
+                                        type="checkbox"
+                                        label="All years on this date"
+                                        checked={allYearsOnDate}
+                                        onChange={event => this.setState({ allYearsOnDate: event.target.checked })}
                                     />
                                 </FormGroup>
                                 <div className="form-grid">
@@ -438,11 +451,45 @@ class TrackingPage extends Page<unknown, State> {
         };
     };
 
+    allYearsDates = () => {
+        const { allYearsOnDate, dateMode, filterDay } = this.state;
+        const trackingStartDate = (this.context as User).trackingStartDate;
+
+        if (!allYearsOnDate || dateMode !== DateMode.Day || !filterDay || !trackingStartDate) {
+            return null;
+        }
+
+        const chosen = moment(filterDay, 'YYYY-MM-DD');
+        const start = moment(trackingStartDate).startOf('day');
+        const month = chosen.month();
+        const date = chosen.date();
+        const days: string[] = [];
+
+        for (let year = chosen.year(); year >= start.year(); year--) {
+            const day = moment({ year, month, date });
+            if (day.month() !== month || day.date() !== date) {
+                continue;
+            }
+            if (day.isBefore(start, 'day') || day.isAfter(chosen, 'day')) {
+                continue;
+            }
+            days.push(day.format('YYYY-MM-DD'));
+        }
+
+        return days;
+    };
+
     draw = () => {
         this.setState({ requestActive: true });
 
         if (this.state.drawMode === DrawMode.Geohash) {
             return this.drawGeohash();
+        }
+
+        const days = this.allYearsDates();
+        if (days) {
+            this.drawDays(days);
+            return;
         }
 
         const filters = this.dateFilter();
@@ -471,6 +518,57 @@ class TrackingPage extends Page<unknown, State> {
             });
             this.map?.fitBounds(bounds);
         });
+    };
+
+    drawDays = (days: string[]) => {
+        Promise.all(days.map(day => api.tracking.get(this.dayFilters(day))))
+            .then(results => {
+                const trackingsByDay = results.filter(trackings => trackings.length > 0);
+
+                this.setState(state => {
+                    const newLayers: PolygonLayer[] = [];
+
+                    trackingsByDay.forEach(trackings => {
+                        const layer = new PolygonLayer(trackings, state.timezone);
+                        layer.color = nextPolylineColor([
+                            ...state.polygonLayers.map(existing => existing.color),
+                            ...newLayers.map(existing => existing.color),
+                        ]);
+                        newLayers.push(layer);
+                    });
+
+                    return {
+                        polygonLayers: [
+                            ...state.polygonLayers,
+                            ...newLayers,
+                        ],
+                        requestActive: false,
+                    };
+                });
+
+                const bounds = new google.maps.LatLngBounds();
+                trackingsByDay.flat().forEach(tracking => bounds.extend(trackingToLatLng(tracking)));
+                if (!bounds.isEmpty()) {
+                    this.map?.fitBounds(bounds);
+                }
+            })
+            .catch(() => this.setState({ requestActive: false }));
+    };
+
+    dayFilters = (day: string) => {
+        const filters = {
+            from: day,
+            to: moment(day).add(1, 'days').format('YYYY-MM-DD'),
+        };
+
+        if (this.state.timezone) {
+            return {
+                from: mtz.tz(filters.from, this.state.timezone).utc().format('YYYY-MM-DD HH:mm'),
+                to: mtz.tz(filters.to, this.state.timezone).utc().format('YYYY-MM-DD HH:mm'),
+            };
+        }
+
+        return filters;
     };
 
     drawGeohash = () => {
@@ -738,5 +836,7 @@ class TrackingPage extends Page<unknown, State> {
 
     renderPointsMemoized = React.memo(this.renderPoints, areLayersEqual);
 }
+
+TrackingPage.contextType = UserContext;
 
 export default TrackingPage;

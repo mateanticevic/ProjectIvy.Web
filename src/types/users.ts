@@ -8,6 +8,7 @@ export interface User {
     email: string;
     firstName: string;
     lastName: string;
+    trackingStartDate?: string | null;
     username: string;
 }
 

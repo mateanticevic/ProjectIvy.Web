@@ -15,12 +15,12 @@ export interface paths {
             parameters: {
                 query?: {
                     IsActive?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -66,47 +66,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Account/{accountId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    accountId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["AccountBinding"];
-                    "text/json": components["schemas"]["AccountBinding"];
-                    "application/*+json": components["schemas"]["AccountBinding"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -195,12 +154,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path: {
@@ -293,6 +252,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Account/{accountId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    accountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["AccountBinding"];
+                    "text/json": components["schemas"]["AccountBinding"];
+                    "application/*+json": components["schemas"]["AccountBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Tracking": {
         parameters: {
             query?: never;
@@ -303,17 +303,17 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    "BottomRight.Name"?: string;
-                    "BottomRight.TypeId"?: string;
                     "BottomRight.Latitude"?: number;
                     "BottomRight.Longitude"?: number;
-                    "TopLeft.Name"?: string;
-                    "TopLeft.TypeId"?: string;
+                    "BottomRight.Name"?: string;
+                    "BottomRight.TypeId"?: string;
                     "TopLeft.Latitude"?: number;
                     "TopLeft.Longitude"?: number;
+                    "TopLeft.Name"?: string;
+                    "TopLeft.TypeId"?: string;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -398,12 +398,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Visited?: boolean;
                     CityId?: string;
                     Countryid?: string;
                     Search?: string;
-                    PageAll?: boolean;
+                    Visited?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -443,12 +443,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Visited?: boolean;
                     CityId?: string;
                     Countryid?: string;
                     Search?: string;
-                    PageAll?: boolean;
+                    Visited?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -526,8 +526,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -563,12 +563,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    BrandId?: string;
                     OrderAscending?: boolean;
                     OrderBy?: components["schemas"]["BeerSort"];
-                    BrandId?: string;
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -861,8 +861,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -1025,12 +1025,12 @@ export interface paths {
             parameters: {
                 query?: {
                     Number?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -1404,12 +1404,12 @@ export interface paths {
             parameters: {
                 query?: {
                     HasOdometer?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path: {
@@ -1490,12 +1490,12 @@ export interface paths {
             parameters: {
                 query?: {
                     HasOdometer?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path: {
@@ -1537,12 +1537,12 @@ export interface paths {
             parameters: {
                 query?: {
                     HasOdometer?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path: {
@@ -1579,29 +1579,29 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Time?: number;
-                    K11?: number;
-                    Kff1204?: number;
-                    Kff1207?: number;
-                    Kff1271?: number;
-                    Kff1220?: number;
-                    Kff1221?: number;
-                    Kff1222?: number;
-                    Kff1223?: number;
-                    Kfe1805?: number;
                     K10?: number;
+                    K11?: number;
                     K23?: number;
+                    K2F?: number;
                     K33?: number;
                     K4?: number;
                     K46?: number;
-                    K2F?: number;
                     K5?: number;
                     K78?: number;
                     Kb?: number;
                     Kc?: number;
                     Kd?: number;
                     Kf?: number;
+                    Kfe1805?: number;
+                    Kff1204?: number;
+                    Kff1207?: number;
+                    Kff1220?: number;
+                    Kff1221?: number;
+                    Kff1222?: number;
+                    Kff1223?: number;
+                    Kff1271?: number;
                     Session?: string;
+                    Time?: number;
                 };
                 header?: never;
                 path: {
@@ -1874,88 +1874,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/City": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    CountryId?: string;
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/City/{cityId}/Days": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path: {
-                    cityId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": string[];
-                        "application/json": string[];
-                        "text/json": string[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/City/{cityId}/Geohash": {
         parameters: {
             query?: never;
@@ -2032,6 +1950,88 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/City": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    CountryId?: string;
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/City/{cityId}/Days": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path: {
+                    cityId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string[];
+                        "application/json": string[];
+                        "text/json": string[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2219,43 +2219,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Common/Currency": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["Currency"][];
-                        "application/json": components["schemas"]["Currency"][];
-                        "text/json": components["schemas"]["Currency"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Common/BeerServing": {
         parameters: {
             query?: never;
@@ -2322,6 +2285,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Common/Currency": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Currency"][];
+                        "application/json": components["schemas"]["Currency"][];
+                        "text/json": components["schemas"]["Currency"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Common/ExpenseFileType": {
         parameters: {
             query?: never;
@@ -2348,6 +2348,39 @@ export interface paths {
                         "application/json": components["schemas"]["ExpenseFileType"][];
                         "text/json": components["schemas"]["ExpenseFileType"][];
                     };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Common/IncomeType": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
                 };
             };
         };
@@ -2429,129 +2462,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Common/IncomeType": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Alcohol/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Average/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Consumation": {
         parameters: {
             query?: never;
@@ -2567,12 +2477,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -2624,6 +2534,96 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Consumation/Alcohol/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Average/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Consumation/Beer": {
         parameters: {
             query?: never;
@@ -2634,379 +2634,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Beer/New": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
                     To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Brand": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Consecutive/Days": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Count": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Count/ByBeer": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Count/ByMonth": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["StringInt32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Count/ByMonthOfYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["StringInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["StringInt32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Count/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -3046,12 +2679,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3095,12 +2728,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3129,6 +2762,51 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Consumation/Beer/New": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Consumation/Count/Brand": {
         parameters: {
             query?: never;
@@ -3144,12 +2822,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3193,12 +2871,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3227,6 +2905,328 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Consumation/Brand": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Consecutive/Days": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Count/ByBeer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Count/ByMonth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["StringInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Count/ByMonthOfYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["StringInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["StringInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["StringInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Count/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Consumation/Country": {
         parameters: {
             query?: never;
@@ -3242,12 +3242,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3287,12 +3287,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3332,12 +3332,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3366,141 +3366,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Consumation/Sum/ByBeer": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Sum/ByBrand": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Sum/ByCountry": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Consumation/Sum/ByDay": {
         parameters: {
             query?: never;
@@ -3516,12 +3381,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3561,12 +3426,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3606,12 +3471,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3651,57 +3516,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Consumation/Sum/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    BeerId?: string;
-                    BrandId?: string;
-                    CountryId?: string;
-                    Serving?: components["schemas"]["BeerServing"];
-                    StyleId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
                     To?: string;
-                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -3741,12 +3561,192 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Sum/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Sum/ByBeer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Sum/ByBrand": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Consumation/Sum/ByCountry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    BeerId?: string;
+                    BrandId?: string;
+                    CountryId?: string;
+                    Serving?: components["schemas"]["BeerServing"];
+                    StyleId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3786,12 +3786,12 @@ export interface paths {
                     CountryId?: string;
                     Serving?: components["schemas"]["BeerServing"];
                     StyleId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -3805,175 +3805,6 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CountryPagedView"];
-                        "application/json": components["schemas"]["CountryPagedView"];
-                        "text/json": components["schemas"]["CountryPagedView"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/{countryId}/City": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path: {
-                    countryId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CityPagedView"];
-                        "application/json": components["schemas"]["CityPagedView"];
-                        "text/json": components["schemas"]["CityPagedView"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/Count": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/{countryId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    countryId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["Country"];
-                        "application/json": components["schemas"]["Country"];
-                        "text/json": components["schemas"]["Country"];
-                    };
                 };
             };
         };
@@ -4066,6 +3897,241 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Country": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CountryPagedView"];
+                        "application/json": components["schemas"]["CountryPagedView"];
+                        "text/json": components["schemas"]["CountryPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/{countryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    countryId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Country"];
+                        "application/json": components["schemas"]["Country"];
+                        "text/json": components["schemas"]["Country"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/{countryId}/City": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path: {
+                    countryId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CityPagedView"];
+                        "application/json": components["schemas"]["CityPagedView"];
+                        "text/json": components["schemas"]["CityPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/Count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/List": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/List/Visited": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Country/{countryId}/Geohash/Visited": {
         parameters: {
             query?: never;
@@ -4151,15 +4217,15 @@ export interface paths {
                 query?: {
                     CityId?: string[];
                     CountryId?: string[];
+                    IsDomestic?: boolean;
                     OrderBy?: components["schemas"]["TripSort"];
                     Search?: string;
-                    IsDomestic?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4176,6 +4242,96 @@ export interface paths {
                         "text/plain": components["schemas"]["Country"][];
                         "application/json": components["schemas"]["Country"][];
                         "text/json": components["schemas"]["Country"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/Visited/Boundaries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    CityId?: string[];
+                    CountryId?: string[];
+                    IsDomestic?: boolean;
+                    OrderBy?: components["schemas"]["TripSort"];
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CountryBoundaries"][];
+                        "application/json": components["schemas"]["CountryBoundaries"][];
+                        "text/json": components["schemas"]["CountryBoundaries"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Country/Visited/ByDay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
+                        "application/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
+                        "text/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
                     };
                 };
             };
@@ -4213,84 +4369,6 @@ export interface paths {
                         "text/plain": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
                         "application/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
                         "text/json": components["schemas"]["Int32CountryIEnumerableKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/Visited/ByDay": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
-                        "application/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
-                        "text/json": components["schemas"]["DateTimeStringIEnumerableKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/Visited/Days": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CountryInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["CountryInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["CountryInt32KeyValuePair"][];
                     };
                 };
             };
@@ -4377,7 +4455,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Country/Visited/Boundaries": {
+    "/Country/Visited/Days": {
         parameters: {
             query?: never;
             header?: never;
@@ -4386,19 +4464,7 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: {
-                    CityId?: string[];
-                    CountryId?: string[];
-                    OrderBy?: components["schemas"]["TripSort"];
-                    Search?: string;
-                    IsDomestic?: boolean;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -4411,76 +4477,10 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["CountryBoundaries"][];
-                        "application/json": components["schemas"]["CountryBoundaries"][];
-                        "text/json": components["schemas"]["CountryBoundaries"][];
+                        "text/plain": components["schemas"]["CountryInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["CountryInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["CountryInt32KeyValuePair"][];
                     };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/List": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Country/List/Visited": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
                 };
             };
         };
@@ -4613,30 +4613,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4702,30 +4702,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4764,30 +4764,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4826,30 +4826,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4888,30 +4888,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4946,30 +4946,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -4998,68 +4998,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Expense/Count/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
-                    AmountFrom?: number;
-                    AmountTo?: number;
-                    CardId?: string[];
-                    CurrencyId?: string[];
-                    Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
-                    ExcludeId?: string[];
-                    ExcludeTypeId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
-                        "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
-                        "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Expense/Count/ByType": {
         parameters: {
             query?: never;
@@ -5070,30 +5008,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5132,30 +5070,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5172,6 +5110,68 @@ export interface paths {
                         "text/plain": components["schemas"]["VendorInt32KeyValuePairPagedView"];
                         "application/json": components["schemas"]["VendorInt32KeyValuePairPagedView"];
                         "text/json": components["schemas"]["VendorInt32KeyValuePairPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Expense/Count/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    AmountFrom?: number;
+                    AmountTo?: number;
+                    CardId?: string[];
+                    CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    Description?: string;
+                    ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
+                    Search?: string;
+                    TypeId?: string[];
+                    VendorId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
                     };
                 };
             };
@@ -5223,6 +5223,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Expense/Sum/ByType": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    ByBaseType?: boolean;
+                    TargetCurrencyId?: string;
+                    AmountFrom?: number;
+                    AmountTo?: number;
+                    CardId?: string[];
+                    CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    Description?: string;
+                    ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
+                    Search?: string;
+                    TypeId?: string[];
+                    VendorId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["StringDecimalKeyValuePair"][];
+                        "application/json": components["schemas"]["StringDecimalKeyValuePair"][];
+                        "text/json": components["schemas"]["StringDecimalKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Expense/Sum": {
         parameters: {
             query?: never;
@@ -5235,30 +5299,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5299,30 +5363,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5363,30 +5427,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5427,30 +5491,94 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Int32DecimalKeyValuePair"][];
+                        "application/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+                        "text/json": components["schemas"]["Int32DecimalKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Expense/Sum/ByMonth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    ByBaseType?: boolean;
+                    TargetCurrencyId?: string;
+                    AmountFrom?: number;
+                    AmountTo?: number;
+                    CardId?: string[];
+                    CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    Description?: string;
+                    ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
+                    Search?: string;
+                    TypeId?: string[];
+                    VendorId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5491,30 +5619,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5555,30 +5683,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5619,30 +5747,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5683,30 +5811,30 @@ export interface paths {
                 query?: {
                     ByBaseType?: boolean;
                     TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5735,196 +5863,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Expense/Sum/ByMonth": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    ByBaseType?: boolean;
-                    TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
-                    AmountFrom?: number;
-                    AmountTo?: number;
-                    CardId?: string[];
-                    CurrencyId?: string[];
-                    Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
-                    ExcludeId?: string[];
-                    ExcludeTypeId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["Int32DecimalKeyValuePair"][];
-                        "application/json": components["schemas"]["Int32DecimalKeyValuePair"][];
-                        "text/json": components["schemas"]["Int32DecimalKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Expense/Sum/ByType": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    ByBaseType?: boolean;
-                    TargetCurrencyId?: string;
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
-                    AmountFrom?: number;
-                    AmountTo?: number;
-                    CardId?: string[];
-                    CurrencyId?: string[];
-                    Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
-                    ExcludeId?: string[];
-                    ExcludeTypeId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["StringDecimalKeyValuePair"][];
-                        "application/json": components["schemas"]["StringDecimalKeyValuePair"][];
-                        "text/json": components["schemas"]["StringDecimalKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Expense/Type/Count": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
-                    AmountFrom?: number;
-                    AmountTo?: number;
-                    CardId?: string[];
-                    CurrencyId?: string[];
-                    Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
-                    ExcludeId?: string[];
-                    ExcludeTypeId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Expense/Top/Description": {
         parameters: {
             query?: never;
@@ -5935,30 +5873,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -5987,7 +5925,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Expense/Vendor/Count": {
+    "/Expense/Type/Count": {
         parameters: {
             query?: never;
             header?: never;
@@ -5997,30 +5935,30 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    Month?: number[];
-                    OrderBy?: components["schemas"]["ExpenseSort"];
-                    HasLinkedFiles?: boolean;
-                    HasPoi?: boolean;
-                    NeedsReview?: boolean;
                     AmountFrom?: number;
                     AmountTo?: number;
                     CardId?: string[];
                     CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
                     Description?: string;
-                    PaymentTypeId?: string[];
-                    TypeId?: string[];
-                    VendorId?: string[];
-                    ExternalId?: string[];
                     ExcludeId?: string[];
                     ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
                     Search?: string;
-                    PageAll?: boolean;
+                    TypeId?: string[];
+                    VendorId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -6043,6 +5981,143 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Expense/Vendor/Count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    AmountFrom?: number;
+                    AmountTo?: number;
+                    CardId?: string[];
+                    CurrencyId?: string[];
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    Description?: string;
+                    ExcludeId?: string[];
+                    ExcludeTypeId?: string[];
+                    ExternalId?: string[];
+                    HasLinkedFiles?: boolean;
+                    HasPoi?: boolean;
+                    Month?: number[];
+                    NeedsReview?: boolean;
+                    OrderBy?: components["schemas"]["ExpenseSort"];
+                    PaymentTypeId?: string[];
+                    Search?: string;
+                    TypeId?: string[];
+                    VendorId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Expense/{expenseId}/File/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    expenseId: string;
+                    fileId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ExpenseFileBinding"];
+                    "text/json": components["schemas"]["ExpenseFileBinding"];
+                    "application/*+json": components["schemas"]["ExpenseFileBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Expense/FromFile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -6094,81 +6169,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Expense/FromFile": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Expense/{expenseId}/File/{fileId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    expenseId: string;
-                    fileId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["ExpenseFileBinding"];
-                    "text/json": components["schemas"]["ExpenseFileBinding"];
-                    "application/*+json": components["schemas"]["ExpenseFileBinding"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/ExpenseType": {
         parameters: {
             query?: never;
@@ -6181,8 +6181,8 @@ export interface paths {
                 query?: {
                     HasChildren?: boolean;
                     HasParent?: boolean;
-                    ParentId?: string;
                     OrderBy?: components["schemas"]["ExpenseTypeSort"];
+                    ParentId?: string;
                 };
                 header?: never;
                 path?: never;
@@ -6396,178 +6396,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Flight/Count": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    DestinationId?: string;
-                    OriginId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Flight/Count/ByAirline": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    DestinationId?: string;
-                    OriginId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["AirlineInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["AirlineInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["AirlineInt32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Flight/Count/ByAirport": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    DestinationId?: string;
-                    OriginId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Flight/Count/ByYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    DestinationId?: string;
-                    OriginId?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/Flight": {
         parameters: {
             query?: never;
@@ -6580,12 +6408,12 @@ export interface paths {
                 query?: {
                     DestinationId?: string;
                     OriginId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -6631,6 +6459,178 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Flight/Count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    DestinationId?: string;
+                    OriginId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Flight/Count/ByAirline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    DestinationId?: string;
+                    OriginId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["AirlineInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["AirlineInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["AirlineInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Flight/Count/ByAirport": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    DestinationId?: string;
+                    OriginId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Flight/Count/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    DestinationId?: string;
+                    OriginId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -6760,241 +6760,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    All?: boolean;
                     Geohash?: string;
                     Precision?: number;
-                    All?: boolean;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/Unique": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    OnlyNew?: boolean;
-                    Precision?: number;
-                    From?: string;
                     To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": string[];
-                        "application/json": string[];
-                        "text/json": string[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/Unique/Count": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    OnlyNew?: boolean;
-                    Precision?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/{geohash}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    geohash: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/{geohash}/Days": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    geohash: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/{fromGeohash}/To/{toGeohash}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    orderBy?: components["schemas"]["RouteTimeSort"];
-                };
-                header?: never;
-                path: {
-                    fromGeohash: string;
-                    toGeohash: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Geohash/Root/Children": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Precision?: number;
                 };
                 header?: never;
                 path?: never;
@@ -7126,7 +6897,77 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Geohash/Route": {
+    "/Geohash/{geohash}/Days": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    geohash: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/{geohash}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    geohash: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/{fromGeohash}/To/{toGeohash}": {
         parameters: {
             query?: never;
             header?: never;
@@ -7136,9 +6977,45 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    From?: string[];
-                    To?: string[];
-                    OrderBy?: components["schemas"]["RouteTimeSort"];
+                    orderBy?: components["schemas"]["RouteTimeSort"];
+                };
+                header?: never;
+                path: {
+                    fromGeohash: string;
+                    toGeohash: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/Root/Children": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Precision?: number;
                 };
                 header?: never;
                 path?: never;
@@ -7163,6 +7040,172 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Geohash/Route": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string[];
+                    OrderBy?: components["schemas"]["RouteTimeSort"];
+                    To?: string[];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/Unique": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    OnlyNew?: boolean;
+                    Precision?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string[];
+                        "application/json": string[];
+                        "text/json": string[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/Unique/Count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    OnlyNew?: boolean;
+                    Precision?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Geohash/Unique/Count/ByYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    OnlyNew?: boolean;
+                    Precision?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "application/json": components["schemas"]["Int32Int32KeyValuePair"][];
+                        "text/json": components["schemas"]["Int32Int32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Income": {
         parameters: {
             query?: never;
@@ -7173,17 +7216,17 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
-                    CurrencyId?: string;
                     SourceId?: string;
                     TypeId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7246,8 +7289,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7320,17 +7363,17 @@ export interface paths {
             parameters: {
                 query?: {
                     TargetCurrencyId?: string;
+                    CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
-                    CurrencyId?: string;
                     SourceId?: string;
                     TypeId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7370,17 +7413,17 @@ export interface paths {
             parameters: {
                 query?: {
                     TargetCurrencyId?: string;
+                    CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
-                    CurrencyId?: string;
                     SourceId?: string;
                     TypeId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7416,17 +7459,17 @@ export interface paths {
             parameters: {
                 query?: {
                     TargetCurrencyId?: string;
+                    CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
-                    CurrencyId?: string;
                     SourceId?: string;
                     TypeId?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7451,6 +7494,62 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Inventory/item/{itemValueId}/Expense/{expenseValueId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    itemValueId: string;
+                    expenseValueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    itemValueId: string;
+                    expenseValueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Inventory/Item": {
         parameters: {
             query?: never;
@@ -7462,14 +7561,14 @@ export interface paths {
             parameters: {
                 query?: {
                     BrandId?: string[];
-                    Search?: string;
                     OrderBy?: components["schemas"]["InventoryItemSort"];
-                    PageAll?: boolean;
+                    Search?: string;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -7599,129 +7698,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Inventory/item/{itemValueId}/Expense/{expenseValueId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    itemValueId: string;
-                    expenseValueId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    itemValueId: string;
-                    expenseValueId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/journal/entry": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["JournalEntryPagedView"];
-                        "application/json": components["schemas"]["JournalEntryPagedView"];
-                        "text/json": components["schemas"]["JournalEntryPagedView"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["JournalEntryBinding"];
-                    "text/json": components["schemas"]["JournalEntryBinding"];
-                    "application/*+json": components["schemas"]["JournalEntryBinding"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/journal/entry/{date}": {
         parameters: {
             query?: never;
@@ -7782,6 +7758,73 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/journal/entry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["JournalEntryPagedView"];
+                        "application/json": components["schemas"]["JournalEntryPagedView"];
+                        "text/json": components["schemas"]["JournalEntryPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["JournalEntryBinding"];
+                    "text/json": components["schemas"]["JournalEntryBinding"];
+                    "application/*+json": components["schemas"]["JournalEntryBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Tracking/LastLocation": {
         parameters: {
             query?: never;
@@ -7829,8 +7872,8 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -7845,227 +7888,6 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Location": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["LocationPagedView"];
-                        "application/json": components["schemas"]["LocationPagedView"];
-                        "text/json": components["schemas"]["LocationPagedView"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["LocationBinding"];
-                    "text/json": components["schemas"]["LocationBinding"];
-                    "application/*+json": components["schemas"]["LocationBinding"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Location/ByDay": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
-                        "application/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
-                        "text/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Location/{locationId}/Days": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path: {
-                    locationId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Location/{locationId}/Geohashes": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    locationId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": string[];
-                        "application/json": string[];
-                        "text/json": string[];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Location/Types": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["LocationType"][];
-                        "application/json": components["schemas"]["LocationType"][];
-                        "text/json": components["schemas"]["LocationType"][];
-                    };
                 };
             };
         };
@@ -8139,6 +7961,190 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Location": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["LocationPagedView"];
+                        "application/json": components["schemas"]["LocationPagedView"];
+                        "text/json": components["schemas"]["LocationPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["LocationBinding"];
+                    "text/json": components["schemas"]["LocationBinding"];
+                    "application/*+json": components["schemas"]["LocationBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Location/ByDay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+                        "application/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+                        "text/json": components["schemas"]["DateTimeLocationIEnumerableKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Location/{locationId}/Days": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path: {
+                    locationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Location/{locationId}/Geohashes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    locationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string[];
+                        "application/json": string[];
+                        "text/json": string[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Location/{fromLocationId}/To/{toLocationId}": {
         parameters: {
             query?: never;
@@ -8150,6 +8156,7 @@ export interface paths {
             parameters: {
                 query?: {
                     orderBy?: components["schemas"]["RouteTimeSort"];
+                    ignoreLocationsBelow?: number;
                 };
                 header?: never;
                 path: {
@@ -8166,6 +8173,43 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Location/Types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["LocationType"][];
+                        "application/json": components["schemas"]["LocationType"][];
+                        "text/json": components["schemas"]["LocationType"][];
+                    };
                 };
             };
         };
@@ -8223,21 +8267,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8316,21 +8360,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8370,21 +8414,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8420,21 +8464,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8470,171 +8514,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Movie/Count/ByMovieDecade": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    RatingHigher?: number;
-                    RatingLower?: number;
-                    RuntimeLonger?: number;
-                    RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
-                    Title?: string;
-                    MyRating?: number[];
-                    Year?: number[];
-                    YearWatched?: number[];
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
                     To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Movie/Count/ByMovieYear": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    RatingHigher?: number;
-                    RatingLower?: number;
-                    RuntimeLonger?: number;
-                    RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
-                    Title?: string;
-                    MyRating?: number[];
-                    Year?: number[];
-                    YearWatched?: number[];
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Movie/Count/ByMyRating": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    Day?: components["schemas"]["DayOfWeek"][];
-                    RatingHigher?: number;
-                    RatingLower?: number;
-                    RuntimeLonger?: number;
-                    RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
-                    Title?: string;
-                    MyRating?: number[];
-                    Year?: number[];
-                    YearWatched?: number[];
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
                 };
                 header?: never;
                 path?: never;
@@ -8670,21 +8564,171 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Movie/Count/ByMovieDecade": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
+                    RatingHigher?: number;
+                    RatingLower?: number;
+                    RuntimeLonger?: number;
+                    RuntimeShorter?: number;
+                    Title?: string;
+                    Year?: number[];
+                    YearWatched?: number[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Movie/Count/ByMovieYear": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
+                    RatingHigher?: number;
+                    RatingLower?: number;
+                    RuntimeLonger?: number;
+                    RuntimeShorter?: number;
+                    Title?: string;
+                    Year?: number[];
+                    YearWatched?: number[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Movie/Count/ByMyRating": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
+                    RatingHigher?: number;
+                    RatingLower?: number;
+                    RuntimeLonger?: number;
+                    RuntimeShorter?: number;
+                    Title?: string;
+                    Year?: number[];
+                    YearWatched?: number[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8720,21 +8764,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8770,21 +8814,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8820,21 +8864,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8874,21 +8918,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8924,21 +8968,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -8978,21 +9022,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -9028,21 +9072,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -9082,21 +9126,21 @@ export interface paths {
             parameters: {
                 query?: {
                     Day?: components["schemas"]["DayOfWeek"][];
+                    MyRating?: number[];
+                    OrderBy?: components["schemas"]["MovieSort"];
                     RatingHigher?: number;
                     RatingLower?: number;
                     RuntimeLonger?: number;
                     RuntimeShorter?: number;
-                    OrderBy?: components["schemas"]["MovieSort"];
                     Title?: string;
-                    MyRating?: number[];
                     Year?: number[];
                     YearWatched?: number[];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -9136,8 +9180,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -9216,18 +9260,18 @@ export interface paths {
                 query?: {
                     CategoryId?: string;
                     Name?: string;
+                    Search?: string;
                     VendorId?: string;
-                    "X.Name"?: string;
-                    "X.TypeId"?: string;
                     "X.Latitude"?: number;
                     "X.Longitude"?: number;
-                    "Y.Name"?: string;
-                    "Y.TypeId"?: string;
+                    "X.Name"?: string;
+                    "X.TypeId"?: string;
                     "Y.Latitude"?: number;
                     "Y.Longitude"?: number;
-                    Search?: string;
-                    PageAll?: boolean;
+                    "Y.Name"?: string;
+                    "Y.TypeId"?: string;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -9291,8 +9335,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -9351,8 +9395,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -9494,12 +9538,12 @@ export interface paths {
                     CityId?: string[];
                     CountryId?: string[];
                     OrderBy?: components["schemas"]["StaySort"];
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -9603,8 +9647,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -9651,279 +9695,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ToDo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    IsCompleted?: boolean;
-                    FromDueDate?: string;
-                    ToDueDate?: string;
-                    TagId?: string[];
-                    TripId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["ToDoPagedView"];
-                        "application/json": components["schemas"]["ToDoPagedView"];
-                        "text/json": components["schemas"]["ToDoPagedView"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["ToDoBinding"];
-                    "text/json": components["schemas"]["ToDoBinding"];
-                    "application/*+json": components["schemas"]["ToDoBinding"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ToDo/Count/ByTag": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    IsCompleted?: boolean;
-                    FromDueDate?: string;
-                    ToDueDate?: string;
-                    TagId?: string[];
-                    TripId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["TagInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["TagInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["TagInt32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ToDo/Count/ByTrip": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    IsCompleted?: boolean;
-                    FromDueDate?: string;
-                    ToDueDate?: string;
-                    TagId?: string[];
-                    TripId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["TripInt32KeyValuePair"][];
-                        "application/json": components["schemas"]["TripInt32KeyValuePair"][];
-                        "text/json": components["schemas"]["TripInt32KeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ToDo/Sum/ByCurrency": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    IsCompleted?: boolean;
-                    FromDueDate?: string;
-                    ToDueDate?: string;
-                    TagId?: string[];
-                    TripId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CurrencyDecimalKeyValuePair"][];
-                        "application/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
-                        "text/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/ToDo/Sum/ByTag": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    IsCompleted?: boolean;
-                    FromDueDate?: string;
-                    ToDueDate?: string;
-                    TagId?: string[];
-                    TripId?: string[];
-                    Search?: string;
-                    PageAll?: boolean;
-                    Page?: number;
-                    PageSize?: number;
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
-                        "application/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
-                        "text/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10046,7 +9817,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Service/LastFm/Track": {
+    "/ToDo": {
         parameters: {
             query?: never;
             header?: never;
@@ -10056,12 +9827,18 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    PageAll?: boolean;
+                    FromDueDate?: string;
+                    IsCompleted?: boolean;
+                    Search?: string;
+                    TagId?: string[];
+                    ToDueDate?: string;
+                    TripId?: string[];
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10075,9 +9852,232 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["Track"][];
-                        "application/json": components["schemas"]["Track"][];
-                        "text/json": components["schemas"]["Track"][];
+                        "text/plain": components["schemas"]["ToDoPagedView"];
+                        "application/json": components["schemas"]["ToDoPagedView"];
+                        "text/json": components["schemas"]["ToDoPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ToDoBinding"];
+                    "text/json": components["schemas"]["ToDoBinding"];
+                    "application/*+json": components["schemas"]["ToDoBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Count/ByTag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    FromDueDate?: string;
+                    IsCompleted?: boolean;
+                    Search?: string;
+                    TagId?: string[];
+                    ToDueDate?: string;
+                    TripId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["TagInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["TagInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Count/ByTrip": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    FromDueDate?: string;
+                    IsCompleted?: boolean;
+                    Search?: string;
+                    TagId?: string[];
+                    ToDueDate?: string;
+                    TripId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TripInt32KeyValuePair"][];
+                        "application/json": components["schemas"]["TripInt32KeyValuePair"][];
+                        "text/json": components["schemas"]["TripInt32KeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Sum/ByCurrency": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    FromDueDate?: string;
+                    IsCompleted?: boolean;
+                    Search?: string;
+                    TagId?: string[];
+                    ToDueDate?: string;
+                    TripId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                        "application/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                        "text/json": components["schemas"]["CurrencyDecimalKeyValuePair"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ToDo/Sum/ByTag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    FromDueDate?: string;
+                    IsCompleted?: boolean;
+                    Search?: string;
+                    TagId?: string[];
+                    ToDueDate?: string;
+                    TripId?: string[];
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
+                        "application/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
+                        "text/json": components["schemas"]["TagCurrencyDecimalKeyValuePairIEnumerableKeyValuePair"][];
                     };
                 };
             };
@@ -10201,6 +10201,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Service/LastFm/Track": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Track"][];
+                        "application/json": components["schemas"]["Track"][];
+                        "text/json": components["schemas"]["Track"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Tracking/{timestamp}": {
         parameters: {
             query?: never;
@@ -10236,7 +10280,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Tracking/Gpx": {
+    "/Tracking/Speed/Average": {
         parameters: {
             query?: never;
             header?: never;
@@ -10246,17 +10290,9 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    "BottomRight.Name"?: string;
-                    "BottomRight.TypeId"?: string;
-                    "BottomRight.Latitude"?: number;
-                    "BottomRight.Longitude"?: number;
-                    "TopLeft.Name"?: string;
-                    "TopLeft.TypeId"?: string;
-                    "TopLeft.Latitude"?: number;
-                    "TopLeft.Longitude"?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10270,32 +10306,15 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": string;
-                        "application/json": string;
-                        "text/json": string;
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
                     };
                 };
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10313,8 +10332,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10354,8 +10373,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10395,8 +10414,53 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Tracking/Day": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    "BottomRight.Latitude"?: number;
+                    "BottomRight.Longitude"?: number;
+                    "BottomRight.Name"?: string;
+                    "BottomRight.TypeId"?: string;
+                    "TopLeft.Latitude"?: number;
+                    "TopLeft.Longitude"?: number;
+                    "TopLeft.Name"?: string;
+                    "TopLeft.TypeId"?: string;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10432,8 +10496,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10462,7 +10526,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Tracking/Count/Unique": {
+    "/Tracking/Distance": {
         parameters: {
             query?: never;
             header?: never;
@@ -10473,8 +10537,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -10503,7 +10567,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Tracking/Day": {
+    "/Tracking/Gpx": {
         parameters: {
             query?: never;
             header?: never;
@@ -10513,18 +10577,41 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    "BottomRight.Name"?: string;
-                    "BottomRight.TypeId"?: string;
                     "BottomRight.Latitude"?: number;
                     "BottomRight.Longitude"?: number;
-                    "TopLeft.Name"?: string;
-                    "TopLeft.TypeId"?: string;
+                    "BottomRight.Name"?: string;
+                    "BottomRight.TypeId"?: string;
                     "TopLeft.Latitude"?: number;
                     "TopLeft.Longitude"?: number;
+                    "TopLeft.Name"?: string;
+                    "TopLeft.TypeId"?: string;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": string;
+                        "application/json": string;
+                        "text/json": string;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -10540,131 +10627,6 @@ export interface paths {
                 };
             };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Tracking/Distance": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Tracking/Speed/Average": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/Tracking/Speed/Max": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    From?: string;
-                    To?: string;
-                    OrderAscending?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": number;
-                        "application/json": number;
-                        "text/json": number;
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -10733,6 +10695,88 @@ export interface paths {
                         "text/plain": string[];
                         "application/json": string[];
                         "text/json": string[];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Tracking/Speed/Max": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Tracking/Count/Unique": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": number;
+                        "application/json": number;
+                        "text/json": number;
                     };
                 };
             };
@@ -11121,15 +11165,15 @@ export interface paths {
                 query?: {
                     CityId?: string[];
                     CountryId?: string[];
+                    IsDomestic?: boolean;
                     OrderBy?: components["schemas"]["TripSort"];
                     Search?: string;
-                    IsDomestic?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -11193,15 +11237,15 @@ export interface paths {
                 query?: {
                     CityId?: string[];
                     CountryId?: string[];
+                    IsDomestic?: boolean;
                     OrderBy?: components["schemas"]["TripSort"];
                     Search?: string;
-                    IsDomestic?: boolean;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -11297,8 +11341,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -11400,8 +11444,8 @@ export interface paths {
             parameters: {
                 query?: {
                     Search?: string;
-                    PageAll?: boolean;
                     Page?: number;
+                    PageAll?: boolean;
                     PageSize?: number;
                 };
                 header?: never;
@@ -11524,8 +11568,8 @@ export interface paths {
             parameters: {
                 query?: {
                     From?: string;
-                    To?: string;
                     OrderAscending?: boolean;
+                    To?: string;
                 };
                 header?: never;
                 path?: never;
@@ -11560,22 +11604,22 @@ export interface components {
     schemas: {
         Account: {
             active?: boolean;
-            id?: string | null;
-            name?: string | null;
-            iban?: string | null;
-            bank?: components["schemas"]["Bank"];
             /** Format: double */
             balance?: number;
             /** Format: double */
             balanceInDefaultCurrency?: number;
+            bank?: components["schemas"]["Bank"];
             currency?: components["schemas"]["Currency"];
+            iban?: string | null;
+            id?: string | null;
+            name?: string | null;
         };
         AccountBinding: {
-            name?: string | null;
-            iban?: string | null;
+            active?: boolean;
             bankId?: string | null;
             currencyId?: string | null;
-            active?: boolean;
+            iban?: string | null;
+            name?: string | null;
         };
         AccountPagedView: {
             /** Format: int64 */
@@ -11592,9 +11636,9 @@ export interface components {
             value?: number;
         };
         Airport: {
-            poi?: components["schemas"]["Poi"];
             iata?: string | null;
             name?: string | null;
+            poi?: components["schemas"]["Poi"];
         };
         AirportPagedView: {
             /** Format: int64 */
@@ -11614,11 +11658,11 @@ export interface components {
             name?: string | null;
         };
         Beer: {
-            id?: string | null;
-            name?: string | null;
             /** Format: double */
             abv?: number;
             brand?: components["schemas"]["BeerBrand"];
+            id?: string | null;
+            name?: string | null;
             style?: components["schemas"]["BeerStyle"];
         };
         BeerBinding: {
@@ -11629,9 +11673,9 @@ export interface components {
             styleId?: string | null;
         };
         BeerBrand: {
+            country?: components["schemas"]["Country"];
             id?: string | null;
             name?: string | null;
-            country?: components["schemas"]["Country"];
         };
         /** @enum {string} */
         BeerServing: "onTap" | "bottle" | "can" | "plastic";
@@ -11658,13 +11702,13 @@ export interface components {
             cities?: components["schemas"]["City"][] | null;
             cityVisits?: components["schemas"]["CityVisited"][] | null;
             countries?: components["schemas"]["Country"][] | null;
+            /** Format: date-time */
+            date?: string;
             events?: components["schemas"]["Event"][] | null;
             externalEvents?: components["schemas"]["IcsCalendarEvent"][] | null;
             isHoliday?: boolean;
             locations?: components["schemas"]["LocationVisited"][] | null;
             timeline?: components["schemas"]["TimelineItem"][] | null;
-            /** Format: date-time */
-            date?: string;
             workDayType?: components["schemas"]["WorkDayTypeOld"];
         };
         CalendarDayUpdateBinding: {
@@ -11674,33 +11718,33 @@ export interface components {
             days?: components["schemas"]["CalendarDay"][] | null;
         };
         CallBinding: {
+            /** Format: int32 */
+            duration?: number;
+            fileId?: string | null;
             number?: string | null;
             /** Format: date-time */
             timestamp?: string;
-            fileId?: string | null;
-            /** Format: int32 */
-            duration?: number;
         };
         Car: {
             id?: string | null;
             model?: components["schemas"]["CarModel"];
             /** Format: int32 */
             productionYear?: number;
-            services?: components["schemas"]["CarService"][] | null;
             serviceDue?: components["schemas"]["CarServiceDue"][] | null;
+            services?: components["schemas"]["CarService"][] | null;
         };
         CarBinding: {
-            model?: string | null;
             manufacturerId?: string | null;
-            valueId?: string | null;
+            model?: string | null;
             /** Format: int32 */
             productionYear?: number;
+            valueId?: string | null;
         };
         CarFuelingBinding: {
-            /** Format: date-time */
-            date?: string;
             /** Format: double */
             amountInLiters?: number;
+            /** Format: date-time */
+            date?: string;
         };
         CarLog: {
             /** Format: int32 */
@@ -11714,14 +11758,12 @@ export interface components {
             odometer?: number;
         };
         CarLogBySession: {
-            /** Format: date-time */
-            end?: string;
-            /** Format: date-time */
-            start?: string;
-            /** Format: int32 */
-            distance?: number | null;
             /** Format: int32 */
             count?: number;
+            /** Format: int32 */
+            distance?: number | null;
+            /** Format: date-time */
+            end?: string;
             /** Format: double */
             fuelUsed?: number | null;
             /** Format: int32 */
@@ -11729,26 +11771,28 @@ export interface components {
             /** Format: int32 */
             maxSpeed?: number | null;
             session?: string | null;
+            /** Format: date-time */
+            start?: string;
         };
         CarModel: {
             /** Format: int32 */
             engineDisplacement?: number;
+            id?: string | null;
+            manufacturer?: components["schemas"]["Manufacturer"];
             /** Format: int32 */
             modelYear?: number;
-            id?: string | null;
             name?: string | null;
             /** Format: int32 */
             power?: number;
-            manufacturer?: components["schemas"]["Manufacturer"];
         };
         CarService: {
-            id?: string | null;
-            serviceType?: components["schemas"]["CarServiceType"];
             /** Format: date-time */
             date?: string;
             description?: string | null;
+            id?: string | null;
             /** Format: int32 */
             odometer?: number;
+            serviceType?: components["schemas"]["CarServiceType"];
         };
         CarServiceBinding: {
             /** Format: date-time */
@@ -11759,12 +11803,12 @@ export interface components {
         CarServiceDue: {
             /** Format: int32 */
             dueAt?: number | null;
-            /** Format: int32 */
-            dueIn?: number | null;
             /** Format: date-time */
             dueBefore?: string | null;
             /** Format: date-time */
             dueBeforeApprox?: string | null;
+            /** Format: int32 */
+            dueIn?: number | null;
             serviceType?: components["schemas"]["CarServiceType"];
         };
         CarServiceInterval: {
@@ -11779,29 +11823,29 @@ export interface components {
             name?: string | null;
         };
         Card: {
-            id?: string | null;
             bank?: components["schemas"]["Bank"];
-            type?: components["schemas"]["CardType"];
-            name?: string | null;
-            hasExpired?: boolean;
             /** Format: date-time */
             expires?: string;
+            hasExpired?: boolean;
+            id?: string | null;
             /** Format: date-time */
             issued?: string;
             lastFourDigits?: string | null;
+            name?: string | null;
+            type?: components["schemas"]["CardType"];
         };
         CardType: {
             id?: string | null;
             name?: string | null;
         };
         City: {
+            country?: components["schemas"]["Country"];
             id?: string | null;
-            name?: string | null;
             /** Format: double */
             lat?: number | null;
             /** Format: double */
             lng?: number | null;
-            country?: components["schemas"]["Country"];
+            name?: string | null;
             timeZone?: string | null;
         };
         CityPagedView: {
@@ -11810,13 +11854,13 @@ export interface components {
             items?: components["schemas"]["City"][] | null;
         };
         CityVisited: {
+            country?: components["schemas"]["Country"];
             id?: string | null;
-            name?: string | null;
             /** Format: double */
             lat?: number | null;
             /** Format: double */
             lng?: number | null;
-            country?: components["schemas"]["Country"];
+            name?: string | null;
             timeZone?: string | null;
             /** Format: date-time */
             enterTime?: string | null;
@@ -11827,15 +11871,15 @@ export interface components {
             beer?: components["schemas"]["Beer"];
             /** Format: date-time */
             date?: string;
+            serving?: components["schemas"]["BeerServing"];
             /** Format: int32 */
             volume?: number;
-            serving?: components["schemas"]["BeerServing"];
         };
         ConsumationBinding: {
             beerId?: string | null;
-            servingId?: string | null;
             /** Format: date-time */
             date?: string;
+            servingId?: string | null;
             /** Format: int32 */
             units?: number;
             /** Format: int32 */
@@ -11867,8 +11911,8 @@ export interface components {
             items?: components["schemas"]["Country"][] | null;
         };
         Currency: {
-            id?: string | null;
             code?: string | null;
+            id?: string | null;
             name?: string | null;
             symbol?: string | null;
         };
@@ -11900,41 +11944,39 @@ export interface components {
             name?: string | null;
         };
         Expense: {
-            externalId?: string | null;
             /** Format: double */
             amount?: number;
-            /** Format: double */
-            parentCurrencyExchangeRate?: number | null;
-            comment?: string | null;
             card?: components["schemas"]["Card"];
+            comment?: string | null;
             currency?: components["schemas"]["Currency"];
-            files?: components["schemas"]["ExpenseFile"][] | null;
-            /** Format: double */
-            parentAmount?: number | null;
-            parentCurrency?: components["schemas"]["Currency"];
             /** Format: date-time */
             date?: string;
             /** Format: date-time */
             datePaid?: string;
-            /** Format: date-time */
-            modified?: string | null;
-            /** Format: date-time */
-            timestamp?: string | null;
             expenseType?: components["schemas"]["ExpenseType"];
-            poi?: components["schemas"]["Poi"];
+            externalId?: string | null;
+            files?: components["schemas"]["ExpenseFile"][] | null;
             id?: string | null;
             installmentRef?: string | null;
-            needsReview?: boolean;
-            paymentType?: components["schemas"]["PaymentType"];
-            vendor?: components["schemas"]["Vendor"];
+            /** Format: date-time */
+            modified?: string | null;
             readonly name?: string | null;
-        };
-        ExpenseBinding: {
-            externalId?: string | null;
+            needsReview?: boolean;
             /** Format: double */
-            amount?: number;
+            parentAmount?: number | null;
+            parentCurrency?: components["schemas"]["Currency"];
             /** Format: double */
             parentCurrencyExchangeRate?: number | null;
+            paymentType?: components["schemas"]["PaymentType"];
+            poi?: components["schemas"]["Poi"];
+            /** Format: date-time */
+            timestamp?: string | null;
+            vendor?: components["schemas"]["Vendor"];
+        };
+        ExpenseBinding: {
+            /** Format: double */
+            amount?: number;
+            cardId?: string | null;
             comment?: string | null;
             currencyId?: string | null;
             /** Format: date-time */
@@ -11942,21 +11984,23 @@ export interface components {
             /** Format: date-time */
             datePaid?: string | null;
             expenseTypeId?: string | null;
-            needsReview?: boolean;
-            paymentTypeId?: string | null;
-            /** Format: double */
-            parentAmount?: number | null;
-            parentCurrencyId?: string | null;
-            cardId?: string | null;
-            poiId?: string | null;
+            externalId?: string | null;
             id?: string | null;
             installmentRef?: string | null;
+            needsReview?: boolean;
+            /** Format: double */
+            parentAmount?: number | null;
+            /** Format: double */
+            parentCurrencyExchangeRate?: number | null;
+            parentCurrencyId?: string | null;
+            paymentTypeId?: string | null;
+            poiId?: string | null;
             vendorId?: string | null;
             vendorName?: string | null;
         };
         ExpenseFile: {
-            name?: string | null;
             file?: components["schemas"]["File"];
+            name?: string | null;
             type?: components["schemas"]["ExpenseFileType"];
         };
         ExpenseFileBinding: {
@@ -11993,26 +12037,25 @@ export interface components {
             items?: components["schemas"]["ExpenseTypeInt32KeyValuePair"][] | null;
         };
         ExpenseTypeNode: {
-            this?: components["schemas"]["ExpenseType"];
             children?: components["schemas"]["ExpenseTypeNode"][] | null;
+            this?: components["schemas"]["ExpenseType"];
         };
         /** @enum {string} */
         ExpenseTypeSort: "name" | "top10";
         File: {
+            /** Format: date-time */
+            created?: string;
             id?: string | null;
             /** Format: int32 */
             size?: number;
-            /** Format: date-time */
-            created?: string;
             type?: components["schemas"]["FileType"];
         };
         FileType: {
             id?: string | null;
-            name?: string | null;
             mimeType?: string | null;
+            name?: string | null;
         };
         Flight: {
-            id?: string | null;
             airline?: components["schemas"]["Airline"];
             /** Format: date-time */
             arrival?: string | null;
@@ -12025,14 +12068,12 @@ export interface components {
             destination?: components["schemas"]["Airport"];
             /** Format: int32 */
             distanceInKm?: number | null;
+            id?: string | null;
             number?: string | null;
             origin?: components["schemas"]["Airport"];
         };
         FlightBinding: {
             airlineId?: string | null;
-            destinationId?: string | null;
-            number?: string | null;
-            originId?: string | null;
             /** Format: date-time */
             arrival?: string;
             /** Format: date-time */
@@ -12041,6 +12082,9 @@ export interface components {
             departure?: string;
             /** Format: date-time */
             departureLocal?: string;
+            destinationId?: string | null;
+            number?: string | null;
+            originId?: string | null;
         };
         FlightPagedView: {
             /** Format: int64 */
@@ -12365,13 +12409,13 @@ export interface components {
             eTag?: string | null;
         };
         IcsCalendarEvent: {
-            summary?: string | null;
-            /** Format: date-time */
-            start?: string;
+            description?: string | null;
             /** Format: date-time */
             end?: string | null;
-            description?: string | null;
             location?: string | null;
+            /** Format: date-time */
+            start?: string;
+            summary?: string | null;
             uid?: string | null;
         };
         Images: {
@@ -12386,19 +12430,19 @@ export interface components {
             currency?: components["schemas"]["Currency"];
             description?: string | null;
             source?: components["schemas"]["IncomeSource"];
-            type?: components["schemas"]["IncomeType"];
             /** Format: date-time */
             timestamp?: string;
+            type?: components["schemas"]["IncomeType"];
         };
         IncomeBinding: {
             /** Format: double */
             amount?: number;
             currencyId?: string | null;
+            /** Format: date-time */
+            date?: string;
             description?: string | null;
             sourceId?: string | null;
             typeId?: string | null;
-            /** Format: date-time */
-            date?: string;
         };
         IncomePagedView: {
             /** Format: int64 */
@@ -12446,11 +12490,11 @@ export interface components {
             value?: number;
         };
         InventoryItem: {
-            id?: string | null;
-            name?: string | null;
-            brand?: components["schemas"]["Brand"];
             /** Format: date-time */
             acquired?: string | null;
+            brand?: components["schemas"]["Brand"];
+            id?: string | null;
+            name?: string | null;
             ownership?: components["schemas"]["Ownership"];
         };
         InventoryItemBinding: {
@@ -12466,11 +12510,11 @@ export interface components {
         /** @enum {string} */
         InventoryItemSort: "name";
         JournalEntry: {
+            /** Format: date-time */
+            created?: string;
             /** Format: date */
             date?: string;
             entry?: string | null;
-            /** Format: date-time */
-            created?: string;
             /** Format: date-time */
             modified?: string;
         };
@@ -12495,18 +12539,18 @@ export interface components {
             longitude?: number;
         };
         Location: {
+            geohashes?: string[] | null;
             id?: string | null;
             name?: string | null;
-            geohashes?: string[] | null;
             type?: components["schemas"]["LocationType"];
         };
         LocationBinding: {
-            name?: string | null;
-            typeId?: string | null;
             /** Format: double */
             latitude?: number;
             /** Format: double */
             longitude?: number;
+            name?: string | null;
+            typeId?: string | null;
         };
         LocationPagedView: {
             /** Format: int64 */
@@ -12518,9 +12562,9 @@ export interface components {
             name?: string | null;
         };
         LocationVisited: {
+            geohashes?: string[] | null;
             id?: string | null;
             name?: string | null;
-            geohashes?: string[] | null;
             type?: components["schemas"]["LocationType"];
             /** Format: date-time */
             enterTime?: string;
@@ -12531,18 +12575,18 @@ export interface components {
             name?: string | null;
         };
         Movie: {
-            /** Format: date-time */
-            timestamp?: string;
+            imdbId?: string | null;
             /** Format: int32 */
             myRating?: number;
             /** Format: double */
             rating?: number;
             /** Format: int32 */
             runtime?: number;
+            /** Format: date-time */
+            timestamp?: string;
+            title?: string | null;
             /** Format: int32 */
             year?: number;
-            imdbId?: string | null;
-            title?: string | null;
         };
         MoviePagedView: {
             /** Format: int64 */
@@ -12560,11 +12604,11 @@ export interface components {
             name?: string | null;
         };
         Person: {
-            id?: string | null;
-            firstName?: string | null;
-            lastName?: string | null;
             /** Format: date-time */
             dateOfBirth?: string;
+            firstName?: string | null;
+            id?: string | null;
+            lastName?: string | null;
         };
         PersonByDateOfBirth: {
             /** Format: date-time */
@@ -12577,20 +12621,20 @@ export interface components {
             items?: components["schemas"]["Person"][] | null;
         };
         Poi: {
-            id?: string | null;
-            name?: string | null;
             address?: string | null;
             category?: components["schemas"]["PoiCategory"];
+            id?: string | null;
             location?: components["schemas"]["LatLng"];
+            name?: string | null;
         };
         PoiBinding: {
             address?: string | null;
-            name?: string | null;
-            poiCategoryId?: string | null;
             /** Format: double */
             latitude?: number;
             /** Format: double */
             longitude?: number;
+            name?: string | null;
+            poiCategoryId?: string | null;
         };
         PoiCategory: {
             id?: string | null;
@@ -12602,14 +12646,14 @@ export interface components {
             items?: components["schemas"]["Poi"][] | null;
         };
         RideBinding: {
-            destinationCityId?: string | null;
-            destinationPoiId?: string | null;
-            originCityId?: string | null;
-            originPoiId?: string | null;
             /** Format: date-time */
             arrival?: string;
             /** Format: date-time */
             departure?: string;
+            destinationCityId?: string | null;
+            destinationPoiId?: string | null;
+            originCityId?: string | null;
+            originPoiId?: string | null;
             typeId?: string | null;
         };
         Route: {
@@ -12627,15 +12671,15 @@ export interface components {
         /** @enum {string} */
         RouteTimeSort: "date" | "duration";
         Stay: {
+            city?: components["schemas"]["City"];
+            country?: components["schemas"]["Country"];
+            /** Format: date-time */
+            from?: string;
             /** Format: int32 */
             id?: number;
             isBooked?: boolean;
             /** Format: date-time */
-            from?: string;
-            /** Format: date-time */
             to?: string;
-            city?: components["schemas"]["City"];
-            country?: components["schemas"]["Country"];
         };
         StayBinding: {
             /** Format: date-time */
@@ -12689,36 +12733,36 @@ export interface components {
         };
         TimelineItem: {
             city?: components["schemas"]["City"];
-            location?: components["schemas"]["Location"];
             /** Format: date-time */
             enterTime?: string | null;
             /** Format: date-time */
             exitTime?: string | null;
+            location?: components["schemas"]["Location"];
         };
         ToDo: {
-            id?: string | null;
             /** Format: date-time */
             created?: string;
-            name?: string | null;
+            currency?: components["schemas"]["Currency"];
             description?: string | null;
-            isCompleted?: boolean;
             /** Format: date-time */
             dueDate?: string | null;
             /** Format: int32 */
             estimatedPrice?: number | null;
-            currency?: components["schemas"]["Currency"];
+            id?: string | null;
+            isCompleted?: boolean;
+            name?: string | null;
             tags?: components["schemas"]["Tag"][] | null;
             trips?: components["schemas"]["Trip"][] | null;
         };
         ToDoBinding: {
-            name?: string | null;
+            currencyId?: string | null;
             description?: string | null;
             /** Format: date-time */
             dueDate?: string | null;
-            isCompleted?: boolean;
             /** Format: int32 */
             estimatedPrice?: number | null;
-            currencyId?: string | null;
+            isCompleted?: boolean;
+            name?: string | null;
             tagIds?: string[] | null;
         };
         ToDoPagedView: {
@@ -12729,9 +12773,9 @@ export interface components {
         Track: {
             artist?: components["schemas"]["Artist"];
             images?: components["schemas"]["Images"];
-            title?: string | null;
             /** Format: date-time */
             timestamp?: string | null;
+            title?: string | null;
         };
         Tracking: {
             /** Format: double */
@@ -12739,13 +12783,13 @@ export interface components {
             /** Format: double */
             altitude?: number | null;
             /** Format: double */
-            latitude?: number;
-            /** Format: double */
-            longitude?: number;
-            /** Format: double */
             lat?: number;
             /** Format: double */
+            latitude?: number;
+            /** Format: double */
             lng?: number;
+            /** Format: double */
+            longitude?: number;
             /** Format: double */
             speed?: number | null;
             /** Format: date-time */
@@ -12760,10 +12804,10 @@ export interface components {
             latitude?: number;
             /** Format: double */
             longitude?: number;
-            /** Format: date-time */
-            timestamp?: string;
             /** Format: double */
             speed?: number | null;
+            /** Format: date-time */
+            timestamp?: string;
         };
         TrackingDetails: {
             /** Format: int32 */
@@ -12801,30 +12845,30 @@ export interface components {
         /** @enum {string} */
         TransactionSource: "hac" | "otpBank" | "revolut";
         Trip: {
+            cities?: components["schemas"]["City"][] | null;
+            countries?: components["schemas"]["Country"][] | null;
+            /** Format: int32 */
+            distance?: number;
+            expenses?: components["schemas"]["Expense"][] | null;
+            files?: components["schemas"]["File"][] | null;
             id?: string | null;
             name?: string | null;
+            pois?: components["schemas"]["Poi"][] | null;
+            stays?: components["schemas"]["Stay"][] | null;
             /** Format: date-time */
             timestampEnd?: string;
             /** Format: date-time */
             timestampStart?: string;
-            /** Format: int32 */
-            distance?: number;
-            countries?: components["schemas"]["Country"][] | null;
-            cities?: components["schemas"]["City"][] | null;
-            files?: components["schemas"]["File"][] | null;
-            expenses?: components["schemas"]["Expense"][] | null;
-            pois?: components["schemas"]["Poi"][] | null;
-            stays?: components["schemas"]["Stay"][] | null;
             /** Format: double */
             totalSpent?: number;
         };
         TripBinding: {
+            cityIds?: string[] | null;
             name?: string | null;
             /** Format: date-time */
             timestampEnd?: string;
             /** Format: date-time */
             timestampStart?: string;
-            cityIds?: string[] | null;
         };
         TripInt32KeyValuePair: {
             key?: components["schemas"]["Trip"];
@@ -12841,9 +12885,11 @@ export interface components {
         User: {
             defaultCar?: components["schemas"]["Car"];
             defaultCurrency?: components["schemas"]["Currency"];
+            email?: string | null;
             firstName?: string | null;
             lastName?: string | null;
-            email?: string | null;
+            /** Format: date-time */
+            trackingStartDate?: string | null;
             username?: string | null;
         };
         UserUpdateBinding: {
@@ -12852,9 +12898,9 @@ export interface components {
             defaultLanguageId?: string | null;
         };
         Vendor: {
+            city?: components["schemas"]["City"];
             id?: string | null;
             name?: string | null;
-            city?: components["schemas"]["City"];
         };
         VendorInt32KeyValuePair: {
             key?: components["schemas"]["Vendor"];
