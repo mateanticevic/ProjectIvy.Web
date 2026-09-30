@@ -83,3 +83,19 @@ export const polylineColors = [
     { name: 'Slate', value: '#5c6370' },
     { name: 'Charcoal', value: '#263238' },
 ];
+
+export const nextPolylineColor = (usedColors: string[]) => {
+    const counts = new Map(polylineColors.map(color => [color.value, 0]));
+
+    usedColors.forEach(color => {
+        if (counts.has(color)) {
+            counts.set(color, (counts.get(color) ?? 0) + 1);
+        }
+    });
+
+    return polylineColors.reduce((selected, color) => {
+        const selectedCount = counts.get(selected.value) ?? 0;
+        const colorCount = counts.get(color.value) ?? 0;
+        return colorCount < selectedCount ? color : selected;
+    }).value;
+};

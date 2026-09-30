@@ -30,7 +30,7 @@ import { locationLoader, routeLoader } from 'utils/select-loaders';
 import { FaLocationCrosshairs } from 'react-icons/fa6';
 import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
-import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
+import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, nextPolylineColor, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 type Route = components['schemas']['Route'];
@@ -451,13 +451,17 @@ class TrackingPage extends Page<unknown, State> {
         }
 
         api.tracking.get(filters).then(trackings => {
-            const layer = new PolygonLayer(trackings, this.state.timezone);
-            this.setState({
-                polygonLayers: [
-                    ...this.state.polygonLayers,
-                    layer,
-                ],
-                requestActive: false,
+            this.setState(state => {
+                const layer = new PolygonLayer(trackings, state.timezone);
+                layer.color = nextPolylineColor(state.polygonLayers.map(existing => existing.color));
+
+                return {
+                    polygonLayers: [
+                        ...state.polygonLayers,
+                        layer,
+                    ],
+                    requestActive: false,
+                };
             });
 
             const bounds = new google.maps.LatLngBounds();

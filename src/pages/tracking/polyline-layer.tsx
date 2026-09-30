@@ -45,6 +45,7 @@ interface Props {
 
 const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
 
+    const [colorsOpen, setColorsOpen] = React.useState(false);
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
 
@@ -114,6 +115,8 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
 
     const distanceFormatted = getDistanceBetweenTrackings(0, layer.trackings.length);
     const distanceBetweenMarkersFormatted = getDistanceBetweenTrackings(startIndex, endIndex);
+    const currentColor = polylineColors.find(color => color.value === layer.color) ?? { name: 'Current', value: layer.color };
+    const visibleColors = colorsOpen ? polylineColors : [currentColor];
 
     return (
         <Card style={{ borderTop: `4px solid ${layer.color}` }}>
@@ -137,17 +140,22 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
                     label="Show trackings"
                 />
                 <Form.Label className="mt-2 mb-2">Color</Form.Label>
-                <div className="d-flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Polyline color">
-                    {polylineColors.map(color => {
+                <div
+                    className="d-flex flex-wrap gap-2 mb-3"
+                    role={colorsOpen ? 'radiogroup' : undefined}
+                    aria-label="Polyline color"
+                >
+                    {visibleColors.map(color => {
                         const selected = layer.color === color.value;
 
                         return (
                             <button
                                 key={color.name}
                                 type="button"
-                                role="radio"
-                                aria-checked={selected}
-                                aria-label={color.name}
+                                role={colorsOpen ? 'radio' : undefined}
+                                aria-checked={colorsOpen ? selected : undefined}
+                                aria-expanded={colorsOpen}
+                                aria-label={colorsOpen ? color.name : `Change color, current ${color.name}`}
                                 title={color.name}
                                 className="rounded-circle p-0"
                                 style={{
@@ -160,7 +168,15 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
                                     cursor: 'pointer',
                                     flexShrink: 0,
                                 }}
-                                onClick={() => onColorChange(color.value)}
+                                onClick={() => {
+                                    if (!colorsOpen) {
+                                        setColorsOpen(true);
+                                        return;
+                                    }
+
+                                    onColorChange(color.value);
+                                    setColorsOpen(false);
+                                }}
                             />
                         );
                     })}
