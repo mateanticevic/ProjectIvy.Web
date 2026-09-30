@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React from 'react';
-import { Container, Card, Col, Row, Table, Badge, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Container, Card, Col, Row, Table, Badge, InputGroup, FormControl, Button, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
 import api from 'api/main';
@@ -23,13 +23,17 @@ interface State {
     fuelSumByYear?: KeyValuePair<number>[];
     kilometersByYear?: KeyValuePair<number>[];
     logs: any;
+    isLogSubmitting: boolean;
     isServiceModalOpen: boolean;
+    logOdometer: string;
     service: any;
     serviceTypes: any;
     serviceIntervals: CarServiceInterval[];
 }
 
 class CarDetailsPage extends React.Component<Props, State> {
+    logSubmitInFlight = false;
+
     state: State = {
         car: {
             id: '',
@@ -38,7 +42,9 @@ class CarDetailsPage extends React.Component<Props, State> {
             serviceDue: [],
         },
         logs: [],
+        isLogSubmitting: false,
         isServiceModalOpen: false,
+        logOdometer: '',
         service: {
 
         },
@@ -79,13 +85,22 @@ class CarDetailsPage extends React.Component<Props, State> {
                         <Card>
                             <Card.Header>Log</Card.Header>
                             <Card.Body>
-                                <InputGroup>
-                                    <FormControl
-                                        type="number"
-                                        onKeyUp={e => e.key === 'Enter' && this.createLog(e.target.value)}
-                                    />
-                                    <InputGroup.Text>km</InputGroup.Text>
-                                </InputGroup>
+                                <Form onSubmit={this.onLogSubmit}>
+                                    <InputGroup>
+                                        <FormControl
+                                            type="number"
+                                            value={this.state.logOdometer}
+                                            onChange={e => this.setState({ logOdometer: e.target.value })}
+                                        />
+                                        <InputGroup.Text>km</InputGroup.Text>
+                                        <Button
+                                            type="submit"
+                                            disabled={!this.state.logOdometer || this.state.isLogSubmitting}
+                                        >
+                                            Add
+                                        </Button>
+                                    </InputGroup>
+                                </Form>
                             </Card.Body>
                         </Card>
                         {this.state.kilometersByYear &&
@@ -181,11 +196,27 @@ class CarDetailsPage extends React.Component<Props, State> {
         );
     }
 
-    createLog = async (odometer: number) => {
-        await api.car.postLog(this.state.car.id, {
-            odometer
-        });
-        this.reload();
+    onLogSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        this.createLog();
+    };
+
+    createLog = async () => {
+        const odometer = Number(this.state.logOdometer);
+        if (!this.state.logOdometer || Number.isNaN(odometer) || this.logSubmitInFlight) {
+            return;
+        }
+
+        this.logSubmitInFlight = true;
+        this.setState({ isLogSubmitting: true });
+        try {
+            await api.car.postLog(this.state.car.id, { odometer });
+            this.setState({ logOdometer: '' });
+            await this.reload();
+        } finally {
+            this.logSubmitInFlight = false;
+            this.setState({ isLogSubmitting: false });
+        }
     };
 
     onServiceChange = (changed) => {
@@ -198,15 +229,17 @@ class CarDetailsPage extends React.Component<Props, State> {
     };
 
     reload = async (carId?: string) => {
-        const car = await api.car.get(carId ?? this.state.car.id);
-        const logs = await api.car.getLogs(carId ?? this.state.car.id, { hasOdometer: true });
+        const id = carId ?? this.state.car.id;
+        const car = await api.car.get(id);
+        const logs = await api.car.getLogs(id, { hasOdometer: true });
 
         if (carId) {
             const serviceTypes = await api.car.getServiceTypes(car.model.id);
             this.setState({ serviceTypes });
             api.car.getFuelSumByYear(carId).then(fuelSumByYear => this.setState({ fuelSumByYear }));
-            api.car.getKilometersByYear(carId).then(kilometersByYear => this.setState({ kilometersByYear }));
         }
+
+        api.car.getKilometersByYear(id).then(kilometersByYear => this.setState({ kilometersByYear }));
 
         this.setState({
             car,
@@ -214,7 +247,7 @@ class CarDetailsPage extends React.Component<Props, State> {
             serviceIntervals: await api.car.getServiceIntervals(car.model.id)
         });
 
-        const averageConsumption = await api.car.getAverageConsumption(carId ?? this.state.car.id);
+        const averageConsumption = await api.car.getAverageConsumption(id);
         this.setState({ averageConsumption });
     };
 
