@@ -397,6 +397,7 @@ class TrackingPage extends Page<unknown, State> {
                                 key={_.uniqueId()}
                                 geohash={geohash}
                                 onDelete={() => this.onDeleteGeohashTrackings(geohash)}
+                                onRemove={() => this.onRemoveGeohashInfo(geohash)}
                             />
                         )}
                     </Col>
@@ -508,6 +509,12 @@ class TrackingPage extends Page<unknown, State> {
                     selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id)
                 });
             });
+    };
+
+    onRemoveGeohashInfo = (geohash: Geohash) => {
+        this.setState({
+            selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id)
+        });
     };
 
     onGeohashSegmentClick = (geohashId: string) => {

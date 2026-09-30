@@ -142,44 +142,56 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
     return (
         <Card style={{ borderTop: `4px solid ${layer.color}` }}>
             <Card.Header className="p-0">
-                <button
-                    type="button"
-                    className="w-100 border-0 bg-transparent text-body text-start px-3 py-2"
-                    style={{ cursor: 'pointer' }}
-                    aria-expanded={expanded}
-                    aria-controls={detailsId}
-                    onClick={() => setExpanded(open => !open)}
-                >
-                    <div className="d-flex align-items-center gap-3">
-                        <div className="flex-grow-1">
-                            <div className="small text-muted fw-normal">Date</div>
-                            <div className="fw-semibold">{dateLabel}</div>
-                        </div>
-                        <div className="flex-shrink-0">
-                            <div className="small text-muted fw-normal">Distance</div>
-                            <div className="fw-semibold text-nowrap">
-                                <ImRoad className="me-1" aria-hidden />
-                                {distanceFormatted}
+                <div className="d-flex align-items-stretch">
+                    <button
+                        type="button"
+                        className="flex-grow-1 border-0 bg-transparent text-body text-start px-3 py-2"
+                        style={{ cursor: 'pointer' }}
+                        aria-expanded={expanded}
+                        aria-controls={detailsId}
+                        onClick={() => setExpanded(open => !open)}
+                    >
+                        <div className="d-flex align-items-center gap-3">
+                            <div className="flex-grow-1">
+                                <div className="small text-muted fw-normal">Date</div>
+                                <div className="fw-semibold">{dateLabel}</div>
                             </div>
-                        </div>
-                        <div className="flex-shrink-0">
-                            <div className="small text-muted fw-normal">Points</div>
-                            <div className="fw-semibold text-nowrap">
-                                <FaHashtag className="me-1" aria-hidden />
-                                {layer.trackings.length}
+                            <div className="flex-shrink-0">
+                                <div className="small text-muted fw-normal">Distance</div>
+                                <div className="fw-semibold text-nowrap">
+                                    <ImRoad className="me-1" aria-hidden />
+                                    {distanceFormatted}
+                                </div>
                             </div>
+                            <div className="flex-shrink-0">
+                                <div className="small text-muted fw-normal">Points</div>
+                                <div className="fw-semibold text-nowrap">
+                                    <FaHashtag className="me-1" aria-hidden />
+                                    {layer.trackings.length}
+                                </div>
+                            </div>
+                            <FaChevronDown
+                                className="flex-shrink-0 text-muted"
+                                aria-hidden
+                                style={{
+                                    transform: expanded ? 'rotate(180deg)' : 'none',
+                                    transition: 'transform 0.2s ease',
+                                }}
+                            />
+                            <span className="visually-hidden">{expanded ? 'Collapse' : 'Expand'}</span>
                         </div>
-                        <FaChevronDown
-                            className="flex-shrink-0 text-muted"
-                            aria-hidden
-                            style={{
-                                transform: expanded ? 'rotate(180deg)' : 'none',
-                                transition: 'transform 0.2s ease',
-                            }}
-                        />
-                        <span className="visually-hidden">{expanded ? 'Collapse' : 'Expand'}</span>
-                    </div>
-                </button>
+                    </button>
+                    <button
+                        type="button"
+                        className="border-0 bg-transparent text-body px-3"
+                        style={{ cursor: 'pointer' }}
+                        aria-label="Remove"
+                        title="Remove"
+                        onClick={onRemove}
+                    >
+                        <IoMdClose size={20} />
+                    </button>
+                </div>
             </Card.Header>
             <Collapse in={expanded}>
                 <div id={detailsId}>
@@ -188,9 +200,6 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
                             <div className="d-flex flex-wrap align-items-center gap-3">
                                 <Button size="sm" onClick={onClip}>
                                     <AiOutlineScissor /> Clip
-                                </Button>
-                                <Button size="sm" onClick={onRemove}>
-                                    <IoMdClose /> Remove
                                 </Button>
                                 <Form.Check
                                     className="mb-0"
