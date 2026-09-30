@@ -432,6 +432,13 @@ class ExpensesPage extends Page<Props, State> {
     };
 
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
+        if (changedFilters?.from && !moment(changedFilters.from, 'YYYY-MM-DD', true).isValid()) {
+            return;
+        }
+        if (changedFilters?.to && !moment(changedFilters.to, 'YYYY-MM-DD', true).isValid()) {
+            return;
+        }
+
         let filters = this.resolveFilters(this.state.filters, changedFilters);
 
         const state = { ...filters };

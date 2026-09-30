@@ -1,6 +1,6 @@
 import AsyncSelect from 'react-select/async';
 import Datetime from 'react-datetime';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactSelect from 'react-select';
 import Row from 'react-bootstrap/Row';
 import moment from 'moment';
@@ -20,12 +20,49 @@ interface Props {
 
 const dateFormat = 'YYYY-MM-DD';
 
-const isValidDate = (value: string | moment.Moment) => {
-    return value == '' || value.format;
-};
+const DateInput = ({ value, onChange }: { value?: string; onChange: (date: string) => void }) => {
+    const [draft, setDraft] = useState<string | null>(null);
 
-const parseDate = (value: string | moment.Moment) => {
-    return value.format ? value.format(dateFormat) : '';
+    useEffect(() => {
+        setDraft(null);
+    }, [value]);
+
+    const handleChange = (next: string | moment.Moment) => {
+        if (typeof next === 'string') {
+            if (next === '') {
+                setDraft(null);
+                onChange('');
+                return;
+            }
+
+            const parsed = moment(next, dateFormat, true);
+            if (!parsed.isValid()) {
+                setDraft(next);
+                return;
+            }
+
+            setDraft(null);
+            onChange(parsed.format(dateFormat));
+            return;
+        }
+
+        if (!moment.isMoment(next) || !next.isValid()) {
+            return;
+        }
+
+        setDraft(null);
+        onChange(next.format(dateFormat));
+    };
+
+    return (
+        <Datetime
+            dateFormat={dateFormat}
+            timeFormat={false}
+            onChange={handleChange}
+            value={value}
+            inputProps={draft !== null ? { value: draft } : undefined}
+        />
+    );
 };
 
 const Filters = ({ currencies, filters, onChange, types }: Props) => {
@@ -37,22 +74,18 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                 <Col xs={6}>
                     <FormGroup>
                         <FormLabel>From</FormLabel>
-                        <Datetime
-                            dateFormat={dateFormat}
-                            timeFormat={false}
-                            onChange={x => isValidDate(x) && onChange({ from: parseDate(x) })}
+                        <DateInput
                             value={filters.from}
+                            onChange={from => onChange({ from })}
                         />
                     </FormGroup>
                 </Col>
                 <Col xs={6}>
                     <FormGroup>
                         <FormLabel>To</FormLabel>
-                        <Datetime
-                            dateFormat={dateFormat}
-                            timeFormat={false}
-                            onChange={x => isValidDate(x) && onChange({ to: parseDate(x) })}
+                        <DateInput
                             value={filters.to}
+                            onChange={to => onChange({ to })}
                         />
                     </FormGroup>
                 </Col>
