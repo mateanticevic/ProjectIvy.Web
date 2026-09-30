@@ -101,6 +101,7 @@ class TrackingPage extends Page<unknown, State> {
         allYearsOnDate: false,
         dateMode: DateMode.Day,
         drawMode: DrawMode.Line,
+        filterDay: moment().format('YYYY-MM-DD'),
         geohashPrecision: 7,
         geohashSearch: 5,
         geohashSegments: geohashCharacters,
@@ -138,7 +139,7 @@ class TrackingPage extends Page<unknown, State> {
     };
 
     render() {
-        const { allYearsOnDate, dateMode, drawMode, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { allYearsOnDate, dateMode, drawMode, filterDay, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
         const { newLocation, newTracking, newLocationModalOpened, newTrackingModalOpened } = this.state;
 
         const isMapReady = !!last;
@@ -160,7 +161,7 @@ class TrackingPage extends Page<unknown, State> {
                                 <FormGroup>
                                     <FormLabel>Time</FormLabel>
                                     {dateMode == DateMode.Day &&
-                                        <DateFormElement onChange={filterDay => this.setState({ filterDay })} />
+                                        <DateFormElement value={filterDay} onChange={filterDay => this.setState({ filterDay })} />
                                     }
                                     {dateMode == DateMode.Last &&
                                         <FormGroup>
