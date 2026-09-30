@@ -16,7 +16,7 @@ interface Props {
 
 const Select = ({ defaultSelected, options, defaultOptionId, defaultOptionValue, selected, hideDefaultOption, onBlur, onChange }: Props) => {
 
-    defaultOptionId = defaultOptionId ? defaultOptionId : undefined;
+    defaultOptionId = defaultOptionId ?? undefined;
     defaultOptionValue = defaultOptionValue ? defaultOptionValue : 'Any';
 
     const t = options && options[0] && options[0].id ? options : options.map((item) => ({ id: item, name: item }));

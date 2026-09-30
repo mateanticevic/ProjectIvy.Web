@@ -83,7 +83,7 @@ class IncomesPage extends Page<unknown, State> {
     }
 
     render() {
-        const { filters, income, incomes, isLoading, sources, sum, types } = this.state;
+        const { currencies, filters, income, incomes, isLoading, sources, sum, types } = this.state;
         const user = this.context as User;
 
         if (isLoading) {
@@ -102,8 +102,31 @@ class IncomesPage extends Page<unknown, State> {
                                     </Button>
                                 </div>
                                 <FormGroup>
+                                    <FormLabel>Currency</FormLabel>
+                                    <Select
+                                        defaultOptionId=""
+                                        options={currencies}
+                                        selected={filters.currencyId ?? ''}
+                                        onChange={currencyId => this.onFiltersChanged({ currencyId: currencyId || undefined })}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <FormLabel>Source</FormLabel>
+                                    <Select
+                                        defaultOptionId=""
+                                        options={sources}
+                                        selected={filters.sourceId ?? ''}
+                                        onChange={sourceId => this.onFiltersChanged({ sourceId: sourceId || undefined })}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
                                     <FormLabel>Type</FormLabel>
-                                    <Select options={types} onChange={typeId => this.onFiltersChanged({ typeId })} />
+                                    <Select
+                                        defaultOptionId=""
+                                        options={types}
+                                        selected={filters.typeId ?? ''}
+                                        onChange={typeId => this.onFiltersChanged({ typeId: typeId || undefined })}
+                                    />
                                 </FormGroup>
                                 <FormGroup>
                                     <DateFormElement
@@ -174,10 +197,17 @@ class IncomesPage extends Page<unknown, State> {
     }
 
     onFiltersChanged = (changed?: Partial<IncomeFilters>) => {
-        const filters = changed ? {
+        const filters: IncomeFilters = {
             ...this.state.filters,
             ...changed,
-        } : this.state.filters;
+            page: changed?.page ?? (changed ? 1 : this.state.filters.page),
+        };
+
+        (['currencyId', 'sourceId', 'typeId', 'from', 'to'] as const).forEach(key => {
+            if (!filters[key]) {
+                delete filters[key];
+            }
+        });
 
         this.setState({ filters }, this.onGroupByChanged);
         api.income.get(filters)
