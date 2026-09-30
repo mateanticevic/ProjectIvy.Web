@@ -197,6 +197,13 @@ class IncomesPage extends Page<unknown, State> {
     }
 
     onFiltersChanged = (changed?: Partial<IncomeFilters>) => {
+        if (changed?.from && !moment(changed.from, 'YYYY-MM-DD', true).isValid()) {
+            return;
+        }
+        if (changed?.to && !moment(changed.to, 'YYYY-MM-DD', true).isValid()) {
+            return;
+        }
+
         const filters: IncomeFilters = {
             ...this.state.filters,
             ...changed,
