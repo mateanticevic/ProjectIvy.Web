@@ -4,6 +4,7 @@ import mtz from 'moment-timezone';
 
 import { Layer } from 'types/location';
 import moment from 'moment';
+import colorTokens from 'styles/color-tokens.module.scss';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -30,6 +31,7 @@ export class GeohashLayer implements Layer {
 }
 
 export class PolygonLayer implements Layer {
+    color = colorTokens.colorPrimary;
     endTracking: Tracking;
     id: string;
     showStops = false;

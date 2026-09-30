@@ -59,3 +59,27 @@ export const rectangleOptionsNonVisited: google.maps.RectangleOptions = {
 export interface PolygonProps {
     layers: PolygonLayer[];
 }
+
+export const polylineColors = [
+    { name: 'Primary', value: colorTokens.colorPrimary },
+    { name: 'Red', value: '#e6194b' },
+    { name: 'Green', value: '#3cb44b' },
+    { name: 'Gold', value: '#d4a017' },
+    { name: 'Blue', value: '#4363d8' },
+    { name: 'Orange', value: '#f58231' },
+    { name: 'Purple', value: '#911eb4' },
+    { name: 'Cyan', value: '#0097b2' },
+    { name: 'Magenta', value: '#f032e6' },
+    { name: 'Lime', value: '#7cb518' },
+    { name: 'Rose', value: '#e06090' },
+    { name: 'Teal', value: '#469990' },
+    { name: 'Violet', value: '#7b4db5' },
+    { name: 'Brown', value: '#9a6324' },
+    { name: 'Maroon', value: '#800000' },
+    { name: 'Emerald', value: '#1f8a5b' },
+    { name: 'Olive', value: '#808000' },
+    { name: 'Coral', value: '#e07a3d' },
+    { name: 'Navy', value: '#000075' },
+    { name: 'Slate', value: '#5c6370' },
+    { name: 'Charcoal', value: '#263238' },
+];

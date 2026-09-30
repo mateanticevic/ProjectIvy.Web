@@ -32,7 +32,6 @@ import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
 import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
-import colorTokens from 'styles/color-tokens.module.scss';
 
 type Route = components['schemas']['Route'];
 type Tracking = components['schemas']['Tracking'];
@@ -263,7 +262,7 @@ class TrackingPage extends Page<unknown, State> {
                                             <Polyline
                                                 key={layer.id}
                                                 path={trackingsToLatLng(layer.trackings)}
-                                                options={{ strokeColor: colorTokens.colorPrimary, strokeWeight: 5 }}
+                                                options={{ strokeColor: layer.color, strokeWeight: 5 }}
                                             />
                                         )}
                                         <this.renderPointsMemoized layers={polygonLayers} />
@@ -386,6 +385,7 @@ class TrackingPage extends Page<unknown, State> {
                                 timezone={timezone}
                                 onEndMarkerMoved={endTracking => this.onLayerUpdated(layer, { endTracking })}
                                 onClip={() => this.onPolygonClip(layer)}
+                                onColorChange={color => this.onLayerUpdated(layer, { color })}
                                 onRemove={() => this.onRemoveLayer(layer)}
                                 onStartMarkerMoved={startTracking => this.onLayerUpdated(layer, { startTracking })}
                                 onShowStopsToggle={() => this.onLayerUpdated(layer, { showStops: !layer.showStops })}

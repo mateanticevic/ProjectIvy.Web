@@ -15,6 +15,7 @@ import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
 import { trackingToLatLng } from 'utils/gmap-helper';
 import { FaHashtag, FaMountain } from 'react-icons/fa';
+import { polylineColors } from './constants';
 
 momentDurationFormatSetup(moment);
 
@@ -34,6 +35,7 @@ interface Props {
     layer: PolygonLayer,
     timezone?: string,
     onClip(): void,
+    onColorChange(color: string): void,
     onEndMarkerMoved(tracking: Tracking): void,
     onRemove(): void,
     onShowStopsToggle(): void,
@@ -41,7 +43,7 @@ interface Props {
     onStartMarkerMoved(tracking: Tracking): void,
 }
 
-const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
+const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
 
     const [endIndex, setEndIndex] = React.useState(layer.trackings.length - 1);
     const [startIndex, setStartIndex] = React.useState(0);
@@ -114,7 +116,7 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
     const distanceBetweenMarkersFormatted = getDistanceBetweenTrackings(startIndex, endIndex);
 
     return (
-        <Card>
+        <Card style={{ borderTop: `4px solid ${layer.color}` }}>
             <Card.Body>
                 <Button onClick={onClip}>
                     <AiOutlineScissor /> Clip
@@ -134,6 +136,35 @@ const PolylineLayer = ({ layer, timezone, onClip, onRemove, onEndMarkerMoved, on
                     onChange={e => onShowTrackingsToggle(layer, e.currentTarget.checked)}
                     label="Show trackings"
                 />
+                <Form.Label className="mt-2 mb-2">Color</Form.Label>
+                <div className="d-flex flex-wrap gap-2 mb-3" role="radiogroup" aria-label="Polyline color">
+                    {polylineColors.map(color => {
+                        const selected = layer.color === color.value;
+
+                        return (
+                            <button
+                                key={color.name}
+                                type="button"
+                                role="radio"
+                                aria-checked={selected}
+                                aria-label={color.name}
+                                title={color.name}
+                                className="rounded-circle p-0"
+                                style={{
+                                    width: 22,
+                                    height: 22,
+                                    backgroundColor: color.value,
+                                    appearance: 'none',
+                                    border: '1px solid rgba(var(--bs-emphasis-color-rgb), 0.35)',
+                                    boxShadow: selected ? '0 0 0 2px var(--bs-body-bg), 0 0 0 4px var(--bs-body-color)' : undefined,
+                                    cursor: 'pointer',
+                                    flexShrink: 0,
+                                }}
+                                onClick={() => onColorChange(color.value)}
+                            />
+                        );
+                    })}
+                </div>
                 <Slider
                     allowCross={false}
                     max={layer.trackings.length - 1}
