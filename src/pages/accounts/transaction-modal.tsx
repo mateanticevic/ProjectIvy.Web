@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, FormControl, FormLabel, FormGroup, Modal, FloatingLabel, InputGroup } from 'react-bootstrap';
-import Datetime from 'react-datetime';
 import { FaCalendar } from 'react-icons/fa';
-import moment from 'moment';
+
+import { DatetimeInput } from 'components';
 
 type TransactionBinding = {
     amount: string;
@@ -41,11 +41,9 @@ const TransactionModal = ({ transaction, isOpen, onChange, onClose, onSave }: Pr
                     <FormGroup>
                         <FormLabel>Date</FormLabel>
                         <InputGroup>
-                            <Datetime
-                                dateFormat="YYYY-MM-DD"
-                                onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
-                                timeFormat={false}
+                            <DatetimeInput
                                 value={transaction.date}
+                                onChange={date => onChange({ date })}
                             />
                             <InputGroup.Text>
                                 <FaCalendar />

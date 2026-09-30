@@ -1,11 +1,10 @@
 import AsyncSelect from 'react-select/async';
-import Datetime from 'react-datetime';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactSelect from 'react-select';
 import Row from 'react-bootstrap/Row';
-import moment from 'moment';
 import { Col, FormLabel, FormGroup } from 'react-bootstrap';
 
+import { DatetimeInput } from 'components';
 import { ExpenseFilters } from 'types/expenses';
 import { SelectOption } from 'types/common';
 import { vendorLoader } from 'utils/select-loaders';
@@ -18,53 +17,6 @@ interface Props {
     onChange: (expenseFilters: Partial<ExpenseFilters>) => void;
 }
 
-const dateFormat = 'YYYY-MM-DD';
-
-const DateInput = ({ value, onChange }: { value?: string; onChange: (date: string) => void }) => {
-    const [draft, setDraft] = useState<string | null>(null);
-
-    useEffect(() => {
-        setDraft(null);
-    }, [value]);
-
-    const handleChange = (next: string | moment.Moment) => {
-        if (typeof next === 'string') {
-            if (next === '') {
-                setDraft(null);
-                onChange('');
-                return;
-            }
-
-            const parsed = moment(next, dateFormat, true);
-            if (!parsed.isValid()) {
-                setDraft(next);
-                return;
-            }
-
-            setDraft(null);
-            onChange(parsed.format(dateFormat));
-            return;
-        }
-
-        if (!moment.isMoment(next) || !next.isValid()) {
-            return;
-        }
-
-        setDraft(null);
-        onChange(next.format(dateFormat));
-    };
-
-    return (
-        <Datetime
-            dateFormat={dateFormat}
-            timeFormat={false}
-            onChange={handleChange}
-            value={value}
-            inputProps={draft !== null ? { value: draft } : undefined}
-        />
-    );
-};
-
 const Filters = ({ currencies, filters, onChange, types }: Props) => {
     const reactSelectStyles = useReactSelectStyles();
 
@@ -74,7 +26,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                 <Col xs={6}>
                     <FormGroup>
                         <FormLabel>From</FormLabel>
-                        <DateInput
+                        <DatetimeInput
                             value={filters.from}
                             onChange={from => onChange({ from })}
                         />
@@ -83,7 +35,7 @@ const Filters = ({ currencies, filters, onChange, types }: Props) => {
                 <Col xs={6}>
                     <FormGroup>
                         <FormLabel>To</FormLabel>
-                        <DateInput
+                        <DatetimeInput
                             value={filters.to}
                             onChange={to => onChange({ to })}
                         />

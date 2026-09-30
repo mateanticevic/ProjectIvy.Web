@@ -3,11 +3,10 @@ import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Button, Modal, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { Marker } from '@react-google-maps/api';
-import Datetime from 'react-datetime';
 import Skeleton from 'react-loading-skeleton'
 
 import api from 'api/main';
-import { Map, SimpleLineChart, ValueLabel } from 'components';
+import { DatetimeInput, Map, SimpleLineChart, ValueLabel } from 'components';
 import { UserContext } from 'contexts/user-context';
 import ExpenseTypeLabel from 'pages/expenses/expense-type-label';
 import { getIdentity } from 'utils/cookie-helper';
@@ -329,11 +328,9 @@ const DashboardPage: React.FC = () => {
                 <Modal.Body>
                     <FormGroup>
                         <FormLabel>Date</FormLabel>
-                        <Datetime
-                            dateFormat="YYYY-MM-DD"
+                        <DatetimeInput
                             value={newWeightDate}
-                            onChange={x => setNewWeightDate(moment(x).format('YYYY-MM-DD'))}
-                            timeFormat={false}
+                            onChange={setNewWeightDate}
                         />
                     </FormGroup>
                     <FormGroup>

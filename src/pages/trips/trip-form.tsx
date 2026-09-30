@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormLabel, FormControl } from 'react-bootstrap';
-import Datetime from 'react-datetime';
+import { DatetimeInput } from 'components';
 import AsyncSelect from 'react-select/async';
 
 import { cityLoader } from 'utils/select-loaders';
@@ -20,9 +20,9 @@ const TripForm = ({ onChange }: Props) => {
             <FormLabel>Name</FormLabel>
             <FormControl type="text" onChange={(x) => onChange({ name: x.target.value })} />
             <FormLabel>Start</FormLabel>
-            <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ timestampStart: x.format('YYYY-MM-DD HH:mm') })} />
+            <DatetimeInput timeFormat="HH:mm" onChange={timestampStart => onChange({ timestampStart })} />
             <FormLabel>End</FormLabel>
-            <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ timestampEnd: x.format('YYYY-MM-DD HH:mm') })} />
+            <DatetimeInput timeFormat="HH:mm" onChange={timestampEnd => onChange({ timestampEnd })} />
             <FormLabel>Cities</FormLabel>
             <AsyncSelect
                 loadOptions={cityLoader}

@@ -1,6 +1,7 @@
 
 export { default as ChartBar } from './chart-bar';
 export { default as DateFormElement } from './date-form-element';
+export { default as DatetimeInput } from './datetime-input';
 export { default as DistributionCard } from './distribution-card';
 export { FlagIcon } from './flag-icon';
 export { FormattedNumber } from './formatted-number';

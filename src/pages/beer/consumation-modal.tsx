@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
-import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import AsyncSelect from 'react-select/async';
 import { FaCalendar } from 'react-icons/fa';
-import moment from 'moment';
 
+import { DatetimeInput } from 'components';
 import Select from 'components/select';
 import { beerLoader } from 'utils/select-loaders';
 import ButtonWithSpinner from 'components/button-with-spinner';
@@ -105,11 +104,10 @@ const ConsumationModal = ({ consumation, disabled, isOpen, onChange, onClose, on
                 <FormGroup>
                     <FormLabel>Date</FormLabel>
                     <InputGroup>
-                        <Datetime
-                            dateFormat="YYYY-MM-DD"
-                            onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
-                            timeFormat={false}
-                            value={consumation.date} />
+                        <DatetimeInput
+                            value={consumation.date}
+                            onChange={date => onChange({ date })}
+                        />
                         <InputGroup.Text>
                             <FaCalendar />
                         </InputGroup.Text>

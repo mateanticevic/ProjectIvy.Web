@@ -1,12 +1,9 @@
 import React from 'react';
-import Datetime from 'react-datetime';
 import { Card, FormGroup, FormLabel } from 'react-bootstrap';
 import Slider from 'rc-slider';
 
-import { Select } from 'components';
+import { DatetimeInput, Select } from 'components';
 import { MovieFilters } from 'types/movies';
-
-const dateFormat = 'YYYY-MM-DD';
 
 interface Props {
     filters: MovieFilters;
@@ -25,20 +22,16 @@ export const FilterCard = ({ filters, onFiltersChanged }: Props) =>
         <Card.Body>
             <FormGroup>
                 <FormLabel>From</FormLabel>
-                <Datetime
-                    dateFormat={dateFormat}
-                    timeFormat={false}
-                    onChange={from => onFiltersChanged({ from: from.format(dateFormat) })}
+                <DatetimeInput
                     value={filters.from}
+                    onChange={from => onFiltersChanged({ from })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>To</FormLabel>
-                <Datetime
-                    dateFormat={dateFormat}
-                    timeFormat={false}
-                    onChange={to => onFiltersChanged({ to: to.format(dateFormat) })}
+                <DatetimeInput
                     value={filters.to}
+                    onChange={to => onFiltersChanged({ to })}
                 />
             </FormGroup>
             <FormGroup className="margin-bottom-30">

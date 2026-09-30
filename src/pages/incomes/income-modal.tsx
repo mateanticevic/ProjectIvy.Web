@@ -1,10 +1,9 @@
 import React from 'react';
 import { Button, FormLabel, FormControl, FormGroup, InputGroup, Modal } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import Datetime from 'react-datetime';
 import { FaCalendar } from 'react-icons/fa';
-import moment from 'moment';
 
+import { DatetimeInput } from 'components';
 import Select from 'components/select';
 import { components } from 'types/ivy-types';
 
@@ -40,11 +39,7 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, so
                 <FormGroup>
                     <FormLabel>Date</FormLabel>
                     <InputGroup>
-                        <Datetime
-                            dateFormat="YYYY-MM-DD"
-                            onChange={x => onChange({ date: moment(x).format('YYYY-MM-DD') })}
-                            timeFormat={false}
-                        />
+                        <DatetimeInput onChange={date => onChange({ date })} />
                         <InputGroup.Text>
                             <FaCalendar />
                         </InputGroup.Text>

@@ -2,14 +2,13 @@ import * as _ from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import { Button, Col, Container, Card, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import Datetime from 'react-datetime';
 import FontAwesome from 'react-fontawesome';
 import { Polyline, Marker, Rectangle, DrawingManager, HeatmapLayer } from '@react-google-maps/api';
 import 'rc-slider/assets/index.css';
 import geohash from 'ngeohash';
 
 import api from 'api/main';
-import { Map, RadioLabel } from 'components';
+import { DatetimeInput, Map, RadioLabel } from 'components';
 import SimpleBarChart from 'components/simple-bar-chart';
 import { SimpleLineChart } from 'components';
 import { GroupByTime } from 'consts/groupings';
@@ -116,9 +115,9 @@ class TrackingOldPage extends Page<unknown, State> {
                                     <ToggleButton id="map-mode-heatmap" value={MapMode.HeatmapInRectangle}><FontAwesome name="map-o" /> Heatmap</ToggleButton>
                                     <ToggleButton id="map-mode-geohash" value={MapMode.Geohash}><FontAwesome name="map-o" /> Geohash</ToggleButton>
                                 </ToggleButtonGroup>
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat={false} value={filters.day} onChange={date => this.onFiltersChanged({ day: date.format('YYYY-MM-DD') })} />
+                                <DatetimeInput value={filters.day} onChange={day => this.onFiltersChanged({ day })} />
                                 <Button onClick={this.loadOnThisDay}>On this day</Button>
-                                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm:ss" onChange={dateTime => this.onLastTrackingAtDate(dateTime.format('YYYY-MM-DD HH:mm'))} />
+                                <DatetimeInput timeFormat="HH:mm" onChange={dateTime => dateTime && this.onLastTrackingAtDate(dateTime)} />
                             </Card.Footer>
                         </Card>
                         {movement &&

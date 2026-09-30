@@ -3,11 +3,10 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 import AsyncSelect from 'react-select/async';
 import { SingleValue, StylesConfig } from 'react-select';
 import { Badge, Button, Card, Col, Container, Dropdown, Form, InputGroup, Modal, Row, Tab, Tabs, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 
 import api from 'api/main';
-import { MarkdownPreview, SmartScroll } from 'components';
+import { DatetimeInput, MarkdownPreview, SmartScroll } from 'components';
 import Spinner from 'components/spinner';
 import { components } from 'types/ivy-types';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
@@ -802,22 +801,18 @@ const TodoPage: React.FC = () => {
                                 <Col md={6}>
                                     <Form.Group>
                                         <Form.Label className="small text-muted mb-1">From</Form.Label>
-                                        <Datetime
-                                            dateFormat="YYYY-MM-DD"
-                                            timeFormat={false}
+                                        <DatetimeInput
                                             value={from ?? ''}
-                                            onChange={value => setFrom(moment.isMoment(value) ? value.format('YYYY-MM-DD') : null)}
+                                            onChange={value => setFrom(value || null)}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
                                     <Form.Group>
                                         <Form.Label className="small text-muted mb-1">To</Form.Label>
-                                        <Datetime
-                                            dateFormat="YYYY-MM-DD"
-                                            timeFormat={false}
+                                        <DatetimeInput
                                             value={to ?? ''}
-                                            onChange={value => setTo(moment.isMoment(value) ? value.format('YYYY-MM-DD') : null)}
+                                            onChange={value => setTo(value || null)}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -968,12 +963,10 @@ const TodoPage: React.FC = () => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Due date</Form.Label>
-                        <Datetime
-                            dateFormat="YYYY-MM-DD"
-                            timeFormat={false}
+                        <DatetimeInput
                             value={editDueDate}
                             inputProps={{ placeholder: 'Due date' }}
-                            onChange={value => setEditDueDate(moment.isMoment(value) ? value.format('YYYY-MM-DD') : '')}
+                            onChange={setEditDueDate}
                         />
                     </Form.Group>
                 </Modal.Body>

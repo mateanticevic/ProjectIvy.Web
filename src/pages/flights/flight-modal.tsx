@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
-import Datetime from 'react-datetime';
+import { DatetimeInput } from 'components';
 
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
@@ -53,11 +53,11 @@ const FlightModal = ({ isOpen, onChange, onClose, onSave }: Props) =>
             </FormGroup>
             <FormGroup>
                 <FormLabel>Departure</FormLabel>
-                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ departure: x.format('YYYY-MM-DD HH:mm') })} />
+                <DatetimeInput timeFormat="HH:mm" onChange={departure => onChange({ departure })} />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival</FormLabel>
-                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ arrival: x.format('YYYY-MM-DD HH:mm') })} />
+                <DatetimeInput timeFormat="HH:mm" onChange={arrival => onChange({ arrival })} />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Flight number</FormLabel>

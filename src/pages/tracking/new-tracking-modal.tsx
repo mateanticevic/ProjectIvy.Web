@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, FormControl, Modal, FloatingLabel, FormGroup, FormLabel } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
-import Datetime from 'react-datetime';
+import { DatetimeInput } from 'components';
 
 import { components } from 'types/ivy-types';
 
@@ -29,10 +29,9 @@ const NewTrackingModal = ({ isOpen, tracking, onChange, onClose, onSave }: Props
             <div className="form-grid">
                 <FormGroup>
                     <FormLabel>Departure</FormLabel>
-                    <Datetime
-                        dateFormat="YYYY-MM-DD"
+                    <DatetimeInput
                         timeFormat="HH:mm:ss"
-                        onChange={x => onChange({ timestamp: x.format('YYYY-MM-DD HH:mm:ss') })}
+                        onChange={timestamp => onChange({ timestamp })}
                     />
                 </FormGroup>
                 <FloatingLabel label="Latitude">

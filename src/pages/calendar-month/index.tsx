@@ -130,7 +130,11 @@ const CalendarMonthPage: React.FC = () => {
                 dateFormat="MMMM YYYY"
                 timeFormat={false}
                 value={startDay}
-                onChange={month => onMonthChanged(month as Moment)}
+                onChange={month => {
+                    if (moment.isMoment(month) && month.isValid()) {
+                        onMonthChanged(month);
+                    }
+                }}
                 renderInput={(_props, openCalendar) => (
                     <h1
                         role="button"

@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Modal, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import Datetime from 'react-datetime';
 import moment from 'moment';
 
 import api from 'api/main';
-import { MarkdownPreview } from 'components';
+import { DatetimeInput, MarkdownPreview } from 'components';
 import Pagination from 'components/pagination';
 import Spinner from 'components/spinner';
 import { components } from 'types/ivy-types';
@@ -142,12 +141,10 @@ const JournalPage: React.FC = () => {
                 <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Date</Form.Label>
-                        <Datetime
-                            dateFormat="YYYY-MM-DD"
-                            timeFormat={false}
+                        <DatetimeInput
                             value={binding.date ?? ''}
                             inputProps={{ placeholder: 'Date', disabled: !!selectedEntry || isSaving }}
-                            onChange={value => setBinding(prev => ({ ...prev, date: moment.isMoment(value) ? value.format('YYYY-MM-DD') : '' }))}
+                            onChange={date => setBinding(prev => ({ ...prev, date }))}
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">

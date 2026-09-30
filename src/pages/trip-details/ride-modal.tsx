@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Form, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
-import Datetime from 'react-datetime';
+import { DatetimeInput } from 'components';
 
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { cityLoader, poiLoader } from 'utils/select-loaders';
@@ -69,11 +69,11 @@ const RideModal = ({ isOpen, onChange, onClose, onSave }: Props) => {
             </Form.Row>
             <FormGroup>
                 <FormLabel>Departure</FormLabel>
-                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ departure: x.format('YYYY-MM-DD HH:mm') })} />
+                <DatetimeInput timeFormat="HH:mm" onChange={departure => onChange({ departure })} />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival</FormLabel>
-                <Datetime dateFormat="YYYY-MM-DD" timeFormat="HH:mm" onChange={x => onChange({ arrival: x.format('YYYY-MM-DD HH:mm') })} />
+                <DatetimeInput timeFormat="HH:mm" onChange={arrival => onChange({ arrival })} />
             </FormGroup>
         </Modal.Body>
         <Modal.Footer>

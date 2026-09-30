@@ -1,12 +1,10 @@
 import React from 'react';
 import { FormControl, FormGroup, FormLabel, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
-import Datetime from 'react-datetime';
-
+import { DatetimeInput } from 'components';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { airlineLoader, airportLoader } from 'utils/select-loaders';
 import { components } from 'types/ivy-types';
-import moment from 'moment';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
 type Flight = components['schemas']['Flight'];
@@ -65,38 +63,34 @@ const FlightModal = ({ flight, flightBinding, isOpen, onChange, onClose, onSave 
             </FormGroup>
             <FormGroup>
                 <FormLabel>Departure UTC</FormLabel>
-                <Datetime
-                    dateFormat="YYYY-MM-DD"
-                    initialValue={moment(flightBinding.departure)}
+                <DatetimeInput
                     timeFormat="HH:mm"
-                    onChange={x => moment.isMoment(x) && onChange({ departure: x.format('YYYY-MM-DD HH:mm') })}
+                    value={flightBinding.departure}
+                    onChange={departure => onChange({ departure })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Departure Local</FormLabel>
-                <Datetime
-                    dateFormat="YYYY-MM-DD"
-                    initialValue={moment(flightBinding.departureLocal)}
+                <DatetimeInput
                     timeFormat="HH:mm"
-                    onChange={x => moment.isMoment(x) && onChange({ departureLocal: x.format('YYYY-MM-DD HH:mm') })}
+                    value={flightBinding.departureLocal}
+                    onChange={departureLocal => onChange({ departureLocal })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival UTC</FormLabel>
-                <Datetime
-                    dateFormat="YYYY-MM-DD"
-                    initialValue={moment(flightBinding.arrival)}
+                <DatetimeInput
                     timeFormat="HH:mm"
-                    onChange={x => moment.isMoment(x) && onChange({ arrival: x.format('YYYY-MM-DD HH:mm') })}
+                    value={flightBinding.arrival}
+                    onChange={arrival => onChange({ arrival })}
                 />
             </FormGroup>
             <FormGroup>
                 <FormLabel>Arrival Local</FormLabel>
-                <Datetime
-                    dateFormat="YYYY-MM-DD"
-                    initialValue={moment(flightBinding.arrivalLocal)}
+                <DatetimeInput
                     timeFormat="HH:mm"
-                    onChange={x => moment.isMoment(x) && onChange({ arrivalLocal: x.format('YYYY-MM-DD HH:mm') })}
+                    value={flightBinding.arrivalLocal}
+                    onChange={arrivalLocal => onChange({ arrivalLocal })}
                 />
             </FormGroup>
             <FormGroup>
