@@ -129,18 +129,6 @@ const AccountsPage: React.FC = () => {
         setEditingAccountId(undefined);
     };
 
-    const onAccountEdit = (account: Account) => {
-        setIsModalOpen(true);
-        setEditingAccountId(account.id ?? undefined);
-        setNewAccount({
-            name: account.name!,
-            iban: account.iban ?? undefined,
-            bankId: account.bank?.id ?? undefined,
-            currencyId: account.currency?.id ?? undefined,
-            active: true
-        });
-    };
-
     const onAccountSave = async () => {
         try {
             if (editingAccountId) {
@@ -262,7 +250,6 @@ const AccountsPage: React.FC = () => {
                                 accounts={accountsByBank[bankId]}
                                 selectedAccountId={selectedAccount?.id}
                                 onAccountSelected={onAccountSelected}
-                                onAccountEdit={onAccountEdit}
                             />
                         )}
                     </SmartScroll>

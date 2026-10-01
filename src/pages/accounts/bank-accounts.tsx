@@ -9,10 +9,9 @@ interface Props {
     accounts: Account[],
     selectedAccountId?: string;
     onAccountSelected: (account: Account) => void;
-    onAccountEdit: (account: Account) => void;
 }
 
-const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected, onAccountEdit }: Props) => {
+const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected }: Props) => {
 
     return (
         <React.Fragment>
@@ -23,7 +22,6 @@ const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected, onAccoun
                     account={account} 
                     isSelected={!!selectedAccountId && account.id === selectedAccountId}
                     onAccountSelected={onAccountSelected}
-                    onAccountEdit={onAccountEdit}
                 />
             )}
         </React.Fragment>

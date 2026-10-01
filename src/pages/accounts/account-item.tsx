@@ -1,6 +1,6 @@
 import React from 'react';
-import { Badge, Card, Button } from 'react-bootstrap';
-import { MdAccountBalance, MdEdit } from 'react-icons/md';
+import { Badge, Card } from 'react-bootstrap';
+import { MdAccountBalance } from 'react-icons/md';
 import { SiRevolut } from 'react-icons/si';
 
 import { components } from 'types/ivy-types';
@@ -11,7 +11,6 @@ interface Props {
     account: Account;
     isSelected: boolean;
     onAccountSelected: (account: Account) => void;
-    onAccountEdit: (account: Account) => void;
 }
 
 const iconSize = 20;
@@ -24,7 +23,7 @@ const AccountIcon = ({ account }) => {
     return <MdAccountBalance size={iconSize} />;
 };
 
-const AccountItem = ({ account, isSelected, onAccountSelected, onAccountEdit }: Props) => {
+const AccountItem = ({ account, isSelected, onAccountSelected }: Props) => {
     const amountFormatted = account.balance!.toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
@@ -34,8 +33,12 @@ const AccountItem = ({ account, isSelected, onAccountSelected, onAccountEdit }: 
     const defaultAmountDecimalPart = defaultAmountFormatted.substring(defaultAmountFormatted.indexOf('.'));
 
     return (
-        <Card style={isSelected ? { backgroundImage: 'linear-gradient(rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-primary-rgb), 0.1))' } : undefined}>
-            <Card.Body className="expense-item" onClick={() => onAccountSelected(account)}>
+        <Card
+            className="cursor-pointer"
+            onClick={() => onAccountSelected(account)}
+            style={isSelected ? { backgroundImage: 'linear-gradient(rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-primary-rgb), 0.1))' } : undefined}
+        >
+            <Card.Body className="expense-item">
                 <Badge bg="primary">
                     <AccountIcon account={account} />
                 </Badge>
@@ -47,20 +50,6 @@ const AccountItem = ({ account, isSelected, onAccountSelected, onAccountEdit }: 
                     </div>
                 </div>
                 <div className="expense-item-payment">
-                    <div className="expense-item-payment-type">
-                        <Button 
-                            variant="link" 
-                            className="text-primary"
-                            size="sm" 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onAccountEdit(account);
-                            }}
-                            style={{ padding: '0 8px' }}
-                        >
-                            <MdEdit size={18} />
-                        </Button>
-                    </div>
                     <div>
                         <span className="expense-item-amount">{amountWholePart}</span>
                         <span className="expense-item-amount-decimal">{amountDecimalPart}  {account.currency!.symbol}</span>
