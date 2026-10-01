@@ -260,6 +260,7 @@ const AccountsPage: React.FC = () => {
                             <BankAccounts
                                 key={bankId}
                                 accounts={accountsByBank[bankId]}
+                                selectedAccountId={selectedAccount?.id}
                                 onAccountSelected={onAccountSelected}
                                 onAccountEdit={onAccountEdit}
                             />

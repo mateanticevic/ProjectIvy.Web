@@ -9,6 +9,7 @@ type Account = components['schemas']['Account'];
 
 interface Props {
     account: Account;
+    isSelected: boolean;
     onAccountSelected: (account: Account) => void;
     onAccountEdit: (account: Account) => void;
 }
@@ -23,7 +24,7 @@ const AccountIcon = ({ account }) => {
     return <MdAccountBalance size={iconSize} />;
 };
 
-const AccountItem = ({ account, onAccountSelected, onAccountEdit }: Props) => {
+const AccountItem = ({ account, isSelected, onAccountSelected, onAccountEdit }: Props) => {
     const amountFormatted = account.balance!.toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
@@ -33,7 +34,7 @@ const AccountItem = ({ account, onAccountSelected, onAccountEdit }: Props) => {
     const defaultAmountDecimalPart = defaultAmountFormatted.substring(defaultAmountFormatted.indexOf('.'));
 
     return (
-        <Card>
+        <Card style={isSelected ? { backgroundImage: 'linear-gradient(rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-primary-rgb), 0.1))' } : undefined}>
             <Card.Body className="expense-item" onClick={() => onAccountSelected(account)}>
                 <Badge bg="primary">
                     <AccountIcon account={account} />

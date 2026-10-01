@@ -7,11 +7,12 @@ type Account = components['schemas']['Account'];
 
 interface Props {
     accounts: Account[],
+    selectedAccountId?: string;
     onAccountSelected: (account: Account) => void;
     onAccountEdit: (account: Account) => void;
 }
 
-const BankAccounts = ({ accounts, onAccountSelected, onAccountEdit }: Props) => {
+const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected, onAccountEdit }: Props) => {
 
     return (
         <React.Fragment>
@@ -20,6 +21,7 @@ const BankAccounts = ({ accounts, onAccountSelected, onAccountEdit }: Props) => 
                 <AccountItem 
                     key={account.id}
                     account={account} 
+                    isSelected={!!selectedAccountId && account.id === selectedAccountId}
                     onAccountSelected={onAccountSelected}
                     onAccountEdit={onAccountEdit}
                 />
