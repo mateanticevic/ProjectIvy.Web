@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, FormControl, FormGroup, FormLabel, Modal, FloatingLabel, Form } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
+import api from 'api/main';
 import { Select } from 'components';
 import { components } from 'types/ivy-types';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
@@ -24,10 +25,9 @@ interface Props {
     isEditing?: boolean;
 }
 
-const bankLoader = (value: string, callback: (options: any[]) => void) => {
-    // Placeholder - you may need to implement an API call for banks
-    // For now, returning empty array
-    callback([]);
+const bankLoader = async (value: string) => {
+    const banks = await api.bank.get({ Search: value });
+    return banks.items.map(bank => ({ value: bank.id!, label: bank.name! }));
 };
 
 const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave, isEditing = false }: Props) => {

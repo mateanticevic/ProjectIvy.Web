@@ -1,5 +1,6 @@
 import account from './account';
 import airport from './airport';
+import bank from './bank';
 import beer from './beer';
 import brand from './brand';
 import calendar from './calendar';
@@ -38,6 +39,7 @@ import workDay from './workDay';
 const api = {
     account,
     airport,
+    bank,
     beer,
     brand,
     calendar,
