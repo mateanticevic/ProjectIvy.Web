@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { Button, ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 import api from 'api/main';
 import { SmartScroll } from 'components';
@@ -207,11 +208,9 @@ const AccountsPage: React.FC = () => {
                             <div className="form-grid">
                                 <Button
                                     variant="primary"
-                                    size="sm"
-                                    className="mb-3"
                                     onClick={() => setIsModalOpen(true)}
                                 >
-                                    Add Account
+                                    <RiPlayListAddLine /> Add Account
                                 </Button>
                                 <ButtonGroup className="d-flex">
                                     <Button
