@@ -7,6 +7,7 @@ type AccountBinding = components['schemas']['AccountBinding'];
 type GetAccountQuery = paths['/Account']['get']['parameters']['query'];
 type TransactionBinding = components['schemas']['TransactionBinding'];
 type TransactionPagedView = components['schemas']['TransactionPagedView'];
+type ImportTransactionsQuery = paths['/Account/{accountId}/transaction/import']['post']['parameters']['query'];
 
 const get = (filters: GetAccountQuery): Promise<AccountPagedView> => api.get('account', filters);
 
@@ -17,6 +18,9 @@ const getTransactions = (
 
 const postTransaction = (accountId: string, data: TransactionBinding): Promise<number> => api.post(`account/${accountId}/transaction`, data);
 
+const postImportTransactions = (accountId: string, parameters?: ImportTransactionsQuery): Promise<number> =>
+    api.post(`account/${accountId}/transaction/import`, undefined, parameters);
+
 const post = (account: AccountBinding): Promise<number> => api.post('account', account);
 
 const put = (accountId: string, account: AccountBinding): Promise<number> => api.put(`account/${accountId}`, account);
@@ -25,6 +29,7 @@ const account = {
     get,
     getTransactions,
     postTransaction,
+    postImportTransactions,
     post,
     put,
 };

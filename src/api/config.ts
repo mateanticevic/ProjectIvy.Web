@@ -90,7 +90,7 @@ export function patch(resource: string, json?: object, parameters?: string) {
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
-export function post(resource: string, json?: object, parameters?: string) {
+export function post(resource: string, json?: object, parameters?: string | object) {
 
     const headers = new Headers();
     headers.append(httpHeader.CONTENT_TYPE, httpContentType.JSON);
