@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
 import { useDropzone } from 'react-dropzone';
 import { getFilesFromEvent } from 'utils/dropzone-helper';
-import { Button, ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Col, Container, FormControl, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import { RiPlayListAddLine } from 'react-icons/ri';
+import AsyncSelect from 'react-select/async';
 
 import api from 'api/main';
 import { SmartScroll } from 'components';
@@ -12,6 +13,12 @@ import AccountModal from './account-modal';
 import TransactionModal from './transaction-modal';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
+import { useReactSelectStyles } from 'utils/react-select-dark-theme';
+
+const bankLoader = async (search: string) => {
+    const banks = await api.bank.get({ Search: search });
+    return banks.items.map(bank => ({ value: bank.id!, label: bank.name! }));
+};
 
 enum AccountFilter {
     Active = 'active',
@@ -63,28 +70,47 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
     const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [editingAccountId, setEditingAccountId] = useState<string | undefined>();
     const [accountFilter, setAccountFilter] = useState<AccountFilter>(AccountFilter.Active);
+    const [selectedBanks, setSelectedBanks] = useState<{ value: string; label: string }[]>([]);
+    const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const accountRequestVersion = useRef(0);
+    const reactSelectStyles = useReactSelectStyles();
+
+    const accountParams = {
+        ...(accountFilter === AccountFilter.All ? {} : { IsActive: accountFilter === AccountFilter.Active }),
+        ...(selectedBanks.length ? { BankIds: selectedBanks.map(bank => bank.value) } : {}),
+        ...(debouncedSearch ? { Search: debouncedSearch } : {}),
+    };
 
     const loadAccounts = async () => {
-        const params = accountFilter === AccountFilter.All ? {} : { IsActive: accountFilter === AccountFilter.Active };
-        const accountsResponse = await api.account.get(params);
+        const version = ++accountRequestVersion.current;
+        const accountsResponse = await api.account.get({ ...accountParams, Page: 1 });
+        if (version !== accountRequestVersion.current) return;
         setAccounts({
             count: accountsResponse?.count ?? 0,
             items: accountsResponse?.items ?? []
         });
-        setAccountsPage(0);
+        setAccountsPage(1);
     };
 
     useEffect(() => {
         const loadData = async () => {
-            await loadAccounts();
             setCurrencies(await api.currency.get());
         };
         loadData();
     }, []);
 
     useEffect(() => {
-        loadAccounts();
-    }, [accountFilter]);
+        const timeout = setTimeout(() => setDebouncedSearch(search.trim()), 300);
+        return () => clearTimeout(timeout);
+    }, [search]);
+
+    useEffect(() => {
+        loadAccounts().catch(error => {
+            console.error('Failed to load accounts:', error);
+        });
+        return () => { accountRequestVersion.current++; };
+    }, [accountFilter, selectedBanks, debouncedSearch]);
 
     const onAccountSelected = async (account: Account) => {
         selectedAccountId.current = account.id;
@@ -152,9 +178,10 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
     };
 
     const getNextAccountsPage = async () => {
+        const version = accountRequestVersion.current;
         const nextPage = accountsPage + 1;
-        const params = accountFilter === AccountFilter.All ? { Page: nextPage } : { IsActive: accountFilter === AccountFilter.Active, Page: nextPage };
-        const response = await api.account.get(params);
+        const response = await api.account.get({ ...accountParams, Page: nextPage });
+        if (version !== accountRequestVersion.current) return;
         setAccountsPage(nextPage);
         setAccounts({
             count: response.count ?? 0,
@@ -270,6 +297,28 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
                                         All
                                     </Button>
                                 </ButtonGroup>
+                                <FormGroup>
+                                    <FormLabel htmlFor="account-bank-filter">Banks</FormLabel>
+                                    <AsyncSelect
+                                        inputId="account-bank-filter"
+                                        defaultOptions
+                                        isMulti
+                                        isClearable
+                                        loadOptions={bankLoader}
+                                        value={selectedBanks}
+                                        onChange={banks => setSelectedBanks([...banks])}
+                                        styles={reactSelectStyles}
+                                    />
+                                </FormGroup>
+                                <FormGroup controlId="account-search-filter">
+                                    <FormLabel>Search</FormLabel>
+                                    <FormControl
+                                        type="search"
+                                        placeholder="Search accounts"
+                                        value={search}
+                                        onChange={event => setSearch(event.target.value)}
+                                    />
+                                </FormGroup>
                             </div>
 
                         </Card.Body>
