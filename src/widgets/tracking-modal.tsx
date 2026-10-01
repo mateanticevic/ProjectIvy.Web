@@ -6,6 +6,7 @@ import { Map } from 'components';
 import { components } from 'types/ivy-types';
 import { trackingsToLatLng } from 'utils/gmap-helper';
 import api from 'api/main';
+import colorTokens from 'styles/color-tokens.module.scss';
 
 type Tracking = components['schemas']['Tracking'];
 
@@ -64,7 +65,7 @@ const TrackingModal = ({ isOpen, onClose, from, to }: Props) => {
                             <Polyline
                                 onLoad={polyline => setPolyline(polyline)}
                                 path={trackingsToLatLng(trackings)}
-                                options={{ strokeColor: '#0000FF', strokeWeight: 5 }}
+                                options={{ strokeColor: colorTokens.colorPrimary, strokeWeight: 5 }}
                             />
                         )}
                     </Map>
