@@ -274,8 +274,24 @@ const AccountsPage: React.FC = () => {
                     >
                         {transactions.items.map((transaction, index) =>
                             <Card key={index}>
-                                <Card.Body>
-                                    {moment(transaction.created).format('D MMM YYYY')} {transaction.description} {transaction.amount}
+                                <Card.Body className="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                    <div className="flex-grow-1" style={{ minWidth: 0, flexBasis: '50%' }}>
+                                        <time dateTime={moment(transaction.created).format('YYYY-MM-DD')} className="d-block small text-body-secondary mb-1">
+                                            {moment(transaction.created).format('D MMM YYYY')}
+                                        </time>
+                                        <div className="fw-medium text-break">
+                                            {transaction.description || 'Transaction'}
+                                        </div>
+                                    </div>
+                                    <div
+                                        className={`fs-5 fw-semibold text-end ms-auto ${transaction.amount > 0 ? 'text-success-emphasis' : transaction.amount < 0 ? 'text-danger-emphasis' : 'text-body-secondary'}`}
+                                        style={{ fontVariantNumeric: 'tabular-nums' }}
+                                    >
+                                        {transaction.amount > 0 && '+'}{transaction.amount?.toFixed(2)}
+                                        {selectedAccount?.currency?.symbol && (
+                                            <span className="small fw-normal ms-1">{selectedAccount.currency.symbol}</span>
+                                        )}
+                                    </div>
                                 </Card.Body>
                             </Card>
                         )}
