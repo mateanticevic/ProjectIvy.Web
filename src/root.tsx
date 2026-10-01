@@ -32,6 +32,7 @@ import ExpenseTypesPage from 'pages/expense-types';
 import TodoPage from 'pages/todo';
 import JournalPage from 'pages/journal';
 import RoutesPage from 'pages/routes';
+import NetWorthPage from 'pages/net-worth';
 
 interface State {
     error?: string,
@@ -149,6 +150,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/flights" element={<FlightsV2Page />} />
                                     <Route path="/flights-old" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
+                                    <Route path="/net-worth" element={<NetWorthPage />} />
                                     <Route path="/inventory" element={<InventoryPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
                                     <Route path="/places" element={<PlacesPage />} />

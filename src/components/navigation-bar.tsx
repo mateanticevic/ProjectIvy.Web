@@ -36,6 +36,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                             <NavDropdown.Item as={Link} to="/accounts"><MdAccountBalance /> Accounts</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/expenses"><GiPayMoney /> Expenses</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/incomes"><GiReceiveMoney /> Incomes</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/net-worth"><MdAccountBalance /> Net worth</NavDropdown.Item>
                         </NavDropdown>
                     }
                     {identity.pif?.includes(Feature.Tracking) &&

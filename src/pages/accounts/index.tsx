@@ -229,16 +229,6 @@ const AccountsPage: React.FC = () => {
                     </Card>
                 </Col>
                 <Col lg={4}>
-                    {selectedAccount && (
-                        <Button
-                            variant="success"
-                            size="sm"
-                            className="mb-3 ms-2"
-                            onClick={() => setIsTransactionModalOpen(true)}
-                        >
-                            New Transaction
-                        </Button>
-                    )}
                     <SmartScroll
                         dataLength={accounts.items.length}
                         hasMore={accounts.items.length < accounts.count}
@@ -255,6 +245,15 @@ const AccountsPage: React.FC = () => {
                     </SmartScroll>
                 </Col>
                 <Col lg={5}>
+                    {selectedAccount && (
+                        <Button
+                            variant="primary"
+                            className="w-100 mb-3"
+                            onClick={() => setIsTransactionModalOpen(true)}
+                        >
+                            New Transaction
+                        </Button>
+                    )}
                     <SmartScroll
                         dataLength={transactions.items.length}
                         hasMore={transactions.items.length < transactions.count}
