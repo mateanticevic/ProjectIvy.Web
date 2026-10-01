@@ -5,6 +5,7 @@ import AsyncSelect from 'react-select/async';
 import { Chart } from 'react-google-charts';
 import _ from 'lodash';
 import moment from 'moment';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
 import TripModal from './trip-modal';
 import StayModal from './stay-modal';
@@ -139,8 +140,20 @@ class TripsPage extends Page<unknown, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Filters</Card.Header>
                             <Card.Body>
+                                <div className="form-grid">
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => this.setState({ isModalOpen: true })}>
+                                        <RiPlayListAddLine /> New
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        variant="secondary"
+                                        onClick={() => this.setState({ isStayModalOpen: true })}>
+                                        Add Stay
+                                    </Button>
+                                </div>
                                 <DateFormElement
                                     label="From"
                                     onChange={date => this.onFiltersChanged({ from: date })}
@@ -173,20 +186,6 @@ class TripsPage extends Page<unknown, State> {
                                 </FormGroup>
                             </Card.Body>
                         </Card>
-                        <div className="form-grid">
-                            <Button
-                                size="sm"
-                                variant="primary"
-                                onClick={() => this.setState({ isModalOpen: true })}>
-                                New
-                            </Button>
-                            <Button
-                                size="sm"
-                                variant="secondary"
-                                onClick={() => this.setState({ isStayModalOpen: true })}>
-                                Add Stay
-                            </Button>
-                        </div>
                     </Col>
                     <Col lg={6}>
                         <Row>
