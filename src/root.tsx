@@ -136,7 +136,7 @@ export default class Root extends React.Component<{}, State> {
                                 }
                                 <Routes>
                                     <Route path="/" element={<DashboardPage />} />
-                                    <Route path="/accounts" element={<AccountsPage />} />
+                                    <Route path="/accounts" element={<AccountsPage toast={this.toast} />} />
                                     <Route path="/beer" element={<BeerPage toast={this.toast} />} />
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
                                     <Route path="/calendar" element={<CalendarYearPage />} />

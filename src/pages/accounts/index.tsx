@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import _ from 'lodash';
+import { useDropzone } from 'react-dropzone';
+import { getFilesFromEvent } from 'utils/dropzone-helper';
 import { Button, ButtonGroup, Card, Col, Container, Row } from 'react-bootstrap';
 import { RiPlayListAddLine } from 'react-icons/ri';
 
@@ -34,7 +36,9 @@ type TransactionBinding = {
     date: string;
 };
 
-const AccountsPage: React.FC = () => {
+const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }> = ({ toast }) => {
+    const selectedAccountId = useRef<string | null | undefined>(undefined);
+    const [isImporting, setIsImporting] = useState(false);
     const [accounts, setAccounts] = useState<{ count: number; items: Account[] }>({
         count: 0,
         items: [],
@@ -83,6 +87,7 @@ const AccountsPage: React.FC = () => {
     }, [accountFilter]);
 
     const onAccountSelected = async (account: Account) => {
+        selectedAccountId.current = account.id;
         const response = await api.account.getTransactions(account.id!);
         setSelectedAccount(account);
         setTransactions({
@@ -91,6 +96,48 @@ const AccountsPage: React.FC = () => {
         });
         setTransactionsPage(1);
     };
+
+    const { getRootProps, getInputProps, open } = useDropzone({
+        getFilesFromEvent,
+        accept: { 'text/csv': ['.csv'] },
+        multiple: false,
+        noClick: true,
+        noKeyboard: true,
+        disabled: isImporting || !selectedAccount?.id || selectedAccount.transactionSource == null,
+        onDrop: async (files, rejections) => {
+            if (rejections.length > 0) {
+                toast('Failed', 'Please select a single CSV file.');
+                return;
+            }
+            if (!files.length || !selectedAccount?.id || selectedAccount.transactionSource == null) return;
+
+            const accountId = selectedAccount.id;
+            setIsImporting(true);
+            try {
+                await api.account.postImportTransactions(accountId, files[0], {
+                    transactionSource: selectedAccount.transactionSource
+                });
+                toast('Success', 'Transactions imported successfully.');
+            } catch {
+                toast('Failed', 'Failed to import transactions.');
+                setIsImporting(false);
+                return;
+            }
+
+            try {
+                const response = await api.account.getTransactions(accountId);
+                if (selectedAccountId.current === accountId) {
+                    setTransactions({ count: response.count ?? 0, items: response.items ?? [] });
+                    setTransactionsPage(1);
+                }
+            } catch {
+                toast('Failed', 'Transactions imported, but the transaction list could not be refreshed.');
+            } finally {
+                setIsImporting(false);
+            }
+        },
+        onError: () => toast('Failed', 'Failed to read the CSV file.')
+    });
 
     const getNextPage = async () => {
         if (!selectedAccount?.id) return;
@@ -246,13 +293,23 @@ const AccountsPage: React.FC = () => {
                 </Col>
                 <Col lg={5}>
                     {selectedAccount && (
-                        <Button
-                            variant="primary"
-                            className="w-100 mb-3"
-                            onClick={() => setIsTransactionModalOpen(true)}
-                        >
-                            New Transaction
-                        </Button>
+                        <div className="d-flex gap-2 mb-3">
+                            <Button
+                                variant="primary"
+                                className="flex-grow-1"
+                                onClick={() => setIsTransactionModalOpen(true)}
+                            >
+                                New Transaction
+                            </Button>
+                            {selectedAccount.transactionSource != null && (
+                                <div {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    <Button variant="primary" onClick={open} disabled={isImporting}>
+                                        {isImporting ? 'Importing...' : 'Import Transactions'}
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     )}
                     <SmartScroll
                         dataLength={transactions.items.length}

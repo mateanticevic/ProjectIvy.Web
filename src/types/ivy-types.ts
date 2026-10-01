@@ -14,7 +14,9 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    BankIds?: string[];
                     IsActive?: boolean;
+                    Search?: string;
                     Page?: number;
                     PageAll?: boolean;
                     PageSize?: number;
@@ -11613,6 +11615,7 @@ export interface components {
             iban?: string | null;
             id?: string | null;
             name?: string | null;
+            transactionSource?: components["schemas"]["TransactionSource"];
         };
         AccountBinding: {
             active?: boolean;
@@ -12843,7 +12846,7 @@ export interface components {
             items?: components["schemas"]["Transaction"][] | null;
         };
         /** @enum {string} */
-        TransactionSource: "hac" | "otpBank" | "revolut";
+        TransactionSource: "hac" | "otpBank" | "revolut" | "zabaBank";
         Trip: {
             cities?: components["schemas"]["City"][] | null;
             countries?: components["schemas"]["Country"][] | null;

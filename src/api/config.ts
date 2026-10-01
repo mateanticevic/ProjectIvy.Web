@@ -107,7 +107,7 @@ export function post(resource: string, json?: object, parameters?: string | obje
     return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
-export function postFile(resource: string, file: File) {
+export function postFile(resource: string, file: File, parameters?: object) {
 
     const headers = new Headers();
     headers.append(httpHeader.CONTENT_TYPE, file.type);
@@ -121,7 +121,7 @@ export function postFile(resource: string, file: File) {
         mode: 'cors',
     };
 
-    return fetch(apiPath(resource), init).then(handleResponse);
+    return fetch(apiPath(resource, parameters), init).then(handleResponse);
 }
 
 export function put(resource: string, json: object) {

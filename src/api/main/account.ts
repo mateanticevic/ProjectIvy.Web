@@ -18,8 +18,8 @@ const getTransactions = (
 
 const postTransaction = (accountId: string, data: TransactionBinding): Promise<number> => api.post(`account/${accountId}/transaction`, data);
 
-const postImportTransactions = (accountId: string, parameters?: ImportTransactionsQuery): Promise<number> =>
-    api.post(`account/${accountId}/transaction/import`, undefined, parameters);
+const postImportTransactions = (accountId: string, file: File, parameters?: ImportTransactionsQuery): Promise<number> =>
+    api.postFile(`account/${accountId}/transaction/import`, file, parameters);
 
 const post = (account: AccountBinding): Promise<number> => api.post('account', account);
 
