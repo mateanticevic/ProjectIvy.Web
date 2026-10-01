@@ -6,11 +6,12 @@ import { UploadedFile } from 'types/common';
 import { ExpenseFileRow } from './expense-file-row';
 import { ExpenseFileUploadRow } from './expense-file-upload-row';
 import { components } from 'types/ivy-types';
+import { getFilesFromEvent } from 'utils/dropzone-helper';
 
 type ExpenseFile = components['schemas']['ExpenseFile'];
 
 const ExpenseFormFilesTab = ({ uploadFile, files, linkFile, deleteFile, fileTypes }) => {
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ getFilesFromEvent });
     const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
     useEffect(() => {

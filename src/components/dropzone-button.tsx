@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from 'react-bootstrap';
+import { getFilesFromEvent } from 'utils/dropzone-helper';
 
 interface DropzoneButtonProps {
     title: string;
@@ -8,7 +9,7 @@ interface DropzoneButtonProps {
 }
 
 const DropzoneButton = ({ title, onSelected }) => {
-    const { getRootProps, getInputProps } = useDropzone({ onDrop: onSelected });
+    const { getRootProps, getInputProps } = useDropzone({ onDrop: onSelected, getFilesFromEvent });
 
     return (
         <div {...getRootProps()} style={{ display: 'inline-block' }}>
