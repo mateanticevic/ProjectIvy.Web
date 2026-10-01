@@ -160,25 +160,25 @@ const DashboardPage: React.FC = () => {
             <Container>
                 <div className="flex-grid">
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                     <div className="flex-grid-item">
-                        <Skeleton width={430} height={272} />
+                        <Skeleton width="100%" height={272} />
                     </div>
                 </div>
             </Container>
