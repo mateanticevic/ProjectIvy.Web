@@ -34,6 +34,8 @@ const FlightsV2Page: React.FC = () => {
     const [count, setCount] = useState(0);
     const [countBy, setCountBy] = useState(CountByFlights.Airline);
     const [countByData, setCountByData] = useState<any>([]);
+    const [countByYearData, setCountByYearData] = useState<unknown[] | null>(null);
+    const [yearCountError, setYearCountError] = useState(false);
     const [filter, setFilter] = useState<Filter>({ page: 1, pageSize: 10 });
     const [flight, setFlight] = useState<Flight>({} as Flight);
     const [flightBinding, setFlightBinding] = useState<FlightBinding>({} as FlightBinding);
@@ -43,6 +45,19 @@ const FlightsV2Page: React.FC = () => {
     useEffect(() => {
         fetchData();
     }, [filter]);
+
+    useEffect(() => {
+        let cancelled = false;
+        api.flight.getCountByYear({ PageAll: true })
+            .then(data => {
+                if (!cancelled) setCountByYearData(data);
+            })
+            .catch(error => {
+                console.error('Failed to load flights per year:', error);
+                if (!cancelled) setYearCountError(true);
+            });
+        return () => { cancelled = true; };
+    }, []);
 
     const fetchData = () => {
         api.flight.get(filter)
@@ -133,6 +148,17 @@ const FlightsV2Page: React.FC = () => {
                         name="Top 10"
                         onGroupByChange={onCountByChange}
                     />
+                    {yearCountError ? (
+                        <Card>
+                            <Card.Header>Flights per year</Card.Header>
+                            <Card.Body role="alert">Could not load flights per year.</Card.Body>
+                        </Card>
+                    ) : (
+                        <DistributionCard
+                            data={countByYearData}
+                            name="Flights per year"
+                        />
+                    )}
                 </Col>
             </Row>
             <FlightModal
