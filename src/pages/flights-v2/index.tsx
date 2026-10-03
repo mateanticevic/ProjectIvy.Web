@@ -155,7 +155,7 @@ const FlightsV2Page: React.FC = () => {
                         </Card>
                     ) : (
                         <DistributionCard
-                            data={countByYearData}
+                            data={countByYearData?.reverse()}
                             name="Flights per year"
                         />
                     )}
