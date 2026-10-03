@@ -84,7 +84,7 @@ export default class Root extends React.Component<{}, State> {
             })
                 .then(response => response.json())
                 .then(data => {
-                    document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};`;
+                    document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};max-age=${5 * 24 * 60 * 60};`;
                     location = '/';
                 })
                 .catch(error => {
