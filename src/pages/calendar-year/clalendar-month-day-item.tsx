@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import moment from 'moment';
 import { Dropdown } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     CalendarDateBinary,
     CalendarDateFlag,
@@ -59,7 +59,12 @@ export const CalendarMonthDayItem = ({ date, isLoading, isSelected, showDate, on
         >
             <Dropdown.Menu show={isSelected}>
                 <Dropdown.Header>
-                    {date.date.format('dddd Do')}
+                    <Link
+                        to={`/calendar/${date.date.format('YYYY/M/D')}`}
+                        onClick={e => e.stopPropagation()}
+                    >
+                        {date.date.format('dddd Do')}
+                    </Link>
                     {isCalendarDateText(date) && date.description && (
                         <div>{date.description}</div>
                     )}
