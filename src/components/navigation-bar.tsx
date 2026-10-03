@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { FaRegCalendarAlt, FaRoute, FaShapes, FaBook } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { GiAirplaneDeparture, GiReceiveMoney, GiPayMoney } from 'react-icons/gi';
@@ -18,76 +18,102 @@ interface Props {
     onThemeToggle?: () => void;
 }
 
-const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
-    <Navbar
-        collapseOnSelect
-        expand="lg"
-        fixed="top"
-        bg={theme === 'dark' ? 'dark' : 'light'}
-        variant={theme === 'dark' ? 'dark' : 'light'}
-    >
-        <Container fluid>
-            <Navbar.Brand><Link to="/">Project Ivy</Link></Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav>
-                    {identity.pif?.includes(Feature.Beer) &&
-                        <NavDropdown id="nav-dropdown-finance" title="Finance">
-                            <NavDropdown.Item as={Link} to="/accounts"><MdAccountBalance /> Accounts</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/expenses"><GiPayMoney /> Expenses</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/incomes"><GiReceiveMoney /> Incomes</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/net-worth"><MdAccountBalance /> Net worth</NavDropdown.Item>
-                        </NavDropdown>
-                    }
-                    {identity.pif?.includes(Feature.Tracking) &&
-                        <NavDropdown id="nav-dropdown-travel" title="Travel">
-                            <NavDropdown.Item as={Link} to="/flights"><GiAirplaneDeparture /> Flights</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/flights-old"><GiAirplaneDeparture /> Flights (old)</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/places"><TiLocation /> Places</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/pois"><TiLocation /> Pois</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/tracking"><FaRoute /> Tracking</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/tracking-old"><FaRoute /> Tracking (old)</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/routes"><FaRoute /> Routes</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/trips"><MdCardTravel /> Trips</NavDropdown.Item>
-                        </NavDropdown>
-                    }
-                    {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies) || identity.scope.includes(Scopes.BeerUser)) &&
-                        <NavDropdown id="nav-dropdown-other" title="Other">
+const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
+    const [show, setShow] = useState(false);
+    const closeNavigation = () => setShow(false);
+
+    useEffect(() => {
+        const desktop = window.matchMedia('(min-width: 992px)');
+        const closeOnBreakpointChange = () => setShow(false);
+        desktop.addEventListener('change', closeOnBreakpointChange);
+        return () => desktop.removeEventListener('change', closeOnBreakpointChange);
+    }, []);
+
+    return (
+        <>
+            <Navbar as="header" role="banner" expand={false} fixed="top" className="d-lg-none navigation-mobile-header" expanded={show}>
+                <Container fluid>
+                    <Navbar.Brand as={Link} to="/" onClick={closeNavigation}>Project Ivy</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="ivy-navigation" aria-expanded={show} onClick={() => setShow(!show)} />
+                </Container>
+            </Navbar>
+            <Offcanvas
+                id="ivy-navigation"
+                className="navigation-sidebar"
+                placement="start"
+                responsive="lg"
+                show={show}
+                onHide={closeNavigation}
+                aria-labelledby="ivy-navigation-title"
+            >
+                <Offcanvas.Header className="d-lg-none" closeButton>
+                    <Offcanvas.Title id="ivy-navigation-title">Project Ivy</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    <Navbar.Brand as={Link} to="/" className="d-none d-lg-block mb-4" onClick={closeNavigation}>Project Ivy</Navbar.Brand>
+                    <Nav as="nav" aria-label="Main navigation" className="flex-column" onSelect={closeNavigation}>
+                        {identity.pif?.includes(Feature.Beer) &&
+                        <section className="mb-3" aria-label="Finance">
+                            <h2 className="navigation-group-title">Finance</h2>
+                            <Nav.Link as={Link} eventKey="/accounts" to="/accounts"><MdAccountBalance /> Accounts</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/expenses" to="/expenses"><GiPayMoney /> Expenses</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/incomes" to="/incomes"><GiReceiveMoney /> Incomes</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/net-worth" to="/net-worth"><MdAccountBalance /> Net worth</Nav.Link>
+                        </section>
+                        }
+                        {identity.pif?.includes(Feature.Tracking) &&
+                        <section className="mb-3" aria-label="Travel">
+                            <h2 className="navigation-group-title">Travel</h2>
+                            <Nav.Link as={Link} eventKey="/flights" to="/flights"><GiAirplaneDeparture /> Flights</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/flights-old" to="/flights-old"><GiAirplaneDeparture /> Flights (old)</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/places" to="/places"><TiLocation /> Places</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/pois" to="/pois"><TiLocation /> Pois</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/tracking" to="/tracking"><FaRoute /> Tracking</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/tracking-old" to="/tracking-old"><FaRoute /> Tracking (old)</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/routes" to="/routes"><FaRoute /> Routes</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/trips" to="/trips"><MdCardTravel /> Trips</Nav.Link>
+                        </section>
+                        }
+                        {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies) || identity.scope.includes(Scopes.BeerUser)) &&
+                        <section className="mb-3" aria-label="Other">
+                            <h2 className="navigation-group-title">Other</h2>
                             {identity.scope.includes(Scopes.BeerUser) &&
-                                <NavDropdown.Item as={Link} to="/beer"><TiBeer /> Beer</NavDropdown.Item>
+                                <Nav.Link as={Link} eventKey="/beer" to="/beer"><TiBeer /> Beer</Nav.Link>
                             }
-                            <NavDropdown.Item as={Link} to="/calendar"><FaRegCalendarAlt /> Calendar</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/inventory"><MdInventory /> Inventory</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/journal"><FaBook /> Journal</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/todo"><LuListTodo /> Todo</NavDropdown.Item>
+                            <Nav.Link as={Link} eventKey="/calendar" to="/calendar"><FaRegCalendarAlt /> Calendar</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/inventory" to="/inventory"><MdInventory /> Inventory</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/journal" to="/journal"><FaBook /> Journal</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/todo" to="/todo"><LuListTodo /> Todo</Nav.Link>
                             {identity.pif?.includes(Feature.Calls) &&
-                                <NavDropdown.Item as={Link} to="/calls"><MdCall /> Calls</NavDropdown.Item>
+                                <Nav.Link as={Link} eventKey="/calls" to="/calls"><MdCall /> Calls</Nav.Link>
                             }
                             {identity.pif?.includes(Feature.Movies) &&
-                                <NavDropdown.Item as={Link} to="/movies"><MdLocalMovies /> Movies</NavDropdown.Item>
+                                <Nav.Link as={Link} eventKey="/movies" to="/movies"><MdLocalMovies /> Movies</Nav.Link>
                             }
-                        </NavDropdown>
-                    }
-                    <NavDropdown id="nav-dropdown-admin" title="Admin">
-                        <NavDropdown.Item as={Link} to="/beer/admin"><TiBeer /> Manage beers</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/expense-types"><FaShapes /> Expense Types</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown id="nav-dropdown-account" title={identity.name}>
-                        <NavDropdown.Item as={Link} to="/account"><RiAccountCircleLine /> My account</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item><FiLogOut /> <Link to="/not-found" onClick={logOut}>Logout</Link></NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-                <Nav className="ms-auto">
-                    {onThemeToggle && (
-                        <Nav.Link aria-label="Toggle theme" onClick={onThemeToggle}>
-                            {theme === 'light' ? <BsMoonStarsFill /> : <BsSunFill />}
-                        </Nav.Link>
-                    )}
-                </Nav>
-            </Navbar.Collapse>
-        </Container>
-    </Navbar >;
+                        </section>
+                        }
+                        <section className="mb-3" aria-label="Admin">
+                            <h2 className="navigation-group-title">Admin</h2>
+                            <Nav.Link as={Link} eventKey="/beer/admin" to="/beer/admin"><TiBeer /> Manage beers</Nav.Link>
+                            <Nav.Link as={Link} eventKey="/expense-types" to="/expense-types"><FaShapes /> Expense Types</Nav.Link>
+                        </section>
+                        <section className="mb-3" aria-label={identity.name}>
+                            <h2 className="navigation-group-title">{identity.name}</h2>
+                            <Nav.Link as={Link} eventKey="/account" to="/account"><RiAccountCircleLine /> My account</Nav.Link>
+                            <hr className="my-2" />
+                            <Nav.Link as={Link} eventKey="/not-found" to="/not-found" onClick={logOut}><FiLogOut /> Logout</Nav.Link>
+                        </section>
+                        {onThemeToggle && (
+                            <Nav.Link as="button" className="text-start" aria-label="Toggle theme" onClick={onThemeToggle}>
+                                {theme === 'light' ? <BsMoonStarsFill /> : <BsSunFill />} Toggle theme
+                            </Nav.Link>
+                        )}
+                    </Nav>
+                </Offcanvas.Body>
+            </Offcanvas>
+        </>
+    );
+};
 
 const logOut = () => {
     document.cookie = `AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;

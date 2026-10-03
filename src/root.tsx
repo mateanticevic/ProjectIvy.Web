@@ -135,6 +135,7 @@ export default class Root extends React.Component<{}, State> {
                                         onThemeToggle={this.toggleTheme}
                                     />
                                 }
+                            <main className="main-content">
                                 <Routes>
                                     <Route path="/" element={<DashboardPage />} />
                                     <Route path="/accounts" element={<AccountsPage toast={this.toast} />} />
@@ -165,6 +166,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/trips" element={<TripsPage />} />
                                     <Route path="/trips/:id" element={<TripDetailsPage />} />
                                 </Routes>
+                            </main>
                                 <Toast
                                     autohide
                                     delay={5000}
