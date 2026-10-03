@@ -1,203 +1,176 @@
-import _ from 'lodash';
-import React from 'react';
-import { Col, Container, Badge, ListGroup, ListGroupItem, Card, Row, Button, FormGroup, FormLabel, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import { FaArrowRight, FaPlus } from 'react-icons/fa';
-import { Marker, Polyline } from '@react-google-maps/api';
-import moment from 'moment';
-import AsyncSelect from 'react-select/async';
-
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import api from 'api/main';
-import { DateFormElement, Map } from 'components';
-import { Page } from 'pages/page';
-import FlightModal from './flight-modal';
-import { airportLoader } from 'utils/select-loaders';
+import FlightItem from './flight-item';
 import { components } from 'types/ivy-types';
+import FlightModal from './flight-modal';
+import { DistributionCard, SmartScroll } from 'components';
+import { RiPlayListAddLine } from 'react-icons/ri';
 
+type Flight = components['schemas']['Flight'];
 type FlightBinding = components['schemas']['FlightBinding'];
 
-enum MapMode {
-    Airports,
-    Flights,
+interface Filter {
+    page: number;
+    pageSize: number;
 }
 
-interface State {
-    countByAirport: any,
-    filters: any,
-    flight: FlightBinding,
-    flights: any,
-    isModalOpen: boolean,
-    mapMode: MapMode,
+enum CountByFlights {
+    Airline,
+    Airport,
 }
 
-class FlightsPage extends Page<unknown, State> {
+const countByOptions = [
+    { value: CountByFlights.Airline, name: 'Airline' },
+    { value: CountByFlights.Airport, name: 'Airport' },
+];
 
-    state: State = {
-        countByAirport: [],
-        filters: {
-            page: 1,
-            pageAll: true,
-        },
-        flight: {
-        },
-        flights: {
-            count: 0,
-            items: [],
-        },
-        isModalOpen: false,
-        mapMode: MapMode.Airports,
-    };
+const countApiMapping = {
+    [CountByFlights.Airline]: api.flight.getCountByAirline,
+    [CountByFlights.Airport]: api.flight.getCountByAirport,
+};
 
-    componentDidMount() {
-        this.onFiltersChange();
-    }
+const FlightsPage: React.FC = () => {
+    const [count, setCount] = useState(0);
+    const [countBy, setCountBy] = useState(CountByFlights.Airline);
+    const [countByData, setCountByData] = useState<any>([]);
+    const [countByYearData, setCountByYearData] = useState<unknown[] | null>(null);
+    const [yearCountError, setYearCountError] = useState(false);
+    const [filter, setFilter] = useState<Filter>({ page: 1, pageSize: 10 });
+    const [flight, setFlight] = useState<Flight>({} as Flight);
+    const [flightBinding, setFlightBinding] = useState<FlightBinding>({} as FlightBinding);
+    const [flights, setFlights] = useState<Flight[]>([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    render() {
-        const { countByAirport, filters, flights, isModalOpen, mapMode } = this.state;
+    useEffect(() => {
+        fetchData();
+    }, [filter]);
 
-        const flightItems = flights.items.map(flight => <ListGroupItem key={_.uniqueId('list_item_flight_')} className="border-no-radius border-no-left border-no-right">
-            <Badge variant="primary" title={flight.origin.name}>{flight.origin.iata}</Badge>&nbsp;
-            <FaArrowRight />&nbsp;
-            <Badge variant="primary" title={flight.destination.name}>{flight.destination.iata}</Badge>
-            <div className="pull-right" format="Do MMMM YYYY">{moment(flight.departure).format('Do MMMM YYYY')}</div>
-        </ListGroupItem>);
-
-        return (
-            <Container>
-                <Row>
-                    <Col lg={9}>
-                        <Card>
-                            <Card.Header>
-                                Map
-                                <Button
-                                    className="pull-right"
-                                    variant="primary"
-                                    size="sm"
-                                    onClick={() => this.setState({ isModalOpen: true })}
-                                >
-                                    <FaPlus /> New
-                                </Button>
-                            </Card.Header>
-                            <Card.Body className="padding-0 panel-large">
-                                <Map defaultZoom={2}>
-                                    {mapMode === MapMode.Airports &&
-                                        countByAirport.map(airport =>
-                                            <Marker
-                                                key={_.uniqueId('marker_airport_')}
-                                                label={{ text: airport.value.toString() }}
-                                                position={{ lat: airport.key.poi.location.latitude, lng: airport.key.poi.location.longitude }}
-                                            />
-                                        )
-                                    }
-                                    {mapMode === MapMode.Flights &&
-                                        flights.items.map(flight =>
-                                            <Polyline
-                                                key={_.uniqueId('polyline_flight_')}
-                                                options={{ strokeColor: '#305ea8', strokeOpacity: 0.4, strokeWeight: 4 }}
-                                                path={[{ lat: flight.origin.poi.location.latitude, lng: flight.origin.poi.location.longitude }, { lat: flight.destination.poi.location.latitude, lng: flight.destination.poi.location.longitude }]}
-                                            />)
-                                    }
-                                </Map>
-                            </Card.Body>
-                            <Card.Footer>
-                                <ToggleButtonGroup
-                                    type="radio"
-                                    size="sm"
-                                    name="options"
-                                    value={mapMode}
-                                    onChange={mapMode => this.setState({ mapMode })}
-                                >
-                                    <ToggleButton id="mode-airports" value={MapMode.Airports}>Airports</ToggleButton>
-                                    <ToggleButton id="mode-flights" value={MapMode.Flights}>Flights</ToggleButton>
-                                </ToggleButtonGroup>
-                            </Card.Footer>
-                        </Card>
-                    </Col>
-                    <Col lg={3}>
-                        <Row>
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>Filters</Card.Header>
-                                    <Card.Body>
-                                        <DateFormElement
-                                            label="From"
-                                            onChange={date => this.onFiltersChange({ from: date })}
-                                            value={filters.from}
-                                        />
-                                        <DateFormElement
-                                            label="To"
-                                            onChange={date => this.onFiltersChange({ to: date })}
-                                            value={filters.to}
-                                        />
-                                        <FormGroup>
-                                            <FormLabel>Origin</FormLabel>
-                                            <AsyncSelect
-                                                defaultOptions
-                                                loadOptions={airportLoader}
-                                                onChange={x => this.onFiltersChange({ originId: x.value })}
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <FormLabel>Destination</FormLabel>
-                                            <AsyncSelect
-                                                defaultOptions
-                                                loadOptions={airportLoader}
-                                                onChange={x => this.onFiltersChange({ destinationId: x.value })}
-                                            />
-                                        </FormGroup>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg={12}>
-                                <Card>
-                                    <Card.Header>Flights ({flights.count})</Card.Header>
-                                    <Card.Body className="padding-0">
-                                        <ListGroup>
-                                            {flightItems}
-                                        </ListGroup>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-                <FlightModal
-                    isOpen={isModalOpen}
-                    onChange={this.onFlightChange}
-                    onClose={() => this.setState({ isModalOpen: false })}
-                    onSave={this.onSaveFlight}
-                />
-            </Container>
-        );
-    }
-
-    onFlightChange = (changed: Partial<FlightBinding>) => {
-        this.setState({
-            flight: {
-                ...this.state.flight,
-                ...changed,
-            }
-        });
-    };
-
-    onSaveFlight = () => {
-        api.flight.post(this.state.flight)
-            .then(() => {
-                this.setState({ isModalOpen: false });
-                this.onFiltersChange();
+    useEffect(() => {
+        let cancelled = false;
+        api.flight.getCountByYear({ PageAll: true })
+            .then(data => {
+                if (!cancelled) setCountByYearData(data);
+            })
+            .catch(error => {
+                console.error('Failed to load flights per year:', error);
+                if (!cancelled) setYearCountError(true);
             });
+        return () => { cancelled = true; };
+    }, []);
+
+    const fetchData = () => {
+        api.flight.get(filter)
+            .then(result => {
+                setCount(result.count);
+                setFlights(prevFlights => prevFlights.concat(result.items));
+            });
+
+        countApiMapping[countBy](filter)
+            .then(data => setCountByData(data.slice(0, 10)));
     };
 
-    onFiltersChange = (changedFilters?) => {
-        const filters = this.resolveFilters(this.state.filters, changedFilters);
-        this.pushHistoryState(filters);
-
-        this.setState({ filters });
-
-        api.flight.get(filters).then(flights => this.setState({ flights }));
-        api.flight.getCountByAirport(filters).then(countByAirport => this.setState({ countByAirport }));
+    const getNextPage = () => {
+        setFilter(prevFilter => ({ ...prevFilter, page: prevFilter.page + 1 }));
     };
-}
+
+    const onFlightClick = (flight: Flight) => {
+        setFlight(flight);
+        setFlightBinding({
+            airlineId: flight.airline?.id,
+            arrival: flight.arrival,
+            arrivalLocal: flight.arrivalLocal,
+            departure: flight.departure,
+            departureLocal: flight.departureLocal,
+            number: flight.number,
+            originId: flight.origin?.iata,
+            destinationId: flight.destination?.iata,
+        });
+        setIsModalOpen(true);
+    };
+
+    const onFlightChanged = (changed: Partial<Flight>) => {
+        setFlightBinding(prevBinding => ({ ...prevBinding, ...changed }));
+    };
+
+    const onFlightSave = () => {
+        if (flight.id) {
+            api.flight.put(flight.id, flightBinding)
+                .then(() => setIsModalOpen(false));
+        } else {
+            api.flight.post(flightBinding)
+                .then(() => setIsModalOpen(false));
+        }
+    };
+
+    const onCountByChange = useCallback((newCountBy?: CountByFlights) => {
+        if (newCountBy !== undefined) {
+            setCountBy(newCountBy);
+        }
+
+        countApiMapping[newCountBy ?? countBy](filter)
+            .then(data => setCountByData(data.slice(0, 10)));
+    }, [countBy, filter]);
+
+    return (
+        <Container>
+            <Row>
+                <Col lg={3}>
+                    <Card>
+                        <Card.Body>
+                            <div className="form-grid">
+                                <Button onClick={() => setIsModalOpen(true)}>
+                                    <RiPlayListAddLine /> New flight
+                                </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col lg={6}>
+                    <SmartScroll
+                        dataLength={flights.length}
+                        hasMore={filter.page * filter.pageSize < count}
+                        onLoadMore={getNextPage}
+                    >
+                        {flights.map(flight =>
+                            <FlightItem
+                                key={flight.departure}
+                                flight={flight}
+                                onClick={() => onFlightClick(flight)}
+                            />
+                        )}
+                    </SmartScroll>
+                </Col>
+                <Col lg={3}>
+                    <DistributionCard
+                        countByOptions={countByOptions}
+                        data={countByData}
+                        name="Top 10"
+                        onGroupByChange={onCountByChange}
+                    />
+                    {yearCountError ? (
+                        <Card>
+                            <Card.Header>Flights per year</Card.Header>
+                            <Card.Body role="alert">Could not load flights per year.</Card.Body>
+                        </Card>
+                    ) : (
+                        <DistributionCard
+                            data={countByYearData?.reverse()}
+                            name="Flights per year"
+                        />
+                    )}
+                </Col>
+            </Row>
+            <FlightModal
+                flight={flight}
+                flightBinding={flightBinding}
+                isOpen={isModalOpen}
+                onChange={onFlightChanged}
+                onClose={() => setIsModalOpen(false)}
+                onSave={onFlightSave}
+            />
+        </Container>
+    );
+};
 
 export default FlightsPage;

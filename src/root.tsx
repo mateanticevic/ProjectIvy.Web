@@ -5,35 +5,34 @@ import { Spinner, Toast } from 'react-bootstrap';
 import { User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
+import AccountsPage from 'pages/accounts';
+import BeerAdminPage from './pages/beer-admin';
 import BeerPage from './pages/beer';
+import CalendarDayPage from 'pages/calendar-day';
+import CalendarMonthPage from 'pages/calendar-month';
 import CallsPage from './pages/calls';
-import DashboardPage from './pages/dashboard';
-import ExpensesPage from './pages/expenses';
-import FlightsPage from './pages/flights';
-import IncomesPage from './pages/incomes';
-import PoisPage from './pages/pois';
-import TrackingOldPage from './pages/tracking-old';
-import TripDetailsPage from './pages/trip-details';
-import TripsPage from './pages/trips';
 import CarDetailsPage from './pages/car-details';
 import CarTimelinePage from './pages/car-timeline';
-import BeerAdminPage from './pages/beer-admin';
-import MoviesPage from './pages/movies';
-import { UserContext } from './contexts/user-context';
-import TrackingPage from 'pages/tracking';
-import { getIdentity } from 'utils/cookie-helper';
-import AccountsPage from 'pages/accounts';
-import FlightsV2Page from 'pages/flights-v2';
-import CalendarMonthPage from 'pages/calendar-month';
-import CalendarDayPage from 'pages/calendar-day';
-import PlacesPage from 'pages/places';
-import { CalendarYearPage } from 'pages/calendar-year';
-import InventoryPage from 'pages/inventory';
+import DashboardPage from './pages/dashboard';
 import ExpenseTypesPage from 'pages/expense-types';
-import TodoPage from 'pages/todo';
+import ExpensesPage from './pages/expenses';
+import FlightsPage from 'pages/flights';
+import IncomesPage from './pages/incomes';
+import InventoryPage from 'pages/inventory';
 import JournalPage from 'pages/journal';
-import RoutesPage from 'pages/routes';
+import MoviesPage from './pages/movies';
 import NetWorthPage from 'pages/net-worth';
+import PlacesPage from 'pages/places';
+import PoisPage from './pages/pois';
+import RoutesPage from 'pages/routes';
+import TodoPage from 'pages/todo';
+import TrackingOldPage from './pages/tracking-old';
+import TrackingPage from 'pages/tracking';
+import TripDetailsPage from './pages/trip-details';
+import TripsPage from './pages/trips';
+import { CalendarYearPage } from 'pages/calendar-year';
+import { UserContext } from './contexts/user-context';
+import { getIdentity } from 'utils/cookie-helper';
 
 interface State {
     error?: string,
@@ -150,8 +149,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/car/:id/timeline" element={<CarTimelinePage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />
                                     <Route path="/expense-types" element={<ExpenseTypesPage />} />
-                                    <Route path="/flights" element={<FlightsV2Page />} />
-                                    <Route path="/flights-old" element={<FlightsPage />} />
+                                    <Route path="/flights" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
                                     <Route path="/net-worth" element={<NetWorthPage />} />
                                     <Route path="/inventory" element={<InventoryPage />} />

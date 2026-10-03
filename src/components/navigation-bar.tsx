@@ -65,7 +65,6 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                         <section className="mb-3" aria-label="Travel">
                             <h2 className="navigation-group-title">Travel</h2>
                             <Nav.Link as={Link} eventKey="/flights" to="/flights"><GiAirplaneDeparture /> Flights</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/flights-old" to="/flights-old"><GiAirplaneDeparture /> Flights (old)</Nav.Link>
                             <Nav.Link as={Link} eventKey="/places" to="/places"><TiLocation /> Places</Nav.Link>
                             <Nav.Link as={Link} eventKey="/pois" to="/pois"><TiLocation /> Pois</Nav.Link>
                             <Nav.Link as={Link} eventKey="/tracking" to="/tracking"><FaRoute /> Tracking</Nav.Link>
