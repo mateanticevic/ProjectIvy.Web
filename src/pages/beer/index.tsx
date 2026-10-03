@@ -404,6 +404,11 @@ class BeerPage extends Page<Props, State> {
 
     onFiltersChange = (filterValue?: Partial<ConsumationFilters>) => {
         const filters = this.resolveFilters(this.state.filters, filterValue);
+        const pageChanged = !!filterValue?.page && filterValue.page > 1;
+
+        if (!pageChanged) {
+            filters.page = 1;
+        }
 
         const state = { ...filters };
         delete state.page;
@@ -415,8 +420,6 @@ class BeerPage extends Page<Props, State> {
             this.onCountByClick();
             this.onCountGroupByChange();
         });
-
-        const pageChanged = !!filterValue?.page;
 
         api.consumation
             .get(filters)
