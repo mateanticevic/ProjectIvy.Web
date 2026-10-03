@@ -50,7 +50,7 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
         count: 0,
         items: [],
     });
-    const [accountsPage, setAccountsPage] = useState(1);
+    const [accountsPage, setAccountsPage] = useState(0);
     const [selectedAccount, setSelectedAccount] = useState<Account | undefined>();
     const [transactions, setTransactions] = useState<{ count: number; items: Transaction[] }>({
         count: 0,
@@ -84,13 +84,13 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
 
     const loadAccounts = async () => {
         const version = ++accountRequestVersion.current;
-        const accountsResponse = await api.account.get({ ...accountParams, Page: 1 });
+        const accountsResponse = await api.account.get({ ...accountParams, Page: 0 });
         if (version !== accountRequestVersion.current) return;
         setAccounts({
             count: accountsResponse?.count ?? 0,
             items: accountsResponse?.items ?? []
         });
-        setAccountsPage(1);
+        setAccountsPage(0);
     };
 
     useEffect(() => {
