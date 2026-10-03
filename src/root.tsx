@@ -25,6 +25,7 @@ import { getIdentity } from 'utils/cookie-helper';
 import AccountsPage from 'pages/accounts';
 import FlightsV2Page from 'pages/flights-v2';
 import CalendarMonthPage from 'pages/calendar-month';
+import CalendarDayPage from 'pages/calendar-day';
 import PlacesPage from 'pages/places';
 import { CalendarYearPage } from 'pages/calendar-year';
 import InventoryPage from 'pages/inventory';
@@ -140,8 +141,9 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/beer" element={<BeerPage toast={this.toast} />} />
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
                                     <Route path="/calendar" element={<CalendarYearPage />} />
-                                    <Route path="/calendar/:year" element={<CalendarYearPage />} />
+                                    <Route path="/calendar/:year/:month/:day" element={<CalendarDayPage />} />
                                     <Route path="/calendar/:year/:month" element={<CalendarMonthPage />} />
+                                    <Route path="/calendar/:year" element={<CalendarYearPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
                                     <Route path="/car/:id/timeline" element={<CarTimelinePage />} />
