@@ -10,6 +10,9 @@ export default defineConfig([
         ignores: [
             '**/ivy-types.ts',
             'dist/**',
+            'playwright-report/**',
+            'test-results/**',
+            'blob-report/**',
         ],
     },
     {
@@ -56,6 +59,12 @@ export default defineConfig([
                 'always',
             ],
             'react/display-name': 0,
+        },
+    },
+    {
+        files: ['e2e/**/*.ts', 'playwright.config.ts'],
+        languageOptions: {
+            globals: globals.node,
         },
     },
 ]);

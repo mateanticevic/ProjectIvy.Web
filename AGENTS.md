@@ -6,7 +6,9 @@ Personal tracking SPA (expenses, trips, beer, calendar, tracking, and related pa
 
 - `npm run dev` — Vite dev server. Proxies `/api` to `https://api.anticevic.net` and `/auth` to the local Keycloak host. Allowed host: `local.anticevic.net`.
 - `npm run build` — production build to `dist/`.
-- `npm run lint` — ESLint on `ts`/`tsx`, max warnings 0. There is no test runner.
+- `npm run lint` — ESLint on `ts`/`tsx`, max warnings 0.
+- `npm run test:e2e` — Playwright Chromium tests with mocked Ivy API responses.
+- `npm run test:e2e:types` — type-check the browser test suite.
 
 Requires Node `>=26`.
 

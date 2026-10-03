@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
 import { Marker, Polyline } from '@react-google-maps/api';
 import './styles.scss';
@@ -29,7 +29,7 @@ type Tracking = components['schemas']['Tracking'];
 const TripDetailsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const user = useContext(UserContext) as User;
-    const mapRef = useRef<google.maps.Map | undefined>(undefined);
+    const [map, setMap] = useState<google.maps.Map>();
     const reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     const [beerSum, setBeerSum] = useState<number>(0);
@@ -65,14 +65,17 @@ const TripDetailsPage: React.FC = () => {
                 api.consumation.getSum(filters).then(beerSum => setBeerSum(beerSum));
                 api.flight.get(filters).then(flights => setFlights(flights.items));
                 api.ride.get(filters).then(rides => setRides(rides));
-                api.tracking.get(filters).then(trackings => {
-                    setTrackings(trackings);
-                    const bounds = new google.maps.LatLngBounds();
-                    trackings.forEach(tracking => bounds.extend(tracking));
-                    mapRef.current?.fitBounds(bounds);
-                });
+                api.tracking.get(filters).then(setTrackings);
             });
     }, [id]);
+
+    useEffect(() => {
+        if (!map || trackings.length === 0) return;
+
+        const bounds = new google.maps.LatLngBounds();
+        trackings.forEach(tracking => bounds.extend(tracking));
+        map.fitBounds(bounds);
+    }, [map, trackings]);
 
     const addCity = (cityId: string) => {
         api.trip.postCity(trip.id!, cityId);
@@ -223,7 +226,7 @@ const TripDetailsPage: React.FC = () => {
                     <Card>
                         <Card.Header>Map</Card.Header>
                         <Card.Body className="padding-0 panel-medium">
-                            <Map onLoad={map => mapRef.current = map}>
+                            <Map onLoad={setMap}>
                                 {trip.cities?.map(city =>
                                     <Marker
                                         key={city.id}

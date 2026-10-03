@@ -73,8 +73,50 @@ Sign-in stores the access token in the `AccessToken` cookie. API calls send `cre
 | `npm run build` | Production build into `dist/` |
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | ESLint on `ts`/`tsx` (warnings fail the run) |
+| `npm run test:e2e` | Run the Chromium browser suite |
+| `npm run test:e2e:ui` | Debug browser tests in Playwright UI |
+| `npm run test:e2e:report` | Open the last HTML report |
+| `npm run test:e2e:types` | Type-check the test suite and configuration |
 
-There is no test runner.
+## Browser tests
+
+Use Node 26 or newer. Install the Chromium browser once after installing dependencies:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:e2e
+```
+
+On Linux, use `npx playwright install --with-deps chromium` to install system dependencies too.
+
+Playwright starts its own Vite server at `http://127.0.0.1:4173` in `e2e` mode. Keep that port free; an existing development server is deliberately not reused. No host entry or running Ivy API/Keycloak instance is needed. The server receives test-specific API, auth, hub, app URL and cookie-domain values; regular development and production environment values are unchanged. Test mode disables Vite hot reload and its WebSocket connection.
+
+The suite seeds a synthetic login cookie and a representative user, fixes browser time to 3 October 2026, and uses the Europe/Zagreb timezone. Each test has a fresh browser context. All Ivy API responses come from synthetic fixtures; unhandled resources, methods, query parameters, auth/hub traffic, and live backend requests are blocked and fail the test. Vite dev-client probes of its disabled HMR socket are closed without being treated as backend traffic. Google Maps and Google Charts remain real and require internet access and working Google configuration. App styles, icons, and CDN media also remain real. Google-dependent failures are not skipped or hidden.
+
+Current implemented routes have direct-navigation smoke tests, including calendar variants and car/trip details. The suite also checks navigation, theme persistence, mock isolation, and the network guard. Legacy flights/tracking pages, the unimplemented `/account` route, OAuth flows, editing workflows, visual snapshots, and SignalR jobs are excluded.
+
+### Debugging and maintenance
+
+```bash
+npm run test:e2e:ui
+npm run test:e2e -- --grep 'renders /journal'
+npm run test:e2e -- --headed --workers=1
+npm run test:e2e:report
+npm run test:e2e:types
+npx eslint e2e playwright.config.ts --max-warnings 0
+```
+
+Failed tests retain screenshots and traces in `test-results/`; the HTML report is in `playwright-report/`. Open a trace with `npx playwright show-trace <trace.zip>`. Browser exceptions and unexpected backend requests are attached to the report as JSON diagnostics. These output directories are ignored by Git.
+
+To add a page:
+
+1. Add synthetic records in `e2e/data.ts`, checked with `satisfies` against generated API schemas or existing view models. Do not copy personal API data or real access tokens into fixtures.
+2. Add its initial endpoint responses to `e2e/scenarios.ts`. Resources and query keys are normalized to lowercase; explicitly list allowed query keys and required values when they select different responses. Every registered response must be requested at least once. `minimumCalls` can verify repeated calls.
+3. Add a route entry in `e2e/smoke.spec.ts` with an assertion for loaded page content or controls. For Google Maps pages, also require the real Map region; Google Charts pages require their rendered chart. Avoid sleeps, `networkidle`, and checks that only prove the navbar appeared.
+4. Run the new test, test type checking, and test-file lint. API changes require updating fixtures alongside regenerated API types; the suite cannot verify backend compatibility.
+
+Azure Pipelines installs Node 26 and Chromium, runs the suite with two workers and one retry, publishes JUnit results plus HTML/trace artifacts, and only builds/pushes Docker images after the test stage passes. Local runs have no retries.
 
 ## Layout
 

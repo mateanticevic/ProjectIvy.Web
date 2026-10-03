@@ -44,3 +44,8 @@ dist
 .parcel-cache
 .bsp
 target
+
+# Playwright output
+/playwright-report/
+/test-results/
+/blob-report/

@@ -3,9 +3,11 @@ import react from '@vitejs/plugin-react'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [react(), tsconfigPaths()],
   server: {
+    hmr: mode === 'e2e' ? false : undefined,
+    ws: mode === 'e2e' ? false : undefined,
     allowedHosts: ["local.anticevic.net"],
     host: '0.0.0.0',
     proxy: {
@@ -21,4 +23,4 @@ export default defineConfig({
       },
     }
   }
-})
+}))

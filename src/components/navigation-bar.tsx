@@ -80,7 +80,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) =>
                 </Nav>
                 <Nav className="ms-auto">
                     {onThemeToggle && (
-                        <Nav.Link onClick={onThemeToggle}>
+                        <Nav.Link aria-label="Toggle theme" onClick={onThemeToggle}>
                             {theme === 'light' ? <BsMoonStarsFill /> : <BsSunFill />}
                         </Nav.Link>
                     )}

@@ -12,8 +12,49 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
+- stage: Test
+  displayName: Chromium smoke tests
+  jobs:
+  - job: E2E
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: UseNode@1
+      inputs:
+        version: '26.x'
+    - script: npm ci
+      displayName: Install dependencies
+    - script: npx playwright install --with-deps chromium
+      displayName: Install Chromium
+    - script: npx eslint e2e playwright.config.ts --max-warnings 0
+      displayName: Lint browser tests
+    - script: npm run test:e2e:types
+      displayName: Check test types
+    - script: npm run test:e2e
+      displayName: Run Chromium smoke tests
+      env:
+        CI: 'true'
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: JUnit
+        testResultsFiles: test-results/junit.xml
+        testRunTitle: Chromium smoke tests
+        failTaskOnFailedTests: true
+    - task: PublishPipelineArtifact@1
+      condition: succeededOrFailed()
+      inputs:
+        targetPath: playwright-report
+        artifact: playwright-report
+    - task: PublishPipelineArtifact@1
+      condition: succeededOrFailed()
+      inputs:
+        targetPath: test-results
+        artifact: playwright-results
 - stage: Build
   displayName: Build image
+  dependsOn: Test
+  condition: succeeded()
   jobs:
   - job: Build
     displayName: Build
