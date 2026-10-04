@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Card, Col, Collapse, Form, ListGroup, Row, Stack } from 'react-bootstrap';
+import { Alert, Badge, Button, Card, Col, Collapse, Form, ListGroup, Modal, Row, Stack } from 'react-bootstrap';
 import moment from 'moment';
 import mtz from 'moment-timezone';
 import momentDurationFormatSetup from 'moment-duration-format';
@@ -12,6 +12,7 @@ import * as geometry from 'spherical-geometry-js';
 import Slider from 'rc-slider';
 
 import { components } from 'types/ivy-types';
+import api from 'api/main';
 import MarkerControl from './marker-control';
 import { PolygonLayer } from 'models/layers';
 import { trackingToLatLng } from 'utils/gmap-helper';
@@ -45,6 +46,48 @@ interface Props {
 }
 
 const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEndMarkerMoved, onShowStopsToggle, onStartMarkerMoved, onShowTrackingsToggle }: Props) => {
+
+    const [exposeOpen, setExposeOpen] = React.useState(false);
+    const [viewName, setViewName] = React.useState('');
+    const [viewLink, setViewLink] = React.useState('');
+    const [isExposing, setIsExposing] = React.useState(false);
+    const [exposeError, setExposeError] = React.useState('');
+    const [copied, setCopied] = React.useState(false);
+
+    const onExpose = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (isExposing || !viewName.trim()) {
+            return;
+        }
+
+        setIsExposing(true);
+        setExposeError('');
+        try {
+            const view = await api.trackingView.post({
+                name: viewName.trim(),
+                from: layer.startTracking.timestamp,
+                to: layer.endTracking.timestamp,
+            });
+            if (!view.id) {
+                throw new Error('Missing tracking view ID');
+            }
+            setViewLink(`https://mate.anticevic.net/view/${view.id}`);
+        } catch {
+            setExposeError('Could not expose the view. Please try again.');
+        } finally {
+            setIsExposing(false);
+        }
+    };
+
+    const onCopyLink = async () => {
+        setExposeError('');
+        try {
+            await navigator.clipboard.writeText(viewLink);
+            setCopied(true);
+        } catch {
+            setExposeError('Could not copy the link. You can select and copy it manually.');
+        }
+    };
 
     const [colorsOpen, setColorsOpen] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
@@ -201,6 +244,9 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
                                 <Button size="sm" onClick={onClip}>
                                     <AiOutlineScissor /> Clip
                                 </Button>
+                                <Button size="sm" onClick={() => setExposeOpen(true)}>
+                                    Expose view
+                                </Button>
                                 <Form.Check
                                     className="mb-0"
                                     checked={layer.showStops}
@@ -344,6 +390,36 @@ const PolylineLayer = ({ layer, timezone, onClip, onColorChange, onRemove, onEnd
                     </Card.Body>
                 </div>
             </Collapse>
+            <Modal show={exposeOpen} onHide={() => !isExposing && setExposeOpen(false)} centered>
+                <Modal.Header closeButton={!isExposing}>
+                    <Modal.Title>Expose view</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {exposeError && <Alert variant="danger" role="alert">{exposeError}</Alert>}
+                    {viewLink ? (
+                        <Stack gap={3}>
+                            <a href={viewLink} target="_blank" rel="noopener noreferrer" className="text-break">{viewLink}</a>
+                            <Button onClick={onCopyLink}>{copied ? 'Copied!' : 'Copy link'}</Button>
+                        </Stack>
+                    ) : (
+                        <Form onSubmit={onExpose}>
+                            <Form.Group controlId={`tracking-view-name-${layer.id}`} className="mb-3">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    autoFocus
+                                    required
+                                    value={viewName}
+                                    disabled={isExposing}
+                                    onChange={event => setViewName(event.currentTarget.value)}
+                                />
+                            </Form.Group>
+                            <Button type="submit" disabled={isExposing || !viewName.trim()}>
+                                {isExposing ? 'Submitting…' : 'Submit'}
+                            </Button>
+                        </Form>
+                    )}
+                </Modal.Body>
+            </Modal>
         </Card>
     );
 
