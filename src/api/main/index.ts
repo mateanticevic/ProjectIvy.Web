@@ -30,6 +30,7 @@ import stay from './stay';
 import tag from './tag';
 import todo from './todo';
 import tracking from './tracking';
+import trackingView from './tracking-view';
 import trip from './trip';
 import user from './user';
 import vendor from './vendor';
@@ -69,6 +70,7 @@ const api = {
     tag,
     todo,
     tracking,
+    trackingView,
     trip,
     trips: trip,
     user,
