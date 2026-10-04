@@ -1,6 +1,6 @@
 const cdnUrl = import.meta.env.VITE_CDN_URL;
 
-export const beerUrl = (id: string) => `${cdnUrl}/beers/${id}.jpg`;
+export const beerUrl = (id: string) => `${cdnUrl}/beers/${id}.png`;
 
 export const carUrl = (id: string) => `${cdnUrl}/cars/${id}.jpg`;
 
