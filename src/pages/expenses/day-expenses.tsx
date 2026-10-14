@@ -10,11 +10,12 @@ interface Props {
     day: string;
     expenses: Expense[];
     onExpenseClick(expense: Expense): void;
+    onSplit: (expense: Expense) => void;
 }
 
 const formatDate = (date) => moment().diff(moment(date), 'days') > 6 ? moment(date).format('Do MMMM YYYY') : moment(date).format('dddd');
 
-const DayExpenses = ({ day, expenses, onExpenseClick }: Props) => {
+const DayExpenses = ({ day, expenses, onExpenseClick, onSplit }: Props) => {
     return (
         <React.Fragment>
             <div>
@@ -25,6 +26,7 @@ const DayExpenses = ({ day, expenses, onExpenseClick }: Props) => {
                     key={`expense-item-${expense.id}`}
                     expense={expense}
                     onClick={onExpenseClick}
+                    onSplit={onSplit}
                 />
             )}
         </React.Fragment>

@@ -3,8 +3,10 @@ import { components, paths } from 'types/ivy-types';
 
 type Expense = components['schemas']['Expense'];
 type ExpenseBinding = components['schemas']['ExpenseBinding'];
+type ExpenseSplitBinding = components['schemas']['ExpenseSplitBinding'];
 type ExpensePagedView = components['schemas']['ExpensePagedView'];
 type GetExpenseQuery = paths['/Expense']['get']['parameters']['query'];
+type PostExpenseSplitPath = paths['/Expense/{valueId}/Split']['post']['parameters']['path'];
 
 function get(filters?: GetExpenseQuery): Promise<ExpensePagedView> {
     return api.get('expense', filters);
@@ -74,6 +76,8 @@ const getSumByYearByType = (filters) => api.get('expense/sum/byYear/byType', fil
 
 const post = (expense: ExpenseBinding): Promise<string> => api.post('expense', expense);
 
+const postSplit = (expenseId: PostExpenseSplitPath['valueId'], payload: ExpenseSplitBinding): Promise<number> => api.post(`expense/${expenseId}/split`, payload);
+
 const postExpenseFromFile = (file: File): Promise<string> => api.postFile('expense/fromFile', file);
 
 const postFile = (expenseId: string, fileId: string, payload: any): Promise<number> => api.post(`expense/${expenseId}/file/${fileId}`, payload);
@@ -103,6 +107,7 @@ const expense = {
     getSumByYear,
     getSumByYearByType,
     post,
+    postSplit,
     put,
     postExpenseFromFile,
     postFile,

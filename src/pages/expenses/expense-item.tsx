@@ -1,7 +1,7 @@
 import React from 'react';
-import { Badge, Card } from 'react-bootstrap';
+import { Badge, Card, Dropdown } from 'react-bootstrap';
 import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaShoppingCart } from 'react-icons/fa';
-import { RiExchangeDollarLine } from 'react-icons/ri';
+import { RiExchangeDollarLine, RiMore2Fill, RiScissorsLine } from 'react-icons/ri';
 import { SiRevolut } from 'react-icons/si';
 
 import ExpenseTypeIcon from 'components/expense-type-icon';
@@ -15,6 +15,7 @@ type Expense = components['schemas']['Expense'];
 interface Props {
     expense: Expense;
     onClick(expense: Expense);
+    onSplit?: (expense: Expense) => void;
 }
 
 const renderPaymentTypeIcon = (name: Name) => {
@@ -34,7 +35,7 @@ const renderPaymentTypeIcon = (name: Name) => {
     }
 };
 
-const ExpenseItem = ({ expense, onClick }: Props) => {
+const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
     const amountFormatted = expense!.amount!.toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
@@ -54,7 +55,7 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 />
                 <div className="expense-item-content">
                     <div className="expense-item-title">
-                    {expense!.comment?.length > 0 ? expense.comment : expense!.expenseType!.name}
+                        {expense!.comment?.length > 0 ? expense.comment : expense!.expenseType!.name}
                     </div>
                     <div className="expense-item-date">
                         {expense.vendor &&
@@ -65,6 +66,26 @@ const ExpenseItem = ({ expense, onClick }: Props) => {
                 <div className="expense-item-payment">
                     <div className="expense-item-payment-type">
                         <div className="expense-item-flags">
+                            {onSplit &&
+                                <Dropdown align="end" onClick={event => event.stopPropagation()}>
+                                    <Dropdown.Toggle
+                                        id={`expense-actions-${expense.id}`}
+                                        bsPrefix="expense-actions-toggle"
+                                        variant="link"
+                                        size="sm"
+                                        className="p-1 lh-1 text-body-secondary"
+                                        aria-label="Expense actions"
+                                        title="Expense actions"
+                                    >
+                                        <RiMore2Fill aria-hidden="true" />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu className="text-start">
+                                        <Dropdown.Item as="button" className="d-flex align-items-center gap-2" onClick={() => onSplit(expense)}>
+                                            <RiScissorsLine aria-hidden="true" /> Split
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            }
                             {renderPaymentTypeIcon(expense!.paymentType!)}
                             {expense.parentCurrency &&
                                 <RiExchangeDollarLine title={`Parent currency ${expense.parentCurrency.code}`} />

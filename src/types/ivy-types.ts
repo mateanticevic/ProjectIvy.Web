@@ -6051,6 +6051,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Expense/{valueId}/Split": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    valueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["ExpenseSplitBinding"];
+                    "text/json": components["schemas"]["ExpenseSplitBinding"];
+                    "application/*+json": components["schemas"]["ExpenseSplitBinding"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Expense/{expenseId}/File/{fileId}": {
         parameters: {
             query?: never;
@@ -11703,49 +11744,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/Webhook/Dialogflow": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-                    "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-                    "application/*+json": components["schemas"]["GoogleCloudDialogflowV2WebhookRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
-                        "application/json": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
-                        "text/json": components["schemas"]["GoogleCloudDialogflowV2WebhookResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/WorkDay": {
         parameters: {
             query?: never;
@@ -11943,7 +11941,6 @@ export interface components {
             timestamp?: string;
         };
         CarLogBinding: {
-            carValueId?: string | null;
             /** Format: int32 */
             odometer?: number;
         };
@@ -12208,6 +12205,19 @@ export interface components {
         };
         /** @enum {string} */
         ExpenseSort: "date" | "created" | "modified" | "amount";
+        ExpenseSplitBinding: {
+            /** Format: double */
+            amount: number;
+            expenseTypeId?: string | null;
+            comment?: string | null;
+            expenses: components["schemas"]["ExpenseSplitPartBinding"][];
+        };
+        ExpenseSplitPartBinding: {
+            /** Format: double */
+            amount: number;
+            expenseTypeId?: string | null;
+            comment?: string | null;
+        };
         ExpenseType: {
             id?: string | null;
             name?: string | null;
@@ -12280,323 +12290,6 @@ export interface components {
             /** Format: int64 */
             count?: number;
             items?: components["schemas"]["Flight"][] | null;
-        };
-        GoogleCloudDialogflowV2Context: {
-            /** Format: int32 */
-            lifespanCount?: number | null;
-            name?: string | null;
-            parameters?: {
-                [key: string]: unknown;
-            } | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2EntityTypeEntity: {
-            synonyms?: string[] | null;
-            value?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2EventInput: {
-            languageCode?: string | null;
-            name?: string | null;
-            parameters?: {
-                [key: string]: unknown;
-            } | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2Intent: {
-            action?: string | null;
-            defaultResponsePlatforms?: string[] | null;
-            displayName?: string | null;
-            endInteraction?: boolean | null;
-            events?: string[] | null;
-            followupIntentInfo?: components["schemas"]["GoogleCloudDialogflowV2IntentFollowupIntentInfo"][] | null;
-            inputContextNames?: string[] | null;
-            isFallback?: boolean | null;
-            liveAgentHandoff?: boolean | null;
-            messages?: components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][] | null;
-            mlDisabled?: boolean | null;
-            name?: string | null;
-            outputContexts?: components["schemas"]["GoogleCloudDialogflowV2Context"][] | null;
-            parameters?: components["schemas"]["GoogleCloudDialogflowV2IntentParameter"][] | null;
-            parentFollowupIntentName?: string | null;
-            /** Format: int32 */
-            priority?: number | null;
-            resetContexts?: boolean | null;
-            rootFollowupIntentName?: string | null;
-            trainingPhrases?: components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrase"][] | null;
-            webhookState?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentFollowupIntentInfo: {
-            followupIntentName?: string | null;
-            parentFollowupIntentName?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessage: {
-            basicCard?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCard"];
-            browseCarouselCard?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBrowseCarouselCard"];
-            card?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageCard"];
-            carouselSelect?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageCarouselSelect"];
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            linkOutSuggestion?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageLinkOutSuggestion"];
-            listSelect?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelect"];
-            mediaContent?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContent"];
-            payload?: {
-                [key: string]: unknown;
-            } | null;
-            platform?: string | null;
-            quickReplies?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageQuickReplies"];
-            simpleResponses?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponses"];
-            suggestions?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSuggestions"];
-            tableCard?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCard"];
-            text?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageText"];
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBasicCard: {
-            buttons?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"][] | null;
-            formattedText?: string | null;
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            subtitle?: string | null;
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBasicCardButton: {
-            openUriAction?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButtonOpenUriAction"];
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBasicCardButtonOpenUriAction: {
-            uri?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBrowseCarouselCard: {
-            imageDisplayOptions?: string | null;
-            items?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem"][] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem: {
-            description?: string | null;
-            footer?: string | null;
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            openUriAction?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction"];
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItemOpenUrlAction: {
-            url?: string | null;
-            urlTypeHint?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageCard: {
-            buttons?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageCardButton"][] | null;
-            imageUri?: string | null;
-            subtitle?: string | null;
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageCardButton: {
-            postback?: string | null;
-            text?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageCarouselSelect: {
-            items?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageCarouselSelectItem"][] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageCarouselSelectItem: {
-            description?: string | null;
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            info?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSelectItemInfo"];
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageColumnProperties: {
-            header?: string | null;
-            horizontalAlignment?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageImage: {
-            accessibilityText?: string | null;
-            imageUri?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageLinkOutSuggestion: {
-            destinationName?: string | null;
-            uri?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageListSelect: {
-            items?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageListSelectItem"][] | null;
-            subtitle?: string | null;
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageListSelectItem: {
-            description?: string | null;
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            info?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSelectItemInfo"];
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageMediaContent: {
-            mediaObjects?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageMediaContentResponseMediaObject"][] | null;
-            mediaType?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageMediaContentResponseMediaObject: {
-            contentUrl?: string | null;
-            description?: string | null;
-            icon?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            largeImage?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            name?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageQuickReplies: {
-            quickReplies?: string[] | null;
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageSelectItemInfo: {
-            key?: string | null;
-            synonyms?: string[] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageSimpleResponse: {
-            displayText?: string | null;
-            ssml?: string | null;
-            textToSpeech?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageSimpleResponses: {
-            simpleResponses?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSimpleResponse"][] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageSuggestion: {
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageSuggestions: {
-            suggestions?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageSuggestion"][] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageTableCard: {
-            buttons?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageBasicCardButton"][] | null;
-            columnProperties?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageColumnProperties"][] | null;
-            image?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageImage"];
-            rows?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardRow"][] | null;
-            subtitle?: string | null;
-            title?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageTableCardCell: {
-            text?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageTableCardRow: {
-            cells?: components["schemas"]["GoogleCloudDialogflowV2IntentMessageTableCardCell"][] | null;
-            dividerAfter?: boolean | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentMessageText: {
-            text?: string[] | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentParameter: {
-            defaultValue?: string | null;
-            displayName?: string | null;
-            entityTypeDisplayName?: string | null;
-            isList?: boolean | null;
-            mandatory?: boolean | null;
-            name?: string | null;
-            prompts?: string[] | null;
-            value?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentTrainingPhrase: {
-            name?: string | null;
-            parts?: components["schemas"]["GoogleCloudDialogflowV2IntentTrainingPhrasePart"][] | null;
-            /** Format: int32 */
-            timesAddedCount?: number | null;
-            type?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2IntentTrainingPhrasePart: {
-            alias?: string | null;
-            entityType?: string | null;
-            text?: string | null;
-            userDefined?: boolean | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2OriginalDetectIntentRequest: {
-            payload?: {
-                [key: string]: unknown;
-            } | null;
-            source?: string | null;
-            version?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2QueryResult: {
-            action?: string | null;
-            allRequiredParamsPresent?: boolean | null;
-            cancelsSlotFilling?: boolean | null;
-            diagnosticInfo?: {
-                [key: string]: unknown;
-            } | null;
-            fulfillmentMessages?: components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][] | null;
-            fulfillmentText?: string | null;
-            intent?: components["schemas"]["GoogleCloudDialogflowV2Intent"];
-            /** Format: float */
-            intentDetectionConfidence?: number | null;
-            languageCode?: string | null;
-            outputContexts?: components["schemas"]["GoogleCloudDialogflowV2Context"][] | null;
-            parameters?: {
-                [key: string]: unknown;
-            } | null;
-            queryText?: string | null;
-            sentimentAnalysisResult?: components["schemas"]["GoogleCloudDialogflowV2SentimentAnalysisResult"];
-            /** Format: float */
-            speechRecognitionConfidence?: number | null;
-            webhookPayload?: {
-                [key: string]: unknown;
-            } | null;
-            webhookSource?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2Sentiment: {
-            /** Format: float */
-            magnitude?: number | null;
-            /** Format: float */
-            score?: number | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2SentimentAnalysisResult: {
-            queryTextSentiment?: components["schemas"]["GoogleCloudDialogflowV2Sentiment"];
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2SessionEntityType: {
-            entities?: components["schemas"]["GoogleCloudDialogflowV2EntityTypeEntity"][] | null;
-            entityOverrideMode?: string | null;
-            name?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2WebhookRequest: {
-            originalDetectIntentRequest?: components["schemas"]["GoogleCloudDialogflowV2OriginalDetectIntentRequest"];
-            queryResult?: components["schemas"]["GoogleCloudDialogflowV2QueryResult"];
-            responseId?: string | null;
-            session?: string | null;
-            eTag?: string | null;
-        };
-        GoogleCloudDialogflowV2WebhookResponse: {
-            followupEventInput?: components["schemas"]["GoogleCloudDialogflowV2EventInput"];
-            fulfillmentMessages?: components["schemas"]["GoogleCloudDialogflowV2IntentMessage"][] | null;
-            fulfillmentText?: string | null;
-            outputContexts?: components["schemas"]["GoogleCloudDialogflowV2Context"][] | null;
-            payload?: {
-                [key: string]: unknown;
-            } | null;
-            sessionEntityTypes?: components["schemas"]["GoogleCloudDialogflowV2SessionEntityType"][] | null;
-            source?: string | null;
-            eTag?: string | null;
         };
         IcsCalendarEvent: {
             description?: string | null;

@@ -6,6 +6,7 @@ import { Col, Container, Card, Row, Accordion, Button, Modal, Form } from 'react
 import DayExpenses from './day-expenses';
 import ExpenseLinkModal from './expense-link-modal';
 import ExpenseModal from './expense-modal';
+import ExpenseSplitModal from './expense-split-modal';
 import Filters from './filters';
 import FiltersMore from './filters-more';
 import NumbersCard from './numbers-card';
@@ -34,6 +35,7 @@ interface State {
     currencies: SelectOption[];
     descriptionSuggestions: string[];
     expense?: Expense;
+    splitExpense?: Expense;
     expenses: PagedList<Expense>;
     expensesAreLoading: boolean;
     fileTypes: FileType[];
@@ -220,6 +222,7 @@ class ExpensesPage extends Page<Props, State> {
                                     expenses={expensesByDay[day]}
                                     nestedComponent={index === 0 ? () => <Button /> : null}
                                     onExpenseClick={this.onExpenseEdit}
+                                    onSplit={splitExpense => this.setState({ splitExpense })}
                                 />
                             )}
                         </SmartScroll>
@@ -258,6 +261,17 @@ class ExpensesPage extends Page<Props, State> {
                         />
                     </Col>
                 </Row>
+                {this.state.splitExpense &&
+                    <ExpenseSplitModal
+                        expense={this.state.splitExpense}
+                        types={this.state.types}
+                        onClose={() => this.setState({ splitExpense: undefined })}
+                        onSaved={() => {
+                            this.setState({ splitExpense: undefined });
+                            this.onFiltersChanged();
+                        }}
+                    />
+                }
                 <ExpenseLinkModal
                     isOpen={this.state.isLinkModalOpen}
                     onClose={() => this.setState({ isLinkModalOpen: false })}
