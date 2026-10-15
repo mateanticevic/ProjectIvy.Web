@@ -18,6 +18,13 @@ interface Props {
     onThemeToggle?: () => void;
 }
 
+const NavigationBrand = () => (
+    <span className="d-inline-flex align-items-center gap-2">
+        <img src="/icons/ivy-192.png" width={32} height={32} alt="" />
+        <span>ivy</span>
+    </span>
+);
+
 const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
     const [show, setShow] = useState(false);
     const closeNavigation = () => setShow(false);
@@ -33,7 +40,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
         <>
             <Navbar as="header" role="banner" expand={false} fixed="top" className="d-lg-none navigation-mobile-header" expanded={show}>
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" onClick={closeNavigation}>Project Ivy</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" onClick={closeNavigation}><NavigationBrand /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="ivy-navigation" aria-expanded={show} onClick={() => setShow(!show)} />
                 </Container>
             </Navbar>
@@ -47,10 +54,10 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                 aria-labelledby="ivy-navigation-title"
             >
                 <Offcanvas.Header className="d-lg-none" closeButton>
-                    <Offcanvas.Title id="ivy-navigation-title">Project Ivy</Offcanvas.Title>
+                    <Offcanvas.Title id="ivy-navigation-title"><NavigationBrand /></Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <Navbar.Brand as={Link} to="/" className="d-none d-lg-block mb-4" onClick={closeNavigation}>Project Ivy</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="d-none d-lg-block mb-4" onClick={closeNavigation}><NavigationBrand /></Navbar.Brand>
                     <Nav as="nav" aria-label="Main navigation" className="flex-column" onSelect={closeNavigation}>
                         {identity.pif?.includes(Feature.Beer) &&
                         <section className="mb-3" aria-label="Finance">
