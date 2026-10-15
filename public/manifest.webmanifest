@@ -1,0 +1,28 @@
+{
+    "id": "/",
+    "name": "Project Ivy",
+    "short_name": "Ivy",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "icons/ivy-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/ivy-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/ivy-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
