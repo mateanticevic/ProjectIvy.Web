@@ -314,7 +314,10 @@ const DashboardPage: React.FC = () => {
                         </Card.Header>
                         <Card.Body>
                             <SimpleLineChart
-                                data={[...weightPerDay].reverse()}
+                                data={weightPerDay
+                                    .map(({ key, value }) => ({ key: moment(key).valueOf(), value }))
+                                    .sort((a, b) => a.key - b.key)}
+                                timeScale
                                 unit="kg"
                             />
                         </Card.Body>

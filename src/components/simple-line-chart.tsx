@@ -3,14 +3,15 @@ import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 interface Props {
-    data: any;
+    data: Record<string, string | number>[];
     name?: string;
     tickFormat?: string;
+    timeScale?: boolean;
     unit?: string;
     value?: string;
 }
 
-export const SimpleLineChart = ({ data, name, tickFormat, unit, value }: Props) => {
+export const SimpleLineChart = ({ data, name, tickFormat, timeScale = false, unit, value }: Props) => {
     const lineValueKey = value ?? 'value';
     const axisFormat = tickFormat ?? 'MMM Do YY';
     const axisTickColor = 'var(--bs-body-color)';
@@ -23,12 +24,15 @@ export const SimpleLineChart = ({ data, name, tickFormat, unit, value }: Props) 
             <LineChart data={data}>
                 <XAxis
                     dataKey={name ?? 'key'}
+                    type={timeScale ? 'number' : 'category'}
+                    scale={timeScale ? 'time' : 'auto'}
+                    domain={timeScale ? ['dataMin', 'dataMax'] : undefined}
                     tickFormatter={time => moment(time).format(axisFormat)}
                     tick={{ fill: axisTickColor }}
                 />
                 <YAxis domain={['auto', 'auto']} tick={{ fill: axisTickColor }} />
                 <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip labelFormatter={tickFormat ? time => moment(time).format(axisFormat) : undefined} />
+                <Tooltip labelFormatter={timeScale || tickFormat ? time => moment(time).format(axisFormat) : undefined} />
                 <Legend formatter={legendFormatter} />
                 <Line
                     type="monotone"
