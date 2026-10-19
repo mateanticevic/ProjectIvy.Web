@@ -95,6 +95,23 @@ test('mobile drawer supports dismissal, focus restoration, and resizing', async 
     await expect(navigation).not.toBeVisible();
 });
 
+for (const width of [320, 390, 991]) {
+    test(`dashboard cards clear the mobile header at ${width}px`, async ({ page, api }) => {
+        await page.setViewportSize({ width, height: 640 });
+        api.useScenario(scenarios.dashboard);
+        await page.goto('/');
+        await api.assertLoaded();
+        await expect(page.locator('.react-loading-skeleton')).toHaveCount(0);
+        const header = page.getByRole('banner');
+        const firstCard = page.getByRole('main').locator('.card').first();
+        await expect(header).toBeVisible();
+        await expect(firstCard.locator('.card-header')).toBeInViewport({ ratio: 1 });
+        const headerBox = await header.boundingBox();
+        const cardBox = await firstCard.boundingBox();
+        expect(cardBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height + 16);
+    });
+}
+
 for (const width of [992, 1440]) {
     test(`desktop sidebar at ${width}px is fixed and scrollable`, async ({ page, api }) => {
         await page.setViewportSize({ width, height: 500 });
