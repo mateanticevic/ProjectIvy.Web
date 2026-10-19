@@ -50,6 +50,31 @@ test('validates amounts and compares decimal totals exactly', async ({ page }) =
     await expect(dialog.getByText('Remaining: 0.00 EUR', { exact: true })).toBeVisible();
 });
 
+for (const viewport of [{ width: 390, height: 667 }, { width: 667, height: 375 }, { width: 1280, height: 600 }]) {
+    test(`keeps split fields and actions accessible at ${viewport.width}x${viewport.height}`, async ({ page }) => {
+        await page.setViewportSize(viewport);
+        const dialog = page.getByRole('dialog', { name: 'Split expense', exact: true });
+        const save = dialog.getByRole('button', { name: 'Save', exact: true });
+        const cancel = dialog.getByRole('button', { name: 'Cancel', exact: true });
+        await expect(save).toBeInViewport({ ratio: 1 });
+        await expect(cancel).toBeInViewport({ ratio: 1 });
+
+        await dialog.getByRole('spinbutton').first().fill('5');
+        await dialog.getByRole('button', { name: 'Add item' }).click();
+        const lastComment = dialog.getByLabel('Comment').last();
+        await lastComment.fill('Additional split item');
+        await lastComment.evaluate(element => element.scrollIntoView({ block: 'center' }));
+        await expect(lastComment).toBeInViewport({ ratio: 1 });
+        await expect(save).toBeInViewport({ ratio: 1 });
+        await expect(cancel).toBeInViewport({ ratio: 1 });
+
+        await dialog.getByRole('spinbutton').first().scrollIntoViewIfNeeded();
+        await expect(dialog.getByRole('spinbutton').first()).toBeInViewport({ ratio: 1 });
+        await cancel.click();
+        await expect(dialog).toHaveCount(0);
+    });
+}
+
 test('sends retained and additional rows, prevents duplicate saves, and refreshes data', async ({ page }) => {
     const dialog = page.getByRole('dialog');
     await dialog.getByRole('button', { name: 'Add item' }).click();

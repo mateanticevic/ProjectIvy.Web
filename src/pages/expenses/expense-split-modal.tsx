@@ -72,7 +72,7 @@ const ExpenseSplitModal = ({ expense, types, onClose, onSaved }: Props) => {
             <Modal.Header closeButton={!isSaving}>
                 <Modal.Title id="split-expense-title">Split expense</Modal.Title>
             </Modal.Header>
-            <Form onSubmit={save}>
+            <Form onSubmit={save} className="d-flex flex-column overflow-hidden">
                 <Modal.Body>
                     <p>Original amount: <strong>{formatAmount(original)}</strong></p>
                     {error && <Alert variant="danger">{error}</Alert>}
