@@ -7,7 +7,7 @@ import { MdCall, MdLocalMovies, MdCardTravel, MdAccountBalance, MdInventory } fr
 import { RiAccountCircleLine } from 'react-icons/ri';
 import { TiBeer, TiLocation } from 'react-icons/ti';
 import { BsMoonStarsFill, BsSunFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { Feature, Identity, Scopes } from 'types/users';
 import { LuListTodo } from 'react-icons/lu';
@@ -58,54 +58,55 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                     <Navbar.Brand as={Link} to="/" className="d-none d-lg-block mb-4" onClick={closeNavigation}><NavigationBrand /></Navbar.Brand>
-                    <Nav as="nav" aria-label="Main navigation" className="flex-column" onSelect={closeNavigation}>
+                    {/* Route links own the active state, including browser back/forward navigation. */}
+                    <Nav as="nav" aria-label="Main navigation" className="flex-column" activeKey="" onSelect={closeNavigation}>
                         {identity.pif?.includes(Feature.Beer) &&
                         <section className="mb-3" aria-label="Finance">
                             <h2 className="navigation-group-title">Finance</h2>
-                            <Nav.Link as={Link} eventKey="/accounts" to="/accounts"><MdAccountBalance /> Accounts</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/expenses" to="/expenses"><GiPayMoney /> Expenses</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/incomes" to="/incomes"><GiReceiveMoney /> Incomes</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/net-worth" to="/net-worth"><MdAccountBalance /> Net worth</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/accounts" to="/accounts"><MdAccountBalance /> Accounts</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/expenses" to="/expenses"><GiPayMoney /> Expenses</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/incomes" to="/incomes"><GiReceiveMoney /> Incomes</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/net-worth" to="/net-worth"><MdAccountBalance /> Net worth</Nav.Link>
                         </section>
                         }
                         {identity.pif?.includes(Feature.Tracking) &&
                         <section className="mb-3" aria-label="Travel">
                             <h2 className="navigation-group-title">Travel</h2>
-                            <Nav.Link as={Link} eventKey="/flights" to="/flights"><GiAirplaneDeparture /> Flights</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/places" to="/places"><TiLocation /> Places</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/pois" to="/pois"><TiLocation /> Pois</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/tracking" to="/tracking"><FaRoute /> Tracking</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/tracking-old" to="/tracking-old"><FaRoute /> Tracking (old)</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/routes" to="/routes"><FaRoute /> Routes</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/trips" to="/trips"><MdCardTravel /> Trips</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/flights" to="/flights"><GiAirplaneDeparture /> Flights</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/places" to="/places"><TiLocation /> Places</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/pois" to="/pois"><TiLocation /> Pois</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/tracking" to="/tracking"><FaRoute /> Tracking</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/tracking-old" to="/tracking-old"><FaRoute /> Tracking (old)</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/routes" to="/routes"><FaRoute /> Routes</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/trips" to="/trips"><MdCardTravel /> Trips</Nav.Link>
                         </section>
                         }
                         {(identity.pif?.includes(Feature.Calls) || identity.pif?.includes(Feature.Movies) || identity.scope.includes(Scopes.BeerUser)) &&
                         <section className="mb-3" aria-label="Other">
                             <h2 className="navigation-group-title">Other</h2>
                             {identity.scope.includes(Scopes.BeerUser) &&
-                                <Nav.Link as={Link} eventKey="/beer" to="/beer"><TiBeer /> Beer</Nav.Link>
+                                <Nav.Link as={NavLink} eventKey="/beer" to="/beer" end><TiBeer /> Beer</Nav.Link>
                             }
-                            <Nav.Link as={Link} eventKey="/calendar" to="/calendar"><FaRegCalendarAlt /> Calendar</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/inventory" to="/inventory"><MdInventory /> Inventory</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/journal" to="/journal"><FaBook /> Journal</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/todo" to="/todo"><LuListTodo /> Todo</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/calendar" to="/calendar"><FaRegCalendarAlt /> Calendar</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/inventory" to="/inventory"><MdInventory /> Inventory</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/journal" to="/journal"><FaBook /> Journal</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/todo" to="/todo"><LuListTodo /> Todo</Nav.Link>
                             {identity.pif?.includes(Feature.Calls) &&
-                                <Nav.Link as={Link} eventKey="/calls" to="/calls"><MdCall /> Calls</Nav.Link>
+                                <Nav.Link as={NavLink} eventKey="/calls" to="/calls"><MdCall /> Calls</Nav.Link>
                             }
                             {identity.pif?.includes(Feature.Movies) &&
-                                <Nav.Link as={Link} eventKey="/movies" to="/movies"><MdLocalMovies /> Movies</Nav.Link>
+                                <Nav.Link as={NavLink} eventKey="/movies" to="/movies"><MdLocalMovies /> Movies</Nav.Link>
                             }
                         </section>
                         }
                         <section className="mb-3" aria-label="Admin">
                             <h2 className="navigation-group-title">Admin</h2>
-                            <Nav.Link as={Link} eventKey="/beer/admin" to="/beer/admin"><TiBeer /> Manage beers</Nav.Link>
-                            <Nav.Link as={Link} eventKey="/expense-types" to="/expense-types"><FaShapes /> Expense Types</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/beer/admin" to="/beer/admin"><TiBeer /> Manage beers</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/expense-types" to="/expense-types"><FaShapes /> Expense Types</Nav.Link>
                         </section>
                         <section className="mb-3" aria-label={identity.name}>
                             <h2 className="navigation-group-title">{identity.name}</h2>
-                            <Nav.Link as={Link} eventKey="/account" to="/account"><RiAccountCircleLine /> My account</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/account" to="/account"><RiAccountCircleLine /> My account</Nav.Link>
                             <hr className="my-2" />
                             <Nav.Link as={Link} eventKey="/not-found" to="/not-found" onClick={logOut}><FiLogOut /> Logout</Nav.Link>
                         </section>

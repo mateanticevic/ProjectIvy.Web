@@ -14,10 +14,17 @@ for (const destination of destinations) {
         await page.goto('/journal');
         await expect(page.getByText('Smoke test journal entry', { exact: true })).toBeVisible();
         const navigation = page.getByRole('navigation');
+        await expect(navigation.locator('.active')).toHaveCount(1);
+        await expect(navigation.getByRole('link', { name: 'Journal', exact: true })).toHaveAttribute('aria-current', 'page');
         await expect(navigation.getByRole('heading', { name: destination.menu, exact: true })).toBeVisible();
         await navigation.getByRole('link', { name: destination.link, exact: true }).click();
         await expect(page).toHaveURL(new RegExp(`${destination.path}(\\?|$)`));
         await expect(page.getByText(destination.content, { exact: destination.scenario !== 'accounts' })).toBeVisible();
+        await expect(navigation.locator('.active')).toHaveCount(1);
+        await expect(navigation.getByRole('link', { name: destination.link, exact: true })).toHaveAttribute('aria-current', 'page');
+        await page.goBack();
+        await expect(navigation.locator('.active')).toHaveCount(1);
+        await expect(navigation.getByRole('link', { name: 'Journal', exact: true })).toHaveAttribute('aria-current', 'page');
         await api.assertLoaded();
     });
 }
@@ -37,8 +44,13 @@ test('toggles the theme and preserves it after reload', async ({ page, api }) =>
     await page.goto('/journal');
     await api.assertLoaded();
     await expect(page.locator('html')).toHaveAttribute('data-bs-theme', 'light');
+    const activeLink = page.getByRole('link', { name: 'Journal', exact: true });
+    await expect(activeLink).toHaveCSS('background-color', 'rgb(89, 8, 57)');
+    await expect(activeLink).toHaveCSS('color', 'rgb(255, 255, 255)');
     await page.getByLabel('Toggle theme', { exact: true }).click();
     await expect(page.locator('html')).toHaveAttribute('data-bs-theme', 'dark');
+    await expect(activeLink).toHaveCSS('background-color', 'rgb(89, 8, 57)');
+    await expect(activeLink).toHaveCSS('color', 'rgb(255, 255, 255)');
     await expect.poll(() => page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
     await page.reload();
     await expect(page.getByText('Smoke test journal entry', { exact: true })).toBeVisible();
@@ -65,6 +77,10 @@ for (const width of [320, 991]) {
         await expect(navigation).not.toBeVisible();
         await expect(toggle).toHaveAttribute('aria-expanded', 'false');
         await expect(page.getByText('Smoke Test Task', { exact: true })).toBeVisible();
+        await toggle.click();
+        await expect(navigation).toBeVisible();
+        await expect(navigation.locator('.active')).toHaveCount(1);
+        await expect(navigation.getByRole('link', { name: 'Todo', exact: true })).toHaveAttribute('aria-current', 'page');
         await api.assertLoaded();
     });
 }
@@ -102,6 +118,7 @@ for (const width of [320, 390, 991]) {
         await page.goto('/');
         await api.assertLoaded();
         await expect(page.locator('.react-loading-skeleton')).toHaveCount(0);
+        await expect(page.locator('.navigation-sidebar .nav-link.active')).toHaveCount(0);
         const header = page.getByRole('banner');
         const firstCard = page.getByRole('main').locator('.card').first();
         await expect(header).toBeVisible();
@@ -110,6 +127,28 @@ for (const width of [320, 390, 991]) {
         const cardBox = await firstCard.boundingBox();
         expect(cardBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height + 16);
     });
+}
+
+for (const width of [390, 1440]) {
+    for (const destination of [
+        { path: '/calendar/2026/10', scenario: 'calendarMonth', link: 'Calendar' },
+        { path: '/trips/trip-1', scenario: 'trip', link: 'Trips' },
+        { path: '/beer/admin', scenario: 'beerAdmin', link: 'Manage beers' },
+    ]) {
+        test(`highlights only ${destination.link} at ${destination.path} on ${width}px`, async ({ page, api }) => {
+            await page.setViewportSize({ width, height: 800 });
+            api.useScenario(scenarios[destination.scenario]);
+            await page.goto(destination.path);
+            await api.assertLoaded();
+            if (width < 992) {
+                await page.getByRole('button', { name: 'Toggle navigation' }).click();
+            }
+            const navigation = page.getByRole('navigation', { name: 'Main navigation' });
+            await expect(navigation.locator('.active')).toHaveCount(1);
+            await expect(navigation.locator('[aria-current="page"]')).toHaveCount(1);
+            await expect(navigation.getByRole('link', { name: destination.link, exact: true })).toHaveAttribute('aria-current', 'page');
+        });
+    }
 }
 
 for (const width of [992, 1440]) {

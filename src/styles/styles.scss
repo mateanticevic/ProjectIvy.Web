@@ -909,6 +909,12 @@ a:hover {
       color: var(--bs-emphasis-color);
     }
 
+    &.active {
+      background-color: $color-primary;
+      color: $color-text-white;
+      font-weight: 600;
+    }
+
     svg {
       margin-right: 0.5rem;
     }
