@@ -205,6 +205,7 @@ class PlacesPage extends Page<{}, State> {
                         <Card>
                             <Card.Body>
                                 <AsyncSelect
+                                    className="position-relative z-2"
                                     loadOptions={loaders[itemType]}
                                     onChange={x => this.onItemSelected(x.value)}
                                     placeholder="Search by name or id"
