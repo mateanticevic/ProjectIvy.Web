@@ -799,8 +799,8 @@ body #app {
       &:focus {
         background-color: var(--bs-body-bg);
         color: var(--bs-body-color);
-        border-color: #86b7fe;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        border-color: var(--ivy-input-focus-border-color);
+        box-shadow: var(--ivy-input-focus-box-shadow);
       }
     }
 

@@ -105,9 +105,21 @@ $color-transparent: transparent;
 }
 
 // Align Bootstrap form controls with the brand color palette
+:root {
+  --ivy-input-focus-border-color: color-mix(in srgb, var(--bs-primary) 50%, white);
+  --bs-focus-ring-color: color-mix(in srgb, var(--bs-primary) 25%, transparent);
+  --ivy-input-focus-box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+[data-bs-theme="dark"] {
+  --bs-focus-ring-color: color-mix(in srgb, var(--ivy-input-focus-border-color) 35%, transparent);
+}
+
+.form-control:focus,
+.form-select:focus,
 .form-check-input:focus {
-  border-color: #{$color-primary};
-  box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.25);
+  border-color: var(--ivy-input-focus-border-color);
+  box-shadow: var(--ivy-input-focus-box-shadow);
 }
 
 .form-check-input:checked,
