@@ -3,7 +3,7 @@ import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Badge, ListGroup, ListGroupItem, OverlayTrigger, Card, Tooltip, Button, Modal, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 import { Marker } from '@react-google-maps/api';
-import Skeleton from 'react-loading-skeleton'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import api from 'api/main';
 import { DatetimeInput, Map, SimpleLineChart, ValueLabel } from 'components';
@@ -157,30 +157,38 @@ const DashboardPage: React.FC = () => {
 
     const renderSkeleton = () => {
         return (
-            <Container>
-                <div className="flex-grid">
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
+            <Container aria-busy="true" aria-label="Dashboard">
+                <span className="visually-hidden" role="status">Loading dashboard…</span>
+                <SkeletonTheme
+                    baseColor="var(--bs-secondary-bg)"
+                    highlightColor="var(--bs-tertiary-bg)"
+                    borderRadius="var(--bs-border-radius)"
+                    duration={1.8}
+                >
+                    <div className="flex-grid" aria-hidden="true">
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
+                        <div className="flex-grid-item">
+                            <Skeleton width="100%" height={272} />
+                        </div>
                     </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                    <div className="flex-grid-item">
-                        <Skeleton width="100%" height={272} />
-                    </div>
-                </div>
+                </SkeletonTheme>
             </Container>
         );
     };
