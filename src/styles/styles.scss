@@ -113,6 +113,7 @@ body #app {
 
   .toast {
     position: fixed;
+    z-index: var(--bs-toast-zindex);
     right: 20px;
     bottom: 20px;
   }

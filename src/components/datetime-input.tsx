@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Datetime from 'react-datetime';
 
 interface InputProps {
+    id?: string;
     className?: string;
     disabled?: boolean;
     placeholder?: string;

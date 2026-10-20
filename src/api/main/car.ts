@@ -1,4 +1,5 @@
 import { CarLogFilters } from 'types/car';
+import { CarFueling, CarFuelTotal } from 'types/car-fueling';
 import { components, paths } from 'types/ivy-types';
 import * as api from '../config';
 
@@ -16,7 +17,13 @@ const get = (carId: string): Promise<Car> => api.get(`car/${carId}`);
 
 const getAverageConsumption = (carId: string) => api.get(`car/${carId}/consumption/avg`);
 
-const getFuelSumByYear = (carId: string) => api.get(`car/${carId}/fuel/sum/byyear`);
+const getFuelings = (carId: string): Promise<CarFueling[]> => api.get(`car/${carId}/fuel`);
+
+const getFuelSumByMonth = (carId: string): Promise<CarFuelTotal[]> => api.get(`car/${carId}/fuel/sum/bymonth`);
+
+const getFuelSumByYear = (carId: string): Promise<CarFuelTotal[]> => api.get(`car/${carId}/fuel/sum/byyear`);
+
+const postFueling = (carId: string, fueling: components['schemas']['CarFuelingBinding']): Promise<number> => api.post(`car/${carId}/fuel`, fueling);
 
 const getKilometersByYear = (carId: string): Promise<Int32Int32KeyValuePair[]> => api.get(`car/${carId}/kilometers/byyear`);
 
@@ -37,6 +44,8 @@ const postService = (carId: string, carService: CarServiceBinding): Promise<numb
 const car = {
     get,
     getAverageConsumption,
+    getFuelings,
+    getFuelSumByMonth,
     getFuelSumByYear,
     getKilometersByYear,
     getLogs,
@@ -45,6 +54,7 @@ const car = {
     getServiceIntervals,
     getServiceTypes,
     postLog,
+    postFueling,
     postService,
 };
 

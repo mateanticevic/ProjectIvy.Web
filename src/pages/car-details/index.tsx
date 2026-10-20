@@ -1,13 +1,14 @@
 import moment from 'moment';
 import React from 'react';
 import { Container, Card, Col, Row, Table, Badge, InputGroup, FormControl, Button, Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import api from 'api/main';
 import { Car, CarModel, CarServiceInterval } from 'types/car';
 import { DistributionCard, SimpleScatterChart, ValueLabel } from 'components';
 import { ServiceModal } from './service-modal';
 import { KeyValuePair } from 'types/grouping';
+import { CarFuelTotal } from 'types/car-fueling';
 
 interface QueryStrings {
     id: string;
@@ -20,7 +21,7 @@ interface Props {
 interface State {
     averageConsumption?: number;
     car: Car;
-    fuelSumByYear?: KeyValuePair<number>[];
+    fuelSumByYear?: CarFuelTotal[];
     kilometersByYear?: KeyValuePair<number>[];
     logs: any;
     isLogSubmitting: boolean;
@@ -64,6 +65,7 @@ class CarDetailsPage extends React.Component<Props, State> {
                 <Row>
                     <Col>
                         <h1>{car.model.name}</h1>
+                        <Link className="btn btn-outline-secondary mb-3" to={`/car/${this.props.params.id}/fueling`}>Car Fueling</Link>
                     </Col>
                 </Row>
                 <Row>

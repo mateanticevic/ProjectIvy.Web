@@ -13,6 +13,7 @@ import CalendarDayPage from 'pages/calendar-day';
 import CalendarMonthPage from 'pages/calendar-month';
 import CallsPage from './pages/calls';
 import CarDetailsPage from './pages/car-details';
+import CarFuelingPage from 'pages/car-fueling';
 import CarTimelinePage from './pages/car-timeline';
 import DashboardPage from './pages/dashboard';
 import ExpenseTypesPage from 'pages/expense-types';
@@ -148,6 +149,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/calendar/:year" element={<CalendarYearPage />} />
                                     <Route path="/calls" element={<CallsPage />} />
                                     <Route path="/car/:id" element={<CarDetailsPage />} />
+                                    <Route path="/car/:id/fueling" element={<CarFuelingPage toast={this.toast} />} />
                                     <Route path="/car/:id/timeline" element={<CarTimelinePage />} />
                                     <Route path="/expenses" element={<ExpensesPage toast={this.toast} />} />
                                     <Route path="/expense-types" element={<ExpenseTypesPage />} />
