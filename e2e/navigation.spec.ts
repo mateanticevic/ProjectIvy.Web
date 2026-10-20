@@ -35,7 +35,7 @@ test('shows the seeded user account menu', async ({ page, api }) => {
     await api.assertLoaded();
     const navigation = page.getByRole('navigation');
     await expect(navigation.getByRole('heading', { name: 'Smoke User', exact: true })).toBeVisible();
-    await expect(navigation.getByRole('link', { name: 'My account', exact: true })).toBeVisible();
+    await expect(navigation.getByRole('link', { name: 'My Account', exact: true })).toBeVisible();
     await expect(navigation.getByRole('link', { name: 'Logout', exact: true }).last()).toBeVisible();
 });
 

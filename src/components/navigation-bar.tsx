@@ -109,7 +109,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                         </section>
                         <section className="mb-3" aria-label={identity.name}>
                             <h2 className="navigation-group-title">{identity.name}</h2>
-                            <Nav.Link as={NavLink} eventKey="/account" to="/account"><RiAccountCircleLine /> My account</Nav.Link>
+                            <Nav.Link as={NavLink} eventKey="/account" to="/account"><RiAccountCircleLine /> My Account</Nav.Link>
                             <hr className="my-2" />
                             <Nav.Link as={Link} eventKey="/not-found" to="/not-found" onClick={logOut}><FiLogOut /> Logout</Nav.Link>
                         </section>

@@ -6,6 +6,7 @@ import { User } from 'types/users';
 import api from './api/main';
 import { NavigationBar } from './components';
 import AccountsPage from 'pages/accounts';
+import AccountPage from 'pages/account';
 import BeerAdminPage from './pages/beer-admin';
 import BeerPage from './pages/beer';
 import CalendarDayPage from 'pages/calendar-day';
@@ -137,6 +138,7 @@ export default class Root extends React.Component<{}, State> {
                             <main className="main-content">
                                 <Routes>
                                     <Route path="/" element={<DashboardPage />} />
+                                    <Route path="/account" element={<AccountPage />} />
                                     <Route path="/accounts" element={<AccountsPage toast={this.toast} />} />
                                     <Route path="/beer" element={<BeerPage toast={this.toast} />} />
                                     <Route path="/beer/admin" element={<BeerAdminPage />} />
