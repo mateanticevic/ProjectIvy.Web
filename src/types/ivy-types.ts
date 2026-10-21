@@ -7877,7 +7877,9 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    at?: string;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -9568,6 +9570,161 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Salary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    CurrencyId?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["SalaryPagedView"];
+                        "application/json": components["schemas"]["SalaryPagedView"];
+                        "text/json": components["schemas"]["SalaryPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["SalaryBinding"];
+                    "text/json": components["schemas"]["SalaryBinding"];
+                    "application/*+json": components["schemas"]["SalaryBinding"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Salary"];
+                        "application/json": components["schemas"]["Salary"];
+                        "text/json": components["schemas"]["Salary"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Salary/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["Salary"];
+                        "application/json": components["schemas"]["Salary"];
+                        "text/json": components["schemas"]["Salary"];
+                    };
+                };
+            };
+        };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["SalaryBinding"];
+                    "text/json": components["schemas"]["SalaryBinding"];
+                    "application/*+json": components["schemas"]["SalaryBinding"];
+                };
+            };
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Stay": {
         parameters: {
             query?: never;
@@ -10318,6 +10475,65 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Tracking/Map": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    Date: string;
+                    Timezone?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "image/png": string;
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Gateway Timeout */
+                504: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -12553,6 +12769,56 @@ export interface components {
         };
         /** @enum {string} */
         RouteTimeSort: "date" | "duration";
+        Salary: {
+            currency?: components["schemas"]["Currency"];
+            /** Format: date-time */
+            date?: string;
+            /** Format: double */
+            deductions?: number | null;
+            /** Format: double */
+            gross?: number;
+            /** Format: double */
+            grossTotal?: number;
+            id?: string | null;
+            /** Format: double */
+            medical?: number;
+            /** Format: double */
+            net?: number;
+            /** Format: double */
+            netTotal?: number;
+            note?: string | null;
+            /** Format: double */
+            tax?: number;
+            /** Format: double */
+            travelExpenses?: number;
+        };
+        SalaryBinding: {
+            currencyId: string;
+            /** Format: date-time */
+            date?: string;
+            /** Format: double */
+            deductions?: number | null;
+            /** Format: double */
+            gross?: number;
+            /** Format: double */
+            grossTotal?: number;
+            /** Format: double */
+            medical?: number;
+            /** Format: double */
+            net?: number;
+            /** Format: double */
+            netTotal?: number;
+            note?: string | null;
+            /** Format: double */
+            tax?: number;
+            /** Format: double */
+            travelExpenses?: number;
+        };
+        SalaryPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Salary"][] | null;
+        };
         Stay: {
             city?: components["schemas"]["City"];
             country?: components["schemas"]["Country"];

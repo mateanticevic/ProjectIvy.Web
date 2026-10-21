@@ -66,6 +66,7 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                                 <Nav.Link as={NavLink} eventKey="/accounts" to="/accounts"><MdAccountBalance /> Accounts</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/expenses" to="/expenses"><GiPayMoney /> Expenses</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/incomes" to="/incomes"><GiReceiveMoney /> Incomes</Nav.Link>
+                                <Nav.Link as={NavLink} eventKey="/salary" to="/salary"><GiReceiveMoney /> Salary</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/net-worth" to="/net-worth"><MdAccountBalance /> Net worth</Nav.Link>
                             </section>
                         }

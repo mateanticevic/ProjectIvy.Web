@@ -26,6 +26,7 @@ import person from './person';
 import poi from './poi';
 import ride from './ride';
 import route from './route';
+import salary from './salary';
 import stay from './stay';
 import tag from './tag';
 import todo from './todo';
@@ -66,6 +67,7 @@ const api = {
     poi,
     ride,
     route,
+    salary,
     stay,
     tag,
     todo,

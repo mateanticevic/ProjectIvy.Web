@@ -27,6 +27,7 @@ import NetWorthPage from 'pages/net-worth';
 import PlacesPage from 'pages/places';
 import PoisPage from './pages/pois';
 import RoutesPage from 'pages/routes';
+import SalaryPage from 'pages/salary';
 import TodoPage from 'pages/todo';
 import TrackingOldPage from './pages/tracking-old';
 import TrackingPage from 'pages/tracking';
@@ -155,6 +156,7 @@ export default class Root extends React.Component<{}, State> {
                                     <Route path="/expense-types" element={<ExpenseTypesPage />} />
                                     <Route path="/flights" element={<FlightsPage />} />
                                     <Route path="/incomes" element={<IncomesPage />} />
+                                    <Route path="/salary" element={<SalaryPage toast={this.toast} />} />
                                     <Route path="/net-worth" element={<NetWorthPage />} />
                                     <Route path="/inventory" element={<InventoryPage />} />
                                     <Route path="/movies" element={<MoviesPage />} />
