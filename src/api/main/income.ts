@@ -17,6 +17,10 @@ const getSumByMonthOfYear = (filters: IncomeFilters) => api.get('income/sum/bymo
 
 const post = (binding: IncomeBinding) => api.post('income', binding);
 
+const put = async (id: string, binding: IncomeBinding): Promise<void> => {
+    await api.put(`income/${encodeURIComponent(id)}`, binding);
+};
+
 const income = {
     get,
     getSources,
@@ -24,6 +28,7 @@ const income = {
     getSumByMonthOfYear,
     getSumByYear,
     post,
+    put,
 };
 
 export default income;

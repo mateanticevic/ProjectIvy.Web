@@ -12,8 +12,8 @@ import { PagedItems } from 'types/paging';
 import { KeyValuePair } from 'types/grouping';
 import IncomeModal from './income-modal';
 import { components } from 'types/ivy-types';
-import _ from 'lodash';
 import { RiPlayListAddLine } from 'react-icons/ri';
+import { FaLink } from 'react-icons/fa';
 
 type Currency = components['schemas']['Currency'];
 type Income = components['schemas']['Income'];
@@ -21,6 +21,7 @@ type IncomeSource = components['schemas']['IncomeSource'];
 type IncomeType = components['schemas']['IncomeType'];
 type IncomeBinding = components['schemas']['IncomeBinding'];
 type User = components['schemas']['User'];
+type Salary = components['schemas']['Salary'];
 
 const sumByOptions = [
     { value: GroupByTime.ByMonthOfYear, name: 'Month of year' },
@@ -37,6 +38,8 @@ interface State {
     filters: IncomeFilters;
     groupBy: GroupByTime;
     income: IncomeBinding;
+    editingId?: string;
+    selectedSalary?: Salary;
     incomes: PagedItems<Income>;
     isLoading: boolean;
     isModalOpen: boolean;
@@ -77,8 +80,8 @@ class IncomesPage extends Page<unknown, State> {
         this.onFiltersChanged();
         Promise.all(
             [api.currency.get().then(currencies => this.setState({ currencies })),
-            api.income.getSources().then(sources => this.setState({ sources })),
-            api.common.getIncomeTypes().then(types => this.setState({ types }))]
+                api.income.getSources().then(sources => this.setState({ sources })),
+                api.common.getIncomeTypes().then(types => this.setState({ types }))]
         ).then(() => this.setState({ isLoading: false }));
     }
 
@@ -97,7 +100,7 @@ class IncomesPage extends Page<unknown, State> {
                         <Card>
                             <Card.Body>
                                 <div className="form-grid">
-                                    <Button onClick={() => this.setState({ isModalOpen: true })}>
+                                    <Button onClick={this.onNewIncome}>
                                         <RiPlayListAddLine /> New income
                                     </Button>
                                 </div>
@@ -152,14 +155,22 @@ class IncomesPage extends Page<unknown, State> {
                                 <Table responsive>
                                     <tbody>
                                         {incomes.items.map(income =>
-                                            <tr key={_.uniqueId()}>
+                                            <tr key={income.id ?? income.timestamp}>
                                                 <td>{moment(income.timestamp).format('Do MMMM YYYY')}</td>
-                                                <td><Badge variant="primary">{income.type.name}</Badge></td>
+                                                <td>
+                                                    <Badge bg="primary">
+                                                        {income.type?.name}
+                                                        {income.salary && <FaLink className="ms-2 text-reset" title="Linked to salary" aria-label="Linked to salary" role="img" />}
+                                                    </Badge>
+                                                </td>
                                                 <td>{income.description}</td>
                                                 <td>
                                                     <FormattedNumber number={income.amount} />
                                                 </td>
                                                 <td>{income.currency.code}</td>
+                                                <td>
+                                                    <Button size="sm" disabled={!income.id} onClick={() => this.onEditIncome(income)}>Edit</Button>
+                                                </td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -181,9 +192,12 @@ class IncomesPage extends Page<unknown, State> {
                             onGroupByChange={this.onGroupByChanged}
                         />
                         <IncomeModal
+                            key={this.state.editingId ?? 'new'}
                             currencies={this.state.currencies}
                             income={income}
                             isOpen={this.state.isModalOpen}
+                            isEditing={!!this.state.editingId}
+                            selectedSalary={this.state.selectedSalary}
                             sources={sources}
                             types={types}
                             onClose={() => this.setState({ isModalOpen: false })}
@@ -239,8 +253,41 @@ class IncomesPage extends Page<unknown, State> {
         });
     };
 
-    onModalSave = () => api.income.post(this.state.income)
-        .then(() => this.onFiltersChanged());
+    onNewIncome = () => this.setState({
+        editingId: undefined,
+        selectedSalary: undefined,
+        income: {
+            amount: 0,
+            currencyId: this.user.defaultCurrency?.id,
+            date: moment().format('YYYY-MM-DD'),
+        },
+        isModalOpen: true,
+    });
+
+    onEditIncome = (income: Income) => this.setState({
+        editingId: income.id ?? undefined,
+        selectedSalary: income.salary,
+        income: {
+            amount: income.amount,
+            currencyId: income.currency?.id,
+            date: income.timestamp,
+            description: income.description,
+            salaryId: income.salary?.id ?? null,
+            sourceId: income.source?.id,
+            typeId: income.type?.id,
+        },
+        isModalOpen: true,
+    });
+
+    onModalSave = async () => {
+        const { editingId, income } = this.state;
+        if (editingId) {
+            await api.income.put(editingId, income);
+        } else {
+            await api.income.post(income);
+        }
+        this.onFiltersChanged();
+    };
 }
 
 IncomesPage.contextType = UserContext;

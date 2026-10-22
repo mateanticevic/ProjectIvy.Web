@@ -7262,6 +7262,7 @@ export interface paths {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
+                    SalaryId?: string;
                     SourceId?: string;
                     TypeId?: string;
                     Page?: number;
@@ -7409,6 +7410,7 @@ export interface paths {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
+                    SalaryId?: string;
                     SourceId?: string;
                     TypeId?: string;
                     Page?: number;
@@ -7459,6 +7461,7 @@ export interface paths {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
+                    SalaryId?: string;
                     SourceId?: string;
                     TypeId?: string;
                     Page?: number;
@@ -7505,6 +7508,7 @@ export interface paths {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
                     OrderBy?: components["schemas"]["IncomeSort"];
+                    SalaryId?: string;
                     SourceId?: string;
                     TypeId?: string;
                     Page?: number;
@@ -7530,6 +7534,47 @@ export interface paths {
             };
         };
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/Income/{valueId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    valueId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["IncomeBinding"];
+                    "text/json": components["schemas"]["IncomeBinding"];
+                    "application/*+json": components["schemas"]["IncomeBinding"];
+                };
+            };
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         post?: never;
         delete?: never;
         options?: never;
@@ -9580,6 +9625,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
+                    CompanyId?: string;
                     CurrencyId?: string;
                     Page?: number;
                     PageAll?: boolean;
@@ -12528,6 +12574,8 @@ export interface components {
             amount?: number;
             currency?: components["schemas"]["Currency"];
             description?: string | null;
+            id?: string | null;
+            salary?: components["schemas"]["Salary"];
             source?: components["schemas"]["IncomeSource"];
             /** Format: date-time */
             timestamp?: string;
@@ -12540,6 +12588,7 @@ export interface components {
             /** Format: date-time */
             date?: string;
             description?: string | null;
+            salaryId?: string | null;
             sourceId?: string | null;
             typeId?: string | null;
         };
@@ -12770,6 +12819,7 @@ export interface components {
         /** @enum {string} */
         RouteTimeSort: "date" | "duration";
         Salary: {
+            companyId?: string | null;
             currency?: components["schemas"]["Currency"];
             /** Format: date-time */
             date?: string;
@@ -12793,6 +12843,7 @@ export interface components {
             travelExpenses?: number;
         };
         SalaryBinding: {
+            companyId?: string | null;
             currencyId: string;
             /** Format: date-time */
             date?: string;
