@@ -4,13 +4,19 @@ import { currency } from './data';
 import type { components } from '../src/types/ivy-types';
 
 type Salary = components['schemas']['Salary'];
+const company = { id: 'company-1', name: 'Example company' };
+const otherCompany = { id: 'company-2', name: 'Other company' };
 const salary: Salary = {
-    id: 'salary-1', date: '2026-10-01T00:00:00', currency,
+    id: 'salary-1', date: '2026-10-01T00:00:00', currency, company,
     gross: 3000, grossTotal: 3500, net: 2000, netTotal: 2100,
     medical: 200, tax: 300, travelExpenses: 100, deductions: null, note: 'October payroll'
 };
 
 async function install(page: Page) {
+    await page.route('**/test-api/company?**', route => {
+        expect(new URL(route.request().url()).searchParams.get('PageAll')).toBe('true');
+        return route.fulfill({ json: { items: [company, otherCompany], count: 2 } });
+    });
     await page.route('**/test-api/currency', route => route.fulfill({ json: [currency] }));
     await page.route('**/test-api/salary?**', route => route.fulfill({ json: { items: [salary], count: 1 } }));
 }
@@ -68,13 +74,15 @@ test('persists filters and pagination and restores them through browser navigati
     await expect(page).toHaveURL(/from=2026-01-01$/);
     await page.getByLabel('To', { exact: true }).fill('2026-12-31');
     await page.getByLabel('Currency', { exact: true }).selectOption('EUR');
+    await page.getByLabel('Company', { exact: true }).selectOption(company.id);
     await expect.poll(() => Object.fromEntries(queries.at(-1)!)).toEqual({
-        Page: '1', PageSize: '25', OrderAscending: 'false', From: '2026-01-01', To: '2026-12-31', CurrencyId: 'EUR'
+        Page: '1', PageSize: '25', OrderAscending: 'false', From: '2026-01-01', To: '2026-12-31', CurrencyId: 'EUR', CompanyId: company.id
     });
     await page.reload();
     await expect(page.getByLabel('From', { exact: true })).toHaveValue('2026-01-01');
     await expect(page.getByLabel('To', { exact: true })).toHaveValue('2026-12-31');
     await expect(page.getByLabel('Currency', { exact: true })).toHaveValue('EUR');
+    await expect(page.getByLabel('Company', { exact: true })).toHaveValue(company.id);
     await page.getByRole('button', { name: 'Next', exact: true }).click();
     await expect(page.getByText('Page 2 of 2 · 26 salaries')).toBeVisible();
     await page.goBack();
@@ -99,6 +107,7 @@ test('creates once, validates required values, and converts blank amounts', asyn
     await page.getByRole('button', { name: 'Add salary', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Add salary', exact: true });
     await expect(dialog.locator('.rdt input')).toHaveAttribute('id', 'salary-date');
+    await dialog.getByLabel('Company', { exact: true }).selectOption(company.id);
     await dialog.getByLabel('Date', { exact: true }).fill('invalid date');
     await dialog.getByRole('button', { name: 'Save salary' }).click();
     await expect(dialog.getByRole('alert')).toContainText('Choose a valid date and currency.');
@@ -111,13 +120,17 @@ test('creates once, validates required values, and converts blank amounts', asyn
     await dialog.getByRole('button', { name: 'Save salary' }).click();
     expect(bodies).toEqual([]);
     await dialog.getByLabel('Currency', { exact: true }).selectOption('EUR');
+    await dialog.getByLabel('Company', { exact: true }).selectOption('');
+    await dialog.getByRole('button', { name: 'Save salary' }).click();
+    expect(bodies).toEqual([]);
+    await dialog.getByLabel('Company', { exact: true }).selectOption(company.id);
     await dialog.getByLabel('Net', { exact: true }).fill('1234.56');
     await dialog.getByLabel('Note', { exact: true }).fill('New payroll');
     await dialog.getByRole('button', { name: 'Save salary' }).click();
     await expect(dialog.getByRole('button', { name: 'Saving...' })).toBeDisabled();
     await expect(dialog.getByRole('button', { name: 'Cancel' })).toBeDisabled();
     expect(bodies).toEqual([{
-        date: '2026-10-03', currencyId: 'EUR', note: 'New payroll',
+        date: '2026-10-03', currencyId: 'EUR', companyId: company.id, note: 'New payroll',
         gross: 0, grossTotal: 0, net: 1234.56, netTotal: 0, medical: 0, tax: 0, travelExpenses: 0, deductions: null
     }]);
     release();
@@ -146,6 +159,8 @@ test('loads full details before editing and retains values after a failed save',
     for (const [label, value] of [['Gross', '3000'], ['Gross total', '3500'], ['Net', '2000'], ['Net total', '2100'], ['Medical', '200'], ['Tax', '300'], ['Travel expenses', '100'], ['Deductions', '']]) {
         await expect(dialog.getByLabel(label, { exact: true })).toHaveValue(value);
     }
+    await expect(dialog.getByLabel('Company', { exact: true })).toHaveValue(company.id);
+    await dialog.getByLabel('Company', { exact: true }).selectOption(otherCompany.id);
     await dialog.getByLabel('Deductions', { exact: true }).fill('50.25');
     await dialog.getByRole('button', { name: 'Save salary' }).click();
     await expect(dialog.getByRole('alert')).toContainText('Your values have been kept');
@@ -153,7 +168,7 @@ test('loads full details before editing and retains values after a failed save',
     await dialog.getByRole('button', { name: 'Save salary' }).click();
     await expect(dialog).not.toBeVisible();
     expect(bodies).toHaveLength(2);
-    expect(bodies[1]).toMatchObject({ currencyId: 'EUR', date: '2026-10-01', grossTotal: 3500, deductions: 50.25, note: 'Full details' });
+    expect(bodies[1]).toMatchObject({ currencyId: 'EUR', companyId: otherCompany.id, date: '2026-10-01', grossTotal: 3500, deductions: 50.25, note: 'Full details' });
 });
 
 test('confirms deletion, recovers from failure, and moves off an empty last page', async ({ page }) => {
@@ -247,4 +262,18 @@ test('ignores an older list response after filters change', async ({ page }) => 
     release();
     await oldResponse;
     await expect(gross).toHaveText('999,00');
+});
+
+
+test('retries company loading before enabling salary changes', async ({ page }) => {
+    let calls = 0;
+    await page.route('**/test-api/company?**', route => {
+        calls++;
+        return calls === 1 ? route.fulfill({ status: 500 }) : route.fulfill({ json: { items: [company], count: 1 } });
+    });
+    await page.goto('/salary');
+    await expect(page.getByRole('button', { name: 'Add salary', exact: true })).toBeDisabled();
+    await page.getByRole('button', { name: 'Retry companies' }).click();
+    await page.getByRole('button', { name: 'Add salary', exact: true }).click();
+    await expect(page.getByRole('dialog').getByLabel('Company', { exact: true }).getByRole('option', { name: company.name, exact: true })).toHaveCount(1);
 });

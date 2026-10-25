@@ -2464,6 +2464,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Company": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Search?: string;
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CompanyPagedView"];
+                        "application/json": components["schemas"]["CompanyPagedView"];
+                        "text/json": components["schemas"]["CompanyPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Consumation": {
         parameters: {
             query?: never;
@@ -12316,6 +12358,15 @@ export interface components {
             /** Format: date-time */
             exitTime?: string | null;
         };
+        Company: {
+            id?: string | null;
+            name?: string | null;
+        };
+        CompanyPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["Company"][] | null;
+        };
         Consumation: {
             beer?: components["schemas"]["Beer"];
             /** Format: date-time */
@@ -12819,7 +12870,7 @@ export interface components {
         /** @enum {string} */
         RouteTimeSort: "date" | "duration";
         Salary: {
-            companyId?: string | null;
+            company?: components["schemas"]["Company"];
             currency?: components["schemas"]["Currency"];
             /** Format: date-time */
             date?: string;
@@ -12843,7 +12894,7 @@ export interface components {
             travelExpenses?: number;
         };
         SalaryBinding: {
-            companyId?: string | null;
+            companyId: string;
             currencyId: string;
             /** Format: date-time */
             date?: string;

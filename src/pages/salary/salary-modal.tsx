@@ -13,16 +13,18 @@ const amountFields = [
 
 interface Props {
     salary?: Salary;
+    companies: components['schemas']['Company'][];
     currencies: components['schemas']['Currency'][];
     defaultCurrencyId?: string;
     onClose: () => void;
     onSave: (binding: SalaryBinding) => Promise<void>;
 }
 
-export default function SalaryModal({ salary, currencies, defaultCurrencyId, onClose, onSave }: Props) {
+export default function SalaryModal({ salary, currencies, companies, defaultCurrencyId, onClose, onSave }: Props) {
     const [date, setDate] = useState(salary?.date ? salary.date.slice(0, 10) : moment().format('YYYY-MM-DD'));
     const [isDateValid, setIsDateValid] = useState(true);
     const [currencyId, setCurrencyId] = useState(salary?.currency?.id ?? defaultCurrencyId ?? '');
+    const [companyId, setCompanyId] = useState(salary?.company?.id ?? '');
     const [amounts, setAmounts] = useState(() => Object.fromEntries(amountFields.map(([key]) => [key, salary?.[key]?.toString() ?? ''])));
     const [note, setNote] = useState(salary?.note ?? '');
     const [saving, setSaving] = useState(false);
@@ -36,7 +38,11 @@ export default function SalaryModal({ salary, currencies, defaultCurrencyId, onC
             setError('Choose a valid date and currency.');
             return;
         }
-        const binding: SalaryBinding = { date, currencyId, note: note || null };
+        if (!companyId || !companies.some(company => company.id === companyId)) {
+            setError('Choose a valid company.');
+            return;
+        }
+        const binding: SalaryBinding = { date, currencyId, companyId, note: note || null };
         for (const [key] of amountFields) {
             const value = amounts[key].trim();
             if (value && !Number.isFinite(Number(value))) {
@@ -90,6 +96,15 @@ export default function SalaryModal({ salary, currencies, defaultCurrencyId, onC
                                     <Form.Select required value={currencyId} onChange={event => setCurrencyId(event.target.value)}>
                                         <option value="">Choose currency</option>
                                         {currencies.map(currency => <option key={currency.id} value={currency.id!}>{currency.code} — {currency.name}</option>)}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col xs={12}>
+                                <Form.Group controlId="salary-company">
+                                    <Form.Label>Company</Form.Label>
+                                    <Form.Select required value={companyId} onChange={event => setCompanyId(event.target.value)}>
+                                        <option value="">Choose company</option>
+                                        {companies.map(company => <option key={company.id} value={company.id!}>{company.name}</option>)}
                                     </Form.Select>
                                 </Form.Group>
                             </Col>

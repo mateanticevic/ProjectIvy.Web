@@ -10,6 +10,7 @@ import SalaryModal from './salary-modal';
 
 type Salary = components['schemas']['Salary'];
 type SalaryBinding = components['schemas']['SalaryBinding'];
+type Company = components['schemas']['Company'];
 type Currency = components['schemas']['Currency'];
 interface Props { toast: (title: string, message: string) => void; }
 const amountFormatter = new Intl.NumberFormat('hr-HR', { minimumFractionDigits: 2, maximumFractionDigits: 20 });
@@ -20,6 +21,7 @@ export default function SalaryPage({ toast }: Props) {
     const [searchParams, setSearchParams] = useSearchParams();
     const from = validDate(searchParams.get('from'));
     const to = validDate(searchParams.get('to'));
+    const companyId = searchParams.get('companyId') ?? '';
     const currencyId = searchParams.get('currencyId') ?? '';
     const rawPage = Number(searchParams.get('page') ?? 1);
     const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1;
@@ -31,6 +33,9 @@ export default function SalaryPage({ toast }: Props) {
     const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [currencyError, setCurrencyError] = useState(false);
     const [currencyRevision, setCurrencyRevision] = useState(0);
+    const [companies, setCompanies] = useState<Company[]>([]);
+    const [companyError, setCompanyError] = useState(false);
+    const [companyRevision, setCompanyRevision] = useState(0);
     const [modal, setModal] = useState<{ salary?: Salary }>();
     const [editingId, setEditingId] = useState<string>();
     const [detailError, setDetailError] = useState('');
@@ -51,6 +56,14 @@ export default function SalaryPage({ toast }: Props) {
 
     useEffect(() => {
         let active = true;
+        setCompanyError(false);
+        api.company.get({ PageAll: true }).then(response => { if (active) setCompanies((response.items ?? []).filter(company => !!company.id)); })
+            .catch(() => { if (active) setCompanyError(true); });
+        return () => { active = false; };
+    }, [companyRevision]);
+
+    useEffect(() => {
+        let active = true;
         setLoading(true);
         setError('');
         if (invalidRange) {
@@ -59,7 +72,7 @@ export default function SalaryPage({ toast }: Props) {
         }
         api.salary.get({
             Page: page, PageSize: 25, OrderAscending: false,
-            ...(from ? { From: from } : {}), ...(to ? { To: to } : {}), ...(currencyId ? { CurrencyId: currencyId } : {})
+            ...(from ? { From: from } : {}), ...(to ? { To: to } : {}), ...(currencyId ? { CurrencyId: currencyId } : {}), ...(companyId ? { CompanyId: companyId } : {})
         }).then(response => {
             if (!active) return;
             setItems(response.items ?? []);
@@ -67,7 +80,7 @@ export default function SalaryPage({ toast }: Props) {
         }).catch(() => { if (active) setError('Could not load salaries.'); })
             .finally(() => { if (active) setLoading(false); });
         return () => { active = false; };
-    }, [from, to, currencyId, page, revision, invalidRange]);
+    }, [from, to, currencyId, companyId, page, revision, invalidRange]);
 
     useEffect(() => () => { editRequest.current++; }, []);
 
@@ -132,7 +145,7 @@ export default function SalaryPage({ toast }: Props) {
         }
     };
 
-    const actionsDisabled = busy || !!editingId || !currencies.length || currencyError;
+    const actionsDisabled = busy || !!editingId || !currencies.length || currencyError || !companies.length || companyError;
     return (
         <Container>
             <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
@@ -140,15 +153,25 @@ export default function SalaryPage({ toast }: Props) {
                 <Button disabled={actionsDisabled} onClick={() => setModal({})}>Add salary</Button>
             </div>
             {currencyError && <Alert variant="danger">Could not load currencies. <Button variant="outline-danger" onClick={() => setCurrencyRevision(value => value + 1)}>Retry currencies</Button></Alert>}
+            {companyError && <Alert variant="danger">Could not load companies. <Button variant="outline-danger" onClick={() => setCompanyRevision(value => value + 1)}>Retry companies</Button></Alert>}
             <Row className="g-3 mb-3">
-                <Col sm={4}><Form.Group controlId="salary-from"><Form.Label>From</Form.Label><DatetimeInput inputProps={{ id: 'salary-from' }} value={from} onChange={value => updateQuery('from', value)} /></Form.Group></Col>
-                <Col sm={4}><Form.Group controlId="salary-to"><Form.Label>To</Form.Label><DatetimeInput inputProps={{ id: 'salary-to' }} value={to} onChange={value => updateQuery('to', value)} /></Form.Group></Col>
-                <Col sm={4}>
+                <Col sm={6} lg={3}><Form.Group controlId="salary-from"><Form.Label>From</Form.Label><DatetimeInput inputProps={{ id: 'salary-from' }} value={from} onChange={value => updateQuery('from', value)} /></Form.Group></Col>
+                <Col sm={6} lg={3}><Form.Group controlId="salary-to"><Form.Label>To</Form.Label><DatetimeInput inputProps={{ id: 'salary-to' }} value={to} onChange={value => updateQuery('to', value)} /></Form.Group></Col>
+                <Col sm={6} lg={3}>
                     <Form.Group controlId="salary-currency-filter">
                         <Form.Label>Currency</Form.Label>
                         <Form.Select value={currencyId} onChange={event => updateQuery('currencyId', event.target.value)}>
                             <option value="">All currencies</option>
                             {currencies.map(currency => <option key={currency.id} value={currency.id!}>{currency.code}</option>)}
+                        </Form.Select>
+                    </Form.Group>
+                </Col>
+                <Col sm={6} lg={3}>
+                    <Form.Group controlId="salary-company-filter">
+                        <Form.Label>Company</Form.Label>
+                        <Form.Select value={companyId} onChange={event => updateQuery('companyId', event.target.value)}>
+                            <option value="">All companies</option>
+                            {companies.map(company => <option key={company.id} value={company.id!}>{company.name}</option>)}
                         </Form.Select>
                     </Form.Group>
                 </Col>
@@ -190,7 +213,7 @@ export default function SalaryPage({ toast }: Props) {
                     </div>
                 </>
             )}
-            {modal && <SalaryModal salary={modal.salary} currencies={currencies} defaultCurrencyId={user.defaultCurrency?.id} onClose={() => setModal(undefined)} onSave={save} />}
+            {modal && <SalaryModal salary={modal.salary} currencies={currencies} companies={companies} defaultCurrencyId={user.defaultCurrency?.id} onClose={() => setModal(undefined)} onSave={save} />}
             <Modal show={!!deleting} onHide={() => { if (!mutationPending.current) setDeleting(undefined); }} backdrop="static" aria-labelledby="salary-delete-title">
                 <Modal.Header closeButton={!busy}><Modal.Title id="salary-delete-title">Delete salary</Modal.Title></Modal.Header>
                 <Modal.Body>
