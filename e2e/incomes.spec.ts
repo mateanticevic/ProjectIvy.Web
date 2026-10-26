@@ -15,6 +15,37 @@ test.beforeEach(async ({ page, api }) => {
     } }));
 });
 
+test('filters incomes and totals by salary link and restores the selection from the URL', async ({ page, api }) => {
+    api.useScenario(scenarios.incomes.map(response => ({
+        ...response,
+        allowedQuery: [...(response.allowedQuery ?? []), 'linkedtosalary'],
+    })));
+    await page.goto('/incomes?page=2&linkedToSalary=false');
+    const toggle = page.getByRole('group', { name: 'Linked to salary', exact: true });
+    await expect(toggle.getByRole('radio', { name: 'No', exact: true })).toBeChecked();
+
+    const select = async (name: string, value: string | null) => {
+        const requests = ['income', 'income/sum', 'income/sum/bymonthofyear'].map(resource =>
+            page.waitForRequest(request => {
+                const url = new URL(request.url());
+                return url.pathname === `/test-api/${resource}` && url.searchParams.get('LinkedToSalary') === value;
+            })
+        );
+        await toggle.getByText(name, { exact: true }).click();
+        for (const request of await Promise.all(requests)) {
+            expect(new URL(request.url()).searchParams.get('page')).toBe('1');
+        }
+        expect(new URL(page.url()).searchParams.get('linkedToSalary')).toBe(value);
+        await expect(toggle.getByRole('radio', { name, exact: true })).toBeChecked();
+    };
+
+    await select('Yes', 'true');
+    await select('No', 'false');
+    await page.reload();
+    await expect(toggle.getByRole('radio', { name: 'No', exact: true })).toBeChecked();
+    await select('Both', null);
+});
+
 test('edits existing income, refreshes salary choices with date plus five days, and saves the link', async ({ page }) => {
     const bodies: unknown[] = [];
     await page.route('**/test-api/income/income-1', route => {

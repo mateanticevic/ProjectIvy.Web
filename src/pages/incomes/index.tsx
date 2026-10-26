@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Container, FormGroup, FormLabel, Row, Table, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import moment from 'moment';
 
 import api from 'api/main';
@@ -132,6 +132,21 @@ class IncomesPage extends Page<unknown, State> {
                                     />
                                 </FormGroup>
                                 <FormGroup>
+                                    <FormLabel id="linked-to-salary-label">Linked to salary</FormLabel>
+                                    <ToggleButtonGroup
+                                        type="radio"
+                                        name="linkedToSalary"
+                                        size="sm"
+                                        aria-labelledby="linked-to-salary-label"
+                                        value={filters.linkedToSalary === undefined ? '' : String(filters.linkedToSalary)}
+                                        onChange={value => this.onFiltersChanged({ linkedToSalary: value === '' ? undefined : value === 'true' })}
+                                    >
+                                        <ToggleButton id="linked-to-salary-both" value="">Both</ToggleButton>
+                                        <ToggleButton id="linked-to-salary-yes" value="true">Yes</ToggleButton>
+                                        <ToggleButton id="linked-to-salary-no" value="false">No</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </FormGroup>
+                                <FormGroup>
                                     <DateFormElement
                                         label="From"
                                         onChange={date => this.onFiltersChanged({ from: date })}
@@ -219,10 +234,17 @@ class IncomesPage extends Page<unknown, State> {
         }
 
         const filters: IncomeFilters = {
-            ...this.state.filters,
-            ...changed,
-            page: changed?.page ?? (changed ? 1 : this.state.filters.page),
+            ...this.resolveFilters(this.state.filters, changed),
+            ...(changed ? { page: changed.page ?? 1 } : {}),
         };
+
+        // Query-string values are strings when restoring filters from the URL.
+        const linkedToSalary = String(filters.linkedToSalary);
+        if (linkedToSalary === 'true' || linkedToSalary === 'false') {
+            filters.linkedToSalary = linkedToSalary === 'true';
+        } else {
+            delete filters.linkedToSalary;
+        }
 
         (['currencyId', 'sourceId', 'typeId', 'from', 'to'] as const).forEach(key => {
             if (!filters[key]) {
@@ -230,6 +252,7 @@ class IncomesPage extends Page<unknown, State> {
             }
         });
 
+        this.pushHistoryState(filters);
         this.setState({ filters }, this.onGroupByChanged);
         api.income.get(filters)
             .then(incomes => this.setState({ incomes }));
