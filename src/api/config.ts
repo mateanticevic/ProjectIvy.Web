@@ -1,4 +1,5 @@
 import * as urlHelper from 'utils/url-helper';
+import { redirectToLogin } from 'utils/auth-helper';
 import { httpContentType } from './http-content-type';
 import { httpHeader } from './http-header';
 import { httpMethod } from './http-method';
@@ -17,7 +18,8 @@ function handleResponse(response) {
         }
     } else if (response.status == httpStatus.UNAUTHORIZED) {
         document.cookie=`AccessToken=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN}`;
-        window.location = '/';
+        redirectToLogin();
+        return new Promise<never>(() => {});
     } else {
         throw new Error(response.status);
     }

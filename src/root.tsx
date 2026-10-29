@@ -36,6 +36,7 @@ import TripsPage from './pages/trips';
 import { CalendarYearPage } from 'pages/calendar-year';
 import { UserContext } from './contexts/user-context';
 import { getIdentity } from 'utils/cookie-helper';
+import { getAuthCallback, getAuthRedirectUri, redirectToLogin } from 'utils/auth-helper';
 
 interface State {
     error?: string,
@@ -52,8 +53,6 @@ enum LoadingState {
     Ready,
     Waiting,
 }
-
-const loginWithOAuthProviderUrl = `${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/auth?client_id=web&redirect_uri=${import.meta.env.VITE_APP_URL}&response_type=code&scope=openid`;
 
 export default class Root extends React.Component<{}, State> {
     identity = getIdentity();
@@ -72,6 +71,7 @@ export default class Root extends React.Component<{}, State> {
         const code = urlParams.get('code');
 
         if (code) {
+            const callback = urlParams.get('callback');
             fetch(`${import.meta.env.VITE_AUTH_URL}/realms/ivy/protocol/openid-connect/token`, {
                 method: 'POST',
                 headers: {
@@ -80,19 +80,30 @@ export default class Root extends React.Component<{}, State> {
                 body: new URLSearchParams({
                     grant_type: 'authorization_code',
                     code: code,
-                    redirect_uri: import.meta.env.VITE_APP_URL,
+                    redirect_uri: getAuthRedirectUri(callback),
                     client_id: 'web',
                 }).toString()
             })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Authentication failed');
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    document.cookie = `AccessToken=${data.access_token};domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};max-age=${5 * 24 * 60 * 60};`;
-                    location = '/';
+                    if (!data.access_token) {
+                        throw new Error('Authentication failed');
+                    }
+                    document.cookie = `AccessToken=${data.access_token};path=/;domain=${import.meta.env.VITE_ACCESS_TOKEN_COOKIE_DOMAIN};max-age=${5 * 24 * 60 * 60};`;
+                    window.location.replace(getAuthCallback(callback));
                 })
                 .catch(error => {
-                    // Handle the error
-                    console.error(error);
+                    this.setState({
+                        error: error.message,
+                        loadingState: LoadingState.Error,
+                    });
                 });
+            return;
         }
 
         if (this.identity) {
@@ -110,8 +121,8 @@ export default class Root extends React.Component<{}, State> {
                     });
                 });
         }
-        else if (!code) {
-            window.location.assign(loginWithOAuthProviderUrl);
+        else {
+            redirectToLogin();
         }
     }
 
