@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useState, useEffect, useContext } from 'react';
-import { Col, Container, Card, Row, Carousel, Badge } from 'react-bootstrap';
+import { Col, Container, Card, Row, Carousel, Badge, Button } from 'react-bootstrap';
+import { FaPlus } from 'react-icons/fa';
 import { Marker, Polyline } from '@react-google-maps/api';
 import './styles.scss';
 import AsyncSelect from 'react-select/async';
@@ -12,6 +13,7 @@ import { StayItem } from 'components/stay-item';
 import ExpensePanel from '../expenses/expense-panel';
 import { Ride, RideBinding } from 'types/ride';
 import Timeline from './timeline';
+import { getStayTimeline } from './stay-timeline';
 import StayModal from '../trips/stay-modal';
 import { cityLoader, expenseLoader } from 'utils/select-loaders';
 import { UserContext } from 'contexts/user-context';
@@ -45,6 +47,8 @@ const TripDetailsPage: React.FC = () => {
     });
     const [rides, setRides] = useState<Ride[]>([]);
     const [selectedStay, setSelectedStay] = useState<Stay | null>(null);
+    const [isStaySaving, setIsStaySaving] = useState(false);
+    const [staySaveError, setStaySaveError] = useState<string | null>(null);
     const [stays, setStays] = useState<Stay[]>([]);
     const [trip, setTrip] = useState<Trip>({
         cities: [],
@@ -114,7 +118,14 @@ const TripDetailsPage: React.FC = () => {
     };
 
     const onEditStay = (stay: Stay) => {
+        setStaySaveError(null);
         setSelectedStay(stay);
+        setIsStayModalOpen(true);
+    };
+
+    const onAddStay = (from: string, to: string) => {
+        setStaySaveError(null);
+        setSelectedStay({ from, to });
         setIsStayModalOpen(true);
     };
 
@@ -126,24 +137,29 @@ const TripDetailsPage: React.FC = () => {
     };
 
     const onStaySave = () => {
-        if (!selectedStay || !selectedStay.id) return;
+        if (!selectedStay || isStaySaving) return;
 
         const stayBinding = {
             from: selectedStay.from,
             to: selectedStay.to,
             cityId: selectedStay.city?.id,
-            countryId: selectedStay.city?.country?.id,
+            countryId: selectedStay.city?.country?.id ?? selectedStay.country?.id,
         };
 
-        api.stay.put(String(selectedStay.id), stayBinding)
-            .then(() => {
-                // Refresh trip data
-                api.trip.getById(trip.id!).then(updatedTrip => {
-                    setTrip(updatedTrip);
-                    setIsStayModalOpen(false);
-                    setSelectedStay(null);
-                });
-            });
+        setIsStaySaving(true);
+        setStaySaveError(null);
+        const save = selectedStay.id
+            ? api.stay.put(String(selectedStay.id), stayBinding)
+            : api.stay.post(stayBinding);
+        save
+            .then(() => api.trip.getById(trip.id!))
+            .then(updatedTrip => {
+                setTrip(updatedTrip);
+                setIsStayModalOpen(false);
+                setSelectedStay(null);
+            })
+            .catch(() => setStaySaveError('Could not save the stay. Please try again.'))
+            .finally(() => setIsStaySaving(false));
     };
 
     const days = moment(trip.timestampEnd).diff(moment(trip.timestampStart), 'days') + 1;
@@ -272,19 +288,28 @@ const TripDetailsPage: React.FC = () => {
                     <Card>
                         <Card.Header>Stays</Card.Header>
                         <Card.Body>
-                            {trip.stays!.length > 0 ? (
-                                <div className="stays-container">
-                                    {trip.stays!.map((stay, index) => (
+                            {!trip.stays?.length && <p className="text-muted">No stays recorded for this trip.</p>}
+                            <div className="stays-container align-items-center">
+                                {getStayTimeline(trip.stays || [], trip.timestampStart, trip.timestampEnd).map((item, index) => (
+                                    'stay' in item ? (
                                         <StayItem
-                                            key={stay.id || index}
-                                            stay={stay}
+                                            key={`stay-${item.stay.id ?? index}`}
+                                            stay={item.stay}
                                             onEdit={onEditStay}
                                         />
-                                    ))}
-                                </div>
-                            ) : (
-                                <p className="text-muted">No stays recorded for this trip.</p>
-                            )}
+                                    ) : (
+                                        <Button
+                                            key={`gap-${item.from}-${item.to}`}
+                                            variant="outline-secondary"
+                                            aria-label={`Add stay from ${item.from} to ${item.to}`}
+                                            title={`Add stay from ${item.from} to ${item.to}`}
+                                            onClick={() => onAddStay(item.from, item.to)}
+                                        >
+                                            <FaPlus />
+                                        </Button>
+                                    )
+                                ))}
+                            </div>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -300,7 +325,8 @@ const TripDetailsPage: React.FC = () => {
                 </Col>
             </Row>
             <StayModal
-                buttonIsLoading={false}
+                buttonIsLoading={isStaySaving}
+                error={staySaveError}
                 isOpen={isStayModalOpen}
                 stay={selectedStay}
                 onClose={() => {

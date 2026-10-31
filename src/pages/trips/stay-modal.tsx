@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, FormGroup, FormLabel } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormLabel, Alert } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { DateFormElement } from 'components';
@@ -13,6 +13,7 @@ type Stay = components['schemas']['Stay'];
 
 interface Props {
     buttonIsLoading: boolean;
+    error?: string | null;
     isOpen: boolean;
     stay?: Stay | null;
     onClose: () => void;
@@ -21,9 +22,9 @@ interface Props {
     countries: any[];
 }
 
-const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, onChange, onSave, countries }) => {
+const StayModal: React.FC<Props> = ({ buttonIsLoading, error, isOpen, stay, onClose, onChange, onSave, countries }) => {
     const reactSelectStyles = useReactSelectStyles();
-    const isEditing = !!stay;
+    const isEditing = !!stay?.id;
 
     return (
         <Modal show={isOpen} onHide={onClose}>
@@ -31,6 +32,7 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, isOpen, stay, onClose, on
                 <Modal.Title>{isEditing ? 'Edit Stay' : 'Add Stay'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {error && <Alert variant="danger">{error}</Alert>}
                 <DateFormElement
                     label="From"
                     value={moment(stay?.from).format('YYYY-MM-DD')}
