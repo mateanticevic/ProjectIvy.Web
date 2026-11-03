@@ -18,6 +18,7 @@ type Props = PagingFilters & {
     pageSize: number,
     serverPaging: boolean,
     stats: any,
+    footerContent?: React.ReactNode,
     onEdit: () => void,
     onNewClick: () => void,
     onPageChange: () => void,
@@ -25,7 +26,7 @@ type Props = PagingFilters & {
     onUnlink: () => void,
 };
 
-const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onLink, onUnlink, page, pageSize, serverPaging, stats }: Props) => {
+const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick, onPageChange, onLink, onUnlink, page, pageSize, serverPaging, stats, footerContent }: Props) => {
 
     const expensesHeader = `Expenses (${expenses.count})`;
 
@@ -72,9 +73,10 @@ const ExpensePanel = ({ defaultCurrency, expenses, isLoading, onEdit, onNewClick
                     </Col>
                 </Row>
             </Card.Body>
-            {stats &&
+            {(stats || footerContent) &&
                 <Card.Footer>
-                    Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}
+                    {stats && <div>Sum {stats.sum}{defaultCurrency.symbol} Types {stats.typeCount} Vendors {stats.vendorCount}</div>}
+                    {footerContent}
                 </Card.Footer>
             }
         </Card>
