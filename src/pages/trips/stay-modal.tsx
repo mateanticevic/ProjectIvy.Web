@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, FormGroup, FormLabel, Alert } from 'react-bootstrap';
+import { Modal, Button, FormGroup, FormLabel, FormCheck, Alert } from 'react-bootstrap';
 import ReactSelect from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { DateFormElement } from 'components';
@@ -8,7 +8,6 @@ import { components } from 'types/ivy-types';
 import moment from 'moment';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
-type StayBinding = components['schemas']['StayBinding'];
 type Stay = components['schemas']['Stay'];
 
 interface Props {
@@ -63,6 +62,12 @@ const StayModal: React.FC<Props> = ({ buttonIsLoading, error, isOpen, stay, onCl
                         styles={reactSelectStyles}
                     />
                 </FormGroup>
+                <FormCheck
+                    id="stay-is-booked"
+                    label="Booked"
+                    checked={stay?.isBooked ?? false}
+                    onChange={event => onChange({ isBooked: event.target.checked })}
+                />
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onClose}>

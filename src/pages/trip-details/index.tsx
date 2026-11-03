@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { useState, useEffect, useContext } from 'react';
-import { Col, Container, Card, Row, Carousel, Badge, Button } from 'react-bootstrap';
+import { Col, Container, Card, Row, Carousel, Badge, Button, Collapse } from 'react-bootstrap';
 import { FaPlus } from 'react-icons/fa';
 import { Marker, Polyline } from '@react-google-maps/api';
 import './styles.scss';
@@ -35,6 +35,7 @@ const TripDetailsPage: React.FC = () => {
     const reactSelectStyles = getReactSelectStyles(isDarkTheme());
 
     const [beerSum, setBeerSum] = useState<number>(0);
+    const [isExpenseSelectOpen, setIsExpenseSelectOpen] = useState(false);
     const [expenseFilters, setExpenseFilters] = useState<PagingFilters>({
         page: 1,
         pageSize: 10,
@@ -144,6 +145,7 @@ const TripDetailsPage: React.FC = () => {
             to: selectedStay.to,
             cityId: selectedStay.city?.id,
             countryId: selectedStay.city?.country?.id ?? selectedStay.country?.id,
+            isBooked: selectedStay.isBooked ?? false,
         };
 
         setIsStaySaving(true);
@@ -265,12 +267,6 @@ const TripDetailsPage: React.FC = () => {
                         defaultOptions
                         styles={reactSelectStyles}
                     />
-                    <AsyncSelect
-                        loadOptions={expenseLoader}
-                        onChange={(expense: any) => addExpense(expense.value)}
-                        defaultOptions
-                        styles={reactSelectStyles}
-                    />
                 </Col>
             </Row>
             <Row>
@@ -280,7 +276,32 @@ const TripDetailsPage: React.FC = () => {
                         page={expenseFilters.page}
                         pageSize={expenseFilters.pageSize}
                         onPageChange={onExpensePageChange}
-                        onUnlink={onUnlink} />
+                        onUnlink={onUnlink}
+                        footerContent={
+                            <>
+                                <Button
+                                    size="sm"
+                                    onClick={() => setIsExpenseSelectOpen(open => !open)}
+                                    aria-expanded={isExpenseSelectOpen}
+                                    aria-controls="trip-expense-select"
+                                >
+                                    Add
+                                </Button>
+                                <Collapse in={isExpenseSelectOpen}>
+                                    <div id="trip-expense-select">
+                                        <div className="pt-2">
+                                            <AsyncSelect
+                                                aria-label="Expense to link to trip"
+                                                loadOptions={expenseLoader}
+                                                onChange={(expense: any) => addExpense(expense.value)}
+                                                defaultOptions
+                                                styles={reactSelectStyles}
+                                            />
+                                        </div>
+                                    </div>
+                                </Collapse>
+                            </>
+                        } />
                 </Col>
             </Row>
             <Row>

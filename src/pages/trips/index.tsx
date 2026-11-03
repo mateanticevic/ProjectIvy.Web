@@ -398,6 +398,7 @@ class TripsPage extends Page<unknown, State> {
             to: stay.to,
             cityId: stay.city?.id,
             countryId: stay.city?.country?.id,
+            isBooked: stay.isBooked ?? false,
         };
         api.stay
             .post(stayBinding)

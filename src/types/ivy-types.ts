@@ -12943,6 +12943,7 @@ export interface components {
             to?: string;
             cityId?: string | null;
             countryId?: string | null;
+            isBooked?: boolean;
         };
         StayPagedView: {
             /** Format: int64 */
