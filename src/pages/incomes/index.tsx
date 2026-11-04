@@ -149,6 +149,21 @@ class IncomesPage extends Page<unknown, State> {
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 <FormGroup>
+                                    <FormLabel id="linked-to-transactions-label">Linked to transactions</FormLabel>
+                                    <ToggleButtonGroup
+                                        type="radio"
+                                        name="hasTransactions"
+                                        size="sm"
+                                        aria-labelledby="linked-to-transactions-label"
+                                        value={filters.hasTransactions === undefined ? '' : String(filters.hasTransactions)}
+                                        onChange={value => this.onFiltersChanged({ hasTransactions: value === '' ? undefined : value === 'true' })}
+                                    >
+                                        <ToggleButton id="linked-to-transactions-both" value="">Both</ToggleButton>
+                                        <ToggleButton id="linked-to-transactions-yes" value="true">Yes</ToggleButton>
+                                        <ToggleButton id="linked-to-transactions-no" value="false">No</ToggleButton>
+                                    </ToggleButtonGroup>
+                                </FormGroup>
+                                <FormGroup>
                                     <DateFormElement
                                         label="From"
                                         onChange={date => this.onFiltersChanged({ from: date })}
@@ -242,11 +257,13 @@ class IncomesPage extends Page<unknown, State> {
         };
 
         // Query-string values are strings when restoring filters from the URL.
-        const linkedToSalary = String(filters.linkedToSalary);
-        if (linkedToSalary === 'true' || linkedToSalary === 'false') {
-            filters.linkedToSalary = linkedToSalary === 'true';
-        } else {
-            delete filters.linkedToSalary;
+        for (const key of ['linkedToSalary', 'hasTransactions'] as const) {
+            const value = String(filters[key]);
+            if (value === 'true' || value === 'false') {
+                filters[key] = value === 'true';
+            } else {
+                delete filters[key];
+            }
         }
 
         (['currencyId', 'sourceId', 'typeId', 'from', 'to'] as const).forEach(key => {

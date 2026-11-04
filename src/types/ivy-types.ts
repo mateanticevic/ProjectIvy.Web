@@ -7303,6 +7303,7 @@ export interface paths {
                 query?: {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7452,6 +7453,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7504,6 +7506,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7552,6 +7555,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
