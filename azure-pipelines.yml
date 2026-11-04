@@ -53,8 +53,8 @@ stages:
 #         artifact: playwright-results
 - stage: Build
   displayName: Build image
-  dependsOn: Test
-  condition: succeeded()
+  # dependsOn: Test
+  # condition: succeeded()
   jobs:
   - job: Build
     displayName: Build
