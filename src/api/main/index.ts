@@ -33,6 +33,7 @@ import tag from './tag';
 import todo from './todo';
 import tracking from './tracking';
 import trackingView from './tracking-view';
+import transactions from './transaction';
 import trip from './trip';
 import user from './user';
 import vendor from './vendor';
@@ -75,6 +76,7 @@ const api = {
     todo,
     tracking,
     trackingView,
+    transactions,
     trip,
     trips: trip,
     user,
