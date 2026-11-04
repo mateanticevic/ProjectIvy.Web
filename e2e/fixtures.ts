@@ -1,5 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import { MockApi } from './mock-api';
+import { installMockMaps } from './mock-maps';
 
 export const test = base.extend<{ api: MockApi }>({
     api: [async ({ context, page, baseURL }, use, testInfo) => {
@@ -7,6 +8,7 @@ export const test = base.extend<{ api: MockApi }>({
         const browserErrors: string[] = [];
         context.on('weberror', error => browserErrors.push(error.error().stack ?? error.error().message));
         await api.install(context);
+        await context.addInitScript(installMockMaps);
         const tokenPart = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
         const token = `${tokenPart({ alg: 'none', typ: 'JWT' })}.${tokenPart({ name: 'Smoke User', scope: 'openid beer:user' })}.test`;
         await context.addCookies([{ name: 'AccessToken', value: token, url: baseURL!, httpOnly: false }]);
