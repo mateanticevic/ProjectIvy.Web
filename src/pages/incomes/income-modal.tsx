@@ -8,6 +8,7 @@ import { FaCalendar } from 'react-icons/fa';
 import { DatetimeInput } from 'components';
 import Select from 'components/select';
 import { components } from 'types/ivy-types';
+import IncomeTransactions from './income-transactions';
 
 type Currency = components['schemas']['Currency'];
 type IncomeBinding = components['schemas']['IncomeBinding'];
@@ -21,6 +22,7 @@ interface Props {
     isOpen: boolean;
     isEditing: boolean;
     selectedSalary?: Salary;
+    linkedTransactions?: components['schemas']['Transaction'][];
     sources: IncomeSource[];
     types: IncomeType[];
     onClose(): void;
@@ -28,7 +30,7 @@ interface Props {
     onSave(): Promise<void>;
 }
 
-const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, isEditing, selectedSalary, sources, types }: Props) => {
+const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, isEditing, selectedSalary, linkedTransactions, sources, types }: Props) => {
 
     const [salaries, setSalaries] = useState<Salary[]>([]);
     const [salaryError, setSalaryError] = useState(false);
@@ -154,6 +156,15 @@ const IncomeModal = ({ onClose, onChange, onSave, currencies, income, isOpen, is
                         {salaryLoading && <div role="status">Loading salaries...</div>}
                         {salaryError && <Alert variant="danger">Could not load salaries. <Button size="sm" onClick={() => setRetry(value => value + 1)}>Retry salaries</Button></Alert>}
                     </FormGroup>
+                    {isOpen && isEditing && (
+                        <IncomeTransactions
+                            date={income.date}
+                            disabled={saving}
+                            linkedTransactions={linkedTransactions}
+                            transactionIds={income.transactionIds}
+                            onChange={transactionIds => onChange({ transactionIds })}
+                        />
+                    )}
                 </fieldset>
             </Modal.Body>
             <Modal.Footer>

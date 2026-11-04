@@ -2,12 +2,20 @@ import { test, expect } from './fixtures';
 import { scenarios } from './scenarios';
 import { income, currency } from './data';
 
+const linkedTransaction = { id: 'linked-transaction', created: '2026-09-01', amount: 2000, description: 'Previously linked' };
 const salary = { id: 'salary-1', date: '2026-10-01', netTotal: 2100, currency, note: 'October payroll' };
 
 test.beforeEach(async ({ page, api }) => {
     api.useScenario(scenarios.incomes);
     await page.route('**/test-api/income?**', route => route.fulfill({ json: {
-        count: 1, items: [{ ...income, id: 'income-1', salary }]
+        count: 1, items: [{ ...income, id: 'income-1', salary, transactions: [linkedTransaction] }]
+    } }));
+    await page.route('**/test-api/transaction?**', route => route.fulfill({ json: {
+        count: 2,
+        items: [
+            { id: 'transaction-1', created: '2026-10-29', amount: 1200, description: 'First deposit', account: { name: 'Bank account', currency } },
+            { id: 'transaction-2', created: '2026-10-30', amount: 1000, description: 'Second deposit', account: { name: 'Bank account', currency } },
+        ]
     } }));
     await page.route('**/test-api/salary?**', route => route.fulfill({ json: {
         count: 6,
@@ -46,7 +54,7 @@ test('filters incomes and totals by salary link and restores the selection from 
     await select('Both', null);
 });
 
-test('edits existing income, refreshes salary choices with date plus five days, and saves the link', async ({ page }) => {
+test('edits existing income, refreshes salary and transaction choices, and saves the links', async ({ page }) => {
     const bodies: unknown[] = [];
     await page.route('**/test-api/income/income-1', route => {
         expect(route.request().method()).toBe('PUT');
@@ -55,7 +63,11 @@ test('edits existing income, refreshes salary choices with date plus five days, 
     });
     await page.goto('/incomes');
     const initialSearch = page.waitForRequest(request => request.url().includes('/test-api/salary?'));
+    const initialTransactions = page.waitForRequest(request => request.url().includes('/test-api/transaction?'));
     await page.getByRole('button', { name: 'Edit', exact: true }).click();
+    expect(Object.fromEntries(new URL((await initialTransactions).url()).searchParams)).toEqual({
+        From: '2026-09-30', To: '2026-10-06', PageAll: 'true'
+    });
     expect(Object.fromEntries(new URL((await initialSearch).url()).searchParams)).toEqual({
         To: '2026-10-08', Page: '1', PageSize: '5', OrderAscending: 'false'
     });
@@ -69,7 +81,17 @@ test('edits existing income, refreshes salary choices with date plus five days, 
     await expect(dialog.getByLabel('Salary', { exact: true })).toHaveValue('salary-1');
     await expect(dialog.getByLabel('Salary', { exact: true }).locator('option')).toHaveCount(6);
     const nextSearch = page.waitForRequest(request => request.url().includes('/test-api/salary?') && new URL(request.url()).searchParams.get('To') === '2026-11-03');
+    const transactions = dialog.getByRole('combobox', { name: 'Transactions' });
+    await dialog.getByLabel('Date', { exact: true }).fill('');
+    await expect(dialog.getByLabel('Transactions')).toBeDisabled();
+    const nextTransactions = page.waitForRequest(request => request.url().includes('/test-api/transaction?') && new URL(request.url()).searchParams.get('From') === '2026-10-26');
     await dialog.getByLabel('Date', { exact: true }).fill('2026-10-29');
+    expect(new URL((await nextTransactions).url()).searchParams.get('To')).toBe('2026-11-01');
+    await expect(dialog.getByText('2000 - 2026-09-01', { exact: true })).toBeVisible();
+    for (const name of ['1200 EUR - 2026-10-29', '1000 EUR - 2026-10-30']) {
+        await transactions.click();
+        await dialog.getByRole('option', { name, exact: true }).click();
+    }
     await nextSearch;
     await expect(dialog.getByLabel('Salary', { exact: true })).toBeEnabled();
     await dialog.getByLabel('Salary', { exact: true }).selectOption('salary-2');
@@ -80,7 +102,7 @@ test('edits existing income, refreshes salary choices with date plus five days, 
     await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(dialog).not.toBeVisible();
     expect(bodies).toHaveLength(2);
-    expect(bodies[1]).toEqual({ date: '2026-10-29', amount: 2200, currencyId: 'EUR', sourceId: 'source-1', typeId: 'salary', description: income.description, salaryId: 'salary-2' });
+    expect(bodies[1]).toEqual({ date: '2026-10-29', amount: 2200, currencyId: 'EUR', sourceId: 'source-1', typeId: 'salary', description: income.description, salaryId: 'salary-2', transactionIds: ['linked-transaction', 'transaction-1', 'transaction-2'] });
 });
 
 test('clears an existing salary and resets fields when creating a new income', async ({ page }) => {

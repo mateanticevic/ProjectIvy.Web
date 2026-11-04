@@ -22,6 +22,7 @@ type IncomeType = components['schemas']['IncomeType'];
 type IncomeBinding = components['schemas']['IncomeBinding'];
 type User = components['schemas']['User'];
 type Salary = components['schemas']['Salary'];
+type Transaction = components['schemas']['Transaction'];
 
 const sumByOptions = [
     { value: GroupByTime.ByMonthOfYear, name: 'Month of year' },
@@ -40,6 +41,7 @@ interface State {
     income: IncomeBinding;
     editingId?: string;
     selectedSalary?: Salary;
+    linkedTransactions?: Transaction[];
     incomes: PagedItems<Income>;
     isLoading: boolean;
     isModalOpen: boolean;
@@ -213,6 +215,7 @@ class IncomesPage extends Page<unknown, State> {
                             isOpen={this.state.isModalOpen}
                             isEditing={!!this.state.editingId}
                             selectedSalary={this.state.selectedSalary}
+                            linkedTransactions={this.state.linkedTransactions}
                             sources={sources}
                             types={types}
                             onClose={() => this.setState({ isModalOpen: false })}
@@ -279,6 +282,7 @@ class IncomesPage extends Page<unknown, State> {
     onNewIncome = () => this.setState({
         editingId: undefined,
         selectedSalary: undefined,
+        linkedTransactions: undefined,
         income: {
             amount: 0,
             currencyId: this.user.defaultCurrency?.id,
@@ -290,12 +294,14 @@ class IncomesPage extends Page<unknown, State> {
     onEditIncome = (income: Income) => this.setState({
         editingId: income.id ?? undefined,
         selectedSalary: income.salary,
+        linkedTransactions: income.transactions ?? undefined,
         income: {
             amount: income.amount,
             currencyId: income.currency?.id,
             date: income.timestamp,
             description: income.description,
             salaryId: income.salary?.id ?? null,
+            transactionIds: income.transactions?.flatMap(transaction => transaction.id ? [transaction.id] : []),
             sourceId: income.source?.id,
             typeId: income.type?.id,
         },
