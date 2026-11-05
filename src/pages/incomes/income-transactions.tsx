@@ -62,24 +62,28 @@ const IncomeTransactions = ({ date, disabled, linkedTransactions, transactionIds
     return (
         <FormGroup controlId="income-transactions">
             <FormLabel>Transactions</FormLabel>
-            <Select<TransactionOption, true>
-                inputId="income-transactions"
-                isMulti
-                isDisabled={disabled || !validDate}
-                isLoading={!!validDate && !result}
-                options={options}
-                value={(transactionIds ?? []).map(id =>
-                    options.find(option => option.value === id)
-                    ?? selected.find(option => option.value === id)
-                    ?? { value: id, label: id }
-                )}
-                onChange={choices => {
-                    setSelected([...choices]);
-                    onChange(choices.map(choice => choice.value));
-                }}
-                styles={styles as StylesConfig<TransactionOption, true>}
-                placeholder={validDate ? 'Select transactions' : 'Choose an income date first'}
-            />
+            {result && !result.failed && options.length === 0 ? (
+                <div className="text-muted">No matching transactions found</div>
+            ) : (
+                <Select<TransactionOption, true>
+                    inputId="income-transactions"
+                    isMulti
+                    isDisabled={disabled || !validDate}
+                    isLoading={!!validDate && !result}
+                    options={options}
+                    value={(transactionIds ?? []).map(id =>
+                        options.find(option => option.value === id)
+                        ?? selected.find(option => option.value === id)
+                        ?? { value: id, label: id }
+                    )}
+                    onChange={choices => {
+                        setSelected([...choices]);
+                        onChange(choices.map(choice => choice.value));
+                    }}
+                    styles={styles as StylesConfig<TransactionOption, true>}
+                    placeholder={validDate ? 'Select transactions' : 'Choose an income date first'}
+                />
+            )}
             {result?.failed && (
                 <Alert variant="danger">
                     Could not load transactions. <Button size="sm" onClick={() => {
