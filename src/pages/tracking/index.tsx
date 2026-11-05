@@ -1,10 +1,9 @@
 import React from 'react';
 import { Card, Col, Container, Form, FormGroup, FormLabel, Row, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
-import geohash from 'ngeohash';
 import { BiRectangle } from 'react-icons/bi';
-import { InfoWindow, Marker, Polyline, Rectangle, MarkerClusterer, MarkerF } from '@react-google-maps/api';
+import { InfoWindow, Marker, Polyline, MarkerClusterer, MarkerF } from '@react-google-maps/api';
 import { MdDelete, MdLocationOn, MdToday } from 'react-icons/md';
-import { FaDrawPolygon, FaHashtag, FaPlus, FaRegCalendarAlt } from 'react-icons/fa';
+import { FaPlus, FaRegCalendarAlt } from 'react-icons/fa';
 import { Ri24HoursFill, RiDragMove2Fill } from 'react-icons/ri';
 import moment from 'moment';
 import mtz from 'moment-timezone';
@@ -20,9 +19,8 @@ import api from 'api/main';
 import ButtonWithSpinner from 'components/button-with-spinner';
 import { Geohash, Layer } from 'types/location';
 import { pointsToLatLng, trackingsToLatLng, trackingToLatLng } from 'utils/gmap-helper';
-import { DrawMode, MapMode, NewType } from 'consts/location';
-import { GeohashLayer, PolygonLayer, TrackingLayer } from 'models/layers';
-import { GeohashFilters } from 'types/geohash';
+import { MapMode, NewType } from 'consts/location';
+import { PolygonLayer, TrackingLayer } from 'models/layers';
 import PolylineLayer from './polyline-layer';
 import GeohashInfo from './geohash-info';
 import { iconUrl } from 'utils/cdn-helper';
@@ -32,7 +30,9 @@ import { locationLoader, routeLoader } from 'utils/select-loaders';
 import { FaLocationCrosshairs } from 'react-icons/fa6';
 import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
-import { DateMode, LastNDays, PolygonProps, geohashCharacters, lastNDaysMapping, lastNDaysOptions, nextPolylineColor, rectangleOptionsNonVisited, rectangleOptionsSelected, rectangleOptionsVisited } from './constants';
+import { DateMode, LastNDays, PolygonProps, lastNDaysMapping, lastNDaysOptions, nextPolylineColor } from './constants';
+import GeohashCard from './geohash-card';
+import ViewportGeohashes, { GeohashViewport } from './viewport-geohashes';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
 type Route = components['schemas']['Route'];
@@ -44,11 +44,11 @@ type TrackingBinding = components['schemas']['TrackingBinding'];
 interface State {
     allYearsOnDate: boolean,
     dateMode: DateMode,
-    drawMode: DrawMode,
+    geohashesEnabled: boolean,
     filterDay?: string,
     geohashPrecision: number,
-    geohashSearch: number,
-    geohashSegments: string[],
+    geohashBounds?: GeohashViewport,
+    geohashRefresh: number,
     last?: Tracking,
     lastNDays: LastNDays,
     layers: Layer[],
@@ -68,7 +68,6 @@ interface State {
     selectedGeohashLayers: [],
     selectedGeohashes: string[],
     selectedGeohashItems: Geohash[],
-    visitedGeohashes: string[],
     timezone?: string,
 }
 
@@ -100,11 +99,10 @@ class TrackingPage extends Page<unknown, State> {
     state: State = {
         allYearsOnDate: false,
         dateMode: DateMode.Day,
-        drawMode: DrawMode.Line,
+        geohashesEnabled: false,
         filterDay: moment().format('YYYY-MM-DD'),
-        geohashPrecision: 7,
-        geohashSearch: 5,
-        geohashSegments: geohashCharacters,
+        geohashPrecision: 1,
+        geohashRefresh: 0,
         lastNDays: LastNDays.One,
         layers: [],
         locationTypes: [],
@@ -124,22 +122,18 @@ class TrackingPage extends Page<unknown, State> {
         selectedGeohashLayers: [],
         selectedGeohashes: [],
         selectedGeohashItems: [],
-        visitedGeohashes: [],
     };
 
     componentDidMount() {
         api.tracking.getLastLocation()
             .then(response => this.setState({ last: response.tracking }));
 
-        api.geohash.getChildren('root')
-            .then(visitedGeohashes => this.setState({ visitedGeohashes }));
-
         api.location.getTypes()
             .then(locationTypes => this.setState({ locationTypes }));
     };
 
     render() {
-        const { allYearsOnDate, dateMode, drawMode, filterDay, last, layers, geohashSegments, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
+        const { allYearsOnDate, dateMode, geohashesEnabled, filterDay, last, layers, geohashPrecision, mapMode, locationTypes, polygonLayers, requestActive, selectedGeohashes, selectedGeohashItems, timezone } = this.state;
         const { newLocation, newTracking, newLocationModalOpened, newTrackingModalOpened } = this.state;
 
         const isMapReady = !!last;
@@ -156,7 +150,7 @@ class TrackingPage extends Page<unknown, State> {
                 <Row>
                     <Col lg={3}>
                         <Card>
-                            <Card.Header>Draw</Card.Header>
+                            <Card.Header>Draw lines</Card.Header>
                             <Card.Body>
                                 <FormGroup>
                                     <FormLabel>Time</FormLabel>
@@ -188,28 +182,6 @@ class TrackingPage extends Page<unknown, State> {
                                     </ToggleButtonGroup>
                                 </FormGroup>
                                 <FormGroup>
-                                    <FormLabel>Type</FormLabel>
-                                    <ToggleButtonGroup
-                                        name="type-options"
-                                        size="sm"
-                                        type="radio"
-                                        value={drawMode}
-                                        onChange={drawMode => this.setState({ drawMode })}
-                                    >
-                                        <ToggleButton id="toggle-mode-line" value={DrawMode.Line}><FaDrawPolygon /> Line</ToggleButton>
-                                        <ToggleButton id="toggle-mode-geohash" value={DrawMode.Geohash}><FaHashtag /> Geohash</ToggleButton>
-                                    </ToggleButtonGroup>
-                                </FormGroup>
-                                {/* {drawMode === DrawMode.Geohash &&
-                                    <GeohashSettings
-                                        precision={geohashPrecision}
-                                        search={geohashSearch}
-                                        zoom={mapZoom}
-                                        onPrecisionChange={geohashPrecision => this.setState({ geohashPrecision })}
-                                        onSearchChange={geohashSearch => this.setState({ geohashSearch })}
-                                    />
-                                } */}
-                                <FormGroup>
                                     <FormLabel>Timezone</FormLabel>
                                     <ReactSelect
                                         options={timezoneOptions}
@@ -237,6 +209,12 @@ class TrackingPage extends Page<unknown, State> {
                                 </div>
                             </Card.Body>
                         </Card>
+                        <GeohashCard
+                            enabled={geohashesEnabled}
+                            precision={geohashPrecision}
+                            onEnabledChange={geohashesEnabled => this.setState({ geohashesEnabled }, this.onMapIdle)}
+                            onPrecisionChange={geohashPrecision => this.setState({ geohashPrecision })}
+                        />
                         <Card>
                             <Card.Header>Layers</Card.Header>
                             <Card.Body>
@@ -271,6 +249,7 @@ class TrackingPage extends Page<unknown, State> {
                                         onClick={this.onMapClick}
                                         onZoomChanged={() => this.map && this.setState({ mapZoom: this.map.getZoom() })}
                                         onLoad={map => this.map = map}
+                                        onIdle={this.onMapIdle}
                                     >
                                         {polygonLayers.map(layer =>
                                             <Polyline
@@ -305,41 +284,15 @@ class TrackingPage extends Page<unknown, State> {
                                                 }
                                             </React.Fragment>
                                         )}
-                                        {drawMode === DrawMode.Geohash && geohashSegments.map(g => {
-                                            const rectangle = geohash.decode_bbox(g);
-                                            const isSelected = selectedGeohashes.some(s => s === g);
-
-                                            const options = isSelected ? rectangleOptionsSelected
-                                                : (this.state.visitedGeohashes.includes(g) ? rectangleOptionsVisited : rectangleOptionsNonVisited);
-
-                                            return (
-                                                <Rectangle
-                                                    key={_.uniqueId()}
-                                                    options={options}
-                                                    bounds={{ north: rectangle[2], south: rectangle[0], east: rectangle[3], west: rectangle[1] }}
-                                                    onClick={() => this.onGeohashSegmentClick(g)}
-                                                />
-                                            );
-                                        })}
-                                        {layers.filter(layer => layer instanceof GeohashLayer)
-                                            .map(layer => layer as GeohashLayer)
-                                            .flatMap(layer => layer.elements)
-                                            .map(element =>
-                                                <Rectangle
-                                                    key={_.uniqueId()}
-                                                    options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }}
-                                                    bounds={{ north: element.rectangle[2], south: element.rectangle[0], east: element.rectangle[3], west: element.rectangle[1] }}
-                                                    onClick={() => this.onSelectGeohash(element.id)}
-                                                />
-                                            )}
-                                        {/* {selectedGeohashItems.map(geohashItem =>
-                                            <Rectangle
-                                                key={_.uniqueId()}
-                                                options={{ strokeColor: '#32a852', fillColor: '#32a852', strokeWeight: 1 }}
-                                                bounds={{ north: geohashItem.geohash.rectangle[2], south: element.rectangle[0], east: element.rectangle[3], west: element.rectangle[1] }}
-                                                onClick={() => this.onSelectGeohash(element.id)}
+                                        {geohashesEnabled &&
+                                            <ViewportGeohashes
+                                                bounds={this.state.geohashBounds}
+                                                precision={geohashPrecision}
+                                                refresh={this.state.geohashRefresh}
+                                                selected={selectedGeohashes}
+                                                onClick={this.onGeohashSegmentClick}
                                             />
-                                        )} */}
+                                        }
                                         <MarkerClusterer>
                                             {clusterer => {
                                                 <>
@@ -483,10 +436,6 @@ class TrackingPage extends Page<unknown, State> {
     draw = () => {
         this.setState({ requestActive: true });
 
-        if (this.state.drawMode === DrawMode.Geohash) {
-            return this.drawGeohash();
-        }
-
         const days = this.allYearsDates();
         if (days) {
             this.drawDays(days);
@@ -572,40 +521,19 @@ class TrackingPage extends Page<unknown, State> {
         return filters;
     };
 
-    drawGeohash = () => {
-        const { geohashPrecision, geohashSearch } = this.state;
-        const center = this.map.getCenter();
-
-        const filters: GeohashFilters = {
-            geohash: geohash.encode(center.lat(), center.lng()).substring(0, geohashSearch),
-            precision: geohashPrecision,
-            ...this.dateFilter(),
-        };
-
-        api.geohash.get(filters)
-            .then(hashes => {
-                const elements = hashes.map(hash => {
-                    return {
-                        id: hash,
-                        rectangle: geohash.decode_bbox(hash),
-                    };
-                });
-                const layer = new GeohashLayer(elements);
-                this.setState({
-                    layers: [
-                        ...this.state.layers,
-                        layer,
-                    ],
-                    requestActive: false,
-                });
-            });
+    onMapIdle = () => {
+        const bounds = this.map?.getBounds()?.toJSON();
+        if (bounds && JSON.stringify(bounds) !== JSON.stringify(this.state.geohashBounds)) {
+            this.setState({ geohashBounds: bounds });
+        }
     };
 
     onDeleteGeohashTrackings = (geohash: Geohash) => {
         api.geohash.delTrackings(geohash.id)
             .then(() => {
                 this.setState({
-                    selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id)
+                    selectedGeohashItems: this.state.selectedGeohashItems.filter(x => x.id != geohash.id),
+                    geohashRefresh: this.state.geohashRefresh + 1,
                 });
             });
     };
@@ -638,18 +566,6 @@ class TrackingPage extends Page<unknown, State> {
                 });
             return;
         }
-
-        api.geohash.getChildren(geohashId)
-            .then(visitedGeohashes => this.setState({
-                geohashSegments: [
-                    ...this.state.geohashSegments.filter(g => g != geohashId),
-                    ...geohashCharacters.map(g => `${geohashId}${g}`),
-                ],
-                visitedGeohashes: [
-                    ...this.state.visitedGeohashes,
-                    ...visitedGeohashes,
-                ]
-            }));
     };
 
     onLayerUpdated = (layer: PolygonLayer, updated: Partial<PolygonLayer>) => {

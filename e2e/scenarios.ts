@@ -89,7 +89,7 @@ export const scenarios: Record<string, MockResponse[]> = {
     places: [countries],
     pois: [get('poi', data.paged(data.poi)), get('vendor', data.paged()), get('common/poicategory', [data.poi.category])],
     routes: [locationOptions],
-    tracking: [lastLocation, locationOptions, get('route', data.paged()), get('geohash/root/children', []), get('location/types', [{ id: 'home', name: 'Home' }])],
+    tracking: [lastLocation, locationOptions, get('route', data.paged()), get('location/types', [{ id: 'home', name: 'Home' }])],
     todo: [
         { ...get('todo', data.paged(data.todo), todoFilters), query: { iscompleted: 'false', page: '1', pagesize: '20' } },
         { ...get('todo', data.paged({ ...data.todo, id: 'todo-2', name: 'Completed Smoke Task', isCompleted: true }), todoFilters), query: { iscompleted: 'true', page: '1', pagesize: '20' } },

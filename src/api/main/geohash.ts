@@ -8,9 +8,9 @@ type GetUniqueGeohashCountQuery = paths['/Geohash/Unique/Count']['get']['paramet
 
 const delTrackings = (id: string): Promise<number> => api.del(`geohash/${id}/trackings`);
 
-const get = (filters: GeohashFilters) => api.get('geohash', filters);
+const get = (filters: GeohashFilters): Promise<string[]> => api.get('geohash', filters);
 
-const getChildren = (geohash: string, filters?: GetGeohashChildrenQuery) => api.get(`geohash/${geohash}/children`, filters);
+const getChildren = (geohash: string, filters?: GetGeohashChildrenQuery): Promise<string[]> => api.get(`geohash/${geohash}/children`, filters);
 
 const getUnique = (filters?: GetUniqueGeohashQuery) => api.get('geohash/unique', filters);
 
