@@ -32,6 +32,7 @@ import NewLocationModal from './new-location-modal';
 import { CgDetailsMore } from 'react-icons/cg';
 import { DateMode, LastNDays, PolygonProps, lastNDaysMapping, lastNDaysOptions, nextPolylineColor } from './constants';
 import GeohashCard from './geohash-card';
+import GeohashSpinner from './geohash-spinner';
 import ViewportGeohashes, { GeohashViewport } from './viewport-geohashes';
 import { getReactSelectStyles, isDarkTheme } from 'utils/react-select-dark-theme';
 
@@ -212,7 +213,7 @@ class TrackingPage extends Page<unknown, State> {
                         <GeohashCard
                             enabled={geohashesEnabled}
                             precision={geohashPrecision}
-                            onEnabledChange={geohashesEnabled => this.setState({ geohashesEnabled }, this.onMapIdle)}
+                            onEnabledChange={geohashesEnabled => this.setState({ geohashesEnabled }, this.onViewportChanged)}
                             onPrecisionChange={geohashPrecision => this.setState({ geohashPrecision })}
                         />
                         <Card>
@@ -249,7 +250,8 @@ class TrackingPage extends Page<unknown, State> {
                                         onClick={this.onMapClick}
                                         onZoomChanged={() => this.map && this.setState({ mapZoom: this.map.getZoom() })}
                                         onLoad={map => this.map = map}
-                                        onIdle={this.onMapIdle}
+                                        onIdle={this.onViewportChanged}
+                                        onBoundsChanged={this.onViewportChanged}
                                     >
                                         {polygonLayers.map(layer =>
                                             <Polyline
@@ -286,6 +288,7 @@ class TrackingPage extends Page<unknown, State> {
                                         )}
                                         {geohashesEnabled &&
                                             <ViewportGeohashes
+                                                key={geohashPrecision}
                                                 bounds={this.state.geohashBounds}
                                                 precision={geohashPrecision}
                                                 refresh={this.state.geohashRefresh}
@@ -318,7 +321,7 @@ class TrackingPage extends Page<unknown, State> {
                                     </Map>
                                 }
                             </Card.Body>
-                            <Card.Footer>
+                            <Card.Footer className="d-flex align-items-center flex-wrap gap-2">
                                 <ToggleButtonGroup
                                     type="radio"
                                     name="options"
@@ -343,6 +346,7 @@ class TrackingPage extends Page<unknown, State> {
                                         <ToggleButton id="new-type-tracking" value={NewType.Tracking}><FaLocationCrosshairs /> Tracking</ToggleButton>
                                     </ToggleButtonGroup>
                                 }
+                                <GeohashSpinner />
                             </Card.Footer>
                         </Card>
                         {polygonLayers.map(layer =>
@@ -521,7 +525,7 @@ class TrackingPage extends Page<unknown, State> {
         return filters;
     };
 
-    onMapIdle = () => {
+    onViewportChanged = () => {
         const bounds = this.map?.getBounds()?.toJSON();
         if (bounds && JSON.stringify(bounds) !== JSON.stringify(this.state.geohashBounds)) {
             this.setState({ geohashBounds: bounds });

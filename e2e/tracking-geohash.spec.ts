@@ -3,7 +3,7 @@ import { test, expect } from './fixtures';
 import { scenarios } from './scenarios';
 import { tracking } from './data';
 
-test('tracking requests one covering parent and renders only viewport cells', async ({ page, api }) => {
+test('tracking requests one covering parent and retains loaded geohashes', async ({ page, api }) => {
     api.useScenario(scenarios.tracking);
     const requests: { parent: string; precision: number }[] = [];
     await page.route('**/test-api/geohash/*/children?*', async route => {
@@ -46,10 +46,10 @@ test('tracking requests one covering parent and renders only viewport cells', as
     expect(requests).toHaveLength(1);
     await expect(renderingSwitch).toBeChecked();
     await move(-10, 15.9, -9.99, 15.91);
-    await expect(page.locator('[data-rectangle]')).toHaveCount(1);
-    await expect(page.locator('[data-rectangle]')).toHaveAttribute('data-options', /"fillOpacity":0.4/);
+    await expect(page.locator('[data-rectangle]')).toHaveCount(2);
+    await expect(page.locator('[data-rectangle]').last()).toHaveAttribute('data-options', /"fillOpacity":0.4/);
     await move(45.8, 15.9, 45.81, 15.91);
-    await expect(page.locator('[data-rectangle]')).toHaveAttribute('data-options', /"fillOpacity":0,/);
+    await expect(page.locator('[data-rectangle]').first()).toHaveAttribute('data-options', /"fillOpacity":0,/);
     expect(requests).toHaveLength(1);
 
     await page.locator('label[for="geohash-precision-5"]').click();
@@ -72,6 +72,7 @@ test('tracking requests one covering parent and renders only viewport cells', as
     await move(46.8, 16.9, 46.81, 16.91);
     await expect.poll(() => requests.at(-1)).toEqual({ parent: 'u2k4', precision: 5 });
     expect(requests).toHaveLength(3);
+    await expect(page.locator('[data-rectangle]')).toHaveCount(4);
     await move(45.8, 15.9, 45.81, 15.91);
     await expect(page.locator('[data-rectangle]').first()).toHaveAttribute('data-options', /"fillOpacity":0,/);
     expect(requests).toHaveLength(3);
@@ -82,7 +83,7 @@ test('tracking requests one covering parent and renders only viewport cells', as
     expect(requests).toHaveLength(4);
     await move(-80, -170, 80, 170);
     await expect(page.getByRole('status')).toHaveText('Zoom in to show geohashes at this precision.');
-    await expect(page.locator('[data-rectangle]')).toHaveCount(0);
+    await expect(page.locator('[data-rectangle]')).toHaveCount(4 + geohash.bboxes(-0.001, 15.9, 0.001, 15.91, 5).length);
     expect(requests).toHaveLength(4);
     await renderingSwitch.uncheck();
     await move(45.8, 15.9, 45.81, 15.91);
@@ -95,4 +96,57 @@ test('tracking requests one covering parent and renders only viewport cells', as
     await expect.poll(() => requests.at(-1)).toEqual({ parent: 'u25k', precision: 6 });
     await expect(page.locator('[data-rectangle]')).toHaveCount(geohash.bboxes(45.8, 15.9, 45.81, 15.91, 6).length);
     expect(requests).toHaveLength(5);
+});
+
+test('map footer spinner stays visible until all requests settle', async ({ page, api }) => {
+    api.useScenario(scenarios.tracking);
+    const pending: import('@playwright/test').Route[] = [];
+    await page.route('**/test-api/geohash/*/children?*', route => { pending.push(route); });
+    await page.goto('/tracking');
+    await api.assertLoaded();
+    await expect(page.getByRole('region', { name: 'Map', exact: true })).toBeVisible();
+    const spinner = page.getByRole('status', { name: 'Loading geohashes' });
+    await expect(spinner).toHaveCount(0);
+    await page.evaluate(() => window.dispatchEvent(new CustomEvent('test-map-bounds', {
+        detail: { south: 45.8, west: 15.9, north: 45.81, east: 15.91 },
+    })));
+    const renderingSwitch = page.getByRole('switch', { name: 'Show geohashes' });
+    await renderingSwitch.check();
+    await expect.poll(() => pending.length).toBe(1);
+    await expect(spinner).toBeVisible();
+    await expect(spinner.locator('..')).toHaveClass(/card-footer/);
+    await expect(spinner).toHaveClass(/ms-auto/);
+    await expect(spinner.locator('..').getByRole('radio', { name: 'Drag', exact: true })).toBeAttached();
+    await expect(spinner.locator('../..').getByRole('region', { name: 'Map', exact: true })).toBeVisible();
+    await page.locator('label[for="geohash-precision-5"]').click();
+    await expect.poll(() => pending.length).toBe(2);
+    await pending[1].fulfill({ json: ['u25k9'] });
+    await expect(page.locator('[data-rectangle]')).toHaveCount(2);
+    await expect(spinner).toBeVisible();
+    await renderingSwitch.uncheck();
+    await expect(spinner).toBeVisible();
+    await pending[0].fulfill({ status: 500, json: { error: 'Test failure' } });
+    await expect(spinner).toHaveCount(0);
+
+    await renderingSwitch.check();
+    await expect.poll(() => pending.length).toBe(3);
+    await pending[2].fulfill({ json: ['u25k9'] });
+    await expect(spinner).toHaveCount(0);
+
+    // Bounds change before the map becomes idle: start loading the new parent immediately.
+    await page.evaluate(() => window.dispatchEvent(new CustomEvent('test-map-bounds', {
+        detail: { south: 46.8, west: 16.9, north: 46.81, east: 16.91, idle: false },
+    })));
+    await expect.poll(() => pending.length).toBe(4);
+    await expect(spinner).toBeVisible();
+    await expect(page.locator('[data-rectangle]')).toHaveCount(2);
+    await pending[3].fulfill({ json: [] });
+    await expect(spinner).toHaveCount(0);
+    await expect(page.locator('[data-rectangle]')).toHaveCount(4);
+
+    await page.evaluate(() => window.dispatchEvent(new CustomEvent('test-map-bounds', {
+        detail: { south: 46.801, west: 16.901, north: 46.811, east: 16.911, idle: false },
+    })));
+    await expect(spinner).toHaveCount(0);
+    expect(pending).toHaveLength(4);
 });

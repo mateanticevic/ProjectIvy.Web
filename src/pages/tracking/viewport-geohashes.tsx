@@ -55,7 +55,15 @@ const ViewportGeohashes = ({ bounds, precision, refresh, selected, onClick }: Pr
     const parent = bounds && hashes !== null ? viewportParent(bounds, precision) : undefined;
     const requestKey = parent ? `${parent}:${precision}:${refresh}` : undefined;
     const cache = useRef(new Map<string, Promise<Set<string>>>());
-    const [data, setData] = useState<{ key: string; visited: Set<string> }>();
+    const [loaded, setLoaded] = useState(new Map<string, boolean>());
+    const mounted = useRef(false);
+    const currentRefresh = useRef(refresh);
+    currentRefresh.current = refresh;
+
+    useEffect(() => {
+        mounted.current = true;
+        return () => { mounted.current = false; };
+    }, []);
     const [failedKey, setFailedKey] = useState<string>();
 
     useEffect(() => {
@@ -63,10 +71,9 @@ const ViewportGeohashes = ({ bounds, precision, refresh, selected, onClick }: Pr
     }, [refresh]);
 
     useEffect(() => {
-        if (!parent || !requestKey) {
+        if (!parent || !requestKey || !hashes) {
             return;
         }
-        let active = true;
         let request = cache.current.get(requestKey);
         if (!request) {
             request = api.geohash.getChildren(parent, { Precision: precision })
@@ -74,20 +81,22 @@ const ViewportGeohashes = ({ bounds, precision, refresh, selected, onClick }: Pr
             cache.current.set(requestKey, request);
         }
         request.then(visited => {
-            if (active) {
-                setData({ key: requestKey, visited });
+            if (mounted.current && currentRefresh.current === refresh) {
+                setLoaded(previous => {
+                    const next = new Map(previous);
+                    hashes.forEach(hash => next.set(hash, visited.has(hash)));
+                    return next;
+                });
                 setFailedKey(undefined);
             }
         }).catch(() => {
             cache.current.delete(requestKey);
-            if (active) {
+            if (mounted.current && currentRefresh.current === refresh) {
                 setFailedKey(requestKey);
             }
         });
-        return () => { active = false; };
-    }, [parent, precision, requestKey]);
+    }, [hashes, parent, precision, refresh, requestKey]);
 
-    const visited = data?.key === requestKey ? data.visited : undefined;
     const failed = failedKey !== undefined && failedKey === requestKey;
 
     return <>
@@ -96,10 +105,10 @@ const ViewportGeohashes = ({ bounds, precision, refresh, selected, onClick }: Pr
                 {hashes === null ? 'Zoom in to show geohashes at this precision.' : 'Could not load geohashes.'}
             </div>
         }
-        {visited && hashes?.map(hash => {
+        {[...loaded].map(([hash, visited]) => {
             const [south, west, north, east] = geohash.decode_bbox(hash);
             const options = selected.includes(hash) ? rectangleOptionsSelected
-                : visited.has(hash) ? rectangleOptionsVisited : rectangleOptionsNonVisited;
+                : visited ? rectangleOptionsVisited : rectangleOptionsNonVisited;
             return <Rectangle
                 key={hash}
                 bounds={{ south, west, north, east }}

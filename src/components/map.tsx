@@ -9,6 +9,7 @@ interface Props {
     onClick?(event: google.maps.MapMouseEvent | google.maps.IconMouseEvent): void;
     onDragEnd?: any;
     onIdle?(): void;
+    onBoundsChanged?(): void;
     onLoad?: (map: google.maps.Map) => void;
     onZoomChanged?(): void;
 }
@@ -17,7 +18,7 @@ const isDarkTheme = (): boolean => {
     return document.documentElement.getAttribute('data-bs-theme') === 'dark';
 };
 
-const Map = ({ onIdle, onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, children, onLoad: childrenOnload }: Props) => {
+const Map = ({ onBoundsChanged, onIdle, onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCenter, children, onLoad: childrenOnload }: Props) => {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: "AIzaSyC2Xp07hffemgAHYenBMKxeAeJ017nIbbk"
@@ -69,6 +70,7 @@ const Map = ({ onIdle, onDragEnd, onClick, onZoomChanged, defaultZoom, defaultCe
             onClick={onClick}
             onDragEnd={onDragEnd}
             onIdle={onIdle}
+            onBoundsChanged={onBoundsChanged}
             onLoad={onLoad}
             onUnmount={onUnmount}
             onZoomChanged={onZoomChanged}

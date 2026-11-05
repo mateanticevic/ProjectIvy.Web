@@ -45,7 +45,8 @@ export function installMockMaps() {
             window.addEventListener('test-map-bounds', event => {
                 const bounds = (event as CustomEvent).detail;
                 this.bounds = new LatLngBounds().extend({ lat: bounds.south, lng: bounds.west }).extend({ lat: bounds.north, lng: bounds.east });
-                emit(this, 'idle');
+                emit(this, 'bounds_changed');
+                if (bounds.idle !== false) emit(this, 'idle');
             });
             container.setAttribute('role', 'region');
             container.setAttribute('aria-label', 'Map');
