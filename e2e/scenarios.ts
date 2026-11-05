@@ -44,6 +44,7 @@ export const scenarios: Record<string, MockResponse[]> = {
         get('common/beerstyle', [data.beer.style]),
         get('consumation/beer/count', 1), get('consumation/brand/count', 1),
         get('consumation/sum', 500), get('consumation/sum/bybeer', data.paged({ key: data.beer, value: 500 })),
+        get('consumation/average/byyear', [{ key: 2025, value: 250 }, { key: 2026, value: 350 }], filters.filter(key => key !== 'from' && key !== 'to')),
         get('consumation/beer/new', data.paged(data.beer)), get('consumation/sum/byserving', [{ key: { id: 'bottle', name: 'Bottle' }, value: 500 }]),
         get('consumation/sum/bycountry', data.paged({ key: data.country, value: 500 })),
         get('consumation/sum/byday', [{ key: data.date, value: 500 }]),

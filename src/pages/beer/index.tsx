@@ -34,6 +34,7 @@ interface Props {
 }
 
 interface State {
+    averageByYear: KeyValue<number, number>[];
     beerCount: number;
     brandCount: number;
     beers: Beer[];
@@ -94,6 +95,7 @@ const sumApiMapping = {
 class BeerPage extends Page<Props, State> {
 
     state: State = {
+        averageByYear: [],
         beerCount: 0,
         brandCount: 0,
         beers: [],
@@ -219,6 +221,11 @@ class BeerPage extends Page<Props, State> {
                             unit="L"
                             unitType={Unit.Volume}
                             onGroupByChange={this.onCountGroupByChange}
+                        />
+                        <DistributionCard
+                            data={this.state.averageByYear}
+                            name="Average by year"
+                            valueLabel="mL/day"
                         />
                         <Card>
                             <Card.Header>Top Beers</Card.Header>
@@ -444,6 +451,14 @@ class BeerPage extends Page<Props, State> {
             ...filters,
             pageAll: true,
         };
+
+        const averageFilters = { ...filters };
+        delete averageFilters.from;
+        delete averageFilters.to;
+
+        api.consumation
+            .getAverageByYear(averageFilters)
+            .then(averageByYear => this.setState({ averageByYear }));
 
         api.consumation
             .getCountBeer(statsFilters)

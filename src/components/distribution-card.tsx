@@ -43,6 +43,7 @@ interface Props {
     stacked?: boolean;
     unit?: string;
     unitType?: Unit;
+    valueLabel?: string;
     countByOptions?: [];
     onClick?(): void;
     onGroupByChange?(): void;
@@ -64,7 +65,7 @@ const applyUnitFormatting = (data, unitType) => {
     return data;
 };
 
-const DistributionCard = React.memo(({ dontRenderCard, data, name, stacked, unit, unitType, countByOptions, onClick, onGroupByChange }: Props) => {
+const DistributionCard = React.memo(({ dontRenderCard, data, name, stacked, unit, unitType, valueLabel, countByOptions, onClick, onGroupByChange }: Props) => {
 
     const applyKeyFormatting = {
         [GroupByTime.ByDayOfWeek]: (key) => moment().day(key + 1).format('dddd'),
@@ -103,6 +104,7 @@ const DistributionCard = React.memo(({ dontRenderCard, data, name, stacked, unit
         stacked={stacked}
         unit={unitType ? unitMapping[unitType] : unit ?? ''}
         value="value"
+        valueLabel={valueLabel}
         onClick={onClick}
     />
         :
