@@ -3,13 +3,18 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+  branches:
+    include:
+    - '*'
+  tags:
+    exclude:
+    - '*'
 
 resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  imageRepository: 'mateanticevic/project-ivy-web'
 
 stages:
 # - stage: Test
@@ -61,16 +66,42 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    - bash: |
+        set -euo pipefail
+        if [[ "$SOURCE_BRANCH" == refs/heads/master ]]; then
+          image_tag="$BUILD_ID"
+        else
+          # Keep the full branch path; Build.SourceBranchName loses feature/ prefixes.
+          branch="${SOURCE_BRANCH#refs/heads/}"
+          slug=$(printf '%s' "$branch" | LC_ALL=C tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9_.-]+/-/g; s/^[.-]+//; s/[.-]+$//')
+          slug="${slug:0:100}"
+          if [[ -z "$slug" ]]; then slug=branch; fi
+          # Distinguish branches that normalize to the same Docker-safe name.
+          suffix=$(printf '%s' "$branch" | sha256sum | cut -c1-8)
+          image_tag="preview-${slug:0:80}-${suffix}-${BUILD_ID}"
+        fi
+        echo "##vso[task.setvariable variable=imageTag]$image_tag"
+      displayName: Select production or preview image tag
+      env:
+        SOURCE_BRANCH: $(Build.SourceBranch)
+        BUILD_ID: $(Build.BuildId)
     - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
-    - task: Docker@2
+      displayName: Build and push image
+      # PR validation and tag runs must not publish images or deploy previews.
+      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'), ne(variables['Build.Reason'], 'PullRequest'))
       inputs:
         containerRegistry: 'docker.io'
-        repository: 'mateanticevic/project-ivy-web'
+        repository: '$(imageRepository)'
         command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(imageTag)
+    - bash: python3 scripts/deploy-preview.py
+      displayName: Update preview image tag and deploy Komodo stack
+      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
+      env:
+        KOMODO_URL: $(KOMODO_URL)
+        KOMODO_API_KEY: $(KOMODO_API_KEY)
+        KOMODO_API_SECRET: $(KOMODO_API_SECRET)
+        KOMODO_PREVIEW_STACK: $(KOMODO_PREVIEW_STACK)
+        IMAGE_TAG: $(imageTag)
