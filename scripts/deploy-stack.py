@@ -1,4 +1,4 @@
-"""Update the preview stack's image tag, then request a Komodo deployment."""
+"""Update a stack's image tag, then request a Komodo deployment."""
 import http.client
 import json
 import os
@@ -37,9 +37,11 @@ def log_http_error(error, secrets):
 
 def main():
     required = ['KOMODO_URL', 'KOMODO_API_KEY', 'KOMODO_API_SECRET',
-                'KOMODO_PREVIEW_STACK', 'IMAGE_TAG']
+                'KOMODO_STACK', 'IMAGE_TAG']
     for key in required:
         if not os.environ.get(key) or os.environ[key].startswith('$('):
+            if key == 'KOMODO_STACK':
+                raise SystemExit('Configure Azure pipeline variable KOMODO_PREVIEW_STACK for preview deployments.')
             raise SystemExit(f'Configure Azure pipeline variable {key}.')
     base = os.environ['KOMODO_URL'].rstrip('/')
     if not base.startswith('https://'):
@@ -74,21 +76,22 @@ def main():
         except (json.JSONDecodeError, UnicodeDecodeError):
             raise SystemExit(f'Komodo POST {path} returned an invalid JSON response.') from None
 
-    stack = api('/read/GetStack', {'stack': os.environ['KOMODO_PREVIEW_STACK']})
+    stack_name = os.environ['KOMODO_STACK']
+    stack = api('/read/GetStack', {'stack': stack_name})
     environment = stack['config'].get('environment', '')
     # Require an explicit placeholder to avoid modifying the wrong image/config.
     pattern = r'(?m)^([ \t]*IVY_IMAGE_TAG[ \t]*=[ \t]*)[^\r\n]*(?=\r?$)'
     environment, count = re.subn(pattern, lambda match: match[1] + os.environ['IMAGE_TAG'], environment)
     if count == 0:
-        raise SystemExit('IVY_IMAGE_TAG is missing from the Komodo preview stack Environment settings. '
-                         'Add IVY_IMAGE_TAG=<current-preview-image-tag> and rerun the pipeline.')
+        raise SystemExit(f'IVY_IMAGE_TAG is missing from the Environment settings for stack {stack_name}. '
+                         'Add IVY_IMAGE_TAG=<current-image-tag> and rerun the pipeline.')
     if count > 1:
-        raise SystemExit(f'Found {count} IVY_IMAGE_TAG assignments in the Komodo preview stack Environment settings. '
+        raise SystemExit(f'Found {count} IVY_IMAGE_TAG assignments in the Environment settings for stack {stack_name}. '
                          'Keep exactly one assignment and rerun the pipeline.')
     stack_id = stack['_id']['$oid']
     api('/write/UpdateStack', {'id': stack_id, 'config': {'environment': environment}})
     api('/execute/DeployStack', {'stack': stack_id})
-    print('Komodo accepted the preview stack deployment request.')
+    print(f'Komodo accepted the deployment request for stack {stack_name}.')
 
 
 if __name__ == '__main__':

@@ -154,7 +154,7 @@ REST modules live in `src/api/main/` and are registered on the default export of
 [MIT](LICENSE)
 
 
-## Preview deployment pipeline
+## Deployment pipeline
 
 Azure Pipelines builds all branch pushes. Master keeps the build ID image tag.
 Feature branches publish `mateanticevic/project-ivy-web:preview-<branch>-<hash>-<buildId>`.
@@ -162,23 +162,21 @@ The full branch name is normalized for Docker, shortened, and hashed to avoid
 collisions. The build ID identifies the exact image just published. PR validation
 and Git tag runs do not publish or deploy.
 
-After pushing a preview image, the pipeline calls the Komodo API to read an
-existing preview stack, update only its `IVY_IMAGE_TAG` environment value, and
-request `DeployStack`. Other environment values and stack settings are preserved.
-Master never calls this API. A failed API request fails the pipeline step;
-acceptance of DeployStack does not verify the deployment's eventual health.
+After pushing an image, the pipeline updates `IVY_IMAGE_TAG` on the target
+Komodo stack and requests `DeployStack`. Master targets `ivy-prod`. Feature
+branches target the staging stack configured in `KOMODO_PREVIEW_STACK`.
+A failed API request fails the pipeline step. Stack health can be checked in
+Komodo after it accepts the deployment request.
 
 Configure these Azure pipeline variables:
 
 - `KOMODO_URL`: HTTPS base URL of Komodo Core.
 - `KOMODO_API_KEY` and `KOMODO_API_SECRET`: secret variables for a user with
-  read, write, and deploy access to the preview stack.
-- `KOMODO_PREVIEW_STACK`: existing preview stack name or ID.
+  read, write, and deploy access to both stacks.
+- `KOMODO_PREVIEW_STACK`: existing staging stack name or ID.
 
-In that stack's Compose file, use
+In each stack's Compose file, use
 `image: mateanticevic/project-ivy-web:${IVY_IMAGE_TAG}`. Add exactly one
 `IVY_IMAGE_TAG=<initial-tag>` line to the stack environment configuration, and
-configure the stack to pull images when deploying. This flow uses Compose stack
-environment interpolation, not Swarm mode. All feature builds target this one
-preview stack, so serialize those builds in Azure to prevent overlapping updates.
-The production stack must be separate from this preview stack.
+configure the stack to pull images when deploying. Serialize builds targeting
+the same stack in Azure to prevent overlapping updates.

@@ -96,10 +96,18 @@ stages:
         Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
           $(imageTag)
-    - bash: python3 scripts/deploy-preview.py
-      displayName: Update preview image tag and deploy Komodo stack
-      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'), ne(variables['Build.SourceBranch'], 'refs/heads/master'), ne(variables['Build.Reason'], 'PullRequest'))
+    - bash: |
+        set -euo pipefail
+        if [[ "$SOURCE_BRANCH" == refs/heads/master ]]; then
+          export KOMODO_STACK=ivy-prod
+        else
+          export KOMODO_STACK="$KOMODO_PREVIEW_STACK"
+        fi
+        python3 scripts/deploy-stack.py
+      displayName: Update image tag and deploy Komodo stack
+      condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/'), ne(variables['Build.Reason'], 'PullRequest'))
       env:
+        SOURCE_BRANCH: $(Build.SourceBranch)
         KOMODO_URL: $(KOMODO_URL)
         KOMODO_API_KEY: $(KOMODO_API_KEY)
         KOMODO_API_SECRET: $(KOMODO_API_SECRET)
