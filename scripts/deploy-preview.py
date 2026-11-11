@@ -77,10 +77,14 @@ def main():
     stack = api('/read/GetStack', {'stack': os.environ['KOMODO_PREVIEW_STACK']})
     environment = stack['config'].get('environment', '')
     # Require an explicit placeholder to avoid modifying the wrong image/config.
-    pattern = r'(?m)^IVY_IMAGE_TAG=[^\r\n]*$'
-    if len(re.findall(pattern, environment)) != 1:
-        raise SystemExit('Preview stack environment must contain exactly one IVY_IMAGE_TAG=value line.')
-    environment = re.sub(pattern, lambda _: 'IVY_IMAGE_TAG=' + os.environ['IMAGE_TAG'], environment)
+    pattern = r'(?m)^([ \t]*IVY_IMAGE_TAG[ \t]*=[ \t]*)[^\r\n]*(?=\r?$)'
+    environment, count = re.subn(pattern, lambda match: match[1] + os.environ['IMAGE_TAG'], environment)
+    if count == 0:
+        raise SystemExit('IVY_IMAGE_TAG is missing from the Komodo preview stack Environment settings. '
+                         'Add IVY_IMAGE_TAG=<current-preview-image-tag> and rerun the pipeline.')
+    if count > 1:
+        raise SystemExit(f'Found {count} IVY_IMAGE_TAG assignments in the Komodo preview stack Environment settings. '
+                         'Keep exactly one assignment and rerun the pipeline.')
     stack_id = stack['_id']['$oid']
     api('/write/UpdateStack', {'id': stack_id, 'config': {'environment': environment}})
     api('/execute/DeployStack', {'stack': stack_id})
