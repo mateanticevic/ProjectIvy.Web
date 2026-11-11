@@ -84,7 +84,6 @@ const NavigationBar = ({ identity, theme, onThemeToggle }: Props) => {
                                 <Nav.Link as={NavLink} eventKey="/places" to="/places"><TiLocation /> Places</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/pois" to="/pois"><TiLocation /> Pois</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/tracking" to="/tracking"><FaRoute /> Tracking</Nav.Link>
-                                <Nav.Link as={NavLink} eventKey="/tracking-old" to="/tracking-old"><FaRoute /> Tracking (old)</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/routes" to="/routes"><FaRoute /> Routes</Nav.Link>
                                 <Nav.Link as={NavLink} eventKey="/trips" to="/trips"><MdCardTravel /> Trips</Nav.Link>
                             </section>
