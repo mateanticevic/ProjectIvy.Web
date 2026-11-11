@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
 
 import ExpenseFormFilesTab from './expense-form-files-tab';
+import ExpenseTransactions from './expense-transactions';
 import Select from 'components/select';
 import { DateFormElement } from 'components';
 import { SelectOption } from 'types/common';
@@ -237,6 +238,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     linkFile={linkFile}
                     uploadFile={uploadFile}
                 />
+            </Tab>
+            <Tab eventKey={5} title="Transactions" mountOnEnter unmountOnExit>
+                <ExpenseTransactions expense={expense} />
             </Tab>
             <Tab eventKey={4} title="Info">
                 <Row>
