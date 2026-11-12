@@ -1,6 +1,7 @@
 .stays-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   gap: 1rem;
 }
 
