@@ -5,6 +5,7 @@
 trigger:
   branches:
     include:
+    # Every branch except master uses the preview stack, regardless of its name.
     - '*'
   tags:
     exclude:

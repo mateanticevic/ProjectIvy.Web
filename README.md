@@ -156,14 +156,15 @@ REST modules live in `src/api/main/` and are registered on the default export of
 
 ## Deployment pipeline
 
-Azure Pipelines builds all branch pushes. Master keeps the build ID image tag.
-Feature branches publish `mateanticevic/project-ivy-web:preview-<branch>-<hash>-<buildId>`.
+Azure Pipelines builds all branch pushes. `master` keeps the build ID image tag.
+Every other branch, regardless of its name, publishes
+`mateanticevic/project-ivy-web:preview-<branch>-<hash>-<buildId>`.
 The full branch name is normalized for Docker, shortened, and hashed to avoid
 collisions. The build ID identifies the exact image just published. PR validation
 and Git tag runs do not publish or deploy.
 
 After pushing an image, the pipeline updates `IVY_IMAGE_TAG` on the target
-Komodo stack and requests `DeployStack`. Master targets `ivy-prod`. Feature
+Komodo stack and requests `DeployStack`. `master` targets `ivy-prod`. All other
 branches target the staging stack configured in `KOMODO_PREVIEW_STACK`.
 A failed API request fails the pipeline step. Stack health can be checked in
 Komodo after it accepts the deployment request.
