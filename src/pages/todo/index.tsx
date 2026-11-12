@@ -681,12 +681,13 @@ const TodoPage: React.FC = () => {
         }
 
         return (
-            <div className="mb-3">
-                <div className="d-flex align-items-center justify-content-between gap-2 mb-1">
-                    <div className="small text-muted fw-semibold">Filter by tags</div>
+            <div className="border-top pt-3">
+                <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                    <h2 className="small fw-semibold mb-0" id="todo-tag-filters">Filter by tags</h2>
                     <ToggleButtonGroup
                         type="radio"
                         name="todo-tag-filter-mode"
+                        aria-labelledby="todo-tag-filters"
                         size="sm"
                         value={tagFilterMode}
                         onChange={(value: string) => setTagFilterMode(value as TagFilterMetricMode)}
@@ -697,6 +698,7 @@ const TodoPage: React.FC = () => {
                             variant={tagFilterMode === 'count' ? 'secondary' : 'outline-secondary'}
                             checked={tagFilterMode === 'count'}
                             value="count"
+                            disabled={isLoading}
                             onChange={() => setTagFilterMode('count')}
                         >
                             Count
@@ -707,26 +709,31 @@ const TodoPage: React.FC = () => {
                             variant={tagFilterMode === 'sum' ? 'secondary' : 'outline-secondary'}
                             checked={tagFilterMode === 'sum'}
                             value="sum"
+                            disabled={isLoading}
                             onChange={() => setTagFilterMode('sum')}
                         >
                             Sum
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                <div className="d-flex gap-1 flex-wrap">
+                <div className="d-flex flex-wrap gap-2">
                     {tagBadges.map(tagBadge => {
                         const tagId = tagBadge.key?.id;
                         const isSelected = tagId ? selectedTagIds.includes(tagId) : false;
 
                         return (
-                            <Badge
+                            <Button
                                 key={tagBadge.key?.id ?? tagBadge.key?.name}
-                                bg={isSelected ? 'primary' : 'secondary'}
-                                className="cursor-pointer476"
+                                size="sm"
+                                variant={isSelected ? 'primary' : 'outline-secondary'}
+                                className="rounded-pill d-inline-flex align-items-center gap-2 px-2 py-1 text-start text-break"
+                                aria-pressed={isSelected}
+                                disabled={!tagId || isLoading}
                                 onClick={() => toggleTagSelection(tagBadge.key)}
                             >
-                                {`${tagBadge.key?.name ?? 'Unknown'} (${tagBadge.value})`}
-                            </Badge>
+                                <span>{tagBadge.key?.name ?? 'Unknown'}</span>
+                                <Badge pill bg="body-secondary" text="body">{tagBadge.value}</Badge>
+                            </Button>
                         );
                     })}
                 </div>
@@ -753,22 +760,26 @@ const TodoPage: React.FC = () => {
         }
 
         return (
-            <div className="mb-3">
-                <div className="small text-muted fw-semibold mb-1">Filter by trips</div>
-                <div className="d-flex gap-1 flex-wrap">
+            <div className="border-top pt-3">
+                <h2 className="small fw-semibold mb-2">Filter by trips</h2>
+                <div className="d-flex flex-wrap gap-2">
                     {tripCounts.map(tripCount => {
                         const tripId = tripCount.key?.id;
                         const isSelected = tripId ? selectedTripIds.includes(tripId) : false;
 
                         return (
-                            <Badge
+                            <Button
                                 key={tripCount.key?.id ?? tripCount.key?.name}
-                                bg={isSelected ? 'primary' : 'secondary'}
-                                className="cursor-pointer46"
+                                size="sm"
+                                variant={isSelected ? 'primary' : 'outline-secondary'}
+                                className="rounded-pill d-inline-flex align-items-center gap-2 px-2 py-1 text-start text-break"
+                                aria-pressed={isSelected}
+                                disabled={!tripId || isLoading}
                                 onClick={() => toggleTripSelection(tripCount.key)}
                             >
-                                {`${tripCount.key?.name ?? 'Unknown'} (${tripCount.value ?? 0})`}
-                            </Badge>
+                                <span>{tripCount.key?.name ?? 'Unknown'}</span>
+                                <Badge pill bg="body-secondary" text="body">{tripCount.value ?? 0}</Badge>
+                            </Button>
                         );
                     })}
                 </div>
@@ -791,32 +802,36 @@ const TodoPage: React.FC = () => {
                             <div className="fw-semibold">Todo</div>
                             <small className="text-muted">{activeItemCount} items</small>
                         </Card.Header>
-                        <Card.Body>
-                            <div className="d-grid mb-3">
+                        <Card.Body className="d-flex flex-column gap-3">
+                            <div className="d-grid">
                                 <Button onClick={onOpenCreateModal}>
                                     Add new todo
                                 </Button>
                             </div>
-                            <Row className="g-2 mb-3">
+                            <Row className="g-2">
                                 <Col md={6}>
-                                    <Form.Group>
+                                    <Form.Group controlId="todo-filter-from">
                                         <Form.Label className="small text-muted mb-1">From</Form.Label>
                                         <DatetimeInput
+                                            inputProps={{ id: 'todo-filter-from', className: 'form-control form-control-sm' }}
                                             value={from ?? ''}
                                             onChange={value => setFrom(value || null)}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col md={6}>
-                                    <Form.Group>
+                                    <Form.Group controlId="todo-filter-to">
                                         <Form.Label className="small text-muted mb-1">To</Form.Label>
                                         <DatetimeInput
+                                            inputProps={{ id: 'todo-filter-to', className: 'form-control form-control-sm' }}
                                             value={to ?? ''}
                                             onChange={value => setTo(value || null)}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
+                            {renderTagFilters()}
+                            {renderTripFilters()}
                         </Card.Body>
                     </Card>
                 </Col>
@@ -836,13 +851,9 @@ const TodoPage: React.FC = () => {
                             className="mb-3"
                         >
                             <Tab eventKey="todo" title="To do">
-                                {renderTagFilters()}
-                                {renderTripFilters()}
                                 {renderTodoList(todoItems, 'No todo items found', false, todoCount, isLoadingMoreTodo, loadMoreTodo)}
                             </Tab>
                             <Tab eventKey="completed" title="Completed">
-                                {renderTagFilters()}
-                                {renderTripFilters()}
                                 {renderTodoList(completedItems, 'No completed items found', true, completedCount, isLoadingMoreCompleted, loadMoreCompleted)}
                             </Tab>
                         </Tabs>
