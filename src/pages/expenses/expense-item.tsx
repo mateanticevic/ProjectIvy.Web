@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge, Card, Dropdown } from 'react-bootstrap';
-import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaShoppingCart } from 'react-icons/fa';
+import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaLink, FaShoppingCart } from 'react-icons/fa';
 import { RiExchangeDollarLine, RiMore2Fill, RiScissorsLine } from 'react-icons/ri';
 import { SiRevolut } from 'react-icons/si';
 
@@ -92,6 +92,9 @@ const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
                             }
                             {expense.files?.length > 0 &&
                                 <FaFile title={`Has ${expense.files.length} linked files`} />
+                            }
+                            {expense.transactions?.length > 0 &&
+                                <FaLink title="Linked transactions" />
                             }
                         </div>
                     </div>
