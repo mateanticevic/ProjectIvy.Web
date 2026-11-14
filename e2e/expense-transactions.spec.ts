@@ -6,7 +6,7 @@ const transaction = (id: string, created: string, amount: number) => ({
     id, created, amount, description: id, account: { name: 'Test account', currency },
 });
 
-test('groups exact matches first and ranks nearby transactions within the full date window', async ({ page, api }) => {
+test('groups exact matches, same-date transactions, and other nearby transactions', async ({ page, api }) => {
     api.useScenario(scenarios.expenses);
     await page.route('**/test-api/transaction?*', route => {
         const query = new URL(route.request().url()).searchParams;
@@ -29,13 +29,14 @@ test('groups exact matches first and ranks nearby transactions within the full d
     await expect(select).toBeEnabled();
     await select.click();
     await expect(page.getByText('Exact matches', { exact: true })).toBeVisible();
+    await expect(page.getByText('Same date', { exact: true })).toBeVisible();
     await expect(page.getByText('Others', { exact: true })).toBeVisible();
     const options = page.getByRole('option');
     await expect(options).toHaveCount(4);
     await expect(options.nth(0)).toContainText('exact');
-    await expect(options.nth(1)).toContainText('plus-three');
-    await expect(options.nth(2)).toContainText('minus-three');
-    await expect(options.nth(3)).toContainText('far-amount');
+    await expect(options.nth(1)).toContainText('far-amount');
+    await expect(options.nth(2)).toContainText('plus-three');
+    await expect(options.nth(3)).toContainText('minus-three');
     await options.first().click();
     await expect(page.getByText('Exact matches', { exact: true })).toHaveCount(0);
 });

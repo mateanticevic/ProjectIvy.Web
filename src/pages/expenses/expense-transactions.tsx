@@ -66,7 +66,8 @@ const ExpenseTransactions = ({ expense, onChange }: Props) => {
     const selectedIds = new Set(selected.map(option => option.value));
     const available = ranked.filter(item => !selectedIds.has(item.option.value));
     const matches = available.filter(item => item.exact).map(item => item.option);
-    const others = available.filter(item => !item.exact).map(item => item.option);
+    const sameDate = available.filter(item => !item.exact && item.dayDistance === 0).map(item => item.option);
+    const others = available.filter(item => item.dayDistance > 0).map(item => item.option);
 
     return (
         <FormGroup controlId="expense-transactions">
@@ -78,6 +79,7 @@ const ExpenseTransactions = ({ expense, onChange }: Props) => {
                         isMulti
                         options={[
                             ...(matches.length ? [{ label: 'Exact matches', options: matches }] : []),
+                            ...(sameDate.length ? [{ label: 'Same date', options: sameDate }] : []),
                             ...(others.length ? [{ label: 'Others', options: others }] : []),
                         ]}
                         value={selected}
