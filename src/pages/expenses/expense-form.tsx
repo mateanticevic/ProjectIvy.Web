@@ -240,7 +240,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                 />
             </Tab>
             <Tab eventKey={5} title="Transactions" mountOnEnter unmountOnExit>
-                <ExpenseTransactions expense={expense} />
+                <ExpenseTransactions expense={expense} onChange={transactions => onChange({ transactions })} />
             </Tab>
             <Tab eventKey={4} title="Info">
                 <Row>

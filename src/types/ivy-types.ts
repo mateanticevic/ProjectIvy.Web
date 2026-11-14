@@ -12523,6 +12523,7 @@ export interface components {
             poi?: components["schemas"]["Poi"];
             /** Format: date-time */
             timestamp?: string | null;
+            transactions?: components["schemas"]["Transaction"][] | null;
             vendor?: components["schemas"]["Vendor"];
         };
         ExpenseBinding: {
@@ -12547,6 +12548,7 @@ export interface components {
             parentCurrencyId?: string | null;
             paymentTypeId?: string | null;
             poiId?: string | null;
+            transactionIds?: string[] | null;
             vendorId?: string | null;
             vendorName?: string | null;
         };

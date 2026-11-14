@@ -22,6 +22,7 @@ import { RiPlayListAddLine } from 'react-icons/ri';
 
 type ApiCard = components['schemas']['Card'];
 type Expense = components['schemas']['Expense'];
+type ExpenseBinding = components['schemas']['ExpenseBinding'];
 type FileType = components['schemas']['FileType'];
 type PaymentType = components['schemas']['PaymentType'];
 type User = components['schemas']['User'];
@@ -386,13 +387,14 @@ class ExpensesPage extends Page<Props, State> {
         };
     };
 
-    onExpenseChanged = (expenseValue: ExpenseBinding) => {
-        this.setState({
+    onExpenseChanged = (expenseValue: Partial<Expense> & Pick<ExpenseBinding, 'vendorId'>) => {
+        this.setState(({ expense }) => ({
             expense: {
-                ...this.state.expense,
+                ...expense,
                 ...expenseValue,
             },
-        }, () => {
+        }), () => {
+            if ('transactions' in expenseValue) return;
             api.expense
                 .getTopDescriptions({
                     description: this.state.expense.comment,
@@ -438,11 +440,15 @@ class ExpensesPage extends Page<Props, State> {
         const saveMethod = this.state.expense.id ? api.expense.put : api.expense.post;
 
         saveMethod(this.toExpenseBinding(this.state.expense))
-            .then(() => {
+            .then(result => {
+                if (result === false) throw new Error('Expense update failed');
                 this.setState({ isModalOpen: !closeModal, isSavingExpense: false });
                 this.onFiltersChanged();
             })
-            .catch(() => this.setState({ isSavingExpense: false }));
+            .catch(() => {
+                this.setState({ isSavingExpense: false });
+                this.props.toast('Failed', 'Could not save expense. Please try again.');
+            });
     };
 
     onFiltersChanged = (changedFilters?: Partial<ExpenseFilters>, silent = false) => {
@@ -553,7 +559,7 @@ class ExpensesPage extends Page<Props, State> {
             .then(vendorPois => this.setState({ vendorPois }));
     };
 
-    toExpenseBinding = (e: Expense): ExpenseBinding => {
+    toExpenseBinding = (e: Expense): ExpenseBinding & Pick<Expense, 'timestamp' | 'modified'> => {
         return {
             amount: e.amount,
             cardId: e.card?.id,
@@ -571,6 +577,7 @@ class ExpensesPage extends Page<Props, State> {
             installmentRef: e.installmentRef,
             paymentTypeId: e.paymentType?.id,
             poiId: e.poi?.id,
+            transactionIds: e.transactions?.flatMap(transaction => transaction.id ? [transaction.id] : []),
             vendorId: e.vendor?.id,
             vendorName: e.vendor?.id ? null : e.vendor?.name,
         };

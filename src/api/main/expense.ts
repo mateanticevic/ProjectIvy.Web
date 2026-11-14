@@ -1,7 +1,6 @@
 import * as api from '../config';
 import { components, paths } from 'types/ivy-types';
 
-type Expense = components['schemas']['Expense'];
 type ExpenseBinding = components['schemas']['ExpenseBinding'];
 type ExpenseSplitBinding = components['schemas']['ExpenseSplitBinding'];
 type ExpensePagedView = components['schemas']['ExpensePagedView'];
@@ -82,7 +81,7 @@ const postExpenseFromFile = (file: File): Promise<string> => api.postFile('expen
 
 const postFile = (expenseId: string, fileId: string, payload: any): Promise<number> => api.post(`expense/${expenseId}/file/${fileId}`, payload);
 
-const put = (expense: Expense): Promise<number> => api.put(`expense/${expense.id}`, expense);
+const put = (expense: ExpenseBinding): Promise<boolean> => api.put(`expense/${expense.id}`, expense);
 
 const expense = {
     get,
