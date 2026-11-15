@@ -254,6 +254,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Account/{accountId}/transaction/link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    accountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TransactionLinkResult"];
+                        "application/json": components["schemas"]["TransactionLinkResult"];
+                        "text/json": components["schemas"]["TransactionLinkResult"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Account/{accountId}": {
         parameters: {
             query?: never;
@@ -13165,6 +13204,14 @@ export interface components {
             amount?: number;
             /** Format: date-time */
             created?: string;
+        };
+        TransactionLinkResult: {
+            /** Format: int32 */
+            linkedCount?: number;
+            /** Format: int32 */
+            unlinkedCount?: number;
+            /** Format: int32 */
+            totalTransactionCount?: number;
         };
         TransactionPagedView: {
             /** Format: int64 */
