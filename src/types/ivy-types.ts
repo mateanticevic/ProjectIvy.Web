@@ -4707,6 +4707,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4796,6 +4797,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4858,6 +4860,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4920,6 +4923,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4982,6 +4986,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5040,6 +5045,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5102,6 +5108,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5164,6 +5171,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5226,6 +5234,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5329,6 +5338,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5393,6 +5403,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5457,6 +5468,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5521,6 +5533,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5585,6 +5598,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5649,6 +5663,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5713,6 +5728,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5777,6 +5793,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5841,6 +5858,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5905,6 +5923,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5967,6 +5986,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -6029,6 +6049,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -6091,6 +6112,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];

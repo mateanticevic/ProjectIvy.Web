@@ -8,6 +8,7 @@ export interface Currency {
 export interface ExpenseFilters {
     from?: string;
     to?: string;
+    hasTransactions?: '' | 'true' | 'false';
     page: number;
     pageSize: number;
 }
