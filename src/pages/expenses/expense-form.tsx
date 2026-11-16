@@ -1,6 +1,6 @@
 import AsyncCreatableSelect from 'react-select/async-creatable';
 import React from 'react';
-import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, FloatingLabel, Form } from 'react-bootstrap';
+import { Col, FormLabel, FormControl, FormGroup, InputGroup, Row, Tab, Tabs, Badge, Form } from 'react-bootstrap';
 
 import ExpenseFormFilesTab from './expense-form-files-tab';
 import ExpenseTransactions from './expense-transactions';
@@ -63,23 +63,23 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
 
     return (
         <Tabs id="expenseFormTabs" defaultActiveKey={1}>
-            <Tab eventKey={1} title="General">
+            <Tab className="pt-3" eventKey={1} title="General">
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <DateFormElement
                             label="Date"
                             onChange={date => onChange({ date })}
                             value={expense.date}
                         />
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <DateFormElement
                             label="Date paid"
                             onChange={datePaid => onChange({ datePaid })}
                             value={expense.datePaid}
                         />
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Type</FormLabel>
                             <Select
@@ -92,7 +92,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Vendor</FormLabel>
                             <AsyncCreatableSelect<VendorOption, false>
@@ -105,7 +105,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                             />
                         </FormGroup>
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Poi</FormLabel>
                             <Select
@@ -118,7 +118,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Currency</FormLabel>
                             <Select
@@ -129,7 +129,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                             />
                         </FormGroup>
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Amount</FormLabel>
                             <InputGroup>
@@ -144,7 +144,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Payment type</FormLabel>
                             <Select
@@ -155,7 +155,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                             />
                         </FormGroup>
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Card</FormLabel>
                             <Select
@@ -168,15 +168,16 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={12}>
-                        <FloatingLabel controlId="floatingTextarea" label="Description">
+                    <Col className="mb-3" lg={12}>
+                        <FormGroup controlId="expenseDescription">
+                            <FormLabel>Description</FormLabel>
                             <Form.Control
                                 as="textarea"
                                 value={expense.comment}
                                 style={{ height: '100px' }}
                                 onChange={x => onChange({ comment: x.target.value })}
                             />
-                        </FloatingLabel>
+                        </FormGroup>
                         <div className="expense-form-description-suggestions">
                             {descriptionSuggestions && !descriptionSuggestions.some(x => x === expense.comment) &&
                                 descriptionSuggestions.map(suggestion =>
@@ -192,9 +193,9 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
             </Tab>
-            <Tab eventKey={2} title="Currency">
+            <Tab className="pt-3" eventKey={2} title="Currency">
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Parent currency</FormLabel>
                             <Select
@@ -204,7 +205,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                                 onChange={parentCurrencyId => onChange({ parentCurrency: { id: parentCurrencyId } })}
                             />
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className="mt-3">
                             <FormLabel>Installment reference</FormLabel>
                             <FormControl
                                 value={expense.installmentRef}
@@ -213,7 +214,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                             />
                         </FormGroup>
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Amount</FormLabel>
                             <InputGroup>
@@ -228,7 +229,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
             </Tab>
-            <Tab eventKey={3} title="Files">
+            <Tab className="pt-3" eventKey={3} title="Files">
                 <ExpenseFormFilesTab
                     expense={expense}
                     fileTypes={fileTypes}
@@ -239,12 +240,12 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     uploadFile={uploadFile}
                 />
             </Tab>
-            <Tab eventKey={5} title="Transactions" mountOnEnter unmountOnExit>
+            <Tab className="pt-3" eventKey={5} title="Transactions" mountOnEnter unmountOnExit>
                 <ExpenseTransactions expense={expense} onChange={transactions => onChange({ transactions })} />
             </Tab>
-            <Tab eventKey={4} title="Info">
+            <Tab className="pt-3" eventKey={4} title="Info">
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Created</FormLabel>
                             <InputGroup>
@@ -256,7 +257,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                             </InputGroup>
                         </FormGroup>
                     </Col>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>Modified</FormLabel>
                             <InputGroup>
@@ -270,7 +271,7 @@ const ExpenseForm = ({ cards, currencies, deleteFile, descriptionSuggestions, ex
                     </Col>
                 </Row>
                 <Row>
-                    <Col lg={6}>
+                    <Col className="mb-3" lg={6}>
                         <FormGroup>
                             <FormLabel>External ID</FormLabel>
                             <FormControl
