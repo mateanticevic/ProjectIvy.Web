@@ -46,6 +46,7 @@ type TransactionBinding = {
 const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }> = ({ toast }) => {
     const selectedAccountId = useRef<string | null | undefined>(undefined);
     const [isImporting, setIsImporting] = useState(false);
+    const [relinkingAccountIds, setRelinkingAccountIds] = useState<Set<string>>(new Set());
     const [accounts, setAccounts] = useState<{ count: number; items: Account[] }>({
         count: 0,
         items: [],
@@ -121,6 +122,30 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
             items: response.items ?? []
         });
         setTransactionsPage(1);
+    };
+
+    const onRelinkTransactions = async (account: Account) => {
+        const { id, name } = account;
+        if (!id || relinkingAccountIds.has(id)) return;
+
+        setRelinkingAccountIds(current => new Set(current).add(id));
+        try {
+            const { linkedCount, unlinkedCount, totalTransactionCount } = await api.account.postLinkTransactions(id);
+            const counts = [
+                linkedCount == null ? '' : `${linkedCount} linked`,
+                unlinkedCount == null ? '' : `${unlinkedCount} unlinked`,
+                totalTransactionCount == null ? '' : `${totalTransactionCount} total`,
+            ].filter(Boolean).join(', ');
+            toast('Success', `Transactions re-linked for ${name}.${counts ? ` ${counts}.` : ''}`);
+        } catch {
+            toast('Failed', `Failed to re-link transactions for ${name}.`);
+        } finally {
+            setRelinkingAccountIds(current => {
+                const next = new Set(current);
+                next.delete(id);
+                return next;
+            });
+        }
     };
 
     const { getRootProps, getInputProps, open } = useDropzone({
@@ -329,6 +354,7 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
                         dataLength={accounts.items.length}
                         hasMore={accounts.items.length < accounts.count}
                         onLoadMore={getNextAccountsPage}
+                        allowOverflow
                     >
                         {bankIds.map(bankId =>
                             <BankAccounts
@@ -336,6 +362,8 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
                                 accounts={accountsByBank[bankId]}
                                 selectedAccountId={selectedAccount?.id}
                                 onAccountSelected={onAccountSelected}
+                                relinkingAccountIds={relinkingAccountIds}
+                                onRelinkTransactions={onRelinkTransactions}
                             />
                         )}
                     </SmartScroll>

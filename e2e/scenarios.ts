@@ -44,6 +44,7 @@ export const scenarios: Record<string, MockResponse[]> = {
         get('common/beerstyle', [data.beer.style]),
         get('consumation/beer/count', 1), get('consumation/brand/count', 1),
         get('consumation/sum', 500), get('consumation/sum/bybeer', data.paged({ key: data.beer, value: 500 })),
+        get('consumation/average/byyear', [{ key: 2025, value: 250 }, { key: 2026, value: 350 }], filters.filter(key => key !== 'from' && key !== 'to')),
         get('consumation/beer/new', data.paged(data.beer)), get('consumation/sum/byserving', [{ key: { id: 'bottle', name: 'Bottle' }, value: 500 }]),
         get('consumation/sum/bycountry', data.paged({ key: data.country, value: 500 })),
         get('consumation/sum/byday', [{ key: data.date, value: 500 }]),
@@ -89,7 +90,7 @@ export const scenarios: Record<string, MockResponse[]> = {
     places: [countries],
     pois: [get('poi', data.paged(data.poi)), get('vendor', data.paged()), get('common/poicategory', [data.poi.category])],
     routes: [locationOptions],
-    tracking: [lastLocation, locationOptions, get('route', data.paged()), get('geohash/root/children', []), get('location/types', [{ id: 'home', name: 'Home' }])],
+    tracking: [lastLocation, locationOptions, get('route', data.paged()), get('location/types', [{ id: 'home', name: 'Home' }])],
     todo: [
         { ...get('todo', data.paged(data.todo), todoFilters), query: { iscompleted: 'false', page: '1', pagesize: '20' } },
         { ...get('todo', data.paged({ ...data.todo, id: 'todo-2', name: 'Completed Smoke Task', isCompleted: true }), todoFilters), query: { iscompleted: 'true', page: '1', pagesize: '20' } },

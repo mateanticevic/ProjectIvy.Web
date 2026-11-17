@@ -7,6 +7,7 @@ interface Props {
     dataLength: number;
     hasMore: boolean;
     isLoading?: boolean;
+    allowOverflow?: boolean;
     loader?: ReactNode;
     onLoadMore: () => void;
 }
@@ -33,7 +34,7 @@ class SmartScroll extends Component<Props, State> {
     };
 
     render() {
-        const { children, dataLength, hasMore, isLoading, loader, onLoadMore } = this.props;
+        const { children, dataLength, hasMore, isLoading, allowOverflow, loader, onLoadMore } = this.props;
         const { isMobile } = this.state;
 
         if (isMobile) {
@@ -60,6 +61,7 @@ class SmartScroll extends Component<Props, State> {
                 next={onLoadMore}
                 hasMore={hasMore}
                 loader={loader ?? <h4>Loading...</h4>}
+                style={allowOverflow ? { overflow: 'visible' } : undefined}
             >
                 {children}
             </InfiniteScroll>

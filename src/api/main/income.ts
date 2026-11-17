@@ -5,8 +5,9 @@ type IncomeBinding = components['schemas']['IncomeBinding'];
 
 import * as api from '../config';
 
-const toQuery = ({ linkedToSalary, ...filters }: IncomeFilters) => ({
+const toQuery = ({ hasTransactions, linkedToSalary, ...filters }: IncomeFilters) => ({
     ...filters,
+    ...(hasTransactions === undefined ? {} : { HasTransactions: hasTransactions }),
     ...(linkedToSalary === undefined ? {} : { LinkedToSalary: linkedToSalary }),
 });
 

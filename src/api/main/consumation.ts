@@ -1,5 +1,7 @@
 import * as api from '../config';
 import { components, paths } from 'types/ivy-types';
+import { ConsumationFilters } from 'types/beer';
+import { KeyValue } from 'types/common';
 
 type ConsumationBinding = components['schemas']['ConsumationBinding'];
 type ConsumationPagedView = components['schemas']['ConsumationPagedView'];
@@ -8,6 +10,8 @@ type GetConsumationQuery = paths['/Consumation']['get']['parameters']['query'];
 const get = (filters?: GetConsumationQuery): Promise<ConsumationPagedView> => api.get('consumation', filters);
 
 const getAlcoholByYear = (filters) => api.get('consumation/alcohol/byYear', filters);
+
+const getAverageByYear = (filters?: Omit<ConsumationFilters, 'from' | 'to'>): Promise<KeyValue<number, number>[]> => api.get('consumation/average/byyear', filters);
 
 const getCountBeer = (filters) => api.get('consumation/beer/count', filters);
 
@@ -46,6 +50,7 @@ const post = (consumation: ConsumationBinding): Promise<number> => api.post('con
 const consumation = {
     get,
     getAlcoholByYear,
+    getAverageByYear,
     getCountBeer,
     getCountByMonth,
     getCountByMonthOfYear,

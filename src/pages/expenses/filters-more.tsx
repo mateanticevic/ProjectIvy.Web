@@ -106,6 +106,20 @@ const FiltersMore = (props: Props) => {
                         </ToggleButtonGroup>
                     </FormGroup>
                     <FormGroup>
+                        <FormLabel>Has transactions</FormLabel>
+                        <ToggleButtonGroup
+                            type="radio"
+                            name="hasTransactions"
+                            value={props.filters.hasTransactions ?? ''}
+                            size="sm"
+                            onChange={x => props.onChange({ hasTransactions: x })}
+                        >
+                            <ToggleButton id="has-transactions-all" value="">Show all</ToggleButton>
+                            <ToggleButton id="has-transactions-yes" value="true">Yes</ToggleButton>
+                            <ToggleButton id="has-transactions-no" value="false">No</ToggleButton>
+                        </ToggleButtonGroup>
+                    </FormGroup>
+                    <FormGroup>
                         <FormLabel>Has poi</FormLabel>
                         <ToggleButtonGroup
                             type="radio"

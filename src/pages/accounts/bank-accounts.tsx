@@ -9,9 +9,11 @@ interface Props {
     accounts: Account[],
     selectedAccountId?: string;
     onAccountSelected: (account: Account) => void;
+    relinkingAccountIds: ReadonlySet<string>;
+    onRelinkTransactions: (account: Account) => void;
 }
 
-const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected }: Props) => {
+const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected, relinkingAccountIds, onRelinkTransactions }: Props) => {
 
     return (
         <React.Fragment>
@@ -22,6 +24,8 @@ const BankAccounts = ({ accounts, selectedAccountId, onAccountSelected }: Props)
                     account={account} 
                     isSelected={!!selectedAccountId && account.id === selectedAccountId}
                     onAccountSelected={onAccountSelected}
+                    isRelinking={!!account.id && relinkingAccountIds.has(account.id)}
+                    onRelinkTransactions={onRelinkTransactions}
                 />
             )}
         </React.Fragment>

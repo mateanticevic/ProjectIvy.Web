@@ -6,6 +6,7 @@ type AccountPagedView = components['schemas']['AccountPagedView'];
 type AccountBinding = components['schemas']['AccountBinding'];
 type GetAccountQuery = paths['/Account']['get']['parameters']['query'];
 type TransactionBinding = components['schemas']['TransactionBinding'];
+type TransactionLinkResult = components['schemas']['TransactionLinkResult'];
 type TransactionPagedView = components['schemas']['TransactionPagedView'];
 type ImportTransactionsQuery = paths['/Account/{accountId}/transaction/import']['post']['parameters']['query'];
 
@@ -21,6 +22,9 @@ const postTransaction = (accountId: string, data: TransactionBinding): Promise<n
 const postImportTransactions = (accountId: string, file: File, parameters?: ImportTransactionsQuery): Promise<number> =>
     api.postFile(`account/${accountId}/transaction/import`, file, parameters);
 
+const postLinkTransactions = (accountId: string): Promise<TransactionLinkResult> =>
+    api.post(`account/${accountId}/transaction/link`);
+
 const post = (account: AccountBinding): Promise<number> => api.post('account', account);
 
 const put = (accountId: string, account: AccountBinding): Promise<number> => api.put(`account/${accountId}`, account);
@@ -30,6 +34,7 @@ const account = {
     getTransactions,
     postTransaction,
     postImportTransactions,
+    postLinkTransactions,
     post,
     put,
 };

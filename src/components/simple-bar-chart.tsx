@@ -9,6 +9,7 @@ interface Props {
     stacked?: boolean;
     unit?: string;
     value: string;
+    valueLabel?: string;
     onClick?(): void;
 }
 
@@ -28,9 +29,9 @@ const colors = [
     '#ffa600',
 ];
 
-const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) => {
+const SimpleBarChart = ({ data, name, stacked, unit, value, valueLabel, onClick }: Props) => {
     const legendFormatter = (legendValue: string) => (
-        <span style={legendValue === value ? { color: 'var(--bs-body-color)' } : undefined}>{legendValue}</span>
+        <span style={legendValue === (valueLabel ?? value) ? { color: 'var(--bs-body-color)' } : undefined}>{legendValue}</span>
     );
 
     return (
@@ -53,7 +54,7 @@ const SimpleBarChart = ({ data, name, stacked, unit, value, onClick }: Props) =>
                 />
             )}
             {!stacked &&
-                <Bar type="monotone" dataKey={value} fill="var(--bs-primary)" unit={unit} />
+                <Bar type="monotone" dataKey={value} name={valueLabel} fill="var(--bs-primary)" unit={unit} />
             }
         </BarChart>
     </ResponsiveContainer>

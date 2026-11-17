@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Card } from 'react-bootstrap';
+import { Badge, Card, Dropdown, Spinner } from 'react-bootstrap';
 import { MdAccountBalance } from 'react-icons/md';
 import { SiRevolut } from 'react-icons/si';
 
@@ -11,11 +11,13 @@ interface Props {
     account: Account;
     isSelected: boolean;
     onAccountSelected: (account: Account) => void;
+    isRelinking: boolean;
+    onRelinkTransactions: (account: Account) => void;
 }
 
 const iconSize = 20;
 
-const AccountIcon = ({ account }) => {
+const AccountIcon = ({ account }: { account: Account }) => {
     if (account.bank?.id === 'revolut') {
         return <SiRevolut size={iconSize} />;
     }
@@ -23,7 +25,7 @@ const AccountIcon = ({ account }) => {
     return <MdAccountBalance size={iconSize} />;
 };
 
-const AccountItem = ({ account, isSelected, onAccountSelected }: Props) => {
+const AccountItem = ({ account, isSelected, onAccountSelected, isRelinking, onRelinkTransactions }: Props) => {
     const amountFormatted = account.balance!.toFixed(2).toString();
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
@@ -43,7 +45,7 @@ const AccountItem = ({ account, isSelected, onAccountSelected }: Props) => {
                     <AccountIcon account={account} />
                 </Badge>
                 <div className="expense-item-content">
-                    <div className="expense-item-title">
+                    <div className="expense-item-title ms-2 text-break">
                         {account.name} ({account.currency!.id})
                     </div>
                     <div className="expense-item-date">
@@ -61,6 +63,20 @@ const AccountItem = ({ account, isSelected, onAccountSelected }: Props) => {
                         </div>
                     }
                 </div>
+                <Dropdown align="end" className="ms-2" onClick={event => event.stopPropagation()}>
+                    <Dropdown.Toggle
+                        id={`account-actions-${account.id}`}
+                        size="sm"
+                        variant="outline-secondary"
+                        aria-label={`Actions for ${account.name}`}
+                        disabled={!account.id || isRelinking}
+                    >
+                        {isRelinking && <Spinner animation="border" size="sm" role="status" aria-label="Re-linking transactions" />}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item as="button" onClick={() => onRelinkTransactions(account)}>Re-link</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </Card.Body>
         </Card>
     );

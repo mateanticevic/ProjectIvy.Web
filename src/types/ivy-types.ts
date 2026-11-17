@@ -254,6 +254,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Account/{accountId}/transaction/link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    accountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TransactionLinkResult"];
+                        "application/json": components["schemas"]["TransactionLinkResult"];
+                        "text/json": components["schemas"]["TransactionLinkResult"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Account/{accountId}": {
         parameters: {
             query?: never;
@@ -4668,6 +4707,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4757,6 +4797,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4819,6 +4860,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4881,6 +4923,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -4943,6 +4986,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5001,6 +5045,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5063,6 +5108,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5125,6 +5171,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5187,6 +5234,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5290,6 +5338,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5354,6 +5403,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5418,6 +5468,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5482,6 +5533,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5546,6 +5598,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5610,6 +5663,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5674,6 +5728,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5738,6 +5793,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5802,6 +5858,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5866,6 +5923,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5928,6 +5986,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -5990,6 +6049,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -6052,6 +6112,7 @@ export interface paths {
                     ExternalId?: string[];
                     HasLinkedFiles?: boolean;
                     HasPoi?: boolean;
+                    HasTransactions?: boolean;
                     Month?: number[];
                     NeedsReview?: boolean;
                     OrderBy?: components["schemas"]["ExpenseSort"];
@@ -7303,6 +7364,7 @@ export interface paths {
                 query?: {
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7452,6 +7514,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7504,6 +7567,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -7552,6 +7616,7 @@ export interface paths {
                     TargetCurrencyId?: string;
                     CurrencyId?: string;
                     Day?: components["schemas"]["DayOfWeek"][];
+                    HasTransactions?: boolean;
                     LinkedToSalary?: boolean;
                     OrderBy?: components["schemas"]["IncomeSort"];
                     SalaryId?: string;
@@ -11369,6 +11434,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/Transaction": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Page?: number;
+                    PageAll?: boolean;
+                    PageSize?: number;
+                    From?: string;
+                    OrderAscending?: boolean;
+                    To?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TransactionWithAccountPagedView"];
+                        "application/json": components["schemas"]["TransactionWithAccountPagedView"];
+                        "text/json": components["schemas"]["TransactionWithAccountPagedView"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/Trip/{tripId}": {
         parameters: {
             query?: never;
@@ -12475,6 +12584,7 @@ export interface components {
             poi?: components["schemas"]["Poi"];
             /** Format: date-time */
             timestamp?: string | null;
+            transactions?: components["schemas"]["Transaction"][] | null;
             vendor?: components["schemas"]["Vendor"];
         };
         ExpenseBinding: {
@@ -12499,6 +12609,7 @@ export interface components {
             parentCurrencyId?: string | null;
             paymentTypeId?: string | null;
             poiId?: string | null;
+            transactionIds?: string[] | null;
             vendorId?: string | null;
             vendorName?: string | null;
         };
@@ -12634,6 +12745,7 @@ export interface components {
             source?: components["schemas"]["IncomeSource"];
             /** Format: date-time */
             timestamp?: string;
+            transactions?: components["schemas"]["Transaction"][] | null;
             type?: components["schemas"]["IncomeType"];
         };
         IncomeBinding: {
@@ -12645,6 +12757,7 @@ export interface components {
             description?: string | null;
             salaryId?: string | null;
             sourceId?: string | null;
+            transactionIds?: string[] | null;
             typeId?: string | null;
         };
         IncomePagedView: {
@@ -12943,6 +13056,7 @@ export interface components {
             to?: string;
             cityId?: string | null;
             countryId?: string | null;
+            isBooked?: boolean;
         };
         StayPagedView: {
             /** Format: int64 */
@@ -13100,12 +13214,26 @@ export interface components {
             /** Format: date-time */
             created?: string;
             description?: string | null;
+            id?: string | null;
+        };
+        TransactionAccount: {
+            readonly id?: string | null;
+            readonly name?: string | null;
+            currency?: components["schemas"]["Currency"];
         };
         TransactionBinding: {
             /** Format: double */
             amount?: number;
             /** Format: date-time */
             created?: string;
+        };
+        TransactionLinkResult: {
+            /** Format: int32 */
+            linkedCount?: number;
+            /** Format: int32 */
+            unlinkedCount?: number;
+            /** Format: int32 */
+            totalTransactionCount?: number;
         };
         TransactionPagedView: {
             /** Format: int64 */
@@ -13114,6 +13242,20 @@ export interface components {
         };
         /** @enum {string} */
         TransactionSource: "hac" | "otpBank" | "revolut" | "zabaBank";
+        TransactionWithAccount: {
+            /** Format: double */
+            amount?: number;
+            /** Format: date-time */
+            created?: string;
+            description?: string | null;
+            id?: string | null;
+            account?: components["schemas"]["TransactionAccount"];
+        };
+        TransactionWithAccountPagedView: {
+            /** Format: int64 */
+            count?: number;
+            items?: components["schemas"]["TransactionWithAccount"][] | null;
+        };
         Trip: {
             cities?: components["schemas"]["City"][] | null;
             countries?: components["schemas"]["Country"][] | null;
