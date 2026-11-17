@@ -70,9 +70,8 @@ const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
                                 <Dropdown align="end" onClick={event => event.stopPropagation()}>
                                     <Dropdown.Toggle
                                         id={`expense-actions-${expense.id}`}
-                                        variant="link"
+                                        variant="outline-secondary"
                                         size="sm"
-                                        className="p-1 lh-1 text-body-secondary"
                                         aria-label="Expense actions"
                                         title="Expense actions"
                                     />
