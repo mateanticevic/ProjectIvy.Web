@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge, Card, Dropdown } from 'react-bootstrap';
 import { FaUniversity, FaCreditCard, FaMoneyBill, FaFile, FaLink, FaShoppingCart } from 'react-icons/fa';
-import { RiExchangeDollarLine, RiMore2Fill, RiScissorsLine } from 'react-icons/ri';
+import { RiExchangeDollarLine, RiScissorsLine } from 'react-icons/ri';
 import { SiRevolut } from 'react-icons/si';
 
 import ExpenseTypeIcon from 'components/expense-type-icon';
@@ -70,15 +70,11 @@ const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
                                 <Dropdown align="end" onClick={event => event.stopPropagation()}>
                                     <Dropdown.Toggle
                                         id={`expense-actions-${expense.id}`}
-                                        bsPrefix="expense-actions-toggle"
-                                        variant="link"
+                                        variant="outline-secondary"
                                         size="sm"
-                                        className="p-1 lh-1 text-body-secondary"
                                         aria-label="Expense actions"
                                         title="Expense actions"
-                                    >
-                                        <RiMore2Fill aria-hidden="true" />
-                                    </Dropdown.Toggle>
+                                    />
                                     <Dropdown.Menu className="text-start">
                                         <Dropdown.Item as="button" className="d-flex align-items-center gap-2" onClick={() => onSplit(expense)}>
                                             <RiScissorsLine aria-hidden="true" /> Split
