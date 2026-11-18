@@ -1,8 +1,8 @@
 import { StylesConfig } from 'react-select';
 import { useEffect, useState } from 'react';
 
-export const getReactSelectStyles = (isDark: boolean): StylesConfig => {
-    const focusStyles: StylesConfig = {
+export const getReactSelectStyles = <Option = unknown,>(isDark: boolean): StylesConfig<Option> => {
+    const focusStyles: StylesConfig<Option> = {
         control: (provided, state) => ({
             ...provided,
             ...(isDark ? { backgroundColor: '#212529' } : {}),
@@ -94,7 +94,7 @@ export const isDarkTheme = (): boolean => {
 };
 
 // React hook to get react-select styles that updates when theme changes
-export const useReactSelectStyles = (): StylesConfig => {
+export const useReactSelectStyles = <Option = unknown,>(): StylesConfig<Option> => {
     const [isDark, setIsDark] = useState(isDarkTheme());
 
     useEffect(() => {
@@ -110,6 +110,6 @@ export const useReactSelectStyles = (): StylesConfig => {
         return () => observer.disconnect();
     }, []);
 
-    return getReactSelectStyles(isDark);
+    return getReactSelectStyles<Option>(isDark);
 };
 

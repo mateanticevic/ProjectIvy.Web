@@ -44,9 +44,9 @@ interface Props {
     unit?: string;
     unitType?: Unit;
     valueLabel?: string;
-    countByOptions?: [];
+    countByOptions?: React.ComponentProps<typeof RadioLabel>['options'];
     onClick?(): void;
-    onGroupByChange?(): void;
+    onGroupByChange?: React.ComponentProps<typeof RadioLabel>['onSelect'];
 }
 
 const applyUnitFormatting = (data, unitType) => {
