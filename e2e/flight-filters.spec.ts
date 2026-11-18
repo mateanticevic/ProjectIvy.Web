@@ -2,10 +2,14 @@ import { expect, test } from './fixtures';
 import { flight, paged } from './data';
 import type { MockResponse } from './scenarios';
 
-test('applies flight filters to the list and charts and restarts pagination', async ({ page, api }) => {
+test('refreshes flights and charts on filter changes and restarts pagination', async ({ page, api }) => {
     await page.setViewportSize({ width: 800, height: 1000 });
     const initialQuery = { page: '1', pagesize: '10', orderascending: 'false' };
-    const filters = { originid: 'ZAG', destinationid: 'SPU', from: '2026-10-03', to: '2026-10-04' };
+    const originFilter = { originid: 'ZAG' };
+    const routeFilter = { ...originFilter, destinationid: 'SPU' };
+    const fromFilter = { ...routeFilter, from: '2026-10-03' };
+    const filters = { ...fromFilter, to: '2026-10-04' };
+    const filterSteps = [originFilter, routeFilter, fromFilter, filters];
     const filteredQuery = { ...initialQuery, ...filters, orderascending: 'true' };
     const chartQuery = { pageall: 'true' };
     const olderFlight = { ...flight, id: 'flight-2', origin: flight.destination, destination: flight.origin };
@@ -15,13 +19,16 @@ test('applies flight filters to the list and charts and restarts pagination', as
     api.useScenario([
         match('flight', initialQuery, { count: 11, items: [flight] }),
         match('flight', { ...initialQuery, page: '2' }, paged(olderFlight)),
+        ...filterSteps.flatMap(step => [
+            match('flight', { ...initialQuery, ...step }, paged()),
+            match('flight/count/byairline', { ...chartQuery, ...step }, []),
+            match('flight/count/byyear', { ...chartQuery, ...step }, []),
+        ]),
         match('flight', filteredQuery, paged()),
         match('airport', { search: 'Zag', pagesize: '5' }, paged(flight.origin)),
         match('airport', { search: 'Spl', pagesize: '5' }, paged(flight.destination)),
         match('flight/count/byairline', chartQuery, [{ key: flight.airline, value: 1 }]),
-        match('flight/count/byairline', { ...chartQuery, ...filters }, []),
         match('flight/count/byyear', chartQuery, [{ key: 2026, value: 1 }]),
-        match('flight/count/byyear', { ...chartQuery, ...filters }, []),
     ]);
 
     await page.goto('/flights');
@@ -33,10 +40,14 @@ test('applies flight filters to the list and charts and restarts pagination', as
     await page.getByRole('option', { name: 'Zagreb (ZAG)' }).click();
     await page.getByRole('combobox', { name: 'Destination' }).fill('Spl');
     await page.getByRole('option', { name: 'Split (SPU)' }).click();
-    await page.getByLabel('From date').fill('2026-10-03');
-    await page.getByLabel('Through date').fill('2026-10-03');
+    const fromDate = page.getByLabel('From date');
+    await fromDate.fill('2026-10-03');
+    await fromDate.press('Tab');
+    const throughDate = page.getByLabel('Through date');
+    await throughDate.fill('2026-10-03');
+    await throughDate.press('Tab');
     await page.getByLabel('Sort by departure').selectOption('true');
-    await page.getByRole('button', { name: 'Apply filters' }).click();
+    await expect(page.getByRole('button', { name: 'Apply filters' })).toHaveCount(0);
 
     await expect(page.getByText('No flights found.')).toBeVisible();
     await expect(page.getByText('SPU - ZAG')).toHaveCount(0);

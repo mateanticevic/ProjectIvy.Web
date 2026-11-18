@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import api from 'api/main';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 import FlightItem from './flight-item';
 import { components, paths } from 'types/ivy-types';
 import FlightModal from './flight-modal';
-import { DistributionCard, SmartScroll } from 'components';
+import { DateFormElement, DistributionCard, SmartScroll } from 'components';
 import { RiPlayListAddLine } from 'react-icons/ri';
 
 type Flight = components['schemas']['Flight'];
@@ -19,6 +19,14 @@ type FlightFilters = Pick<FlightQuery, 'OriginId' | 'DestinationId' | 'From' | '
 type AirportOption = { value: string; label: string };
 
 const PAGE_SIZE = 10;
+
+const defaultSelection = {
+    origin: null as AirportOption | null,
+    destination: null as AirportOption | null,
+    from: '',
+    to: '',
+    orderAscending: false,
+};
 
 enum CountByFlights {
     Airline,
@@ -41,13 +49,8 @@ const FlightsPage: React.FC = () => {
     const [countByData, setCountByData] = useState<unknown[] | null>(null);
     const [countByYearData, setCountByYearData] = useState<unknown[] | null>(null);
     const [yearCountError, setYearCountError] = useState(false);
-    const [draftOrigin, setDraftOrigin] = useState<AirportOption | null>(null);
-    const [draftDestination, setDraftDestination] = useState<AirportOption | null>(null);
-    const [draftFrom, setDraftFrom] = useState('');
-    const [draftTo, setDraftTo] = useState('');
-    const [draftAscending, setDraftAscending] = useState(false);
-    const [filters, setFilters] = useState<FlightFilters>({});
-    const [orderAscending, setOrderAscending] = useState(false);
+    const [selection, setSelection] = useState(defaultSelection);
+    const [dateInputKey, setDateInputKey] = useState(0);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const [listError, setListError] = useState(false);
@@ -57,8 +60,18 @@ const FlightsPage: React.FC = () => {
     const [flights, setFlights] = useState<Flight[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const reactSelectStyles = useReactSelectStyles<AirportOption>();
+    const { origin, destination, from, to, orderAscending } = selection;
+    const invalidDateRange = Boolean(from && to && from > to);
+    const filters = useMemo<FlightFilters>(() => ({
+        ...(origin && { OriginId: origin.value }),
+        ...(destination && { DestinationId: destination.value }),
+        ...(from && { From: from }),
+        // The flight API uses a day boundary for the end of the range.
+        ...(to && { To: moment(to).add(1, 'day').format('YYYY-MM-DD') }),
+    }), [origin, destination, from, to]);
 
     useEffect(() => {
+        if (invalidDateRange) return;
         let cancelled = false;
         api.flight.get({ ...filters, OrderAscending: orderAscending, Page: page, PageSize: PAGE_SIZE })
             .then(result => {
@@ -73,9 +86,10 @@ const FlightsPage: React.FC = () => {
                 if (!cancelled) setIsLoading(false);
             });
         return () => { cancelled = true; };
-    }, [filters, orderAscending, page]);
+    }, [filters, invalidDateRange, orderAscending, page]);
 
     useEffect(() => {
+        if (invalidDateRange) return;
         let cancelled = false;
         setTopCountError(false);
         setCountByData(null);
@@ -87,9 +101,10 @@ const FlightsPage: React.FC = () => {
                 if (!cancelled) setTopCountError(true);
             });
         return () => { cancelled = true; };
-    }, [countBy, filters]);
+    }, [countBy, filters, invalidDateRange]);
 
     useEffect(() => {
+        if (invalidDateRange) return;
         let cancelled = false;
         setYearCountError(false);
         setCountByYearData(null);
@@ -101,36 +116,22 @@ const FlightsPage: React.FC = () => {
                 if (!cancelled) setYearCountError(true);
             });
         return () => { cancelled = true; };
-    }, [filters]);
+    }, [filters, invalidDateRange]);
 
-    const applyFilters = (nextFilters: FlightFilters, ascending: boolean) => {
+    const updateSelection = (nextSelection: typeof selection) => {
+        if (origin === nextSelection.origin && destination === nextSelection.destination &&
+            from === nextSelection.from && to === nextSelection.to && orderAscending === nextSelection.orderAscending) return;
         setFlights([]);
         setCount(0);
         setPage(1);
         setListError(false);
         setIsLoading(true);
-        setFilters(nextFilters);
-        setOrderAscending(ascending);
-    };
-
-    const onFilterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const nextFilters: FlightFilters = {};
-        if (draftOrigin) nextFilters.OriginId = draftOrigin.value;
-        if (draftDestination) nextFilters.DestinationId = draftDestination.value;
-        if (draftFrom) nextFilters.From = draftFrom;
-        // The flight API uses a day boundary for the end of the range.
-        if (draftTo) nextFilters.To = moment(draftTo).add(1, 'day').format('YYYY-MM-DD');
-        applyFilters(nextFilters, draftAscending);
+        setSelection(nextSelection);
     };
 
     const clearFilters = () => {
-        setDraftOrigin(null);
-        setDraftDestination(null);
-        setDraftFrom('');
-        setDraftTo('');
-        setDraftAscending(false);
-        applyFilters({}, false);
+        updateSelection(defaultSelection);
+        setDateInputKey(previous => previous + 1);
     };
 
     const getNextPage = () => {
@@ -177,52 +178,56 @@ const FlightsPage: React.FC = () => {
                             <Button className="w-100 mb-3" onClick={() => setIsModalOpen(true)}>
                                 <RiPlayListAddLine /> New flight
                             </Button>
-                            <Form onSubmit={onFilterSubmit}>
-                                <Form.Group controlId="flight-filter-origin" className="mb-2">
-                                    <Form.Label>Origin</Form.Label>
-                                    <AsyncSelect<AirportOption>
-                                        inputId="flight-filter-origin"
-                                        isClearable
-                                        loadOptions={airportLoader}
-                                        onChange={setDraftOrigin}
-                                        styles={reactSelectStyles}
-                                        value={draftOrigin}
+                            <Form.Group controlId="flight-filter-origin" className="mb-2">
+                                <Form.Label>Origin</Form.Label>
+                                <AsyncSelect<AirportOption>
+                                    inputId="flight-filter-origin"
+                                    isClearable
+                                    loadOptions={airportLoader}
+                                    onChange={origin => updateSelection({ ...selection, origin })}
+                                    styles={reactSelectStyles}
+                                    value={origin}
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="flight-filter-destination" className="mb-2">
+                                <Form.Label>Destination</Form.Label>
+                                <AsyncSelect<AirportOption>
+                                    inputId="flight-filter-destination"
+                                    isClearable
+                                    loadOptions={airportLoader}
+                                    onChange={destination => updateSelection({ ...selection, destination })}
+                                    styles={reactSelectStyles}
+                                    value={destination}
+                                />
+                            </Form.Group>
+                            <React.Fragment key={dateInputKey}>
+                                <div className="mb-2">
+                                    <DateFormElement
+                                        controlId="flight-filter-from"
+                                        label="From date"
+                                        value={from}
+                                        onChange={from => updateSelection({ ...selection, from })}
                                     />
-                                </Form.Group>
-                                <Form.Group controlId="flight-filter-destination" className="mb-2">
-                                    <Form.Label>Destination</Form.Label>
-                                    <AsyncSelect<AirportOption>
-                                        inputId="flight-filter-destination"
-                                        isClearable
-                                        loadOptions={airportLoader}
-                                        onChange={setDraftDestination}
-                                        styles={reactSelectStyles}
-                                        value={draftDestination}
-                                    />
-                                </Form.Group>
-                                <Form.Group controlId="flight-filter-from" className="mb-2">
-                                    <Form.Label>From date</Form.Label>
-                                    <Form.Control type="date" value={draftFrom} max={draftTo || undefined}
-                                        onChange={event => setDraftFrom(event.target.value)} />
-                                </Form.Group>
-                                <Form.Group controlId="flight-filter-to" className="mb-2">
-                                    <Form.Label>Through date</Form.Label>
-                                    <Form.Control type="date" value={draftTo} min={draftFrom || undefined}
-                                        onChange={event => setDraftTo(event.target.value)} />
-                                </Form.Group>
-                                <Form.Group controlId="flight-filter-order" className="mb-3">
-                                    <Form.Label>Sort by departure</Form.Label>
-                                    <Form.Select value={String(draftAscending)}
-                                        onChange={event => setDraftAscending(event.target.value === 'true')}>
-                                        <option value="false">Newest first</option>
-                                        <option value="true">Oldest first</option>
-                                    </Form.Select>
-                                </Form.Group>
-                                <div className="d-flex flex-wrap gap-2">
-                                    <Button type="submit">Apply filters</Button>
-                                    <Button type="button" variant="outline-secondary" onClick={clearFilters}>Clear</Button>
                                 </div>
-                            </Form>
+                                <div className="mb-2">
+                                    <DateFormElement
+                                        controlId="flight-filter-to"
+                                        label="Through date"
+                                        value={to}
+                                        onChange={to => updateSelection({ ...selection, to })}
+                                    />
+                                </div>
+                            </React.Fragment>
+                            {invalidDateRange && <p className="text-danger" role="alert">The through date must be on or after the from date.</p>}
+                            <Form.Group controlId="flight-filter-order" className="mb-3">
+                                <Form.Label>Sort by departure</Form.Label>
+                                <Form.Select value={String(orderAscending)}
+                                    onChange={event => updateSelection({ ...selection, orderAscending: event.target.value === 'true' })}>
+                                    <option value="false">Newest first</option>
+                                    <option value="true">Oldest first</option>
+                                </Form.Select>
+                            </Form.Group>
+                            <Button type="button" variant="outline-secondary" onClick={clearFilters}>Clear</Button>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -241,11 +246,11 @@ const FlightsPage: React.FC = () => {
                             />
                         )}
                     </SmartScroll>
-                    {isLoading && page === 1 && <p role="status">Loading flights…</p>}
+                    {!invalidDateRange && isLoading && page === 1 && <p role="status">Loading flights…</p>}
                     {listError && <p role="alert">Could not load flights.</p>}
                     {!isLoading && !listError && count === 0 && <p>No flights found.</p>}
                 </Col>
-                <Col lg={3}>
+                <Col lg={3} hidden={invalidDateRange}>
                     <DistributionCard
                         countByOptions={countByOptions}
                         data={topCountError ? [] : countByData}

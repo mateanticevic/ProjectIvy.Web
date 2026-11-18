@@ -6,14 +6,15 @@ import { FaCalendar } from 'react-icons/fa';
 import DatetimeInput from './datetime-input';
 
 interface Props {
+    controlId?: string;
     label?: string;
     value?: string | Date | moment.Moment;
     onChange: (date: string) => void;
 }
 
-const DateFormElement = ({ label, onChange, value }: Props) => {
+const DateFormElement = ({ controlId, label, onChange, value }: Props) => {
     return (
-        <FormGroup>
+        <FormGroup controlId={controlId}>
             {label &&
                 <FormLabel>
                     {label}
@@ -21,7 +22,7 @@ const DateFormElement = ({ label, onChange, value }: Props) => {
             }
             <InputGroup>
                 <DatetimeInput
-                    inputProps={{ className: 'form-control' }}
+                    inputProps={{ id: controlId, className: 'form-control' }}
                     locale={moment.locale('hr')}
                     value={value}
                     onChange={onChange}
