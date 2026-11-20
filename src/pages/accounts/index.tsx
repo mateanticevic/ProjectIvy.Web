@@ -30,13 +30,7 @@ type Account = components['schemas']['Account'];
 type Transaction = components['schemas']['Transaction'];
 type Currency = components['schemas']['Currency'];
 
-type AccountBinding = {
-    name: string;
-    iban?: string;
-    bankId?: string;
-    currencyId?: string;
-    active?: boolean;
-};
+type AccountBinding = components['schemas']['AccountBinding'];
 
 type TransactionBinding = {
     amount: string;
@@ -69,7 +63,9 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
         date: moment().format('YYYY-MM-DD'),
     });
     const [currencies, setCurrencies] = useState<Currency[]>([]);
-    const [editingAccountId, setEditingAccountId] = useState<string | undefined>();
+    const [isSavingAccount, setIsSavingAccount] = useState(false);
+    const [accountSaveFailed, setAccountSaveFailed] = useState(false);
+    const [accountsRevision, setAccountsRevision] = useState(0);
     const [accountFilter, setAccountFilter] = useState<AccountFilter>(AccountFilter.Active);
     const [selectedBanks, setSelectedBanks] = useState<{ value: string; label: string }[]>([]);
     const [search, setSearch] = useState('');
@@ -111,7 +107,7 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
             console.error('Failed to load accounts:', error);
         });
         return () => { accountRequestVersion.current++; };
-    }, [accountFilter, selectedBanks, debouncedSearch]);
+    }, [accountFilter, selectedBanks, debouncedSearch, accountsRevision]);
 
     const onAccountSelected = async (account: Account) => {
         selectedAccountId.current = account.id;
@@ -219,29 +215,34 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
     };
 
     const onAccountChange = (changed: Partial<AccountBinding>) => {
-        setNewAccount({ ...newAccount, ...changed });
+        setNewAccount(account => ({ ...account, ...changed }));
     };
 
     const onModalClose = () => {
         setIsModalOpen(false);
+        setAccountSaveFailed(false);
         setNewAccount({ name: '', active: true });
-        setEditingAccountId(undefined);
     };
 
     const onAccountSave = async () => {
-        try {
-            if (editingAccountId) {
-                await api.account.put(editingAccountId, newAccount);
-            } else {
-                await api.account.post(newAccount);
-            }
+        const name = newAccount.name?.trim();
+        if (isSavingAccount || !name || !newAccount.currencyId) return;
 
-            await loadAccounts();
-            setIsModalOpen(false);
-            setNewAccount({ name: '', active: true });
-            setEditingAccountId(undefined);
-        } catch (error) {
-            console.error('Failed to save account:', error);
+        setIsSavingAccount(true);
+        setAccountSaveFailed(false);
+        try {
+            await api.account.post({
+                ...newAccount,
+                name,
+                iban: newAccount.iban?.trim() || undefined,
+            });
+            onModalClose();
+            setAccountsRevision(revision => revision + 1);
+            toast('Success', 'Account created successfully.');
+        } catch {
+            setAccountSaveFailed(true);
+        } finally {
+            setIsSavingAccount(false);
         }
     };
 
@@ -426,7 +427,8 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
                 onChange={onAccountChange}
                 onClose={onModalClose}
                 onSave={onAccountSave}
-                isEditing={!!editingAccountId}
+                isSaving={isSavingAccount}
+                saveFailed={accountSaveFailed}
             />
             <TransactionModal
                 transaction={newTransaction}

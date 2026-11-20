@@ -1,28 +1,22 @@
 import React from 'react';
-import { Button, FormControl, FormGroup, FormLabel, Modal, FloatingLabel, Form } from 'react-bootstrap';
+import { Alert, Button, FloatingLabel, Form, Modal } from 'react-bootstrap';
 import AsyncSelect from 'react-select/async';
 
 import api from 'api/main';
-import { Select } from 'components';
 import { components } from 'types/ivy-types';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
 
-type AccountBinding = {
-    name: string;
-    iban?: string;
-    bankId?: string;
-    currencyId?: string;
-    active?: boolean;
-};
+type AccountBinding = components['schemas']['AccountBinding'];
 
 interface Props {
     account: AccountBinding;
     currencies: components['schemas']['Currency'][];
     isOpen: boolean;
+    isSaving: boolean;
+    saveFailed: boolean;
     onChange: (changed: Partial<AccountBinding>) => void;
     onClose: () => void;
     onSave: () => Promise<void>;
-    isEditing?: boolean;
 }
 
 const bankLoader = async (value: string) => {
@@ -30,75 +24,86 @@ const bankLoader = async (value: string) => {
     return banks.items.map(bank => ({ value: bank.id!, label: bank.name! }));
 };
 
-const AccountModal = ({ account, currencies, isOpen, onChange, onClose, onSave, isEditing = false }: Props) => {
+const AccountModal = ({ account, currencies, isOpen, isSaving, saveFailed, onChange, onClose, onSave }: Props) => {
     const reactSelectStyles = useReactSelectStyles();
-    const currencyOptions = currencies.map(c => ({
-        id: c.id!,
-        name: c.name!
-    }));
 
     return (
         <Modal
             backdrop="static"
             show={isOpen}
-            onHide={onClose}
+            onHide={isSaving ? undefined : onClose}
+            keyboard={!isSaving}
             size="sm"
+            aria-labelledby="new-account-title"
         >
-            <Modal.Header closeButton>
-                <Modal.Title>{isEditing ? 'Edit Account' : 'New Account'}</Modal.Title>
+            <Modal.Header closeButton={!isSaving}>
+                <Modal.Title id="new-account-title">New Account</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                <div className="form-grid">
-                    <FloatingLabel label="Name">
-                        <FormControl
-                            type="text"
-                            placeholder="Name"
-                            value={account.name}
-                            onChange={x => onChange({ name: x.target.value })}
-                        />
-                    </FloatingLabel>
-                    <FloatingLabel label="IBAN">
-                        <FormControl
-                            type="text"
-                            placeholder="IBAN"
-                            value={account.iban}
-                            onChange={x => onChange({ iban: x.target.value })}
-                        />
-                    </FloatingLabel>
-                    <FormGroup>
-                        <FormLabel>Bank</FormLabel>
-                        <AsyncSelect
-                            defaultOptions
-                            loadOptions={bankLoader}
-                            onChange={x => onChange({ bankId: x?.value })}
-                            isClearable
-                            styles={reactSelectStyles}
-                        />
-                    </FormGroup>
-                    <FormGroup>
-                        <FormLabel>Currency</FormLabel>
-                        <Select
-                            options={currencyOptions}
-                            selected={account.currencyId}
-                            onChange={currencyId => onChange({ currencyId })}
-                        />
-                    </FormGroup>
-                    <FormGroup>
+            <Form onSubmit={event => {
+                event.preventDefault();
+                void onSave();
+            }}>
+                <Modal.Body>
+                    {saveFailed && <Alert variant="danger">Failed to create account. Please try again.</Alert>}
+                    <fieldset className="form-grid" disabled={isSaving}>
+                        <FloatingLabel controlId="new-account-name" label="Name">
+                            <Form.Control
+                                placeholder="Name"
+                                value={account.name ?? ''}
+                                onChange={event => onChange({ name: event.target.value })}
+                                required
+                            />
+                        </FloatingLabel>
+                        <FloatingLabel controlId="new-account-iban" label="IBAN (optional)">
+                            <Form.Control
+                                placeholder="IBAN"
+                                value={account.iban ?? ''}
+                                onChange={event => onChange({ iban: event.target.value })}
+                            />
+                        </FloatingLabel>
+                        <Form.Group>
+                            <Form.Label htmlFor="new-account-bank">Bank (optional)</Form.Label>
+                            <AsyncSelect
+                                inputId="new-account-bank"
+                                defaultOptions
+                                loadOptions={bankLoader}
+                                onChange={bank => onChange({ bankId: bank?.value })}
+                                isClearable
+                                isDisabled={isSaving}
+                                styles={reactSelectStyles}
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="new-account-currency">
+                            <Form.Label>Currency</Form.Label>
+                            <Form.Select
+                                value={account.currencyId ?? ''}
+                                onChange={event => onChange({ currencyId: event.target.value })}
+                                required
+                            >
+                                <option value="">Select currency</option>
+                                {currencies.map(currency => (
+                                    <option key={currency.id} value={currency.id ?? ''}>{currency.name}</option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
                         <Form.Check
                             type="switch"
-                            id="account-active-switch"
+                            id="new-account-active"
                             label="Active"
                             checked={account.active ?? true}
-                            onChange={e => onChange({ active: e.target.checked })}
+                            onChange={event => onChange({ active: event.target.checked })}
                         />
-                    </FormGroup>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" onClick={onSave}>
-                    Save
-                </Button>
-            </Modal.Footer>
+                    </fieldset>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={onClose} disabled={isSaving}>
+                        Cancel
+                    </Button>
+                    <Button type="submit" disabled={isSaving || !account.name?.trim() || !account.currencyId}>
+                        {isSaving ? 'Saving...' : 'Create Account'}
+                    </Button>
+                </Modal.Footer>
+            </Form>
         </Modal>
     );
 };

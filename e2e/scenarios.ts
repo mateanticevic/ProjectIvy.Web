@@ -35,7 +35,7 @@ export const scenarios: Record<string, MockResponse[]> = {
         ]),
     ],
     accounts: [
-        currencies, get('bank', data.paged(data.account.bank)),
+        currencies, get('bank', data.paged(data.account.bank), ['search']),
         { ...get('account', data.paged(data.account), [...filters, 'isactive', 'bankids']), query: { isactive: 'true' } },
     ],
     beer: [
