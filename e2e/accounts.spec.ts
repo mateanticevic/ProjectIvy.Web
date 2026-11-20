@@ -1,4 +1,4 @@
-import { account } from './data';
+import { account, currency, paged } from './data';
 import { expect, test } from './fixtures';
 import { scenarios } from './scenarios';
 
@@ -59,4 +59,48 @@ test('re-links an account and reports the result or failure', async ({ page, api
     await expect(page.getByText(`Failed to re-link transactions for ${account.name}.`)).toBeVisible();
     await expect(actions).toBeEnabled();
     expect(requests).toBe(2);
+});
+
+test('creates an account without a bank and refreshes the list', async ({ page, api }) => {
+    api.useScenario(scenarios.accounts);
+    const wallet = { ...account, id: 'cash-wallet', name: 'Cash wallet', bank: null };
+    let created = false;
+    let attempts = 0;
+    await page.route(/\/test-api\/account(?:\?|$)/, async route => {
+        if (route.request().method() === 'POST') {
+            expect(route.request().postDataJSON()).toEqual({
+                name: wallet.name,
+                currencyId: currency.id,
+                active: true,
+            });
+            if (++attempts === 1) {
+                await route.fulfill({ status: 500 });
+                return;
+            }
+            created = true;
+            await route.fulfill({ json: wallet.id });
+        } else if (created) {
+            await route.fulfill({ json: paged<typeof wallet | typeof account>(wallet, account) });
+        } else {
+            await route.fallback();
+        }
+    });
+    await page.goto('/accounts');
+    await api.assertLoaded();
+
+    await page.getByRole('button', { name: 'Add Account' }).click();
+    const dialog = page.getByRole('dialog', { name: 'New Account' });
+    const create = dialog.getByRole('button', { name: 'Create Account' });
+    await expect(create).toBeDisabled();
+    await dialog.getByRole('textbox', { name: 'Name', exact: true }).fill(wallet.name);
+    await expect(create).toBeDisabled();
+    await dialog.getByLabel('Currency').selectOption(currency.id);
+    await create.click();
+    await expect(dialog.getByRole('alert')).toHaveText('Failed to create account. Please try again.');
+    await create.click();
+
+    await expect(dialog).toBeHidden();
+    await expect(page.getByRole('heading', { name: 'Wallets' })).toBeVisible();
+    await expect(page.getByText(`${wallet.name} (${currency.id})`, { exact: true })).toBeVisible();
+    await api.assertLoaded();
 });
