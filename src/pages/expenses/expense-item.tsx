@@ -37,7 +37,7 @@ const renderPaymentTypeIcon = (name: Name) => {
 
 const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
     const amountFormatted = expense!.amount!.toFixed(2).toString();
-    const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
+    const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.')).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
     return (
         <Card className={expense.needsReview ? 'bg-warning-subtle' : undefined} onClick={() => onClick(expense)}>
