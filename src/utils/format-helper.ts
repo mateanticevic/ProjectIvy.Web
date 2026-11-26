@@ -1,3 +1,7 @@
+export function formatAmount(amount: number): string {
+    return amount.toFixed(2).replace(/\B(?=(\d{3})+\.)/g, ',');
+}
+
 export function number(number) {
     if (number < 1000) {
         return {
