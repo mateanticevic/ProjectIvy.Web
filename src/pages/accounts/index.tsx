@@ -14,6 +14,7 @@ import TransactionModal from './transaction-modal';
 import { components } from 'types/ivy-types';
 import moment from 'moment';
 import { useReactSelectStyles } from 'utils/react-select-dark-theme';
+import { formatAmount } from 'utils/format-helper';
 
 const bankLoader = async (search: string) => {
     const banks = await api.bank.get({ Search: search });
@@ -408,7 +409,7 @@ const AccountsPage: React.FC<{ toast: (title: string, message: string) => void }
                                         className={`fs-5 fw-semibold text-end ms-auto ${transaction.amount > 0 ? 'text-success-emphasis' : transaction.amount < 0 ? 'text-danger-emphasis' : 'text-body-secondary'}`}
                                         style={{ fontVariantNumeric: 'tabular-nums' }}
                                     >
-                                        {transaction.amount > 0 && '+'}{transaction.amount?.toFixed(2)}
+                                        {transaction.amount > 0 && '+'}{transaction.amount == null ? undefined : formatAmount(transaction.amount)}
                                         {selectedAccount?.currency?.symbol && (
                                             <span className="small fw-normal ms-1">{selectedAccount.currency.symbol}</span>
                                         )}

@@ -4,6 +4,7 @@ import { MdAccountBalance } from 'react-icons/md';
 import { SiRevolut } from 'react-icons/si';
 
 import { components } from 'types/ivy-types';
+import { formatAmount } from 'utils/format-helper';
 
 type Account = components['schemas']['Account'];
 
@@ -26,11 +27,11 @@ const AccountIcon = ({ account }: { account: Account }) => {
 };
 
 const AccountItem = ({ account, isSelected, onAccountSelected, isRelinking, onRelinkTransactions }: Props) => {
-    const amountFormatted = account.balance!.toFixed(2).toString();
+    const amountFormatted = formatAmount(account.balance!);
     const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
 
-    const defaultAmountFormatted = account.balanceInDefaultCurrency!.toFixed(2).toString();
+    const defaultAmountFormatted = formatAmount(account.balanceInDefaultCurrency!);
     const defaultAmountWholePart = defaultAmountFormatted.substring(0, defaultAmountFormatted.indexOf('.'));
     const defaultAmountDecimalPart = defaultAmountFormatted.substring(defaultAmountFormatted.indexOf('.'));
 

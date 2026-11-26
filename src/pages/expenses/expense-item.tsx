@@ -9,6 +9,7 @@ import { Name } from 'types/common';
 import { PaymentType } from 'consts/service';
 import { components } from 'types/ivy-types';
 import { vendorUrl } from 'utils/cdn-helper';
+import { formatAmount } from 'utils/format-helper';
 
 type Expense = components['schemas']['Expense'];
 
@@ -36,8 +37,8 @@ const renderPaymentTypeIcon = (name: Name) => {
 };
 
 const ExpenseItem = ({ expense, onClick, onSplit }: Props) => {
-    const amountFormatted = expense!.amount!.toFixed(2).toString();
-    const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.')).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const amountFormatted = formatAmount(expense!.amount!);
+    const amountWholePart = amountFormatted.substring(0, amountFormatted.indexOf('.'));
     const amountDecimalPart = amountFormatted.substring(amountFormatted.indexOf('.'));
     return (
         <Card className={expense.needsReview ? 'bg-warning-subtle' : undefined} onClick={() => onClick(expense)}>
